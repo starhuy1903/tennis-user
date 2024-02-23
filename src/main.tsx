@@ -1,10 +1,23 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import App from './App.tsx'
-import './index.css'
+// Font from MUI
+import { ThemeProvider } from '@mui/material';
+import { StrictMode } from 'react';
+import * as ReactDOM from 'react-dom/client';
+import { Provider } from 'react-redux';
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-)
+import CustomToaster from 'components/Common/CustomToaster';
+import { defaultTheme } from 'constants/themes';
+
+import App from './App';
+import store from './store';
+
+const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
+root.render(
+  <StrictMode>
+    <Provider store={store}>
+      <ThemeProvider theme={defaultTheme}>
+        <CustomToaster />
+        <App />
+      </ThemeProvider>
+    </Provider>
+  </StrictMode>
+);

@@ -3,6 +3,11 @@ export type CredentialPayload = {
   password: string;
 };
 
+export type RegisterPayload = CredentialPayload & {
+  confirmPassword: string;
+  name: string;
+};
+
 export type VerifyPayload = {
   verifyToken: string;
 };
