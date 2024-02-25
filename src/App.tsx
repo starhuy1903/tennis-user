@@ -7,22 +7,17 @@ import Login from 'components/Unauthenticated/Login';
 
 import CenterLoading from './components/Common/CenterLoading';
 import PageLayout from './components/Common/Layout/PageLayout';
-import Register from './components/Unauthenticated/Register';
+import Signup from './components/Unauthenticated/Signup';
 import { useLazyGetProfileQuery } from './store/api/userApiSlice';
 
 const protectedRoutes = createBrowserRouter([
   {
-    id: 'root',
+    path: '/',
+    element: <PageLayout />,
     children: [
       {
-        path: '/',
-        element: <PageLayout />,
-        children: [
-          {
-            index: true,
-            element: <Home />,
-          },
-        ],
+        index: true,
+        element: <Home />,
       },
     ],
   },
@@ -34,25 +29,20 @@ const protectedRoutes = createBrowserRouter([
 
 const publicRoutes = createBrowserRouter([
   {
-    id: 'root',
+    path: '/',
+    element: <PageLayout />,
     children: [
       {
-        path: '/',
-        element: <PageLayout />,
-        children: [
-          {
-            index: true,
-            element: <Home />,
-          },
-          {
-            path: 'register',
-            element: <Register />,
-          },
-          {
-            path: 'login',
-            element: <Login />,
-          },
-        ],
+        index: true,
+        element: <Home />,
+      },
+      {
+        path: 'signup',
+        element: <Signup />,
+      },
+      {
+        path: 'login',
+        element: <Login />,
       },
     ],
   },

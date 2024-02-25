@@ -8,8 +8,9 @@ import {
   LoginResponse,
   LogoutPayload,
   MessageResponse,
-  RegisterPayload,
-  RegisterResponse,
+  OAuthPayload,
+  SignupPayload,
+  SignupResponse,
   ResetPasswordPayload,
   UserProfile,
   VerifyPayload,
@@ -32,7 +33,20 @@ const userApiToastSlice = apiWithToastSlice.injectEndpoints({
         auth.setToken(data.accessToken, data.refreshToken);
       },
     }),
-    register: build.mutation<RegisterResponse, RegisterPayload>({
+    loginGoogle: build.mutation<LoginResponse, OAuthPayload>({
+      query: (body) => ({
+        url: 'auth/login/google',
+        method: 'POST',
+        body,
+      }),
+      onQueryStarted: async (_, { dispatch, queryFulfilled }) => {
+        const { data } = await queryFulfilled;
+        dispatch(setProfile(data.user));
+        dispatch(setIsLoggedIn(true));
+        auth.setToken(data.accessToken, data.refreshToken);
+      },
+    }),
+    signup: build.mutation<SignupResponse, SignupPayload>({
       query: (body) => ({
         url: 'auth/signup',
         method: 'POST',
@@ -91,7 +105,8 @@ const userApiSlice = apiSlice.injectEndpoints({
 
 export const {
   useLoginMutation,
-  useRegisterMutation,
+  useLoginGoogleMutation,
+  useSignupMutation,
   useVerifyMutation,
   useForgotPasswordMutation,
   useResetPasswordMutation,

@@ -11,7 +11,7 @@ import {
   Typography,
 } from '@mui/material';
 import { useCallback, useState } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAppSelector } from 'store';
 
 import Logo from 'assets/images/app-logo.png';
@@ -20,7 +20,6 @@ const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 export default function Header() {
   const navigate = useNavigate();
-  const location = useLocation();
   const isLoggedIn = useAppSelector((state) => state.user.isLoggedIn);
 
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
@@ -32,10 +31,6 @@ export default function Header() {
   const handleCloseUserMenu = useCallback(() => {
     setAnchorElUser(null);
   }, []);
-
-  if (location.pathname === '/') {
-    return null;
-  }
 
   return (
     <AppBar
@@ -57,8 +52,8 @@ export default function Header() {
               <img
                 src={Logo}
                 alt="app-logo"
-                width={36}
-                height={36}
+                width={80}
+                height={80}
               />
             </Link>
           </Box>
@@ -100,9 +95,15 @@ export default function Header() {
                   </MenuItem>
                 ))
               ) : (
-                <MenuItem onClick={() => navigate('/login')}>
-                  <Typography textAlign="center">Log in</Typography>
-                </MenuItem>
+                <>
+                  <MenuItem onClick={() => navigate('/login')}>
+                    <Typography textAlign="center">Log in</Typography>
+                  </MenuItem>
+
+                  <MenuItem onClick={() => navigate('/signup')}>
+                    <Typography textAlign="center">Sign up</Typography>
+                  </MenuItem>
+                </>
               )}
             </Menu>
           </Box>

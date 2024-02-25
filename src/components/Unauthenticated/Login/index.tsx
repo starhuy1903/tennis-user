@@ -1,12 +1,24 @@
-import { Box, Button, FormControl, FormHelperText, FormLabel, Stack, TextField, Typography } from '@mui/material';
+import {
+  Box,
+  Button,
+  Divider,
+  FormControl,
+  FormHelperText,
+  FormLabel,
+  Stack,
+  TextField,
+  Typography,
+} from '@mui/material';
+import { GoogleLogin, GoogleOAuthProvider } from '@react-oauth/google';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 
-import { useLoginMutation } from 'store/api/userApiSlice';
+import { useLoginGoogleMutation, useLoginMutation } from 'store/api/userApiSlice';
 import { CredentialPayload } from 'types/user';
 
 export default function Login() {
   const [requestLogin, { isLoading: isSubmitting }] = useLoginMutation();
+  const [requestLoginGoogle] = useLoginGoogleMutation();
 
   const {
     register,
@@ -22,11 +34,12 @@ export default function Login() {
     <Box
       sx={{
         width: '100%',
-        height: '100vh',
+        height: '90vh',
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: 'white',
+        fontFamily: 'Roboto, sans-serif',
       }}
     >
       <Box
@@ -140,6 +153,8 @@ export default function Login() {
               'color': (theme) => theme.palette.primary.main,
               '& a': {
                 'textDecoration': 'none',
+                'color': (theme) => theme.palette.primary.main,
+                'fontWeight': 600,
                 '&:hover': {
                   textDecoration: 'underline',
                 },
@@ -156,8 +171,35 @@ export default function Login() {
             onClick={handleSubmit(onSubmit)}
             sx={{ mt: 6, color: 'white', width: '100%' }}
           >
-            {isSubmitting ? 'Loading ...' : 'Log in'}
+            {isSubmitting ? 'Loading ...' : 'Login'}
           </Button>
+
+          <Divider
+            sx={{
+              my: 2,
+            }}
+          >
+            or
+          </Divider>
+
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'center',
+            }}
+          >
+            <GoogleOAuthProvider clientId={`${import.meta.env.VITE_OAUTH_CLIENT_ID}`}>
+              <GoogleLogin
+                useOneTap={true}
+                onSuccess={async (credentialResponse) => {
+                  requestLoginGoogle({ token: credentialResponse.credential || '' }).unwrap();
+                }}
+                onError={() => {
+                  console.log('Login Failed');
+                }}
+              />
+            </GoogleOAuthProvider>
+          </Box>
 
           <Typography
             variant="subtitle2"
@@ -167,13 +209,14 @@ export default function Login() {
               'textAlign': 'center',
               '& a': {
                 'textDecoration': 'none',
+                'color': (theme) => theme.palette.primary.main,
                 '&:hover': {
                   textDecoration: 'underline',
                 },
               },
             }}
           >
-            Don’t have an account yet? <Link to="/register">Sign up</Link>
+            Don’t have an account yet? <Link to="/signup">Sign up</Link>
           </Typography>
         </Box>
       </Box>

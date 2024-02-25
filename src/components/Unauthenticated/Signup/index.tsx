@@ -3,28 +3,28 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { isApiErrorResponse } from 'store/api/helper';
-import { useRegisterMutation } from 'store/api/userApiSlice';
-import { RegisterPayload } from 'types/user';
+import { useSignupMutation } from 'store/api/userApiSlice';
+import { SignupPayload } from 'types/user';
 import { showError, showSuccess } from 'utils/toast';
 
-export default function Register() {
+export default function Signup() {
   const navigate = useNavigate();
 
-  const [requestRegister, { isLoading: isSubmitting }] = useRegisterMutation();
+  const [requestSignup, { isLoading: isSubmitting }] = useSignupMutation();
 
   const {
     register,
     handleSubmit,
     formState: { errors: formError },
     watch,
-  } = useForm<RegisterPayload>();
+  } = useForm<SignupPayload>();
   const formValue = watch();
 
-  const onSubmit: SubmitHandler<RegisterPayload> = async (data) => {
+  const onSubmit: SubmitHandler<SignupPayload> = async (data) => {
     try {
-      await requestRegister(data).unwrap();
+      await requestSignup(data).unwrap();
 
-      showSuccess('Register successfully! Please login to continue.');
+      showSuccess('Sign up successfully! Please log in to continue.');
 
       setTimeout(async () => {
         navigate('/login');
@@ -40,11 +40,12 @@ export default function Register() {
     <Box
       sx={{
         width: '100%',
-        height: '100vh',
+        height: '80vh',
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: 'white',
+        fontFamily: 'Roboto, sans-serif',
       }}
     >
       <Box
@@ -220,6 +221,7 @@ export default function Register() {
               'textAlign': 'center',
               '& a': {
                 'textDecoration': 'none',
+                'color': (theme) => theme.palette.primary.main,
                 '&:hover': {
                   textDecoration: 'underline',
                 },
