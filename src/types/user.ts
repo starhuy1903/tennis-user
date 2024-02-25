@@ -3,6 +3,15 @@ export type CredentialPayload = {
   password: string;
 };
 
+export type OAuthPayload = {
+  token: string;
+};
+
+export type SignupPayload = CredentialPayload & {
+  confirmPassword: string;
+  name: string;
+};
+
 export type VerifyPayload = {
   verifyToken: string;
 };
@@ -38,11 +47,11 @@ export type MessageResponse = {
   message?: string;
 };
 
-export type RegisterResponse = MessageResponse & {
+export type SignupResponse = MessageResponse & {
   verificationLink?: string;
 };
 
-export type ForgotPasswordResponse = RegisterResponse;
+export type ForgotPasswordResponse = SignupResponse;
 
 export type UserProfile = {
   id: string;

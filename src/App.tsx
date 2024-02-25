@@ -1,35 +1,72 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useEffect } from 'react';
+import { Navigate, RouterProvider, createBrowserRouter } from 'react-router-dom';
+import { useAppSelector } from 'store';
+
+import Home from 'components/Unauthenticated/Home';
+import Login from 'components/Unauthenticated/Login';
+
+import CenterLoading from './components/Common/CenterLoading';
+import PageLayout from './components/Common/Layout/PageLayout';
+import Signup from './components/Unauthenticated/Signup';
+import { useLazyGetProfileQuery } from './store/api/userApiSlice';
+
+const protectedRoutes = createBrowserRouter([
+  {
+    path: '/',
+    element: <PageLayout />,
+    children: [
+      {
+        index: true,
+        element: <Home />,
+      },
+    ],
+  },
+  {
+    path: '*',
+    element: <Navigate to={`/`} />,
+  },
+]);
+
+const publicRoutes = createBrowserRouter([
+  {
+    path: '/',
+    element: <PageLayout />,
+    children: [
+      {
+        index: true,
+        element: <Home />,
+      },
+      {
+        path: 'signup',
+        element: <Signup />,
+      },
+      {
+        path: 'login',
+        element: <Login />,
+      },
+    ],
+  },
+  {
+    path: '*',
+    element: <Navigate to={`/`} />,
+  },
+]);
 
 function App() {
-  const [count, setCount] = useState(0)
+  const isLoggedIn = useAppSelector((state) => state.user.isLoggedIn);
+  const [getProfile, { isLoading }] = useLazyGetProfileQuery();
 
-  return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+  useEffect(() => {
+    if (isLoggedIn) {
+      getProfile();
+    }
+  }, [isLoggedIn, getProfile]);
+
+  if (isLoading) {
+    return <CenterLoading />;
+  }
+
+  return isLoggedIn ? <RouterProvider router={protectedRoutes} /> : <RouterProvider router={publicRoutes} />;
 }
 
-export default App
+export default App;
