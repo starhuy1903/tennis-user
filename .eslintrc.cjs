@@ -5,10 +5,10 @@ module.exports = {
     es2020: true
   },
   extends: [
-    'airbnb',
+    'eslint:recommended',
+    'plugin:react-hooks/recommended',
     'plugin:@typescript-eslint/recommended',
     'plugin:@typescript-eslint/eslint-recommended',
-    'plugin:import/typescript'
   ],
   ignorePatterns: [
     'dist',
@@ -31,21 +31,9 @@ module.exports = {
       "error",
       "always-multiline"
     ],
-    "import/extensions": 0,
-    "import/prefer-default-export": 0,
     "react-hooks/rules-of-hooks": 2,
     "react-hooks/exhaustive-deps": 1,
-    "react/jsx-filename-extension": [
-      1,
-      {
-        "extensions": [
-          ".jsx",
-          ".tsx"
-        ]
-      }
-    ],
     "react/jsx-props-no-spreading": 0,
-    "react/no-unused-state": 1,
     "react/jsx-uses-react": 0,
     "react/react-in-jsx-scope": 0,
     "react/require-default-props": 0,
