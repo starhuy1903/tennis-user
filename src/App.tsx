@@ -4,7 +4,7 @@ import { useAppSelector } from 'store';
 
 import CenterLoading from 'components/Common/CenterLoading';
 import PageLayout from 'components/Common/Layout/PageLayout';
-import Home from 'components/Unauthenticated/Home';
+import Home from 'components/Home';
 import Login from 'components/Unauthenticated/Login';
 import Signup from 'components/Unauthenticated/Signup';
 import { useLazyGetProfileQuery } from 'store/api/userApiSlice';
