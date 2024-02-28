@@ -4,6 +4,7 @@ import { useAppSelector } from 'store';
 
 import Home from 'components/Unauthenticated/Home';
 import Login from 'components/Unauthenticated/Login';
+import News from 'components/Unauthenticated/News';
 
 import CenterLoading from './components/Common/CenterLoading';
 import PageLayout from './components/Common/Layout/PageLayout';
@@ -43,6 +44,10 @@ const publicRoutes = createBrowserRouter([
       {
         path: 'login',
         element: <Login />,
+      },
+      {
+        path: 'news',
+        element: <News />,
       },
     ],
   },
