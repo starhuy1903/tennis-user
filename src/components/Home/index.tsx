@@ -1,7 +1,6 @@
 import { Box, Button, Typography } from '@mui/material';
 
-import NoData from 'components/Common/NoData';
-
+import MyGroup from './MyGroup';
 import News from './News';
 
 export default function Home() {
@@ -13,7 +12,6 @@ export default function Home() {
       <Box>
         <Typography variant="h4">Quick Actions</Typography>
         <Button onClick={handleClick}>Affiliate sponsorship</Button>
-        <NoData />
       </Box>
       <Box>
         <Typography variant="h4">News</Typography>
@@ -21,7 +19,7 @@ export default function Home() {
       </Box>
       <Box>
         <Typography variant="h4">My Group</Typography>
-        <Button onClick={handleClick}>Create group</Button>
+        <MyGroup />
       </Box>
     </Box>
   );
