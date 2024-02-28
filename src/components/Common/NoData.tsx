@@ -1,13 +1,20 @@
 /// <reference types="vite-plugin-svgr/client" />
-import { Box } from '@mui/material';
+import { Stack, Typography } from '@mui/material';
 
 import NoDataLogo from 'assets/icons/no-data.svg?react';
 
 const NoData = () => {
   return (
-    <Box>
-      <NoDataLogo />
-    </Box>
+    <Stack
+      alignItems="center"
+      gap={1}
+    >
+      <NoDataLogo
+        width={80}
+        height={80}
+      />
+      <Typography variant="caption">No Data</Typography>
+    </Stack>
   );
 };
 
