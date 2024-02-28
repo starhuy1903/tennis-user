@@ -2,14 +2,13 @@ import { useEffect } from 'react';
 import { Navigate, RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { useAppSelector } from 'store';
 
-import Home from 'components/Unauthenticated/Home';
+import CenterLoading from 'components/Common/CenterLoading';
+import PageLayout from 'components/Common/Layout/PageLayout';
+import Home from 'components/Home';
 import Login from 'components/Unauthenticated/Login';
 import News from 'components/Unauthenticated/News';
-
-import CenterLoading from './components/Common/CenterLoading';
-import PageLayout from './components/Common/Layout/PageLayout';
-import Signup from './components/Unauthenticated/Signup';
-import { useLazyGetProfileQuery } from './store/api/userApiSlice';
+import Signup from 'components/Unauthenticated/Signup';
+import { useLazyGetProfileQuery } from 'store/api/userApiSlice';
 
 const protectedRoutes = createBrowserRouter([
   {
