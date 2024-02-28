@@ -13,6 +13,7 @@ import { defaultTheme } from 'constants/themes';
 
 import App from './App';
 import store from './store';
+import { ModalContainer } from 'components/Common/Modal';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(
@@ -20,8 +21,9 @@ root.render(
     <Provider store={store}>
       <ThemeProvider theme={defaultTheme}>
         <CustomToaster />
+        <ModalContainer />
         <App />
       </ThemeProvider>
     </Provider>
-  </StrictMode>
+  </StrictMode>,
 );
