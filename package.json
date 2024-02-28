@@ -4,7 +4,9 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "mock": "vite --mode mock",
+    "dev": "vite --mode dev",
+    "prod": "vite --mode prod",
     "build": "tsc && vite build",
     "lint": "eslint . --ext ts,tsx",
     "lint:fix": "eslint . --fix --ext ts,tsx",
