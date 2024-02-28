@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { Navigate, RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { useAppSelector } from 'store';
 
+import GroupDetail from 'components/Authenticated/GroupDetail';
 import CenterLoading from 'components/Common/CenterLoading';
 import PageLayout from 'components/Common/Layout/PageLayout';
 import Home from 'components/Home';
@@ -17,6 +18,10 @@ const protectedRoutes = createBrowserRouter([
       {
         index: true,
         element: <Home />,
+      },
+      {
+        path: 'groups/:groupId',
+        element: <GroupDetail />,
       },
     ],
   },
