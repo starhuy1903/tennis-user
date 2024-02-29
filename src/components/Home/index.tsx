@@ -1,13 +1,11 @@
 import { Box, Button, Typography } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import MyGroup from './MyGroup';
 import News from './News';
 
 export default function Home() {
-  const handleClick = () => {
-    console.log('clicked');
-  };
+  const navigate = useNavigate();
   return (
     <Box
       sx={{
@@ -19,7 +17,7 @@ export default function Home() {
     >
       <Box>
         <Typography variant="h4">Quick Actions</Typography>
-        <Button onClick={handleClick}>Affiliate sponsorship</Button>
+        <Button onClick={() => navigate('/affiliate-sponsor')}>Affiliate sponsorship</Button>
       </Box>
       <Box>
         <Box

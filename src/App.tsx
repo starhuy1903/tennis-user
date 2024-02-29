@@ -2,6 +2,9 @@ import { useEffect } from 'react';
 import { Navigate, RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { useAppSelector } from 'store';
 
+import AffiliateSponsor from 'components/Authenticated/AffiliateSponsor';
+import GroupDetail from 'components/Authenticated/GroupDetail';
+import Profile from 'components/Authenticated/Profile';
 import CenterLoading from 'components/Common/CenterLoading';
 import PageLayout from 'components/Common/Layout/PageLayout';
 import Home from 'components/Home';
@@ -21,6 +24,18 @@ const protectedRoutes = createBrowserRouter([
       {
         index: true,
         element: <Home />,
+      },
+      {
+        path: 'groups/:groupId',
+        element: <GroupDetail />,
+      },
+      {
+        path: 'affiliate-sponsor',
+        element: <AffiliateSponsor />,
+      },
+      {
+        path: 'profile',
+        element: <Profile />,
       },
     ],
   },

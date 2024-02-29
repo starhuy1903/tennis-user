@@ -27,7 +27,7 @@ const baseQuery = fetchBaseQuery({
 const baseQueryWithReAuth: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError> = async (
   args,
   api,
-  extraOptions
+  extraOptions,
 ) => {
   // wait until the mutex is available without locking it
   await mutex.waitForUnlock();
@@ -45,7 +45,7 @@ const baseQueryWithReAuth: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQue
             body: { refreshToken: auth.getRefreshToken() },
           },
           api,
-          extraOptions
+          extraOptions,
         );
 
         if (isRefreshResponse(refreshResult.data)) {
@@ -72,7 +72,7 @@ const baseQueryWithReAuth: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQue
 const queryWithToastError: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError> = async (
   args,
   api,
-  extraOptions
+  extraOptions,
 ) => {
   const result = await baseQueryWithReAuth(args, api, extraOptions);
   if (result.error) {

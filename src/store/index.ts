@@ -3,10 +3,11 @@ import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 
 import { apiSlice, apiWithToastSlice } from './api/baseApiSlice';
 import { userSlice } from './slice/userSlice';
+import { modalSlice } from './slice/modalSlice';
 
 const combinedReducer = combineReducers({
   user: userSlice.reducer,
-  //   modal: modalSlice.reducer,
+    modal: modalSlice.reducer,
   [apiSlice.reducerPath]: apiSlice.reducer,
   [apiWithToastSlice.reducerPath]: apiWithToastSlice.reducer,
 });
