@@ -1,3 +1,5 @@
+import Profile from '@/components/Authenticated/Profile';
+import AuthenticatedLayout from '@/components/Common/Layout/AuthenticatedLayout';
 import { useEffect } from 'react';
 import { Navigate, RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { useAppSelector } from 'store';
@@ -13,7 +15,7 @@ import { useLazyGetProfileQuery } from 'store/api/userApiSlice';
 const protectedRoutes = createBrowserRouter([
   {
     path: '/',
-    element: <PageLayout />,
+    element: <AuthenticatedLayout />,
     children: [
       {
         index: true,
@@ -22,6 +24,10 @@ const protectedRoutes = createBrowserRouter([
       {
         path: 'groups/:groupId',
         element: <GroupDetail />,
+      },
+      {
+        path: 'profile',
+        element: <Profile />,
       },
     ],
   },

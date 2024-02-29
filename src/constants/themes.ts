@@ -22,7 +22,8 @@ const defaultTheme = createTheme({
       light: '#EDE7F6',
     },
     background: {
-      default: '#F4F4F4',
+      paper: '#F4F4F4',
+      default: '#F7F9F9',
     },
     text: {
       primary: '#333333',
@@ -30,7 +31,7 @@ const defaultTheme = createTheme({
     },
   },
   layout: {
-    headerHeight: '80px',
+    headerHeight: '70px',
     drawerWidth: '260px',
   },
 });
