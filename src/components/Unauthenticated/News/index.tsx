@@ -1,4 +1,5 @@
-import { Box, Card, CardActionArea, CardContent, CardMedia, Container, Grid, Link, Typography } from '@mui/material';
+import { Box, Card, CardActionArea, CardContent, CardMedia, Container, Grid, Typography } from '@mui/material';
+import { Link } from 'react-router-dom';
 
 import BreadCrumb from 'components/Common/Breadcrumb';
 import { formatDateTime } from 'utils/datetime';
@@ -87,33 +88,40 @@ export default function News() {
             item
             key={item.id}
           >
-            <Card sx={{ maxWidth: 350, minHeight: 460 }}>
+            <Link
+              to={`/news/${item.id}`}
+              style={{
+                textDecoration: 'none',
+              }}
+            >
               <CardActionArea>
-                <CardMedia
-                  component="img"
-                  height="250"
-                  image={item.image}
-                  alt="news-image"
-                />
-                <CardContent>
-                  <Typography variant="caption">{formatDateTime(item.date)}</Typography>
-                  <Typography
-                    gutterBottom
-                    variant="h6"
-                    component="div"
-                  >
-                    {limitString(item.title, 12)}
-                  </Typography>
-                  <Typography
-                    variant="body2"
-                    color="text.secondary"
-                    textAlign="justify"
-                  >
-                    {limitString(item.description, 40)}
-                  </Typography>
-                </CardContent>
+                <Card sx={{ maxWidth: 350, minHeight: 460 }}>
+                  <CardMedia
+                    component="img"
+                    height="250"
+                    image={item.image}
+                    alt="news-image"
+                  />
+                  <CardContent>
+                    <Typography variant="caption">{formatDateTime(item.date)}</Typography>
+                    <Typography
+                      gutterBottom
+                      variant="h6"
+                      component="div"
+                    >
+                      {limitString(item.title, 12)}
+                    </Typography>
+                    <Typography
+                      variant="body2"
+                      color="text.secondary"
+                      textAlign="justify"
+                    >
+                      {limitString(item.description, 40)}
+                    </Typography>
+                  </CardContent>
+                </Card>
               </CardActionArea>
-            </Card>
+            </Link>
           </Grid>
         ))}
       </Grid>
