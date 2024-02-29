@@ -1,5 +1,5 @@
-import { EnvConfig } from "configurations";
+import { EnvConfig } from 'configurations';
 
 export const baseConfigs: Partial<EnvConfig> = {
-  apiUrl: "http://localhost:8200/api",
+  apiUrl: 'http://localhost:8200/api',
 };

@@ -1,18 +1,20 @@
-import devConfigs from "./dev";
-import mockConfigs from "./mock";
-import prodConfigs from "./prod";
+import devConfigs from './dev';
+import mockConfigs from './mock';
+import prodConfigs from './prod';
 
 export interface EnvConfig {
   apiUrl: string;
+  oauthClientID: string;
+  oauthClientSecret: string;
 }
 
 let currentConfigs = mockConfigs;
 
-if (import.meta.env.MODE === "dev") {
+if (import.meta.env.MODE === 'dev') {
   currentConfigs = devConfigs;
-} else if (import.meta.env.MODE === "prod") {
+} else if (import.meta.env.MODE === 'prod') {
   currentConfigs = prodConfigs;
-} else if (import.meta.env.MODE === "mock") {
+} else if (import.meta.env.MODE === 'mock') {
   currentConfigs = mockConfigs;
 }
 
