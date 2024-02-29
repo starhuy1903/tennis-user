@@ -7,8 +7,11 @@ import PageLayout from 'components/Common/Layout/PageLayout';
 import Home from 'components/Home';
 import Login from 'components/Unauthenticated/Login';
 import News from 'components/Unauthenticated/News';
+import NewsDetail from 'components/Unauthenticated/News/NewsDetail';
 import Signup from 'components/Unauthenticated/Signup';
 import { useLazyGetProfileQuery } from 'store/api/userApiSlice';
+
+import './App.css';
 
 const protectedRoutes = createBrowserRouter([
   {
@@ -47,6 +50,10 @@ const publicRoutes = createBrowserRouter([
       {
         path: 'news',
         element: <News />,
+      },
+      {
+        path: 'news/:id',
+        element: <NewsDetail />,
       },
     ],
   },

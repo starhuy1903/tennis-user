@@ -13,73 +13,73 @@ import { limitString } from 'utils/string';
 const itemData = [
   {
     id: 1,
-    img: 'https://images.unsplash.com/photo-1551963831-b3b1ca40c98e',
+    image: 'https://images.unsplash.com/photo-1551963831-b3b1ca40c98e',
     title: 'Vì sao bữa sáng là bữa quan trọng nhất trong ngày? Vì sao bữa sáng là bữa quan trọng nhất trong ngày?',
     date: '2023-10-10T16:10:00.000Z',
   },
   {
     id: 2,
-    img: 'https://images.unsplash.com/photo-1551782450-a2132b4ba21d',
+    image: 'https://images.unsplash.com/photo-1551782450-a2132b4ba21d',
     title: 'Vì sao bữa sáng',
     date: '2023-10-10T16:10:00.000Z',
   },
   {
     id: 3,
-    img: 'https://images.unsplash.com/photo-1522770179533-24471fcdba45',
+    image: 'https://images.unsplash.com/photo-1522770179533-24471fcdba45',
     title: 'Vì sao bữa sáng là bữa quan trọng nhất trong ngày?',
     date: '2023-10-10T16:10:00.000Z',
   },
   {
     id: 4,
-    img: 'https://images.unsplash.com/photo-1444418776041-9c7e33cc5a9c',
+    image: 'https://images.unsplash.com/photo-1444418776041-9c7e33cc5a9c',
     title: 'Vì sao bữa sáng là bữa quan trọng nhất trong ngày?',
     date: '2023-10-10T16:10:00.000Z',
   },
   {
     id: 5,
-    img: 'https://images.unsplash.com/photo-1533827432537-70133748f5c8',
+    image: 'https://images.unsplash.com/photo-1533827432537-70133748f5c8',
     title: 'Vì sao bữa sáng là bữa quan trọng nhất trong ngày?',
     date: '2023-10-10T16:10:00.000Z',
   },
   {
     id: 6,
-    img: 'https://images.unsplash.com/photo-1558642452-9d2a7deb7f62',
+    image: 'https://images.unsplash.com/photo-1558642452-9d2a7deb7f62',
     title: 'Vì sao bữa sáng là bữa quan trọng nhất trong ngày?',
     date: '2023-10-10T16:10:00.000Z',
   },
   {
     id: 7,
-    img: 'https://images.unsplash.com/photo-1516802273409-68526ee1bdd6',
+    image: 'https://images.unsplash.com/photo-1516802273409-68526ee1bdd6',
     title: 'Vì sao bữa sáng là bữa quan trọng nhất trong ngày?',
     date: '2023-10-10T16:10:00.000Z',
   },
   {
     id: 8,
-    img: 'https://images.unsplash.com/photo-1518756131217-31eb79b20e8f',
+    image: 'https://images.unsplash.com/photo-1518756131217-31eb79b20e8f',
     title: 'Vì sao bữa sáng là bữa quan trọng nhất trong ngày?',
     date: '2023-10-10T16:10:00.000Z',
   },
   {
     id: 9,
-    img: 'https://images.unsplash.com/photo-1597645587822-e99fa5d45d25',
+    image: 'https://images.unsplash.com/photo-1597645587822-e99fa5d45d25',
     title: 'Vì sao bữa sáng là bữa quan trọng nhất trong ngày?',
     date: '2023-10-10T16:10:00.000Z',
   },
   {
     id: 10,
-    img: 'https://images.unsplash.com/photo-1567306301408-9b74779a11af',
+    image: 'https://images.unsplash.com/photo-1567306301408-9b74779a11af',
     title: 'Vì sao bữa sáng là bữa quan trọng nhất trong ngày?',
     date: '2023-10-10T16:10:00.000Z',
   },
   {
     id: 11,
-    img: 'https://images.unsplash.com/photo-1471357674240-e1a485acb3e1',
+    image: 'https://images.unsplash.com/photo-1471357674240-e1a485acb3e1',
     title: 'Vì sao bữa sáng là bữa quan trọng nhất trong ngày?',
     date: '2023-10-10T16:10:00.000Z',
   },
   {
     id: 12,
-    img: 'https://images.unsplash.com/photo-1589118949245-7d38baf380d6',
+    image: 'https://images.unsplash.com/photo-1589118949245-7d38baf380d6',
     title: 'Vì sao bữa sáng là bữa quan trọng nhất trong ngày?',
     date: '2023-10-10T16:10:00.000Z',
   },
@@ -97,7 +97,7 @@ export default function News() {
           modules={[Autoplay, FreeMode]}
         >
           {itemData.map((item) => (
-            <SwiperSlide key={item.img}>
+            <SwiperSlide key={item.id}>
               <Link to={`/news/${item.id}`}>
                 <Box
                   sx={{
@@ -108,7 +108,7 @@ export default function News() {
                   <img
                     width="100%"
                     height="100%"
-                    src={item.img}
+                    src={item.image}
                     alt={item.title}
                     style={{
                       borderRadius: '10px',
