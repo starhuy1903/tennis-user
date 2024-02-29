@@ -17,7 +17,7 @@ const breadcrumbs = [
 
 export default function News() {
   const [news, setNews] = useState<NewsType[]>([]);
-  const [isQuery, setIsQuery] = useState(false);
+  const [hasFetchedData, setHasFetchedData] = useState(false);
 
   const [getNews, { isLoading }] = useLazyGetNewsQuery();
 
@@ -29,16 +29,16 @@ export default function News() {
       } catch (error) {
         console.log(error);
       } finally {
-        setIsQuery(true);
+        setHasFetchedData(true);
       }
     })();
   }, [getNews]);
 
-  if (!isQuery || isLoading) {
+  if (!hasFetchedData || isLoading) {
     return <CenterLoading />;
   }
 
-  if (isQuery && news.length === 0) {
+  if (hasFetchedData && news.length === 0) {
     return <NoData />;
   }
 

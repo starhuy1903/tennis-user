@@ -16,7 +16,7 @@ import { limitString } from 'utils/string';
 
 export default function News() {
   const [news, setNews] = useState<NewsType[]>([]);
-  const [isQuery, setIsQuery] = useState(false);
+  const [hasFetchedData, setHasFetchedData] = useState(false);
 
   const [getTopNews, { isLoading }] = useLazyGetTopNewsQuery();
 
@@ -28,16 +28,16 @@ export default function News() {
       } catch (error) {
         console.log(error);
       } finally {
-        setIsQuery(true);
+        setHasFetchedData(true);
       }
     })();
   }, [getTopNews]);
 
-  if (!isQuery || isLoading) {
+  if (!hasFetchedData || isLoading) {
     return <CenterLoading height="10vh" />;
   }
 
-  if (isQuery && news.length === 0) {
+  if (hasFetchedData && news.length === 0) {
     return <NoData />;
   }
 
