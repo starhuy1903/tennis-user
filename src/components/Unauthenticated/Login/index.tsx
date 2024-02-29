@@ -10,6 +10,7 @@ import {
   Typography,
 } from '@mui/material';
 import { GoogleLogin, GoogleOAuthProvider } from '@react-oauth/google';
+import { configs } from 'configurations';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 
@@ -34,7 +35,7 @@ export default function Login() {
     <Box
       sx={{
         width: '100%',
-        height: '90vh',
+        height: '80vh',
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
@@ -188,7 +189,7 @@ export default function Login() {
               justifyContent: 'center',
             }}
           >
-            <GoogleOAuthProvider clientId={`${import.meta.env.VITE_OAUTH_CLIENT_ID}`}>
+            <GoogleOAuthProvider clientId={configs.oauthClientID}>
               <GoogleLogin
                 useOneTap={true}
                 onSuccess={async (credentialResponse) => {
