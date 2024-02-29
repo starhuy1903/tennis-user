@@ -66,3 +66,13 @@ export type RefreshResponse = {
   accessToken: string;
   refreshToken: string;
 };
+
+export type AffiliatedSponsorPayload = {
+  companyName: string;
+  contactPersonName: string;
+  email: string;
+  phone: string;
+  website: string;
+  taxNumber: string;
+  description: string;
+};

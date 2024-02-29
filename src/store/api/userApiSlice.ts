@@ -1,6 +1,5 @@
-import auth from 'utils/auth';
-
 import {
+  AffiliatedSponsorPayload,
   ChangePasswordPayload,
   CredentialPayload,
   ForgotPasswordPayload,
@@ -9,12 +8,14 @@ import {
   LogoutPayload,
   MessageResponse,
   OAuthPayload,
+  ResetPasswordPayload,
   SignupPayload,
   SignupResponse,
-  ResetPasswordPayload,
   UserProfile,
   VerifyPayload,
-} from '../../types/user';
+} from 'types/user';
+import auth from 'utils/auth';
+
 import { setIsLoggedIn, setProfile } from '../slice/userSlice';
 import { apiSlice, apiWithToastSlice } from './baseApiSlice';
 
@@ -88,6 +89,13 @@ const userApiToastSlice = apiWithToastSlice.injectEndpoints({
         dispatch(setProfile(data));
       },
     }),
+    affiliateSponsor: build.mutation<void, AffiliatedSponsorPayload>({
+      query: (body) => ({
+        url: 'users/affiliate-sponsor',
+        method: 'POST',
+        body,
+      }),
+    }),
   }),
 });
 
@@ -112,6 +120,7 @@ export const {
   useResetPasswordMutation,
   useChangePasswordMutation,
   useLazyGetProfileQuery,
+  useAffiliateSponsorMutation,
 } = userApiToastSlice;
 
 export const { useLogoutMutation } = userApiSlice;
