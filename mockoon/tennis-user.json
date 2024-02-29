@@ -6,7 +6,36 @@
   "latency": 0,
   "port": 8080,
   "hostname": "",
-  "folders": [],
+  "folders": [
+    {
+      "uuid": "8ba65c63-4fab-4f9e-80f8-aa6899ed6fec",
+      "name": "News",
+      "children": [
+        {
+          "type": "route",
+          "uuid": "e4459978-6dcd-4f56-86c4-5a12274d7ee5"
+        },
+        {
+          "type": "route",
+          "uuid": "c53b6246-fbbe-4962-b3a6-b256e1d6cbd2"
+        }
+      ]
+    },
+    {
+      "uuid": "59e1867d-5175-4d53-a44c-0bb9de3e9a73",
+      "name": "Auth",
+      "children": [
+        {
+          "type": "route",
+          "uuid": "e378a6ed-4b98-4e75-bd3d-12a0d37d7a71"
+        },
+        {
+          "type": "route",
+          "uuid": "e391a368-a065-42e1-9846-1b71e35ccd43"
+        }
+      ]
+    }
+  ],
   "routes": [
     {
       "uuid": "e4459978-6dcd-4f56-86c4-5a12274d7ee5",
@@ -65,16 +94,89 @@
         }
       ],
       "responseMode": null
+    },
+    {
+      "uuid": "e378a6ed-4b98-4e75-bd3d-12a0d37d7a71",
+      "type": "http",
+      "documentation": "",
+      "method": "post",
+      "endpoint": "auth/login",
+      "responses": [
+        {
+          "uuid": "1694ea6a-eec0-4ec5-840f-d6e0933aadb3",
+          "body": "{\n    \"user\": {\n        \"email\": \"admin@gmail.com\",\n        \"name\": \"Admin\",\n        \"image\": null\n    },\n    \"accessToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjUsImVtYWlsIjoidHJpMkBnbWFpbC5jb20iLCJpYXQiOjE3MDkyMDI3OTEsImV4cCI6MTcwOTIwNDU5MX0.KoFs8t8LHY7vh_EvVzPsd4zH8G7Rl4clUfrTV89WLM0\",\n    \"refreshToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjUsImVtYWlsIjoidHJpMkBnbWFpbC5jb20iLCJpYXQiOjE3MDkyMDI3OTEsImV4cCI6MTcwOTI4OTE5MX0.1pmiPsmWACwuSpvw38Z_qfibr4Gq4NdyWLWBA_PayuU\"\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "body",
+              "modifier": "email",
+              "value": "admin@gmail.com",
+              "invert": false,
+              "operator": "equals"
+            },
+            {
+              "target": "body",
+              "modifier": "password",
+              "value": "Admin123",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "e391a368-a065-42e1-9846-1b71e35ccd43",
+      "type": "http",
+      "documentation": "",
+      "method": "post",
+      "endpoint": "auth/signup",
+      "responses": [
+        {
+          "uuid": "a1e9377e-5b0d-42a3-bf90-17ba5191f84a",
+          "body": "{\n  \n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
     }
   ],
   "rootChildren": [
     {
-      "type": "route",
-      "uuid": "e4459978-6dcd-4f56-86c4-5a12274d7ee5"
+      "type": "folder",
+      "uuid": "59e1867d-5175-4d53-a44c-0bb9de3e9a73"
     },
     {
-      "type": "route",
-      "uuid": "c53b6246-fbbe-4962-b3a6-b256e1d6cbd2"
+      "type": "folder",
+      "uuid": "8ba65c63-4fab-4f9e-80f8-aa6899ed6fec"
     }
   ],
   "proxyMode": false,

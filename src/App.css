@@ -5,6 +5,15 @@
   text-align: center;
 } */
 
+html {
+  /* Prevent the layout shift caused by scrollbar */
+  scrollbar-gutter: stable;
+}
+
+a {
+  text-decoration: none;
+}
+
 .logo {
   height: 6em;
   padding: 1.5em;
@@ -39,10 +48,6 @@
 
 .read-the-docs {
   color: #888;
-}
-
-a {
-  text-decoration: none;
 }
 
 .breadcrumb-link:hover {

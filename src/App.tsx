@@ -26,6 +26,14 @@ const protectedRoutes = createBrowserRouter([
         element: <Home />,
       },
       {
+        path: 'news',
+        element: <News />,
+      },
+      {
+        path: 'news/:id',
+        element: <NewsDetail />,
+      },
+      {
         path: 'groups/:groupId',
         element: <GroupDetail />,
       },
