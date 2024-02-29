@@ -4,6 +4,7 @@ import { useAppSelector } from 'store';
 
 import AffiliateSponsor from 'components/Authenticated/AffiliateSponsor';
 import GroupDetail from 'components/Authenticated/GroupDetail';
+import Profile from 'components/Authenticated/Profile';
 import CenterLoading from 'components/Common/CenterLoading';
 import PageLayout from 'components/Common/Layout/PageLayout';
 import Home from 'components/Home';
@@ -27,6 +28,10 @@ const protectedRoutes = createBrowserRouter([
       {
         path: 'affiliate-sponsor',
         element: <AffiliateSponsor />,
+      },
+      {
+        path: 'profile',
+        element: <Profile />,
       },
     ],
   },
