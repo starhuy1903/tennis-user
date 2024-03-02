@@ -30,18 +30,18 @@ const packages = [
       'Affiliate partnership management',
     ],
   },
-
-  {
-    title: 'Mentor Package',
-    price: 15,
-    description: 'Option for tennis coaches and instructors to use for teaching purposes.',
-    features: [
-      'Maximum 20 students',
-      'Organize learning schedules',
-      'Manage learning resources and assignments',
-      'Group messaging support',
-    ],
-  },
+  // TODO: will add this as a service in the future
+  // {
+  //   title: 'Mentor Package',
+  //   price: 15,
+  //   description: 'Option for tennis coaches and instructors to use for teaching purposes.',
+  //   features: [
+  //     'Maximum 20 students',
+  //     'Organize learning schedules',
+  //     'Manage learning resources and assignments',
+  //     'Group messaging support',
+  //   ],
+  // },
 ];
 
 const paymentParams = {
@@ -83,7 +83,7 @@ export default function Pricing() {
 
       <Grid
         container
-        justifyContent="space-between"
+        justifyContent="center"
         gap={4}
       >
         {packages.map((item, index) => (

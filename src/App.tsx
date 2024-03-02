@@ -17,23 +17,31 @@ import { useLazyGetProfileQuery } from 'store/api/userApiSlice';
 
 import './App.css';
 
+const sharedRoutes = [
+  {
+    index: true,
+    element: <Home />,
+  },
+  {
+    path: 'news',
+    element: <News />,
+  },
+  {
+    path: 'news/:id',
+    element: <NewsDetail />,
+  },
+  {
+    path: 'pricing',
+    element: <Pricing />,
+  },
+];
+
 const protectedRoutes = createBrowserRouter([
   {
     path: '/',
     element: <PageLayout />,
     children: [
-      {
-        index: true,
-        element: <Home />,
-      },
-      {
-        path: 'news',
-        element: <News />,
-      },
-      {
-        path: 'news/:id',
-        element: <NewsDetail />,
-      },
+      ...sharedRoutes,
       {
         path: 'groups/:groupId',
         element: <GroupDetail />,
@@ -45,10 +53,6 @@ const protectedRoutes = createBrowserRouter([
       {
         path: 'profile',
         element: <Profile />,
-      },
-      {
-        path: 'pricing',
-        element: <Pricing />,
       },
     ],
   },
@@ -63,10 +67,7 @@ const publicRoutes = createBrowserRouter([
     path: '/',
     element: <PageLayout />,
     children: [
-      {
-        index: true,
-        element: <Home />,
-      },
+      ...sharedRoutes,
       {
         path: 'signup',
         element: <Signup />,
@@ -74,18 +75,6 @@ const publicRoutes = createBrowserRouter([
       {
         path: 'login',
         element: <Login />,
-      },
-      {
-        path: 'news',
-        element: <News />,
-      },
-      {
-        path: 'news/:id',
-        element: <NewsDetail />,
-      },
-      {
-        path: 'pricing',
-        element: <Pricing />,
       },
     ],
   },
