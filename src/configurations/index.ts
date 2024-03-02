@@ -6,6 +6,7 @@ export interface EnvConfig {
   apiUrl: string;
   oauthClientID: string;
   oauthClientSecret: string;
+  vnpUrl: string;
 }
 
 let currentConfigs = mockConfigs;

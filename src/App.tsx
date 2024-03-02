@@ -11,6 +11,7 @@ import Home from 'components/Home';
 import Login from 'components/Unauthenticated/Login';
 import News from 'components/Unauthenticated/News';
 import NewsDetail from 'components/Unauthenticated/News/NewsDetail';
+import Pricing from 'components/Unauthenticated/Pricing';
 import Signup from 'components/Unauthenticated/Signup';
 import { useLazyGetProfileQuery } from 'store/api/userApiSlice';
 
@@ -45,6 +46,10 @@ const protectedRoutes = createBrowserRouter([
         path: 'profile',
         element: <Profile />,
       },
+      {
+        path: 'pricing',
+        element: <Pricing />,
+      },
     ],
   },
   {
@@ -77,6 +82,10 @@ const publicRoutes = createBrowserRouter([
       {
         path: 'news/:id',
         element: <NewsDetail />,
+      },
+      {
+        path: 'pricing',
+        element: <Pricing />,
       },
     ],
   },
