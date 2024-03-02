@@ -20,6 +20,7 @@ const defaultTheme = createTheme({
     primary: {
       main: '#7F56D9',
       light: '#EDE7F6',
+      dark: '#53389E',
     },
     background: {
       default: '#F4F4F4',
