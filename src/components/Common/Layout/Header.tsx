@@ -19,7 +19,7 @@ import Logo from 'assets/images/app-logo.png';
 
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
-const navItems = ['Home', 'News', 'About', 'Contact'];
+const navItems = ['Home', 'Pricing', 'News', 'About', 'Contact'];
 
 export default function Header() {
   const isLoggedIn = useAppSelector((state) => state.user.isLoggedIn);
@@ -71,8 +71,9 @@ export default function Header() {
               alignItems="center"
               gap={6}
             >
-              {navItems.map((navItem) => (
+              {navItems.map((navItem, index) => (
                 <Button
+                  key={index}
                   component={Link}
                   to={`/${navItem.toLowerCase()}`}
                   size="large"
