@@ -44,7 +44,7 @@ export default function AffiliateSponsor() {
 
   const onSubmit: SubmitHandler<FormType> = async (data) => {
     try {
-      await requestAffiliateSponsor(data);
+      await requestAffiliateSponsor(data).unwrap();
       showSuccess('Affiliate sponsor request submitted successfully.');
     } catch (error) {
       // handled error
