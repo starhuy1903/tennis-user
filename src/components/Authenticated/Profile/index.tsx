@@ -1,9 +1,17 @@
-import Box from "@mui/material/Box";
+import Box from '@mui/material/Box';
+
+import PacksSection from './components/PacksSection';
+import ProfileSection from './components/ProfileSection';
 
 const Profile = () => {
-    return <Box>
-        Comming soon
-    </Box>
-}
+  return (
+    <>
+      <ProfileSection />
+      <Box sx={{ marginTop: '15px' }}>
+        <PacksSection />
+      </Box>
+    </>
+  );
+};
 
 export default Profile;

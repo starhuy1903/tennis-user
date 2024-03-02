@@ -63,7 +63,12 @@ const AvatarMenu = () => {
           disablePadding
           sx={{ minWidth: '150px' }}
         >
-          <MenuItem onClick={() => navigate('/profile')}>
+          <MenuItem
+            onClick={() => {
+              navigate('/profile');
+              handleCloseUserMenu();
+            }}
+          >
             <ListItemIcon>
               <ManageAccountsIcon />
             </ListItemIcon>

@@ -1,3 +1,4 @@
+import GroupCreate from '@/components/Authenticated/GroupCreate';
 import Profile from '@/components/Authenticated/Profile';
 import AuthenticatedLayout from '@/components/Common/Layout/AuthenticatedLayout';
 import { useEffect } from 'react';
@@ -28,6 +29,10 @@ const protectedRoutes = createBrowserRouter([
       {
         path: 'profile',
         element: <Profile />,
+      },
+      {
+        path: 'groups/:id/create',
+        element: <GroupCreate />,
       },
     ],
   },

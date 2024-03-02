@@ -6,7 +6,8 @@ import auth from 'utils/auth';
 
 const initialState: UserSliceType = {
   profile: null,
-  isLoggedIn: Boolean(auth.getAccessToken()),
+  // isLoggedIn: Boolean(auth.getAccessToken()),
+  isLoggedIn: true,
 };
 
 export const userSlice = createSlice({

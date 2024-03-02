@@ -1,4 +1,5 @@
 import Logo from '@/components/Common/Logo';
+import { ScrollbarStyle } from '@/utils/style';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
@@ -16,6 +17,7 @@ const AuthenticatedLayout = () => {
   return (
     <Box>
       <AppBar
+        position="static"
         sx={{
           height: theme.layout.headerHeight,
           backgroundColor: theme.palette.background.paper,
@@ -41,7 +43,12 @@ const AuthenticatedLayout = () => {
       <Container
         maxWidth="xl"
         component="main"
-        sx={{ marginTop: theme.layout.headerHeight }}
+        sx={{
+          height: `calc(100dvh - 10px - ${theme.layout.headerHeight})`,
+          marginTop: '10px',
+          overflow: 'auto',
+          ...ScrollbarStyle,
+        }}
       >
         <Outlet />
       </Container>
