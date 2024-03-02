@@ -34,6 +34,16 @@
           "uuid": "e391a368-a065-42e1-9846-1b71e35ccd43"
         }
       ]
+    },
+    {
+      "uuid": "8fff93ce-be50-439c-91e2-ae85b592acbb",
+      "name": "Group",
+      "children": [
+        {
+          "type": "route",
+          "uuid": "75ce5858-7399-4f3d-b152-bff889f95e26"
+        }
+      ]
     }
   ],
   "routes": [
@@ -167,6 +177,35 @@
         }
       ],
       "responseMode": null
+    },
+    {
+      "uuid": "75ce5858-7399-4f3d-b152-bff889f95e26",
+      "type": "http",
+      "documentation": "",
+      "method": "post",
+      "endpoint": "groups/invite",
+      "responses": [
+        {
+          "uuid": "9c5cc7a0-8694-42b8-8447-e5e28a0fa216",
+          "body": "{}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
     }
   ],
   "rootChildren": [
@@ -177,6 +216,10 @@
     {
       "type": "folder",
       "uuid": "8ba65c63-4fab-4f9e-80f8-aa6899ed6fec"
+    },
+    {
+      "type": "folder",
+      "uuid": "8fff93ce-be50-439c-91e2-ae85b592acbb"
     }
   ],
   "proxyMode": false,

@@ -1,17 +1,19 @@
 import { useAppDispatch, useAppSelector } from 'store';
+
 import { ModalKey } from 'constants/modal';
 import { showModal } from 'store/slice/modalSlice';
+
 import HelloWorld from './HelloWorld';
+import InviteIntoGroup from './InviteIntoGroup';
 
 const ModalsMap: { [modalKey: string]: any } = {
   [ModalKey.HELLO_WORLD]: HelloWorld,
+  [ModalKey.INVITE_INTO_GROUP]: InviteIntoGroup,
 };
 
 export function ModalContainer() {
   const dispatch = useAppDispatch();
-  const { modalKey, onModalClose, ...rest } = useAppSelector(
-    (state) => state.modal,
-  );
+  const { modalKey, onModalClose, ...rest } = useAppSelector((state) => state.modal);
 
   if (!modalKey) {
     return null;
