@@ -2,6 +2,7 @@ import {
   AppBar,
   Avatar,
   Box,
+  Button,
   Container,
   IconButton,
   Menu,
@@ -11,15 +12,16 @@ import {
   Typography,
 } from '@mui/material';
 import { useCallback, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useAppSelector } from 'store';
 
 import Logo from 'assets/images/app-logo.png';
 
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
+const navItems = ['Home', 'Pricing', 'News', 'About', 'Contact'];
+
 export default function Header() {
-  const navigate = useNavigate();
   const isLoggedIn = useAppSelector((state) => state.user.isLoggedIn);
 
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
@@ -57,55 +59,99 @@ export default function Header() {
               />
             </Link>
           </Box>
-          <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
-              <IconButton
-                onClick={handleOpenUserMenu}
-                sx={{ p: 0, ml: 2 }}
-              >
-                <Avatar
-                  alt="Remy Sharp"
-                  src="/static/images/avatar/2.jpg"
-                />
-              </IconButton>
-            </Tooltip>
-            <Menu
-              sx={{ mt: '45px' }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
-              {isLoggedIn ? (
-                settings.map((setting) => (
-                  <MenuItem
-                    key={setting}
-                    onClick={handleCloseUserMenu}
-                  >
-                    <Typography textAlign="center">{setting}</Typography>
-                  </MenuItem>
-                ))
-              ) : (
-                <>
-                  <MenuItem onClick={() => navigate('/login')}>
-                    <Typography textAlign="center">Log in</Typography>
-                  </MenuItem>
 
-                  <MenuItem onClick={() => navigate('/signup')}>
-                    <Typography textAlign="center">Sign up</Typography>
-                  </MenuItem>
+          <Box
+            display="flex"
+            flexDirection="row"
+            gap={25}
+            alignItems="center"
+          >
+            <Box
+              display="flex"
+              alignItems="center"
+              gap={6}
+            >
+              {navItems.map((navItem, index) => (
+                <Button
+                  key={index}
+                  component={Link}
+                  to={`/${navItem.toLowerCase()}`}
+                  size="large"
+                  sx={{
+                    fontSize: '1rem',
+                  }}
+                >
+                  {navItem}
+                </Button>
+              ))}
+
+              {!isLoggedIn && (
+                <>
+                  <Button
+                    component={Link}
+                    to={`/login`}
+                    size="large"
+                    sx={{
+                      fontSize: '1rem',
+                    }}
+                  >
+                    Log in
+                  </Button>
+                  <Button
+                    component={Link}
+                    to={`/signup`}
+                    size="large"
+                    color="primary"
+                    variant="contained"
+                    sx={{
+                      fontSize: '1rem',
+                    }}
+                  >
+                    Sign up
+                  </Button>
                 </>
               )}
-            </Menu>
+            </Box>
+            {isLoggedIn && (
+              <>
+                <Tooltip title="Open settings">
+                  <IconButton
+                    onClick={handleOpenUserMenu}
+                    sx={{ p: 0, ml: 2 }}
+                  >
+                    <Avatar
+                      alt="Remy Sharp"
+                      src="/static/images/avatar/2.jpg"
+                    />
+                  </IconButton>
+                </Tooltip>
+                <Menu
+                  sx={{ mt: '45px' }}
+                  id="menu-appbar"
+                  anchorEl={anchorElUser}
+                  anchorOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                  }}
+                  keepMounted
+                  transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                  }}
+                  open={Boolean(anchorElUser)}
+                  onClose={handleCloseUserMenu}
+                >
+                  {settings.map((setting) => (
+                    <MenuItem
+                      key={setting}
+                      onClick={handleCloseUserMenu}
+                    >
+                      <Typography textAlign="center">{setting}</Typography>
+                    </MenuItem>
+                  ))}
+                </Menu>
+              </>
+            )}
           </Box>
         </Toolbar>
       </Container>

@@ -5,34 +5,76 @@ import { useEffect } from 'react';
 import { Navigate, RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { useAppSelector } from 'store';
 
+import AffiliateSponsor from 'components/Authenticated/AffiliateSponsor';
 import GroupDetail from 'components/Authenticated/GroupDetail';
 import CenterLoading from 'components/Common/CenterLoading';
 import PageLayout from 'components/Common/Layout/PageLayout';
 import Home from 'components/Home';
 import Login from 'components/Unauthenticated/Login';
+import News from 'components/Unauthenticated/News';
+import NewsDetail from 'components/Unauthenticated/News/NewsDetail';
+import Pricing from 'components/Unauthenticated/Pricing';
 import Signup from 'components/Unauthenticated/Signup';
 import { useLazyGetProfileQuery } from 'store/api/userApiSlice';
+
+import './App.css';
+
+const sharedRoutes = [
+  {
+    index: true,
+    element: <Home />,
+  },
+  {
+    path: 'news',
+    element: <News />,
+  },
+  {
+    path: 'news/:id',
+    element: <NewsDetail />,
+  },
+  {
+    path: 'pricing',
+    element: <Pricing />,
+  },
+];
 
 const protectedRoutes = createBrowserRouter([
   {
     path: '/',
     element: <AuthenticatedLayout />,
     children: [
-      {
-        index: true,
-        element: <Home />,
-      },
+      ...sharedRoutes,
       {
         path: 'groups/:groupId',
         element: <GroupDetail />,
       },
       {
         path: 'profile',
-        element: <Profile />,
+        element: <Profile activeTab="feeds"/>,
+      },
+      {
+        path: 'profile/feeds',
+        element: <Profile activeTab="feeds" />,
+      },
+      {
+        path: 'profile/packages',
+        element: <Profile activeTab="packages" />,
+      },
+      {
+        path: 'profile/payments',
+        element: <Profile activeTab="payments" />,
+      },
+      {
+        path: 'profile/settings',
+        element: <Profile activeTab="settings" />,
       },
       {
         path: 'groups/:id/create',
         element: <GroupCreate />,
+      },
+      {
+        path: 'affiliate-sponsor',
+        element: <AffiliateSponsor />,
       },
     ],
   },
@@ -47,10 +89,7 @@ const publicRoutes = createBrowserRouter([
     path: '/',
     element: <PageLayout />,
     children: [
-      {
-        index: true,
-        element: <Home />,
-      },
+      ...sharedRoutes,
       {
         path: 'signup',
         element: <Signup />,

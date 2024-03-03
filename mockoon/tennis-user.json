@@ -1,0 +1,270 @@
+{
+  "uuid": "1c1feba3-faff-4fad-808f-e5a581f72870",
+  "lastMigration": 32,
+  "name": "Tennis user",
+  "endpointPrefix": "",
+  "latency": 0,
+  "port": 8080,
+  "hostname": "",
+  "folders": [
+    {
+      "uuid": "8ba65c63-4fab-4f9e-80f8-aa6899ed6fec",
+      "name": "News",
+      "children": [
+        {
+          "type": "route",
+          "uuid": "e4459978-6dcd-4f56-86c4-5a12274d7ee5"
+        },
+        {
+          "type": "route",
+          "uuid": "c53b6246-fbbe-4962-b3a6-b256e1d6cbd2"
+        }
+      ]
+    },
+    {
+      "uuid": "59e1867d-5175-4d53-a44c-0bb9de3e9a73",
+      "name": "Auth",
+      "children": [
+        {
+          "type": "route",
+          "uuid": "e378a6ed-4b98-4e75-bd3d-12a0d37d7a71"
+        },
+        {
+          "type": "route",
+          "uuid": "e391a368-a065-42e1-9846-1b71e35ccd43"
+        }
+      ]
+    },
+    {
+      "uuid": "8fff93ce-be50-439c-91e2-ae85b592acbb",
+      "name": "Group",
+      "children": [
+        {
+          "type": "route",
+          "uuid": "75ce5858-7399-4f3d-b152-bff889f95e26"
+        }
+      ]
+    }
+  ],
+  "routes": [
+    {
+      "uuid": "e4459978-6dcd-4f56-86c4-5a12274d7ee5",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "news",
+      "responses": [
+        {
+          "uuid": "9155254b-cec2-4d9a-bb77-d399bb5cb5c1",
+          "body": "{\n  \"data\": [\n    {\n      \"id\": 1,\n      \"image\": \"https://api-news.vba.vn/storage/images/1696931611_post%20web%202.jpg\",\n      \"title\": \"Vì sao bữa sáng là bữa quan trọng nhất trong ngày? Vì sao bữa sáng là bữa quan trọng nhất trong ngày?\",\n      \"createdAt\": \"2023-10-10T16:10:00.000Z\",\n      \"updatedAt\": \"2023-10-10T16:10:00.000Z\",\n      \"description\": \"Theo nhiều nghiên cứu về sức khỏe, bữa sáng là thời điểm bạn cung cấp cho cơ thể những nguồn năng lượng & dưỡng chất cho hầu hết các hoạt động sẽ diễn ra trong ngày; hay nói cách khác, bữa sáng chiếm 15% - 25% tổng năng lượng bạn cần nạp mỗi ngày....\"\n    },\n    {\n      \"id\": 2,\n      \"image\": \"https://api-news.vba.vn/storage/images/1696931611_post%20web%202.jpg\",\n      \"title\": \"Vì sao bữa sáng\",\n      \"createdAt\": \"2023-10-10T16:10:00.000Z\",\n      \"updatedAt\": \"2023-10-10T16:10:00.000Z\",\n      \"description\": \"Theo nhiều nghiên cứu về sức khỏe, bữa sáng là thời điểm bạn cung cấp cho cơ thể những nguồn năng lượng & dưỡng chất cho hầu hết các hoạt động sẽ diễn ra trong ngày; hay nói cách khác, bữa sáng chiếm 15% - 25% tổng năng lượng bạn cần nạp mỗi ngày....\"\n    },\n    {\n      \"id\": 3,\n      \"image\": \"https://api-news.vba.vn/storage/images/1696931611_post%20web%202.jpg\",\n      \"title\": \"Vì sao bữa sáng là bữa quan trọng nhất trong ngày?\",\n      \"createdAt\": \"2023-10-10T16:10:00.000Z\",\n      \"updatedAt\": \"2023-10-10T16:10:00.000Z\",\n      \"description\": \"Theo nhiều nghiên cứu về sức khỏe, bữa sáng là thời điểm bạn cung cấp cho cơ thể những nguồn năng lượng & dưỡng chất cho hầu hết các hoạt động sẽ diễn ra trong ngày; hay nói cách khác, bữa sáng chiếm 15% - 25% tổng năng lượng bạn cần nạp mỗi ngày....\"\n    },\n    {\n      \"id\": 4,\n      \"image\": \"http://api-news.vba.vn/storage/images/post%20web%202.jpg\",\n      \"title\": \"Vì sao bữa sáng là bữa quan trọng nhất trong ngày?\",\n      \"createdAt\": \"2023-10-10T16:10:00.000Z\",\n      \"updatedAt\": \"2023-10-10T16:10:00.000Z\",\n      \"description\": \"Theo nhiều nghiên cứu về sức khỏe, bữa sáng là thời điểm bạn cung cấp cho cơ thể những nguồn năng lượng & dưỡng chất cho hầu hết các hoạt động sẽ diễn ra trong ngày; hay nói cách khác, bữa sáng chiếm 15% - 25% tổng năng lượng bạn cần nạp mỗi ngày....\"\n    },\n    {\n      \"id\": 5,\n      \"image\": \"http://api-news.vba.vn/storage/images/post%20web%202.jpg\",\n      \"title\": \"Vì sao bữa sáng là bữa quan trọng nhất trong ngày?\",\n      \"createdAt\": \"2023-10-10T16:10:00.000Z\",\n      \"updatedAt\": \"2023-10-10T16:10:00.000Z\",\n      \"description\": \"Theo nhiều nghiên cứu về sức khỏe, bữa sáng là thời điểm bạn cung cấp cho cơ thể những nguồn năng lượng & dưỡng chất cho hầu hết các hoạt động sẽ diễn ra trong ngày; hay nói cách khác, bữa sáng chiếm 15% - 25% tổng năng lượng bạn cần nạp mỗi ngày....\"\n    },\n    {\n      \"id\": 6,\n      \"image\": \"https://api-news.vba.vn/storage/images/1696931611_post%20web%202.jpg\",\n      \"title\": \"Vì sao bữa sáng là bữa quan trọng nhất trong ngày?\",\n      \"createdAt\": \"2023-10-10T16:10:00.000Z\",\n      \"updatedAt\": \"2023-10-10T16:10:00.000Z\",\n      \"description\": \"Theo nhiều nghiên cứu về sức khỏe, bữa sáng là thời điểm bạn cung cấp cho cơ thể những nguồn năng lượng & dưỡng chất cho hầu hết các hoạt động sẽ diễn ra trong ngày; hay nói cách khác, bữa sáng chiếm 15% - 25% tổng năng lượng bạn cần nạp mỗi ngày....\"\n    },\n    {\n      \"id\": 7,\n      \"image\": \"https://api-news.vba.vn/storage/images/1696931611_post%20web%202.jpg\",\n      \"title\": \"Vì sao bữa sáng là bữa quan trọng nhất trong ngày?\",\n      \"createdAt\": \"2023-10-10T16:10:00.000Z\",\n      \"updatedAt\": \"2023-10-10T16:10:00.000Z\",\n      \"description\": \"Theo nhiều nghiên cứu về sức khỏe, bữa sáng là thời điểm bạn cung cấp cho cơ thể những nguồn năng lượng & dưỡng chất cho hầu hết các hoạt động sẽ diễn ra trong ngày; hay nói cách khác, bữa sáng chiếm 15% - 25% tổng năng lượng bạn cần nạp mỗi ngày....\"\n    },\n    {\n      \"id\": 8,\n      \"image\": \"https://api-news.vba.vn/storage/images/1696931611_post%20web%202.jpg\",\n      \"title\": \"Vì sao bữa sáng là bữa quan trọng nhất trong ngày?\",\n      \"createdAt\": \"2023-10-10T16:10:00.000Z\",\n      \"updatedAt\": \"2023-10-10T16:10:00.000Z\",\n      \"description\": \"Theo nhiều nghiên cứu về sức khỏe, bữa sáng là thời điểm bạn cung cấp cho cơ thể những nguồn năng lượng & dưỡng chất cho hầu hết các hoạt động sẽ diễn ra trong ngày; hay nói cách khác, bữa sáng chiếm 15% - 25% tổng năng lượng bạn cần nạp mỗi ngày....\"\n    },\n    {\n      \"id\": 9,\n      \"image\": \"https://api-news.vba.vn/storage/images/1696931611_post%20web%202.jpg\",\n      \"title\": \"Vì sao bữa sáng là bữa quan trọng nhất trong ngày?\",\n      \"createdAt\": \"2023-10-10T16:10:00.000Z\",\n      \"updatedAt\": \"2023-10-10T16:10:00.000Z\",\n      \"description\": \"Theo nhiều nghiên cứu về sức khỏe, bữa sáng là thời điểm bạn cung cấp cho cơ thể những nguồn năng lượng & dưỡng chất cho hầu hết các hoạt động sẽ diễn ra trong ngày; hay nói cách khác, bữa sáng chiếm 15% - 25% tổng năng lượng bạn cần nạp mỗi ngày....\"\n    },\n    {\n      \"id\": 10,\n      \"image\": \"https://api-news.vba.vn/storage/images/1696931611_post%20web%202.jpg\",\n      \"title\": \"Vì sao bữa sáng là bữa quan trọng nhất trong ngày?\",\n      \"createdAt\": \"2023-10-10T16:10:00.000Z\",\n      \"updatedAt\": \"2023-10-10T16:10:00.000Z\",\n      \"description\": \"Theo nhiều nghiên cứu về sức khỏe, bữa sáng là thời điểm bạn cung cấp cho cơ thể những nguồn năng lượng & dưỡng chất cho hầu hết các hoạt động sẽ diễn ra trong ngày; hay nói cách khác, bữa sáng chiếm 15% - 25% tổng năng lượng bạn cần nạp mỗi ngày....\"\n    },\n    {\n      \"id\": 11,\n      \"image\": \"https://api-news.vba.vn/storage/images/1696931611_post%20web%202.jpg\",\n      \"title\": \"Vì sao bữa sáng là bữa quan trọng nhất trong ngày?\",\n      \"createdAt\": \"2023-10-10T16:10:00.000Z\",\n      \"updatedAt\": \"2023-10-10T16:10:00.000Z\",\n      \"description\": \"Theo nhiều nghiên cứu về sức khỏe, bữa sáng là thời điểm bạn cung cấp cho cơ thể những nguồn năng lượng & dưỡng chất cho hầu hết các hoạt động sẽ diễn ra trong ngày; hay nói cách khác, bữa sáng chiếm 15% - 25% tổng năng lượng bạn cần nạp mỗi ngày....\"\n    },\n    {\n      \"id\": 12,\n      \"image\": \"https://api-news.vba.vn/storage/images/1696931611_post%20web%202.jpg\",\n      \"title\": \"Vì sao bữa sáng là bữa quan trọng nhất trong ngày?\",\n      \"createdAt\": \"2023-10-10T16:10:00.000Z\",\n      \"updatedAt\": \"2023-10-10T16:10:00.000Z\",\n      \"description\": \"Theo nhiều nghiên cứu về sức khỏe, bữa sáng là thời điểm bạn cung cấp cho cơ thể những nguồn năng lượng & dưỡng chất cho hầu hết các hoạt động sẽ diễn ra trong ngày; hay nói cách khác, bữa sáng chiếm 15% - 25% tổng năng lượng bạn cần nạp mỗi ngày....\"\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "c53b6246-fbbe-4962-b3a6-b256e1d6cbd2",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "news/top",
+      "responses": [
+        {
+          "uuid": "67446c7f-a92f-43b0-bef5-f51b476033d5",
+          "body": "{\n  \"data\": [\n    {\n      \"id\": 1,\n      \"image\": \"https://api-news.vba.vn/storage/images/1696931611_post%20web%202.jpg\",\n      \"title\": \"Vì sao bữa sáng là bữa quan trọng nhất trong ngày? Vì sao bữa sáng là bữa quan trọng nhất trong ngày?\",\n      \"createdAt\": \"2023-10-10T16:10:00.000Z\",\n      \"updatedAt\": \"2023-10-10T16:10:00.000Z\",\n      \"description\": \"Theo nhiều nghiên cứu về sức khỏe, bữa sáng là thời điểm bạn cung cấp cho cơ thể những nguồn năng lượng & dưỡng chất cho hầu hết các hoạt động sẽ diễn ra trong ngày; hay nói cách khác, bữa sáng chiếm 15% - 25% tổng năng lượng bạn cần nạp mỗi ngày....\"\n    },\n    {\n      \"id\": 2,\n      \"image\": \"https://api-news.vba.vn/storage/images/1696931611_post%20web%202.jpg\",\n      \"title\": \"Vì sao bữa sáng\",\n      \"createdAt\": \"2023-10-10T16:10:00.000Z\",\n      \"updatedAt\": \"2023-10-10T16:10:00.000Z\",\n      \"description\": \"Theo nhiều nghiên cứu về sức khỏe, bữa sáng là thời điểm bạn cung cấp cho cơ thể những nguồn năng lượng & dưỡng chất cho hầu hết các hoạt động sẽ diễn ra trong ngày; hay nói cách khác, bữa sáng chiếm 15% - 25% tổng năng lượng bạn cần nạp mỗi ngày....\"\n    },\n    {\n      \"id\": 3,\n      \"image\": \"https://api-news.vba.vn/storage/images/1696931611_post%20web%202.jpg\",\n      \"title\": \"Vì sao bữa sáng là bữa quan trọng nhất trong ngày?\",\n      \"createdAt\": \"2023-10-10T16:10:00.000Z\",\n      \"updatedAt\": \"2023-10-10T16:10:00.000Z\",\n      \"description\": \"Theo nhiều nghiên cứu về sức khỏe, bữa sáng là thời điểm bạn cung cấp cho cơ thể những nguồn năng lượng & dưỡng chất cho hầu hết các hoạt động sẽ diễn ra trong ngày; hay nói cách khác, bữa sáng chiếm 15% - 25% tổng năng lượng bạn cần nạp mỗi ngày....\"\n    },\n    {\n      \"id\": 4,\n      \"image\": \"https://api-news.vba.vn/storage/images/1696931611_post%20web%202.jpg\",\n      \"title\": \"Vì sao bữa sáng là bữa quan trọng nhất trong ngày?\",\n      \"createdAt\": \"2023-10-10T16:10:00.000Z\",\n      \"updatedAt\": \"2023-10-10T16:10:00.000Z\",\n      \"description\": \"Theo nhiều nghiên cứu về sức khỏe, bữa sáng là thời điểm bạn cung cấp cho cơ thể những nguồn năng lượng & dưỡng chất cho hầu hết các hoạt động sẽ diễn ra trong ngày; hay nói cách khác, bữa sáng chiếm 15% - 25% tổng năng lượng bạn cần nạp mỗi ngày....\"\n    },\n    {\n      \"id\": 5,\n      \"image\": \"https://api-news.vba.vn/storage/images/1696931611_post%20web%202.jpg\",\n      \"title\": \"Vì sao bữa sáng là bữa quan trọng nhất trong ngày?\",\n      \"createdAt\": \"2023-10-10T16:10:00.000Z\",\n      \"updatedAt\": \"2023-10-10T16:10:00.000Z\",\n      \"description\": \"Theo nhiều nghiên cứu về sức khỏe, bữa sáng là thời điểm bạn cung cấp cho cơ thể những nguồn năng lượng & dưỡng chất cho hầu hết các hoạt động sẽ diễn ra trong ngày; hay nói cách khác, bữa sáng chiếm 15% - 25% tổng năng lượng bạn cần nạp mỗi ngày....\"\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "e378a6ed-4b98-4e75-bd3d-12a0d37d7a71",
+      "type": "http",
+      "documentation": "",
+      "method": "post",
+      "endpoint": "auth/login",
+      "responses": [
+        {
+          "uuid": "1694ea6a-eec0-4ec5-840f-d6e0933aadb3",
+          "body": "{\n    \"user\": {\n        \"email\": \"admin@gmail.com\",\n        \"name\": \"Admin\",\n        \"image\": null\n    },\n    \"accessToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjUsImVtYWlsIjoidHJpMkBnbWFpbC5jb20iLCJpYXQiOjE3MDkyMDI3OTEsImV4cCI6MTcwOTIwNDU5MX0.KoFs8t8LHY7vh_EvVzPsd4zH8G7Rl4clUfrTV89WLM0\",\n    \"refreshToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjUsImVtYWlsIjoidHJpMkBnbWFpbC5jb20iLCJpYXQiOjE3MDkyMDI3OTEsImV4cCI6MTcwOTI4OTE5MX0.1pmiPsmWACwuSpvw38Z_qfibr4Gq4NdyWLWBA_PayuU\"\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "body",
+              "modifier": "email",
+              "value": "admin@gmail.com",
+              "invert": false,
+              "operator": "equals"
+            },
+            {
+              "target": "body",
+              "modifier": "password",
+              "value": "Admin123",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "e391a368-a065-42e1-9846-1b71e35ccd43",
+      "type": "http",
+      "documentation": "",
+      "method": "post",
+      "endpoint": "auth/signup",
+      "responses": [
+        {
+          "uuid": "a1e9377e-5b0d-42a3-bf90-17ba5191f84a",
+          "body": "{\n  \n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "75ce5858-7399-4f3d-b152-bff889f95e26",
+      "type": "http",
+      "documentation": "",
+      "method": "post",
+      "endpoint": "groups/invite",
+      "responses": [
+        {
+          "uuid": "9c5cc7a0-8694-42b8-8447-e5e28a0fa216",
+          "body": "{}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    }
+  ],
+  "rootChildren": [
+    {
+      "type": "folder",
+      "uuid": "59e1867d-5175-4d53-a44c-0bb9de3e9a73"
+    },
+    {
+      "type": "folder",
+      "uuid": "8ba65c63-4fab-4f9e-80f8-aa6899ed6fec"
+    },
+    {
+      "type": "folder",
+      "uuid": "8fff93ce-be50-439c-91e2-ae85b592acbb"
+    }
+  ],
+  "proxyMode": false,
+  "proxyHost": "",
+  "proxyRemovePrefix": false,
+  "tlsOptions": {
+    "enabled": false,
+    "type": "CERT",
+    "pfxPath": "",
+    "certPath": "",
+    "keyPath": "",
+    "caPath": "",
+    "passphrase": ""
+  },
+  "cors": true,
+  "headers": [
+    {
+      "key": "Content-Type",
+      "value": "application/json"
+    },
+    {
+      "key": "Access-Control-Allow-Origin",
+      "value": "*"
+    },
+    {
+      "key": "Access-Control-Allow-Methods",
+      "value": "GET,POST,PUT,PATCH,DELETE,HEAD,OPTIONS"
+    },
+    {
+      "key": "Access-Control-Allow-Headers",
+      "value": "Content-Type, Origin, Accept, Authorization, Content-Length, X-Requested-With"
+    }
+  ],
+  "proxyReqHeaders": [
+    {
+      "key": "",
+      "value": ""
+    }
+  ],
+  "proxyResHeaders": [
+    {
+      "key": "",
+      "value": ""
+    }
+  ],
+  "data": [],
+  "callbacks": []
+}

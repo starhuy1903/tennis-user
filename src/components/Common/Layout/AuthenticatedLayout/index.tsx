@@ -47,6 +47,7 @@ const AuthenticatedLayout = () => {
           height: `calc(100dvh - 10px - ${theme.layout.headerHeight})`,
           marginTop: '10px',
           overflow: 'auto',
+          scrollbarGutter: 'stable',
           ...ScrollbarStyle,
         }}
       >

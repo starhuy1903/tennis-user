@@ -1,5 +1,4 @@
 import Paper from '@mui/material/Paper';
-import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Unstable_Grid2';
 
 import Pack from './Pack';
@@ -7,12 +6,6 @@ import Pack from './Pack';
 const PacksSection = () => {
   return (
     <Paper sx={{ padding: '20px' }}>
-      <Typography
-        variant="h1"
-        mb="10px"
-      >
-        My packs
-      </Typography>
       <Grid
         container
         spacing={2}

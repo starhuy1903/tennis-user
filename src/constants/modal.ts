@@ -1,3 +1,4 @@
 export enum ModalKey {
   HELLO_WORLD = 'HELLO_WORLD',
+  INVITE_INTO_GROUP = 'INVITE_INTO_GROUP',
 }
