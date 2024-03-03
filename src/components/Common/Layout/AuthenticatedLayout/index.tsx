@@ -1,3 +1,4 @@
+import LinkButton from '@/components/Common/LinkButton';
 import Logo from '@/components/Common/Logo';
 import { ScrollbarStyle } from '@/utils/style';
 import AppBar from '@mui/material/AppBar';
@@ -31,6 +32,11 @@ const AuthenticatedLayout = () => {
             <Logo sx={{ height: '100%' }} />
             <Box sx={{ flex: 1 }} />
             <Box sx={{ display: 'flex', columnGap: '5px' }}>
+              <LinkButton to="/">Home</LinkButton>
+              <LinkButton to="/pricing">Pricing</LinkButton>
+              <LinkButton to="/news">News</LinkButton>
+              <LinkButton to="/about">About</LinkButton>
+              <LinkButton to="/contact">Contact</LinkButton>
               <NotificationMenu />
               <MessageMenu />
             </Box>
