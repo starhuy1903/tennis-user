@@ -1,9 +1,10 @@
-import CustomSelect from '@/components/Common/Input/CustomSelect';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import MenuItem from '@mui/material/MenuItem';
 import { useId } from 'react';
 import { Control, Controller } from 'react-hook-form';
+
+import CustomSelect from 'components/Common/Input/CustomSelect';
 
 interface ControlledSelectProps<T extends number | string> {
   control: Control<any>;

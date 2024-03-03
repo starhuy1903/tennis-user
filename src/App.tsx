@@ -1,13 +1,13 @@
-import GroupCreate from '@/components/Authenticated/GroupCreate';
-import Profile from '@/components/Authenticated/Profile';
-import AuthenticatedLayout from '@/components/Common/Layout/AuthenticatedLayout';
 import { useEffect } from 'react';
 import { Navigate, RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { useAppSelector } from 'store';
 
 import AffiliateSponsor from 'components/Authenticated/AffiliateSponsor';
+import GroupCreate from 'components/Authenticated/GroupCreate';
 import GroupDetail from 'components/Authenticated/GroupDetail';
+import Profile from 'components/Authenticated/Profile';
 import CenterLoading from 'components/Common/CenterLoading';
+import AuthenticatedLayout from 'components/Common/Layout/AuthenticatedLayout';
 import PageLayout from 'components/Common/Layout/PageLayout';
 import Home from 'components/Home';
 import Login from 'components/Unauthenticated/Login';
@@ -50,7 +50,7 @@ const protectedRoutes = createBrowserRouter([
       },
       {
         path: 'profile',
-        element: <Profile activeTab="feeds"/>,
+        element: <Profile activeTab="feeds" />,
       },
       {
         path: 'profile/feeds',

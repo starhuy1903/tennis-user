@@ -18,7 +18,7 @@ const CustomLink = styled(Link)(() => ({
   padding: '6px 16px',
 }));
 
-const LinkButton = ({ to, children, linkOptions, buttonProps }: LinkButtonProps) => {
+const LinkButton: React.FC<LinkButtonProps> = ({ to, children, linkOptions, buttonProps }) => {
   return (
     <Button
       {...buttonProps}

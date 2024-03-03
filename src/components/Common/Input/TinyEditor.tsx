@@ -1,8 +1,8 @@
 import { Box, Skeleton } from '@mui/material';
 import { Editor } from '@tinymce/tinymce-react';
+import { configs } from 'configurations';
 import { useRef, useState } from 'react';
 import { Editor as TinyMCEEditor } from 'tinymce';
-import { configs } from '@/configurations';
 
 interface TinyEditorProps {
   name?: string;
@@ -56,14 +56,16 @@ export default function TinyEditor({
             'bold italic backcolor | alignleft aligncenter ' +
             'alignright alignjustify | bullist numlist outdent indent | ' +
             'removeformat | help',
-          content_style:
-            'body { font-family:"Roboto","Helvetica","Arial",sans-serif; font-size:14px }',
-            
+          content_style: 'body { font-family:"Roboto","Helvetica","Arial",sans-serif; font-size:14px }',
         }}
         disabled={disabled}
       />
       {!editorMounted && (
-        <Skeleton variant="rectangular" width="100%" height={height} />
+        <Skeleton
+          variant="rectangular"
+          width="100%"
+          height={height}
+        />
       )}
     </Box>
   );

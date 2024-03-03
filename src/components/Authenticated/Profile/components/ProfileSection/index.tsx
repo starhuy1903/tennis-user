@@ -1,9 +1,10 @@
-import LinkButton from '@/components/Common/LinkButton';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { useTheme } from '@mui/material/styles';
+
+import LinkButton from 'components/Common/LinkButton';
 
 import Avatar from './Avatar';
 

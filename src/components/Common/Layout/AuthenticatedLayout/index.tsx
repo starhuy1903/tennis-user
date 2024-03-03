@@ -1,12 +1,13 @@
-import LinkButton from '@/components/Common/LinkButton';
-import Logo from '@/components/Common/Logo';
-import { ScrollbarStyle } from '@/utils/style';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Toolbar from '@mui/material/Toolbar';
 import { useTheme } from '@mui/material/styles';
 import { Outlet } from 'react-router-dom';
+
+import LinkButton from 'components/Common/LinkButton';
+import Logo from 'components/Common/Logo';
+import { ScrollbarStyle } from 'utils/style';
 
 import AvatarMenu from './AvatarMenu';
 import MessageMenu from './MessageMenu';

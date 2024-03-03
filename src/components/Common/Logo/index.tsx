@@ -1,6 +1,7 @@
-import logo from '@/assets/images/app-logo.png';
 import { Box, BoxProps } from '@mui/material';
 import { Link } from 'react-router-dom';
+
+import logo from 'assets/images/app-logo.png';
 
 function Logo(props: BoxProps) {
   return (

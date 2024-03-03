@@ -1,6 +1,3 @@
-import ControlledSelect from '@/components/Common/Input/ControlledSelect';
-import ControlledTextField from '@/components/Common/Input/ControlledTextField';
-import ControlledTinyEditor from '@/components/Common/Input/ControlledTinyEditor';
 import { yupResolver } from '@hookform/resolvers/yup';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -10,6 +7,10 @@ import Grid from '@mui/material/Unstable_Grid2';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
+
+import ControlledSelect from 'components/Common/Input/ControlledSelect';
+import ControlledTextField from 'components/Common/Input/ControlledTextField';
+import ControlledTinyEditor from 'components/Common/Input/ControlledTinyEditor';
 
 interface FormData {
   name: string;
