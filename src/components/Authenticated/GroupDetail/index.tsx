@@ -43,6 +43,7 @@ export default function GroupDetail() {
         >
           {GroupTabs.map((tab) => (
             <Tab
+              key={tab.index}
               label={tab.label}
               {...a11yProps(tab.index)}
             />
@@ -51,6 +52,7 @@ export default function GroupDetail() {
       </Box>
       {GroupTabs.map((tab) => (
         <TabPanel
+          key={tab.index}
           value={currentTab}
           index={tab.index}
         >

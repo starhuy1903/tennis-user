@@ -1,38 +1,83 @@
+// import Box from '@mui/material/Box';
+// import PacksSection from './components/PacksSection';
+// import ProfileSection from './components/ProfileSection';
+// const Profile = () => {
+//   return (
+//     <>
+//       <ProfileSection />
+//       <Box sx={{ marginTop: '15px' }}>
+//         <PacksSection />
+//       </Box>
+//     </>
+//   );
+// };
+// export default Profile;
 import { Box, Tab, Tabs, Typography } from '@mui/material';
-import { useState } from 'react';
+import { ReactNode, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import TabPanel from 'components/Common/TabPanel';
 import { a11yProps } from 'utils/ui';
 
-import AccountSettings from './AccountSettings';
+import AccountSettings from './components/AccountSettings';
+import PacksSection from './components/PacksSection';
+import ProfileSection from './components/ProfileSection';
 
-const ProfileTabs = [
+type ProfileTabName = 'feeds' | 'packages' | 'payments' | 'settings';
+
+const ProfileTabs: Array<{
+  index: number;
+  label: string;
+  component: ReactNode;
+  tabName: ProfileTabName;
+}> = [
   {
     index: 0,
     label: 'Feeds',
     component: <Typography>Feeds</Typography>,
+    tabName: 'feeds',
   },
   {
     index: 1,
-    label: 'Payments',
-    component: <Typography>Payments</Typography>,
+    label: 'Packages',
+    component: <PacksSection />,
+    tabName: 'packages',
   },
   {
     index: 2,
+    label: 'Payments',
+    component: <Typography>Payments</Typography>,
+    tabName: 'payments',
+  },
+  {
+    index: 3,
     label: 'Account Settings',
     component: <AccountSettings />,
+    tabName: 'settings',
   },
 ];
 
-export default function Profile() {
-  const [currentTab, setCurrentTab] = useState(ProfileTabs[0].index);
+interface ProfileProps {
+  activeTab?: ProfileTabName;
+}
+
+export default function Profile({ activeTab = 'feeds' }: ProfileProps) {
+  const [currentTab, setCurrentTab] = useState(
+    ProfileTabs.find((e) => e.tabName === activeTab)?.index || ProfileTabs[0].index,
+  );
+
+  console.log(currentTab);
+
+  const navigate = useNavigate();
 
   const handleChange = (_: React.SyntheticEvent, newValue: number) => {
+    navigate(`/profile/${ProfileTabs.find((e) => e.index === newValue)?.tabName || ProfileTabs[0].tabName}`);
     setCurrentTab(newValue);
   };
 
   return (
     <Box sx={{ width: '100%' }}>
+      <ProfileSection />
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs
           value={currentTab}

@@ -4,6 +4,7 @@ import prodConfigs from './prod';
 
 export interface EnvConfig {
   apiUrl: string;
+  tinyMceEditor: string;
   oauthClientID: string;
   oauthClientSecret: string;
   vnpUrl: string;

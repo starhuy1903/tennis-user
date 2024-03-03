@@ -16,6 +16,16 @@ declare module '@mui/material/styles' {
 }
 
 const defaultTheme = createTheme({
+  typography: {
+    h1: {
+      fontSize: '1.5rem',
+      fontWeight: 400,
+    },
+    h2: {
+      fontSize: '1.2rem',
+      fontWeight: 400,
+    },
+  },
   palette: {
     primary: {
       main: '#7F56D9',
@@ -23,7 +33,8 @@ const defaultTheme = createTheme({
       dark: '#53389E',
     },
     background: {
-      default: '#F4F4F4',
+      paper: '#F4F4F4',
+      default: '#F7F7F7',
     },
     text: {
       primary: '#333333',
@@ -31,7 +42,7 @@ const defaultTheme = createTheme({
     },
   },
   layout: {
-    headerHeight: '80px',
+    headerHeight: '70px',
     drawerWidth: '260px',
   },
 });
