@@ -10,38 +10,42 @@ import { showModal } from 'store/slice/modalSlice';
 
 import MemberItems, { MemberItemsData } from './MemberItems';
 
+const members: Array<MemberItemsData> = [
+  {
+    id: '1',
+    name: 'Member 1',
+    avatar:
+      'https://www.google.com/url?sa=i&url=http%3A%2F%2Fwww.bing.com%2Fimages%2Fcreate%3Fform%3DFLPGEN%26qft%3D%2Bfilterui%253Aimagesize-large%2Bfilterui%253Acolor2-FGcls_WHITE%2Bfilterui%253Alicense-L2_L3_L4%2Bfilterui%253Aage-lt525600%26cw%3D1177%26ch%3D1024&psig=AOvVaw0WV-84nD0cr4WXcgrfJ2zP&ust=1709656553909000&source=images&cd=vfe&opi=89978449&ved=0CBMQjRxqFwoTCLCos46F24QDFQAAAAAdAAAAABAR',
+    joinAt: 'Fri, 01 Mar 2024 17:42:41 GMT',
+  },
+  {
+    id: '2',
+    name: 'Member 2',
+    bio: 'This is a bio',
+    joinAt: 'Sat, 02 Mar 2024 17:42:41 GMT',
+  },
+];
+
 export default function Member() {
   const dispatch = useAppDispatch();
   const confirm = useConfirm();
+  const [expand, setExpand] = useState<string | null>(null);
+  const [searchValue, setSearchValue] = useState<string>('');
+  const debouncedSearchValue = useDebounce(searchValue, 2000);
 
   const handleInvite = () => {
     dispatch(showModal(ModalKey.INVITE_INTO_GROUP));
   };
 
-  const [expand, setExpand] = useState<string | null>(null);
-
-  const handleExpandChange = (id: string) => (event: React.SyntheticEvent, newExpanded: boolean) => {
+  const handleExpandChange = (id: string) => (_: React.SyntheticEvent, newExpanded: boolean) => {
     setExpand(newExpanded ? id : null);
   };
 
-  const members: Array<MemberItemsData> = [
-    {
-      id: '1',
-      name: 'Member 1',
-      avatar:
-        'https://www.google.com/url?sa=i&url=http%3A%2F%2Fwww.bing.com%2Fimages%2Fcreate%3Fform%3DFLPGEN%26qft%3D%2Bfilterui%253Aimagesize-large%2Bfilterui%253Acolor2-FGcls_WHITE%2Bfilterui%253Alicense-L2_L3_L4%2Bfilterui%253Aage-lt525600%26cw%3D1177%26ch%3D1024&psig=AOvVaw0WV-84nD0cr4WXcgrfJ2zP&ust=1709656553909000&source=images&cd=vfe&opi=89978449&ved=0CBMQjRxqFwoTCLCos46F24QDFQAAAAAdAAAAABAR',
-      joinAt: 'Fri, 01 Mar 2024 17:42:41 GMT',
-    },
-    {
-      id: '2',
-      name: 'Member 2',
-      bio: 'This is a bio',
-      joinAt: 'Sat, 02 Mar 2024 17:42:41 GMT',
-    },
-  ];
-
-  const [searchValue, setSearchValue] = useState<string>('');
-  const debouncedSearchValue = useDebounce(searchValue, 2000);
+  const handleRemoveMember = (id: string, name: string) => {
+    confirm({ description: `This action will remove ${name} from this group.` })
+      .then(() => {})
+      .catch(() => {});
+  };
 
   useEffect(() => {
     if (debouncedSearchValue.length >= 3) {
@@ -52,12 +56,6 @@ export default function Member() {
       fetchSearchResult();
     }
   }, [debouncedSearchValue]);
-
-  const handleRemoveMember = (id: string, name: string) => {
-    confirm({ description: `This action will remove ${name} from this group.` })
-      .then(() => {})
-      .catch(() => {});
-  };
 
   return (
     <Box sx={{ height: '100%', overflow: 'hidden' }}>
