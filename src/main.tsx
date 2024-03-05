@@ -5,6 +5,7 @@ import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 import CssBaseline from '@mui/material/CssBaseline';
 import { ThemeProvider } from '@mui/material/styles';
+import { ConfirmProvider } from 'material-ui-confirm';
 import { StrictMode } from 'react';
 import * as ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
@@ -24,8 +25,10 @@ root.render(
         <CssBaseline />
         <CustomToaster />
         <ModalContainer />
-        <App />
+        <ConfirmProvider>
+          <App />
+        </ConfirmProvider>
       </ThemeProvider>
     </Provider>
-  </StrictMode>
+  </StrictMode>,
 );
