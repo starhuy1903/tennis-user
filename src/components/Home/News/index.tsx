@@ -56,7 +56,7 @@ export default function News() {
               <Box
                 sx={{
                   position: 'relative',
-                  height: '280px',
+                  height: '250px',
                 }}
               >
                 <img

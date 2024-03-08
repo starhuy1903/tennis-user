@@ -8,7 +8,7 @@ import GroupDetail from 'components/Authenticated/GroupDetail';
 import Profile from 'components/Authenticated/Profile';
 import CenterLoading from 'components/Common/CenterLoading';
 import AuthenticatedLayout from 'components/Common/Layout/AuthenticatedLayout';
-import PageLayout from 'components/Common/Layout/PageLayout';
+import UnauthenticatedLayout from 'components/Common/Layout/UnauthenticatedLayout';
 import Home from 'components/Home';
 import Login from 'components/Unauthenticated/Login';
 import News from 'components/Unauthenticated/News';
@@ -87,7 +87,7 @@ const protectedRoutes = createBrowserRouter([
 const publicRoutes = createBrowserRouter([
   {
     path: '/',
-    element: <PageLayout />,
+    element: <UnauthenticatedLayout />,
     children: [
       ...sharedRoutes,
       {

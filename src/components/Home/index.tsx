@@ -23,7 +23,6 @@ export default function Home() {
         display: 'flex',
         flexDirection: 'column',
         gap: '20px',
-        padding: '20px',
       }}
     >
       <Box>
