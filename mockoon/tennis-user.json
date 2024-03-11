@@ -32,6 +32,10 @@
         {
           "type": "route",
           "uuid": "e391a368-a065-42e1-9846-1b71e35ccd43"
+        },
+        {
+          "type": "route",
+          "uuid": "c8e793a8-77e4-40f0-a8a1-36eaaa5866cc"
         }
       ]
     },
@@ -145,6 +149,40 @@
           "default": true,
           "crudKey": "id",
           "callbacks": []
+        },
+        {
+          "uuid": "65f6c47b-6880-49bf-b65b-13b48564ea3e",
+          "body": "{\n  \"message\": \"Wrong email or password\",\n  \"error\": \"Unauthorized\",\n  \"statusCode\": 401\n}",
+          "latency": 0,
+          "statusCode": 401,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "body",
+              "modifier": "email",
+              "value": "admin@gmail.com",
+              "invert": true,
+              "operator": "equals"
+            },
+            {
+              "target": "body",
+              "modifier": "password",
+              "value": "Admin123",
+              "invert": true,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
         }
       ],
       "responseMode": null
@@ -197,6 +235,43 @@
           "databucketID": "",
           "sendFileAsBody": false,
           "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "c8e793a8-77e4-40f0-a8a1-36eaaa5866cc",
+      "type": "http",
+      "documentation": "",
+      "method": "post",
+      "endpoint": "auth/logout",
+      "responses": [
+        {
+          "uuid": "a0cb09b6-7310-418b-ab75-cb701e20781b",
+          "body": "{}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "header",
+              "modifier": "Authorization",
+              "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjUsImVtYWlsIjoidHJpMkBnbWFpbC5jb20iLCJpYXQiOjE3MDkyMDI3OTEsImV4cCI6MTcwOTIwNDU5MX0.KoFs8t8LHY7vh_EvVzPsd4zH8G7Rl4clUfrTV89WLM0",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
           "rulesOperator": "OR",
           "disableTemplating": false,
           "fallbackTo404": false,

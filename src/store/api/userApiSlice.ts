@@ -5,7 +5,6 @@ import {
   ForgotPasswordPayload,
   ForgotPasswordResponse,
   LoginResponse,
-  LogoutPayload,
   MessageResponse,
   OAuthPayload,
   ResetPasswordPayload,
@@ -101,7 +100,7 @@ const userApiToastSlice = apiWithToastSlice.injectEndpoints({
 
 const userApiSlice = apiSlice.injectEndpoints({
   endpoints: (build) => ({
-    logout: build.mutation<MessageResponse, LogoutPayload>({
+    logout: build.mutation<MessageResponse, void>({
       query: (body) => ({
         url: 'auth/logout',
         method: 'POST',

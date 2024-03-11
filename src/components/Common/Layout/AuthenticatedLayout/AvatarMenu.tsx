@@ -9,11 +9,15 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import MenuList from '@mui/material/MenuList';
 import Typography from '@mui/material/Typography';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAppSelector } from 'store';
+import { useAppDispatch, useAppSelector } from 'store';
+
+import { useLogoutMutation } from 'store/api/userApiSlice';
+import { logOut } from 'store/slice/userSlice';
 
 const AvatarMenu = () => {
+  const dispatch = useAppDispatch();
   const userState = useAppSelector((state) => state.user);
   const navigate = useNavigate();
 
@@ -25,6 +29,15 @@ const AvatarMenu = () => {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+
+  const [logoutRequest] = useLogoutMutation();
+
+  const handleLogout = useCallback(async () => {
+    await logoutRequest();
+    dispatch(logOut());
+    navigate('/');
+  }, [dispatch, logoutRequest, navigate]);
+
   return (
     <>
       <IconButton
@@ -76,7 +89,7 @@ const AvatarMenu = () => {
               <Typography>My profile</Typography>
             </ListItemText>
           </MenuItem>
-          <MenuItem>
+          <MenuItem onClick={handleLogout}>
             <ListItemIcon>
               <LogoutIcon />
             </ListItemIcon>
