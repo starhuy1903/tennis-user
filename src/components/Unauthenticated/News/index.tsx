@@ -1,4 +1,4 @@
-import { Box, Card, CardActionArea, CardContent, CardMedia, Container, Grid, Typography } from '@mui/material';
+import { Box, Card, CardActionArea, CardContent, CardMedia, Container, Grid, Stack, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
@@ -11,8 +11,8 @@ import { formatDateTime } from 'utils/datetime';
 import { limitString } from 'utils/string';
 
 const breadcrumbs = [
-  { title: 'Home', to: '/' },
-  { title: 'News', to: '/news' },
+  { title: 'Home', to: '/', active: true },
+  { title: 'News', to: '/news', active: false },
 ];
 
 export default function News() {
@@ -43,12 +43,14 @@ export default function News() {
   }
 
   return (
-    <>
-      <Typography variant="h4">News</Typography>
+    <Stack
+      direction="column"
+      gap={2}
+      mt={2}
+    >
+      <BreadCrumb breadcrumbs={breadcrumbs}></BreadCrumb>
 
-      <Box sx={{ my: 2 }}>
-        <BreadCrumb breadcrumbs={breadcrumbs}></BreadCrumb>
-      </Box>
+      <Typography variant="h4">News</Typography>
 
       <Grid
         container
@@ -96,6 +98,6 @@ export default function News() {
           </Grid>
         ))}
       </Grid>
-    </>
+    </Stack>
   );
 }
