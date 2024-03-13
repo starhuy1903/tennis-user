@@ -2,15 +2,12 @@ import { DevTool } from '@hookform/devtools';
 import { Box, Button, FormControl, FormHelperText, FormLabel, TextField } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { useAppDispatch } from 'store';
 
-import { useChangePasswordMutation, useLogoutMutation } from 'store/api/userApiSlice';
-import { logOut } from 'store/slice/userSlice';
+import { useChangePasswordMutation } from 'store/api/userApiSlice';
 import { ChangePasswordPayload } from 'types/user';
 import { showSuccess } from 'utils/toast';
 
 export default function ChangePassword() {
-  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const {
@@ -26,19 +23,11 @@ export default function ChangePassword() {
 
   const [changePassword, { isLoading }] = useChangePasswordMutation();
 
-  const [logoutRequest] = useLogoutMutation();
-
   const onSubmit = async (data: ChangePasswordPayload) => {
     await changePassword(data).unwrap();
 
     showSuccess('Change password successfully. Log out in 3 seconds');
-
-    // Logout after 3 seconds
-    setTimeout(async () => {
-      await logoutRequest();
-      dispatch(logOut());
-      navigate('/');
-    }, 3000);
+    navigate('/profile');
   };
 
   return (
@@ -129,7 +118,7 @@ export default function ChangePassword() {
         Change password
       </Button>
 
-      <DevTool control={control} />
+      {/* <DevTool control={control} /> */}
     </Box>
   );
 }
