@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Navigate, RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { useAppSelector } from 'store';
 
@@ -109,14 +109,18 @@ const publicRoutes = createBrowserRouter([
 function App() {
   const isLoggedIn = useAppSelector((state) => state.user.isLoggedIn);
   const [getProfile, { isLoading }] = useLazyGetProfileQuery();
+  const [initialized, setInitialized] = useState(false);
 
   useEffect(() => {
-    if (isLoggedIn) {
-      getProfile();
-    }
+    (async () => {
+      if (isLoggedIn) {
+        await getProfile().unwrap();
+      }
+      setInitialized(true);
+    })();
   }, [isLoggedIn, getProfile]);
 
-  if (isLoading) {
+  if (isLoading || !initialized) {
     return <CenterLoading />;
   }
 
