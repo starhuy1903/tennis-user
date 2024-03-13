@@ -62,10 +62,10 @@ const paymentURL = `${configs.vnpUrl}?${new URLSearchParams(paymentParams).toStr
 
 export default function Pricing() {
   return (
-    <Container maxWidth="lg">
+    <Box>
       <Typography
         variant="h4"
-        marginBottom={2}
+        marginY={2}
         textAlign="center"
         fontWeight="bold"
       >
@@ -84,7 +84,8 @@ export default function Pricing() {
       <Grid
         container
         justifyContent="center"
-        gap={4}
+        mt={4}
+        gap={6}
       >
         {packages.map((item, index) => (
           <Grid
@@ -171,6 +172,6 @@ export default function Pricing() {
           </Grid>
         ))}
       </Grid>
-    </Container>
+    </Box>
   );
 }

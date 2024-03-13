@@ -182,11 +182,11 @@ export default function Signup() {
               fullWidth
               error={!!formError.confirmPassword}
             >
-              <FormLabel htmlFor="confirmPassword">Confirm Password</FormLabel>
+              <FormLabel htmlFor="confirmPassword">Confirm password</FormLabel>
               <TextField
                 {...register('confirmPassword', {
                   required: 'Confirm password is required!',
-                  validate: (value) => value === formValue.password || 'The confirm password do not match',
+                  validate: (value) => value === formValue.password || `Password confirmation doesn't match!`,
                 })}
                 id="confirmPassword"
                 type="password"

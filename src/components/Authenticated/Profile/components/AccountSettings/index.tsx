@@ -4,6 +4,8 @@ import { useState } from 'react';
 import TabPanel from 'components/Common/TabPanel';
 import { a11yProps } from 'utils/ui';
 
+import ChangePassword from './ChangePassword';
+
 const AccountSettingTabs = [
   {
     index: 0,
@@ -13,7 +15,7 @@ const AccountSettingTabs = [
   {
     index: 1,
     label: 'Change Password',
-    component: <Typography>Change Password</Typography>,
+    component: <ChangePassword />,
   },
 ];
 
@@ -25,7 +27,7 @@ export default function AccountSettings() {
   };
 
   return (
-    <Box sx={{ flexGrow: 1, bgcolor: 'background.paper', display: 'flex', height: 224 }}>
+    <Box sx={{ flexGrow: 1, bgcolor: 'background.paper', display: 'flex', height: 500 }}>
       <Tabs
         orientation="vertical"
         value={currentTab}

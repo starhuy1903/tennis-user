@@ -32,6 +32,10 @@
         {
           "type": "route",
           "uuid": "e391a368-a065-42e1-9846-1b71e35ccd43"
+        },
+        {
+          "type": "route",
+          "uuid": "767c6d18-10e1-41be-8d2a-b6c33d8e76c6"
         }
       ]
     },
@@ -187,6 +191,35 @@
       "responses": [
         {
           "uuid": "9c5cc7a0-8694-42b8-8447-e5e28a0fa216",
+          "body": "{}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "767c6d18-10e1-41be-8d2a-b6c33d8e76c6",
+      "type": "http",
+      "documentation": "",
+      "method": "post",
+      "endpoint": "auth/change-password",
+      "responses": [
+        {
+          "uuid": "8cdc1cf6-ec7c-47fa-a191-09828df64453",
           "body": "{}",
           "latency": 0,
           "statusCode": 200,

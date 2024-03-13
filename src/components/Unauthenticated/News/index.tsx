@@ -43,7 +43,7 @@ export default function News() {
   }
 
   return (
-    <Container maxWidth="lg">
+    <>
       <Typography variant="h4">News</Typography>
 
       <Box sx={{ my: 2 }}>
@@ -96,6 +96,6 @@ export default function News() {
           </Grid>
         ))}
       </Grid>
-    </Container>
+    </>
   );
 }
