@@ -63,10 +63,8 @@ interface ProfileProps {
 
 export default function Profile({ activeTab = 'feeds' }: ProfileProps) {
   const [currentTab, setCurrentTab] = useState(
-    ProfileTabs.find((e) => e.tabName === activeTab)?.index || ProfileTabs[0].index,
+    ProfileTabs.find((e) => e.tabName === activeTab)?.index || ProfileTabs[0].index
   );
-
-  console.log(currentTab);
 
   const navigate = useNavigate();
 

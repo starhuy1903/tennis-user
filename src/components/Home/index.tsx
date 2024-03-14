@@ -47,10 +47,12 @@ export default function Home() {
         </Box>
         <News />
       </Box>
-      <Box>
-        <Typography variant="h4">My Group</Typography>
-        <MyGroup />
-      </Box>
+      {isLoggedIn && (
+        <Box>
+          <Typography variant="h4">My Group</Typography>
+          <MyGroup />
+        </Box>
+      )}
     </Box>
   );
 }
