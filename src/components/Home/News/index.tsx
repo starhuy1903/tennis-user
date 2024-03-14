@@ -75,7 +75,7 @@ export default function News() {
                     left: 0,
                     width: '100%',
                     height: '100%',
-                    background: 'linear-gradient(to bottom, transparent, transparent, rgba(0, 0, 0, 0.8))',
+                    background: 'linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.8))',
                     borderRadius: '10px',
                     display: 'flex',
                     alignItems: 'flex-end',
@@ -86,7 +86,7 @@ export default function News() {
                     component="div"
                     textAlign="justify"
                     color="white"
-                    padding="20px 30px"
+                    padding="20px"
                   >
                     {limitString(item.title, 18)}
                   </Typography>
