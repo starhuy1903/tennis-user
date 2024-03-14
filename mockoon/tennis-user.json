@@ -36,6 +36,10 @@
         {
           "type": "route",
           "uuid": "767c6d18-10e1-41be-8d2a-b6c33d8e76c6"
+        },
+        {
+          "type": "route",
+          "uuid": "f4ad9e96-6e07-46c2-8014-ed90749433b5"
         }
       ]
     },
@@ -46,6 +50,14 @@
         {
           "type": "route",
           "uuid": "75ce5858-7399-4f3d-b152-bff889f95e26"
+        },
+        {
+          "type": "route",
+          "uuid": "599d5924-7c98-4bc6-900b-80813f4212e6"
+        },
+        {
+          "type": "route",
+          "uuid": "6b3bbe44-e756-4c19-a1e2-647a157874ba"
         }
       ]
     }
@@ -221,6 +233,93 @@
         {
           "uuid": "8cdc1cf6-ec7c-47fa-a191-09828df64453",
           "body": "{}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "599d5924-7c98-4bc6-900b-80813f4212e6",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "groups",
+      "responses": [
+        {
+          "uuid": "6e9fe359-79e9-469e-a5bb-f73289ba00a5",
+          "body": "[\n  {\n    \"id\": 1,\n    \"name\": \"Huy's group\",\n    \"description\": \"description\",\n    \"status\": \"active\",\n    \"adminId\": 1,\n    \"packageId\": 1,\n    \"startDate\": \"2024-03-10T08:00:00\",\n    \"endDate\": \"2024-04-01T07:59:59\"\n  },\n  {\n    \"id\": 2,\n    \"name\": \"Khai's group\",\n    \"description\": \"abc\",\n    \"status\": \"inactive\",\n    \"adminId\": 1,\n    \"packageId\": 2,\n    \"startDate\": null,\n    \"endDate\": null\n  }\n]",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "6b3bbe44-e756-4c19-a1e2-647a157874ba",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "groups/*",
+      "responses": [
+        {
+          "uuid": "4c526526-db33-41da-b4a8-cdc1c749f694",
+          "body": "{\n  \"id\": 1,\n  \"name\": \"Huy's group\",\n  \"description\": \"description\",\n  \"status\": \"active\",\n  \"adminId\": 1,\n  \"packageId\": 1,\n  \"startDate\": \"2024-03-10T08:00:00\",\n  \"endDate\": \"2024-04-01T07:59:59\"\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "f4ad9e96-6e07-46c2-8014-ed90749433b5",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "users/me",
+      "responses": [
+        {
+          "uuid": "f0d5ea8f-f88c-4e63-a437-7846dec15d2c",
+          "body": "{\n  \"id\": 1,\n  \"email\": \"huy@gmail.com\",\n  \"firstName\": \"Huy\",\n  \"lastName\": \"Nguyen\",\n  \"dob\": \"19/03/2002\",\n  \"phoneNumber\": \"0123456789\"\n}",
           "latency": 0,
           "statusCode": 200,
           "label": "",

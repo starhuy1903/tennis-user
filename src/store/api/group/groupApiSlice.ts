@@ -1,4 +1,4 @@
-import { InvitationPayload } from 'types/group';
+import { Group, InvitationPayload } from 'types/group';
 
 import { apiWithToastSlice } from '../baseApiSlice';
 
@@ -11,7 +11,10 @@ const groupApiToastSlice = apiWithToastSlice.injectEndpoints({
         body,
       }),
     }),
+    getMyGroups: build.query<Group[], void>({
+      query: () => 'groups',
+    }),
   }),
 });
 
-export const { useAddMemberMutation } = groupApiToastSlice;
+export const { useAddMemberMutation, useGetMyGroupsQuery, useLazyGetMyGroupsQuery } = groupApiToastSlice;
