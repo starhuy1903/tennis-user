@@ -16,7 +16,18 @@ const newsApiSlice = apiSlice.injectEndpoints({
       }),
       transformResponse: (response: { data: News[] }) => response.data,
     }),
+    getNewsById: build.query<News, string>({
+      query: (id) => `/news/${id}`,
+      transformResponse: (response: { data: News }) => response.data,
+    }),
   }),
 });
 
-export const { useGetNewsQuery, useLazyGetNewsQuery, useGetTopNewsQuery, useLazyGetTopNewsQuery } = newsApiSlice;
+export const {
+  useGetNewsQuery,
+  useGetTopNewsQuery,
+  useGetNewsByIdQuery,
+  useLazyGetNewsQuery,
+  useLazyGetTopNewsQuery,
+  useLazyGetNewsByIdQuery,
+} = newsApiSlice;

@@ -8,39 +8,41 @@ export default function BreadCrumb({
   breadcrumbs: {
     title: string;
     to: string;
+    active: boolean;
   }[];
 }) {
-  const items = breadcrumbs.map((item, index) => {
-    if (index < breadcrumbs.length - 1) {
-      return (
-        <Link
-          key={index}
-          to={item.to}
-          style={{
-            color: 'gray',
-          }}
-          className="breadcrumb-link"
-        >
-          {item.title}
-        </Link>
-      );
-    }
-    return (
-      <Typography
-        key={index}
-        color="text.primary"
-      >
-        {item.title}
-      </Typography>
-    );
-  });
-
   return (
     <Breadcrumbs
       separator={<NavigateNextIcon fontSize="small" />}
       aria-label="breadcrumb"
     >
-      {items}
+      {breadcrumbs.map((item, index) => {
+        if (item.active) {
+          return (
+            <Link
+              key={index}
+              to={item.to}
+              style={{
+                color: 'gray',
+                fontWeight: 500,
+              }}
+              className="breadcrumb-link"
+            >
+              {item.title}
+            </Link>
+          );
+        } else {
+          return (
+            <Typography
+              key={index}
+              color="text.primary"
+              fontWeight={500}
+            >
+              {item.title}
+            </Typography>
+          );
+        }
+      })}
     </Breadcrumbs>
   );
 }
