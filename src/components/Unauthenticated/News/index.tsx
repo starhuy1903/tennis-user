@@ -1,4 +1,4 @@
-import { Box, Card, CardActionArea, CardContent, CardMedia, Container, Grid, Stack, Typography } from '@mui/material';
+import { Card, CardActionArea, CardContent, CardMedia, Grid, Stack, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 

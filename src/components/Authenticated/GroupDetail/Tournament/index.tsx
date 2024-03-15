@@ -1,102 +1,56 @@
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import WorkspacePremiumIcon from '@mui/icons-material/WorkspacePremium';
 import { Box, Button, Stack, Typography } from '@mui/material';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { Gender, ParticipantType, TournamentFormat, TournamentStatus } from 'types/tournament';
+import CenterLoading from 'components/Common/CenterLoading';
+import { useLazyGetTournamentsQuery } from 'store/api/group/tournamentApiSlice';
+import { Tournament, TournamentStatus } from 'types/tournament';
 
 import TournamentList from './TournamentList';
-
-const upcomingTournaments = [
-  {
-    id: 1,
-    groupId: 1,
-    name: '2022 PAC-12 Championships',
-    slot: 50,
-    participants: 20,
-    gender: Gender.MALE,
-    format: TournamentFormat.ROUND_ROBIN,
-    participantType: ParticipantType.SINGLE,
-    isPublic: false,
-    image:
-      'https://xs.pac-12.com/styles/crop_16_9_large_1x/s3/2022-04/Tennis%20Social%20Sizes_1920x1080-optimized.jpg?itok=WjlYagbf',
-    description: 'This is a description of tournament 1',
-    ageLimit: 18,
-    registrationDueDate: '2024-03-15T23:59:59',
-    startDate: '2024-03-20T23:59:59',
-    endDate: '2024-03-25T23:59:59',
-    status: TournamentStatus.UPCOMING,
-    address: '123 Main St',
-    contactName: 'John Doe',
-    contactNumber: '123-456-7890',
-    contactEmail: 'john@gmail.com',
-    createdAt: '2024-03-10T23:59:59',
-    updatedAt: '2024-03-10T23:59:59',
-  },
-];
-
-const onGoingTournaments = [
-  {
-    id: 1,
-    groupId: 1,
-    name: '2022 PAC-12 Championships',
-    slot: 50,
-    participants: 20,
-    gender: Gender.MALE,
-    format: TournamentFormat.ROUND_ROBIN,
-    participantType: ParticipantType.SINGLE,
-    isPublic: false,
-    image:
-      'https://xs.pac-12.com/styles/crop_16_9_large_1x/s3/2022-04/Tennis%20Social%20Sizes_1920x1080-optimized.jpg?itok=WjlYagbf',
-    description: 'This is a description of tournament 1',
-    ageLimit: 18,
-    registrationDueDate: '2024-03-15T23:59:59',
-    startDate: '2024-03-20T23:59:59',
-    endDate: '2024-03-25T23:59:59',
-    status: TournamentStatus.ON_GOING,
-    address: '123 Main St',
-    contactName: 'John Doe',
-    contactNumber: '123-456-7890',
-    contactEmail: 'john@gmail.com',
-    createdAt: '2024-03-10T23:59:59',
-    updatedAt: '2024-03-10T23:59:59',
-  },
-];
-
-const completedTournaments = [
-  {
-    id: 1,
-    groupId: 1,
-    name: '2022 PAC-12 Championships',
-    slot: 50,
-    participants: 20,
-    gender: Gender.MALE,
-    format: TournamentFormat.ROUND_ROBIN,
-    participantType: ParticipantType.SINGLE,
-    isPublic: false,
-    image:
-      'https://xs.pac-12.com/styles/crop_16_9_large_1x/s3/2022-04/Tennis%20Social%20Sizes_1920x1080-optimized.jpg?itok=WjlYagbf',
-    description: 'This is a description of tournament 1',
-    ageLimit: 18,
-    registrationDueDate: '2023-03-15T23:59:59',
-    startDate: '2023-03-20T23:59:59',
-    endDate: '2023-03-25T23:59:59',
-    status: TournamentStatus.COMPLETED,
-    address: '123 Main St',
-    contactName: 'John Doe',
-    contactNumber: '123-456-7890',
-    contactEmail: 'john@gmail.com',
-    createdAt: '2023-03-10T23:59:59',
-    updatedAt: '2023-03-10T23:59:59',
-  },
-];
 
 export default function Tournaments() {
   const navigate = useNavigate();
 
+  const [tournaments, setTournaments] = useState<{
+    upcoming: Tournament[];
+    onGoing: Tournament[];
+    completed: Tournament[];
+  }>({
+    upcoming: [],
+    onGoing: [],
+    completed: [],
+  });
+
+  const [getTournaments, { isLoading }] = useLazyGetTournamentsQuery();
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const responses = await Promise.all([
+          getTournaments({ groupId: 1, tournamentStatus: TournamentStatus.UPCOMING }).unwrap(),
+          getTournaments({ groupId: 1, tournamentStatus: TournamentStatus.ON_GOING }).unwrap(),
+          getTournaments({ groupId: 1, tournamentStatus: TournamentStatus.COMPLETED }).unwrap(),
+        ]);
+        setTournaments({
+          upcoming: responses[0],
+          onGoing: responses[1],
+          completed: responses[2],
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    })();
+  }, [getTournaments]);
+
   const handleCreateTournament = () => {
     navigate('tournaments/create');
   };
+
+  if (isLoading) {
+    return <CenterLoading height="10vh" />;
+  }
 
   return (
     <Stack gap={4}>
@@ -117,7 +71,7 @@ export default function Tournaments() {
           </Typography>
         </Stack>
 
-        <TournamentList tournaments={upcomingTournaments} />
+        <TournamentList tournaments={tournaments.upcoming} />
       </Box>
 
       <Box>
@@ -135,7 +89,7 @@ export default function Tournaments() {
           </Typography>
         </Stack>
 
-        <TournamentList tournaments={onGoingTournaments} />
+        <TournamentList tournaments={tournaments.onGoing} />
       </Box>
 
       <Box>
@@ -153,7 +107,7 @@ export default function Tournaments() {
           </Typography>
         </Stack>
 
-        <TournamentList tournaments={completedTournaments} />
+        <TournamentList tournaments={tournaments.completed} />
       </Box>
     </Stack>
   );

@@ -6,10 +6,15 @@ import PublicIcon from '@mui/icons-material/Public';
 import { Box, Button, Card, CardActionArea, CardContent, CardMedia, Tooltip, Typography } from '@mui/material';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
+import NoData from 'components/Common/NoData';
 import { Tournament, TournamentStatus } from 'types/tournament';
 import { displayDateRange, displayDayLeft } from 'utils/datetime';
 
 export default function TournamentList({ tournaments }: { tournaments: Tournament[] }) {
+  if (tournaments.length === 0) {
+    return <NoData />;
+  }
+
   return (
     <Box>
       <Swiper
