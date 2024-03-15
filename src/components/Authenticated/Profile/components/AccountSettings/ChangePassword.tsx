@@ -34,6 +34,7 @@ export default function ChangePassword() {
         display: 'flex',
         flexDirection: 'column',
         gap: 2,
+        width: 300,
       }}
     >
       <FormControl error={!!errors.oldPassword}>

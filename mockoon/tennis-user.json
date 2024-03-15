@@ -18,6 +18,10 @@
         {
           "type": "route",
           "uuid": "c53b6246-fbbe-4962-b3a6-b256e1d6cbd2"
+        },
+        {
+          "type": "route",
+          "uuid": "8ec90965-2a8a-4e6e-a360-d57a9d2f5bc9"
         }
       ]
     },
@@ -58,6 +62,16 @@
         {
           "type": "route",
           "uuid": "6b3bbe44-e756-4c19-a1e2-647a157874ba"
+        }
+      ]
+    },
+    {
+      "uuid": "488e60ae-61d7-442d-a054-94dd5b82cc0b",
+      "name": "Tournaments",
+      "children": [
+        {
+          "type": "route",
+          "uuid": "a644a9b7-b0eb-458a-8b67-c5d740e56e10"
         }
       ]
     }
@@ -232,7 +246,7 @@
       "responses": [
         {
           "uuid": "8cdc1cf6-ec7c-47fa-a191-09828df64453",
-          "body": "{}",
+          "body": "{\n  \"msg\": \"success\",\n  \"data\": null\n}",
           "latency": 0,
           "statusCode": 200,
           "label": "",
@@ -241,11 +255,114 @@
           "filePath": "",
           "databucketID": "",
           "sendFileAsBody": false,
-          "rules": [],
-          "rulesOperator": "OR",
+          "rules": [
+            {
+              "target": "body",
+              "modifier": "oldPassword",
+              "value": "Admin123",
+              "invert": false,
+              "operator": "equals"
+            },
+            {
+              "target": "body",
+              "modifier": "newPassword",
+              "value": "Admin123",
+              "invert": true,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "AND",
           "disableTemplating": false,
           "fallbackTo404": false,
           "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "3342ea0e-3f09-4ab9-99e2-a4b365dabe2d",
+          "body": "{\n  \"message\": \"Old password is incorrect\",\n  \"error\": \"Unauthorized\",\n  \"statusCode\": 401\n}",
+          "latency": 0,
+          "statusCode": 401,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "body",
+              "modifier": "oldPassword",
+              "value": "Admin123",
+              "invert": true,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "ac2480e1-eefd-42c9-b290-565b440e7848",
+          "body": "{\n    \"message\": \"New password must be different from old password\",\n    \"error\": \"Bad Request\",\n    \"statusCode\": 400\n}",
+          "latency": 0,
+          "statusCode": 400,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "body",
+              "modifier": "oldPassword",
+              "value": "Admin123",
+              "invert": false,
+              "operator": "equals"
+            },
+            {
+              "target": "body",
+              "modifier": "newPassword",
+              "value": "Admin123",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "3b56d6a8-8306-4bda-afd4-abe4dec26061",
+          "body": "{\n    \"message\": \"Unauthorized\",\n    \"statusCode\": 401\n}",
+          "latency": 0,
+          "statusCode": 401,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "header",
+              "modifier": "Authorization",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjUsImVtYWlsIjoidHJpMkBnbWFpbC5jb20iLCJpYXQiOjE3MDkyMDI3OTEsImV4cCI6MTcwOTIwNDU5MX0.KoFs8t8LHY7vh_EvVzPsd4zH8G7Rl4clUfrTV89WLM0",
+              "invert": true,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
           "crudKey": "id",
           "callbacks": []
         }
@@ -338,6 +455,145 @@
         }
       ],
       "responseMode": null
+    },
+    {
+      "uuid": "8ec90965-2a8a-4e6e-a360-d57a9d2f5bc9",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "news/*",
+      "responses": [
+        {
+          "uuid": "d77ba4ed-0303-40d1-87ea-7ccd51341a4a",
+          "body": "{\n  \"message\": \"success\",\n  \"data\": {\n    \"id\": 6,\n    \"image\": \"https://images.tennis.com/image/private/t_16-9_1920/f_auto/tenniscom-prd/og0nctu8u3xxsz8mbwe2.jpg\",\n    \"title\": \"15-0: SINNER STAYS PERFECT IN 2024\",\n    \"description\": \"The Australian Open champ surged into the BNP Paribas Open quarterfinals.\",\n    \"content\": \"Ben Shelton gave Jannik Sinner all kinds of trouble in the first set of their fourth-round encounter at Indian Wells on Tuesday night, but in the end the Italian kept his perfect start to the year intact, improving to 15-0 in 2024 with a 7-6 (4), 6-1 victory over the American to reach the quarterfinals of the Masters 1000 event.\\n\\nThe two had split their only two previous career meetings last fall, with Shelton winning at the Masters 1000 event in Shanghai and Sinner getting revenge at the ATP 500 stop in Vienna.\\n\\n“I knew that obviously playing against him there’s not so much rhythm, but I think I can be really proud about how I played,” Sinner said afterwards. “It was also a little bit windy, which is not making anything much easier, but I just tried to stay positive.\\n\\n“There were tough moments, especially in the first set, and I’m really happy that I won that. Then I obviously started really positive in the second set, which gave me a lot of confidence.”\\n\\nIn addition to going 15-0 this year—7-0 to win the Australian Open, 5-0 to win Rotterdam and now 3-0 so far at Indian Wells—Sinner also won his last three matches of 2023, which means his overall winning streak is now up to 18 in a row. It's the longest tour-level winning streak for an Italian man in the Open Era.\\n\\nAnd there’s more: Sinner’s victory over Shelton on Tuesday night was the 150th hard-court win of his career. The 22-year-old is the first man born in the 2000s to reach that milestone.\\n\\nSinner was the first to draw blood in tennis paradise on Tuesday night, breaking for 3-2—he would hang onto that break until he served for the set at 5-4, and even brought up a set point at 40-30. That’s when Shelton came alive, not only fighting off that set point but breaking back a few points later to tie it up at 5-all, then digging himself out of a 0-40 hole to hold for 6-5.\\n\\nSinner held to take the set to a tie-break, and the momentum shifts kept coming—first Sinner was up a double mini-break at 4-1, then Shelton got both mini-breaks back to tie it up at 4-all.\\n\\nBut from that moment on the Italian grabbed total control of the match, reeling off the last three points in a row to clinch the 68-minute first set and then cruising through the second set in just 30 minutes. And the numbers told the story: Sinner finished the match with 17 winners to just 11 unforced errors, while Shelton had 14 winners to 35 unforced errors by the end of the encounter.\\n\\nAwaiting the No. 3-seeded Sinner in the quarterfinals will be No. 32-seeded Jiri Lehecka, who followed up his third-round upset over No. 5 seed Andrey Rublev with a 6-2, 6-4 victory over No. 11 seed Stefanos Tsitsipas in the fourth round earlier on Tuesday.\\n\\nThis will be Sinner and Lehecka’s first tour-level meeting. They played once before at a Challenger on clay in Ostrava, Czech Republic in 2019, with Sinner winning, 6-4, 6-2. The Italian was ranked No. 298 at the time, while the Czech wasn’t even ranked.\",\n    \"author\": \"John Berkok\",\n    \"createdAt\": \"2024-03-13T13:50:42.239Z\",\n    \"updatedAt\": \"2024-03-13T13:50:42.239Z\"\n  }\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "a644a9b7-b0eb-458a-8b67-c5d740e56e10",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "tournaments/groups/*",
+      "responses": [
+        {
+          "uuid": "56b58481-d647-48ea-9512-048410f43c11",
+          "body": "{\n  \"data\": [\n    {\n      \"id\": 1,\n      \"groupId\": 1,\n      \"name\": \"2022 PAC-12 Championships\",\n      \"slot\": 50,\n      \"participants\": 20,\n      \"gender\": \"male\",\n      \"format\": \"round_robin\",\n      \"participantType\": \"single\",\n      \"isPublic\": false,\n      \"image\": \"https://xs.pac-12.com/styles/crop_16_9_large_1x/s3/2022-04/Tennis%20Social%20Sizes_1920x1080-optimized.jpg?itok=WjlYagbf\",\n      \"description\": \"This is a description of tournament 1\",\n      \"ageLimit\": 18,\n      \"registrationDueDate\": \"2024-03-15T23:59:59\",\n      \"startDate\": \"2024-03-20T23:59:59\",\n      \"endDate\": \"2024-03-25T23:59:59\",\n      \"status\": \"upcoming\",\n      \"address\": \"123 Main St\",\n      \"contactName\": \"John Doe\",\n      \"contactNumber\": \"123-456-7890\",\n      \"contactEmail\": \"john@gmail.com\",\n      \"createdAt\": \"2024-03-10T23:59:59\",\n      \"updatedAt\": \"2024-03-10T23:59:59\"\n    },\n    {\n      \"id\": 2,\n      \"groupId\": 1,\n      \"name\": \"2022 PAC-12 Championships\",\n      \"slot\": 50,\n      \"participants\": 20,\n      \"gender\": \"male\",\n      \"format\": \"round_robin\",\n      \"participantType\": \"single\",\n      \"isPublic\": false,\n      \"image\": \"https://xs.pac-12.com/styles/crop_16_9_large_1x/s3/2022-04/Tennis%20Social%20Sizes_1920x1080-optimized.jpg?itok=WjlYagbf\",\n      \"description\": \"This is a description of tournament 1\",\n      \"ageLimit\": 18,\n      \"registrationDueDate\": \"2024-03-15T23:59:59\",\n      \"startDate\": \"2024-03-20T23:59:59\",\n      \"endDate\": \"2024-03-25T23:59:59\",\n      \"status\": \"upcoming\",\n      \"address\": \"123 Main St\",\n      \"contactName\": \"John Doe\",\n      \"contactNumber\": \"123-456-7890\",\n      \"contactEmail\": \"john@gmail.com\",\n      \"createdAt\": \"2024-03-10T23:59:59\",\n      \"updatedAt\": \"2024-03-10T23:59:59\"\n    },\n    {\n      \"id\": 3,\n      \"groupId\": 1,\n      \"name\": \"2022 PAC-12 Championships\",\n      \"slot\": 50,\n      \"participants\": 20,\n      \"gender\": \"male\",\n      \"format\": \"round_robin\",\n      \"participantType\": \"single\",\n      \"isPublic\": false,\n      \"image\": \"https://xs.pac-12.com/styles/crop_16_9_large_1x/s3/2022-04/Tennis%20Social%20Sizes_1920x1080-optimized.jpg?itok=WjlYagbf\",\n      \"description\": \"This is a description of tournament 1\",\n      \"ageLimit\": 18,\n      \"registrationDueDate\": \"2024-03-15T23:59:59\",\n      \"startDate\": \"2024-03-20T23:59:59\",\n      \"endDate\": \"2024-03-25T23:59:59\",\n      \"status\": \"upcoming\",\n      \"address\": \"123 Main St\",\n      \"contactName\": \"John Doe\",\n      \"contactNumber\": \"123-456-7890\",\n      \"contactEmail\": \"john@gmail.com\",\n      \"createdAt\": \"2024-03-10T23:59:59\",\n      \"updatedAt\": \"2024-03-10T23:59:59\"\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "1137fa75-5e72-4b8f-bfe6-22d13cf362ad",
+          "body": "{\n  \"data\": [\n    {\n      \"id\": 1,\n      \"groupId\": 1,\n      \"name\": \"2022 PAC-12 Championships\",\n      \"slot\": 50,\n      \"participants\": 20,\n      \"gender\": \"male\",\n      \"format\": \"round_robin\",\n      \"participantType\": \"single\",\n      \"isPublic\": true,\n      \"image\": \"https://xs.pac-12.com/styles/crop_16_9_large_1x/s3/2022-04/Tennis%20Social%20Sizes_1920x1080-optimized.jpg?itok=WjlYagbf\",\n      \"description\": \"This is a description of tournament 1\",\n      \"ageLimit\": 18,\n      \"registrationDueDate\": \"2024-03-18T23:59:59\",\n      \"startDate\": \"2024-03-20T23:59:59\",\n      \"endDate\": \"2024-03-25T23:59:59\",\n      \"status\": \"upcoming\",\n      \"address\": \"123 Main St\",\n      \"contactName\": \"John Doe\",\n      \"contactNumber\": \"123-456-7890\",\n      \"contactEmail\": \"john@gmail.com\",\n      \"createdAt\": \"2024-03-10T23:59:59\",\n      \"updatedAt\": \"2024-03-10T23:59:59\"\n    },\n    {\n      \"id\": 2,\n      \"groupId\": 1,\n      \"name\": \"2022 PAC-12 Championships\",\n      \"slot\": 50,\n      \"participants\": 20,\n      \"gender\": \"male\",\n      \"format\": \"round_robin\",\n      \"participantType\": \"single\",\n      \"isPublic\": false,\n      \"image\": \"https://xs.pac-12.com/styles/crop_16_9_large_1x/s3/2022-04/Tennis%20Social%20Sizes_1920x1080-optimized.jpg?itok=WjlYagbf\",\n      \"description\": \"This is a description of tournament 1\",\n      \"ageLimit\": 18,\n      \"registrationDueDate\": \"2024-04-15T23:59:59\",\n      \"startDate\": \"2024-04-20T23:59:59\",\n      \"endDate\": \"2024-04-25T23:59:59\",\n      \"status\": \"upcoming\",\n      \"address\": \"123 Main St\",\n      \"contactName\": \"John Doe\",\n      \"contactNumber\": \"123-456-7890\",\n      \"contactEmail\": \"john@gmail.com\",\n      \"createdAt\": \"2024-03-10T23:59:59\",\n      \"updatedAt\": \"2024-03-10T23:59:59\"\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "query",
+              "modifier": "status",
+              "value": "upcoming",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "535e20c8-a203-4b6e-9de8-384da270e18e",
+          "body": "{\n  \"data\": [\n    {\n      \"id\": 1,\n      \"groupId\": 1,\n      \"name\": \"2022 PAC-12 Championships\",\n      \"slot\": 50,\n      \"participants\": 20,\n      \"gender\": \"male\",\n      \"format\": \"round_robin\",\n      \"participantType\": \"single\",\n      \"isPublic\": false,\n      \"image\": \"https://xs.pac-12.com/styles/crop_16_9_large_1x/s3/2022-04/Tennis%20Social%20Sizes_1920x1080-optimized.jpg?itok=WjlYagbf\",\n      \"description\": \"This is a description of tournament 1\",\n      \"ageLimit\": 18,\n      \"registrationDueDate\": \"2024-03-15T23:59:59\",\n      \"startDate\": \"2024-03-20T23:59:59\",\n      \"endDate\": \"2024-03-25T23:59:59\",\n      \"status\": \"on_going\",\n      \"address\": \"123 Main St\",\n      \"contactName\": \"John Doe\",\n      \"contactNumber\": \"123-456-7890\",\n      \"contactEmail\": \"john@gmail.com\",\n      \"createdAt\": \"2024-03-10T23:59:59\",\n      \"updatedAt\": \"2024-03-10T23:59:59\"\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "query",
+              "modifier": "status",
+              "value": "on_going",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "ba65182b-ae30-4dc3-b836-bbd0e8b6c7e4",
+          "body": "{\n  \"data\": [\n    {\n      \"id\": 1,\n      \"groupId\": 1,\n      \"name\": \"2022 PAC-12 Championships\",\n      \"slot\": 50,\n      \"participants\": 20,\n      \"gender\": \"male\",\n      \"format\": \"round_robin\",\n      \"participantType\": \"single\",\n      \"isPublic\": false,\n      \"image\": \"https://xs.pac-12.com/styles/crop_16_9_large_1x/s3/2022-04/Tennis%20Social%20Sizes_1920x1080-optimized.jpg?itok=WjlYagbf\",\n      \"description\": \"This is a description of tournament 1\",\n      \"ageLimit\": 18,\n      \"registrationDueDate\": \"2024-03-15T23:59:59\",\n      \"startDate\": \"2024-03-20T23:59:59\",\n      \"endDate\": \"2024-03-25T23:59:59\",\n      \"status\": \"completed\",\n      \"address\": \"123 Main St\",\n      \"contactName\": \"John Doe\",\n      \"contactNumber\": \"123-456-7890\",\n      \"contactEmail\": \"john@gmail.com\",\n      \"createdAt\": \"2024-03-10T23:59:59\",\n      \"updatedAt\": \"2024-03-10T23:59:59\"\n    },\n    {\n      \"id\": 2,\n      \"groupId\": 1,\n      \"name\": \"2022 PAC-12 Championships\",\n      \"slot\": 50,\n      \"participants\": 20,\n      \"gender\": \"male\",\n      \"format\": \"round_robin\",\n      \"participantType\": \"single\",\n      \"isPublic\": false,\n      \"image\": \"https://xs.pac-12.com/styles/crop_16_9_large_1x/s3/2022-04/Tennis%20Social%20Sizes_1920x1080-optimized.jpg?itok=WjlYagbf\",\n      \"description\": \"This is a description of tournament 1\",\n      \"ageLimit\": 18,\n      \"registrationDueDate\": \"2024-03-15T23:59:59\",\n      \"startDate\": \"2024-03-20T23:59:59\",\n      \"endDate\": \"2024-03-25T23:59:59\",\n      \"status\": \"completed\",\n      \"address\": \"123 Main St\",\n      \"contactName\": \"John Doe\",\n      \"contactNumber\": \"123-456-7890\",\n      \"contactEmail\": \"john@gmail.com\",\n      \"createdAt\": \"2024-03-10T23:59:59\",\n      \"updatedAt\": \"2024-03-10T23:59:59\"\n    },\n    {\n      \"id\": 3,\n      \"groupId\": 1,\n      \"name\": \"2022 PAC-12 Championships\",\n      \"slot\": 50,\n      \"participants\": 20,\n      \"gender\": \"male\",\n      \"format\": \"round_robin\",\n      \"participantType\": \"single\",\n      \"isPublic\": false,\n      \"image\": \"https://xs.pac-12.com/styles/crop_16_9_large_1x/s3/2022-04/Tennis%20Social%20Sizes_1920x1080-optimized.jpg?itok=WjlYagbf\",\n      \"description\": \"This is a description of tournament 1\",\n      \"ageLimit\": 18,\n      \"registrationDueDate\": \"2024-03-15T23:59:59\",\n      \"startDate\": \"2024-03-20T23:59:59\",\n      \"endDate\": \"2024-03-25T23:59:59\",\n      \"status\": \"completed\",\n      \"address\": \"123 Main St\",\n      \"contactName\": \"John Doe\",\n      \"contactNumber\": \"123-456-7890\",\n      \"contactEmail\": \"john@gmail.com\",\n      \"createdAt\": \"2024-03-10T23:59:59\",\n      \"updatedAt\": \"2024-03-10T23:59:59\"\n    },\n        {\n      \"id\": 4,\n      \"groupId\": 1,\n      \"name\": \"2022 PAC-12 Championships\",\n      \"slot\": 50,\n      \"participants\": 20,\n      \"gender\": \"male\",\n      \"format\": \"round_robin\",\n      \"participantType\": \"single\",\n      \"isPublic\": false,\n      \"image\": \"https://xs.pac-12.com/styles/crop_16_9_large_1x/s3/2022-04/Tennis%20Social%20Sizes_1920x1080-optimized.jpg?itok=WjlYagbf\",\n      \"description\": \"This is a description of tournament 1\",\n      \"ageLimit\": 18,\n      \"registrationDueDate\": \"2024-03-15T23:59:59\",\n      \"startDate\": \"2024-03-20T23:59:59\",\n      \"endDate\": \"2024-03-25T23:59:59\",\n      \"status\": \"completed\",\n      \"address\": \"123 Main St\",\n      \"contactName\": \"John Doe\",\n      \"contactNumber\": \"123-456-7890\",\n      \"contactEmail\": \"john@gmail.com\",\n      \"createdAt\": \"2024-03-10T23:59:59\",\n      \"updatedAt\": \"2024-03-10T23:59:59\"\n    },\n        {\n      \"id\": 5,\n      \"groupId\": 1,\n      \"name\": \"2022 PAC-12 Championships\",\n      \"slot\": 50,\n      \"participants\": 20,\n      \"gender\": \"male\",\n      \"format\": \"round_robin\",\n      \"participantType\": \"single\",\n      \"isPublic\": false,\n      \"image\": \"https://xs.pac-12.com/styles/crop_16_9_large_1x/s3/2022-04/Tennis%20Social%20Sizes_1920x1080-optimized.jpg?itok=WjlYagbf\",\n      \"description\": \"This is a description of tournament 1\",\n      \"ageLimit\": 18,\n      \"registrationDueDate\": \"2024-03-15T23:59:59\",\n      \"startDate\": \"2024-03-20T23:59:59\",\n      \"endDate\": \"2024-03-25T23:59:59\",\n      \"status\": \"completed\",\n      \"address\": \"123 Main St\",\n      \"contactName\": \"John Doe\",\n      \"contactNumber\": \"123-456-7890\",\n      \"contactEmail\": \"john@gmail.com\",\n      \"createdAt\": \"2024-03-10T23:59:59\",\n      \"updatedAt\": \"2024-03-10T23:59:59\"\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "query",
+              "modifier": "status",
+              "value": "completed",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
     }
   ],
   "rootChildren": [
@@ -352,6 +608,10 @@
     {
       "type": "folder",
       "uuid": "8fff93ce-be50-439c-91e2-ae85b592acbb"
+    },
+    {
+      "type": "folder",
+      "uuid": "488e60ae-61d7-442d-a054-94dd5b82cc0b"
     }
   ],
   "proxyMode": false,
