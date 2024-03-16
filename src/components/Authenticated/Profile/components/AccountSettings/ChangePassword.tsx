@@ -1,4 +1,3 @@
-import { DevTool } from '@hookform/devtools';
 import { Box, Button, FormControl, FormHelperText, FormLabel, TextField } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
@@ -13,7 +12,6 @@ export default function ChangePassword() {
   const {
     handleSubmit,
     register,
-    control,
     formState: { errors },
     watch,
   } = useForm<ChangePasswordPayload>({
@@ -26,7 +24,7 @@ export default function ChangePassword() {
   const onSubmit = async (data: ChangePasswordPayload) => {
     await changePassword(data).unwrap();
 
-    showSuccess('Change password successfully. Log out in 3 seconds');
+    showSuccess('Change password successfully');
     navigate('/profile');
   };
 
@@ -36,6 +34,7 @@ export default function ChangePassword() {
         display: 'flex',
         flexDirection: 'column',
         gap: 2,
+        width: 300,
       }}
     >
       <FormControl error={!!errors.oldPassword}>
