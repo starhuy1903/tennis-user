@@ -18,12 +18,12 @@ export const groupSlice = createSlice({
   name: 'group',
   initialState,
   reducers: {
-    setGroupInfo: (state, action: PayloadAction<Group>) => {
-      state = action.payload;
-    },
-    resetGroupInfo: (state) => {
-      state = initialState;
-    },
+    setGroupInfo: (_, action: PayloadAction<Group>) => ({
+      ...action.payload,
+    }),
+    resetGroupInfo: (_) => ({
+      ...initialState,
+    }),
   },
 });
 
