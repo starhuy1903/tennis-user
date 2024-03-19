@@ -3,6 +3,7 @@ import WorkspacePremiumIcon from '@mui/icons-material/WorkspacePremium';
 import { Box, Button, Stack, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAppSelector } from 'store';
 
 import CenterLoading from 'components/Common/CenterLoading';
 import { useLazyGetTournamentsQuery } from 'store/api/group/tournamentApiSlice';
@@ -11,7 +12,10 @@ import { Tournament, TournamentStatus } from 'types/tournament';
 import TournamentList from './TournamentList';
 
 export default function Tournaments() {
+  const groupInfo = useAppSelector((state) => state.group);
   const navigate = useNavigate();
+
+  console.log({ groupInfo });
 
   const [tournaments, setTournaments] = useState<{
     upcoming: Tournament[];

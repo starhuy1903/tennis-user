@@ -1,7 +1,12 @@
 import { Box, Tab, Tabs } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
+import { useAppDispatch } from 'store';
 
+import CenterLoading from 'components/Common/CenterLoading';
 import TabPanel from 'components/Common/TabPanel';
+import { useLazyGetGroupDetailsQuery } from 'store/api/group/groupApiSlice';
+import { resetGroupInfo, setGroupInfo } from 'store/slice/groupSlice';
 import { a11yProps } from 'utils/ui';
 
 import Feeds from './Feeds';
@@ -33,11 +38,42 @@ const GroupTabs = [
 ];
 
 export default function GroupDetail() {
-  const [currentTab, setCurrentTab] = useState(GroupTabs[0].index);
+  const navigate = useNavigate();
+  const { groupId } = useParams();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const dispatch = useAppDispatch();
+
+  const [getGroupDetails, { isLoading }] = useLazyGetGroupDetailsQuery();
+
+  const [currentTab, setCurrentTab] = useState(Number(searchParams.get('tab')) || GroupTabs[0].index);
 
   const handleChange = (_: React.SyntheticEvent, newValue: number) => {
     setCurrentTab(newValue);
+    setSearchParams({ tab: String(newValue) });
   };
+
+  useEffect(() => {
+    // fetch group details data
+    (async () => {
+      try {
+        if (groupId) {
+          const res = await getGroupDetails(Number(groupId)).unwrap();
+          dispatch(setGroupInfo(res));
+        } else {
+          dispatch(resetGroupInfo());
+          navigate('/');
+        }
+      } catch (error) {
+        dispatch(resetGroupInfo());
+        navigate('/');
+      }
+    })();
+  }, [groupId, getGroupDetails, navigate, dispatch]);
+
+  if (isLoading) {
+    return <CenterLoading />;
+  }
+
   return (
     <Box sx={{ width: '100%' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
