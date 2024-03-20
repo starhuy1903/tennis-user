@@ -2,7 +2,7 @@ import { Box, Button, Typography } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAppSelector } from 'store';
 
-import MyGroup from './MyGroup';
+import MyGroup from '../Authenticated/GroupService/MyGroup';
 import News from './News';
 
 export default function Home() {
@@ -47,12 +47,12 @@ export default function Home() {
         </Box>
         <News />
       </Box>
-      {isLoggedIn && (
+      {/* {isLoggedIn && (
         <Box>
           <Typography variant="h4">My Group</Typography>
           <MyGroup />
         </Box>
-      )}
+      )} */}
     </Box>
   );
 }

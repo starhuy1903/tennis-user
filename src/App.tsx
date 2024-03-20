@@ -3,8 +3,11 @@ import { Navigate, RouterProvider, createBrowserRouter } from 'react-router-dom'
 import { useAppSelector } from 'store';
 
 import AffiliateSponsor from 'components/Authenticated/AffiliateSponsor';
-import GroupCreate from 'components/Authenticated/GroupCreate';
-import GroupDetail from 'components/Authenticated/GroupDetail';
+import GroupService from 'components/Authenticated/GroupService';
+import GroupCreate from 'components/Authenticated/GroupService/GroupCreate';
+import GroupDetail from 'components/Authenticated/GroupService/GroupDetail';
+import GroupDetailLayout from 'components/Authenticated/GroupService/GroupDetail/GroupDetailLayout';
+import GroupLayout from 'components/Authenticated/GroupService/GroupLayout';
 import Profile from 'components/Authenticated/Profile';
 import CenterLoading from 'components/Common/CenterLoading';
 import AuthenticatedLayout from 'components/Common/Layout/AuthenticatedLayout';
@@ -45,10 +48,6 @@ const protectedRoutes = createBrowserRouter([
     children: [
       ...sharedRoutes,
       {
-        path: 'groups/:groupId',
-        element: <GroupDetail />,
-      },
-      {
         path: 'profile',
         element: <Profile activeTab="feeds" />,
       },
@@ -69,12 +68,32 @@ const protectedRoutes = createBrowserRouter([
         element: <Profile activeTab="settings" />,
       },
       {
-        path: 'groups/:id/create',
-        element: <GroupCreate />,
-      },
-      {
         path: 'affiliate-sponsor',
         element: <AffiliateSponsor />,
+      },
+    ],
+  },
+  {
+    path: '/groups',
+    element: <GroupLayout />,
+    children: [
+      {
+        index: true,
+        element: <GroupService />,
+      },
+      {
+        path: ':groupId',
+        element: <GroupDetailLayout />,
+        children: [
+          {
+            index: true,
+            element: <GroupDetail />,
+          },
+        ],
+      },
+      {
+        path: ':id/create',
+        element: <GroupCreate />,
       },
     ],
   },
