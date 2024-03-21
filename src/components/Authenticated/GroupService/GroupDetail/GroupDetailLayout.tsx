@@ -7,18 +7,12 @@ import { a11yProps } from 'utils/ui';
 import Feeds from './Feeds';
 import Information from './Information';
 import Member from './Member';
-import Tournaments from './Tournament';
 
 const GroupTabs = [
   {
     index: 0,
     label: 'Feeds',
     component: <Feeds />,
-  },
-  {
-    index: 1,
-    label: 'Tournaments',
-    component: <Tournaments />,
   },
   {
     index: 2,

@@ -11,7 +11,7 @@ import { Tournament, TournamentStatus } from 'types/tournament';
 
 import TournamentList from './TournamentList';
 
-export default function Tournaments() {
+export default function TournamentService() {
   const groupInfo = useAppSelector((state) => state.group);
   const navigate = useNavigate();
 
@@ -49,7 +49,7 @@ export default function Tournaments() {
   }, [getTournaments, groupInfo.id]);
 
   const handleCreateTournament = () => {
-    navigate('tournaments/create');
+    navigate('/tournaments/create');
   };
 
   if (isLoading) {
