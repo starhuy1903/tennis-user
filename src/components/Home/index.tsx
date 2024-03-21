@@ -2,8 +2,8 @@ import { Box, Button, Typography } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAppSelector } from 'store';
 
-import MyGroup from '../Authenticated/GroupService/MyGroup';
 import News from './News';
+import Services from './Services';
 
 export default function Home() {
   const navigate = useNavigate();
@@ -26,7 +26,8 @@ export default function Home() {
       }}
     >
       <Box>
-        <Typography variant="h4">Quick Actions</Typography>
+        <Typography variant="h4">Services</Typography>
+        <Services />
         <Button onClick={handleGoToAffiliateSponsor}>Affiliate sponsorship</Button>
       </Box>
       <Box>

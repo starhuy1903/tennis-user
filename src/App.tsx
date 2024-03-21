@@ -18,6 +18,7 @@ import News from 'components/Unauthenticated/News';
 import NewsDetail from 'components/Unauthenticated/News/NewsDetail';
 import Pricing from 'components/Unauthenticated/Pricing';
 import Signup from 'components/Unauthenticated/Signup';
+import { useGetAppConfigQuery } from 'store/api/commonApiSlice';
 import { useLazyGetProfileQuery } from 'store/api/userApiSlice';
 
 import './App.css';
@@ -49,23 +50,28 @@ const protectedRoutes = createBrowserRouter([
       ...sharedRoutes,
       {
         path: 'profile',
-        element: <Profile activeTab="feeds" />,
-      },
-      {
-        path: 'profile/feeds',
-        element: <Profile activeTab="feeds" />,
-      },
-      {
-        path: 'profile/packages',
-        element: <Profile activeTab="packages" />,
-      },
-      {
-        path: 'profile/payments',
-        element: <Profile activeTab="payments" />,
-      },
-      {
-        path: 'profile/settings',
-        element: <Profile activeTab="settings" />,
+        children: [
+          {
+            index: true,
+            element: <Profile activeTab="feeds" />,
+          },
+          {
+            path: 'feeds',
+            element: <Profile activeTab="feeds" />,
+          },
+          {
+            path: 'packages',
+            element: <Profile activeTab="packages" />,
+          },
+          {
+            path: 'payments',
+            element: <Profile activeTab="payments" />,
+          },
+          {
+            path: 'settings',
+            element: <Profile activeTab="settings" />,
+          },
+        ],
       },
       {
         path: 'affiliate-sponsor',
@@ -128,6 +134,7 @@ const publicRoutes = createBrowserRouter([
 function App() {
   const isLoggedIn = useAppSelector((state) => state.user.isLoggedIn);
   const [getProfile, { isLoading }] = useLazyGetProfileQuery();
+  const { isLoading: fetchingAppConfig } = useGetAppConfigQuery();
   const [initialized, setInitialized] = useState(false);
 
   useEffect(() => {
@@ -139,7 +146,7 @@ function App() {
     })();
   }, [isLoggedIn, getProfile]);
 
-  if (isLoading || !initialized) {
+  if (isLoading || !initialized || fetchingAppConfig) {
     return <CenterLoading />;
   }
 

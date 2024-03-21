@@ -613,6 +613,35 @@
         }
       ],
       "responseMode": null
+    },
+    {
+      "uuid": "e8ecde0b-5f3c-4ca9-826a-f49cd01289c2",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "system-config",
+      "responses": [
+        {
+          "uuid": "5673780b-8887-4cbd-92a0-59bb11dcc3de",
+          "body": "{\n  \"services\": [\n    {\n      \"id\": 1,\n      \"name\": \"Group Management\",\n      \"description\": \"Manage Every Aspect Of Your Group, Sports Organization, Association & Federation.\"\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
     }
   ],
   "rootChildren": [
@@ -631,6 +660,10 @@
     {
       "type": "folder",
       "uuid": "488e60ae-61d7-442d-a054-94dd5b82cc0b"
+    },
+    {
+      "type": "route",
+      "uuid": "e8ecde0b-5f3c-4ca9-826a-f49cd01289c2"
     }
   ],
   "proxyMode": false,
