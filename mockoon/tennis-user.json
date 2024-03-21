@@ -74,6 +74,26 @@
           "uuid": "a644a9b7-b0eb-458a-8b67-c5d740e56e10"
         }
       ]
+    },
+    {
+      "uuid": "fbc4eb31-9091-4caa-ad8e-3f31a67aa0c7",
+      "name": "Order",
+      "children": [
+        {
+          "type": "route",
+          "uuid": "c36142e0-77d5-4cf0-a2a6-9900c1a1db0f"
+        }
+      ]
+    },
+    {
+      "uuid": "6825555c-5962-4c45-9144-7312bacbe767",
+      "name": "Payment",
+      "children": [
+        {
+          "type": "route",
+          "uuid": "61ff94a7-adc6-4dee-84a7-59e6f4345672"
+        }
+      ]
     }
   ],
   "routes": [
@@ -594,6 +614,64 @@
         }
       ],
       "responseMode": null
+    },
+    {
+      "uuid": "c36142e0-77d5-4cf0-a2a6-9900c1a1db0f",
+      "type": "http",
+      "documentation": "",
+      "method": "post",
+      "endpoint": "orders",
+      "responses": [
+        {
+          "uuid": "ab3fc74f-8d95-4b33-9b0c-2a2e7034908b",
+          "body": "{\n    \"order\": {\n        \"id\": \"b0623153-2b62-4994-b1c5-afd7f9524644\",\n        \"userId\": 10,\n        \"packageId\": 2,\n        \"groupId\": null,\n        \"price\": 1900000,\n        \"status\": \"new\",\n        \"createdAt\": \"2024-03-21T12:44:37.957Z\",\n        \"updatedAt\": \"2024-03-21T12:44:37.957Z\"\n    },\n    \"payment\": {\n        \"url\": \"https://sandbox.vnpayment.vn/paymentv2/vpcpay.html?vnp_Amount=190000000&vnp_Command=pay&vnp_CreateDate=20240321232811&vnp_CurrCode=VND&vnp_IpAddr=%3A%3A1&vnp_Locale=vi&vnp_OrderInfo=Thanh+toan+cho+don+hang+c90e8a76-3080-4c17-a9e3-f563b0f398f1&vnp_OrderType=other&vnp_ReturnUrl=http%3A%2F%2Flocalhost%3A4200%2Fpayment%2Freturn%2Fvnpay&vnp_SecureHash=a72e52181e0ff33a654cf5c18a2ab8b980dfa3110074ec2c7312727c93a94c205a825c21dc8fd3c1e7a4eb04b6ba187ff869ac38c2460b6d4d510c1adaeb69f6&vnp_TmnCode=WE9EYUI9&vnp_TxnRef=c90e8a76-3080-4c17-a9e3-f563b0f398f1&vnp_Version=2.1.0\"\n    }\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "61ff94a7-adc6-4dee-84a7-59e6f4345672",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "v1/payment/return/vnpay?vnp_Amount=190000000&vnp_BankCode=NCB&vnp_BankTranNo=VNP14350626&vnp_CardType=ATM&vnp_OrderInfo=Thanh+toan+cho+don+hang+cdaff660-e3a8-4b50-b27b-a750a3c4d4e5&vnp_PayDate=20240321200515&vnp_ResponseCode=00&vnp_TmnCode=WE9EYUI9&vnp_TransactionNo=14350626&vnp_TransactionStatus=00&vnp_TxnRef=cdaff660-e3a8-4b50-b27b-a750a3c4d4e5&vnp_SecureHash=0759c7e331467612f30f3b303959e2777fda6c57f7620b1a0e8e9d27228c09ba21cc677894fb0a6deae01fd3cc2de3e6adafb5190c0340c1dbb661dd404f4ebc",
+      "responses": [
+        {
+          "uuid": "0e2946d0-f9b5-4a1b-8227-2780b8990d3e",
+          "body": "null",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
     }
   ],
   "rootChildren": [
@@ -612,6 +690,14 @@
     {
       "type": "folder",
       "uuid": "488e60ae-61d7-442d-a054-94dd5b82cc0b"
+    },
+    {
+      "type": "folder",
+      "uuid": "fbc4eb31-9091-4caa-ad8e-3f31a67aa0c7"
+    },
+    {
+      "type": "folder",
+      "uuid": "6825555c-5962-4c45-9144-7312bacbe767"
     }
   ],
   "proxyMode": false,

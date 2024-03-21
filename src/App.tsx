@@ -5,6 +5,7 @@ import { useAppSelector } from 'store';
 import AffiliateSponsor from 'components/Authenticated/AffiliateSponsor';
 import GroupCreate from 'components/Authenticated/GroupCreate';
 import GroupDetail from 'components/Authenticated/GroupDetail';
+import VNPReturn from 'components/Authenticated/PaymentReturn/VNPReturn';
 import Profile from 'components/Authenticated/Profile';
 import CenterLoading from 'components/Common/CenterLoading';
 import AuthenticatedLayout from 'components/Common/Layout/AuthenticatedLayout';
@@ -75,6 +76,10 @@ const protectedRoutes = createBrowserRouter([
       {
         path: 'affiliate-sponsor',
         element: <AffiliateSponsor />,
+      },
+      {
+        path: 'payment/return/vnpay',
+        element: <VNPReturn />,
       },
     ],
   },
