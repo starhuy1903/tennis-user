@@ -73,9 +73,9 @@ export default function MyGroup() {
                     color="primary"
                     onClick={() => {
                       if (group.adminId && group.status === GroupStatus.INACTIVE) {
-                        navigate(`groups/${group.id}/create`);
+                        navigate(`/groups/${group.id}/create`);
                       } else {
-                        navigate(`groups/${group.id}`);
+                        navigate(`/groups/${group.id}`);
                       }
                     }}
                     sx={{ mt: 4 }}

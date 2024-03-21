@@ -3,6 +3,7 @@ import WorkspacePremiumIcon from '@mui/icons-material/WorkspacePremium';
 import { Box, Button, Stack, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAppSelector } from 'store';
 
 import CenterLoading from 'components/Common/CenterLoading';
 import { useLazyGetTournamentsQuery } from 'store/api/group/tournamentApiSlice';
@@ -11,6 +12,7 @@ import { Tournament, TournamentStatus } from 'types/tournament';
 import TournamentList from './TournamentList';
 
 export default function Tournaments() {
+  const groupInfo = useAppSelector((state) => state.group);
   const navigate = useNavigate();
 
   const [tournaments, setTournaments] = useState<{
@@ -27,22 +29,24 @@ export default function Tournaments() {
 
   useEffect(() => {
     (async () => {
-      try {
-        const responses = await Promise.all([
-          getTournaments({ groupId: 1, tournamentStatus: TournamentStatus.UPCOMING }).unwrap(),
-          getTournaments({ groupId: 1, tournamentStatus: TournamentStatus.ON_GOING }).unwrap(),
-          getTournaments({ groupId: 1, tournamentStatus: TournamentStatus.COMPLETED }).unwrap(),
-        ]);
-        setTournaments({
-          upcoming: responses[0],
-          onGoing: responses[1],
-          completed: responses[2],
-        });
-      } catch (error) {
-        console.log(error);
+      if (groupInfo.id) {
+        try {
+          const responses = await Promise.all([
+            getTournaments({ groupId: groupInfo.id, tournamentStatus: TournamentStatus.UPCOMING }).unwrap(),
+            getTournaments({ groupId: groupInfo.id, tournamentStatus: TournamentStatus.ON_GOING }).unwrap(),
+            getTournaments({ groupId: groupInfo.id, tournamentStatus: TournamentStatus.COMPLETED }).unwrap(),
+          ]);
+          setTournaments({
+            upcoming: responses[0],
+            onGoing: responses[1],
+            completed: responses[2],
+          });
+        } catch (error) {
+          console.log(error);
+        }
       }
     })();
-  }, [getTournaments]);
+  }, [getTournaments, groupInfo.id]);
 
   const handleCreateTournament = () => {
     navigate('tournaments/create');
