@@ -8,6 +8,7 @@ import GroupCreate from 'components/Authenticated/GroupService/GroupCreate';
 import GroupDetail from 'components/Authenticated/GroupService/GroupDetail';
 import GroupDetailLayout from 'components/Authenticated/GroupService/GroupDetail/GroupDetailLayout';
 import GroupLayout from 'components/Authenticated/GroupService/GroupLayout';
+import VNPReturn from 'components/Authenticated/PaymentReturn/VNPReturn';
 import Profile from 'components/Authenticated/Profile';
 import CenterLoading from 'components/Common/CenterLoading';
 import AuthenticatedLayout from 'components/Common/Layout/AuthenticatedLayout';
@@ -76,6 +77,10 @@ const protectedRoutes = createBrowserRouter([
       {
         path: 'affiliate-sponsor',
         element: <AffiliateSponsor />,
+      },
+      {
+        path: 'payment/return/vnpay',
+        element: <VNPReturn />,
       },
     ],
   },

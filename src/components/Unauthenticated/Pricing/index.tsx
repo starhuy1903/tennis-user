@@ -1,9 +1,14 @@
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
-import { Box, Button, Card, CardContent, Container, Grid, Typography } from '@mui/material';
-import { configs } from 'configurations';
+import { Box, Button, Card, CardContent, Grid, Typography } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from 'store';
+
+import { ModalKey } from 'constants/modal';
+import { showModal } from 'store/slice/modalSlice';
 
 const packages = [
   {
+    id: 1,
     title: 'Essential Package',
     price: 9,
     description: 'Our most popular package for beginner tennis groups with basic needs.',
@@ -17,6 +22,7 @@ const packages = [
     ],
   },
   {
+    id: 2,
     title: 'Advanced Package',
     price: 19,
     description: 'The preferred option for professional tennis groups with advanced features.',
@@ -44,23 +50,25 @@ const packages = [
   // },
 ];
 
-const paymentParams = {
-  vnp_Amount: '1806000',
-  vnp_Command: 'pay',
-  vnp_CreateDate: '20210801153333',
-  vnp_CurrCode: 'VND',
-  vnp_IpAddr: '127.0.0.1',
-  vnp_Locale: 'vn',
-  vnp_OrderInfo: 'Thanh+toan+don+hang+%3A5',
-  vnp_OrderType: 'other',
-  vnp_ReturnUrl: 'https%3A%2F%2Fdomainmerchant.vn%2FReturnUrl',
-  vnp_TxnRef: '5',
-  vnp_Version: '2.1.0',
-};
-
-const paymentURL = `${configs.vnpUrl}?${new URLSearchParams(paymentParams).toString()}`;
-
 export default function Pricing() {
+  const dispatch = useAppDispatch();
+  const isLoggedIn = useAppSelector((state) => state.user.isLoggedIn);
+  const userId = useAppSelector((state) => state.user.profile?.id);
+
+  const navigate = useNavigate();
+
+  const handleBuyPackage = async (packageId: number) => {
+    if (!isLoggedIn) {
+      return navigate('/login');
+    }
+
+    if (!userId) {
+      throw new Error('User ID not found');
+    }
+
+    dispatch(showModal(ModalKey.SELECT_PAYMENT_METHOD, { userId, packageId }));
+  };
+
   return (
     <Box>
       <Typography
@@ -162,7 +170,7 @@ export default function Pricing() {
                   <Button
                     variant="contained"
                     fullWidth
-                    onClick={() => window.open(paymentURL, '_blank')}
+                    onClick={() => handleBuyPackage(item.id)}
                   >
                     Buy now
                   </Button>

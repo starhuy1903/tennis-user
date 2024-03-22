@@ -74,6 +74,26 @@
           "uuid": "a644a9b7-b0eb-458a-8b67-c5d740e56e10"
         }
       ]
+    },
+    {
+      "uuid": "fbc4eb31-9091-4caa-ad8e-3f31a67aa0c7",
+      "name": "Order",
+      "children": [
+        {
+          "type": "route",
+          "uuid": "c36142e0-77d5-4cf0-a2a6-9900c1a1db0f"
+        }
+      ]
+    },
+    {
+      "uuid": "6825555c-5962-4c45-9144-7312bacbe767",
+      "name": "Payment",
+      "children": [
+        {
+          "type": "route",
+          "uuid": "61ff94a7-adc6-4dee-84a7-59e6f4345672"
+        }
+      ]
     }
   ],
   "routes": [
@@ -423,25 +443,6 @@
           "default": true,
           "crudKey": "id",
           "callbacks": []
-        },
-        {
-          "uuid": "44fceb57-50b2-4107-a4cb-46e4e3714d47",
-          "body": "{}",
-          "latency": 0,
-          "statusCode": 404,
-          "label": "",
-          "headers": [],
-          "bodyType": "INLINE",
-          "filePath": "",
-          "databucketID": "",
-          "sendFileAsBody": false,
-          "rules": [],
-          "rulesOperator": "OR",
-          "disableTemplating": false,
-          "fallbackTo404": false,
-          "default": false,
-          "crudKey": "id",
-          "callbacks": []
         }
       ],
       "responseMode": null
@@ -615,15 +616,15 @@
       "responseMode": null
     },
     {
-      "uuid": "e8ecde0b-5f3c-4ca9-826a-f49cd01289c2",
+      "uuid": "c36142e0-77d5-4cf0-a2a6-9900c1a1db0f",
       "type": "http",
       "documentation": "",
-      "method": "get",
-      "endpoint": "system-config",
+      "method": "post",
+      "endpoint": "orders",
       "responses": [
         {
-          "uuid": "5673780b-8887-4cbd-92a0-59bb11dcc3de",
-          "body": "{\n  \"services\": [\n    {\n      \"id\": 1,\n      \"name\": \"Group Management\",\n      \"description\": \"Manage Every Aspect Of Your Group, Sports Organization, Association & Federation.\",\n      \"path\": \"groups\"\n    }\n  ]\n}",
+          "uuid": "ab3fc74f-8d95-4b33-9b0c-2a2e7034908b",
+          "body": "{\n  \"order\": {\n    \"id\": \"b0623153-2b62-4994-b1c5-afd7f9524644\",\n    \"userId\": 10,\n    \"packageId\": 2,\n    \"groupId\": null,\n    \"price\": 1900000,\n    \"status\": \"new\",\n    \"createdAt\": \"2024-03-21T12:44:37.957Z\",\n    \"updatedAt\": \"2024-03-21T12:44:37.957Z\"\n  },\n  \"payment\": {\n    \"url\": \"https://sandbox.vnpayment.vn/paymentv2/vpcpay.html?vnp_Amount=190000000&vnp_Command=pay&vnp_CreateDate=20240321235719&vnp_CurrCode=VND&vnp_IpAddr=%3A%3A1&vnp_Locale=vi&vnp_OrderInfo=Thanh+toan+cho+don+hang+85d86c7f-d9f3-4e60-8208-c8913275c5f0&vnp_OrderType=other&vnp_ReturnUrl=http%3A%2F%2Flocalhost%3A4200%2Fpayment%2Freturn%2Fvnpay&vnp_SecureHash=29cee5a2c90cca670143834c62e11f60431e4652cf63cf41945367ee43b19b19a52a9592f524e6a4089cddb6d7fdf992a1b654d22317a95cbbddb43d148515aa&vnp_TmnCode=WE9EYUI9&vnp_TxnRef=85d86c7f-d9f3-4e60-8208-c8913275c5f0&vnp_Version=2.1.0\"\n  }\n}",
           "latency": 0,
           "statusCode": 200,
           "label": "",
@@ -633,6 +634,43 @@
           "databucketID": "",
           "sendFileAsBody": false,
           "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "61ff94a7-adc6-4dee-84a7-59e6f4345672",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "v1/payment/return/vnpay?*",
+      "responses": [
+        {
+          "uuid": "0e2946d0-f9b5-4a1b-8227-2780b8990d3e",
+          "body": "null",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "query",
+              "modifier": "",
+              "value": "",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
           "rulesOperator": "OR",
           "disableTemplating": false,
           "fallbackTo404": false,
@@ -662,8 +700,12 @@
       "uuid": "488e60ae-61d7-442d-a054-94dd5b82cc0b"
     },
     {
-      "type": "route",
-      "uuid": "e8ecde0b-5f3c-4ca9-826a-f49cd01289c2"
+      "type": "folder",
+      "uuid": "fbc4eb31-9091-4caa-ad8e-3f31a67aa0c7"
+    },
+    {
+      "type": "folder",
+      "uuid": "6825555c-5962-4c45-9144-7312bacbe767"
     }
   ],
   "proxyMode": false,
