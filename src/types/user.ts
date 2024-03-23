@@ -50,7 +50,7 @@ export type SignupResponse = MessageResponse & {
 export type ForgotPasswordResponse = SignupResponse;
 
 export type UserProfile = {
-  id: string;
+  id: number;
   email: string;
   firstName: string;
   lastName: string;
