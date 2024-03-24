@@ -6,12 +6,12 @@ import { useNavigate } from 'react-router-dom';
 import { useAppSelector } from 'store';
 
 import CenterLoading from 'components/Common/CenterLoading';
-import { useLazyGetTournamentsQuery } from 'store/api/group/tournamentApiSlice';
+import { useLazyGetTournamentsQuery } from 'store/api/tournamentApiSlice';
 import { Tournament, TournamentStatus } from 'types/tournament';
 
 import TournamentList from './TournamentList';
 
-export default function Tournaments() {
+export default function TournamentService() {
   const groupInfo = useAppSelector((state) => state.group);
   const navigate = useNavigate();
 
@@ -49,7 +49,7 @@ export default function Tournaments() {
   }, [getTournaments, groupInfo.id]);
 
   const handleCreateTournament = () => {
-    navigate('tournaments/create');
+    navigate('/tournaments/create');
   };
 
   if (isLoading) {

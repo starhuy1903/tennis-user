@@ -10,6 +10,9 @@ import GroupDetailLayout from 'components/Authenticated/GroupService/GroupDetail
 import GroupLayout from 'components/Authenticated/GroupService/GroupLayout';
 import VNPReturn from 'components/Authenticated/PaymentReturn/VNPReturn';
 import Profile from 'components/Authenticated/Profile';
+import TournamentService from 'components/Authenticated/TournamentService';
+import CreateTournament from 'components/Authenticated/TournamentService/CreateTournament';
+import TournamentLayout from 'components/Authenticated/TournamentService/TournamentLayout';
 import CenterLoading from 'components/Common/CenterLoading';
 import AuthenticatedLayout from 'components/Common/Layout/AuthenticatedLayout';
 import UnauthenticatedLayout from 'components/Common/Layout/UnauthenticatedLayout';
@@ -85,7 +88,7 @@ const protectedRoutes = createBrowserRouter([
     ],
   },
   {
-    path: '/groups',
+    path: 'groups',
     element: <GroupLayout />,
     children: [
       {
@@ -105,6 +108,20 @@ const protectedRoutes = createBrowserRouter([
       {
         path: ':id/create',
         element: <GroupCreate />,
+      },
+    ],
+  },
+  {
+    path: 'tournaments',
+    element: <TournamentLayout />,
+    children: [
+      {
+        index: true,
+        element: <TournamentService />,
+      },
+      {
+        path: 'create',
+        element: <CreateTournament />,
       },
     ],
   },
