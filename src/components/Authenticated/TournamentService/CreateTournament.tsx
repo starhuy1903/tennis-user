@@ -52,7 +52,7 @@ export default function CreateTournament() {
   const navigate = useNavigate();
   const [requestCreateTournament, { isLoading }] = useCreateTournamentMutation();
 
-  const userInfo = useAppSelector((state) => state.user.profile);
+  const userInfo = useAppSelector((state) => state.user.userInfo);
 
   const { handleSubmit, register, control, formState, watch } = useForm<FormType>({
     mode: 'onTouched',

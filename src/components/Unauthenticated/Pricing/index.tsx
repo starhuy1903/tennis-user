@@ -53,7 +53,7 @@ const packages = [
 export default function Pricing() {
   const dispatch = useAppDispatch();
   const isLoggedIn = useAppSelector((state) => state.user.isLoggedIn);
-  const userId = useAppSelector((state) => state.user.profile?.id);
+  const userId = useAppSelector((state) => state.user.userInfo?.id);
 
   const navigate = useNavigate();
 

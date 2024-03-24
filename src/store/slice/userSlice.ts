@@ -5,7 +5,8 @@ import { UserProfile } from 'types/user';
 import auth from 'utils/auth';
 
 const initialState: UserSliceType = {
-  profile: null,
+  userInfo: null,
+  packages: [],
   isLoggedIn: Boolean(auth.getAccessToken()),
 };
 
@@ -18,12 +19,14 @@ export const userSlice = createSlice({
     },
 
     setProfile: (state, action: PayloadAction<UserProfile>) => {
-      state.profile = action.payload;
+      state.userInfo = action.payload.userInfo;
+      state.packages = action.payload.packages;
     },
 
     logOut: (state) => {
-      state.profile = null;
+      state.userInfo = null;
       state.isLoggedIn = false;
+      state.packages = [];
       auth.logout();
     },
   },
