@@ -72,6 +72,10 @@
         {
           "type": "route",
           "uuid": "a644a9b7-b0eb-458a-8b67-c5d740e56e10"
+        },
+        {
+          "type": "route",
+          "uuid": "77922702-2e13-4ce9-9dad-0f0ece01b7df"
         }
       ]
     },
@@ -508,7 +512,7 @@
     {
       "uuid": "a644a9b7-b0eb-458a-8b67-c5d740e56e10",
       "type": "http",
-      "documentation": "",
+      "documentation": "Get tournament list by status",
       "method": "get",
       "endpoint": "tournaments/groups/*",
       "responses": [
@@ -680,6 +684,64 @@
         }
       ],
       "responseMode": null
+    },
+    {
+      "uuid": "1eb71435-a468-4e55-9d19-7de855e16d89",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "system-config",
+      "responses": [
+        {
+          "uuid": "4b13c145-cd24-4381-a950-1ccf9609bcd7",
+          "body": "{\n  \"services\": [\n    {\n      \"id\": \"1\",\n      \"name\": \"Group Management\",\n      \"description\": \"Manage Every Aspect Of Your Group, Sports Organization, Association & Federation.\",\n      \"path\": \"groups\"\n    },\n    {\n      \"id\": \"2\",\n      \"name\": \"Tournament\",\n      \"description\": \"Manage Participants, Generate Schedules & Score Matches While Keeping Track Of Scores & Statistics.\",\n      \"path\": \"tournaments\"\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "77922702-2e13-4ce9-9dad-0f0ece01b7df",
+      "type": "http",
+      "documentation": "Create tournament",
+      "method": "post",
+      "endpoint": "tournaments",
+      "responses": [
+        {
+          "uuid": "20aeae1d-0769-4476-bf6b-92039baacb90",
+          "body": "{\n  \"id\": 1,\n  \"name\": \"2022 PAC-12 Championships\",\n  \"slot\": 50,\n  \"participants\": 20,\n  \"gender\": \"male\",\n  \"format\": \"round_robin\",\n  \"participantType\": \"single\",\n  \"image\": \"https://xs.pac-12.com/styles/crop_16_9_large_1x/s3/2022-04/Tennis%20Social%20Sizes_1920x1080-optimized.jpg?itok=WjlYagbf\",\n  \"description\": \"This is a description of tournament 1\",\n  \"registrationDueDate\": \"2024-03-15T23:59:59\",\n  \"startDate\": \"2024-03-20T23:59:59\",\n  \"endDate\": \"2024-03-25T23:59:59\",\n  \"status\": \"upcoming\",\n  \"phase\": \"published\",\n  \"address\": \"123 Main St\",\n  \"contactName\": \"John Doe\",\n  \"contactNumber\": \"123-456-7890\",\n  \"contactEmail\": \"john@gmail.com\",\n  \"createdAt\": \"2024-03-10T23:59:59\",\n  \"updatedAt\": \"2024-03-10T23:59:59\"\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
     }
   ],
   "rootChildren": [
@@ -706,6 +768,10 @@
     {
       "type": "folder",
       "uuid": "6825555c-5962-4c45-9144-7312bacbe767"
+    },
+    {
+      "type": "route",
+      "uuid": "1eb71435-a468-4e55-9d19-7de855e16d89"
     }
   ],
   "proxyMode": false,
