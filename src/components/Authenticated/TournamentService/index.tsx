@@ -13,6 +13,8 @@ import TournamentList from './TournamentList';
 
 export default function TournamentService() {
   const groupInfo = useAppSelector((state) => state.group);
+  const { canCreateTournament } = useAppSelector((state) => state.user.actions);
+
   const navigate = useNavigate();
 
   const [tournaments, setTournaments] = useState<{
@@ -49,7 +51,11 @@ export default function TournamentService() {
   }, [getTournaments, groupInfo.id]);
 
   const handleCreateTournament = () => {
-    navigate('/tournaments/create');
+    if (canCreateTournament) {
+      navigate('/tournaments/create');
+    } else {
+      navigate('/pricing');
+    }
   };
 
   if (isLoading) {

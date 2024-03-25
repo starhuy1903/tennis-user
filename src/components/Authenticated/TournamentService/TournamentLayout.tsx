@@ -3,17 +3,40 @@ import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Toolbar from '@mui/material/Toolbar';
 import { useTheme } from '@mui/material/styles';
+import { useEffect, useMemo, useState } from 'react';
 import { Outlet } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from 'store';
 
+import CenterLoading from 'components/Common/CenterLoading';
 import AvatarMenu from 'components/Common/Layout/AuthenticatedLayout/AvatarMenu';
 import MessageMenu from 'components/Common/Layout/AuthenticatedLayout/MessageMenu';
 import NotificationMenu from 'components/Common/Layout/AuthenticatedLayout/NotificationMenu';
 import LinkButton from 'components/Common/LinkButton';
 import Logo from 'components/Common/Logo';
+import { setActions } from 'store/slice/userSlice';
+import { ServiceType } from 'types/store/user';
 import { ScrollbarStyle } from 'utils/style';
 
 const TournamentLayout = () => {
   const theme = useTheme();
+  const dispatch = useAppDispatch();
+  const [initialized, setInitialized] = useState(false);
+
+  const packages = useAppSelector((state) => state.user.packages);
+
+  const validPackages = useMemo(() => packages?.filter((servicePackage) => !servicePackage.hasExpired), [packages]);
+
+  useEffect(() => {
+    const unusedPackages = validPackages?.filter((servicePackage) => {
+      return servicePackage.services.find(
+        (service) => service.type === ServiceType.TOURNAMENT && service.used < service.maxTournaments
+      );
+    });
+    dispatch(setActions({ canCreateTournament: !!unusedPackages?.length }));
+    setInitialized(true);
+  }, [validPackages, dispatch]);
+
+  if (!initialized) return <CenterLoading />;
 
   return (
     <Box>

@@ -26,8 +26,15 @@ export type Package = {
   name: string;
   services: Service[];
   hasExpired: boolean;
+  startDate: string;
+  endDate: string;
+};
+
+export type UserActions = {
+  canCreateTournament: boolean;
 };
 
 export type UserSliceType = UserProfile & {
   isLoggedIn: boolean;
+  actions: UserActions;
 };

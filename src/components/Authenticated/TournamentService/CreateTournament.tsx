@@ -15,6 +15,7 @@ import { TimePicker } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { useEffect } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { useAppSelector } from 'store';
@@ -53,6 +54,7 @@ export default function CreateTournament() {
   const [requestCreateTournament, { isLoading }] = useCreateTournamentMutation();
 
   const userInfo = useAppSelector((state) => state.user.userInfo);
+  const { canCreateTournament } = useAppSelector((state) => state.user.actions);
 
   const { handleSubmit, register, control, formState, watch } = useForm<FormType>({
     mode: 'onTouched',
@@ -82,6 +84,12 @@ export default function CreateTournament() {
       // handled error
     }
   };
+
+  useEffect(() => {
+    if (!canCreateTournament) {
+      navigate('/pricing');
+    }
+  }, [canCreateTournament, navigate]);
 
   return (
     <Container

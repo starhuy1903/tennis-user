@@ -460,7 +460,7 @@
       "responses": [
         {
           "uuid": "f0d5ea8f-f88c-4e63-a437-7846dec15d2c",
-          "body": "{\n  \"userInfo\": {\n    \"id\": 1,\n    \"email\": \"huy@gmail.com\",\n    \"firstName\": \"Huy\",\n    \"lastName\": \"Nguyen\",\n    \"dob\": \"19/03/2002\",\n    \"phoneNumber\": \"0123456789\"\n  },\n  \"packages\": [\n    {\n      \"id\": \"user-buy-id\",\n      \"name\": \"Package 1\",\n      \"services\": [\n        {\n          \"id\": \"service-1\",\n          \"name\": \"Group Management\",\n          \"maxGroups\": 1,\n          \"used\": 1\n        },\n        {\n          \"id\": \"service-2\",\n          \"name\": \"Tournament\",\n          \"maxTournament\": 1,\n          \"used\": 1\n        }\n      ],\n      \"hasExpired\": false\n    }\n  ]\n}",
+          "body": "{\n  \"userInfo\": {\n    \"id\": 1,\n    \"email\": \"huy@gmail.com\",\n    \"firstName\": \"Huy\",\n    \"lastName\": \"Nguyen\",\n    \"dob\": \"19/03/2002\",\n    \"phoneNumber\": \"0123456789\"\n  },\n  \"packages\": [\n    {\n      \"id\": \"user-buy-id\",\n      \"name\": \"Package 1\",\n      \"services\": [\n        {\n          \"id\": \"service-1\",\n          \"type\": \"group\",\n          \"maxGroups\": 1,\n          \"used\": 1\n        },\n        {\n          \"id\": \"service-2\",\n          \"type\": \"tournament\",\n          \"maxTournaments\": 1,\n          \"used\": 0\n        }\n      ],\n      \"hasExpired\": false,\n      \"startDate\": \"2024-03-24T16:16:27\",\n      \"endDate\": \"2024-04-30T16:16:27\"\n    }\n  ]\n}",
           "latency": 0,
           "statusCode": 200,
           "label": "",
