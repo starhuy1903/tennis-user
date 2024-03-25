@@ -98,7 +98,7 @@ const protectedRoutes = createBrowserRouter([
         ],
       },
       {
-        path: ':id/create',
+        path: 'create',
         element: <GroupCreate />,
       },
     ],
@@ -134,7 +134,7 @@ const publicRoutes = createBrowserRouter([
 function App() {
   const isLoggedIn = useAppSelector((state) => state.user.isLoggedIn);
   const [getProfile, { isLoading }] = useLazyGetProfileQuery();
-  const { isLoading: fetchingAppConfig } = useGetAppConfigQuery();
+  // const { isLoading: fetchingAppConfig } = useGetAppConfigQuery();
   const [initialized, setInitialized] = useState(false);
 
   useEffect(() => {
@@ -146,7 +146,7 @@ function App() {
     })();
   }, [isLoggedIn, getProfile]);
 
-  if (isLoading || !initialized || fetchingAppConfig) {
+  if (isLoading || !initialized) {
     return <CenterLoading />;
   }
 

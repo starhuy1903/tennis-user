@@ -1,26 +1,16 @@
-import {
-  Box,
-  Button,
-  Card,
-  CardActionArea,
-  CardContent,
-  CardMedia,
-  CircularProgress,
-  Grid,
-  Typography,
-} from '@mui/material';
+import Box from '@mui/material/Box';
+import CircularProgress from '@mui/material/CircularProgress';
+import Typography from '@mui/material/Typography';
+import Grid from '@mui/material/Unstable_Grid2';
 import { useNavigate } from 'react-router-dom';
 
 import { useGetMyGroupsQuery } from 'store/api/group/groupApiSlice';
 import { GroupStatus } from 'types/group';
 
-export default function MyGroup() {
-  const navigate = useNavigate();
-  const { data: groupsData, isLoading } = useGetMyGroupsQuery();
+import GroupCard from './GroupCard';
 
-  const handleNewGroup = () => {
-    navigate('/pricing');
-  };
+export default function MyGroup() {
+  const { data: groupsData, isLoading } = useGetMyGroupsQuery();
 
   if (isLoading) {
     return <CircularProgress />;
@@ -28,67 +18,47 @@ export default function MyGroup() {
 
   return (
     <Box>
-      <Grid
-        container
-        spacing={3}
-      >
+      {groupsData?.data && groupsData.data.length > 0 ? (
         <Grid
-          item
-          xs={3}
+          container
+          spacing={3}
         >
-          <Card sx={{ height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <Button onClick={handleNewGroup}>Create group</Button>
-          </Card>
-        </Grid>
-        {groupsData?.map((group) => (
+          {groupsData?.data.map((e) => (
+            <Grid
+              xs={12}
+              sm={6}
+              md={4}
+              lg={3}
+              key={e.id}
+            >
+              <GroupCard
+                id={e.id}
+                name={e.name}
+                status={e.status}
+                createdAt={e.createdAt}
+              />
+            </Grid>
+          ))}
           <Grid
-            xs={3}
-            item
-            key={group.id}
+            xs={12}
+            sm={6}
+            md={4}
+            lg={3}
           >
-            <Card sx={{ maxWidth: 345 }}>
-              <CardActionArea>
-                <CardMedia
-                  component="img"
-                  height="140"
-                  image="https://t4.ftcdn.net/jpg/04/06/73/01/360_F_406730114_KzDtSXbWgrZjpAagr0QytgHLLyHrNUGX.jpg"
-                  alt="green iguana"
-                />
-                <CardContent>
-                  <Typography
-                    gutterBottom
-                    variant="h5"
-                    component="div"
-                  >
-                    {group.name}
-                  </Typography>
-                  <Typography
-                    variant="body2"
-                    color="text.secondary"
-                  >
-                    {group.description}
-                  </Typography>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={() => {
-                      if (group.adminId && group.status === GroupStatus.INACTIVE) {
-                        navigate(`/groups/${group.id}/create`);
-                      } else {
-                        navigate(`/groups/${group.id}`);
-                      }
-                    }}
-                    sx={{ mt: 4 }}
-                    fullWidth
-                  >
-                    {group.adminId && group.status === GroupStatus.INACTIVE ? 'Continue create' : 'Go to group'}
-                  </Button>
-                </CardContent>
-              </CardActionArea>
-            </Card>
+            <GroupCard
+              id={-1}
+              image="https://picsum.photos/id/237/200/300"
+              name="test with image"
+              status={GroupStatus.ACTIVE}
+              createdAt="2024-03-23T18:58:44.300Z"
+            />
           </Grid>
-        ))}
-      </Grid>
+        </Grid>
+      ) : (
+        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+          <Typography>You haven't created any group yet.</Typography>
+        </Box>
+      )}
     </Box>
   );
 }

@@ -51,7 +51,9 @@ const MemberItems = ({ id, name, avatar, bio, joinAt, expanded, handleChange, ha
         <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
           <Stack direction="column">
             <Typography>{bio ? bio : 'No bio.'}</Typography>
-            <Typography fontSize="0.8rem">Join from {displayTimestamp(joinAt)}</Typography>
+            <Typography fontSize="0.8rem">
+              Join from {displayTimestamp(joinAt, { includeRelativeTimeToPresent: true })}
+            </Typography>
           </Stack>
           <Box sx={{ display: 'flex', alignItems: 'flex-end', columnGap: '10px' }}>
             <Tooltip title="Visit profile page">

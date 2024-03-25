@@ -22,7 +22,7 @@ const userApiToastSlice = apiWithToastSlice.injectEndpoints({
   endpoints: (build) => ({
     login: build.mutation<LoginResponse, CredentialPayload>({
       query: (body) => ({
-        url: 'auth/login',
+        url: 'http://localhost:8001/auth/login',
         method: 'POST',
         body,
       }),
@@ -35,7 +35,7 @@ const userApiToastSlice = apiWithToastSlice.injectEndpoints({
     }),
     loginGoogle: build.mutation<LoginResponse, OAuthPayload>({
       query: (body) => ({
-        url: 'auth/login/google',
+        url: 'http://localhost:8001/auth/login/google',
         method: 'POST',
         body,
       }),
@@ -48,28 +48,28 @@ const userApiToastSlice = apiWithToastSlice.injectEndpoints({
     }),
     signup: build.mutation<SignupResponse, SignupPayload>({
       query: (body) => ({
-        url: 'auth/signup',
+        url: 'http://localhost:8001/auth/signup',
         method: 'POST',
         body,
       }),
     }),
     verify: build.mutation<MessageResponse, VerifyPayload>({
       query: (body) => ({
-        url: 'auth/verify',
+        url: 'http://localhost:8001/auth/verify',
         method: 'POST',
         body,
       }),
     }),
     forgotPassword: build.mutation<ForgotPasswordResponse, ForgotPasswordPayload>({
       query: (body) => ({
-        url: 'auth/forgot-password',
+        url: 'http://localhost:8001/auth/forgot-password',
         method: 'POST',
         body,
       }),
     }),
     resetPassword: build.mutation<MessageResponse, ResetPasswordPayload>({
       query: (body) => ({
-        url: 'auth/reset-password',
+        url: 'http://localhost:8001/auth/reset-password',
         method: 'POST',
         body,
       }),
