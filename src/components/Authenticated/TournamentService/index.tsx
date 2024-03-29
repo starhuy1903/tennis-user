@@ -13,8 +13,6 @@ import TournamentList from './TournamentList';
 
 export default function TournamentService() {
   const groupInfo = useAppSelector((state) => state.group);
-  const { canCreateTournament } = useAppSelector((state) => state.user.actions);
-
   const navigate = useNavigate();
 
   const [tournaments, setTournaments] = useState<{
@@ -51,11 +49,7 @@ export default function TournamentService() {
   }, [getTournaments, groupInfo.id]);
 
   const handleCreateTournament = () => {
-    if (canCreateTournament) {
-      navigate('/tournaments/create');
-    } else {
-      navigate('/pricing');
-    }
+    navigate('/tournaments/create');
   };
 
   if (isLoading) {
@@ -63,24 +57,35 @@ export default function TournamentService() {
   }
 
   return (
-    <Stack gap={4}>
-      <Button onClick={handleCreateTournament}>Create tournament</Button>
-
+    <Stack
+      gap={4}
+      mt={4}
+    >
       <Box>
         <Stack
           direction="row"
-          alignItems="center"
-          gap={1}
+          justifyContent="space-between"
         >
-          <EmojiEventsIcon />
-          <Typography
-            variant="h5"
-            fontWeight={500}
+          <Stack
+            direction="row"
+            alignItems="center"
+            gap={1}
           >
-            Upcoming Tournaments
-          </Typography>
+            <EmojiEventsIcon />
+            <Typography
+              variant="h5"
+              fontWeight={500}
+            >
+              Upcoming Tournaments
+            </Typography>
+          </Stack>
+          <Button
+            variant="outlined"
+            onClick={handleCreateTournament}
+          >
+            Create tournament
+          </Button>
         </Stack>
-
         <TournamentList tournaments={tournaments.upcoming} />
       </Box>
 

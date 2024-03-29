@@ -1,5 +1,3 @@
-import { Package } from './store/user';
-
 export type CredentialPayload = {
   email: string;
   password: string;
@@ -60,7 +58,6 @@ export type UserProfile = {
     dob: string;
     phoneNumber: string;
   } | null;
-  packages: Package[] | null;
 };
 
 export type RefreshResponse = {

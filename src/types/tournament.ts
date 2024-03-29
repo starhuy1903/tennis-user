@@ -67,11 +67,12 @@ export type TournamentPayload = {
   gender: Gender;
   participantType: ParticipantType;
   playersBornAfterDate: string;
+  packageId: string; // package which user bought
 };
 
 export type Tournament = BaseType &
   TournamentPayload & {
-    slot: number;
+    participants: number;
     image?: string;
     status: TournamentStatus;
     phase: TournamentPhase;

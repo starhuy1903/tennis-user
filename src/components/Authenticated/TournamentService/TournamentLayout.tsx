@@ -14,29 +14,28 @@ import NotificationMenu from 'components/Common/Layout/AuthenticatedLayout/Notif
 import LinkButton from 'components/Common/LinkButton';
 import Logo from 'components/Common/Logo';
 import { setActions } from 'store/slice/userSlice';
-import { ServiceType } from 'types/store/user';
 import { ScrollbarStyle } from 'utils/style';
 
 const TournamentLayout = () => {
   const theme = useTheme();
   const dispatch = useAppDispatch();
-  const [initialized, setInitialized] = useState(false);
+  // const [initialized, setInitialized] = useState(false);
 
-  const packages = useAppSelector((state) => state.user.packages);
+  // const packages = useAppSelector((state) => state.user.packages);
 
-  const validPackages = useMemo(() => packages?.filter((servicePackage) => !servicePackage.hasExpired), [packages]);
+  // const validPackages = useMemo(() => packages?.filter((servicePackage) => !servicePackage.hasExpired), [packages]);
 
-  useEffect(() => {
-    const unusedPackages = validPackages?.filter((servicePackage) => {
-      return servicePackage.services.find(
-        (service) => service.type === ServiceType.TOURNAMENT && service.used < service.maxTournaments
-      );
-    });
-    dispatch(setActions({ canCreateTournament: !!unusedPackages?.length }));
-    setInitialized(true);
-  }, [validPackages, dispatch]);
+  // useEffect(() => {
+  //   const unusedPackages = validPackages?.filter((servicePackage) => {
+  //     return servicePackage.services.find(
+  //       (service) => service.type === ServiceType.TOURNAMENT && service.used < service.maxTournaments
+  //     );
+  //   });
+  //   dispatch(setActions({ canCreateTournament: !!unusedPackages?.length }));
+  //   setInitialized(true);
+  // }, [validPackages, dispatch]);
 
-  if (!initialized) return <CenterLoading />;
+  // if (!initialized) return <CenterLoading />;
 
   return (
     <Box>

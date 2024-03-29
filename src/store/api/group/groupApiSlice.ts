@@ -11,19 +11,24 @@ const groupApiToastSlice = apiWithToastSlice.injectEndpoints({
         body,
       }),
     }),
-    getMyGroups: build.query<Group[], void>({
+    getGroups: build.query<Group[], void>({
       query: () => 'groups',
     }),
     getGroupDetails: build.query<Group, number>({
       query: (id) => `groups/${id}`,
+    }),
+    getMyGroups: build.query<Group[], void>({
+      query: () => 'my-groups',
     }),
   }),
 });
 
 export const {
   useAddMemberMutation,
-  useGetMyGroupsQuery,
-  useLazyGetMyGroupsQuery,
+  useGetGroupsQuery,
+  useLazyGetGroupsQuery,
   useGetGroupDetailsQuery,
   useLazyGetGroupDetailsQuery,
+  useGetMyGroupsQuery,
+  useLazyGetMyGroupsQuery,
 } = groupApiToastSlice;

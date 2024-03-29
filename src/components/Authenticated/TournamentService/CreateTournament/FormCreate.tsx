@@ -1,6 +1,11 @@
 import {
   Box,
   Button,
+  Card,
+  CardActions,
+  CardContent,
+  CardHeader,
+  Chip,
   Container,
   FormControl,
   FormHelperText,
@@ -15,21 +20,31 @@ import { TimePicker } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { useEffect } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { useAppSelector } from 'store';
 
+import CenterLoading from 'components/Common/CenterLoading';
+import { useLazyGetMyGroupsQuery } from 'store/api/group/groupApiSlice';
 import { useCreateTournamentMutation } from 'store/api/tournamentApiSlice';
-import {
-  Gender,
-  GenderOptions,
-  ParticipantType,
-  ParticipantTypeOptions,
-  TournamentFormat,
-  TournamentFormatOptions,
-} from 'types/tournament';
+import { ServiceType, TournamentService, UserPackage } from 'types/package';
+import { Gender, GenderOptions, ParticipantType, ParticipantTypeOptions, TournamentFormat } from 'types/tournament';
+import { displayTimestamp } from 'utils/datetime';
 import { showSuccess } from 'utils/toast';
+
+const tournamentFormatOptions = [
+  { id: 1, value: 'knockout', displayValue: 'Knockout', level: 'basic' },
+  { id: 2, value: 'round_robin', displayValue: 'Round Robin', level: 'basic' },
+  { id: 3, value: 'group_playoff', displayValue: 'Group Playoff', level: 'advanced' },
+];
+
+const getTournamentFormatOptions = (level: string) => {
+  if (level === 'basic') {
+    return tournamentFormatOptions.filter((option) => option.level === 'basic');
+  }
+  return tournamentFormatOptions;
+};
 
 type FormType = {
   name: string;
@@ -49,14 +64,35 @@ type FormType = {
   address: string;
 };
 
-export default function CreateTournament() {
+interface FormCreateProps {
+  selectedPackage: UserPackage;
+  setSelectedPackage: any;
+}
+
+export default function FormCreate({ selectedPackage, setSelectedPackage }: FormCreateProps) {
   const navigate = useNavigate();
   const [requestCreateTournament, { isLoading }] = useCreateTournamentMutation();
+  const [getMyGroups, { isLoading: fetchingMyGroupsData }] = useLazyGetMyGroupsQuery();
+
+  const [myGroupsData, setMyGroupsData] = useState<any>(null);
+  const [initialized, setInitialized] = useState(false);
 
   const userInfo = useAppSelector((state) => state.user.userInfo);
-  const { canCreateTournament } = useAppSelector((state) => state.user.actions);
 
-  const { handleSubmit, register, control, formState, watch } = useForm<FormType>({
+  const usedService = useMemo(() => {
+    return selectedPackage.services.find(
+      (service) => service.type === ServiceType.TOURNAMENT && service.used < service.maxTournaments
+    ) as TournamentService;
+  }, [selectedPackage]);
+
+  const tournamentFormatOptionsWithLevel = useMemo(() => {
+    if (usedService?.level) {
+      return getTournamentFormatOptions(usedService.level);
+    }
+    return [];
+  }, [usedService?.level]);
+
+  const { handleSubmit, register, control, formState } = useForm<FormType>({
     mode: 'onTouched',
     defaultValues: {
       name: '',
@@ -85,11 +121,24 @@ export default function CreateTournament() {
     }
   };
 
+  const handleGoPreviousStep = () => {
+    setSelectedPackage(null);
+  };
+
   useEffect(() => {
-    if (!canCreateTournament) {
-      navigate('/pricing');
-    }
-  }, [canCreateTournament, navigate]);
+    (async () => {
+      if (usedService?.level === 'basic') {
+        const res = await getMyGroups().unwrap();
+        console.log({ res });
+        setMyGroupsData(res);
+      }
+      setInitialized(true);
+    })();
+  }, [getMyGroups, usedService?.level]);
+
+  if (!initialized) {
+    return <CenterLoading />;
+  }
 
   return (
     <Container
@@ -107,11 +156,92 @@ export default function CreateTournament() {
       >
         TOURNAMENT CREATION FORM
       </Typography>
+      <Card sx={{ p: 2, mt: 2 }}>
+        <CardHeader
+          title={selectedPackage.name}
+          titleTypographyProps={{ variant: 'h2', fontWeight: 'bold' }}
+        />
+        <CardContent>
+          <Stack>
+            <Box>
+              <Typography
+                display="inline"
+                fontWeight="bold"
+                marginRight="10px"
+              >
+                Level:
+              </Typography>
+              <Typography display="inline">
+                {usedService?.level === 'basic' ? (
+                  <Chip label="Basic" />
+                ) : (
+                  <Chip
+                    label="Advanced"
+                    color="info"
+                  />
+                )}
+              </Typography>
+            </Box>
+            <Box>
+              <Typography
+                display="inline"
+                fontWeight="bold"
+                marginRight="10px"
+              >
+                Expired date:
+              </Typography>
+              <Typography display="inline">{displayTimestamp(selectedPackage.endDate)}</Typography>
+            </Box>
+          </Stack>
+        </CardContent>
+        <CardActions>
+          <Button
+            variant="outlined"
+            onClick={handleGoPreviousStep}
+          >
+            Change package
+          </Button>
+        </CardActions>
+      </Card>
       <Box
         component="form"
         autoComplete="off"
         sx={{ display: 'flex', flexDirection: 'column', gap: 2, mt: 2 }}
       >
+        {usedService?.level === 'basic' && (
+          <Box sx={{ width: '100%' }}>
+            <Typography variant="h6">Tournament for group</Typography>
+            <Controller
+              control={control}
+              name="format"
+              render={({ field: { onChange, value } }) => (
+                <FormControl
+                  fullWidth
+                  error={!!formError.format}
+                  sx={{ mt: 1 }}
+                >
+                  <FormLabel htmlFor="format">Choose group</FormLabel>
+                  <Select
+                    value={value}
+                    id="format"
+                    onChange={onChange}
+                    aria-describedby="format-helper-text"
+                  >
+                    {myGroupsData.map((group) => (
+                      <MenuItem
+                        key={group.id}
+                        value={group.id}
+                      >
+                        {group.name}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                  <FormHelperText id="format-helper-text">{formError.format?.message}</FormHelperText>
+                </FormControl>
+              )}
+            />
+          </Box>
+        )}
         <Stack
           direction="row"
           justifyContent="space-between"
@@ -355,7 +485,7 @@ export default function CreateTournament() {
             <Controller
               control={control}
               name="format"
-              defaultValue={TournamentFormat.KNOCKOUT}
+              defaultValue={tournamentFormatOptionsWithLevel[0].value}
               render={({ field: { onChange, value } }) => (
                 <FormControl
                   fullWidth
@@ -368,12 +498,12 @@ export default function CreateTournament() {
                     onChange={onChange}
                     aria-describedby="format-helper-text"
                   >
-                    {Object.entries(TournamentFormatOptions).map(([formatKey, formatValue], index) => (
+                    {tournamentFormatOptionsWithLevel.map((tournamentOption) => (
                       <MenuItem
-                        key={index}
-                        value={formatKey}
+                        key={tournamentOption.id}
+                        value={tournamentOption.value}
                       >
-                        {formatValue}
+                        {tournamentOption.displayValue}
                       </MenuItem>
                     ))}
                   </Select>

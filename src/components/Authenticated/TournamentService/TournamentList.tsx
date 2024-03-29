@@ -103,7 +103,7 @@ export default function TournamentList({ tournaments }: { tournaments: Tournamen
                       color: 'gray',
                     }}
                   />
-                  <Typography variant="subtitle1">{`${item.participants}/${item.slot} participants`}</Typography>
+                  <Typography variant="subtitle1">{`${item.participants}/${item.maxParticipants} participants`}</Typography>
                 </Box>
 
                 {item.status === TournamentStatus.UPCOMING && (

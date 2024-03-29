@@ -6,7 +6,7 @@ import auth from 'utils/auth';
 
 const initialState: UserSliceType = {
   userInfo: null,
-  packages: [],
+
   isLoggedIn: Boolean(auth.getAccessToken()),
   actions: {
     canCreateTournament: false,
@@ -23,13 +23,12 @@ export const userSlice = createSlice({
 
     setProfile: (state, action: PayloadAction<UserProfile>) => {
       state.userInfo = action.payload.userInfo;
-      state.packages = action.payload.packages;
     },
 
     logOut: (state) => {
       state.userInfo = null;
       state.isLoggedIn = false;
-      state.packages = [];
+
       auth.logout();
     },
 

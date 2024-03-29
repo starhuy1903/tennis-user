@@ -11,12 +11,12 @@ import {
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
-import { useGetMyGroupsQuery } from 'store/api/group/groupApiSlice';
+import { useGetGroupsQuery } from 'store/api/group/groupApiSlice';
 import { GroupStatus } from 'types/group';
 
 export default function MyGroup() {
   const navigate = useNavigate();
-  const { data: groupsData, isLoading } = useGetMyGroupsQuery();
+  const { data: groupsData, isLoading } = useGetGroupsQuery();
 
   const handleNewGroup = () => {
     navigate('/pricing');
