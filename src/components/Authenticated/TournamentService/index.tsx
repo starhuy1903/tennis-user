@@ -29,21 +29,19 @@ export default function TournamentService() {
 
   useEffect(() => {
     (async () => {
-      if (groupInfo.id) {
-        try {
-          const responses = await Promise.all([
-            getTournaments({ groupId: groupInfo.id, tournamentStatus: TournamentStatus.UPCOMING }).unwrap(),
-            getTournaments({ groupId: groupInfo.id, tournamentStatus: TournamentStatus.ON_GOING }).unwrap(),
-            getTournaments({ groupId: groupInfo.id, tournamentStatus: TournamentStatus.COMPLETED }).unwrap(),
-          ]);
-          setTournaments({
-            upcoming: responses[0],
-            onGoing: responses[1],
-            completed: responses[2],
-          });
-        } catch (error) {
-          console.log(error);
-        }
+      try {
+        const responses = await Promise.all([
+          getTournaments({ groupId: groupInfo.id, tournamentStatus: TournamentStatus.UPCOMING }).unwrap(),
+          getTournaments({ groupId: groupInfo.id, tournamentStatus: TournamentStatus.ON_GOING }).unwrap(),
+          getTournaments({ groupId: groupInfo.id, tournamentStatus: TournamentStatus.COMPLETED }).unwrap(),
+        ]);
+        setTournaments({
+          upcoming: responses[0],
+          onGoing: responses[1],
+          completed: responses[2],
+        });
+      } catch (error) {
+        console.log(error);
       }
     })();
   }, [getTournaments, groupInfo.id]);
