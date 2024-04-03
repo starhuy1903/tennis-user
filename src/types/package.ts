@@ -1,27 +1,30 @@
-type BaseService = {
-  id: string;
-  used: number;
-};
+import { TournamentLevel } from 'constants/tournament';
 
 export enum ServiceType {
   GROUP = 'group',
   TOURNAMENT = 'tournament',
 }
 
-export type GroupService = BaseService & {
-  type: ServiceType.GROUP;
-  maxGroups: number;
+type BaseService = {
+  id: string;
+  name: string;
 };
 
-enum TournamentLevel {
-  BASIC = 'basic',
-  ADVANCED = 'advanced',
-}
+export type GroupService = BaseService & {
+  type: ServiceType.GROUP;
+  config: {
+    maxGroups: number;
+    used: number;
+  };
+};
 
 export type TournamentService = BaseService & {
   type: ServiceType.TOURNAMENT;
-  maxTournaments: number;
-  level: TournamentLevel;
+  config: {
+    maxTournaments: number;
+    used: number;
+    level: TournamentLevel;
+  };
 };
 
 export type Service = GroupService | TournamentService;
@@ -42,10 +45,10 @@ export type Package = {
 };
 
 export type UserPackage = {
-  id: string;
+  id: number;
   name: string;
   services: Service[];
-  hasExpired: boolean;
+  expired: boolean;
   startDate: string;
   endDate: string;
 };

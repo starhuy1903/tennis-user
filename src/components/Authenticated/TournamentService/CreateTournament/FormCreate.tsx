@@ -26,11 +26,21 @@ import { useNavigate } from 'react-router-dom';
 import { useAppSelector } from 'store';
 
 import CenterLoading from 'components/Common/CenterLoading';
+import {
+  Gender,
+  GenderOptions,
+  ParticipantType,
+  ParticipantTypeOptions,
+  TournamentFormat,
+  TournamentLevel,
+  TournamentScope,
+} from 'constants/tournament';
 import { useLazyGetMyGroupsQuery } from 'store/api/group/groupApiSlice';
 import { useCreateTournamentMutation } from 'store/api/tournamentApiSlice';
-import { ServiceType, TournamentService, UserPackage } from 'types/package';
-import { Gender, GenderOptions, ParticipantType, ParticipantTypeOptions, TournamentFormat } from 'types/tournament';
+import { UserPackage } from 'types/package';
+import { GroupTournamentPayload, OpenTournamentPayload, TournamentPayload } from 'types/tournament';
 import { displayTimestamp } from 'utils/datetime';
+import { getUsedTournamentService } from 'utils/package';
 import { showSuccess } from 'utils/toast';
 
 const tournamentFormatOptions = [
@@ -62,6 +72,7 @@ type FormType = {
   participantType: ParticipantType;
   playersBornAfterDate: string;
   address: string;
+  groupId?: number;
 };
 
 interface FormCreateProps {
@@ -80,17 +91,15 @@ export default function FormCreate({ selectedPackage, setSelectedPackage }: Form
   const userInfo = useAppSelector((state) => state.user.userInfo);
 
   const usedService = useMemo(() => {
-    return selectedPackage.services.find(
-      (service) => service.type === ServiceType.TOURNAMENT && service.used < service.maxTournaments
-    ) as TournamentService;
+    return getUsedTournamentService(selectedPackage);
   }, [selectedPackage]);
 
   const tournamentFormatOptionsWithLevel = useMemo(() => {
-    if (usedService?.level) {
-      return getTournamentFormatOptions(usedService.level);
+    if (usedService.config.level) {
+      return getTournamentFormatOptions(usedService.config.level);
     }
     return [];
-  }, [usedService?.level]);
+  }, [usedService.config.level]);
 
   const { handleSubmit, register, control, formState } = useForm<FormType>({
     mode: 'onTouched',
@@ -113,7 +122,23 @@ export default function FormCreate({ selectedPackage, setSelectedPackage }: Form
 
   const onSubmit: SubmitHandler<FormType> = async (data) => {
     try {
-      await requestCreateTournament(data).unwrap();
+      let submitData = {} as TournamentPayload;
+      if (usedService.config.level === TournamentLevel.BASIC) {
+        submitData = {
+          ...data,
+          purchasedPackageId: selectedPackage.id,
+          scope: TournamentScope.GROUP,
+          groupId: 1,
+        } as GroupTournamentPayload;
+      } else if (usedService.config.level === TournamentLevel.ADVANCED) {
+        submitData = {
+          ...data,
+          purchasedPackageId: selectedPackage.id,
+          scope: TournamentScope.OPEN,
+        } as OpenTournamentPayload;
+      }
+
+      await requestCreateTournament(submitData).unwrap();
       showSuccess('Created tournament successfully.');
       navigate('/tournaments');
     } catch (error) {
@@ -127,14 +152,14 @@ export default function FormCreate({ selectedPackage, setSelectedPackage }: Form
 
   useEffect(() => {
     (async () => {
-      if (usedService?.level === 'basic') {
+      if (usedService.config.level === TournamentLevel.BASIC) {
         const res = await getMyGroups().unwrap();
         console.log({ res });
         setMyGroupsData(res);
       }
       setInitialized(true);
     })();
-  }, [getMyGroups, usedService?.level]);
+  }, [getMyGroups, usedService.config.level]);
 
   if (!initialized) {
     return <CenterLoading />;
@@ -172,7 +197,7 @@ export default function FormCreate({ selectedPackage, setSelectedPackage }: Form
                 Level:
               </Typography>
               <Typography display="inline">
-                {usedService?.level === 'basic' ? (
+                {usedService.config.level === TournamentLevel.BASIC ? (
                   <Chip label="Basic" />
                 ) : (
                   <Chip
@@ -208,26 +233,26 @@ export default function FormCreate({ selectedPackage, setSelectedPackage }: Form
         autoComplete="off"
         sx={{ display: 'flex', flexDirection: 'column', gap: 2, mt: 2 }}
       >
-        {usedService?.level === 'basic' && (
+        {usedService.config.level === TournamentLevel.BASIC && (
           <Box sx={{ width: '100%' }}>
             <Typography variant="h6">Tournament for group</Typography>
             <Controller
               control={control}
-              name="format"
+              name="groupId"
               render={({ field: { onChange, value } }) => (
                 <FormControl
                   fullWidth
-                  error={!!formError.format}
+                  error={!!formError.groupId}
                   sx={{ mt: 1 }}
                 >
-                  <FormLabel htmlFor="format">Choose group</FormLabel>
+                  <FormLabel htmlFor="groupId">Choose group</FormLabel>
                   <Select
                     value={value}
-                    id="format"
+                    id="groupId"
                     onChange={onChange}
-                    aria-describedby="format-helper-text"
+                    aria-describedby="groupId-helper-text"
                   >
-                    {myGroupsData.map((group) => (
+                    {myGroupsData.map((group: any) => (
                       <MenuItem
                         key={group.id}
                         value={group.id}
@@ -236,7 +261,7 @@ export default function FormCreate({ selectedPackage, setSelectedPackage }: Form
                       </MenuItem>
                     ))}
                   </Select>
-                  <FormHelperText id="format-helper-text">{formError.format?.message}</FormHelperText>
+                  <FormHelperText id="groupId-helper-text">{formError.groupId?.message}</FormHelperText>
                 </FormControl>
               )}
             />
@@ -485,7 +510,7 @@ export default function FormCreate({ selectedPackage, setSelectedPackage }: Form
             <Controller
               control={control}
               name="format"
-              defaultValue={tournamentFormatOptionsWithLevel[0].value}
+              defaultValue={tournamentFormatOptionsWithLevel[0].value as TournamentFormat}
               render={({ field: { onChange, value } }) => (
                 <FormControl
                   fullWidth
