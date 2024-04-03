@@ -1,12 +1,16 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
-import { UserSliceType } from 'types/store/user';
+import { UserActions, UserSliceType } from 'types/store/user';
 import { UserProfile } from 'types/user';
 import auth from 'utils/auth';
 
 const initialState: UserSliceType = {
-  profile: null,
+  userInfo: null,
+
   isLoggedIn: Boolean(auth.getAccessToken()),
+  actions: {
+    canCreateTournament: false,
+  },
 };
 
 export const userSlice = createSlice({
@@ -18,15 +22,20 @@ export const userSlice = createSlice({
     },
 
     setProfile: (state, action: PayloadAction<UserProfile>) => {
-      state.profile = action.payload;
+      state.userInfo = action.payload.userInfo;
     },
 
     logOut: (state) => {
-      state.profile = null;
+      state.userInfo = null;
       state.isLoggedIn = false;
+
       auth.logout();
+    },
+
+    setActions: (state, action: PayloadAction<Partial<UserActions>>) => {
+      state.actions = { ...state.actions, ...action.payload };
     },
   },
 });
 
-export const { setIsLoggedIn, setProfile, logOut } = userSlice.actions;
+export const { setIsLoggedIn, setProfile, logOut, setActions } = userSlice.actions;

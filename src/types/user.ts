@@ -50,12 +50,14 @@ export type SignupResponse = MessageResponse & {
 export type ForgotPasswordResponse = SignupResponse;
 
 export type UserProfile = {
-  id: number;
-  email: string;
-  firstName: string;
-  lastName: string;
-  dob: string;
-  phoneNumber: string;
+  userInfo: {
+    id: number;
+    email: string;
+    firstName: string;
+    lastName: string;
+    dob: string;
+    phoneNumber: string;
+  } | null;
 };
 
 export type RefreshResponse = {

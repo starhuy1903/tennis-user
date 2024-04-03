@@ -9,12 +9,7 @@ import VNPay from 'assets/images/vnpay.jpg';
 import ZaloPay from 'assets/images/zalopay.png';
 
 import BaseModal from './BaseModal';
-
-interface SelectPaymentMethodProps {
-  userId: number;
-  packageId: number;
-  onModalClose: () => void;
-}
+import { SelectPaymentMethodProps } from './types';
 
 const methods = [
   {

@@ -29,21 +29,19 @@ export default function TournamentService() {
 
   useEffect(() => {
     (async () => {
-      if (groupInfo.id) {
-        try {
-          const responses = await Promise.all([
-            getTournaments({ groupId: groupInfo.id, tournamentStatus: TournamentStatus.UPCOMING }).unwrap(),
-            getTournaments({ groupId: groupInfo.id, tournamentStatus: TournamentStatus.ON_GOING }).unwrap(),
-            getTournaments({ groupId: groupInfo.id, tournamentStatus: TournamentStatus.COMPLETED }).unwrap(),
-          ]);
-          setTournaments({
-            upcoming: responses[0],
-            onGoing: responses[1],
-            completed: responses[2],
-          });
-        } catch (error) {
-          console.log(error);
-        }
+      try {
+        const responses = await Promise.all([
+          getTournaments({ tournamentStatus: TournamentStatus.UPCOMING }).unwrap(),
+          getTournaments({ tournamentStatus: TournamentStatus.ON_GOING }).unwrap(),
+          getTournaments({ tournamentStatus: TournamentStatus.COMPLETED }).unwrap(),
+        ]);
+        setTournaments({
+          upcoming: responses[0],
+          onGoing: responses[1],
+          completed: responses[2],
+        });
+      } catch (error) {
+        console.log(error);
       }
     })();
   }, [getTournaments, groupInfo.id]);
@@ -57,24 +55,35 @@ export default function TournamentService() {
   }
 
   return (
-    <Stack gap={4}>
-      <Button onClick={handleCreateTournament}>Create tournament</Button>
-
+    <Stack
+      gap={4}
+      mt={4}
+    >
       <Box>
         <Stack
           direction="row"
-          alignItems="center"
-          gap={1}
+          justifyContent="space-between"
         >
-          <EmojiEventsIcon />
-          <Typography
-            variant="h5"
-            fontWeight={500}
+          <Stack
+            direction="row"
+            alignItems="center"
+            gap={1}
           >
-            Upcoming Tournaments
-          </Typography>
+            <EmojiEventsIcon />
+            <Typography
+              variant="h5"
+              fontWeight={500}
+            >
+              Upcoming Tournaments
+            </Typography>
+          </Stack>
+          <Button
+            variant="outlined"
+            onClick={handleCreateTournament}
+          >
+            Create tournament
+          </Button>
         </Stack>
-
         <TournamentList tournaments={tournaments.upcoming} />
       </Box>
 

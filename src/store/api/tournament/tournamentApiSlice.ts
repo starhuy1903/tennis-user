@@ -1,15 +1,15 @@
-import { Tournament, TournamentPayload, TournamentStatus } from 'types/tournament';
+import { TournamentStatus } from 'constants/tournament';
+import { Tournament, TournamentPayload } from 'types/tournament';
 
 import { apiWithToastSlice } from '../baseApiSlice';
 
 const tournamentApiToastSlice = apiWithToastSlice.injectEndpoints({
   endpoints: (build) => ({
-    getTournaments: build.query<Tournament[], { groupId: number; tournamentStatus?: TournamentStatus }>({
+    getTournaments: build.query<Tournament[], { tournamentStatus?: TournamentStatus }>({
       query: (args) => ({
-        url: `tournaments/groups/${args.groupId}`,
+        url: `tournaments`,
         params: { status: args?.tournamentStatus },
       }),
-      transformResponse: (response: { data: Tournament[] }) => response.data,
     }),
     createTournament: build.mutation<Tournament, TournamentPayload>({
       query: (payload) => ({

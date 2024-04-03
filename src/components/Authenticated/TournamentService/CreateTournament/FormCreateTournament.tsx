@@ -1,6 +1,11 @@
 import {
   Box,
   Button,
+  Card,
+  CardActions,
+  CardContent,
+  CardHeader,
+  Chip,
   Container,
   FormControl,
   FormHelperText,
@@ -15,20 +20,42 @@ import { TimePicker } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { useEffect, useMemo, useState } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { useAppSelector } from 'store';
 
 import { useCreateTournamentMutation } from 'store/api/tournament/tournamentApiSlice';
+import CenterLoading from 'components/Common/CenterLoading';
 import {
   Gender,
   GenderOptions,
   ParticipantType,
   ParticipantTypeOptions,
   TournamentFormat,
-  TournamentFormatOptions,
-} from 'types/tournament';
+  TournamentLevel,
+  TournamentScope,
+} from 'constants/tournament';
+import { useLazyGetMyGroupsQuery } from 'store/api/group/groupApiSlice';
+import { useCreateTournamentMutation } from 'store/api/tournamentApiSlice';
+import { UserPackage } from 'types/package';
+import { GroupTournamentPayload, OpenTournamentPayload, TournamentPayload } from 'types/tournament';
+import { displayTimestamp } from 'utils/datetime';
+import { getUsedTournamentService } from 'utils/package';
 import { showSuccess } from 'utils/toast';
+
+const tournamentFormatOptions = [
+  { id: 1, value: 'knockout', displayValue: 'Knockout', level: 'basic' },
+  { id: 2, value: 'round_robin', displayValue: 'Round Robin', level: 'basic' },
+  { id: 3, value: 'group_playoff', displayValue: 'Group Playoff', level: 'advanced' },
+];
+
+const getTournamentFormatOptions = (level: string) => {
+  if (level === 'basic') {
+    return tournamentFormatOptions.filter((option) => option.level === 'basic');
+  }
+  return tournamentFormatOptions;
+};
 
 type FormType = {
   name: string;
@@ -46,15 +73,36 @@ type FormType = {
   participantType: ParticipantType;
   playersBornAfterDate: string;
   address: string;
+  groupId?: number;
 };
 
-export default function CreateTournament() {
+interface FormCreateProps {
+  selectedPackage: UserPackage;
+  setSelectedPackage: any;
+}
+
+export default function FormCreateTournament({ selectedPackage, setSelectedPackage }: FormCreateProps) {
   const navigate = useNavigate();
   const [requestCreateTournament, { isLoading }] = useCreateTournamentMutation();
+  const [getMyGroups, { isLoading: fetchingMyGroupsData }] = useLazyGetMyGroupsQuery();
 
-  const userInfo = useAppSelector((state) => state.user.profile);
+  const [myGroupsData, setMyGroupsData] = useState<any>(null);
+  const [initialized, setInitialized] = useState(false);
 
-  const { handleSubmit, register, control, formState, watch } = useForm<FormType>({
+  const userInfo = useAppSelector((state) => state.user.userInfo);
+
+  const usedService = useMemo(() => {
+    return getUsedTournamentService(selectedPackage);
+  }, [selectedPackage]);
+
+  const tournamentFormatOptionsWithLevel = useMemo(() => {
+    if (usedService.config.level) {
+      return getTournamentFormatOptions(usedService.config.level);
+    }
+    return [];
+  }, [usedService.config.level]);
+
+  const { handleSubmit, register, control, formState } = useForm<FormType>({
     mode: 'onTouched',
     defaultValues: {
       name: '',
@@ -75,13 +123,48 @@ export default function CreateTournament() {
 
   const onSubmit: SubmitHandler<FormType> = async (data) => {
     try {
-      await requestCreateTournament(data).unwrap();
+      let submitData = {} as TournamentPayload;
+      if (usedService.config.level === TournamentLevel.BASIC) {
+        submitData = {
+          ...data,
+          purchasedPackageId: selectedPackage.id,
+          scope: TournamentScope.GROUP,
+          groupId: 1,
+        } as GroupTournamentPayload;
+      } else if (usedService.config.level === TournamentLevel.ADVANCED) {
+        submitData = {
+          ...data,
+          purchasedPackageId: selectedPackage.id,
+          scope: TournamentScope.OPEN,
+        } as OpenTournamentPayload;
+      }
+
+      await requestCreateTournament(submitData).unwrap();
       showSuccess('Created tournament successfully.');
       navigate('/tournaments');
     } catch (error) {
       // handled error
     }
   };
+
+  const handleGoPreviousStep = () => {
+    setSelectedPackage(null);
+  };
+
+  useEffect(() => {
+    (async () => {
+      if (usedService.config.level === TournamentLevel.BASIC) {
+        const res = await getMyGroups().unwrap();
+        console.log({ res });
+        setMyGroupsData(res);
+      }
+      setInitialized(true);
+    })();
+  }, [getMyGroups, usedService.config.level]);
+
+  if (!initialized) {
+    return <CenterLoading />;
+  }
 
   return (
     <Container
@@ -99,11 +182,92 @@ export default function CreateTournament() {
       >
         TOURNAMENT CREATION FORM
       </Typography>
+      <Card sx={{ p: 2, mt: 2 }}>
+        <CardHeader
+          title={selectedPackage.name}
+          titleTypographyProps={{ variant: 'h2', fontWeight: 'bold' }}
+        />
+        <CardContent>
+          <Stack>
+            <Box>
+              <Typography
+                display="inline"
+                fontWeight="bold"
+                marginRight="10px"
+              >
+                Level:
+              </Typography>
+              <Typography display="inline">
+                {usedService.config.level === TournamentLevel.BASIC ? (
+                  <Chip label="Basic" />
+                ) : (
+                  <Chip
+                    label="Advanced"
+                    color="info"
+                  />
+                )}
+              </Typography>
+            </Box>
+            <Box>
+              <Typography
+                display="inline"
+                fontWeight="bold"
+                marginRight="10px"
+              >
+                Expired date:
+              </Typography>
+              <Typography display="inline">{displayTimestamp(selectedPackage.endDate)}</Typography>
+            </Box>
+          </Stack>
+        </CardContent>
+        <CardActions>
+          <Button
+            variant="outlined"
+            onClick={handleGoPreviousStep}
+          >
+            Change package
+          </Button>
+        </CardActions>
+      </Card>
       <Box
         component="form"
         autoComplete="off"
         sx={{ display: 'flex', flexDirection: 'column', gap: 2, mt: 2 }}
       >
+        {usedService.config.level === TournamentLevel.BASIC && (
+          <Box sx={{ width: '100%' }}>
+            <Typography variant="h6">Tournament for group</Typography>
+            <Controller
+              control={control}
+              name="groupId"
+              render={({ field: { onChange, value } }) => (
+                <FormControl
+                  fullWidth
+                  error={!!formError.groupId}
+                  sx={{ mt: 1 }}
+                >
+                  <FormLabel htmlFor="groupId">Choose group</FormLabel>
+                  <Select
+                    value={value}
+                    id="groupId"
+                    onChange={onChange}
+                    aria-describedby="groupId-helper-text"
+                  >
+                    {myGroupsData.map((group: any) => (
+                      <MenuItem
+                        key={group.id}
+                        value={group.id}
+                      >
+                        {group.name}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                  <FormHelperText id="groupId-helper-text">{formError.groupId?.message}</FormHelperText>
+                </FormControl>
+              )}
+            />
+          </Box>
+        )}
         <Stack
           direction="row"
           justifyContent="space-between"
@@ -347,7 +511,7 @@ export default function CreateTournament() {
             <Controller
               control={control}
               name="format"
-              defaultValue={TournamentFormat.KNOCKOUT}
+              defaultValue={tournamentFormatOptionsWithLevel[0].value as TournamentFormat}
               render={({ field: { onChange, value } }) => (
                 <FormControl
                   fullWidth
@@ -360,12 +524,12 @@ export default function CreateTournament() {
                     onChange={onChange}
                     aria-describedby="format-helper-text"
                   >
-                    {Object.entries(TournamentFormatOptions).map(([formatKey, formatValue], index) => (
+                    {tournamentFormatOptionsWithLevel.map((tournamentOption) => (
                       <MenuItem
-                        key={index}
-                        value={formatKey}
+                        key={tournamentOption.id}
+                        value={tournamentOption.value}
                       >
-                        {formatValue}
+                        {tournamentOption.displayValue}
                       </MenuItem>
                     ))}
                   </Select>

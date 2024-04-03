@@ -1,67 +1,21 @@
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import { Box, Button, Card, CardContent, Grid, Typography } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'store';
 
 import { ModalKey } from 'constants/modal';
 import { showModal } from 'store/slice/modalSlice';
 
-const packages = [
-  {
-    id: 1,
-    title: 'Essential Package',
-    price: 9,
-    description: 'Our most popular package for beginner tennis groups with basic needs.',
-    features: [
-      'Maximum 20 members',
-      '1-3 tournaments/month',
-      'Finance management',
-      'Schedule and event coordination',
-      'Basic tournament organization',
-      'Group messaging support',
-    ],
-  },
-  {
-    id: 2,
-    title: 'Advanced Package',
-    price: 19,
-    description: 'The preferred option for professional tennis groups with advanced features.',
-    features: [
-      'Unlimited members',
-      'Unlimited tournaments',
-      'Access to all Essential package features',
-      'Advanced tournament organization',
-      'Real-time match result recording',
-      'Elo system, tournament livestream support',
-      'Affiliate partnership management',
-    ],
-  },
-  // TODO: will add this as a service in the future
-  // {
-  //   title: 'Mentor Package',
-  //   price: 15,
-  //   description: 'Option for tennis coaches and instructors to use for teaching purposes.',
-  //   features: [
-  //     'Maximum 20 students',
-  //     'Organize learning schedules',
-  //     'Manage learning resources and assignments',
-  //     'Group messaging support',
-  //   ],
-  // },
-];
+interface ChooseTournamentPackageProps {
+  packages: any;
+  onChoosePackage: any;
+}
 
-export default function Pricing() {
+export default function ChooseTournamentPackage({ packages, onChoosePackage }: ChooseTournamentPackageProps) {
   const dispatch = useAppDispatch();
-  const isLoggedIn = useAppSelector((state) => state.user.isLoggedIn);
+
   const userId = useAppSelector((state) => state.user.userInfo?.id);
 
-  const navigate = useNavigate();
-
-  const handleBuyPackage = async (packageId: number) => {
-    if (!isLoggedIn) {
-      return navigate('/login');
-    }
-
+  const handleBuyPackage = (packageId: number) => {
     if (!userId) {
       throw new Error('User ID not found');
     }
@@ -77,7 +31,7 @@ export default function Pricing() {
         textAlign="center"
         fontWeight="bold"
       >
-        Our packages
+        Our tournament packages
       </Typography>
 
       <Typography
@@ -127,7 +81,7 @@ export default function Pricing() {
                       color={(theme) => theme.palette.primary.main}
                       textAlign="center"
                     >
-                      {item.title}
+                      {item.name}
                     </Typography>
                     <Typography
                       variant="h3"
