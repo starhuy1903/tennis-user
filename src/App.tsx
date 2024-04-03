@@ -8,7 +8,11 @@ import GroupCreate from 'components/Authenticated/GroupService/GroupCreate';
 import GroupDetail from 'components/Authenticated/GroupService/GroupDetail';
 import GroupDetailLayout from 'components/Authenticated/GroupService/GroupDetail/GroupDetailLayout';
 import GroupLayout from 'components/Authenticated/GroupService/GroupLayout';
+import VNPReturn from 'components/Authenticated/PaymentReturn/VNPReturn';
 import Profile from 'components/Authenticated/Profile';
+import TournamentService from 'components/Authenticated/TournamentService';
+import CreateTournament from 'components/Authenticated/TournamentService/CreateTournament';
+import TournamentLayout from 'components/Authenticated/TournamentService/TournamentLayout';
 import CenterLoading from 'components/Common/CenterLoading';
 import AuthenticatedLayout from 'components/Common/Layout/AuthenticatedLayout';
 import UnauthenticatedLayout from 'components/Common/Layout/UnauthenticatedLayout';
@@ -78,10 +82,14 @@ const protectedRoutes = createBrowserRouter([
         path: 'affiliate-sponsor',
         element: <AffiliateSponsor />,
       },
+      {
+        path: 'payment/return/vnpay',
+        element: <VNPReturn />,
+      },
     ],
   },
   {
-    path: '/groups',
+    path: 'groups',
     element: <GroupLayout />,
     children: [
       {
@@ -95,6 +103,20 @@ const protectedRoutes = createBrowserRouter([
       {
         path: 'create',
         element: <GroupCreate />,
+      },
+    ],
+  },
+  {
+    path: 'tournaments',
+    element: <TournamentLayout />,
+    children: [
+      {
+        index: true,
+        element: <TournamentService />,
+      },
+      {
+        path: 'create',
+        element: <CreateTournament />,
       },
     ],
   },
@@ -129,7 +151,7 @@ const publicRoutes = createBrowserRouter([
 function App() {
   const isLoggedIn = useAppSelector((state) => state.user.isLoggedIn);
   const [getProfile, { isLoading }] = useLazyGetProfileQuery();
-  // const { isLoading: fetchingAppConfig } = useGetAppConfigQuery();
+  const { isLoading: fetchingAppConfig } = useGetAppConfigQuery();
   const [initialized, setInitialized] = useState(false);
 
   useEffect(() => {
@@ -141,7 +163,7 @@ function App() {
     })();
   }, [isLoggedIn, getProfile]);
 
-  if (isLoading || !initialized) {
+  if (isLoading || !initialized || fetchingAppConfig) {
     return <CenterLoading />;
   }
 

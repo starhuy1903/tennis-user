@@ -17,6 +17,10 @@ export interface CropImageProps extends CommonModalProps {
   onSubmit: (file: File) => void;
   onModalClose: () => void;
 }
+export interface SelectPaymentMethodProps extends CommonModalProps {
+  userId: number;
+  packageId: number;
+}
 
 /** External modal props: useModal */
 type FilteredModalProps<T extends CommonModalProps> = Omit<T, 'onModalClose'> & {
@@ -30,4 +34,5 @@ export type ModalPropsMap = {
 interface _ModalPropsMap {
   [ModalKey.HELLO_WORLD]: HelloWorldProps;
   [ModalKey.CROP_IMAGE]: CropImageProps;
+  [ModalKey.SELECT_PAYMENT_METHOD]: SelectPaymentMethodProps;
 }

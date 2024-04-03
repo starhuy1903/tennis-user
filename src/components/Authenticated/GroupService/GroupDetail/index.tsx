@@ -9,7 +9,6 @@ import { a11yProps } from 'utils/ui';
 import Feeds from './Feeds';
 import InfoSection from './InfoSection';
 import Member from './Member';
-import Tournaments from './Tournament';
 import UpdateGroupInformation from './UpdateGroupInformation';
 
 const GroupTabs = [
@@ -21,18 +20,12 @@ const GroupTabs = [
   },
   {
     index: 1,
-    label: 'Tournaments',
-    hash: 'tournaments',
-    component: <Tournaments />,
-  },
-  {
-    index: 2,
     label: 'Members',
     hash: 'members',
     component: <Member />,
   },
   {
-    index: 3,
+    index: 2,
     label: 'Update Information',
     hash: 'information',
     component: <UpdateGroupInformation />,
@@ -47,7 +40,7 @@ export default function GroupDetail() {
   const { data } = useGetGroupDetailsQuery(parseInt(id!));
 
   const [currentTab, setCurrentTab] = useState<number>(
-    GroupTabs.find((e) => location.hash === `#${e.hash}`)?.index || GroupTabs[0].index,
+    GroupTabs.find((e) => location.hash === `#${e.hash}`)?.index || GroupTabs[0].index
   );
 
   const handleChange = (_: React.SyntheticEvent, newValue: number) => {
