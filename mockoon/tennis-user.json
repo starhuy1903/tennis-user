@@ -62,6 +62,10 @@
         {
           "type": "route",
           "uuid": "6b3bbe44-e756-4c19-a1e2-647a157874ba"
+        },
+        {
+          "type": "route",
+          "uuid": "cfc46695-d9f9-49d0-a801-6f5a9a8a3093"
         }
       ]
     },
@@ -96,6 +100,20 @@
         {
           "type": "route",
           "uuid": "61ff94a7-adc6-4dee-84a7-59e6f4345672"
+        }
+      ]
+    },
+    {
+      "uuid": "52cf1be7-bce1-4541-95d3-f89d94ff67cd",
+      "name": "Package",
+      "children": [
+        {
+          "type": "route",
+          "uuid": "9385b859-6fe4-428c-b7a0-f9c88ced3940"
+        },
+        {
+          "type": "route",
+          "uuid": "86254530-d1f5-4966-b806-c948e82a5111"
         }
       ]
     }
@@ -460,7 +478,7 @@
       "responses": [
         {
           "uuid": "f0d5ea8f-f88c-4e63-a437-7846dec15d2c",
-          "body": "{\n  \"id\": 1,\n  \"email\": \"huy@gmail.com\",\n  \"firstName\": \"Huy\",\n  \"lastName\": \"Nguyen\",\n  \"dob\": \"19/03/2002\",\n  \"phoneNumber\": \"0123456789\"\n}",
+          "body": "{\n  \"userInfo\": {\n    \"id\": 1,\n    \"email\": \"huy@gmail.com\",\n    \"firstName\": \"Huy\",\n    \"lastName\": \"Nguyen\",\n    \"dob\": \"19/03/2002\",\n    \"phoneNumber\": \"0123456789\"\n  }\n}",
           "latency": 0,
           "statusCode": 200,
           "label": "",
@@ -514,11 +532,11 @@
       "type": "http",
       "documentation": "Get tournament list by status",
       "method": "get",
-      "endpoint": "tournaments/groups/*",
+      "endpoint": "tournaments",
       "responses": [
         {
           "uuid": "56b58481-d647-48ea-9512-048410f43c11",
-          "body": "{\n  \"data\": [\n    {\n      \"id\": 1,\n      \"groupId\": 1,\n      \"name\": \"2022 PAC-12 Championships\",\n      \"slot\": 50,\n      \"participants\": 20,\n      \"gender\": \"male\",\n      \"format\": \"round_robin\",\n      \"participantType\": \"single\",\n      \"isPublic\": false,\n      \"image\": \"https://xs.pac-12.com/styles/crop_16_9_large_1x/s3/2022-04/Tennis%20Social%20Sizes_1920x1080-optimized.jpg?itok=WjlYagbf\",\n      \"description\": \"This is a description of tournament 1\",\n      \"ageLimit\": 18,\n      \"registrationDueDate\": \"2024-03-15T23:59:59\",\n      \"startDate\": \"2024-03-20T23:59:59\",\n      \"endDate\": \"2024-03-25T23:59:59\",\n      \"status\": \"upcoming\",\n      \"address\": \"123 Main St\",\n      \"contactName\": \"John Doe\",\n      \"contactNumber\": \"123-456-7890\",\n      \"contactEmail\": \"john@gmail.com\",\n      \"createdAt\": \"2024-03-10T23:59:59\",\n      \"updatedAt\": \"2024-03-10T23:59:59\"\n    },\n    {\n      \"id\": 2,\n      \"groupId\": 1,\n      \"name\": \"2022 PAC-12 Championships\",\n      \"slot\": 50,\n      \"participants\": 20,\n      \"gender\": \"male\",\n      \"format\": \"round_robin\",\n      \"participantType\": \"single\",\n      \"isPublic\": false,\n      \"image\": \"https://xs.pac-12.com/styles/crop_16_9_large_1x/s3/2022-04/Tennis%20Social%20Sizes_1920x1080-optimized.jpg?itok=WjlYagbf\",\n      \"description\": \"This is a description of tournament 1\",\n      \"ageLimit\": 18,\n      \"registrationDueDate\": \"2024-03-15T23:59:59\",\n      \"startDate\": \"2024-03-20T23:59:59\",\n      \"endDate\": \"2024-03-25T23:59:59\",\n      \"status\": \"upcoming\",\n      \"address\": \"123 Main St\",\n      \"contactName\": \"John Doe\",\n      \"contactNumber\": \"123-456-7890\",\n      \"contactEmail\": \"john@gmail.com\",\n      \"createdAt\": \"2024-03-10T23:59:59\",\n      \"updatedAt\": \"2024-03-10T23:59:59\"\n    },\n    {\n      \"id\": 3,\n      \"groupId\": 1,\n      \"name\": \"2022 PAC-12 Championships\",\n      \"slot\": 50,\n      \"participants\": 20,\n      \"gender\": \"male\",\n      \"format\": \"round_robin\",\n      \"participantType\": \"single\",\n      \"isPublic\": false,\n      \"image\": \"https://xs.pac-12.com/styles/crop_16_9_large_1x/s3/2022-04/Tennis%20Social%20Sizes_1920x1080-optimized.jpg?itok=WjlYagbf\",\n      \"description\": \"This is a description of tournament 1\",\n      \"ageLimit\": 18,\n      \"registrationDueDate\": \"2024-03-15T23:59:59\",\n      \"startDate\": \"2024-03-20T23:59:59\",\n      \"endDate\": \"2024-03-25T23:59:59\",\n      \"status\": \"upcoming\",\n      \"address\": \"123 Main St\",\n      \"contactName\": \"John Doe\",\n      \"contactNumber\": \"123-456-7890\",\n      \"contactEmail\": \"john@gmail.com\",\n      \"createdAt\": \"2024-03-10T23:59:59\",\n      \"updatedAt\": \"2024-03-10T23:59:59\"\n    }\n  ]\n}",
+          "body": "[\n  {\n    \"id\": 1,\n    \"name\": \"2022 PAC-12 Championships\",\n    \"description\": \"This is a description of tournament 1\",\n    \"contactPersonName\": \"John Doe\",\n    \"contactNumber\": \"123-456-7890\",\n    \"contactEmail\": \"john@gmail.com\",\n    \"startDate\": \"2024-03-20T23:59:59\",\n    \"endDate\": \"2024-03-25T23:59:59\",\n    \"registrationDueDate\": \"2024-03-15T23:59:59\",\n    \"dueTime\": \":23:59:59\",\n    \"address\": \"123 Main St\",\n    \"format\": \"round_robin\",\n    \"maxParticipants\": 50,\n    \"gender\": \"male\",\n    \"participantType\": \"single\",\n    \"playersBornAfterDate\": \"2024-03-25T23:59:59\",\n    \"scope\": \"group\",\n    \"group\": {\n      \"id\": 1\n    },\n    \"participants\": 20,\n    \"imageUrl\": \"https://xs.pac-12.com/styles/crop_16_9_large_1x/s3/2022-04/Tennis%20Social%20Sizes_1920x1080-optimized.jpg?itok=WjlYagbf\",\n    \"status\": \"on_going\",\n    \"phase\": \"new\",\n    \"purchasedPackage\": {\n      \"id\": 1,\n      \"name\": \"Basic package for beginner\",\n      \"services\": [\n        {\n          \"id\": \"service-id-1\",\n          \"name\": \"Group Management\",\n          \"type\": \"group\",\n          \"config\": {\n            \"maxGroups\": 1,\n            \"used\": 0\n          }\n        },\n        {\n          \"id\": \"service-id-2\",\n          \"name\": \"Tournament\",\n          \"type\": \"tournament\",\n          \"config\": {\n            \"maxTournaments\": 1,\n            \"used\": 0,\n            \"level\": \"basic\"\n          }\n        }\n      ]\n    },\n    \"isCreator\": true\n  },\n  {\n    \"id\": 2,\n    \"name\": \"2024 PAC-12 Championships\",\n    \"description\": \"This is a description of tournament 2\",\n    \"contactPersonName\": \"John Doe\",\n    \"contactNumber\": \"123-456-7890\",\n    \"contactEmail\": \"john@gmail.com\",\n    \"startDate\": \"2024-03-20T23:59:59\",\n    \"endDate\": \"2024-03-25T23:59:59\",\n    \"registrationDueDate\": \"2024-03-15T23:59:59\",\n    \"dueTime\": \":23:59:59\",\n    \"address\": \"123 Main St\",\n    \"format\": \"round_robin\",\n    \"maxParticipants\": 50,\n    \"gender\": \"male\",\n    \"participantType\": \"single\",\n    \"playersBornAfterDate\": \"2024-03-25T23:59:59\",\n    \"scope\": \"open\",\n    \"participants\": 20,\n    \"imageUrl\": \"https://xs.pac-12.com/styles/crop_16_9_large_1x/s3/2022-04/Tennis%20Social%20Sizes_1920x1080-optimized.jpg?itok=WjlYagbf\",\n    \"status\": \"on_going\",\n    \"phase\": \"published\",\n    \"purchasedPackage\": {\n      \"id\": 2,\n      \"name\": \"Basic package for beginner\",\n      \"services\": [\n        {\n          \"id\": \"service-id-1\",\n          \"name\": \"Group Management\",\n          \"type\": \"group\",\n          \"config\": {\n            \"maxGroups\": 1,\n            \"used\": 0\n          }\n        },\n        {\n          \"id\": \"service-id-2\",\n          \"name\": \"Tournament\",\n          \"type\": \"tournament\",\n          \"config\": {\n            \"maxTournaments\": 1,\n            \"used\": 1,\n            \"level\": \"advanced\"\n          }\n        }\n      ]\n    },\n    \"isCreator\": false\n  }\n]",
           "latency": 0,
           "statusCode": 200,
           "label": "",
@@ -537,7 +555,7 @@
         },
         {
           "uuid": "1137fa75-5e72-4b8f-bfe6-22d13cf362ad",
-          "body": "{\n  \"data\": [\n    {\n      \"id\": 1,\n      \"groupId\": 1,\n      \"name\": \"2022 PAC-12 Championships\",\n      \"slot\": 50,\n      \"participants\": 20,\n      \"gender\": \"male\",\n      \"format\": \"round_robin\",\n      \"participantType\": \"single\",\n      \"isPublic\": true,\n      \"image\": \"https://xs.pac-12.com/styles/crop_16_9_large_1x/s3/2022-04/Tennis%20Social%20Sizes_1920x1080-optimized.jpg?itok=WjlYagbf\",\n      \"description\": \"This is a description of tournament 1\",\n      \"ageLimit\": 18,\n      \"registrationDueDate\": \"2024-03-18T23:59:59\",\n      \"startDate\": \"2024-03-20T23:59:59\",\n      \"endDate\": \"2024-03-25T23:59:59\",\n      \"status\": \"upcoming\",\n      \"address\": \"123 Main St\",\n      \"contactName\": \"John Doe\",\n      \"contactNumber\": \"123-456-7890\",\n      \"contactEmail\": \"john@gmail.com\",\n      \"createdAt\": \"2024-03-10T23:59:59\",\n      \"updatedAt\": \"2024-03-10T23:59:59\"\n    },\n    {\n      \"id\": 2,\n      \"groupId\": 1,\n      \"name\": \"2022 PAC-12 Championships\",\n      \"slot\": 50,\n      \"participants\": 20,\n      \"gender\": \"male\",\n      \"format\": \"round_robin\",\n      \"participantType\": \"single\",\n      \"isPublic\": false,\n      \"image\": \"https://xs.pac-12.com/styles/crop_16_9_large_1x/s3/2022-04/Tennis%20Social%20Sizes_1920x1080-optimized.jpg?itok=WjlYagbf\",\n      \"description\": \"This is a description of tournament 1\",\n      \"ageLimit\": 18,\n      \"registrationDueDate\": \"2024-04-15T23:59:59\",\n      \"startDate\": \"2024-04-20T23:59:59\",\n      \"endDate\": \"2024-04-25T23:59:59\",\n      \"status\": \"upcoming\",\n      \"address\": \"123 Main St\",\n      \"contactName\": \"John Doe\",\n      \"contactNumber\": \"123-456-7890\",\n      \"contactEmail\": \"john@gmail.com\",\n      \"createdAt\": \"2024-03-10T23:59:59\",\n      \"updatedAt\": \"2024-03-10T23:59:59\"\n    }\n  ]\n}",
+          "body": "[\n  {\n    \"id\": 1,\n    \"name\": \"2022 PAC-12 Championships\",\n    \"description\": \"This is a description of tournament 1\",\n    \"contactPersonName\": \"John Doe\",\n    \"contactNumber\": \"123-456-7890\",\n    \"contactEmail\": \"john@gmail.com\",\n    \"startDate\": \"2024-03-20T23:59:59\",\n    \"endDate\": \"2024-03-25T23:59:59\",\n    \"registrationDueDate\": \"2024-03-15T23:59:59\",\n    \"dueTime\": \":23:59:59\",\n    \"address\": \"123 Main St\",\n    \"format\": \"round_robin\",\n    \"maxParticipants\": 50,\n    \"gender\": \"male\",\n    \"participantType\": \"single\",\n    \"playersBornAfterDate\": \"2024-03-25T23:59:59\",\n    \"scope\": \"group\",\n    \"group\": {\n      \"id\": 1\n    },\n    \"participants\": 20,\n    \"imageUrl\": \"https://xs.pac-12.com/styles/crop_16_9_large_1x/s3/2022-04/Tennis%20Social%20Sizes_1920x1080-optimized.jpg?itok=WjlYagbf\",\n    \"status\": \"upcoming\",\n    \"phase\": \"new\",\n    \"purchasedPackage\": {\n      \"id\": 1,\n      \"name\": \"Basic package for beginner\",\n      \"services\": [\n        {\n          \"id\": \"service-id-1\",\n          \"name\": \"Group Management\",\n          \"type\": \"group\",\n          \"config\": {\n            \"maxGroups\": 1,\n            \"used\": 0\n          }\n        },\n        {\n          \"id\": \"service-id-2\",\n          \"name\": \"Tournament\",\n          \"type\": \"tournament\",\n          \"config\": {\n            \"maxTournaments\": 1,\n            \"used\": 0,\n            \"level\": \"basic\"\n          }\n        }\n      ]\n    },\n    \"isCreator\": true\n  },\n  {\n    \"id\": 2,\n    \"name\": \"2024 PAC-12 Championships\",\n    \"description\": \"This is a description of tournament 2\",\n    \"contactPersonName\": \"John Doe\",\n    \"contactNumber\": \"123-456-7890\",\n    \"contactEmail\": \"john@gmail.com\",\n    \"startDate\": \"2024-03-20T23:59:59\",\n    \"endDate\": \"2024-03-25T23:59:59\",\n    \"registrationDueDate\": \"2024-03-15T23:59:59\",\n    \"dueTime\": \":23:59:59\",\n    \"address\": \"123 Main St\",\n    \"format\": \"round_robin\",\n    \"maxParticipants\": 50,\n    \"gender\": \"male\",\n    \"participantType\": \"single\",\n    \"playersBornAfterDate\": \"2024-03-25T23:59:59\",\n    \"scope\": \"open\",\n    \"participants\": 20,\n    \"imageUrl\": \"https://xs.pac-12.com/styles/crop_16_9_large_1x/s3/2022-04/Tennis%20Social%20Sizes_1920x1080-optimized.jpg?itok=WjlYagbf\",\n    \"status\": \"upcoming\",\n    \"phase\": \"published\",\n    \"purchasedPackage\": {\n      \"id\": 2,\n      \"name\": \"Basic package for beginner\",\n      \"services\": [\n        {\n          \"id\": \"service-id-1\",\n          \"name\": \"Group Management\",\n          \"type\": \"group\",\n          \"config\": {\n            \"maxGroups\": 1,\n            \"used\": 0\n          }\n        },\n        {\n          \"id\": \"service-id-2\",\n          \"name\": \"Tournament\",\n          \"type\": \"tournament\",\n          \"config\": {\n            \"maxTournaments\": 1,\n            \"used\": 1,\n            \"level\": \"advanced\"\n          }\n        }\n      ]\n    },\n    \"isCreator\": false\n  }\n]",
           "latency": 0,
           "statusCode": 200,
           "label": "",
@@ -564,7 +582,7 @@
         },
         {
           "uuid": "535e20c8-a203-4b6e-9de8-384da270e18e",
-          "body": "{\n  \"data\": [\n    {\n      \"id\": 1,\n      \"groupId\": 1,\n      \"name\": \"2022 PAC-12 Championships\",\n      \"slot\": 50,\n      \"participants\": 20,\n      \"gender\": \"male\",\n      \"format\": \"round_robin\",\n      \"participantType\": \"single\",\n      \"isPublic\": false,\n      \"image\": \"https://xs.pac-12.com/styles/crop_16_9_large_1x/s3/2022-04/Tennis%20Social%20Sizes_1920x1080-optimized.jpg?itok=WjlYagbf\",\n      \"description\": \"This is a description of tournament 1\",\n      \"ageLimit\": 18,\n      \"registrationDueDate\": \"2024-03-15T23:59:59\",\n      \"startDate\": \"2024-03-20T23:59:59\",\n      \"endDate\": \"2024-03-25T23:59:59\",\n      \"status\": \"on_going\",\n      \"address\": \"123 Main St\",\n      \"contactName\": \"John Doe\",\n      \"contactNumber\": \"123-456-7890\",\n      \"contactEmail\": \"john@gmail.com\",\n      \"createdAt\": \"2024-03-10T23:59:59\",\n      \"updatedAt\": \"2024-03-10T23:59:59\"\n    }\n  ]\n}",
+          "body": "[\n  {\n    \"id\": 1,\n    \"name\": \"2022 PAC-12 Championships\",\n    \"description\": \"This is a description of tournament 1\",\n    \"contactPersonName\": \"John Doe\",\n    \"contactNumber\": \"123-456-7890\",\n    \"contactEmail\": \"john@gmail.com\",\n    \"startDate\": \"2024-03-20T23:59:59\",\n    \"endDate\": \"2024-03-25T23:59:59\",\n    \"registrationDueDate\": \"2024-03-15T23:59:59\",\n    \"dueTime\": \":23:59:59\",\n    \"address\": \"123 Main St\",\n    \"format\": \"round_robin\",\n    \"maxParticipants\": 50,\n    \"gender\": \"male\",\n    \"participantType\": \"single\",\n    \"playersBornAfterDate\": \"2024-03-25T23:59:59\",\n    \"scope\": \"group\",\n    \"group\": {\n      \"id\": 1\n    },\n    \"participants\": 20,\n    \"imageUrl\": \"https://xs.pac-12.com/styles/crop_16_9_large_1x/s3/2022-04/Tennis%20Social%20Sizes_1920x1080-optimized.jpg?itok=WjlYagbf\",\n    \"status\": \"on_going\",\n    \"phase\": \"new\",\n    \"purchasedPackage\": {\n      \"id\": 1,\n      \"name\": \"Basic package for beginner\",\n      \"services\": [\n        {\n          \"id\": \"service-id-1\",\n          \"name\": \"Group Management\",\n          \"type\": \"group\",\n          \"config\": {\n            \"maxGroups\": 1,\n            \"used\": 0\n          }\n        },\n        {\n          \"id\": \"service-id-2\",\n          \"name\": \"Tournament\",\n          \"type\": \"tournament\",\n          \"config\": {\n            \"maxTournaments\": 1,\n            \"used\": 0,\n            \"level\": \"basic\"\n          }\n        }\n      ]\n    },\n    \"isCreator\": true\n  },\n  {\n    \"id\": 2,\n    \"name\": \"2024 PAC-12 Championships\",\n    \"description\": \"This is a description of tournament 2\",\n    \"contactPersonName\": \"John Doe\",\n    \"contactNumber\": \"123-456-7890\",\n    \"contactEmail\": \"john@gmail.com\",\n    \"startDate\": \"2024-03-20T23:59:59\",\n    \"endDate\": \"2024-03-25T23:59:59\",\n    \"registrationDueDate\": \"2024-03-15T23:59:59\",\n    \"dueTime\": \":23:59:59\",\n    \"address\": \"123 Main St\",\n    \"format\": \"round_robin\",\n    \"maxParticipants\": 50,\n    \"gender\": \"male\",\n    \"participantType\": \"single\",\n    \"playersBornAfterDate\": \"2024-03-25T23:59:59\",\n    \"scope\": \"open\",\n    \"participants\": 20,\n    \"imageUrl\": \"https://xs.pac-12.com/styles/crop_16_9_large_1x/s3/2022-04/Tennis%20Social%20Sizes_1920x1080-optimized.jpg?itok=WjlYagbf\",\n    \"status\": \"on_going\",\n    \"phase\": \"published\",\n    \"purchasedPackage\": {\n      \"id\": 2,\n      \"name\": \"Basic package for beginner\",\n      \"services\": [\n        {\n          \"id\": \"service-id-1\",\n          \"name\": \"Group Management\",\n          \"type\": \"group\",\n          \"config\": {\n            \"maxGroups\": 1,\n            \"used\": 0\n          }\n        },\n        {\n          \"id\": \"service-id-2\",\n          \"name\": \"Tournament\",\n          \"type\": \"tournament\",\n          \"config\": {\n            \"maxTournaments\": 1,\n            \"used\": 1,\n            \"level\": \"advanced\"\n          }\n        }\n      ]\n    },\n    \"isCreator\": false\n  }\n]",
           "latency": 0,
           "statusCode": 200,
           "label": "",
@@ -591,7 +609,7 @@
         },
         {
           "uuid": "ba65182b-ae30-4dc3-b836-bbd0e8b6c7e4",
-          "body": "{\n  \"data\": [\n    {\n      \"id\": 1,\n      \"groupId\": 1,\n      \"name\": \"2022 PAC-12 Championships\",\n      \"slot\": 50,\n      \"participants\": 20,\n      \"gender\": \"male\",\n      \"format\": \"round_robin\",\n      \"participantType\": \"single\",\n      \"isPublic\": false,\n      \"image\": \"https://xs.pac-12.com/styles/crop_16_9_large_1x/s3/2022-04/Tennis%20Social%20Sizes_1920x1080-optimized.jpg?itok=WjlYagbf\",\n      \"description\": \"This is a description of tournament 1\",\n      \"ageLimit\": 18,\n      \"registrationDueDate\": \"2024-03-15T23:59:59\",\n      \"startDate\": \"2024-03-20T23:59:59\",\n      \"endDate\": \"2024-03-25T23:59:59\",\n      \"status\": \"completed\",\n      \"address\": \"123 Main St\",\n      \"contactName\": \"John Doe\",\n      \"contactNumber\": \"123-456-7890\",\n      \"contactEmail\": \"john@gmail.com\",\n      \"createdAt\": \"2024-03-10T23:59:59\",\n      \"updatedAt\": \"2024-03-10T23:59:59\"\n    },\n    {\n      \"id\": 2,\n      \"groupId\": 1,\n      \"name\": \"2022 PAC-12 Championships\",\n      \"slot\": 50,\n      \"participants\": 20,\n      \"gender\": \"male\",\n      \"format\": \"round_robin\",\n      \"participantType\": \"single\",\n      \"isPublic\": false,\n      \"image\": \"https://xs.pac-12.com/styles/crop_16_9_large_1x/s3/2022-04/Tennis%20Social%20Sizes_1920x1080-optimized.jpg?itok=WjlYagbf\",\n      \"description\": \"This is a description of tournament 1\",\n      \"ageLimit\": 18,\n      \"registrationDueDate\": \"2024-03-15T23:59:59\",\n      \"startDate\": \"2024-03-20T23:59:59\",\n      \"endDate\": \"2024-03-25T23:59:59\",\n      \"status\": \"completed\",\n      \"address\": \"123 Main St\",\n      \"contactName\": \"John Doe\",\n      \"contactNumber\": \"123-456-7890\",\n      \"contactEmail\": \"john@gmail.com\",\n      \"createdAt\": \"2024-03-10T23:59:59\",\n      \"updatedAt\": \"2024-03-10T23:59:59\"\n    },\n    {\n      \"id\": 3,\n      \"groupId\": 1,\n      \"name\": \"2022 PAC-12 Championships\",\n      \"slot\": 50,\n      \"participants\": 20,\n      \"gender\": \"male\",\n      \"format\": \"round_robin\",\n      \"participantType\": \"single\",\n      \"isPublic\": false,\n      \"image\": \"https://xs.pac-12.com/styles/crop_16_9_large_1x/s3/2022-04/Tennis%20Social%20Sizes_1920x1080-optimized.jpg?itok=WjlYagbf\",\n      \"description\": \"This is a description of tournament 1\",\n      \"ageLimit\": 18,\n      \"registrationDueDate\": \"2024-03-15T23:59:59\",\n      \"startDate\": \"2024-03-20T23:59:59\",\n      \"endDate\": \"2024-03-25T23:59:59\",\n      \"status\": \"completed\",\n      \"address\": \"123 Main St\",\n      \"contactName\": \"John Doe\",\n      \"contactNumber\": \"123-456-7890\",\n      \"contactEmail\": \"john@gmail.com\",\n      \"createdAt\": \"2024-03-10T23:59:59\",\n      \"updatedAt\": \"2024-03-10T23:59:59\"\n    },\n        {\n      \"id\": 4,\n      \"groupId\": 1,\n      \"name\": \"2022 PAC-12 Championships\",\n      \"slot\": 50,\n      \"participants\": 20,\n      \"gender\": \"male\",\n      \"format\": \"round_robin\",\n      \"participantType\": \"single\",\n      \"isPublic\": false,\n      \"image\": \"https://xs.pac-12.com/styles/crop_16_9_large_1x/s3/2022-04/Tennis%20Social%20Sizes_1920x1080-optimized.jpg?itok=WjlYagbf\",\n      \"description\": \"This is a description of tournament 1\",\n      \"ageLimit\": 18,\n      \"registrationDueDate\": \"2024-03-15T23:59:59\",\n      \"startDate\": \"2024-03-20T23:59:59\",\n      \"endDate\": \"2024-03-25T23:59:59\",\n      \"status\": \"completed\",\n      \"address\": \"123 Main St\",\n      \"contactName\": \"John Doe\",\n      \"contactNumber\": \"123-456-7890\",\n      \"contactEmail\": \"john@gmail.com\",\n      \"createdAt\": \"2024-03-10T23:59:59\",\n      \"updatedAt\": \"2024-03-10T23:59:59\"\n    },\n        {\n      \"id\": 5,\n      \"groupId\": 1,\n      \"name\": \"2022 PAC-12 Championships\",\n      \"slot\": 50,\n      \"participants\": 20,\n      \"gender\": \"male\",\n      \"format\": \"round_robin\",\n      \"participantType\": \"single\",\n      \"isPublic\": false,\n      \"image\": \"https://xs.pac-12.com/styles/crop_16_9_large_1x/s3/2022-04/Tennis%20Social%20Sizes_1920x1080-optimized.jpg?itok=WjlYagbf\",\n      \"description\": \"This is a description of tournament 1\",\n      \"ageLimit\": 18,\n      \"registrationDueDate\": \"2024-03-15T23:59:59\",\n      \"startDate\": \"2024-03-20T23:59:59\",\n      \"endDate\": \"2024-03-25T23:59:59\",\n      \"status\": \"completed\",\n      \"address\": \"123 Main St\",\n      \"contactName\": \"John Doe\",\n      \"contactNumber\": \"123-456-7890\",\n      \"contactEmail\": \"john@gmail.com\",\n      \"createdAt\": \"2024-03-10T23:59:59\",\n      \"updatedAt\": \"2024-03-10T23:59:59\"\n    }\n  ]\n}",
+          "body": "[\n  {\n    \"id\": 1,\n    \"name\": \"2022 PAC-12 Championships\",\n    \"description\": \"This is a description of tournament 1\",\n    \"contactPersonName\": \"John Doe\",\n    \"contactNumber\": \"123-456-7890\",\n    \"contactEmail\": \"john@gmail.com\",\n    \"startDate\": \"2024-03-20T23:59:59\",\n    \"endDate\": \"2024-03-25T23:59:59\",\n    \"registrationDueDate\": \"2024-03-15T23:59:59\",\n    \"dueTime\": \":23:59:59\",\n    \"address\": \"123 Main St\",\n    \"format\": \"round_robin\",\n    \"maxParticipants\": 50,\n    \"gender\": \"male\",\n    \"participantType\": \"single\",\n    \"playersBornAfterDate\": \"2024-03-25T23:59:59\",\n    \"scope\": \"group\",\n    \"group\": {\n      \"id\": 1\n    },\n    \"participants\": 49,\n    \"imageUrl\": \"https://xs.pac-12.com/styles/crop_16_9_large_1x/s3/2022-04/Tennis%20Social%20Sizes_1920x1080-optimized.jpg?itok=WjlYagbf\",\n    \"status\": \"completed\",\n    \"phase\": \"new\",\n    \"purchasedPackage\": {\n      \"id\": 1,\n      \"name\": \"Basic package for beginner\",\n      \"services\": [\n        {\n          \"id\": \"service-id-1\",\n          \"name\": \"Group Management\",\n          \"type\": \"group\",\n          \"config\": {\n            \"maxGroups\": 1,\n            \"used\": 0\n          }\n        },\n        {\n          \"id\": \"service-id-2\",\n          \"name\": \"Tournament\",\n          \"type\": \"tournament\",\n          \"config\": {\n            \"maxTournaments\": 1,\n            \"used\": 0,\n            \"level\": \"basic\"\n          }\n        }\n      ]\n    },\n    \"isCreator\": true\n  },\n  {\n    \"id\": 2,\n    \"name\": \"2024 PAC-12 Championships\",\n    \"description\": \"This is a description of tournament 2\",\n    \"contactPersonName\": \"John Doe\",\n    \"contactNumber\": \"123-456-7890\",\n    \"contactEmail\": \"john@gmail.com\",\n    \"startDate\": \"2024-03-20T23:59:59\",\n    \"endDate\": \"2024-03-25T23:59:59\",\n    \"registrationDueDate\": \"2024-03-15T23:59:59\",\n    \"dueTime\": \":23:59:59\",\n    \"address\": \"123 Main St\",\n    \"format\": \"round_robin\",\n    \"maxParticipants\": 50,\n    \"gender\": \"male\",\n    \"participantType\": \"single\",\n    \"playersBornAfterDate\": \"2024-03-25T23:59:59\",\n    \"scope\": \"open\",\n    \"participants\": 20,\n    \"imageUrl\": \"https://xs.pac-12.com/styles/crop_16_9_large_1x/s3/2022-04/Tennis%20Social%20Sizes_1920x1080-optimized.jpg?itok=WjlYagbf\",\n    \"status\": \"completed\",\n    \"phase\": \"published\",\n    \"purchasedPackage\": {\n      \"id\": 2,\n      \"name\": \"Basic package for beginner\",\n      \"services\": [\n        {\n          \"id\": \"service-id-1\",\n          \"name\": \"Group Management\",\n          \"type\": \"group\",\n          \"config\": {\n            \"maxGroups\": 1,\n            \"used\": 0\n          }\n        },\n        {\n          \"id\": \"service-id-2\",\n          \"name\": \"Tournament\",\n          \"type\": \"tournament\",\n          \"config\": {\n            \"maxTournaments\": 1,\n            \"used\": 1,\n            \"level\": \"advanced\"\n          }\n        }\n      ]\n    },\n    \"isCreator\": false\n  }\n]",
           "latency": 0,
           "statusCode": 200,
           "label": "",
@@ -694,7 +712,7 @@
       "responses": [
         {
           "uuid": "4b13c145-cd24-4381-a950-1ccf9609bcd7",
-          "body": "{\n  \"services\": [\n    {\n      \"id\": \"1\",\n      \"name\": \"Group Management\",\n      \"description\": \"Manage Every Aspect Of Your Group, Sports Organization, Association & Federation.\",\n      \"path\": \"groups\"\n    },\n    {\n      \"id\": \"2\",\n      \"name\": \"Tournament\",\n      \"description\": \"Manage Participants, Generate Schedules & Score Matches While Keeping Track Of Scores & Statistics.\",\n      \"path\": \"tournaments\"\n    }\n  ]\n}",
+          "body": "{\n  \"services\": [\n    {\n      \"id\": \"1\",\n      \"name\": \"Group Management\",\n      \"description\": \"Manage Every Aspect Of Your Group, Sports Organization, Association & Federation.\",\n      \"path\": \"groups\"\n    },\n    {\n      \"id\": \"2\",\n      \"name\": \"Tournament\",\n      \"description\": \"Manage Participants, Generate Schedules & Score Matches While Keeping Track Of Scores & Statistics.\",\n      \"path\": \"tournaments\"\n    }\n  ],\n  \"tournamentFormat\": []\n}",
           "latency": 0,
           "statusCode": 200,
           "label": "",
@@ -723,7 +741,94 @@
       "responses": [
         {
           "uuid": "20aeae1d-0769-4476-bf6b-92039baacb90",
-          "body": "{\n  \"id\": 1,\n  \"name\": \"2022 PAC-12 Championships\",\n  \"slot\": 50,\n  \"participants\": 20,\n  \"gender\": \"male\",\n  \"format\": \"round_robin\",\n  \"participantType\": \"single\",\n  \"image\": \"https://xs.pac-12.com/styles/crop_16_9_large_1x/s3/2022-04/Tennis%20Social%20Sizes_1920x1080-optimized.jpg?itok=WjlYagbf\",\n  \"description\": \"This is a description of tournament 1\",\n  \"registrationDueDate\": \"2024-03-15T23:59:59\",\n  \"startDate\": \"2024-03-20T23:59:59\",\n  \"endDate\": \"2024-03-25T23:59:59\",\n  \"status\": \"upcoming\",\n  \"phase\": \"published\",\n  \"address\": \"123 Main St\",\n  \"contactName\": \"John Doe\",\n  \"contactNumber\": \"123-456-7890\",\n  \"contactEmail\": \"john@gmail.com\",\n  \"createdAt\": \"2024-03-10T23:59:59\",\n  \"updatedAt\": \"2024-03-10T23:59:59\"\n}",
+          "body": "{\n  \"id\": 1,\n  \"name\": \"2022 PAC-12 Championships\",\n  \"description\": \"This is a description of tournament 1\",\n  \"contactPersonName\": \"John Doe\",\n  \"contactNumber\": \"123-456-7890\",\n  \"contactEmail\": \"john@gmail.com\",\n  \"startDate\": \"2024-03-20T23:59:59\",\n  \"endDate\": \"2024-03-25T23:59:59\",\n  \"registrationDueDate\": \"2024-03-15T23:59:59\",\n  \"dueTime\": \":23:59:59\",\n  \"address\": \"123 Main St\",\n  \"format\": \"round_robin\",\n  \"maxParticipants\": 50,\n  \"gender\": \"male\",\n  \"participantType\": \"single\",\n  \"playersBornAfterDate\": \"2024-03-25T23:59:59\",\n  \"scope\": \"group\",\n  \"groupId\": 1,\n  \"participants\": 20,\n  \"imageUrl\": \"https://xs.pac-12.com/styles/crop_16_9_large_1x/s3/2022-04/Tennis%20Social%20Sizes_1920x1080-optimized.jpg?itok=WjlYagbf\",\n  \"status\": \"on_going\",\n  \"phase\": \"new\",\n  \"purchasedPackage\": {\n    \"id\": 1,\n    \"name\": \"Basic package for beginner\",\n    \"services\": [\n      {\n        \"id\": \"service-id-1\",\n        \"name\": \"Group Management\",\n        \"type\": \"group\",\n        \"config\": {\n          \"maxGroups\": 1,\n          \"used\": 0\n        }\n      },\n      {\n        \"id\": \"service-id-2\",\n        \"name\": \"Tournament\",\n        \"type\": \"tournament\",\n        \"config\": {\n          \"maxTournaments\": 1,\n          \"used\": 0,\n          \"level\": \"basic\"\n        }\n      }\n    ]\n  },\n  \"isCreator\": true\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "9385b859-6fe4-428c-b7a0-f9c88ced3940",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "my-packages",
+      "responses": [
+        {
+          "uuid": "e4e40826-8e64-4271-a9be-8c8eaaaff158",
+          "body": "[\n  {\n    \"id\": 1,\n    \"name\": \"Basic Package for Beginer\",\n    \"services\": [\n      {\n        \"id\": \"service-1\",\n        \"name\": \"Group Management\",\n        \"type\": \"group\",\n        \"config\": {\n          \"maxGroups\": 1,\n          \"used\": 1\n        }\n      },\n      {\n        \"id\": \"service-2\",\n        \"name\": \"Tournament\",\n        \"type\": \"tournament\",\n        \"config\": {\n          \"maxTournaments\": 1,\n          \"used\": 0,\n          \"level\": \"basic\"\n        }\n      }\n    ],\n    \"expired\": false,\n    \"startDate\": \"2024-03-24T16:16:27\",\n    \"endDate\": \"2024-04-30T16:16:27\"\n  }\n]",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "86254530-d1f5-4966-b806-c948e82a5111",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "packages",
+      "responses": [
+        {
+          "uuid": "7e24fcb7-0997-476c-8837-793db554597f",
+          "body": "[\n  {\n    \"id\": 1,\n    \"name\": \"Basic Package\",\n    \"price\": 9,\n    \"description\": \"Our most popular package for beginner tennis groups with basic needs.\",\n    \"type\": \"tournament\",\n    \"features\": [\n      \"Tournament for your own group\"\n    ]\n  },\n  {\n    \"id\": 2,\n    \"name\": \"Advanced Package\",\n    \"price\": 19,\n    \"description\": \"The preferred option for professional tennis groups with advanced features.\",\n    \"type\": \"tournament\",\n    \"features\": [\n      \"Unlimited members\"\n    ]\n  }\n]",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "cfc46695-d9f9-49d0-a801-6f5a9a8a3093",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "my-groups",
+      "responses": [
+        {
+          "uuid": "bff1397c-fb69-4fd0-b613-89c32f4093ec",
+          "body": "[\n  {\n    \"id\": 1,\n    \"name\": \"Huy's group\",\n    \"description\": \"description\",\n    \"status\": \"active\",\n    \"adminId\": 1,\n    \"packageId\": 1,\n    \"startDate\": \"2024-03-10T08:00:00\",\n    \"endDate\": \"2024-04-01T07:59:59\"\n  }\n]",
           "latency": 0,
           "statusCode": 200,
           "label": "",
@@ -772,6 +877,10 @@
     {
       "type": "route",
       "uuid": "1eb71435-a468-4e55-9d19-7de855e16d89"
+    },
+    {
+      "type": "folder",
+      "uuid": "52cf1be7-bce1-4541-95d3-f89d94ff67cd"
     }
   ],
   "proxyMode": false,

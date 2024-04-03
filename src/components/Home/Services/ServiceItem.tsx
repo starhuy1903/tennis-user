@@ -1,4 +1,4 @@
-import { Box, Button, Card, CardActionArea, CardContent, Grid, Typography } from '@mui/material';
+import { Box, Button, Card, CardActionArea, CardActions, CardContent, Grid, Typography } from '@mui/material';
 
 import { Service } from 'types/app';
 
@@ -9,7 +9,9 @@ interface ServiceItemProps {
 
 export default function ServiceItem({ service, onGotoService }: ServiceItemProps) {
   return (
-    <Card sx={{ maxWidth: 345 }}>
+    <Card
+      sx={{ maxWidth: 345, height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}
+    >
       <CardContent>
         <Typography
           gutterBottom
@@ -24,16 +26,17 @@ export default function ServiceItem({ service, onGotoService }: ServiceItemProps
         >
           {service.description}
         </Typography>
+      </CardContent>
+      <CardActions>
         <Button
           variant="contained"
           color="primary"
           onClick={() => onGotoService(service.path)}
-          sx={{ mt: 4 }}
           fullWidth
         >
           Explore
         </Button>
-      </CardContent>
+      </CardActions>
     </Card>
   );
 }

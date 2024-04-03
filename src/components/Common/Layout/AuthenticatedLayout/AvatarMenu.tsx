@@ -18,7 +18,7 @@ import { logOut } from 'store/slice/userSlice';
 
 const AvatarMenu = () => {
   const dispatch = useAppDispatch();
-  const userState = useAppSelector((state) => state.user);
+  const userInfo = useAppSelector((state) => state.user.userInfo);
   const navigate = useNavigate();
 
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
@@ -47,12 +47,12 @@ const AvatarMenu = () => {
         {
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-ignore
-          userState.profile?.avatar ? (
+          userInfo?.avatar ? (
             <Avatar
               alt="username"
               // eslint-disable-next-line @typescript-eslint/ban-ts-comment
               // @ts-ignore
-              src={userState.profile?.avatar}
+              src={userInfo.avatar}
             />
           ) : (
             <AccountCircle />

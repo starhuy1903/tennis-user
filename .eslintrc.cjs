@@ -20,7 +20,6 @@ module.exports = {
         allowConstantExport: true,
       },
     ],
-    'comma-dangle': ['error', 'always-multiline'],
     'react-hooks/rules-of-hooks': 2,
     'react-hooks/exhaustive-deps': 1,
     'react/jsx-props-no-spreading': 0,

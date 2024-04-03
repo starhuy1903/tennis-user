@@ -28,7 +28,7 @@ export default function Home() {
       <Box>
         <Typography variant="h4">Services</Typography>
         <Services />
-        <Button onClick={handleGoToAffiliateSponsor}>Affiliate sponsorship</Button>
+        {/* <Button onClick={handleGoToAffiliateSponsor}>Affiliate sponsorship</Button> */}
       </Box>
       <Box>
         <Box
