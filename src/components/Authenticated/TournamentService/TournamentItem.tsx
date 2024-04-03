@@ -7,8 +7,9 @@ import { Box, Button, Card, CardActionArea, CardContent, CardMedia, Tooltip, Typ
 import { useAppDispatch } from 'store';
 
 import { ModalKey } from 'constants/modal';
+import { TournamentScope, TournamentStatus } from 'constants/tournament';
 import { showModal } from 'store/slice/modalSlice';
-import { Tournament, TournamentScope, TournamentStatus } from 'types/tournament';
+import { Tournament } from 'types/tournament';
 import { displayDateRange, displayDayLeft } from 'utils/datetime';
 
 export default function TournamentItem({ tournament }: { tournament: Tournament }) {
@@ -28,7 +29,7 @@ export default function TournamentItem({ tournament }: { tournament: Tournament 
       <CardActionArea>
         <CardMedia
           component="img"
-          image={tournament.image}
+          image={tournament.imageUrl}
           alt="news-image"
           sx={{
             filter: tournament.status === TournamentStatus.COMPLETED ? 'grayscale(100%)' : 'none',

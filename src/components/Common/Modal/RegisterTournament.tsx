@@ -17,7 +17,7 @@ type FormType = {
 };
 
 export default function RegisterTournament({ tournamentId, onModalClose }: RegisterTournamentProps) {
-  const userId = useAppSelector((state) => state.user.profile?.id);
+  const userId = useAppSelector((state) => state.user.userInfo?.id);
 
   const [createTournamentRegistration, { isLoading }] = useCreateTournamentRegistrationMutation();
 

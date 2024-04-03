@@ -6,8 +6,9 @@ import { useNavigate } from 'react-router-dom';
 import { useAppSelector } from 'store';
 
 import CenterLoading from 'components/Common/CenterLoading';
+import { TournamentStatus } from 'constants/tournament';
 import { useLazyGetTournamentsQuery } from 'store/api/tournament/tournamentApiSlice';
-import { Tournament, TournamentStatus } from 'types/tournament';
+import { Tournament } from 'types/tournament';
 
 import TournamentList from './TournamentList';
 

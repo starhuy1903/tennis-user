@@ -83,7 +83,7 @@
         },
         {
           "type": "folder",
-          "uuid": "be773eac-aba6-4d71-a486-8110f168a293"
+          "uuid": "6c1a8e79-f432-4138-b297-aca1fb24f2d1"
         }
       ]
     },
@@ -118,6 +118,16 @@
         {
           "type": "route",
           "uuid": "86254530-d1f5-4966-b806-c948e82a5111"
+        }
+      ]
+    },
+    {
+      "uuid": "6c1a8e79-f432-4138-b297-aca1fb24f2d1",
+      "name": "Tournament Registration",
+      "children": [
+        {
+          "type": "route",
+          "uuid": "fd73011b-4cec-48ce-a786-0067f2889236"
         }
       ]
     }

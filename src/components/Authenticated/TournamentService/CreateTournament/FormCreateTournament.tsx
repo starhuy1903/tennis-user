@@ -25,7 +25,6 @@ import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { useAppSelector } from 'store';
 
-import { useCreateTournamentMutation } from 'store/api/tournament/tournamentApiSlice';
 import CenterLoading from 'components/Common/CenterLoading';
 import {
   Gender,
@@ -37,7 +36,7 @@ import {
   TournamentScope,
 } from 'constants/tournament';
 import { useLazyGetMyGroupsQuery } from 'store/api/group/groupApiSlice';
-import { useCreateTournamentMutation } from 'store/api/tournamentApiSlice';
+import { useCreateTournamentMutation } from 'store/api/tournament/tournamentApiSlice';
 import { UserPackage } from 'types/package';
 import { GroupTournamentPayload, OpenTournamentPayload, TournamentPayload } from 'types/tournament';
 import { displayTimestamp } from 'utils/datetime';
