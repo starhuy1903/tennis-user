@@ -18,8 +18,16 @@ const tournamentApiToastSlice = apiWithToastSlice.injectEndpoints({
         body: payload,
       }),
     }),
+    getTournamentDetails: build.query<Tournament, number>({
+      query: (id) => `tournaments/${id}/general-info`,
+    }),
   }),
 });
 
-export const { useGetTournamentsQuery, useLazyGetTournamentsQuery, useCreateTournamentMutation } =
-  tournamentApiToastSlice;
+export const {
+  useGetTournamentsQuery,
+  useLazyGetTournamentsQuery,
+  useCreateTournamentMutation,
+  useGetTournamentDetailsQuery,
+  useLazyGetTournamentDetailsQuery,
+} = tournamentApiToastSlice;

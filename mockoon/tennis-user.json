@@ -80,6 +80,10 @@
         {
           "type": "route",
           "uuid": "77922702-2e13-4ce9-9dad-0f0ece01b7df"
+        },
+        {
+          "type": "route",
+          "uuid": "aed7b470-5c92-4a13-af73-5e01bab342eb"
         }
       ]
     },
@@ -829,6 +833,35 @@
         {
           "uuid": "bff1397c-fb69-4fd0-b613-89c32f4093ec",
           "body": "[\n  {\n    \"id\": 1,\n    \"name\": \"Huy's group\",\n    \"description\": \"description\",\n    \"status\": \"active\",\n    \"adminId\": 1,\n    \"packageId\": 1,\n    \"startDate\": \"2024-03-10T08:00:00\",\n    \"endDate\": \"2024-04-01T07:59:59\"\n  }\n]",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "aed7b470-5c92-4a13-af73-5e01bab342eb",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "tournaments/*/general-info",
+      "responses": [
+        {
+          "uuid": "23d75667-5a2c-40f8-a758-e9a057c60757",
+          "body": "{\n  \"id\": 1,\n  \"name\": \"2022 PAC-12 Championships\",\n  \"description\": \"This is a description of tournament 1\",\n  \"contactPersonName\": \"John Doe\",\n  \"contactNumber\": \"123-456-7890\",\n  \"contactEmail\": \"john@gmail.com\",\n  \"startDate\": \"2024-03-20T23:59:59\",\n  \"endDate\": \"2024-03-25T23:59:59\",\n  \"registrationDueDate\": \"2024-03-15T23:59:59\",\n  \"dueTime\": \"23:59:59\",\n  \"address\": \"123 Main St\",\n  \"format\": \"round_robin\",\n  \"maxParticipants\": 20,\n  \"gender\": \"male\",\n  \"participantType\": \"single\",\n  \"playersBornAfterDate\": \"2024-03-25T23:59:59\",\n  \"purchasedPackage\": {\n    \"id\": 1,\n    \"name\": \"\"\n  },\n  \"scope\": \"group\",\n  \"group\": {\n    \"id\": 1\n  },\n  \"participants\": 10,\n  \"imageUrl\": \"https://xs.pac-12.com/styles/crop_16_9_large_1x/s3/2022-04/Tennis%20Social%20Sizes_1920x1080-optimized.jpg?itok=WjlYagbf\",\n  \"status\": \"upcoming\",\n  \"phase\": \"published\",\n  \"isCreator\": true\n}",
           "latency": 0,
           "statusCode": 200,
           "label": "",
