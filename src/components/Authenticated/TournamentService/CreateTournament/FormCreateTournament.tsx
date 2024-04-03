@@ -80,7 +80,7 @@ interface FormCreateProps {
   setSelectedPackage: any;
 }
 
-export default function FormCreate({ selectedPackage, setSelectedPackage }: FormCreateProps) {
+export default function FormCreateTournament({ selectedPackage, setSelectedPackage }: FormCreateProps) {
   const navigate = useNavigate();
   const [requestCreateTournament, { isLoading }] = useCreateTournamentMutation();
   const [getMyGroups, { isLoading: fetchingMyGroupsData }] = useLazyGetMyGroupsQuery();

@@ -11,7 +11,7 @@ import { ServiceType, UserPackage } from 'types/package';
 import { getValidTournamentPackages } from 'utils/package';
 
 import ChooseTournamentPackage from './ChooseTournamentService';
-import FormCreate from './FormCreate';
+import FormCreateTournament from './FormCreateTournament';
 import MyPackages from './MyPackages';
 
 export default function CreateTournament() {
@@ -39,7 +39,7 @@ export default function CreateTournament() {
   return (
     <Box sx={{ width: '100%', typography: 'body1', mt: 2 }}>
       {selectedPackage ? (
-        <FormCreate
+        <FormCreateTournament
           selectedPackage={selectedPackage}
           setSelectedPackage={setSelectedPackage}
         />
