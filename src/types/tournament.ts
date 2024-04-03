@@ -51,6 +51,11 @@ export enum TournamentPhase {
   COMPLETED = 'completed',
 }
 
+export enum TournamentScope {
+  GROUP = "group",
+  OPEN = 'open',
+}
+
 export type TournamentPayload = {
   name: string;
   description: string;
@@ -63,7 +68,7 @@ export type TournamentPayload = {
   dueTime: string;
   address: string;
   format: TournamentFormat;
-  maxParticipants: number; // Count in TournamentRegistrations table
+  maxParticipants: number; 
   gender: Gender;
   participantType: ParticipantType;
   playersBornAfterDate: string;
@@ -71,8 +76,9 @@ export type TournamentPayload = {
 
 export type Tournament = BaseType &
   TournamentPayload & {
-    slot: number;
+    participants: number; // Count in TournamentRegistrations table
     image?: string;
     status: TournamentStatus;
     phase: TournamentPhase;
+    scope: TournamentScope;
   };

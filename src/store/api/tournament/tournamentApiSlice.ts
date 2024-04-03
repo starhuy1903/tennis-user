@@ -1,6 +1,6 @@
 import { Tournament, TournamentPayload, TournamentStatus } from 'types/tournament';
 
-import { apiWithToastSlice } from './baseApiSlice';
+import { apiWithToastSlice } from '../baseApiSlice';
 
 const tournamentApiToastSlice = apiWithToastSlice.injectEndpoints({
   endpoints: (build) => ({

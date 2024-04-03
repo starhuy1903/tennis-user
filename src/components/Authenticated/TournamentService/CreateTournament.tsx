@@ -19,7 +19,7 @@ import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { useAppSelector } from 'store';
 
-import { useCreateTournamentMutation } from 'store/api/tournamentApiSlice';
+import { useCreateTournamentMutation } from 'store/api/tournament/tournamentApiSlice';
 import {
   Gender,
   GenderOptions,
