@@ -6,8 +6,9 @@ import { useNavigate } from 'react-router-dom';
 import { useAppSelector } from 'store';
 
 import CenterLoading from 'components/Common/CenterLoading';
+import { TournamentStatus } from 'constants/tournament';
 import { useLazyGetTournamentsQuery } from 'store/api/tournamentApiSlice';
-import { Tournament, TournamentStatus } from 'types/tournament';
+import { Tournament } from 'types/tournament';
 
 import TournamentList from './TournamentList';
 
@@ -31,9 +32,9 @@ export default function TournamentService() {
     (async () => {
       try {
         const responses = await Promise.all([
-          getTournaments({ groupId: groupInfo.id, tournamentStatus: TournamentStatus.UPCOMING }).unwrap(),
-          getTournaments({ groupId: groupInfo.id, tournamentStatus: TournamentStatus.ON_GOING }).unwrap(),
-          getTournaments({ groupId: groupInfo.id, tournamentStatus: TournamentStatus.COMPLETED }).unwrap(),
+          getTournaments({ tournamentStatus: TournamentStatus.UPCOMING }).unwrap(),
+          getTournaments({ tournamentStatus: TournamentStatus.ON_GOING }).unwrap(),
+          getTournaments({ tournamentStatus: TournamentStatus.COMPLETED }).unwrap(),
         ]);
         setTournaments({
           upcoming: responses[0],

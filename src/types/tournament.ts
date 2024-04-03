@@ -7,9 +7,10 @@ import {
   TournamentStatus,
 } from 'constants/tournament';
 
+import { Group } from './group';
 import { UserPackage } from './package';
 
-export type BaseTournament = {
+export type BaseTournamentPayload = {
   name: string;
   description: string;
   contactPersonName: string;
@@ -28,18 +29,19 @@ export type BaseTournament = {
   purchasedPackageId: number;
 };
 
-export type GroupTournamentPayload = BaseTournament & {
+export type GroupTournamentPayload = BaseTournamentPayload & {
   scope: TournamentScope.GROUP;
   groupId: number;
 };
 
-export type OpenTournamentPayload = BaseTournament & {
+export type OpenTournamentPayload = BaseTournamentPayload & {
   scope: TournamentScope.OPEN;
 };
 
 export type TournamentPayload = GroupTournamentPayload | OpenTournamentPayload;
 
-export type Tournament = Omit<TournamentPayload, 'purchasedPackageId'> & {
+export type BaseTournament = Omit<TournamentPayload, 'purchasedPackageId'> & {
+  id: number;
   participants: number;
   imageUrl: string;
   status: TournamentStatus;
@@ -47,3 +49,11 @@ export type Tournament = Omit<TournamentPayload, 'purchasedPackageId'> & {
   purchasedPackage: UserPackage;
   isCreator: boolean;
 };
+
+export type GroupTournament = BaseTournament & {
+  group: Group;
+};
+
+export type OpenTournament = BaseTournament;
+
+export type Tournament = GroupTournament | OpenTournament;

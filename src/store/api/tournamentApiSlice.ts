@@ -10,7 +10,6 @@ const tournamentApiToastSlice = apiWithToastSlice.injectEndpoints({
         url: `tournaments`,
         params: { status: args?.tournamentStatus },
       }),
-      transformResponse: (response: { data: Tournament[] }) => response.data,
     }),
     createTournament: build.mutation<Tournament, TournamentPayload>({
       query: (payload) => ({

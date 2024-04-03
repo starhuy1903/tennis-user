@@ -7,7 +7,8 @@ import { Box, Button, Card, CardActionArea, CardContent, CardMedia, Tooltip, Typ
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 import NoData from 'components/Common/NoData';
-import { Tournament, TournamentStatus } from 'types/tournament';
+import { TournamentScope, TournamentStatus } from 'constants/tournament';
+import { Tournament } from 'types/tournament';
 import { displayDateRange, displayDayLeft } from 'utils/datetime';
 
 export default function TournamentList({ tournaments }: { tournaments: Tournament[] }) {
@@ -32,7 +33,7 @@ export default function TournamentList({ tournaments }: { tournaments: Tournamen
               <CardActionArea>
                 <CardMedia
                   component="img"
-                  image={item.image}
+                  image={item.imageUrl}
                   alt="news-image"
                   sx={{
                     filter: item.status === TournamentStatus.COMPLETED ? 'grayscale(100%)' : 'none',
@@ -61,7 +62,7 @@ export default function TournamentList({ tournaments }: { tournaments: Tournamen
                     padding: '2px 2px 0px',
                   }}
                 >
-                  {item.isPublic ? (
+                  {item.scope === TournamentScope.OPEN ? (
                     <Tooltip title="Public tournament">
                       <PublicIcon />
                     </Tooltip>
