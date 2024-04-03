@@ -1,5 +1,6 @@
-import { GetListResult } from 'types/base';
-import { Group, GroupDto, InvitationPayload } from 'types/group';
+import { GetListResult, GetPagingListOptions } from 'types/base';
+import { Group, GroupDto, GroupUpdateDto, InvitationPayload } from 'types/group';
+import { MemberDto } from 'types/user';
 
 import { apiWithToastSlice } from '../baseApiSlice';
 
@@ -12,24 +13,53 @@ const groupApiToastSlice = apiWithToastSlice.injectEndpoints({
         body,
       }),
     }),
-    getMyGroups: build.query<GetListResult<Group>, void>({
-      query: () => 'groups',
+    getGroupMembers: build.query<GetListResult<MemberDto>, GetPagingListOptions & { id: number }>({
+      query: (body) => ({
+        url: `groups/${body.id}/members`,
+        params: {
+          page: body.page,
+          take: body.take,
+          order: body.order,
+        },
+      }),
     }),
-    getGroupDetails: build.query<Group, number>({
+    getMyGroups: build.query<GetListResult<Group>, GetPagingListOptions>({
+      query: (body) => ({
+        url: 'groups',
+        params: {
+          page: body.page,
+          take: body.take,
+          order: body.order,
+          role: 'group_admin',
+        },
+      }),
+    }),
+    getJoinedGroups: build.query<GetListResult<Group>, GetPagingListOptions>({
+      query: (body) => ({
+        url: 'groups',
+        params: {
+          page: body.page,
+          take: body.take,
+          order: body.order,
+          role: 'member',
+        },
+      }),
+    }),
+    getGroupDetails: build.query<{ data: Group }, number>({
       query: (id) => `groups/${id}`,
     }),
-    createGroup: build.query<void, GroupDto>({
+    createGroup: build.mutation<void, GroupDto>({
       query: (body) => ({
         url: 'groups',
         method: 'POST',
-        body,
+        body: { ...body, image: 'https://picsum.photos/id/251/300/200' },
       }),
     }),
-    updateGroup: build.query<void, { id: number; data: GroupDto }>({
+    updateGroup: build.mutation<void, { id: number; data: GroupUpdateDto }>({
       query: (body) => ({
         url: `groups/${body.id}`,
         method: 'PATCH',
-        body: body.data,
+        body: { ...body.data, image: 'https://picsum.photos/id/251/300/200' },
       }),
     }),
   }),
@@ -40,5 +70,9 @@ export const {
   useGetMyGroupsQuery,
   useLazyGetMyGroupsQuery,
   useGetGroupDetailsQuery,
+  useGetJoinedGroupsQuery,
   useLazyGetGroupDetailsQuery,
+  useCreateGroupMutation,
+  useGetGroupMembersQuery,
+  useUpdateGroupMutation,
 } = groupApiToastSlice;

@@ -1,81 +1,63 @@
 import { Box, Tab, Tabs } from '@mui/material';
-import { useEffect, useState } from 'react';
-import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
-import { useAppDispatch } from 'store';
+import { useState } from 'react';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
-import CenterLoading from 'components/Common/CenterLoading';
 import TabPanel from 'components/Common/TabPanel';
-import { useLazyGetGroupDetailsQuery } from 'store/api/group/groupApiSlice';
-import { resetGroupInfo, setGroupInfo } from 'store/slice/groupSlice';
+import { useGetGroupDetailsQuery } from 'store/api/group/groupApiSlice';
 import { a11yProps } from 'utils/ui';
 
 import Feeds from './Feeds';
-import Information from './Information';
+import InfoSection from './InfoSection';
 import Member from './Member';
 import Tournaments from './Tournament';
+import UpdateGroupInformation from './UpdateGroupInformation';
 
 const GroupTabs = [
   {
     index: 0,
     label: 'Feeds',
+    hash: 'feeds',
     component: <Feeds />,
   },
   {
     index: 1,
     label: 'Tournaments',
+    hash: 'tournaments',
     component: <Tournaments />,
   },
   {
     index: 2,
     label: 'Members',
+    hash: 'members',
     component: <Member />,
   },
   {
     index: 3,
-    label: 'Information',
-    component: <Information />,
+    label: 'Update Information',
+    hash: 'information',
+    component: <UpdateGroupInformation />,
   },
 ];
 
 export default function GroupDetail() {
   const navigate = useNavigate();
-  const { groupId } = useParams();
-  const [searchParams, setSearchParams] = useSearchParams();
-  const dispatch = useAppDispatch();
+  const location = useLocation();
 
-  const [getGroupDetails, { isLoading }] = useLazyGetGroupDetailsQuery();
+  const { id } = useParams();
+  const { data } = useGetGroupDetailsQuery(parseInt(id!));
 
-  const [currentTab, setCurrentTab] = useState(Number(searchParams.get('tab')) || GroupTabs[0].index);
+  const [currentTab, setCurrentTab] = useState<number>(
+    GroupTabs.find((e) => location.hash === `#${e.hash}`)?.index || GroupTabs[0].index,
+  );
 
   const handleChange = (_: React.SyntheticEvent, newValue: number) => {
     setCurrentTab(newValue);
-    setSearchParams({ tab: String(newValue) });
+    navigate(`#${GroupTabs.find((e) => e.index === newValue)!.hash}`, { replace: true });
   };
-
-  useEffect(() => {
-    // fetch group details data
-    (async () => {
-      try {
-        if (groupId) {
-          const res = await getGroupDetails(Number(groupId)).unwrap();
-          dispatch(setGroupInfo(res));
-        } else {
-          dispatch(resetGroupInfo());
-          navigate('/');
-        }
-      } catch (error) {
-        dispatch(resetGroupInfo());
-        navigate('/');
-      }
-    })();
-  }, [groupId, getGroupDetails, navigate, dispatch]);
-
-  if (isLoading) {
-    return <CenterLoading />;
-  }
 
   return (
     <Box sx={{ width: '100%' }}>
+      <InfoSection data={data?.data} />
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs
           value={currentTab}

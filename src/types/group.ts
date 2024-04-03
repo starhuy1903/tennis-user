@@ -16,17 +16,23 @@ export type Group = {
   activityZone: string;
   status: GroupStatus;
   adminId: number;
-  packageId: number | null;
+  image?: string;
+  orderId: number | null;
   startDate: string;
   endDate: string;
+  memberCount: number;
   createdAt: '2024-03-15T05:08:51.216Z';
   updatedAt: '2024-03-15T05:08:51.216Z';
 };
 
-export type GroupDto ={
+export type GroupUpdateDto = {
   name: string;
+  image?: string;
   description?: string;
   language?: string;
   activityZone?: string;
-  packageId: number;
-}
+};
+
+export type GroupDto = GroupUpdateDto & {
+  boughtPackageId: string;
+};

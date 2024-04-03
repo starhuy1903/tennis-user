@@ -82,7 +82,7 @@ const userApiToastSlice = apiWithToastSlice.injectEndpoints({
       }),
     }),
     getProfile: build.query<UserProfile, void>({
-      query: () => 'users/me',
+      query: () => 'http://localhost:8002/users/me',
       onQueryStarted: async (_, { dispatch, queryFulfilled }) => {
         const { data } = await queryFulfilled;
         dispatch(setProfile(data));

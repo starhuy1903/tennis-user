@@ -14,3 +14,9 @@ export type BaseType = {
   createdAt: string;
   updatedAt: string;
 };
+
+export type GetPagingListOptions = {
+  page: number;
+  take: number;
+  order?: 'asc' | 'desc';
+};

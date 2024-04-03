@@ -35,6 +35,7 @@ const ControlledTextField = ({
             placeholder={placeholder}
             onChange={onChange}
             onBlur={onBlur}
+            error={!!error}
             helperText={error?.message || ' '}
             FormHelperTextProps={{ sx: { color: (theme) => (error ? theme.palette.error.main : 'transparent') } }}
             type={type}

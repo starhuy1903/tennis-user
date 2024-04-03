@@ -10,7 +10,7 @@ import Grid from '@mui/material/Unstable_Grid2';
 import { useConfirm } from 'material-ui-confirm';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useAppDispatch } from 'store';
 import * as yup from 'yup';
 
@@ -20,17 +20,20 @@ import ControlledTextField from 'components/Common/Input/ControlledTextField';
 import SingleImagePicker from 'components/Common/Input/SingleImagePicker';
 import { LANGUAGES } from 'constants/app';
 import { useLazyGetBougthPackagesQuery } from 'store/api/group/boughtPackageApiSlice';
-import { useCreateGroupMutation } from 'store/api/group/groupApiSlice';
+import {
+  useCreateGroupMutation,
+  useLazyGetGroupDetailsQuery,
+  useUpdateGroupMutation,
+} from 'store/api/group/groupApiSlice';
 import { setLoading } from 'store/slice/statusSlice';
 
-import PackageSelector from '../components/PackageSelector';
+import PackageSelector from '../../components/PackageSelector';
 
 interface FormData {
   name: string;
   description?: string;
   language: string;
   activityZone: string;
-  boughtPackageId: string;
   image: any | null;
 }
 
@@ -39,23 +42,24 @@ const schema = yup.object({
   description: yup.string().optional(),
   language: yup.string().required("Group's language is required"),
   activityZone: yup.string().required('Please tell people where your group is active'),
-  boughtPackageId: yup.string().required(),
   image: yup.mixed().required().nullable(),
 });
 
-const GroupCreate = () => {
+const UpdateGroupInformation = () => {
   const navigate = useNavigate();
   const confirm = useConfirm();
   const dispatch = useAppDispatch();
-  const [getBoughtPackage, { data: boughtPackages }] = useLazyGetBougthPackagesQuery();
-  const [createGroup] = useCreateGroupMutation();
+  const { id } = useParams();
+
+  const [updateGroup] = useUpdateGroupMutation();
+  const [getGroupDetail, { data: groupDetail }] = useLazyGetGroupDetailsQuery();
 
   const {
     control,
     handleSubmit,
-    formState: { isValid, isLoading },
+    formState: { isValid, isLoading, isDirty },
     setValue,
-    getValues,
+    reset,
     watch,
   } = useForm<FormData>({
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -63,28 +67,43 @@ const GroupCreate = () => {
     resolver: yupResolver(schema),
     mode: 'onChange',
     defaultValues: async () => {
-      const _boughtPackages = await getBoughtPackage().unwrap();
-      return {
-        name: '',
-        description: '',
-        language: LANGUAGES[0].value,
-        activityZone: '',
-        boughtPackageId: _boughtPackages.length > 0 ? _boughtPackages[0].id : '',
-        image: null,
-      };
+      let detail;
+
+      try {
+        detail = await getGroupDetail(parseInt(id!)).unwrap();
+
+        return {
+          name: detail.data.name,
+          description: detail.data.description,
+          language: detail.data.language,
+          activityZone: detail.data.activityZone,
+          image: null,
+        };
+      } catch {
+        toast.error('Detail not found!');
+        navigate('/groups', { replace: true });
+
+        return {
+          name: '',
+          description: '',
+          language: LANGUAGES[0].value,
+          activityZone: '',
+          image: null,
+        };
+      }
     },
   });
 
   const formValue = watch();
 
   const handleCreateGroup = handleSubmit((data: FormData) => {
-    confirm({ title: 'Confirm group creation', description: `Create group ${formValue.name} ?` })
+    confirm({ title: 'Confirm update', description: `Update information change ?` })
       .then(async () => {
         dispatch(setLoading(true));
         try {
-          await createGroup(data).unwrap();
-          toast.success('Group created');
-          navigate('/groups');
+          await updateGroup({ id: groupDetail!.data.id, data }).unwrap();
+          toast.success('Information updated');
+          reset(data);
         } catch {
           /* empty */
         }
@@ -99,13 +118,6 @@ const GroupCreate = () => {
       onSubmit={handleCreateGroup}
       sx={{ paddingBottom: '20px' }}
     >
-      <Typography
-        variant="h1"
-        textAlign="center"
-        marginBottom="10px"
-      >
-        Create your group
-      </Typography>
       <Stack
         direction="column"
         spacing={2}
@@ -114,30 +126,6 @@ const GroupCreate = () => {
           <CircularProgress />
         ) : (
           <>
-            <Paper sx={{ padding: '10px' }}>
-              <Typography
-                variant="h2"
-                fontWeight="bold"
-              >
-                Package
-              </Typography>
-              {boughtPackages && boughtPackages?.length > 0 ? (
-                <Box sx={{ width: '50%', padding: '15px' }}>
-                  <PackageSelector
-                    selected={getValues('boughtPackageId')}
-                    handleSelect={() => {}}
-                    packages={boughtPackages}
-                  />
-                </Box>
-              ) : (
-                <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                  <Typography>
-                    You haven't own a package that support creating group. Checkout one of our available packages{' '}
-                    <CustomLink to="/pricing">here</CustomLink>.
-                  </Typography>
-                </Box>
-              )}
-            </Paper>
             <Paper sx={{ padding: '10px' }}>
               <Typography
                 variant="h2"
@@ -202,33 +190,16 @@ const GroupCreate = () => {
         )}
         <Paper sx={{ display: 'flex', columnGap: '20px', justifyContent: 'center', padding: '10px' }}>
           <Button
-            type="button"
-            variant="outlined"
-            color="error"
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            //@ts-ignore
-            onClick={() => navigate(-1, { replace: true })}
+            type="submit"
+            variant="contained"
+            disabled={!isValid || !isDirty}
           >
-            Cancel
+            Update information
           </Button>
-          <Tooltip
-            title={isValid ? 'Create group' : 'Please provide valid information to continue'}
-            placement="top"
-          >
-            <Box component="span">
-              <Button
-                type="submit"
-                variant="contained"
-                disabled={!isValid}
-              >
-                Create group
-              </Button>
-            </Box>
-          </Tooltip>
         </Paper>
       </Stack>
     </Box>
   );
 };
 
-export default GroupCreate;
+export default UpdateGroupInformation;

@@ -3,12 +3,14 @@ import { useAppDispatch, useAppSelector } from 'store';
 import { ModalKey } from 'constants/modal';
 import { showModal } from 'store/slice/modalSlice';
 
+import CropImage from './CropImage';
 import HelloWorld from './HelloWorld';
 import InviteIntoGroup from './InviteIntoGroup';
 
 const ModalsMap: { [modalKey: string]: any } = {
   [ModalKey.HELLO_WORLD]: HelloWorld,
   [ModalKey.INVITE_INTO_GROUP]: InviteIntoGroup,
+  [ModalKey.CROP_IMAGE]: CropImage,
 };
 
 export function ModalContainer() {

@@ -50,12 +50,13 @@ export type SignupResponse = MessageResponse & {
 export type ForgotPasswordResponse = SignupResponse;
 
 export type UserProfile = {
-  id: string;
+  id: number;
   email: string;
   firstName: string;
   lastName: string;
   dob: string;
   phoneNumber: string;
+  image?: string;
 };
 
 export type RefreshResponse = {
@@ -71,4 +72,21 @@ export type AffiliatedSponsorPayload = {
   website: string;
   taxNumber: string;
   description: string;
+};
+
+export type User = {
+  id: number;
+  email: string;
+  name: string;
+  image?: string;
+  bio?: string;
+};
+
+export type MemberDto = {
+  userId: number;
+  groupId: number;
+  createdAt: string;
+  updatedAt: string;
+  role: 'group_admin' | 'member';
+  user: User;
 };
