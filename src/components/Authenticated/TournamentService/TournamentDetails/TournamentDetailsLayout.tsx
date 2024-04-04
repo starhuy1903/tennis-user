@@ -6,7 +6,7 @@ import { Outlet, useNavigate, useParams } from 'react-router-dom';
 
 import CenterLoading from 'components/Common/CenterLoading';
 import { TournamentStatus } from 'constants/tournament';
-import { useLazyGetTournamentDetailsQuery } from 'store/api/tournamentApiSlice';
+import { useLazyGetTournamentDetailsQuery } from 'store/api/tournament/tournamentApiSlice';
 import { Tournament } from 'types/tournament';
 import { displayDateRange } from 'utils/datetime';
 import { showError } from 'utils/toast';
