@@ -19,7 +19,6 @@ export type BaseTournamentPayload = {
   startDate: string;
   endDate: string;
   registrationDueDate: string;
-  dueTime: string;
   address: string;
   format: TournamentFormat;
   maxParticipants: number;

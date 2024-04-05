@@ -40,6 +40,12 @@ export enum TournamentStatus {
   COMPLETED = 'completed',
 }
 
+export const TournamentStatusOptions = {
+  [TournamentStatus.UPCOMING]: 'Upcoming',
+  [TournamentStatus.ON_GOING]: 'On Going',
+  [TournamentStatus.COMPLETED]: 'Completed',
+};
+
 export enum TournamentPhase {
   NEW = 'new',
   PUBLISHED = 'published',
@@ -49,10 +55,24 @@ export enum TournamentPhase {
   COMPLETED = 'completed',
 }
 
+export const TournamentPhaseOptions = {
+  [TournamentPhase.NEW]: 'New',
+  [TournamentPhase.PUBLISHED]: 'Published',
+  [TournamentPhase.FINALIZED_APPLICANTS]: 'Finalized Applicants',
+  [TournamentPhase.GENERATED_FIXTURES]: 'Generated Fixtures',
+  [TournamentPhase.SCORED_MATCHES]: 'Scored Matches',
+  [TournamentPhase.COMPLETED]: 'Completed',
+};
+
 export enum TournamentScope {
   GROUP = 'group',
   OPEN = 'open',
 }
+
+export const TournamentScopeOptions = {
+  [TournamentScope.GROUP]: 'Group',
+  [TournamentScope.OPEN]: 'Open',
+};
 
 export enum TournamentLevel {
   BASIC = 'basic',
