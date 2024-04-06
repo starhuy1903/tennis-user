@@ -50,7 +50,7 @@ export default function GroupDetail() {
 
   return (
     <Box sx={{ width: '100%' }}>
-      <InfoSection data={data?.data} />
+      <InfoSection data={data} />
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs
           value={currentTab}

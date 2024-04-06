@@ -1,4 +1,4 @@
-export type BoughtPackage = {
+export type PurchasedPackage = {
   id: string;
   userId: number;
   expired: boolean;

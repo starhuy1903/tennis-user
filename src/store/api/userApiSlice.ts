@@ -22,7 +22,7 @@ const userApiToastSlice = apiWithToastSlice.injectEndpoints({
   endpoints: (build) => ({
     login: build.mutation<LoginResponse, CredentialPayload>({
       query: (body) => ({
-        url: 'http://localhost:8001/auth/login',
+        url: 'auth/auth/login',
         method: 'POST',
         body,
       }),
@@ -35,7 +35,7 @@ const userApiToastSlice = apiWithToastSlice.injectEndpoints({
     }),
     loginGoogle: build.mutation<LoginResponse, OAuthPayload>({
       query: (body) => ({
-        url: 'http://localhost:8001/auth/login/google',
+        url: 'auth/auth/login/google',
         method: 'POST',
         body,
       }),
@@ -48,41 +48,41 @@ const userApiToastSlice = apiWithToastSlice.injectEndpoints({
     }),
     signup: build.mutation<SignupResponse, SignupPayload>({
       query: (body) => ({
-        url: 'http://localhost:8001/auth/signup',
+        url: 'auth/auth/signup',
         method: 'POST',
         body,
       }),
     }),
     verify: build.mutation<MessageResponse, VerifyPayload>({
       query: (body) => ({
-        url: 'http://localhost:8001/auth/verify',
+        url: 'auth/auth/verify',
         method: 'POST',
         body,
       }),
     }),
     forgotPassword: build.mutation<ForgotPasswordResponse, ForgotPasswordPayload>({
       query: (body) => ({
-        url: 'http://localhost:8001/auth/forgot-password',
+        url: 'auth/auth/forgot-password',
         method: 'POST',
         body,
       }),
     }),
     resetPassword: build.mutation<MessageResponse, ResetPasswordPayload>({
       query: (body) => ({
-        url: 'http://localhost:8001/auth/reset-password',
+        url: 'auth/auth/reset-password',
         method: 'POST',
         body,
       }),
     }),
     changePassword: build.mutation<MessageResponse, ChangePasswordPayload>({
       query: (body) => ({
-        url: 'auth/change-password',
+        url: 'auth/auth/change-password',
         method: 'POST',
         body,
       }),
     }),
     getProfile: build.query<UserProfile, void>({
-      query: () => 'http://localhost:8002/users/me',
+      query: () => '/core/users/me',
       onQueryStarted: async (_, { dispatch, queryFulfilled }) => {
         const { data } = await queryFulfilled;
         dispatch(setProfile(data));

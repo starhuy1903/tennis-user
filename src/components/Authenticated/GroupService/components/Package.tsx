@@ -6,7 +6,7 @@ import CardHeader from '@mui/material/CardHeader';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
-import { BoughtPackage } from 'types/boughtPackage';
+import { BoughtPackage } from 'types/purchasedPackage';
 import { displayTimestamp } from 'utils/datetime';
 
 interface PackageProps {

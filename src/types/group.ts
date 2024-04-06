@@ -21,8 +21,8 @@ export type Group = {
   startDate: string;
   endDate: string;
   memberCount: number;
-  createdAt: '2024-03-15T05:08:51.216Z';
-  updatedAt: '2024-03-15T05:08:51.216Z';
+  createdAt: string;
+  updatedAt: string;
 };
 
 export type GroupUpdateDto = {
@@ -34,5 +34,5 @@ export type GroupUpdateDto = {
 };
 
 export type GroupDto = GroupUpdateDto & {
-  boughtPackageId: string;
+  purchasedPackageId: string;
 };

@@ -8,14 +8,14 @@ const groupApiToastSlice = apiWithToastSlice.injectEndpoints({
   endpoints: (build) => ({
     addMember: build.mutation<void, InvitationPayload>({
       query: (body) => ({
-        url: 'groups/invite',
+        url: 'core/groups/invite',
         method: 'POST',
         body,
       }),
     }),
     getGroupMembers: build.query<GetListResult<MemberDto>, GetPagingListOptions & { id: number }>({
       query: (body) => ({
-        url: `groups/${body.id}/members`,
+        url: `core/groups/${body.id}/members`,
         params: {
           page: body.page,
           take: body.take,
@@ -25,7 +25,7 @@ const groupApiToastSlice = apiWithToastSlice.injectEndpoints({
     }),
     getMyGroups: build.query<GetListResult<Group>, GetPagingListOptions>({
       query: (body) => ({
-        url: 'groups',
+        url: 'core/groups',
         params: {
           page: body.page,
           take: body.take,
@@ -36,7 +36,7 @@ const groupApiToastSlice = apiWithToastSlice.injectEndpoints({
     }),
     getJoinedGroups: build.query<GetListResult<Group>, GetPagingListOptions>({
       query: (body) => ({
-        url: 'groups',
+        url: 'core/groups',
         params: {
           page: body.page,
           take: body.take,
@@ -45,19 +45,19 @@ const groupApiToastSlice = apiWithToastSlice.injectEndpoints({
         },
       }),
     }),
-    getGroupDetails: build.query<{ data: Group }, number>({
-      query: (id) => `groups/${id}`,
+    getGroupDetails: build.query<Group, number>({
+      query: (id) => `core/groups/${id}`,
     }),
     createGroup: build.mutation<void, GroupDto>({
       query: (body) => ({
-        url: 'groups',
+        url: 'core/groups',
         method: 'POST',
         body: { ...body, image: 'https://picsum.photos/id/251/300/200' },
       }),
     }),
     updateGroup: build.mutation<void, { id: number; data: GroupUpdateDto }>({
       query: (body) => ({
-        url: `groups/${body.id}`,
+        url: `core/groups/${body.id}`,
         method: 'PATCH',
         body: { ...body.data, image: 'https://picsum.photos/id/251/300/200' },
       }),

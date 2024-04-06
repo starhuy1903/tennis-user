@@ -6,18 +6,18 @@ const newsApiSlice = apiSlice.injectEndpoints({
   endpoints: (build) => ({
     getNews: build.query<News[], void>({
       query: () => ({
-        url: `/news`,
+        url: `core/news`,
       }),
       transformResponse: (response: { data: News[] }) => response.data,
     }),
     getTopNews: build.query<News[], void>({
       query: () => ({
-        url: `/news/top`,
+        url: `core/news/top`,
       }),
       transformResponse: (response: { data: News[] }) => response.data,
     }),
     getNewsById: build.query<News, string>({
-      query: (id) => `/news/${id}`,
+      query: (id) => `core/news/${id}`,
       transformResponse: (response: { data: News }) => response.data,
     }),
   }),

@@ -11,7 +11,7 @@ import Grid from '@mui/material/Unstable_Grid2';
 import { useState } from 'react';
 
 import CustomLink from 'components/Common/CustomLink';
-import { BoughtPackage } from 'types/boughtPackage';
+import { BoughtPackage } from 'types/purchasedPackage';
 import { ScrollbarStyle } from 'utils/style';
 
 import Package from './Package';

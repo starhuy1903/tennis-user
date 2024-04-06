@@ -4,7 +4,6 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
-import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Unstable_Grid2';
 import { useConfirm } from 'material-ui-confirm';
@@ -14,20 +13,12 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useAppDispatch } from 'store';
 import * as yup from 'yup';
 
-import CustomLink from 'components/Common/CustomLink';
 import ControlledSelect from 'components/Common/Input/ControlledSelect';
 import ControlledTextField from 'components/Common/Input/ControlledTextField';
 import SingleImagePicker from 'components/Common/Input/SingleImagePicker';
 import { LANGUAGES } from 'constants/app';
-import { useLazyGetBougthPackagesQuery } from 'store/api/group/boughtPackageApiSlice';
-import {
-  useCreateGroupMutation,
-  useLazyGetGroupDetailsQuery,
-  useUpdateGroupMutation,
-} from 'store/api/group/groupApiSlice';
+import { useLazyGetGroupDetailsQuery, useUpdateGroupMutation } from 'store/api/group/groupApiSlice';
 import { setLoading } from 'store/slice/statusSlice';
-
-import PackageSelector from '../../components/PackageSelector';
 
 interface FormData {
   name: string;
@@ -73,13 +64,13 @@ const UpdateGroupInformation = () => {
         detail = await getGroupDetail(parseInt(id!)).unwrap();
 
         return {
-          name: detail.data.name,
-          description: detail.data.description,
-          language: detail.data.language,
-          activityZone: detail.data.activityZone,
+          name: detail.name,
+          description: detail.description,
+          language: detail.language,
+          activityZone: detail.activityZone,
           image: null,
         };
-      } catch {
+      } catch (err) {
         toast.error('Detail not found!');
         navigate('/groups', { replace: true });
 
@@ -101,7 +92,7 @@ const UpdateGroupInformation = () => {
       .then(async () => {
         dispatch(setLoading(true));
         try {
-          await updateGroup({ id: groupDetail!.data.id, data }).unwrap();
+          await updateGroup({ id: groupDetail!.id, data }).unwrap();
           toast.success('Information updated');
           reset(data);
         } catch {
@@ -186,17 +177,17 @@ const UpdateGroupInformation = () => {
                 </Grid>
               </Grid>
             </Paper>
+            <Paper sx={{ display: 'flex', columnGap: '20px', justifyContent: 'center', padding: '10px' }}>
+              <Button
+                type="submit"
+                variant="contained"
+                disabled={!isValid || !isDirty}
+              >
+                Update information
+              </Button>
+            </Paper>
           </>
         )}
-        <Paper sx={{ display: 'flex', columnGap: '20px', justifyContent: 'center', padding: '10px' }}>
-          <Button
-            type="submit"
-            variant="contained"
-            disabled={!isValid || !isDirty}
-          >
-            Update information
-          </Button>
-        </Paper>
       </Stack>
     </Box>
   );

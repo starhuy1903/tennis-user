@@ -19,7 +19,7 @@ import ControlledSelect from 'components/Common/Input/ControlledSelect';
 import ControlledTextField from 'components/Common/Input/ControlledTextField';
 import SingleImagePicker from 'components/Common/Input/SingleImagePicker';
 import { LANGUAGES } from 'constants/app';
-import { useLazyGetBougthPackagesQuery } from 'store/api/group/boughtPackageApiSlice';
+import { useLazyGetPurchasedPackagesQuery } from 'store/api/group/purchasedPackageApiSlice';
 import { useCreateGroupMutation } from 'store/api/group/groupApiSlice';
 import { setLoading } from 'store/slice/statusSlice';
 
@@ -30,7 +30,7 @@ interface FormData {
   description?: string;
   language: string;
   activityZone: string;
-  boughtPackageId: string;
+  purchasedPackageId: string;
   image: any | null;
 }
 
@@ -39,7 +39,7 @@ const schema = yup.object({
   description: yup.string().optional(),
   language: yup.string().required("Group's language is required"),
   activityZone: yup.string().required('Please tell people where your group is active'),
-  boughtPackageId: yup.string().required(),
+  purchasedPackageId: yup.string().required(),
   image: yup.mixed().required().nullable(),
 });
 
@@ -47,7 +47,7 @@ const GroupCreate = () => {
   const navigate = useNavigate();
   const confirm = useConfirm();
   const dispatch = useAppDispatch();
-  const [getBoughtPackage, { data: boughtPackages }] = useLazyGetBougthPackagesQuery();
+  const [getPurchasedPackage, { data: purchasedPackages }] = useLazyGetPurchasedPackagesQuery();
   const [createGroup] = useCreateGroupMutation();
 
   const {
@@ -63,13 +63,13 @@ const GroupCreate = () => {
     resolver: yupResolver(schema),
     mode: 'onChange',
     defaultValues: async () => {
-      const _boughtPackages = await getBoughtPackage().unwrap();
+      const _purchasedPackages = await getPurchasedPackage().unwrap();
       return {
         name: '',
         description: '',
         language: LANGUAGES[0].value,
         activityZone: '',
-        boughtPackageId: _boughtPackages.length > 0 ? _boughtPackages[0].id : '',
+        purchasedPackageId: _purchasedPackages.length > 0 ? _purchasedPackages[0].id : '',
         image: null,
       };
     },
@@ -121,12 +121,12 @@ const GroupCreate = () => {
               >
                 Package
               </Typography>
-              {boughtPackages && boughtPackages?.length > 0 ? (
+              {purchasedPackages && purchasedPackages?.length > 0 ? (
                 <Box sx={{ width: '50%', padding: '15px' }}>
                   <PackageSelector
-                    selected={getValues('boughtPackageId')}
+                    selected={getValues('purchasedPackageId')}
                     handleSelect={() => {}}
-                    packages={boughtPackages}
+                    packages={purchasedPackages}
                   />
                 </Box>
               ) : (
@@ -198,34 +198,34 @@ const GroupCreate = () => {
                 </Grid>
               </Grid>
             </Paper>
+            <Paper sx={{ display: 'flex', columnGap: '20px', justifyContent: 'center', padding: '10px' }}>
+              <Button
+                type="button"
+                variant="outlined"
+                color="error"
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                //@ts-ignore
+                onClick={() => navigate(-1, { replace: true })}
+              >
+                Cancel
+              </Button>
+              <Tooltip
+                title={isValid ? 'Create group' : 'Please provide valid information to continue'}
+                placement="top"
+              >
+                <Box component="span">
+                  <Button
+                    type="submit"
+                    variant="contained"
+                    disabled={!isValid}
+                  >
+                    Create group
+                  </Button>
+                </Box>
+              </Tooltip>
+            </Paper>
           </>
         )}
-        <Paper sx={{ display: 'flex', columnGap: '20px', justifyContent: 'center', padding: '10px' }}>
-          <Button
-            type="button"
-            variant="outlined"
-            color="error"
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            //@ts-ignore
-            onClick={() => navigate(-1, { replace: true })}
-          >
-            Cancel
-          </Button>
-          <Tooltip
-            title={isValid ? 'Create group' : 'Please provide valid information to continue'}
-            placement="top"
-          >
-            <Box component="span">
-              <Button
-                type="submit"
-                variant="contained"
-                disabled={!isValid}
-              >
-                Create group
-              </Button>
-            </Box>
-          </Tooltip>
-        </Paper>
       </Stack>
     </Box>
   );

@@ -6,7 +6,7 @@ const orderApiToastSlice = apiWithToastSlice.injectEndpoints({
   endpoints: (build) => ({
     createOrder: build.mutation<CreateOrderResponse, CreateOrderPayload>({
       query: (body) => ({
-        url: 'orders',
+        url: 'core/orders',
         method: 'POST',
         body,
       }),
