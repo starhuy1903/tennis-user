@@ -2,6 +2,7 @@ import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import PeopleIcon from '@mui/icons-material/People';
 import { Box, Button, Card, CardActionArea, CardContent, CardMedia, Typography } from '@mui/material';
+import { Link } from 'react-router-dom';
 import { useAppDispatch } from 'store';
 
 import { ModalKey } from 'constants/modal';
@@ -126,8 +127,10 @@ export default function TournamentItem({ tournament }: { tournament: OpenTournam
         )}
 
         <Button
-          variant="outlined"
+          component={Link}
+          to={`/tournaments/${tournament.id}`}
           fullWidth
+          variant="outlined"
           sx={{
             mt: 2,
           }}

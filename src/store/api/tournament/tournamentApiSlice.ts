@@ -29,6 +29,12 @@ const tournamentApiToastSlice = apiWithToastSlice.injectEndpoints({
         body: payload,
       }),
     }),
+    moveToNextPhase: build.mutation<OpenTournament, number>({
+      query: (id) => ({
+        url: `tournaments/${id}/next-phase`,
+        method: 'PATCH',
+      }),
+    }),
   }),
 });
 
@@ -39,4 +45,5 @@ export const {
   useGetOpenTournamentDetailsQuery,
   useLazyGetOpenTournamentDetailsQuery,
   useCreateTournamentRegistrationMutation,
+  useMoveToNextPhaseMutation,
 } = tournamentApiToastSlice;
