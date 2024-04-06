@@ -10,10 +10,12 @@ import {
   TournamentFormatOptions,
   TournamentPhase,
   TournamentPhaseOptions,
-  TournamentScopeOptions,
 } from 'constants/tournament';
-import { useLazyGetTournamentDetailsQuery, useMoveToNextPhaseMutation } from 'store/api/tournament/tournamentApiSlice';
-import { Tournament } from 'types/tournament';
+import {
+  useLazyGetOpenTournamentDetailsQuery,
+  useMoveToNextPhaseMutation,
+} from 'store/api/tournament/tournamentApiSlice';
+import { OpenTournament } from 'types/tournament';
 import { displayDate } from 'utils/datetime';
 import { showError } from 'utils/toast';
 
@@ -21,10 +23,10 @@ import InfoSection from './InfoSection';
 
 export default function Information() {
   const navigate = useNavigate();
-  const [getTournamentDetails, { isLoading }] = useLazyGetTournamentDetailsQuery();
+  const [getTournamentDetails, { isLoading }] = useLazyGetOpenTournamentDetailsQuery();
   const [moveToNextPhase, { isLoading: isNextPhaseLoading }] = useMoveToNextPhaseMutation();
 
-  const [tournament, setTournament] = useState<Tournament | null>(null);
+  const [tournament, setTournament] = useState<OpenTournament | null>(null);
 
   const { tournamentId } = useParams();
 
@@ -67,7 +69,6 @@ export default function Information() {
 
   // Format, participants, gender, participant type, players born after, scope
   const tournamentDetailsFields = [
-    { label: 'SCOPE', value: TournamentScopeOptions[tournament.scope] },
     { label: 'PARTICIPANTS', value: `${tournament.participants}/${tournament.maxParticipants}` },
     { label: 'TYPE', value: ParticipantTypeOptions[tournament.participantType] },
     { label: 'GENDER', value: GenderOptions[tournament.gender] },
