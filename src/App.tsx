@@ -12,6 +12,7 @@ import VNPReturn from 'components/Authenticated/PaymentReturn/VNPReturn';
 import Profile from 'components/Authenticated/Profile';
 import TournamentService from 'components/Authenticated/TournamentService';
 import CreateTournament from 'components/Authenticated/TournamentService/CreateTournament';
+import { tournamentDetailsRoutes } from 'components/Authenticated/TournamentService/TournamentDetails';
 import TournamentLayout from 'components/Authenticated/TournamentService/TournamentLayout';
 import CenterLoading from 'components/Common/CenterLoading';
 import AuthenticatedLayout from 'components/Common/Layout/AuthenticatedLayout';
@@ -118,6 +119,7 @@ const protectedRoutes = createBrowserRouter([
         path: 'create',
         element: <CreateTournament />,
       },
+      tournamentDetailsRoutes,
     ],
   },
   {
