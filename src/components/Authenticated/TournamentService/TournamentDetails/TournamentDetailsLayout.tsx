@@ -6,8 +6,8 @@ import { Outlet, useNavigate, useParams } from 'react-router-dom';
 
 import CenterLoading from 'components/Common/CenterLoading';
 import { TournamentStatus } from 'constants/tournament';
-import { useLazyGetTournamentDetailsQuery } from 'store/api/tournamentApiSlice';
-import { Tournament } from 'types/tournament';
+import { useLazyGetOpenTournamentDetailsQuery } from 'store/api/tournament/tournamentApiSlice';
+import { OpenTournament } from 'types/tournament';
 import { displayDateRange } from 'utils/datetime';
 import { showError } from 'utils/toast';
 
@@ -43,8 +43,8 @@ const TournamentTabs = [
 
 export default function TournamentDetailsLayout() {
   const navigate = useNavigate();
-  const [getTournamentDetails, { isLoading }] = useLazyGetTournamentDetailsQuery();
-  const [tournamentData, setTournamentData] = useState<Tournament | null>(null);
+  const [getTournamentDetails, { isLoading }] = useLazyGetOpenTournamentDetailsQuery();
+  const [tournamentData, setTournamentData] = useState<OpenTournament | null>(null);
 
   const [currentTab, setCurrentTab] = useState(TournamentTabs[0].value);
 

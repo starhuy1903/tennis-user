@@ -16,16 +16,17 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import { TimePicker } from '@mui/x-date-pickers';
+import { DateTimePicker } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { useEffect, useMemo, useState } from 'react';
+import dayjs from 'dayjs';
+import * as EmailValidator from 'email-validator';
+import { useMemo } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { useAppSelector } from 'store';
 
-import CenterLoading from 'components/Common/CenterLoading';
 import {
   Gender,
   GenderOptions,
@@ -33,12 +34,10 @@ import {
   ParticipantTypeOptions,
   TournamentFormat,
   TournamentLevel,
-  TournamentScope,
 } from 'constants/tournament';
-import { useLazyGetMyGroupsQuery } from 'store/api/group/groupApiSlice';
-import { useCreateTournamentMutation } from 'store/api/tournamentApiSlice';
+import { useCreateOpenTournamentMutation } from 'store/api/tournament/tournamentApiSlice';
 import { UserPackage } from 'types/package';
-import { GroupTournamentPayload, OpenTournamentPayload, TournamentPayload } from 'types/tournament';
+import { OpenTournamentPayload } from 'types/tournament';
 import { displayTimestamp } from 'utils/datetime';
 import { getUsedTournamentService } from 'utils/package';
 import { showSuccess } from 'utils/toast';
@@ -49,31 +48,7 @@ const tournamentFormatOptions = [
   { id: 3, value: 'group_playoff', displayValue: 'Group Playoff', level: 'advanced' },
 ];
 
-const getTournamentFormatOptions = (level: string) => {
-  if (level === 'basic') {
-    return tournamentFormatOptions.filter((option) => option.level === 'basic');
-  }
-  return tournamentFormatOptions;
-};
-
-type FormType = {
-  name: string;
-  description: string;
-  contactPersonName: string;
-  contactNumber: string;
-  contactEmail: string;
-  startDate: string;
-  endDate: string;
-  registrationDueDate: string;
-  dueTime: string;
-  gender: Gender;
-  format: TournamentFormat;
-  maxParticipants: number;
-  participantType: ParticipantType;
-  playersBornAfterDate: string;
-  address: string;
-  groupId?: number;
-};
+type FormType = Omit<OpenTournamentPayload, 'purchasedPackageId'>;
 
 interface FormCreateProps {
   selectedPackage: UserPackage;
@@ -82,11 +57,7 @@ interface FormCreateProps {
 
 export default function FormCreateTournament({ selectedPackage, setSelectedPackage }: FormCreateProps) {
   const navigate = useNavigate();
-  const [requestCreateTournament, { isLoading }] = useCreateTournamentMutation();
-  const [getMyGroups, { isLoading: fetchingMyGroupsData }] = useLazyGetMyGroupsQuery();
-
-  const [myGroupsData, setMyGroupsData] = useState<any>(null);
-  const [initialized, setInitialized] = useState(false);
+  const [requestCreateTournament, { isLoading }] = useCreateOpenTournamentMutation();
 
   const userInfo = useAppSelector((state) => state.user.userInfo);
 
@@ -94,14 +65,7 @@ export default function FormCreateTournament({ selectedPackage, setSelectedPacka
     return getUsedTournamentService(selectedPackage);
   }, [selectedPackage]);
 
-  const tournamentFormatOptionsWithLevel = useMemo(() => {
-    if (usedService.config.level) {
-      return getTournamentFormatOptions(usedService.config.level);
-    }
-    return [];
-  }, [usedService.config.level]);
-
-  const { handleSubmit, register, control, formState } = useForm<FormType>({
+  const { handleSubmit, register, control, formState, getValues } = useForm<FormType>({
     mode: 'onTouched',
     defaultValues: {
       name: '',
@@ -109,11 +73,11 @@ export default function FormCreateTournament({ selectedPackage, setSelectedPacka
       contactPersonName: `${userInfo?.firstName} ${userInfo?.lastName}`,
       contactNumber: userInfo?.phoneNumber,
       contactEmail: userInfo?.email,
-      startDate: '',
-      endDate: '',
-      registrationDueDate: '',
-      dueTime: '',
-      playersBornAfterDate: '',
+      startDate: new Date(new Date().getTime() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0] + 'T00:00:00', // 1 week later
+      endDate: new Date(new Date().getTime() + 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0] + 'T23:59:59', // 1 month later
+      registrationDueDate:
+        new Date(new Date().getTime() + 6 * 24 * 60 * 60 * 1000).toISOString().split('T')[0] + 'T00:00:00',
+      playersBornAfterDate: '1990-01-01T00:00:00',
       address: '',
     },
   });
@@ -122,21 +86,10 @@ export default function FormCreateTournament({ selectedPackage, setSelectedPacka
 
   const onSubmit: SubmitHandler<FormType> = async (data) => {
     try {
-      let submitData = {} as TournamentPayload;
-      if (usedService.config.level === TournamentLevel.BASIC) {
-        submitData = {
-          ...data,
-          purchasedPackageId: selectedPackage.id,
-          scope: TournamentScope.GROUP,
-          groupId: 1,
-        } as GroupTournamentPayload;
-      } else if (usedService.config.level === TournamentLevel.ADVANCED) {
-        submitData = {
-          ...data,
-          purchasedPackageId: selectedPackage.id,
-          scope: TournamentScope.OPEN,
-        } as OpenTournamentPayload;
-      }
+      const submitData: OpenTournamentPayload = {
+        ...data,
+        purchasedPackageId: selectedPackage.id,
+      };
 
       await requestCreateTournament(submitData).unwrap();
       showSuccess('Created tournament successfully.');
@@ -149,21 +102,6 @@ export default function FormCreateTournament({ selectedPackage, setSelectedPacka
   const handleGoPreviousStep = () => {
     setSelectedPackage(null);
   };
-
-  useEffect(() => {
-    (async () => {
-      if (usedService.config.level === TournamentLevel.BASIC) {
-        const res = await getMyGroups().unwrap();
-        console.log({ res });
-        setMyGroupsData(res);
-      }
-      setInitialized(true);
-    })();
-  }, [getMyGroups, usedService.config.level]);
-
-  if (!initialized) {
-    return <CenterLoading />;
-  }
 
   return (
     <Container
@@ -233,40 +171,6 @@ export default function FormCreateTournament({ selectedPackage, setSelectedPacka
         autoComplete="off"
         sx={{ display: 'flex', flexDirection: 'column', gap: 2, mt: 2 }}
       >
-        {usedService.config.level === TournamentLevel.BASIC && (
-          <Box sx={{ width: '100%' }}>
-            <Typography variant="h6">Tournament for group</Typography>
-            <Controller
-              control={control}
-              name="groupId"
-              render={({ field: { onChange, value } }) => (
-                <FormControl
-                  fullWidth
-                  error={!!formError.groupId}
-                  sx={{ mt: 1 }}
-                >
-                  <FormLabel htmlFor="groupId">Choose group</FormLabel>
-                  <Select
-                    value={value}
-                    id="groupId"
-                    onChange={onChange}
-                    aria-describedby="groupId-helper-text"
-                  >
-                    {myGroupsData.map((group: any) => (
-                      <MenuItem
-                        key={group.id}
-                        value={group.id}
-                      >
-                        {group.name}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                  <FormHelperText id="groupId-helper-text">{formError.groupId?.message}</FormHelperText>
-                </FormControl>
-              )}
-            />
-          </Box>
-        )}
         <Stack
           direction="row"
           justifyContent="space-between"
@@ -287,6 +191,10 @@ export default function FormCreateTournament({ selectedPackage, setSelectedPacka
                 <TextField
                   {...register('name', {
                     required: 'The company name is required.',
+                    minLength: {
+                      value: 3,
+                      message: 'The name must be at least 3 characters.',
+                    },
                   })}
                   required
                   id="name"
@@ -304,6 +212,10 @@ export default function FormCreateTournament({ selectedPackage, setSelectedPacka
                 <TextField
                   {...register('description', {
                     required: 'The description is required.',
+                    minLength: {
+                      value: 20,
+                      message: 'The description must be at least 20 characters.',
+                    },
                   })}
                   id="description"
                   error={!!formError.description}
@@ -356,6 +268,11 @@ export default function FormCreateTournament({ selectedPackage, setSelectedPacka
                   <TextField
                     {...register('contactNumber', {
                       required: 'The contact number is required.',
+                      minLength: {
+                        value: 8,
+                        message: 'The contact number must be at least 8 characters.',
+                      },
+                      validate: (value) => !isNaN(Number(value)) || 'The contact number must be a number.',
                     })}
                     placeholder="0987654321"
                     required
@@ -373,6 +290,7 @@ export default function FormCreateTournament({ selectedPackage, setSelectedPacka
                   <TextField
                     {...register('contactEmail', {
                       required: 'The contact email is required.',
+                      validate: (value) => EmailValidator.validate(value) || 'The contact email is not valid.',
                     })}
                     required
                     placeholder="Contact email"
@@ -404,6 +322,16 @@ export default function FormCreateTournament({ selectedPackage, setSelectedPacka
                 <Controller
                   control={control}
                   name="startDate"
+                  rules={{
+                    required: 'The start date is required.',
+                    validate: (value) => {
+                      const startDate = dayjs(value);
+                      if (startDate.isBefore(dayjs(), 'day')) {
+                        return 'The start date cannot be in the past.';
+                      }
+                      return true;
+                    },
+                  }}
                   render={({ field: { onChange } }) => (
                     <FormControl
                       fullWidth
@@ -411,7 +339,14 @@ export default function FormCreateTournament({ selectedPackage, setSelectedPacka
                     >
                       <FormLabel htmlFor="startDate">Start date</FormLabel>
                       <LocalizationProvider dateAdapter={AdapterDayjs}>
-                        <DatePicker onChange={onChange} />
+                        <DatePicker
+                          onChange={(date) => {
+                            onChange(date?.toISOString());
+                          }}
+                          disablePast
+                          defaultValue={dayjs(getValues('startDate'))}
+                          format="DD/MM/YYYY"
+                        />
                       </LocalizationProvider>
                       <FormHelperText id="startDate-helper-text">{formError.startDate?.message}</FormHelperText>
                     </FormControl>
@@ -420,6 +355,18 @@ export default function FormCreateTournament({ selectedPackage, setSelectedPacka
                 <Controller
                   control={control}
                   name="endDate"
+                  rules={{
+                    required: 'The end date is required.',
+                    validate: (value) => {
+                      const startDate = dayjs(getValues('startDate'));
+                      const endDate = dayjs(value);
+
+                      if (!endDate.isAfter(startDate, 'day')) {
+                        return 'The end date must be after the start date.';
+                      }
+                      return true;
+                    },
+                  }}
                   render={({ field: { onChange } }) => (
                     <FormControl
                       fullWidth
@@ -427,7 +374,14 @@ export default function FormCreateTournament({ selectedPackage, setSelectedPacka
                     >
                       <FormLabel htmlFor="endDate">End date</FormLabel>
                       <LocalizationProvider dateAdapter={AdapterDayjs}>
-                        <DatePicker onChange={onChange} />
+                        <DatePicker
+                          onChange={(date) => {
+                            onChange(date?.toISOString());
+                          }}
+                          disablePast
+                          defaultValue={dayjs(getValues('endDate'))}
+                          format="DD/MM/YYYY"
+                        />
                       </LocalizationProvider>
                       <FormHelperText id="endDate-helper-text">{formError.endDate?.message}</FormHelperText>
                     </FormControl>
@@ -441,6 +395,18 @@ export default function FormCreateTournament({ selectedPackage, setSelectedPacka
                 <Controller
                   control={control}
                   name="registrationDueDate"
+                  rules={{
+                    required: 'The registration due date is required.',
+                    validate: (value) => {
+                      const startDate = dayjs(getValues('startDate'));
+                      const registrationDueDate = dayjs(value);
+
+                      if (!registrationDueDate.isBefore(startDate, 'day')) {
+                        return 'The registration due date must be before the start date.';
+                      }
+                      return true;
+                    },
+                  }}
                   render={({ field: { onChange } }) => (
                     <FormControl
                       fullWidth
@@ -448,28 +414,18 @@ export default function FormCreateTournament({ selectedPackage, setSelectedPacka
                     >
                       <FormLabel htmlFor="registrationDueDate">Registration due date</FormLabel>
                       <LocalizationProvider dateAdapter={AdapterDayjs}>
-                        <DatePicker onChange={onChange} />
+                        <DateTimePicker
+                          onChange={(date) => {
+                            onChange(date?.toISOString());
+                          }}
+                          disablePast
+                          defaultValue={dayjs(getValues('registrationDueDate'))}
+                          format="DD/MM/YYYY HH:mm"
+                        />
                       </LocalizationProvider>
                       <FormHelperText id="registrationDueDate-helper-text">
                         {formError.registrationDueDate?.message}
                       </FormHelperText>
-                    </FormControl>
-                  )}
-                />
-
-                <Controller
-                  control={control}
-                  name="dueTime"
-                  render={({ field: { onChange } }) => (
-                    <FormControl
-                      fullWidth
-                      error={!!formError.dueTime}
-                    >
-                      <FormLabel htmlFor="registrationDueDate">Due time</FormLabel>
-                      <LocalizationProvider dateAdapter={AdapterDayjs}>
-                        <TimePicker onChange={onChange} />
-                      </LocalizationProvider>
-                      <FormHelperText id="dueTime-helper-text">{formError.dueTime?.message}</FormHelperText>
                     </FormControl>
                   )}
                 />
@@ -489,6 +445,10 @@ export default function FormCreateTournament({ selectedPackage, setSelectedPacka
                 placeholder="Address detail"
                 {...register('address', {
                   required: 'The address is required.',
+                  minLength: {
+                    value: 20,
+                    message: 'The address must be at least 20 characters.',
+                  },
                 })}
                 required
                 id="address"
@@ -510,7 +470,7 @@ export default function FormCreateTournament({ selectedPackage, setSelectedPacka
             <Controller
               control={control}
               name="format"
-              defaultValue={tournamentFormatOptionsWithLevel[0].value as TournamentFormat}
+              defaultValue={tournamentFormatOptions[0].value as TournamentFormat}
               render={({ field: { onChange, value } }) => (
                 <FormControl
                   fullWidth
@@ -523,7 +483,7 @@ export default function FormCreateTournament({ selectedPackage, setSelectedPacka
                     onChange={onChange}
                     aria-describedby="format-helper-text"
                   >
-                    {tournamentFormatOptionsWithLevel.map((tournamentOption) => (
+                    {tournamentFormatOptions.map((tournamentOption) => (
                       <MenuItem
                         key={tournamentOption.id}
                         value={tournamentOption.value}
@@ -627,7 +587,14 @@ export default function FormCreateTournament({ selectedPackage, setSelectedPacka
                 >
                   <FormLabel htmlFor="playersBornAfterDate">Player born after</FormLabel>
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DatePicker onChange={onChange} />
+                    <DatePicker
+                      onChange={(date) => {
+                        onChange(date?.toISOString());
+                      }}
+                      defaultValue={dayjs(getValues('playersBornAfterDate'))}
+                      format="DD/MM/YYYY"
+                      disableFuture
+                    />
                   </LocalizationProvider>
                   <FormHelperText id="playersBornAfterDate-helper-text">
                     {formError.playersBornAfterDate?.message}

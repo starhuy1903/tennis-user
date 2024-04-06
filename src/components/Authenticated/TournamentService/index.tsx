@@ -7,8 +7,8 @@ import { useAppSelector } from 'store';
 
 import CenterLoading from 'components/Common/CenterLoading';
 import { TournamentStatus } from 'constants/tournament';
-import { useLazyGetTournamentsQuery } from 'store/api/tournamentApiSlice';
-import { Tournament } from 'types/tournament';
+import { useLazyGetOpenTournamentsQuery } from 'store/api/tournament/tournamentApiSlice';
+import { OpenTournament } from 'types/tournament';
 
 import TournamentList from './TournamentList';
 
@@ -17,16 +17,16 @@ export default function TournamentService() {
   const navigate = useNavigate();
 
   const [tournaments, setTournaments] = useState<{
-    upcoming: Tournament[];
-    onGoing: Tournament[];
-    completed: Tournament[];
+    upcoming: OpenTournament[];
+    onGoing: OpenTournament[];
+    completed: OpenTournament[];
   }>({
     upcoming: [],
     onGoing: [],
     completed: [],
   });
 
-  const [getTournaments, { isLoading }] = useLazyGetTournamentsQuery();
+  const [getTournaments, { isLoading }] = useLazyGetOpenTournamentsQuery();
 
   useEffect(() => {
     (async () => {
