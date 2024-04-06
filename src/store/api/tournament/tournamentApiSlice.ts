@@ -1,33 +1,33 @@
 import { TournamentStatus } from 'constants/tournament';
-import { Tournament, TournamentPayload } from 'types/tournament';
+import { OpenTournament, OpenTournamentPayload } from 'types/tournament';
 
 import { apiWithToastSlice } from '../baseApiSlice';
 
 const tournamentApiToastSlice = apiWithToastSlice.injectEndpoints({
   endpoints: (build) => ({
-    getTournaments: build.query<Tournament[], { tournamentStatus?: TournamentStatus }>({
+    getOpenTournaments: build.query<OpenTournament[], { tournamentStatus?: TournamentStatus }>({
       query: (args) => ({
         url: `tournaments`,
         params: { status: args?.tournamentStatus },
       }),
     }),
-    createTournament: build.mutation<Tournament, TournamentPayload>({
+    createOpenTournament: build.mutation<OpenTournament, OpenTournamentPayload>({
       query: (payload) => ({
         url: `tournaments`,
         method: 'POST',
         body: payload,
       }),
     }),
-    getTournamentDetails: build.query<Tournament, number>({
+    getOpenTournamentDetails: build.query<OpenTournament, number>({
       query: (id) => `tournaments/${id}/general-info`,
     }),
   }),
 });
 
 export const {
-  useGetTournamentsQuery,
-  useLazyGetTournamentsQuery,
-  useCreateTournamentMutation,
-  useGetTournamentDetailsQuery,
-  useLazyGetTournamentDetailsQuery,
+  useGetOpenTournamentsQuery,
+  useLazyGetOpenTournamentsQuery,
+  useCreateOpenTournamentMutation,
+  useGetOpenTournamentDetailsQuery,
+  useLazyGetOpenTournamentDetailsQuery,
 } = tournamentApiToastSlice;

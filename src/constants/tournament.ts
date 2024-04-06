@@ -49,11 +49,6 @@ export enum TournamentPhase {
   COMPLETED = 'completed',
 }
 
-export enum TournamentScope {
-  GROUP = 'group',
-  OPEN = 'open',
-}
-
 export enum TournamentLevel {
   BASIC = 'basic',
   ADVANCED = 'advanced',
