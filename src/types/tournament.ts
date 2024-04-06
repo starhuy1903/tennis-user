@@ -1,11 +1,4 @@
-import {
-  Gender,
-  ParticipantType,
-  TournamentFormat,
-  TournamentPhase,
-  TournamentScope,
-  TournamentStatus,
-} from 'constants/tournament';
+import { Gender, ParticipantType, TournamentFormat, TournamentPhase, TournamentStatus } from 'constants/tournament';
 
 import { Group } from './group';
 import { UserPackage } from './package';
@@ -13,47 +6,45 @@ import { UserPackage } from './package';
 export type BaseTournamentPayload = {
   name: string;
   description: string;
+  startDate: string;
+  endDate: string;
+  address: string;
+};
+
+export type GroupTournamentPayload = BaseTournamentPayload & {
+  groupId: number;
+  format: TournamentFormat.ROUND_ROBIN | TournamentFormat.KNOCKOUT;
+};
+
+export type OpenTournamentPayload = BaseTournamentPayload & {
   contactPersonName: string;
   contactNumber: string;
   contactEmail: string;
-  startDate: string;
-  endDate: string;
   registrationDueDate: string;
-  dueTime: string;
-  address: string;
-  format: TournamentFormat;
+  purchasedPackageId: number;
   maxParticipants: number;
   gender: Gender;
   participantType: ParticipantType;
   playersBornAfterDate: string;
-  purchasedPackageId: number;
+  format: TournamentFormat;
 };
 
-export type GroupTournamentPayload = BaseTournamentPayload & {
-  scope: TournamentScope.GROUP;
-  groupId: number;
-};
-
-export type OpenTournamentPayload = BaseTournamentPayload & {
-  scope: TournamentScope.OPEN;
-};
-
-export type TournamentPayload = GroupTournamentPayload | OpenTournamentPayload;
-
-export type BaseTournament = Omit<TournamentPayload, 'purchasedPackageId'> & {
+export type GroupTournament = Omit<GroupTournamentPayload, 'groupId'> & {
   id: number;
   participants: number;
   imageUrl: string;
   status: TournamentStatus;
   phase: TournamentPhase;
-  purchasedPackage: UserPackage;
   isCreator: boolean;
-};
-
-export type GroupTournament = BaseTournament & {
   group: Group;
 };
 
-export type OpenTournament = BaseTournament;
-
-export type Tournament = GroupTournament | OpenTournament;
+export type OpenTournament = Omit<OpenTournamentPayload, 'purchasedPackageId'> & {
+  id: number;
+  participants: number;
+  imageUrl: string;
+  status: TournamentStatus;
+  phase: TournamentPhase;
+  isCreator: boolean;
+  purchasedPackage: UserPackage;
+};

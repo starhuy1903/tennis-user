@@ -24,6 +24,12 @@ export const displayTimestamp = (
   return `${time.format('YYYY-MM-DD HH:mm:ss')}${options?.includeRelativeTimeToPresent ? `(${time.fromNow()})` : ''}`;
 };
 
+// 29 Oct 2023
+export const displayDate = (date: string) => {
+  const time = moment(date);
+  return time.format('DD MMM YYYY');
+};
+
 // Feb 15 - Feb 20, 2024
 export const displayDateRange = (start: string, end: string) => {
   const startDate = moment(start);
