@@ -2,11 +2,11 @@ import { Box } from '@mui/material';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 import NoData from 'components/Common/NoData';
-import { Tournament } from 'types/tournament';
+import { OpenTournament } from 'types/tournament';
 
 import TournamentItem from './TournamentItem';
 
-export default function TournamentList({ tournaments }: { tournaments: Tournament[] }) {
+export default function TournamentList({ tournaments }: { tournaments: OpenTournament[] }) {
   if (tournaments.length === 0) {
     return <NoData />;
   }

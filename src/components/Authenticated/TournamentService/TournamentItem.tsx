@@ -1,19 +1,17 @@
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
-import LockIcon from '@mui/icons-material/Lock';
 import PeopleIcon from '@mui/icons-material/People';
-import PublicIcon from '@mui/icons-material/Public';
-import { Box, Button, Card, CardActionArea, CardContent, CardMedia, Tooltip, Typography } from '@mui/material';
+import { Box, Button, Card, CardActionArea, CardContent, CardMedia, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { useAppDispatch } from 'store';
 
 import { ModalKey } from 'constants/modal';
-import { TournamentScope, TournamentStatus } from 'constants/tournament';
+import { TournamentStatus } from 'constants/tournament';
 import { showModal } from 'store/slice/modalSlice';
-import { Tournament } from 'types/tournament';
+import { OpenTournament } from 'types/tournament';
 import { displayDateRange, displayDayLeft } from 'utils/datetime';
 
-export default function TournamentItem({ tournament }: { tournament: Tournament }) {
+export default function TournamentItem({ tournament }: { tournament: OpenTournament }) {
   const dispatch = useAppDispatch();
 
   const handleRegister = async (tournamentId: number) => {
@@ -48,7 +46,7 @@ export default function TournamentItem({ tournament }: { tournament: Tournament 
           }}
         />
 
-        <Box
+        {/* <Box
           sx={{
             position: 'absolute',
             top: 8,
@@ -68,7 +66,7 @@ export default function TournamentItem({ tournament }: { tournament: Tournament 
               <LockIcon />
             </Tooltip>
           )}
-        </Box>
+        </Box> */}
       </CardActionArea>
 
       <CardContent>

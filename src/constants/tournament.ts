@@ -64,16 +64,6 @@ export const TournamentPhaseOptions = {
   [TournamentPhase.COMPLETED]: 'Completed',
 };
 
-export enum TournamentScope {
-  GROUP = 'group',
-  OPEN = 'open',
-}
-
-export const TournamentScopeOptions = {
-  [TournamentScope.GROUP]: 'Group',
-  [TournamentScope.OPEN]: 'Open',
-};
-
 export enum TournamentLevel {
   BASIC = 'basic',
   ADVANCED = 'advanced',

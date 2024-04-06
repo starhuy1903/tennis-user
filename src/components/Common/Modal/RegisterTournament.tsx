@@ -2,7 +2,7 @@ import { Box, FormControl, FormHelperText, FormLabel, TextField } from '@mui/mat
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useAppSelector } from 'store';
 
-import { useCreateTournamentRegistrationMutation } from 'store/api/tournament/tournamentRegistrationApiSlice';
+import { useCreateTournamentRegistrationMutation } from 'store/api/tournament/tournamentApiSlice';
 import { showSuccess } from 'utils/toast';
 
 import BaseModal from './BaseModal';

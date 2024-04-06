@@ -1,27 +1,35 @@
 import { TournamentStatus } from 'constants/tournament';
-import { Tournament, TournamentPayload } from 'types/tournament';
+import { OpenTournament, OpenTournamentPayload } from 'types/tournament';
+import { TournamentRegistrationPayload } from 'types/tournament-registration';
 
 import { apiWithToastSlice } from '../baseApiSlice';
 
 const tournamentApiToastSlice = apiWithToastSlice.injectEndpoints({
   endpoints: (build) => ({
-    getTournaments: build.query<Tournament[], { tournamentStatus?: TournamentStatus }>({
+    getOpenTournaments: build.query<OpenTournament[], { tournamentStatus?: TournamentStatus }>({
       query: (args) => ({
         url: `tournaments`,
         params: { status: args?.tournamentStatus },
       }),
     }),
-    createTournament: build.mutation<Tournament, TournamentPayload>({
+    createOpenTournament: build.mutation<OpenTournament, OpenTournamentPayload>({
       query: (payload) => ({
         url: `tournaments`,
         method: 'POST',
         body: payload,
       }),
     }),
-    getTournamentDetails: build.query<Tournament, number>({
+    getOpenTournamentDetails: build.query<OpenTournament, number>({
       query: (id) => `tournaments/${id}/general-info`,
     }),
-    moveToNextPhase: build.mutation<Tournament, number>({
+    createTournamentRegistration: build.mutation<void, TournamentRegistrationPayload>({
+      query: (payload) => ({
+        url: `tournaments/registration`,
+        method: 'POST',
+        body: payload,
+      }),
+    }),
+    moveToNextPhase: build.mutation<OpenTournament, number>({
       query: (id) => ({
         url: `tournaments/${id}/next-phase`,
         method: 'PATCH',
@@ -31,10 +39,11 @@ const tournamentApiToastSlice = apiWithToastSlice.injectEndpoints({
 });
 
 export const {
-  useGetTournamentsQuery,
-  useLazyGetTournamentsQuery,
-  useCreateTournamentMutation,
-  useGetTournamentDetailsQuery,
-  useLazyGetTournamentDetailsQuery,
+  useGetOpenTournamentsQuery,
+  useLazyGetOpenTournamentsQuery,
+  useCreateOpenTournamentMutation,
+  useGetOpenTournamentDetailsQuery,
+  useLazyGetOpenTournamentDetailsQuery,
+  useCreateTournamentRegistrationMutation,
   useMoveToNextPhaseMutation,
 } = tournamentApiToastSlice;
