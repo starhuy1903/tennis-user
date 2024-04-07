@@ -65,6 +65,10 @@
         },
         {
           "type": "route",
+          "uuid": "264fa123-a189-442d-80c5-b481c4302951"
+        },
+        {
+          "type": "route",
           "uuid": "6b3bbe44-e756-4c19-a1e2-647a157874ba"
         },
         {
@@ -1095,6 +1099,35 @@
         {
           "uuid": "91f9074b-9e4e-43c7-ae95-09289ea058a8",
           "body": "{\n  \"id\": 1,\n  \"name\": \"2022 PAC-12 Championships\",\n  \"description\": \"The PAC-12 Championships is a tennis tournament that is held annually in the United States. The tournament is held in the spring and features the top teams from the PAC-12 conference. The tournament is a single-elimination format with the winner being crowned the PAC-12 champion. The tournament is held at a different location each year and is a popular event for tennis fans.\",\n  \"startDate\": \"2024-03-20T23:59:59\",\n  \"endDate\": \"2024-03-25T23:59:59\",\n  \"address\": \"123 Main St\",\n  \"format\": \"round_robin\",\n  \"participants\": 10,\n  \"imageUrl\": \"https://xs.pac-12.com/styles/crop_16_9_large_1x/s3/2022-04/Tennis%20Social%20Sizes_1920x1080-optimized.jpg?itok=WjlYagbf\",\n  \"status\": \"upcoming\",\n  \"phase\": \"new\",\n  \"group\": {\n    \"id\": 1\n  },\n  \"isCreator\": true\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "264fa123-a189-442d-80c5-b481c4302951",
+      "type": "http",
+      "documentation": "Create open tournament",
+      "method": "post",
+      "endpoint": "groups/*/tournaments",
+      "responses": [
+        {
+          "uuid": "bfc286e9-a7e7-45eb-8b1b-5192b77a0818",
+          "body": "{\n  \"id\": 1,\n  \"name\": \"2022 PAC-12 Championships\",\n  \"description\": \"This is a description of tournament 1\",\n  \"startDate\": \"2024-03-20T23:59:59\",\n  \"endDate\": \"2024-03-25T23:59:59\",\n  \"address\": \"123 Main St\",\n  \"format\": \"round_robin\",\n  \"participants\": 0,\n  \"imageUrl\": \"https://xs.pac-12.com/styles/crop_16_9_large_1x/s3/2022-04/Tennis%20Social%20Sizes_1920x1080-optimized.jpg?itok=WjlYagbf\",\n  \"status\": \"on_going\",\n  \"phase\": \"new\",\n  \"isCreator\": true\n}",
           "latency": 0,
           "statusCode": 200,
           "label": "",

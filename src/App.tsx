@@ -4,6 +4,7 @@ import { useAppSelector } from 'store';
 
 import AffiliateSponsor from 'components/Authenticated/AffiliateSponsor';
 import GroupService from 'components/Authenticated/GroupService';
+import CreateGroupTournament from 'components/Authenticated/GroupService/CreateGroupTournament';
 import GroupCreate from 'components/Authenticated/GroupService/GroupCreate';
 import GroupDetail from 'components/Authenticated/GroupService/GroupDetail';
 import GroupDetailLayout from 'components/Authenticated/GroupService/GroupDetail/GroupDetailLayout';
@@ -111,7 +112,16 @@ const protectedRoutes = createBrowserRouter([
         path: ':id/create',
         element: <GroupCreate />,
       },
-      groupTournamentDetailsRoutes,
+      {
+        path: ':groupId/tournaments',
+        children: [
+          groupTournamentDetailsRoutes,
+          {
+            path: 'create',
+            element: <CreateGroupTournament />,
+          },
+        ],
+      },
     ],
   },
   {

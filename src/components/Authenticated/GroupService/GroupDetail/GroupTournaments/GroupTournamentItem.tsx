@@ -78,7 +78,6 @@ export default function GroupTournamentItem({ tournament }: { tournament: GroupT
             mt: 2,
           }}
           onClick={() => {
-            console.log(`/groups/${tournament.group.id}/tournaments/${tournament.id}`);
             navigate(`/groups/${tournament.group.id}/tournaments/${tournament.id}`);
           }}
         >

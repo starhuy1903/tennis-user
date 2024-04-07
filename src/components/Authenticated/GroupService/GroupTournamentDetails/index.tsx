@@ -4,7 +4,7 @@ import Information from './Information';
 import Participants from './Participants';
 
 export const groupTournamentDetailsRoutes = {
-  path: ':groupId/tournaments/:tournamentId',
+  path: ':tournamentId',
   element: <GroupTournamentDetailsLayout />,
   children: [
     {

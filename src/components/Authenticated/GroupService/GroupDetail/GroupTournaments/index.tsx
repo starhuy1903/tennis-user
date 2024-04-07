@@ -53,7 +53,7 @@ export default function GroupTournaments() {
   }, [getTournaments, groupId]);
 
   const handleCreateTournament = () => {
-    navigate(`groups/${groupId}/tournaments/create`);
+    navigate(`/groups/${groupId}/tournaments/create`);
   };
 
   if (isLoading) {

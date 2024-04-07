@@ -1,5 +1,5 @@
 import { TournamentStatus } from 'constants/tournament';
-import { GroupTournament } from 'types/tournament';
+import { GroupTournament, GroupTournamentPayload } from 'types/tournament';
 
 import { apiWithToastSlice } from '../baseApiSlice';
 
@@ -19,9 +19,15 @@ const groupTournamentApiToastSlice = apiWithToastSlice.injectEndpoints({
       }
     >({
       query: (args) => {
-        console.log(`groups/${args.groupId}/tournaments/${args.tournamentId}/general-info`);
         return `groups/${args.groupId}/tournaments/${args.tournamentId}/general-info`;
       },
+    }),
+    createGroupTournament: build.mutation<GroupTournament, GroupTournamentPayload>({
+      query: (payload) => ({
+        url: `groups/${payload.groupId}/tournaments`,
+        method: 'POST',
+        body: payload,
+      }),
     }),
   }),
 });
@@ -31,4 +37,5 @@ export const {
   useLazyGetGroupTournamentsQuery,
   useGetGroupTournamentDetailsQuery,
   useLazyGetGroupTournamentDetailsQuery,
+  useCreateGroupTournamentMutation,
 } = groupTournamentApiToastSlice;
