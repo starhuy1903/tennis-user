@@ -8,6 +8,7 @@ import GroupCreate from 'components/Authenticated/GroupService/GroupCreate';
 import GroupDetail from 'components/Authenticated/GroupService/GroupDetail';
 import GroupDetailLayout from 'components/Authenticated/GroupService/GroupDetail/GroupDetailLayout';
 import GroupLayout from 'components/Authenticated/GroupService/GroupLayout';
+import { groupTournamentDetailsRoutes } from 'components/Authenticated/GroupService/GroupTournamentDetails';
 import VNPReturn from 'components/Authenticated/PaymentReturn/VNPReturn';
 import Profile from 'components/Authenticated/Profile';
 import TournamentService from 'components/Authenticated/TournamentService';
@@ -110,6 +111,7 @@ const protectedRoutes = createBrowserRouter([
         path: ':id/create',
         element: <GroupCreate />,
       },
+      groupTournamentDetailsRoutes,
     ],
   },
   {

@@ -6,7 +6,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 import CenterLoading from 'components/Common/CenterLoading';
 import { TournamentStatus } from 'constants/tournament';
-import { useLazyGetGroupTournamentsQuery } from 'store/api/group/groupApiSlice';
+import { useLazyGetGroupTournamentsQuery } from 'store/api/group/groupTournamentApiSlice';
 import { GroupTournament } from 'types/tournament';
 import { showError } from 'utils/toast';
 
@@ -53,7 +53,7 @@ export default function GroupTournaments() {
   }, [getTournaments, groupId]);
 
   const handleCreateTournament = () => {
-    navigate('/tournaments/create');
+    navigate(`groups/${groupId}/tournaments/create`);
   };
 
   if (isLoading) {

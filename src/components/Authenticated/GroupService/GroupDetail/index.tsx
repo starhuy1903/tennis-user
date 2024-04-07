@@ -10,6 +10,7 @@ import { resetGroupInfo, setGroupInfo } from 'store/slice/groupSlice';
 import { a11yProps } from 'utils/ui';
 
 import Feeds from './Feeds';
+import GroupTournaments from './GroupTournaments';
 import Information from './Information';
 import Member from './Member';
 
@@ -20,14 +21,19 @@ const GroupTabs = [
     component: <Feeds />,
   },
   {
-    index: 2,
+    index: 1,
     label: 'Members',
     component: <Member />,
   },
   {
-    index: 3,
+    index: 2,
     label: 'Information',
     component: <Information />,
+  },
+  {
+    index: 3,
+    label: 'Group Tournaments',
+    component: <GroupTournaments />,
   },
 ];
 

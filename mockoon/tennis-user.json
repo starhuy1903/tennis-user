@@ -60,6 +60,10 @@
           "uuid": "599d5924-7c98-4bc6-900b-80813f4212e6"
         },
         {
+          "type": "folder",
+          "uuid": "b517bcbe-65d4-4e18-8d9b-dac062e53ed8"
+        },
+        {
           "type": "route",
           "uuid": "6b3bbe44-e756-4c19-a1e2-647a157874ba"
         },
@@ -136,6 +140,20 @@
         {
           "type": "route",
           "uuid": "60ee2190-57c6-4044-b07c-1c992ede65f5"
+        }
+      ]
+    },
+    {
+      "uuid": "b517bcbe-65d4-4e18-8d9b-dac062e53ed8",
+      "name": "Group Tournament",
+      "children": [
+        {
+          "type": "route",
+          "uuid": "ec696ce8-f8b8-431f-a162-c727aa16eabe"
+        },
+        {
+          "type": "route",
+          "uuid": "8c446043-dab3-48af-8211-3597accd4245"
         }
       ]
     }
@@ -938,6 +956,145 @@
         {
           "uuid": "f145a259-8e40-4cb2-b37f-2d5a1b61790e",
           "body": "{\n  \"id\": 1,\n  \"name\": \"2022 PAC-12 Championships\",\n  \"description\": \"The PAC-12 Championships is a tennis tournament that is held annually in the United States. The tournament is held in the spring and features the top teams from the PAC-12 conference. The tournament is a single-elimination format with the winner being crowned the PAC-12 champion. The tournament is held at a different location each year and is a popular event for tennis fans.\",\n  \"contactPersonName\": \"John Doe\",\n  \"contactNumber\": \"123-456-7890\",\n  \"contactEmail\": \"john@gmail.com\",\n  \"startDate\": \"2024-03-20T23:59:59\",\n  \"endDate\": \"2024-03-25T23:59:59\",\n  \"registrationDueDate\": \"2024-03-15T23:59:59\",\n  \"dueTime\": \"23:59:59\",\n  \"address\": \"123 Main St\",\n  \"format\": \"round_robin\",\n  \"maxParticipants\": 20,\n  \"gender\": \"male\",\n  \"participantType\": \"single\",\n  \"playersBornAfterDate\": \"2002-01-01T23:59:59\",\n  \"purchasedPackage\": {\n    \"id\": 1,\n    \"name\": \"\"\n  },\n  \"scope\": \"group\",\n  \"group\": {\n    \"id\": 1\n  },\n  \"participants\": 10,\n  \"imageUrl\": \"https://xs.pac-12.com/styles/crop_16_9_large_1x/s3/2022-04/Tennis%20Social%20Sizes_1920x1080-optimized.jpg?itok=WjlYagbf\",\n  \"status\": \"upcoming\",\n  \"phase\": \"published\",\n  \"isCreator\": true\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "ec696ce8-f8b8-431f-a162-c727aa16eabe",
+      "type": "http",
+      "documentation": "Get tournament list by status",
+      "method": "get",
+      "endpoint": "groups/*/tournaments",
+      "responses": [
+        {
+          "uuid": "51df2584-d065-4ec2-8eae-b3ba0502938e",
+          "body": "[\n  {\n    \"id\": 1,\n    \"name\": \"2022 PAC-12 Championships\",\n    \"description\": \"This is a description of tournament 1\",\n    \"startDate\": \"2024-03-20T23:59:59\",\n    \"endDate\": \"2024-03-25T23:59:59\",\n    \"address\": \"123 Main St\",\n    \"format\": \"round_robin\",\n    \"participants\": 20,\n    \"imageUrl\": \"https://xs.pac-12.com/styles/crop_16_9_large_1x/s3/2022-04/Tennis%20Social%20Sizes_1920x1080-optimized.jpg?itok=WjlYagbf\",\n    \"status\": \"on_going\",\n    \"phase\": \"new\",\n    \"group\": {\n      \"id\": 1\n    },\n    \"isCreator\": true\n  },\n  {\n    \"id\": 2,\n    \"name\": \"2024 PAC-12 Championships\",\n    \"description\": \"This is a description of tournament 2\",\n    \"startDate\": \"2024-03-20T23:59:59\",\n    \"endDate\": \"2024-03-25T23:59:59\",\n    \"address\": \"123 Main St\",\n    \"format\": \"round_robin\",\n    \"participants\": 20,\n    \"imageUrl\": \"https://xs.pac-12.com/styles/crop_16_9_large_1x/s3/2022-04/Tennis%20Social%20Sizes_1920x1080-optimized.jpg?itok=WjlYagbf\",\n    \"status\": \"on_going\",\n    \"phase\": \"published\",\n    \"group\": {\n      \"id\": 1\n    },\n    \"isCreator\": false\n  }\n]",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "2cc684e5-efea-479f-b398-e832a636b489",
+          "body": "[\n  {\n    \"id\": 1,\n    \"name\": \"2022 PAC-12 Championships\",\n    \"description\": \"This is a description of tournament 1\",\n    \"startDate\": \"2024-03-20T23:59:59\",\n    \"endDate\": \"2024-03-25T23:59:59\",\n    \"address\": \"123 Main St\",\n    \"format\": \"round_robin\",\n    \"participants\": 20,\n    \"imageUrl\": \"https://xs.pac-12.com/styles/crop_16_9_large_1x/s3/2022-04/Tennis%20Social%20Sizes_1920x1080-optimized.jpg?itok=WjlYagbf\",\n    \"status\": \"upcoming\",\n    \"phase\": \"new\",\n    \"group\": {\n      \"id\": 1\n    },\n    \"isCreator\": true\n  },\n  {\n    \"id\": 2,\n    \"name\": \"2024 PAC-12 Championships\",\n    \"description\": \"This is a description of tournament 2\",\n    \"startDate\": \"2024-03-20T23:59:59\",\n    \"endDate\": \"2024-03-25T23:59:59\",\n    \"address\": \"123 Main St\",\n    \"format\": \"round_robin\",\n    \"participants\": 20,\n    \"imageUrl\": \"https://xs.pac-12.com/styles/crop_16_9_large_1x/s3/2022-04/Tennis%20Social%20Sizes_1920x1080-optimized.jpg?itok=WjlYagbf\",\n    \"status\": \"upcoming\",\n    \"phase\": \"published\",\n    \"group\": {\n      \"id\": 1\n    },\n    \"isCreator\": false\n  }\n]",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "query",
+              "modifier": "status",
+              "value": "upcoming",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "02f0f391-cdf8-4c14-89ea-68e19e37f0dd",
+          "body": "[\n  {\n    \"id\": 1,\n    \"name\": \"2022 PAC-12 Championships\",\n    \"description\": \"This is a description of tournament 1\",\n    \"startDate\": \"2024-03-20T23:59:59\",\n    \"endDate\": \"2024-03-25T23:59:59\",\n    \"address\": \"123 Main St\",\n    \"format\": \"round_robin\",\n    \"participants\": 20,\n    \"imageUrl\": \"https://xs.pac-12.com/styles/crop_16_9_large_1x/s3/2022-04/Tennis%20Social%20Sizes_1920x1080-optimized.jpg?itok=WjlYagbf\",\n    \"status\": \"on_going\",\n    \"phase\": \"new\",\n    \"group\": {\n      \"id\": 1\n    },\n    \"isCreator\": true\n  },\n  {\n    \"id\": 2,\n    \"name\": \"2024 PAC-12 Championships\",\n    \"description\": \"This is a description of tournament 2\",\n    \"startDate\": \"2024-03-20T23:59:59\",\n    \"endDate\": \"2024-03-25T23:59:59\",\n    \"address\": \"123 Main St\",\n    \"format\": \"round_robin\",\n    \"participants\": 20,\n    \"imageUrl\": \"https://xs.pac-12.com/styles/crop_16_9_large_1x/s3/2022-04/Tennis%20Social%20Sizes_1920x1080-optimized.jpg?itok=WjlYagbf\",\n    \"status\": \"on_going\",\n    \"phase\": \"published\",\n    \"group\": {\n      \"id\": 1\n    },\n    \"isCreator\": false\n  }\n]",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "query",
+              "modifier": "status",
+              "value": "on_going",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "cd9a77f5-9512-4cab-8a51-9b8ebc04b221",
+          "body": "[\n  {\n    \"id\": 1,\n    \"name\": \"2022 PAC-12 Championships\",\n    \"description\": \"This is a description of tournament 1\",\n    \"startDate\": \"2024-03-20T23:59:59\",\n    \"endDate\": \"2024-03-25T23:59:59\",\n    \"address\": \"123 Main St\",\n    \"format\": \"round_robin\",\n    \"participants\": 49,\n    \"imageUrl\": \"https://xs.pac-12.com/styles/crop_16_9_large_1x/s3/2022-04/Tennis%20Social%20Sizes_1920x1080-optimized.jpg?itok=WjlYagbf\",\n    \"status\": \"completed\",\n    \"phase\": \"new\",\n      \"group\": {\n    \"id\": 1\n  },\n    \"isCreator\": true\n  },\n  {\n    \"id\": 2,\n    \"name\": \"2024 PAC-12 Championships\",\n    \"description\": \"This is a description of tournament 2\",\n    \"startDate\": \"2024-03-20T23:59:59\",\n    \"endDate\": \"2024-03-25T23:59:59\",\n    \"address\": \"123 Main St\",\n    \"format\": \"round_robin\",\n    \"participants\": 20,\n    \"imageUrl\": \"https://xs.pac-12.com/styles/crop_16_9_large_1x/s3/2022-04/Tennis%20Social%20Sizes_1920x1080-optimized.jpg?itok=WjlYagbf\",\n    \"status\": \"completed\",\n    \"phase\": \"published\",\n      \"group\": {\n    \"id\": 1\n  },\n    \"isCreator\": false\n  }\n]",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "query",
+              "modifier": "status",
+              "value": "completed",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "8c446043-dab3-48af-8211-3597accd4245",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "groups/*/tournaments/*/general-info",
+      "responses": [
+        {
+          "uuid": "91f9074b-9e4e-43c7-ae95-09289ea058a8",
+          "body": "{\n  \"id\": 1,\n  \"name\": \"2022 PAC-12 Championships\",\n  \"description\": \"The PAC-12 Championships is a tennis tournament that is held annually in the United States. The tournament is held in the spring and features the top teams from the PAC-12 conference. The tournament is a single-elimination format with the winner being crowned the PAC-12 champion. The tournament is held at a different location each year and is a popular event for tennis fans.\",\n  \"startDate\": \"2024-03-20T23:59:59\",\n  \"endDate\": \"2024-03-25T23:59:59\",\n  \"address\": \"123 Main St\",\n  \"format\": \"round_robin\",\n  \"participants\": 10,\n  \"imageUrl\": \"https://xs.pac-12.com/styles/crop_16_9_large_1x/s3/2022-04/Tennis%20Social%20Sizes_1920x1080-optimized.jpg?itok=WjlYagbf\",\n  \"status\": \"upcoming\",\n  \"phase\": \"new\",\n  \"group\": {\n    \"id\": 1\n  },\n  \"isCreator\": true\n}",
           "latency": 0,
           "statusCode": 200,
           "label": "",

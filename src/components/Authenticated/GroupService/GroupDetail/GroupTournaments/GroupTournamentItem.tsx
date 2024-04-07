@@ -1,14 +1,15 @@
-import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import PeopleIcon from '@mui/icons-material/People';
 import { Box, Button, Card, CardActionArea, CardContent, CardMedia, Typography } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { TournamentStatus } from 'constants/tournament';
 import { GroupTournament } from 'types/tournament';
 import { displayDateRange } from 'utils/datetime';
 
 export default function GroupTournamentItem({ tournament }: { tournament: GroupTournament }) {
+  const navigate = useNavigate();
+
   return (
     <Card
       sx={{
@@ -71,12 +72,14 @@ export default function GroupTournamentItem({ tournament }: { tournament: GroupT
         </Box>
 
         <Button
-          component={Link}
-          to={`/tournaments/${tournament.id}`}
           fullWidth
           variant="outlined"
           sx={{
             mt: 2,
+          }}
+          onClick={() => {
+            console.log(`/groups/${tournament.group.id}/tournaments/${tournament.id}`);
+            navigate(`/groups/${tournament.group.id}/tournaments/${tournament.id}`);
           }}
         >
           View
