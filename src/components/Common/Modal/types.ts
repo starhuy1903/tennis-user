@@ -11,6 +11,11 @@ export interface HelloWorldProps extends CommonModalProps {
   name?: string;
 }
 
+export interface CropImageProps extends CommonModalProps {
+  image: File;
+  aspect: number;
+  onSubmit: (file: File) => void;
+}
 export interface SelectPaymentMethodProps extends CommonModalProps {
   userId: number;
   packageId: number;
@@ -27,5 +32,6 @@ export type ModalPropsMap = {
 
 interface _ModalPropsMap {
   [ModalKey.HELLO_WORLD]: HelloWorldProps;
+  [ModalKey.CROP_IMAGE]: CropImageProps;
   [ModalKey.SELECT_PAYMENT_METHOD]: SelectPaymentMethodProps;
 }

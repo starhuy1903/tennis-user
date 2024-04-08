@@ -86,10 +86,6 @@
           "uuid": "aed7b470-5c92-4a13-af73-5e01bab342eb"
         },
         {
-          "type": "route",
-          "uuid": "eafbc047-6239-435f-bbba-d2502081debf"
-        },
-        {
           "type": "folder",
           "uuid": "6c1a8e79-f432-4138-b297-aca1fb24f2d1"
         }
@@ -730,7 +726,7 @@
       "type": "http",
       "documentation": "",
       "method": "get",
-      "endpoint": "system-config",
+      "endpoint": "core/system-config",
       "responses": [
         {
           "uuid": "4b13c145-cd24-4381-a950-1ccf9609bcd7",
@@ -879,7 +875,7 @@
       "responses": [
         {
           "uuid": "23d75667-5a2c-40f8-a758-e9a057c60757",
-          "body": "{\n  \"id\": 1,\n  \"name\": \"2022 PAC-12 Championships\",\n  \"description\": \"The PAC-12 Championships is a tennis tournament that is held annually in the United States. The tournament is held in the spring and features the top teams from the PAC-12 conference. The tournament is a single-elimination format with the winner being crowned the PAC-12 champion. The tournament is held at a different location each year and is a popular event for tennis fans.\",\n  \"contactPersonName\": \"John Doe\",\n  \"contactNumber\": \"123-456-7890\",\n  \"contactEmail\": \"john@gmail.com\",\n  \"startDate\": \"2024-03-20T23:59:59\",\n  \"endDate\": \"2024-03-25T23:59:59\",\n  \"registrationDueDate\": \"2024-03-15T23:59:59\",\n  \"dueTime\": \"23:59:59\",\n  \"address\": \"123 Main St\",\n  \"format\": \"round_robin\",\n  \"maxParticipants\": 20,\n  \"gender\": \"male\",\n  \"participantType\": \"single\",\n  \"playersBornAfterDate\": \"2002-01-01T23:59:59\",\n  \"purchasedPackage\": {\n    \"id\": 1,\n    \"name\": \"\"\n  },\n  \"scope\": \"group\",\n  \"group\": {\n    \"id\": 1\n  },\n  \"participants\": 10,\n  \"imageUrl\": \"https://xs.pac-12.com/styles/crop_16_9_large_1x/s3/2022-04/Tennis%20Social%20Sizes_1920x1080-optimized.jpg?itok=WjlYagbf\",\n  \"status\": \"upcoming\",\n  \"phase\": \"new\",\n  \"isCreator\": true\n}",
+          "body": "{\n  \"id\": 1,\n  \"name\": \"2022 PAC-12 Championships\",\n  \"description\": \"This is a description of tournament 1\",\n  \"contactPersonName\": \"John Doe\",\n  \"contactNumber\": \"123-456-7890\",\n  \"contactEmail\": \"john@gmail.com\",\n  \"startDate\": \"2024-03-20T23:59:59\",\n  \"endDate\": \"2024-03-25T23:59:59\",\n  \"registrationDueDate\": \"2024-03-15T23:59:59\",\n  \"dueTime\": \"23:59:59\",\n  \"address\": \"123 Main St\",\n  \"format\": \"round_robin\",\n  \"maxParticipants\": 20,\n  \"gender\": \"male\",\n  \"participantType\": \"single\",\n  \"playersBornAfterDate\": \"2024-03-25T23:59:59\",\n  \"purchasedPackage\": {\n    \"id\": 1,\n    \"name\": \"\"\n  },\n  \"scope\": \"group\",\n  \"group\": {\n    \"id\": 1\n  },\n  \"participants\": 10,\n  \"imageUrl\": \"https://xs.pac-12.com/styles/crop_16_9_large_1x/s3/2022-04/Tennis%20Social%20Sizes_1920x1080-optimized.jpg?itok=WjlYagbf\",\n  \"status\": \"upcoming\",\n  \"phase\": \"published\",\n  \"isCreator\": true\n}",
           "latency": 0,
           "statusCode": 200,
           "label": "",
@@ -909,35 +905,6 @@
         {
           "uuid": "87ef6809-31a6-47b8-9ae6-0e6dc7e73693",
           "body": "{\n  \"message\": \"Sent request to register tournament successfully\"\n}",
-          "latency": 0,
-          "statusCode": 200,
-          "label": "",
-          "headers": [],
-          "bodyType": "INLINE",
-          "filePath": "",
-          "databucketID": "",
-          "sendFileAsBody": false,
-          "rules": [],
-          "rulesOperator": "OR",
-          "disableTemplating": false,
-          "fallbackTo404": false,
-          "default": true,
-          "crudKey": "id",
-          "callbacks": []
-        }
-      ],
-      "responseMode": null
-    },
-    {
-      "uuid": "eafbc047-6239-435f-bbba-d2502081debf",
-      "type": "http",
-      "documentation": "",
-      "method": "patch",
-      "endpoint": "tournaments/*/next-phase",
-      "responses": [
-        {
-          "uuid": "f145a259-8e40-4cb2-b37f-2d5a1b61790e",
-          "body": "{\n  \"id\": 1,\n  \"name\": \"2022 PAC-12 Championships\",\n  \"description\": \"The PAC-12 Championships is a tennis tournament that is held annually in the United States. The tournament is held in the spring and features the top teams from the PAC-12 conference. The tournament is a single-elimination format with the winner being crowned the PAC-12 champion. The tournament is held at a different location each year and is a popular event for tennis fans.\",\n  \"contactPersonName\": \"John Doe\",\n  \"contactNumber\": \"123-456-7890\",\n  \"contactEmail\": \"john@gmail.com\",\n  \"startDate\": \"2024-03-20T23:59:59\",\n  \"endDate\": \"2024-03-25T23:59:59\",\n  \"registrationDueDate\": \"2024-03-15T23:59:59\",\n  \"dueTime\": \"23:59:59\",\n  \"address\": \"123 Main St\",\n  \"format\": \"round_robin\",\n  \"maxParticipants\": 20,\n  \"gender\": \"male\",\n  \"participantType\": \"single\",\n  \"playersBornAfterDate\": \"2002-01-01T23:59:59\",\n  \"purchasedPackage\": {\n    \"id\": 1,\n    \"name\": \"\"\n  },\n  \"scope\": \"group\",\n  \"group\": {\n    \"id\": 1\n  },\n  \"participants\": 10,\n  \"imageUrl\": \"https://xs.pac-12.com/styles/crop_16_9_large_1x/s3/2022-04/Tennis%20Social%20Sizes_1920x1080-optimized.jpg?itok=WjlYagbf\",\n  \"status\": \"upcoming\",\n  \"phase\": \"published\",\n  \"isCreator\": true\n}",
           "latency": 0,
           "statusCode": 200,
           "label": "",

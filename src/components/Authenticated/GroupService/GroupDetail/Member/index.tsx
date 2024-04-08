@@ -1,47 +1,40 @@
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
-import { Box, Fab, FormControl, TextField, Tooltip, Typography } from '@mui/material';
+import { Box, CircularProgress, Fab, FormControl, TextField, Tooltip, Typography } from '@mui/material';
 import { useDebounce } from 'hooks';
 import { useConfirm } from 'material-ui-confirm';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import { useAppDispatch } from 'store';
 
 import { ModalKey } from 'constants/modal';
+import { useGetGroupMembersQuery } from 'store/api/group/groupApiSlice';
 import { showModal } from 'store/slice/modalSlice';
 
-import MemberItems, { MemberItemsData } from './MemberItems';
-
-const members: Array<MemberItemsData> = [
-  {
-    id: '1',
-    name: 'Member 1',
-    avatar:
-      'https://www.google.com/url?sa=i&url=http%3A%2F%2Fwww.bing.com%2Fimages%2Fcreate%3Fform%3DFLPGEN%26qft%3D%2Bfilterui%253Aimagesize-large%2Bfilterui%253Acolor2-FGcls_WHITE%2Bfilterui%253Alicense-L2_L3_L4%2Bfilterui%253Aage-lt525600%26cw%3D1177%26ch%3D1024&psig=AOvVaw0WV-84nD0cr4WXcgrfJ2zP&ust=1709656553909000&source=images&cd=vfe&opi=89978449&ved=0CBMQjRxqFwoTCLCos46F24QDFQAAAAAdAAAAABAR',
-    joinAt: 'Fri, 01 Mar 2024 17:42:41 GMT',
-  },
-  {
-    id: '2',
-    name: 'Member 2',
-    bio: 'This is a bio',
-    joinAt: 'Sat, 02 Mar 2024 17:42:41 GMT',
-  },
-];
+import MemberItems from './MemberItems';
 
 export default function Member() {
   const dispatch = useAppDispatch();
   const confirm = useConfirm();
-  const [expand, setExpand] = useState<string | null>(null);
+  const [expand, setExpand] = useState<number | null>(null);
   const [searchValue, setSearchValue] = useState<string>('');
   const debouncedSearchValue = useDebounce(searchValue, 2000);
+
+  const { id } = useParams();
+  const { data, isLoading } = useGetGroupMembersQuery({ page: 1, take: 10, id: parseInt(id!) });
+
+  const members = useMemo(() => {
+    return data?.data.filter((e) => e.role !== 'group_admin') || [];
+  }, [data?.data]);
 
   const handleInvite = () => {
     dispatch(showModal(ModalKey.INVITE_INTO_GROUP));
   };
 
-  const handleExpandChange = (id: string) => (_: React.SyntheticEvent, newExpanded: boolean) => {
-    setExpand(newExpanded ? id : null);
+  const handleExpandChange = (_id: number) => (_: React.SyntheticEvent, newExpanded: boolean) => {
+    setExpand(newExpanded ? _id : null);
   };
 
-  const handleRemoveMember = (id: string, name: string) => {
+  const handleRemoveMember = (_id: number, name: string) => {
     confirm({ description: `This action will remove ${name} from this group.` })
       .then(() => {})
       .catch(() => {});
@@ -80,13 +73,15 @@ export default function Member() {
         </Tooltip>
       </Box>
       <Box sx={{ height: 'calc(100% - 60px)', overflow: 'auto' }}>
-        {members.length > 0 ? (
+        {isLoading ? (
+          <CircularProgress />
+        ) : members.length > 0 ? (
           members.map((e) => (
             <MemberItems
-              key={e.id}
-              {...e}
-              expanded={expand === e.id}
-              handleChange={handleExpandChange(e.id)}
+              key={e.user.id}
+              data={e.user}
+              expanded={expand === e.user.id}
+              handleChange={handleExpandChange(e.user.id)}
               handleDelete={handleRemoveMember}
             />
           ))

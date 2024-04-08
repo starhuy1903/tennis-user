@@ -74,3 +74,20 @@ export type AffiliatedSponsorPayload = {
   taxNumber: string;
   description: string;
 };
+
+export type MemberUser = {
+  id: number;
+  email: string;
+  name: string;
+  image?: string;
+  bio?: string;
+};
+
+export type MemberDto = {
+  userId: number;
+  groupId: number;
+  createdAt: string;
+  updatedAt: string;
+  role: 'group_admin' | 'member';
+  user: MemberUser;
+};

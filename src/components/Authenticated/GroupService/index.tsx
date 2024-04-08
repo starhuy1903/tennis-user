@@ -1,12 +1,13 @@
-import { Box, Typography } from '@mui/material';
+import Container from '@mui/material/Container';
 
+import JoinedGroup from './JoinedGroup';
 import MyGroup from './MyGroup';
 
 export default function GroupService() {
   return (
-    <Box>
-      <Typography variant="h4">My Group</Typography>
+    <Container sx={{ display: 'flex', flexDirection: 'column', rowGap: '20px', paddingBottom: '20px' }}>
       <MyGroup />
-    </Box>
+      <JoinedGroup />
+    </Container>
   );
 }

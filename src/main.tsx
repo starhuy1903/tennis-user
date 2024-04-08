@@ -11,6 +11,7 @@ import * as ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
 
 import CustomToaster from 'components/Common/CustomToaster';
+import GlobalLoading from 'components/Common/GlobalLoading';
 import { ModalContainer } from 'components/Common/Modal';
 import { defaultTheme } from 'constants/themes';
 
@@ -25,6 +26,7 @@ root.render(
         <CssBaseline />
         <CustomToaster />
         <ModalContainer />
+        <GlobalLoading />
         <ConfirmProvider>
           <App />
         </ConfirmProvider>

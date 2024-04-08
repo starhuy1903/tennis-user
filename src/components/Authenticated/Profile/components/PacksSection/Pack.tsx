@@ -35,7 +35,9 @@ const Pack = ({ id, name, startTimestamp, endTimestamp, groupName }: PackProps) 
             >
               Started at:
             </Typography>
-            <Typography display="inline">{displayTimestamp(startTimestamp)}</Typography>
+            <Typography display="inline">
+              {displayTimestamp(startTimestamp, { includeRelativeTimeToPresent: true })}
+            </Typography>
           </Box>
           <Box>
             <Typography
@@ -45,7 +47,9 @@ const Pack = ({ id, name, startTimestamp, endTimestamp, groupName }: PackProps) 
             >
               Last until:
             </Typography>
-            <Typography display="inline">{displayTimestamp(endTimestamp)}</Typography>
+            <Typography display="inline">
+              {displayTimestamp(endTimestamp, { includeRelativeTimeToPresent: true })}
+            </Typography>
           </Box>
           <Box>
             {groupName ? (
