@@ -1,4 +1,4 @@
-import AddIcon from '@mui/icons-material/Add';
+import SearchIcon from '@mui/icons-material/Search';
 import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
 import Fab from '@mui/material/Fab';
@@ -8,14 +8,14 @@ import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Unstable_Grid2';
 import { useNavigate } from 'react-router-dom';
 
-import { useGetMyGroupsQuery } from 'store/api/group/groupApiSlice';
+import { useGetJoinedGroupsQuery } from 'store/api/group/groupApiSlice';
 
 import GroupCard from '../components/GroupCard';
 
 // !! Need paging
-export default function MyGroup() {
+export default function JoinedGroup() {
   const navigate = useNavigate();
-  const { data: groupsData, isLoading } = useGetMyGroupsQuery({ page: 1, take: 10 });
+  const { data: groupsData, isLoading } = useGetJoinedGroupsQuery({ page: 1, take: 10 });
 
   return (
     <Paper sx={{ padding: '15px' }}>
@@ -24,18 +24,18 @@ export default function MyGroup() {
           variant="h4"
           sx={{ flex: 1 }}
         >
-          My Groups
+          Joined Groups
         </Typography>
         <Tooltip
-          title="Create new group"
+          title="Find public group"
           placement="bottom"
         >
           <Fab
             color="primary"
             size="medium"
-            onClick={() => navigate('/groups/create')}
+            onClick={() => navigate('/groups/search')}
           >
-            <AddIcon />
+            <SearchIcon />
           </Fab>
         </Tooltip>
       </Box>
@@ -55,13 +55,18 @@ export default function MyGroup() {
                 lg={3}
                 key={e.id}
               >
-                <GroupCard data={e} />
+                <GroupCard
+                  id={e.id}
+                  name={e.name}
+                  status={e.status}
+                  createdAt={e.createdAt}
+                />
               </Grid>
             ))}
           </Grid>
         ) : (
           <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-            <Typography>You haven't created any group yet.</Typography>
+            <Typography>You haven't joined any group yet.</Typography>
           </Box>
         )}
       </Box>

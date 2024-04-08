@@ -26,6 +26,13 @@ const defaultTheme = createTheme({
       fontWeight: 400,
     },
   },
+  components: {
+    MuiTooltip: {
+      defaultProps: {
+        arrow: true,
+      },
+    },
+  },
   palette: {
     primary: {
       main: '#7F56D9',

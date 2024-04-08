@@ -14,9 +14,14 @@ export function formatDateTime(isoDate: string) {
   return date.format('DD/MM/YYYY HH:mm:ss');
 }
 
-export const displayTimestamp = (timestamp: string) => {
+export const displayTimestamp = (
+  timestamp: string,
+  options?: {
+    includeRelativeTimeToPresent?: boolean;
+  },
+) => {
   const time = dayjs(timestamp);
-  return `${time.format('YYYY-MM-DD HH:mm:ss')} (${time.fromNow()})`;
+  return `${time.format('YYYY-MM-DD HH:mm:ss')}${options?.includeRelativeTimeToPresent ? `(${time.fromNow()})` : ''}`;
 };
 
 // 29 Oct 2023

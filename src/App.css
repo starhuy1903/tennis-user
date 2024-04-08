@@ -7,7 +7,7 @@
 
 html {
   /* Prevent the layout shift caused by scrollbar */
-  scrollbar-gutter: stable;
+  /* scrollbar-gutter: stable; */
 }
 
 a {

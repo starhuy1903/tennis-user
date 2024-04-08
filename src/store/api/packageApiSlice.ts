@@ -10,8 +10,18 @@ const packageApiToastSlice = apiWithToastSlice.injectEndpoints({
     getMyPackages: build.query<UserPackage[], void>({
       query: () => `my-packages`,
     }),
+    // TODO: need to check
+    getPurchasedPackages: build.query<UserPackage[], void>({
+      query: () => 'core/purchased-packages/me',
+    }),
   }),
 });
 
-export const { useGetPackagesQuery, useLazyGetPackagesQuery, useGetMyPackagesQuery, useLazyGetMyPackagesQuery } =
-  packageApiToastSlice;
+export const {
+  useGetPackagesQuery,
+  useLazyGetPackagesQuery,
+  useGetMyPackagesQuery,
+  useLazyGetMyPackagesQuery,
+  useGetPurchasedPackagesQuery,
+  useLazyGetPurchasedPackagesQuery,
+} = packageApiToastSlice;

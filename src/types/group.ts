@@ -9,12 +9,30 @@ export enum GroupStatus {
 }
 
 export type Group = {
-  id: number | null;
+  id: number;
   name: string;
   description: string;
+  language: string;
+  activityZone: string;
   status: GroupStatus;
-  adminId: number | null;
-  packageId: number | null;
+  adminId: number;
+  image?: string;
+  orderId: number | null;
   startDate: string;
   endDate: string;
+  memberCount: number;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type GroupUpdateDto = {
+  name: string;
+  image?: string;
+  description?: string;
+  language?: string;
+  activityZone?: string;
+};
+
+export type GroupDto = GroupUpdateDto & {
+  purchasedPackageId: string;
 };

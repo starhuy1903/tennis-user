@@ -29,6 +29,7 @@ import { useGetAppConfigQuery } from 'store/api/commonApiSlice';
 import { useLazyGetProfileQuery } from 'store/api/userApiSlice';
 
 import './App.css';
+import { configs } from 'configurations';
 
 const sharedRoutes = [
   {
@@ -99,17 +100,11 @@ const protectedRoutes = createBrowserRouter([
         element: <GroupService />,
       },
       {
-        path: ':groupId',
-        element: <GroupDetailLayout />,
-        children: [
-          {
-            index: true,
-            element: <GroupDetail />,
-          },
-        ],
+        path: ':id',
+        element: <GroupDetail />,
       },
       {
-        path: ':id/create',
+        path: 'create',
         element: <GroupCreate />,
       },
       {
