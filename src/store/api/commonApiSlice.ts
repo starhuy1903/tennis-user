@@ -6,7 +6,7 @@ import { apiWithToastSlice } from './baseApiSlice';
 const groupApiToastSlice = apiWithToastSlice.injectEndpoints({
   endpoints: (build) => ({
     getAppConfig: build.query<AppConfigType, void>({
-      query: () => '/system-config',
+      query: () => 'core/system-config',
       onQueryStarted: async (_, { dispatch, queryFulfilled }) => {
         const { data } = await queryFulfilled;
         dispatch(setAppConfig(data));

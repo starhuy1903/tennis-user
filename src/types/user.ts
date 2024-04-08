@@ -75,7 +75,7 @@ export type AffiliatedSponsorPayload = {
   description: string;
 };
 
-export type User = {
+export type MemberUser = {
   id: number;
   email: string;
   name: string;
@@ -89,5 +89,5 @@ export type MemberDto = {
   createdAt: string;
   updatedAt: string;
   role: 'group_admin' | 'member';
-  user: User;
+  user: MemberUser;
 };

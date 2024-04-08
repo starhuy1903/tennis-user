@@ -6,11 +6,11 @@ import CardHeader from '@mui/material/CardHeader';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
-import { BoughtPackage } from 'types/purchasedPackage';
+import { UserPackage } from 'types/package';
 import { displayTimestamp } from 'utils/datetime';
 
 interface PackageProps {
-  data: BoughtPackage;
+  data: UserPackage;
   selected: boolean;
   handleSelect: () => void;
 }

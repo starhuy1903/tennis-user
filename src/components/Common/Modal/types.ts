@@ -15,7 +15,6 @@ export interface CropImageProps extends CommonModalProps {
   image: File;
   aspect: number;
   onSubmit: (file: File) => void;
-  onModalClose: () => void;
 }
 export interface SelectPaymentMethodProps extends CommonModalProps {
   userId: number;

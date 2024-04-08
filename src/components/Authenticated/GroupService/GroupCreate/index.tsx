@@ -19,8 +19,8 @@ import ControlledSelect from 'components/Common/Input/ControlledSelect';
 import ControlledTextField from 'components/Common/Input/ControlledTextField';
 import SingleImagePicker from 'components/Common/Input/SingleImagePicker';
 import { LANGUAGES } from 'constants/app';
-import { useLazyGetPurchasedPackagesQuery } from 'store/api/group/purchasedPackageApiSlice';
 import { useCreateGroupMutation } from 'store/api/group/groupApiSlice';
+import { useLazyGetPurchasedPackagesQuery } from 'store/api/packageApiSlice';
 import { setLoading } from 'store/slice/statusSlice';
 
 import PackageSelector from '../components/PackageSelector';

@@ -13,11 +13,10 @@ import Typography from '@mui/material/Typography';
 import { SyntheticEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { User } from 'types/user';
-import { displayTimestamp } from 'utils/datetime';
+import { MemberUser } from 'types/user';
 
 interface MemberItemsProps {
-  data: User;
+  data: MemberUser;
   expanded: boolean;
   handleChange: (event: SyntheticEvent, newExpanded: boolean) => void;
   handleDelete: (id: number, name: string) => void;

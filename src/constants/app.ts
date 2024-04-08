@@ -1,4 +1,4 @@
-export const LOCAL_STORAGE_PREFIX = 'ads';
+export const LOCAL_STORAGE_PREFIX = 'tennis';
 
 export const ACCESS_TOKEN = 'access_token';
 export const REFRESH_TOKEN = 'refresh_token';
