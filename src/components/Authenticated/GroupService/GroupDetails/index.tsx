@@ -7,6 +7,7 @@ import { useGetGroupDetailsQuery } from 'store/api/group/groupApiSlice';
 import { a11yProps } from 'utils/ui';
 
 import Feeds from './Feeds';
+import GroupTournaments from './GroupTournaments';
 import InfoSection from './InfoSection';
 import Member from './Member';
 import UpdateGroupInformation from './UpdateGroupInformation';
@@ -30,9 +31,14 @@ const GroupTabs = [
     hash: 'information',
     component: <UpdateGroupInformation />,
   },
+  {
+    index: 3,
+    label: 'Group Tournaments',
+    component: <GroupTournaments />,
+  },
 ];
 
-export default function GroupDetail() {
+export default function GroupDetails() {
   const navigate = useNavigate();
   const location = useLocation();
 

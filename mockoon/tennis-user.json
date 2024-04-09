@@ -2,7 +2,7 @@
   "uuid": "1c1feba3-faff-4fad-808f-e5a581f72870",
   "lastMigration": 32,
   "name": "Tennis user",
-  "endpointPrefix": "",
+  "endpointPrefix": "api",
   "latency": 0,
   "port": 8080,
   "hostname": "",
@@ -171,7 +171,7 @@
       "type": "http",
       "documentation": "",
       "method": "get",
-      "endpoint": "news/top",
+      "endpoint": "core/news/top",
       "responses": [
         {
           "uuid": "67446c7f-a92f-43b0-bef5-f51b476033d5",
@@ -200,7 +200,7 @@
       "type": "http",
       "documentation": "",
       "method": "post",
-      "endpoint": "auth/login",
+      "endpoint": "auth/auth/login",
       "responses": [
         {
           "uuid": "1694ea6a-eec0-4ec5-840f-d6e0933aadb3",
@@ -492,7 +492,7 @@
       "type": "http",
       "documentation": "",
       "method": "get",
-      "endpoint": "users/me",
+      "endpoint": "core/users/me",
       "responses": [
         {
           "uuid": "f0d5ea8f-f88c-4e63-a437-7846dec15d2c",

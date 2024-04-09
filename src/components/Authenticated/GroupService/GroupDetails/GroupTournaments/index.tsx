@@ -2,51 +2,58 @@ import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import WorkspacePremiumIcon from '@mui/icons-material/WorkspacePremium';
 import { Box, Button, Stack, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import CenterLoading from 'components/Common/CenterLoading';
 import { TournamentStatus } from 'constants/tournament';
-import { useLazyGetOpenTournamentsQuery } from 'store/api/tournament/tournamentApiSlice';
-import { OpenTournament } from 'types/tournament';
+import { useLazyGetGroupTournamentsQuery } from 'store/api/group/groupTournamentApiSlice';
+import { GroupTournament } from 'types/tournament';
+import { showError } from 'utils/toast';
 
-import TournamentList from './TournamentList';
+import GroupTournamentList from './GroupTournamentList';
 
-export default function TournamentService() {
+export default function GroupTournaments() {
   const navigate = useNavigate();
 
   const [tournaments, setTournaments] = useState<{
-    upcoming: OpenTournament[];
-    onGoing: OpenTournament[];
-    completed: OpenTournament[];
+    upcoming: GroupTournament[];
+    onGoing: GroupTournament[];
+    completed: GroupTournament[];
   }>({
     upcoming: [],
     onGoing: [],
     completed: [],
   });
 
-  const [getTournaments, { isLoading }] = useLazyGetOpenTournamentsQuery();
+  const { groupId } = useParams();
+
+  const [getTournaments, { isLoading }] = useLazyGetGroupTournamentsQuery();
 
   useEffect(() => {
     (async () => {
       try {
-        const responses = await Promise.all([
-          getTournaments({ tournamentStatus: TournamentStatus.UPCOMING }).unwrap(),
-          getTournaments({ tournamentStatus: TournamentStatus.ON_GOING }).unwrap(),
-          getTournaments({ tournamentStatus: TournamentStatus.COMPLETED }).unwrap(),
-        ]);
-        setTournaments({
-          upcoming: responses[0],
-          onGoing: responses[1],
-          completed: responses[2],
-        });
+        if (groupId) {
+          const responses = await Promise.all([
+            getTournaments({ tournamentStatus: TournamentStatus.UPCOMING, groupId: parseInt(groupId) }).unwrap(),
+            getTournaments({ tournamentStatus: TournamentStatus.ON_GOING, groupId: parseInt(groupId) }).unwrap(),
+            getTournaments({ tournamentStatus: TournamentStatus.COMPLETED, groupId: parseInt(groupId) }).unwrap(),
+          ]);
+          setTournaments({
+            upcoming: responses[0],
+            onGoing: responses[1],
+            completed: responses[2],
+          });
+        } else {
+          showError('Group not found.');
+        }
       } catch (error) {
         console.log(error);
       }
     })();
-  }, [getTournaments]);
+  }, [getTournaments, groupId]);
 
   const handleCreateTournament = () => {
-    navigate('/tournaments/create');
+    navigate(`/groups/${groupId}/tournaments/create`);
   };
 
   if (isLoading) {
@@ -83,7 +90,7 @@ export default function TournamentService() {
             Create tournament
           </Button>
         </Stack>
-        <TournamentList tournaments={tournaments.upcoming} />
+        <GroupTournamentList tournaments={tournaments.upcoming} />
       </Box>
 
       <Box>
@@ -101,7 +108,7 @@ export default function TournamentService() {
           </Typography>
         </Stack>
 
-        <TournamentList tournaments={tournaments.onGoing} />
+        <GroupTournamentList tournaments={tournaments.onGoing} />
       </Box>
 
       <Box>
@@ -119,7 +126,7 @@ export default function TournamentService() {
           </Typography>
         </Stack>
 
-        <TournamentList tournaments={tournaments.completed} />
+        <GroupTournamentList tournaments={tournaments.completed} />
       </Box>
     </Stack>
   );

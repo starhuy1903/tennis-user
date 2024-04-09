@@ -5,8 +5,9 @@ import { useAppSelector } from 'store';
 import AffiliateSponsor from 'components/Authenticated/AffiliateSponsor';
 import GroupService from 'components/Authenticated/GroupService';
 import GroupCreate from 'components/Authenticated/GroupService/GroupCreate';
-import GroupDetail from 'components/Authenticated/GroupService/GroupDetail';
-import GroupDetailLayout from 'components/Authenticated/GroupService/GroupDetail/GroupDetailLayout';
+import GroupDetails from 'components/Authenticated/GroupService/GroupDetails';
+import { groupTournamentDetailsRoutes } from 'components/Authenticated/GroupService/GroupDetails/GroupTournaments/GroupTournamentDetails';
+import CreateGroupTournament from 'components/Authenticated/GroupService/GroupDetails/GroupTournaments/GroupTournamentDetails/Tournament/CreateGroupTournament';
 import GroupLayout from 'components/Authenticated/GroupService/GroupLayout';
 import VNPReturn from 'components/Authenticated/PaymentReturn/VNPReturn';
 import Profile from 'components/Authenticated/Profile';
@@ -27,7 +28,6 @@ import { useGetAppConfigQuery } from 'store/api/commonApiSlice';
 import { useLazyGetProfileQuery } from 'store/api/userApiSlice';
 
 import './App.css';
-import { configs } from 'configurations';
 
 const sharedRoutes = [
   {
@@ -99,11 +99,21 @@ const protectedRoutes = createBrowserRouter([
       },
       {
         path: ':id',
-        element: <GroupDetail />,
+        element: <GroupDetails />,
       },
       {
         path: 'create',
         element: <GroupCreate />,
+      },
+      {
+        path: ':groupId/tournaments',
+        children: [
+          groupTournamentDetailsRoutes,
+          {
+            path: 'create',
+            element: <CreateGroupTournament />,
+          },
+        ],
       },
     ],
   },
