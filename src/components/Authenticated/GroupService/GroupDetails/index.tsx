@@ -38,7 +38,7 @@ const GroupTabs = [
   },
 ];
 
-export default function GroupDetail() {
+export default function GroupDetails() {
   const navigate = useNavigate();
   const location = useLocation();
 
