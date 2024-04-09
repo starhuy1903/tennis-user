@@ -34,6 +34,7 @@ const GroupTabs = [
   {
     index: 3,
     label: 'Group Tournaments',
+    hash: 'tournaments',
     component: <GroupTournaments />,
   },
 ];

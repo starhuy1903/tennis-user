@@ -55,12 +55,7 @@ export default function JoinedGroup() {
                 lg={3}
                 key={e.id}
               >
-                <GroupCard
-                  id={e.id}
-                  name={e.name}
-                  status={e.status}
-                  createdAt={e.createdAt}
-                />
+                <GroupCard data={e} />
               </Grid>
             ))}
           </Grid>

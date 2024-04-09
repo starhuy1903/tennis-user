@@ -7,7 +7,7 @@ const groupTournamentApiToastSlice = apiWithToastSlice.injectEndpoints({
   endpoints: (build) => ({
     getGroupTournaments: build.query<GroupTournament[], { tournamentStatus?: TournamentStatus; groupId: number }>({
       query: (args) => ({
-        url: `groups/${args.groupId}/tournaments`,
+        url: `core/groups/${args.groupId}/tournaments`,
         params: { status: args?.tournamentStatus },
       }),
     }),
@@ -19,12 +19,12 @@ const groupTournamentApiToastSlice = apiWithToastSlice.injectEndpoints({
       }
     >({
       query: (args) => {
-        return `groups/${args.groupId}/tournaments/${args.tournamentId}/general-info`;
+        return `core/groups/${args.groupId}/tournaments/${args.tournamentId}/general-info`;
       },
     }),
     createGroupTournament: build.mutation<GroupTournament, GroupTournamentPayload>({
       query: (payload) => ({
-        url: `groups/${payload.groupId}/tournaments`,
+        url: `core/groups/${payload.groupId}/tournaments`,
         method: 'POST',
         body: payload,
       }),

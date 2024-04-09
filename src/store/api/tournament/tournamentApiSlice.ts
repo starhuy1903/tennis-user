@@ -8,30 +8,30 @@ const tournamentApiToastSlice = apiWithToastSlice.injectEndpoints({
   endpoints: (build) => ({
     getOpenTournaments: build.query<OpenTournament[], { tournamentStatus?: TournamentStatus }>({
       query: (args) => ({
-        url: `tournaments`,
+        url: `core/tournaments`,
         params: { status: args?.tournamentStatus },
       }),
     }),
     createOpenTournament: build.mutation<OpenTournament, OpenTournamentPayload>({
       query: (payload) => ({
-        url: `tournaments`,
+        url: `core/tournaments`,
         method: 'POST',
         body: payload,
       }),
     }),
     getOpenTournamentDetails: build.query<OpenTournament, number>({
-      query: (id) => `tournaments/${id}/general-info`,
+      query: (id) => `core/tournaments/${id}/general-info`,
     }),
     createTournamentRegistration: build.mutation<void, TournamentRegistrationPayload>({
       query: (payload) => ({
-        url: `tournaments/registration`,
+        url: `core/tournaments/registration`,
         method: 'POST',
         body: payload,
       }),
     }),
     moveToNextPhase: build.mutation<OpenTournament, number>({
       query: (id) => ({
-        url: `tournaments/${id}/next-phase`,
+        url: `core/tournaments/${id}/next-phase`,
         method: 'PATCH',
       }),
     }),

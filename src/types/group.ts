@@ -4,7 +4,6 @@ export type InvitationPayload = {
 
 export enum GroupStatus {
   ACTIVE = 'active',
-  INACTIVE = 'inactive',
   EXPIRED = 'expired',
 }
 
@@ -15,12 +14,9 @@ export type Group = {
   language: string;
   activityZone: string;
   status: GroupStatus;
-  adminId: number;
   image?: string;
-  orderId: number | null;
-  startDate: string;
-  endDate: string;
   memberCount: number;
+  maxMember: number;
   createdAt: string;
   updatedAt: string;
 };
