@@ -5,6 +5,7 @@ export type Participant = {
   email: string;
   name: string;
   image?: string;
+  role: MemberRole;
 };
 
 export type ParticipantDto = {
@@ -13,5 +14,4 @@ export type ParticipantDto = {
   user: Participant;
   createdAt: string;
   updatedAt: string;
-  role: MemberRole;
 };

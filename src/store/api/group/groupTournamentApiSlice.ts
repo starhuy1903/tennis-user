@@ -1,6 +1,6 @@
 import { TournamentStatus } from 'constants/tournament';
 import { GetListResult, GetPagingListOptions } from 'types/base';
-import { ParticipantDto } from 'types/group-tournament';
+import { Participant, ParticipantDto } from 'types/group-tournament';
 import { GroupTournament, GroupTournamentPayload } from 'types/tournament';
 
 import { apiWithToastSlice } from '../baseApiSlice';
@@ -44,6 +44,18 @@ const groupTournamentApiToastSlice = apiWithToastSlice.injectEndpoints({
         },
       }),
     }),
+    getGroupTournamentNonParticipants: build.query<Participant[], { groupId: number; tournamentId: number }>({
+      query: (args) => ({
+        url: `core/groups/${args.groupId}/tournaments/${args.tournamentId}/non-participants`,
+      }),
+    }),
+    addParticipants: build.mutation<void, { groupId: number; tournamentId: number; userIds: number[] }>({
+      query: (args) => ({
+        url: `core/groups/${args.groupId}/tournaments/${args.tournamentId}/participants`,
+        method: 'POST',
+        body: { userIds: args.userIds },
+      }),
+    }),
   }),
 });
 
@@ -54,4 +66,8 @@ export const {
   useLazyGetGroupTournamentDetailsQuery,
   useCreateGroupTournamentMutation,
   useGetGroupTournamentParticipantsQuery,
+  useLazyGetGroupTournamentParticipantsQuery,
+  useGetGroupTournamentNonParticipantsQuery,
+  useLazyGetGroupTournamentNonParticipantsQuery,
+  useAddParticipantsMutation,
 } = groupTournamentApiToastSlice;

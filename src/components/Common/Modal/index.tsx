@@ -3,6 +3,7 @@ import { useAppDispatch, useAppSelector } from 'store';
 import { ModalKey } from 'constants/modal';
 import { showModal } from 'store/slice/modalSlice';
 
+import AddParticipants from './AddParticipants';
 import CropImage from './CropImage';
 import HelloWorld from './HelloWorld';
 import InviteIntoGroup from './InviteIntoGroup';
@@ -15,6 +16,7 @@ const ModalsMap: { [modalKey: string]: any } = {
   [ModalKey.CROP_IMAGE]: CropImage,
   [ModalKey.SELECT_PAYMENT_METHOD]: SelectPaymentMethod,
   [ModalKey.REGISTER_TOURNAMENT]: RegisterTournament,
+  [ModalKey.ADD_PARTICIPANTS]: AddParticipants,
 };
 
 export function ModalContainer() {

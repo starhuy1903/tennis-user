@@ -16,12 +16,17 @@ import {
   Typography,
 } from '@mui/material';
 import { useParams } from 'react-router-dom';
+import { useAppDispatch } from 'store';
 
 import { MemberRoleOptions } from 'constants/group';
+import { ModalKey } from 'constants/modal';
 import { useGetGroupTournamentParticipantsQuery } from 'store/api/group/groupTournamentApiSlice';
+import { showModal } from 'store/slice/modalSlice';
 import { formatDateTime } from 'utils/datetime';
 
 export default function Participants() {
+  const dispatch = useAppDispatch();
+
   const { groupId, tournamentId } = useParams();
 
   const { data, isLoading } = useGetGroupTournamentParticipantsQuery({
@@ -34,7 +39,9 @@ export default function Participants() {
   if (isLoading) return <CircularProgress />;
 
   const handleAddParticipant = () => {
-    // TODO: Implement add participant
+    dispatch(
+      showModal(ModalKey.ADD_PARTICIPANTS, { groupId: parseInt(groupId!), tournamentId: parseInt(tournamentId!) })
+    );
   };
 
   return (
@@ -98,7 +105,7 @@ export default function Participants() {
                     </Box>
                   </TableCell>
                   <TableCell>{row.user.email}</TableCell>
-                  <TableCell align="center">{MemberRoleOptions[row.role]}</TableCell>
+                  <TableCell align="center">{MemberRoleOptions[row.user.role]}</TableCell>
                   <TableCell align="center">{formatDateTime(row.createdAt)}</TableCell>
 
                   {data?.isCreator && (

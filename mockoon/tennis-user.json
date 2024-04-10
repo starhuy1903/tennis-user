@@ -166,6 +166,14 @@
         {
           "type": "route",
           "uuid": "4c9b6b91-2778-45f0-a346-067bf3c1c609"
+        },
+        {
+          "type": "route",
+          "uuid": "9aadcef9-058d-4031-849f-7a99256d80e4"
+        },
+        {
+          "type": "route",
+          "uuid": "e19311c6-c359-42ab-ac70-12d5d21301e1"
         }
       ]
     }
@@ -1228,7 +1236,65 @@
       "responses": [
         {
           "uuid": "7bf85ea0-0f42-4017-aa4a-a1a86ee997b1",
-          "body": "{\n  \"data\": [\n    {\n      \"userId\": 21,\n      \"groupTournamentId\": 1,\n      \"createdAt\": \"2024-03-17T04:37:20.559Z\",\n      \"updatedAt\": \"2024-03-17T04:37:20.559Z\",\n      \"user\": {\n        \"id\": 21,\n        \"email\": \"Hi5@m.com\",\n        \"name\": \"Hi5\",\n        \"image\": \"\"\n      },\n      \"role\": \"member\"\n    },\n    {\n      \"userId\": 30,\n      \"groupTournamentId\": 1,\n      \"createdAt\": \"2024-03-17T05:40:44.345Z\",\n      \"updatedAt\": \"2024-03-17T05:40:44.345Z\",\n      \"user\": {\n        \"id\": 30,\n        \"email\": \"hqkhai1636@gmail.com\",\n        \"name\": \"Truong Chi Hien\",\n        \"image\": \"\"\n      },\n      \"role\": \"member\"\n    },\n    {\n      \"userId\": 31,\n      \"groupTournamentId\": 1,\n      \"createdAt\": \"2024-03-17T05:40:44.345Z\",\n      \"updatedAt\": \"2024-03-17T05:40:44.345Z\",\n      \"user\": {\n        \"id\": 31,\n        \"email\": \"shincoder.forwork@gmail.com\",\n        \"name\": \"shin\",\n        \"image\": \"\"\n      },\n      \"role\": \"member\"\n    }\n  ],\n  \"totalPages\": 2,\n  \"totalCount\": 5,\n  \"isCreator\": true\n}",
+          "body": "{\n  \"data\": [\n    {\n      \"userId\": 21,\n      \"groupTournamentId\": 1,\n      \"createdAt\": \"2024-03-17T04:37:20.559Z\",\n      \"updatedAt\": \"2024-03-17T04:37:20.559Z\",\n      \"user\": {\n        \"id\": 21,\n        \"email\": \"Hi5@m.com\",\n        \"name\": \"Hi5\",\n        \"image\": \"\",\n        \"role\": \"member\"\n      }\n    },\n    {\n      \"userId\": 30,\n      \"groupTournamentId\": 1,\n      \"createdAt\": \"2024-03-17T05:40:44.345Z\",\n      \"updatedAt\": \"2024-03-17T05:40:44.345Z\",\n      \"user\": {\n        \"id\": 30,\n        \"email\": \"hqkhai1636@gmail.com\",\n        \"name\": \"Truong Chi Hien\",\n        \"image\": \"\",\n        \"role\": \"member\"\n      }\n    },\n    {\n      \"userId\": 31,\n      \"groupTournamentId\": 1,\n      \"createdAt\": \"2024-03-17T05:40:44.345Z\",\n      \"updatedAt\": \"2024-03-17T05:40:44.345Z\",\n      \"user\": {\n        \"id\": 31,\n        \"email\": \"shincoder.forwork@gmail.com\",\n        \"name\": \"shin\",\n        \"image\": \"\",\n        \"role\": \"member\"\n      }\n    }\n  ],\n  \"totalPages\": 2,\n  \"totalCount\": 5,\n  \"isCreator\": true\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "9aadcef9-058d-4031-849f-7a99256d80e4",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "core/groups/*/tournaments/*/non-participants",
+      "responses": [
+        {
+          "uuid": "28586bc8-f851-4de1-95ba-df58383fe17f",
+          "body": "[\n  {\n    \"id\": 21,\n    \"email\": \"Hi5@m.com\",\n    \"name\": \"Hi5\",\n    \"image\": \"\",\n    \"role\": \"member\"\n  },\n  {\n    \"id\": 30,\n    \"email\": \"hqkhai1636@gmail.com\",\n    \"name\": \"Truong Chi Hien\",\n    \"image\": \"\",\n    \"role\": \"member\"\n  },\n  {\n    \"id\": 31,\n    \"email\": \"shincoder.forwork@gmail.com\",\n    \"name\": \"shin\",\n    \"image\": \"\",\n    \"role\": \"member\"\n  },\n    {\n    \"id\": 23,\n    \"email\": \"Hi5@m.com\",\n    \"name\": \"Hi5\",\n    \"image\": \"\",\n    \"role\": \"member\"\n  },\n  {\n    \"id\": 32,\n    \"email\": \"hqkhai1636@gmail.com\",\n    \"name\": \"Truong Chi Hien\",\n    \"image\": \"\",\n    \"role\": \"member\"\n  },\n  {\n    \"id\": 339,\n    \"email\": \"shincoder.forwork@gmail.com\",\n    \"name\": \"shin\",\n    \"image\": \"\",\n    \"role\": \"member\"\n  },\n    {\n    \"id\": 321,\n    \"email\": \"hqkhai1636@gmail.com\",\n    \"name\": \"Truong Chi Hien\",\n    \"image\": \"\",\n    \"role\": \"member\"\n  },\n  {\n    \"id\": 331,\n    \"email\": \"shincoder.forwork@gmail.com\",\n    \"name\": \"shin\",\n    \"image\": \"\",\n    \"role\": \"member\"\n  }\n]",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "e19311c6-c359-42ab-ac70-12d5d21301e1",
+      "type": "http",
+      "documentation": "",
+      "method": "post",
+      "endpoint": "core/groups/*/tournaments/*/participants",
+      "responses": [
+        {
+          "uuid": "f70db690-bf21-4c5e-b679-1371c1e78f42",
+          "body": "{}",
           "latency": 0,
           "statusCode": 200,
           "label": "",

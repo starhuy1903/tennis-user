@@ -6,11 +6,7 @@ import { useCreateTournamentRegistrationMutation } from 'store/api/tournament/to
 import { showSuccess } from 'utils/toast';
 
 import BaseModal from './BaseModal';
-
-interface RegisterTournamentProps {
-  tournamentId: number;
-  onModalClose: () => void;
-}
+import { RegisterTournamentProps } from './types';
 
 type FormType = {
   registrationMessage: string;

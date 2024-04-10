@@ -16,6 +16,17 @@ export interface CropImageProps extends CommonModalProps {
   aspect: number;
   onSubmit: (file: File) => void;
 }
+
+export interface AddParticipantsProps extends CommonModalProps {
+  groupId: number;
+  tournamentId: number;
+}
+
+export interface RegisterTournamentProps extends CommonModalProps {
+  tournamentId: number;
+  onModalClose: () => void;
+}
+
 export interface SelectPaymentMethodProps extends CommonModalProps {
   userId: number;
   packageId: number;
@@ -34,4 +45,6 @@ interface _ModalPropsMap {
   [ModalKey.HELLO_WORLD]: HelloWorldProps;
   [ModalKey.CROP_IMAGE]: CropImageProps;
   [ModalKey.SELECT_PAYMENT_METHOD]: SelectPaymentMethodProps;
+  [ModalKey.ADD_PARTICIPANTS]: AddParticipantsProps;
+  [ModalKey.REGISTER_TOURNAMENT]: RegisterTournamentProps;
 }
