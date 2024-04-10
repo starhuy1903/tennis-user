@@ -15,17 +15,23 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material';
+import { useConfirm } from 'material-ui-confirm';
 import { useParams } from 'react-router-dom';
 import { useAppDispatch } from 'store';
 
 import { MemberRoleOptions } from 'constants/group';
 import { ModalKey } from 'constants/modal';
-import { useGetGroupTournamentParticipantsQuery } from 'store/api/group/groupTournamentApiSlice';
+import {
+  useGetGroupTournamentParticipantsQuery,
+  useRemoveParticipantMutation,
+} from 'store/api/group/groupTournamentApiSlice';
 import { showModal } from 'store/slice/modalSlice';
 import { formatDateTime } from 'utils/datetime';
+import { showSuccess } from 'utils/toast';
 
 export default function Participants() {
   const dispatch = useAppDispatch();
+  const confirm = useConfirm();
 
   const { groupId, tournamentId } = useParams();
 
@@ -36,12 +42,23 @@ export default function Participants() {
     tournamentId: parseInt(tournamentId!),
   });
 
+  const [removeParticipant, { isLoading: isRemoveLoading }] = useRemoveParticipantMutation();
+
   if (isLoading) return <CircularProgress />;
 
   const handleAddParticipant = () => {
     dispatch(
       showModal(ModalKey.ADD_PARTICIPANTS, { groupId: parseInt(groupId!), tournamentId: parseInt(tournamentId!) })
     );
+  };
+
+  const handleRemoveParticipant = (userId: number, name: string) => {
+    confirm({ description: `This action will remove ${name} from this tournament.` })
+      .then(() => {
+        removeParticipant({ groupId: parseInt(groupId!), tournamentId: parseInt(tournamentId!), userId });
+        showSuccess(`Removed ${name} from the tournament successfully.`);
+      })
+      .catch(() => {});
   };
 
   return (
@@ -110,7 +127,10 @@ export default function Participants() {
 
                   {data?.isCreator && (
                     <TableCell>
-                      <Tooltip title="Remove">
+                      <Tooltip
+                        title="Remove"
+                        onClick={() => handleRemoveParticipant(row.userId, row.user.name)}
+                      >
                         <PersonRemoveIcon
                           sx={{
                             cursor: 'pointer',
