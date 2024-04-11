@@ -81,7 +81,7 @@ export default function ApplicantList() {
         mt={6}
         mb={2}
       >
-        Approved Applicants
+        Rejected Applicants
       </Typography>
 
       {applicants && applicants.rejected.length > 0 ? (
