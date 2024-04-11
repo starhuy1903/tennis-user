@@ -65,7 +65,7 @@ const tournamentParticipantsApiToastSlice = apiWithToastSlice.injectEndpoints({
         method: 'DELETE',
       }),
     }),
-    getInvitations: build.query<OpenTournamentApplicant[], { tournamentId: number }>({
+    getInvitations: build.query<GetListResult<OpenTournamentApplicant>, { tournamentId: number }>({
       query: ({ tournamentId }) => ({
         url: `core/tournaments/${tournamentId}/applicants/invitations`,
       }),

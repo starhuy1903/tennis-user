@@ -59,35 +59,79 @@ export default function ApplicantItem({ data }: { data: OpenTournamentApplicant 
       onChange={() => setExpand(!expand)}
     >
       <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-        <Box sx={{ display: 'flex', alignItems: 'center', columnGap: '20px' }}>
-          <Avatar
-            src={data.user1.image}
-            alt={data.user1.name}
-            sx={{ width: '50px', height: '50px' }}
-          />
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '10px',
+          }}
+        >
+          <Box sx={{ display: 'flex', alignItems: 'center', columnGap: '20px' }}>
+            <Avatar
+              src={data.user1.image}
+              alt={data.user1.name}
+              sx={{ width: '50px', height: '50px' }}
+            />
 
-          <Typography variant="h2">{data.user1.name}</Typography>
+            <Typography variant="h2">{data.user1.name}</Typography>
 
-          <Chip
-            sx={{ width: 'fit-content' }}
-            component="span"
-            variant="filled"
-            color={RegistrationStatusChip[data.status].chipColor}
-            size="small"
-            label={RegistrationStatusChip[data.status].displayText}
-          />
+            {data?.user2 && (
+              <>
+                <Avatar
+                  src={data.user1.image}
+                  alt={data.user1.name}
+                  sx={{ width: '50px', height: '50px' }}
+                />
+
+                <Typography variant="h2">{data.user1.name}</Typography>
+              </>
+            )}
+
+            <Chip
+              sx={{ width: 'fit-content' }}
+              component="span"
+              variant="filled"
+              color={RegistrationStatusChip[data.status].chipColor}
+              size="small"
+              label={RegistrationStatusChip[data.status].displayText}
+            />
+          </Box>
         </Box>
       </AccordionSummary>
 
       <AccordionDetails>
         <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
           <Stack direction="column">
-            <Typography variant="body1">
-              <strong>Email:</strong> {data.user1.email}
-            </Typography>
-            <Typography variant="body1">
-              <strong>Gender:</strong> {GenderOptions[data.user1.gender]}
-            </Typography>
+            <Box
+              sx={{
+                display: 'flex',
+                gap: 2,
+              }}
+            >
+              <Typography variant="body1">
+                <strong>{data?.user2 ? 'Applicant 1:' : 'Email:'}</strong> {data.user1.email}
+              </Typography>
+              <Typography variant="body1">
+                <strong>Gender:</strong> {GenderOptions[data.user1.gender]}
+              </Typography>
+            </Box>
+
+            {data?.user2 && (
+              <Box
+                sx={{
+                  display: 'flex',
+                  gap: 2,
+                }}
+              >
+                <Typography variant="body1">
+                  <strong>Applicant 2:</strong> {data.user2.email}
+                </Typography>
+                <Typography variant="body1">
+                  <strong>Gender:</strong> {GenderOptions[data.user2.gender]}
+                </Typography>
+              </Box>
+            )}
+
             <Typography variant="body1">
               <strong>Message:</strong> {data.message}
             </Typography>
