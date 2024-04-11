@@ -4,7 +4,8 @@ import { useParams } from 'react-router-dom';
 import { TournamentPhase } from 'constants/tournament';
 import { useGetOpenTournamentDetailsQuery } from 'store/api/tournament/tournamentApiSlice';
 
-import { ApplicantList } from './ApplicantList';
+import ApplicantList from './ApplicantList';
+import MyApplication from './MyApplication';
 import ParticipantList from './ParticipantList';
 
 export default function Participants() {
@@ -12,12 +13,14 @@ export default function Participants() {
 
   const { data, isLoading } = useGetOpenTournamentDetailsQuery(parseInt(tournamentId!));
 
-  console.log(data);
-
   if (isLoading) return <CircularProgress />;
 
   if (data?.phase === TournamentPhase.NEW || data?.phase === TournamentPhase.PUBLISHED) {
-    return <ApplicantList />;
+    if (data.isCreator) {
+      return <ApplicantList />;
+    } else {
+      return <MyApplication />;
+    }
   } else {
     return <ParticipantList />;
   }
