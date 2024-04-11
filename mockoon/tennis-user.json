@@ -98,6 +98,10 @@
           "uuid": "a228f9bc-5518-4e94-9551-2f99cd56ca93"
         },
         {
+          "type": "route",
+          "uuid": "be6e22b1-6fb4-4705-b441-b8f43e9e455d"
+        },
+        {
           "type": "folder",
           "uuid": "6c1a8e79-f432-4138-b297-aca1fb24f2d1"
         }
@@ -1328,6 +1332,35 @@
         {
           "uuid": "ad17038e-eb8c-418a-addf-7a913e56cc22",
           "body": "{}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "be6e22b1-6fb4-4705-b441-b8f43e9e455d",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "core/tournaments/*/participants",
+      "responses": [
+        {
+          "uuid": "853e603f-230f-4a74-8027-245a5ded3007",
+          "body": "{\n  \"data\": [\n    {\n      \"user1\": {\n        \"id\": 1,\n        \"name\": \"Huy Nguyen\",\n        \"image\": \"\",\n        \"email\": \"huy@gmail.com\",\n        \"gender\": \"male\"\n      },\n      \"appliedDate\": \"2024-03-20T23:59:59\"\n    },\n    {\n      \"user1\": {\n        \"id\": 2,\n        \"name\": \"Tri Do\",\n        \"image\": \"\",\n        \"email\": \"tri@gmail.com\",\n        \"gender\": \"male\"\n      },\n      \"appliedDate\": \"2024-03-20T23:59:59\"\n    }\n  ],\n  \"participantType\": \"single\",\n  \"maxParticipants\": 20,\n  \"totalPages\": 2,\n  \"totalCount\": 5\n}",
           "latency": 0,
           "statusCode": 200,
           "label": "",

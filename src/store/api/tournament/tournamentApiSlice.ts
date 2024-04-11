@@ -1,4 +1,6 @@
-import { TournamentStatus } from 'constants/tournament';
+import { ParticipantType, TournamentStatus } from 'constants/tournament';
+import { GetListResult, GetPagingListOptions } from 'types/base';
+import { OpenTournamentParticipant } from 'types/open-tournament-participants';
 import { OpenTournament, OpenTournamentPayload } from 'types/tournament';
 import { TournamentRegistrationPayload } from 'types/tournament-registration';
 
@@ -35,6 +37,22 @@ const tournamentApiToastSlice = apiWithToastSlice.injectEndpoints({
         method: 'PATCH',
       }),
     }),
+    getOpenTournamentParticipants: build.query<
+      GetListResult<OpenTournamentParticipant> & {
+        participantType: ParticipantType;
+        maxParticipants: number;
+      },
+      GetPagingListOptions & { tournamentId: number }
+    >({
+      query: (args) => ({
+        url: `core/tournaments/${args.tournamentId}/participants`,
+        params: {
+          page: args.page,
+          take: args.take,
+          order: args.order,
+        },
+      }),
+    }),
   }),
 });
 
@@ -46,4 +64,6 @@ export const {
   useLazyGetOpenTournamentDetailsQuery,
   useCreateTournamentRegistrationMutation,
   useMoveToNextPhaseMutation,
+  useGetOpenTournamentParticipantsQuery,
+  useLazyGetOpenTournamentParticipantsQuery,
 } = tournamentApiToastSlice;

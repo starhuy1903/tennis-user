@@ -1,6 +1,6 @@
 import { TournamentStatus } from 'constants/tournament';
 import { GetListResult, GetPagingListOptions } from 'types/base';
-import { Participant, ParticipantDto } from 'types/group-tournament';
+import { Participant, ParticipantDto } from 'types/group-tournament-participants';
 import { GroupTournament, GroupTournamentPayload } from 'types/tournament';
 
 import { apiWithToastSlice } from '../baseApiSlice';
