@@ -1,3 +1,5 @@
+import { UserPackage } from './package';
+
 export type InvitationPayload = {
   email: string;
 };
@@ -17,6 +19,7 @@ export type Group = {
   image?: string;
   memberCount: number;
   maxMember: number;
+  purchasedPackage: UserPackage;
   createdAt: string;
   updatedAt: string;
 };

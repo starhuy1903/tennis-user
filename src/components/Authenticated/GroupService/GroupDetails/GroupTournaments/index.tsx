@@ -25,18 +25,18 @@ export default function GroupTournaments() {
     completed: [],
   });
 
-  const { id } = useParams();
+  const { groupId } = useParams();
 
   const [getTournaments, { isLoading }] = useLazyGetGroupTournamentsQuery();
 
   useEffect(() => {
     (async () => {
       try {
-        if (id) {
+        if (groupId) {
           const responses = await Promise.all([
-            getTournaments({ tournamentStatus: TournamentStatus.UPCOMING, groupId: parseInt(id) }).unwrap(),
-            getTournaments({ tournamentStatus: TournamentStatus.ON_GOING, groupId: parseInt(id) }).unwrap(),
-            getTournaments({ tournamentStatus: TournamentStatus.COMPLETED, groupId: parseInt(id) }).unwrap(),
+            getTournaments({ tournamentStatus: TournamentStatus.UPCOMING, groupId: parseInt(groupId) }).unwrap(),
+            getTournaments({ tournamentStatus: TournamentStatus.ON_GOING, groupId: parseInt(groupId) }).unwrap(),
+            getTournaments({ tournamentStatus: TournamentStatus.COMPLETED, groupId: parseInt(groupId) }).unwrap(),
           ]);
           setTournaments({
             upcoming: responses[0],
@@ -50,10 +50,10 @@ export default function GroupTournaments() {
         console.log(error);
       }
     })();
-  }, [getTournaments, id]);
+  }, [getTournaments, groupId]);
 
   const handleCreateTournament = () => {
-    navigate(`/groups/${id}/tournaments/create`);
+    navigate(`/groups/${groupId}/tournaments/create`);
   };
 
   if (isLoading) {

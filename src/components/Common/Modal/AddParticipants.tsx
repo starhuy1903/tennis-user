@@ -34,7 +34,7 @@ export default function AddParticipants({ groupId, tournamentId, onModalClose }:
 
   const handleAddParticipants = async (userIds: number[]) => {
     try {
-      await addParticipants({ groupId, tournamentId, userIds });
+      await addParticipants({ groupId, tournamentId, userIds }).unwrap();
       showSuccess('Added participants to the tournament successfully.');
       onModalClose();
     } catch (error) {

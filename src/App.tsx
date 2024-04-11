@@ -98,7 +98,7 @@ const protectedRoutes = createBrowserRouter([
         element: <GroupService />,
       },
       {
-        path: ':id',
+        path: ':groupId',
         element: <GroupDetails />,
       },
       {
