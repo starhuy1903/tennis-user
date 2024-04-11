@@ -125,7 +125,7 @@ export default function Participants() {
                   <TableCell align="center">{MemberRoleOptions[row.user.role]}</TableCell>
                   <TableCell align="center">{formatDateTime(row.createdAt)}</TableCell>
 
-                  {data?.isCreator && (
+                  {data?.isCreator && !isRemoveLoading ? (
                     <TableCell>
                       <Tooltip
                         title="Remove"
@@ -138,6 +138,14 @@ export default function Participants() {
                           }}
                         />
                       </Tooltip>
+                    </TableCell>
+                  ) : (
+                    <TableCell>
+                      <PersonRemoveIcon
+                        sx={{
+                          color: 'gray',
+                        }}
+                      />
                     </TableCell>
                   )}
                 </TableRow>
