@@ -41,6 +41,8 @@ export default function SetupFixture() {
   const { handleSubmit, register, control, formState, getValues } = useForm<FormType>({
     mode: 'onTouched',
     defaultValues: {
+      numberOfParticipants: 0,
+      numberOfRounds: 1,
       // matchesStartTime
       matchDuration: 30,
       breakDuration: 10,
@@ -76,7 +78,7 @@ export default function SetupFixture() {
                 <Controller
                   control={control}
                   name="format"
-                  // defaultValue={TournamentFormatOptions[0].value as TournamentFormat}
+                  defaultValue={tournamentFormatOptions[0].value as TournamentFormat}
                   render={({ field: { onChange, value } }) => (
                     <FormControl
                       fullWidth
@@ -245,7 +247,10 @@ export default function SetupFixture() {
                     >
                       <FormLabel htmlFor="matchesStartTime">Matches start time</FormLabel>
                       <LocalizationProvider dateAdapter={AdapterDayjs}>
-                        <TimePicker onChange={onChange} />
+                        <TimePicker
+                          defaultValue={dayjs('2022-04-17T08:00')}
+                          onChange={onChange}
+                        />
                       </LocalizationProvider>
                       <FormHelperText id="matchesStartTime-helper-text">
                         {formError.matchesStartTime?.message}
@@ -264,6 +269,7 @@ export default function SetupFixture() {
                       <FormLabel htmlFor="matchesEndTime">Matches end time</FormLabel>
                       <LocalizationProvider dateAdapter={AdapterDayjs}>
                         <TimePicker
+                          defaultValue={dayjs('2022-04-17T20:00')}
                           onChange={(value) => {
                             console.log('value', value);
 
@@ -305,6 +311,7 @@ export default function SetupFixture() {
                 >
                   <FormLabel htmlFor="breakDuration">Break time between matches</FormLabel>
                   <Select
+                    defaultValue={10}
                     {...register('breakDuration', {
                       required: 'The break duration is required.',
                     })}
