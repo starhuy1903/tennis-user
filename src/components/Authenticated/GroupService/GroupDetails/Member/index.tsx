@@ -19,8 +19,8 @@ export default function Member() {
   const [searchValue, setSearchValue] = useState<string>('');
   const debouncedSearchValue = useDebounce(searchValue, 2000);
 
-  const { id } = useParams();
-  const { data, isLoading } = useGetGroupMembersQuery({ page: 1, take: 10, id: parseInt(id!) });
+  const { groupId } = useParams();
+  const { data, isLoading } = useGetGroupMembersQuery({ page: 1, take: 10, id: parseInt(groupId!) });
 
   const members = useMemo(() => {
     return data?.data.filter((e) => e.role !== 'group_admin') || [];
