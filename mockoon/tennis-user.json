@@ -99,7 +99,39 @@
         },
         {
           "type": "route",
+          "uuid": "d23f4423-6172-4a20-99d4-01f64203b811"
+        },
+        {
+          "type": "route",
           "uuid": "be6e22b1-6fb4-4705-b441-b8f43e9e455d"
+        },
+        {
+          "type": "route",
+          "uuid": "83d95154-d296-4221-ba21-21f9522fed03"
+        },
+        {
+          "type": "route",
+          "uuid": "f42dc714-d718-440d-b27e-76df604641b1"
+        },
+        {
+          "type": "route",
+          "uuid": "2dc2cf66-44d5-42f7-8f6d-2e5f5cbdf1c5"
+        },
+        {
+          "type": "route",
+          "uuid": "50a99071-f847-4cd2-bc14-77f0e98b0500"
+        },
+        {
+          "type": "route",
+          "uuid": "2448c4cc-d2f4-4faa-a8f5-481b321312c4"
+        },
+        {
+          "type": "route",
+          "uuid": "bb9eb18f-8e21-4f35-911d-201faa21fb34"
+        },
+        {
+          "type": "route",
+          "uuid": "d968d5d6-c65d-486d-8362-259f9dd61f03"
         },
         {
           "type": "folder",
@@ -1361,6 +1393,300 @@
         {
           "uuid": "853e603f-230f-4a74-8027-245a5ded3007",
           "body": "{\n  \"data\": [\n    {\n      \"user1\": {\n        \"id\": 1,\n        \"name\": \"Huy Nguyen\",\n        \"image\": \"\",\n        \"email\": \"huy@gmail.com\",\n        \"gender\": \"male\"\n      },\n      \"appliedDate\": \"2024-03-20T23:59:59\"\n    },\n    {\n      \"user1\": {\n        \"id\": 2,\n        \"name\": \"Tri Do\",\n        \"image\": \"\",\n        \"email\": \"tri@gmail.com\",\n        \"gender\": \"male\"\n      },\n      \"appliedDate\": \"2024-03-20T23:59:59\"\n    }\n  ],\n  \"participantType\": \"single\",\n  \"maxParticipants\": 20,\n  \"totalPages\": 2,\n  \"totalCount\": 5\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "d23f4423-6172-4a20-99d4-01f64203b811",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "core/tournaments/*/applicants",
+      "responses": [
+        {
+          "uuid": "9e5a680a-3cfc-4754-bc95-3cf4b8b90550",
+          "body": "{\n  \"data\": [\n    {\n      \"user1\": {\n        \"id\": 1,\n        \"name\": \"Huy Nguyen\",\n        \"image\": \"https://mdbcdn.b-cdn.net/img/new/avatars/2.webp\",\n        \"email\": \"huy@gmail.com\",\n        \"gender\": \"male\"\n      },\n      \"message\": \"I want to join this tournament\",\n      \"status\": \"pending\",\n      \"appliedDate\": \"2024-03-20T23:59:59\"\n    },\n    {\n      \"user1\": {\n        \"id\": 1,\n        \"name\": \"Huy Nguyen\",\n        \"image\": \"https://mdbcdn.b-cdn.net/img/new/avatars/2.webp\",\n        \"email\": \"huy@gmail.com\",\n        \"gender\": \"male\"\n      },\n      \"message\": \"I want to join this tournament\",\n      \"status\": \"pending\",\n      \"appliedDate\": \"2024-03-20T23:59:59\"\n    }\n  ],\n  \"participantType\": \"single\",\n  \"maxParticipants\": 20,\n  \"totalPages\": 2,\n  \"totalCount\": 5\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "query",
+              "modifier": "status",
+              "value": "pending",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "efebb538-18b7-4218-b2e2-72d6cccba87b",
+          "body": "{\n  \"data\": [\n    {\n      \"user1\": {\n        \"id\": 1,\n        \"name\": \"Thong Nguyen\",\n        \"image\": \"https://mdbcdn.b-cdn.net/img/new/avatars/8.webp\",\n        \"email\": \"thong@gmail.com\",\n        \"gender\": \"male\"\n      },\n      \"message\": \"I want to join this tournament\",\n      \"status\": \"approved\",\n      \"appliedDate\": \"2024-03-20T23:59:59\"\n    },\n    {\n      \"user1\": {\n        \"id\": 1,\n        \"name\": \"Kiet Tran\",\n        \"image\": \"https://mdbcdn.b-cdn.net/img/new/avatars/8.webp\",\n        \"email\": \"kiet@gmail.com\",\n        \"gender\": \"male\"\n      },\n      \"message\": \"I want to join this tournament\",\n      \"status\": \"approved\",\n      \"appliedDate\": \"2024-03-20T23:59:59\"\n    }\n  ],\n  \"participantType\": \"single\",\n  \"maxParticipants\": 20,\n  \"totalPages\": 2,\n  \"totalCount\": 5\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "query",
+              "modifier": "status",
+              "value": "approved",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "45d5ce35-d8f1-4fa3-b22c-3398916a3590",
+          "body": "{\n  \"data\": [\n    {\n      \"user1\": {\n        \"id\": 1,\n        \"name\": \"Tri Nguyen\",\n        \"image\": \"https://mdbcdn.b-cdn.net/img/new/avatars/8.webp\",\n        \"email\": \"tri@gmail.com\",\n        \"gender\": \"male\"\n      },\n      \"message\": \"I want to join this tournament\",\n      \"status\": \"rejected\",\n      \"appliedDate\": \"2024-03-20T23:59:59\"\n    },\n    {\n      \"user1\": {\n        \"id\": 1,\n        \"name\": \"Huy Do\",\n        \"image\": \"https://mdbcdn.b-cdn.net/img/new/avatars/8.webp\",\n        \"email\": \"huy@gmail.com\",\n        \"gender\": \"male\"\n      },\n      \"message\": \"I want to join this tournament\",\n      \"status\": \"rejected\",\n      \"appliedDate\": \"2024-03-20T23:59:59\"\n    }\n  ],\n  \"participantType\": \"single\",\n  \"maxParticipants\": 20,\n  \"totalPages\": 2,\n  \"totalCount\": 5\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "query",
+              "modifier": "status",
+              "value": "rejected",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "83d95154-d296-4221-ba21-21f9522fed03",
+      "type": "http",
+      "documentation": "",
+      "method": "post",
+      "endpoint": "core/tournaments/*/applicants/approve",
+      "responses": [
+        {
+          "uuid": "0f9244df-2500-45c2-8d0f-b1e2bdf1c240",
+          "body": "{}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "f42dc714-d718-440d-b27e-76df604641b1",
+      "type": "http",
+      "documentation": "",
+      "method": "post",
+      "endpoint": "core/tournaments/*/applicants/reject",
+      "responses": [
+        {
+          "uuid": "1ee8699a-f1d0-4c83-8a8f-58b5a6741108",
+          "body": "{}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "50a99071-f847-4cd2-bc14-77f0e98b0500",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "core/tournaments/*/applicants/apply",
+      "responses": [
+        {
+          "uuid": "63e09404-3fce-470a-b8f6-92497f331e6a",
+          "body": "{\n  \"user1\": {\n    \"id\": 1,\n    \"name\": \"Huy Nguyen\",\n    \"image\": \"https://mdbcdn.b-cdn.net/img/new/avatars/2.webp\",\n    \"email\": \"huy@gmail.com\",\n    \"gender\": \"male\"\n  },\n  \"message\": \"I want to join this tournament\",\n  \"status\": \"pending\",\n  \"appliedDate\": \"2024-03-20T23:59:59\"\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "2448c4cc-d2f4-4faa-a8f5-481b321312c4",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "core/tournaments/*/applicants/invitations",
+      "responses": [
+        {
+          "uuid": "724a5798-3e84-4708-b7f0-ebf985c70e96",
+          "body": "{\n  \"data\": [\n    {\n      \"user1\": {\n        \"id\": 1,\n        \"name\": \"Huy Nguyen\",\n        \"image\": \"http://image.com\",\n        \"email\": \"huy@gmail.com\",\n        \"gender\": \"male\"\n      },\n      \"user2\": {\n        \"id\": 2,\n        \"name\": \"Tri Do\",\n        \"image\": \"http://image.com\",\n        \"email\": \"tri@gmail.com\",\n        \"gender\": \"male\"\n      },\n      \"message\": \"We want to join this tournament\",\n      \"status\": \"inviting\"\n    },\n    {\n      \"user1\": {\n        \"id\": 3,\n        \"name\": \"Chi Hien\",\n        \"image\": \"http://image.com\",\n        \"email\": \"hien@gmail.com\",\n        \"gender\": \"male\"\n      },\n      \"user2\": {\n        \"id\": 2,\n        \"name\": \"Tri Do\",\n        \"image\": \"http://image.com\",\n        \"email\": \"tri@gmail.com\",\n        \"gender\": \"male\"\n      },\n      \"message\": \"We want to join this tournament\",\n      \"status\": \"inviting\"\n    }\n  ],\n  \"totalPages\": 2,\n  \"totalCount\": 5\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "2dc2cf66-44d5-42f7-8f6d-2e5f5cbdf1c5",
+      "type": "http",
+      "documentation": "",
+      "method": "delete",
+      "endpoint": "core/tournaments/*/applicants/apply",
+      "responses": [
+        {
+          "uuid": "74636032-eb2c-4544-adc9-373b08937e63",
+          "body": "{}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "bb9eb18f-8e21-4f35-911d-201faa21fb34",
+      "type": "http",
+      "documentation": "",
+      "method": "post",
+      "endpoint": "core/tournaments/*/applicants/invitations/approve",
+      "responses": [
+        {
+          "uuid": "2d532601-185a-472d-9795-4228a8befabd",
+          "body": "{}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "d968d5d6-c65d-486d-8362-259f9dd61f03",
+      "type": "http",
+      "documentation": "",
+      "method": "post",
+      "endpoint": "core/tournaments/*/applicants/invitations/reject",
+      "responses": [
+        {
+          "uuid": "23dfdd46-c94a-48cb-87e3-5e589186d459",
+          "body": "{}",
           "latency": 0,
           "statusCode": 200,
           "label": "",
