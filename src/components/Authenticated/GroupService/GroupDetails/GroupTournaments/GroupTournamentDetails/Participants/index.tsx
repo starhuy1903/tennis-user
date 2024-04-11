@@ -29,6 +29,8 @@ import { showModal } from 'store/slice/modalSlice';
 import { formatDateTime } from 'utils/datetime';
 import { showSuccess } from 'utils/toast';
 
+const titles = ['Name', 'Email address', 'Role', 'Joined at', ''];
+
 export default function Participants() {
   const dispatch = useAppDispatch();
   const confirm = useConfirm();
@@ -94,11 +96,19 @@ export default function Participants() {
         >
           <TableHead>
             <TableRow>
-              <TableCell>Name</TableCell>
-              <TableCell>Email address</TableCell>
-              <TableCell align="center">Role</TableCell>
-              <TableCell align="center">Joined at</TableCell>
-              {data?.isCreator && <TableCell></TableCell>}
+              {titles.map((title) => (
+                <TableCell
+                  align="center"
+                  key={title}
+                >
+                  <Typography
+                    variant="body1"
+                    fontWeight={500}
+                  >
+                    {title}
+                  </Typography>
+                </TableCell>
+              ))}
             </TableRow>
           </TableHead>
           <TableBody>
@@ -121,9 +131,15 @@ export default function Participants() {
                       <Typography variant="body1">{row.user?.name}</Typography>
                     </Box>
                   </TableCell>
-                  <TableCell>{row.user.email}</TableCell>
-                  <TableCell align="center">{MemberRoleOptions[row.user.role]}</TableCell>
-                  <TableCell align="center">{formatDateTime(row.createdAt)}</TableCell>
+                  <TableCell align="center">
+                    <Typography variant="body1">{row.user?.email}</Typography>
+                  </TableCell>
+                  <TableCell align="center">
+                    <Typography variant="body1">{MemberRoleOptions[row.user.role]}</Typography>
+                  </TableCell>
+                  <TableCell align="center">
+                    <Typography variant="body1">{formatDateTime(row.createdAt)}</Typography>
+                  </TableCell>
 
                   {data?.isCreator && !isRemoveLoading ? (
                     <TableCell>
