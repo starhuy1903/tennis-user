@@ -16,7 +16,7 @@ export type BaseType = {
 };
 
 export type GetPagingListOptions = {
-  page: number;
-  take: number;
+  page?: number;
+  take?: number;
   order?: 'asc' | 'desc';
 };

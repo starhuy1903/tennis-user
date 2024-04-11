@@ -14,7 +14,7 @@ import {
 import { useParams } from 'react-router-dom';
 
 import { GenderOptions } from 'constants/tournament';
-import { useGetOpenTournamentParticipantsQuery } from 'store/api/tournament/tournamentApiSlice';
+import { useGetOpenTournamentParticipantsQuery } from 'store/api/tournament/tournamentParticipantsApiSlice';
 import { formatDateTime } from 'utils/datetime';
 
 const titles = ['Name', 'Email address', 'Gender', 'Applied date'];
@@ -28,23 +28,16 @@ export default function ParticipantList() {
     tournamentId: parseInt(tournamentId!),
   });
 
-  console.log(data);
-
   if (isLoading) return <CircularProgress />;
 
   return (
     <Box my={4}>
-      <Box
-        sx={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          marginY: 2,
-          height: '60px',
-        }}
+      <Typography
+        variant="h4"
+        mb={2}
       >
-        <Typography variant="h4">Participants</Typography>
-      </Box>
+        Participants
+      </Typography>
 
       <TableContainer component={Paper}>
         <Table
