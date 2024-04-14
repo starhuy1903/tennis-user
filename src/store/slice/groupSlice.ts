@@ -6,7 +6,7 @@ const initialState: Group = {
   id: null,
   name: '',
   description: '',
-  status: GroupStatus.INACTIVE,
+  status: GroupStatus.ACTIVE,
   adminId: null,
   packageId: null,
   startDate: '',

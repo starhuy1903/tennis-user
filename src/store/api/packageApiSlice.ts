@@ -5,10 +5,10 @@ import { apiWithToastSlice } from './baseApiSlice';
 const packageApiToastSlice = apiWithToastSlice.injectEndpoints({
   endpoints: (build) => ({
     getPackages: build.query<Package[], void>({
-      query: () => `packages`,
+      query: () => `core/packages`,
     }),
     getMyPackages: build.query<UserPackage[], void>({
-      query: () => `my-packages`,
+      query: () => `core/my-packages`,
     }),
     // TODO: need to check
     getPurchasedPackages: build.query<UserPackage[], void>({

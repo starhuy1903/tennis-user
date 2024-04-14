@@ -40,7 +40,7 @@ const UpdateGroupInformation = () => {
   const navigate = useNavigate();
   const confirm = useConfirm();
   const dispatch = useAppDispatch();
-  const { id } = useParams();
+  const { groupId } = useParams();
 
   const [updateGroup] = useUpdateGroupMutation();
   const [getGroupDetail, { data: groupDetail }] = useLazyGetGroupDetailsQuery();
@@ -61,7 +61,7 @@ const UpdateGroupInformation = () => {
       let detail;
 
       try {
-        detail = await getGroupDetail(parseInt(id!)).unwrap();
+        detail = await getGroupDetail(parseInt(groupId!)).unwrap();
 
         return {
           name: detail.name,

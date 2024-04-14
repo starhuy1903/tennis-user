@@ -34,6 +34,7 @@ const GroupTabs = [
   {
     index: 3,
     label: 'Group Tournaments',
+    hash: 'tournaments',
     component: <GroupTournaments />,
   },
 ];
@@ -42,8 +43,8 @@ export default function GroupDetails() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const { id } = useParams();
-  const { data } = useGetGroupDetailsQuery(parseInt(id!));
+  const { groupId } = useParams();
+  const { data } = useGetGroupDetailsQuery(parseInt(groupId!));
 
   const [currentTab, setCurrentTab] = useState<number>(
     GroupTabs.find((e) => location.hash === `#${e.hash}`)?.index || GroupTabs[0].index

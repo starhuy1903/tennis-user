@@ -61,6 +61,14 @@
         },
         {
           "type": "route",
+          "uuid": "88426539-576e-4203-adad-d379a358eb64"
+        },
+        {
+          "type": "folder",
+          "uuid": "789e2ad1-065b-4c9c-9f56-f39caa377e9e"
+        },
+        {
+          "type": "route",
           "uuid": "6b3bbe44-e756-4c19-a1e2-647a157874ba"
         },
         {
@@ -84,6 +92,46 @@
         {
           "type": "route",
           "uuid": "aed7b470-5c92-4a13-af73-5e01bab342eb"
+        },
+        {
+          "type": "route",
+          "uuid": "a228f9bc-5518-4e94-9551-2f99cd56ca93"
+        },
+        {
+          "type": "route",
+          "uuid": "d23f4423-6172-4a20-99d4-01f64203b811"
+        },
+        {
+          "type": "route",
+          "uuid": "be6e22b1-6fb4-4705-b441-b8f43e9e455d"
+        },
+        {
+          "type": "route",
+          "uuid": "83d95154-d296-4221-ba21-21f9522fed03"
+        },
+        {
+          "type": "route",
+          "uuid": "f42dc714-d718-440d-b27e-76df604641b1"
+        },
+        {
+          "type": "route",
+          "uuid": "2dc2cf66-44d5-42f7-8f6d-2e5f5cbdf1c5"
+        },
+        {
+          "type": "route",
+          "uuid": "50a99071-f847-4cd2-bc14-77f0e98b0500"
+        },
+        {
+          "type": "route",
+          "uuid": "2448c4cc-d2f4-4faa-a8f5-481b321312c4"
+        },
+        {
+          "type": "route",
+          "uuid": "bb9eb18f-8e21-4f35-911d-201faa21fb34"
+        },
+        {
+          "type": "route",
+          "uuid": "d968d5d6-c65d-486d-8362-259f9dd61f03"
         },
         {
           "type": "folder",
@@ -122,6 +170,10 @@
         {
           "type": "route",
           "uuid": "86254530-d1f5-4966-b806-c948e82a5111"
+        },
+        {
+          "type": "route",
+          "uuid": "0fa2cea7-103a-4449-965b-ecaa98e1b427"
         }
       ]
     },
@@ -134,6 +186,36 @@
           "uuid": "60ee2190-57c6-4044-b07c-1c992ede65f5"
         }
       ]
+    },
+    {
+      "uuid": "789e2ad1-065b-4c9c-9f56-f39caa377e9e",
+      "name": "Group Tournament",
+      "children": [
+        {
+          "type": "route",
+          "uuid": "fbde74d8-ae5b-4b13-8691-19f4e8eb8e93"
+        },
+        {
+          "type": "route",
+          "uuid": "3d0b7306-d733-4d51-b4f0-e0396c7e5722"
+        },
+        {
+          "type": "route",
+          "uuid": "4c9b6b91-2778-45f0-a346-067bf3c1c609"
+        },
+        {
+          "type": "route",
+          "uuid": "9aadcef9-058d-4031-849f-7a99256d80e4"
+        },
+        {
+          "type": "route",
+          "uuid": "e19311c6-c359-42ab-ac70-12d5d21301e1"
+        },
+        {
+          "type": "route",
+          "uuid": "744d1afc-d4f0-4679-aa19-857cb79ff7fa"
+        }
+      ]
     }
   ],
   "routes": [
@@ -142,7 +224,7 @@
       "type": "http",
       "documentation": "",
       "method": "get",
-      "endpoint": "news",
+      "endpoint": "core/news",
       "responses": [
         {
           "uuid": "9155254b-cec2-4d9a-bb77-d399bb5cb5c1",
@@ -273,7 +355,7 @@
       "type": "http",
       "documentation": "",
       "method": "post",
-      "endpoint": "groups/invite",
+      "endpoint": "core/groups/invite",
       "responses": [
         {
           "uuid": "9c5cc7a0-8694-42b8-8447-e5e28a0fa216",
@@ -434,11 +516,11 @@
       "type": "http",
       "documentation": "",
       "method": "get",
-      "endpoint": "groups",
+      "endpoint": "core/groups",
       "responses": [
         {
           "uuid": "6e9fe359-79e9-469e-a5bb-f73289ba00a5",
-          "body": "[\n  {\n    \"id\": 1,\n    \"name\": \"Huy's group\",\n    \"description\": \"description\",\n    \"status\": \"active\",\n    \"adminId\": 1,\n    \"packageId\": 1,\n    \"startDate\": \"2024-03-10T08:00:00\",\n    \"endDate\": \"2024-04-01T07:59:59\"\n  },\n  {\n    \"id\": 2,\n    \"name\": \"Khai's group\",\n    \"description\": \"abc\",\n    \"status\": \"inactive\",\n    \"adminId\": 1,\n    \"packageId\": 2,\n    \"startDate\": null,\n    \"endDate\": null\n  }\n]",
+          "body": "{\n  \"data\": [\n    {\n      \"id\": 1,\n      \"name\": \"HCMUS Tennis Group\",\n      \"description\": \"description\",\n      \"language\": \"VN\",\n      \"activityZone\": \"227 Nguyen Van Cu\",\n      \"status\": \"active\",\n      \"image\": \"https://www.gltf.org/resources/Site/Home%20page%20slider/gltf-group.jpg\",\n      \"memberCount\": 10,\n      \"maxMember\": 20,\n      \"createdAt\": \"2024-03-10T08:00:00\",\n      \"updatedAt\": \"2024-04-01T07:59:59\"\n    },\n    {\n      \"id\": 2,\n      \"name\": \"Tennis for fun\",\n      \"description\": \"abc\",\n      \"language\": \"EN\",\n      \"activityZone\": \"227 Nguyen Van Cu\",\n      \"status\": \"expired\",\n      \"image\": \"https://cdn-bicmp.nitrocdn.com/vqwqxNZdNYaVDGIGxJhHZnsSodKxKqEp/assets/images/optimized/rev-8e5d4b5/daytennis.vn/wp-content/uploads/2021/10/Lop-tennis-1.jpg\",\n      \"memberCount\": 10,\n      \"maxMember\": 20,\n      \"createdAt\": \"2024-03-10T08:00:00\",\n      \"updatedAt\": \"2024-04-01T07:59:59\"\n    }\n  ]\n}",
           "latency": 0,
           "statusCode": 200,
           "label": "",
@@ -447,11 +529,46 @@
           "filePath": "",
           "databucketID": "",
           "sendFileAsBody": false,
-          "rules": [],
+          "rules": [
+            {
+              "target": "query",
+              "modifier": "role",
+              "value": "group_admin",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
           "rulesOperator": "OR",
           "disableTemplating": false,
           "fallbackTo404": false,
           "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "dd3fc016-e8fb-4fbe-be0b-aa51041b7909",
+          "body": "{\n  \"data\": [\n    {\n      \"id\": 1,\n      \"name\": \"Tennis Saigon\",\n      \"description\": \"description\",\n      \"language\": \"EN\",\n      \"activityZone\": \"227 Nguyen Van Cu\",\n      \"status\": \"active\",\n      \"image\": \"https://www.gltf.org/resources/Site/Home%20page%20slider/gltf-group.jpg\",\n      \"memberCount\": 10,\n      \"maxMember\": 20,\n      \"createdAt\": \"2024-03-10T08:00:00\",\n      \"updatedAt\": \"2024-04-01T07:59:59\"\n    },\n    {\n      \"id\": 2,\n      \"name\": \"Hội Tennis Quận 1\",\n      \"description\": \"abc\",\n      \"language\": \"VN\",\n      \"activityZone\": \"227 Nguyen Van Cu\",\n      \"status\": \"active\",\n      \"image\": \"https://cdn-bicmp.nitrocdn.com/vqwqxNZdNYaVDGIGxJhHZnsSodKxKqEp/assets/images/optimized/rev-8e5d4b5/daytennis.vn/wp-content/uploads/2021/10/Lop-tennis-1.jpg\",\n      \"memberCount\": 10,\n      \"maxMember\": 20,\n      \"createdAt\": \"2024-03-10T08:00:00\",\n      \"updatedAt\": \"2024-04-01T07:59:59\"\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "query",
+              "modifier": "role",
+              "value": "member",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
           "crudKey": "id",
           "callbacks": []
         }
@@ -463,11 +580,11 @@
       "type": "http",
       "documentation": "",
       "method": "get",
-      "endpoint": "groups/*",
+      "endpoint": "core/groups/*",
       "responses": [
         {
           "uuid": "4c526526-db33-41da-b4a8-cdc1c749f694",
-          "body": "{\n  \"id\": 1,\n  \"name\": \"Huy's group\",\n  \"description\": \"description\",\n  \"status\": \"active\",\n  \"adminId\": 1,\n  \"packageId\": 1,\n  \"startDate\": \"2024-03-10T08:00:00\",\n  \"endDate\": \"2024-04-01T07:59:59\"\n}",
+          "body": "{\n  \"id\": 1,\n  \"name\": \"HCMUS Tennis Group\",\n  \"description\": \"description\",\n  \"language\": \"VN\",\n  \"activityZone\": \"227 Nguyen Van Cu\",\n  \"status\": \"active\",\n  \"image\": \"https://www.gltf.org/resources/Site/Home%20page%20slider/gltf-group.jpg\",\n  \"memberCount\": 10,\n  \"maxMember\": 20,\n  \"createdAt\": \"2024-03-10T08:00:00\",\n  \"updatedAt\": \"2024-04-01T07:59:59\"\n}",
           "latency": 0,
           "statusCode": 200,
           "label": "",
@@ -521,7 +638,7 @@
       "type": "http",
       "documentation": "",
       "method": "get",
-      "endpoint": "news/*",
+      "endpoint": "core/news/*",
       "responses": [
         {
           "uuid": "d77ba4ed-0303-40d1-87ea-7ccd51341a4a",
@@ -550,7 +667,7 @@
       "type": "http",
       "documentation": "Get tournament list by status",
       "method": "get",
-      "endpoint": "tournaments",
+      "endpoint": "core/tournaments",
       "responses": [
         {
           "uuid": "56b58481-d647-48ea-9512-048410f43c11",
@@ -660,7 +777,7 @@
       "type": "http",
       "documentation": "",
       "method": "post",
-      "endpoint": "orders",
+      "endpoint": "core/orders",
       "responses": [
         {
           "uuid": "ab3fc74f-8d95-4b33-9b0c-2a2e7034908b",
@@ -689,7 +806,7 @@
       "type": "http",
       "documentation": "",
       "method": "get",
-      "endpoint": "v1/payment/return/vnpay?*",
+      "endpoint": "payment/v1/payment/return/vnpay?*",
       "responses": [
         {
           "uuid": "0e2946d0-f9b5-4a1b-8227-2780b8990d3e",
@@ -755,7 +872,7 @@
       "type": "http",
       "documentation": "Create open tournament",
       "method": "post",
-      "endpoint": "tournaments",
+      "endpoint": "core/tournaments",
       "responses": [
         {
           "uuid": "20aeae1d-0769-4476-bf6b-92039baacb90",
@@ -784,7 +901,7 @@
       "type": "http",
       "documentation": "",
       "method": "get",
-      "endpoint": "my-packages",
+      "endpoint": "core/my-packages",
       "responses": [
         {
           "uuid": "e4e40826-8e64-4271-a9be-8c8eaaaff158",
@@ -813,7 +930,7 @@
       "type": "http",
       "documentation": "",
       "method": "get",
-      "endpoint": "packages",
+      "endpoint": "core/packages",
       "responses": [
         {
           "uuid": "7e24fcb7-0997-476c-8837-793db554597f",
@@ -842,7 +959,7 @@
       "type": "http",
       "documentation": "",
       "method": "get",
-      "endpoint": "my-groups",
+      "endpoint": "core/my-groups",
       "responses": [
         {
           "uuid": "bff1397c-fb69-4fd0-b613-89c32f4093ec",
@@ -871,11 +988,11 @@
       "type": "http",
       "documentation": "",
       "method": "get",
-      "endpoint": "tournaments/*/general-info",
+      "endpoint": "core/tournaments/*/general-info",
       "responses": [
         {
           "uuid": "23d75667-5a2c-40f8-a758-e9a057c60757",
-          "body": "{\n  \"id\": 1,\n  \"name\": \"2022 PAC-12 Championships\",\n  \"description\": \"This is a description of tournament 1\",\n  \"contactPersonName\": \"John Doe\",\n  \"contactNumber\": \"123-456-7890\",\n  \"contactEmail\": \"john@gmail.com\",\n  \"startDate\": \"2024-03-20T23:59:59\",\n  \"endDate\": \"2024-03-25T23:59:59\",\n  \"registrationDueDate\": \"2024-03-15T23:59:59\",\n  \"dueTime\": \"23:59:59\",\n  \"address\": \"123 Main St\",\n  \"format\": \"round_robin\",\n  \"maxParticipants\": 20,\n  \"gender\": \"male\",\n  \"participantType\": \"single\",\n  \"playersBornAfterDate\": \"2024-03-25T23:59:59\",\n  \"purchasedPackage\": {\n    \"id\": 1,\n    \"name\": \"\"\n  },\n  \"scope\": \"group\",\n  \"group\": {\n    \"id\": 1\n  },\n  \"participants\": 10,\n  \"imageUrl\": \"https://xs.pac-12.com/styles/crop_16_9_large_1x/s3/2022-04/Tennis%20Social%20Sizes_1920x1080-optimized.jpg?itok=WjlYagbf\",\n  \"status\": \"upcoming\",\n  \"phase\": \"published\",\n  \"isCreator\": true\n}",
+          "body": "{\n  \"id\": 1,\n  \"name\": \"2022 PAC-12 Championships\",\n  \"description\": \"This is a description of tournament 1\",\n  \"contactPersonName\": \"John Doe\",\n  \"contactNumber\": \"123-456-7890\",\n  \"contactEmail\": \"john@gmail.com\",\n  \"startDate\": \"2024-03-20T23:59:59\",\n  \"endDate\": \"2024-03-25T23:59:59\",\n  \"registrationDueDate\": \"2024-03-15T23:59:59\",\n  \"dueTime\": \"23:59:59\",\n  \"address\": \"123 Main St\",\n  \"format\": \"round_robin\",\n  \"maxParticipants\": 20,\n  \"gender\": \"male\",\n  \"participantType\": \"single\",\n  \"playersBornAfterDate\": \"2024-03-25T23:59:59\",\n  \"purchasedPackage\": {\n    \"id\": 1,\n    \"name\": \"\"\n  },\n  \"scope\": \"group\",\n  \"group\": {\n    \"id\": 1\n  },\n  \"participants\": 10,\n  \"imageUrl\": \"https://xs.pac-12.com/styles/crop_16_9_large_1x/s3/2022-04/Tennis%20Social%20Sizes_1920x1080-optimized.jpg?itok=WjlYagbf\",\n  \"status\": \"upcoming\",\n  \"phase\": \"published\",\n  \"isCreator\": false\n}",
           "latency": 0,
           "statusCode": 200,
           "label": "",
@@ -900,11 +1017,711 @@
       "type": "http",
       "documentation": "",
       "method": "get",
-      "endpoint": "tournaments/registration",
+      "endpoint": "core/tournaments/registration",
       "responses": [
         {
           "uuid": "87ef6809-31a6-47b8-9ae6-0e6dc7e73693",
           "body": "{\n  \"message\": \"Sent request to register tournament successfully\"\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "a228f9bc-5518-4e94-9551-2f99cd56ca93",
+      "type": "http",
+      "documentation": "",
+      "method": "patch",
+      "endpoint": "core/tournaments/*/next-phase",
+      "responses": [
+        {
+          "uuid": "1d492b66-3605-4de8-a065-6ad1a7adf59e",
+          "body": "{\n  \"id\": 1,\n  \"name\": \"2022 PAC-12 Championships\",\n  \"description\": \"The PAC-12 Championships is a tennis tournament that is held annually in the United States. The tournament is held in the spring and features the top teams from the PAC-12 conference. The tournament is a single-elimination format with the winner being crowned the PAC-12 champion. The tournament is held at a different location each year and is a popular event for tennis fans.\",\n  \"contactPersonName\": \"John Doe\",\n  \"contactNumber\": \"123-456-7890\",\n  \"contactEmail\": \"john@gmail.com\",\n  \"startDate\": \"2024-03-20T23:59:59\",\n  \"endDate\": \"2024-03-25T23:59:59\",\n  \"registrationDueDate\": \"2024-03-15T23:59:59\",\n  \"dueTime\": \"23:59:59\",\n  \"address\": \"123 Main St\",\n  \"format\": \"round_robin\",\n  \"maxParticipants\": 20,\n  \"gender\": \"male\",\n  \"participantType\": \"single\",\n  \"playersBornAfterDate\": \"2002-01-01T23:59:59\",\n  \"purchasedPackage\": {\n    \"id\": 1,\n    \"name\": \"\"\n  },\n  \"scope\": \"group\",\n  \"group\": {\n    \"id\": 1\n  },\n  \"participants\": 10,\n  \"imageUrl\": \"https://xs.pac-12.com/styles/crop_16_9_large_1x/s3/2022-04/Tennis%20Social%20Sizes_1920x1080-optimized.jpg?itok=WjlYagbf\",\n  \"status\": \"upcoming\",\n  \"phase\": \"published\",\n  \"isCreator\": true\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "fbde74d8-ae5b-4b13-8691-19f4e8eb8e93",
+      "type": "http",
+      "documentation": "Get tournament list by status",
+      "method": "get",
+      "endpoint": "core/groups/*/tournaments",
+      "responses": [
+        {
+          "uuid": "6fd5740f-fcfa-4202-a968-9fe14e0a3066",
+          "body": "[\n  {\n    \"id\": 1,\n    \"name\": \"2022 PAC-12 Championships\",\n    \"description\": \"This is a description of tournament 1\",\n    \"startDate\": \"2024-03-20T23:59:59\",\n    \"endDate\": \"2024-03-25T23:59:59\",\n    \"address\": \"123 Main St\",\n    \"format\": \"round_robin\",\n    \"participants\": 20,\n    \"imageUrl\": \"https://xs.pac-12.com/styles/crop_16_9_large_1x/s3/2022-04/Tennis%20Social%20Sizes_1920x1080-optimized.jpg?itok=WjlYagbf\",\n    \"status\": \"on_going\",\n    \"phase\": \"new\",\n    \"group\": {\n      \"id\": 1\n    },\n    \"isCreator\": true\n  },\n  {\n    \"id\": 2,\n    \"name\": \"2024 PAC-12 Championships\",\n    \"description\": \"This is a description of tournament 2\",\n    \"startDate\": \"2024-03-20T23:59:59\",\n    \"endDate\": \"2024-03-25T23:59:59\",\n    \"address\": \"123 Main St\",\n    \"format\": \"round_robin\",\n    \"participants\": 20,\n    \"imageUrl\": \"https://xs.pac-12.com/styles/crop_16_9_large_1x/s3/2022-04/Tennis%20Social%20Sizes_1920x1080-optimized.jpg?itok=WjlYagbf\",\n    \"status\": \"on_going\",\n    \"phase\": \"published\",\n    \"group\": {\n      \"id\": 1\n    },\n    \"isCreator\": false\n  }\n]",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "0aa93c9b-7b10-4acd-a3d5-b6ba09aa1188",
+          "body": "[\n  {\n    \"id\": 1,\n    \"name\": \"2022 PAC-12 Championships\",\n    \"description\": \"This is a description of tournament 1\",\n    \"startDate\": \"2024-03-20T23:59:59\",\n    \"endDate\": \"2024-03-25T23:59:59\",\n    \"address\": \"123 Main St\",\n    \"format\": \"round_robin\",\n    \"participants\": 20,\n    \"imageUrl\": \"https://xs.pac-12.com/styles/crop_16_9_large_1x/s3/2022-04/Tennis%20Social%20Sizes_1920x1080-optimized.jpg?itok=WjlYagbf\",\n    \"status\": \"upcoming\",\n    \"phase\": \"new\",\n    \"group\": {\n      \"id\": 1\n    },\n    \"isCreator\": true\n  },\n  {\n    \"id\": 2,\n    \"name\": \"2024 PAC-12 Championships\",\n    \"description\": \"This is a description of tournament 2\",\n    \"startDate\": \"2024-03-20T23:59:59\",\n    \"endDate\": \"2024-03-25T23:59:59\",\n    \"address\": \"123 Main St\",\n    \"format\": \"round_robin\",\n    \"participants\": 20,\n    \"imageUrl\": \"https://xs.pac-12.com/styles/crop_16_9_large_1x/s3/2022-04/Tennis%20Social%20Sizes_1920x1080-optimized.jpg?itok=WjlYagbf\",\n    \"status\": \"upcoming\",\n    \"phase\": \"published\",\n    \"group\": {\n      \"id\": 1\n    },\n    \"isCreator\": false\n  }\n]",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "query",
+              "modifier": "status",
+              "value": "upcoming",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "2815c279-8bcc-4168-918b-7c16712bc71b",
+          "body": "[\n  {\n    \"id\": 1,\n    \"name\": \"2022 PAC-12 Championships\",\n    \"description\": \"This is a description of tournament 1\",\n    \"startDate\": \"2024-03-20T23:59:59\",\n    \"endDate\": \"2024-03-25T23:59:59\",\n    \"address\": \"123 Main St\",\n    \"format\": \"round_robin\",\n    \"participants\": 20,\n    \"imageUrl\": \"https://xs.pac-12.com/styles/crop_16_9_large_1x/s3/2022-04/Tennis%20Social%20Sizes_1920x1080-optimized.jpg?itok=WjlYagbf\",\n    \"status\": \"on_going\",\n    \"phase\": \"new\",\n    \"group\": {\n      \"id\": 1\n    },\n    \"isCreator\": true\n  },\n  {\n    \"id\": 2,\n    \"name\": \"2024 PAC-12 Championships\",\n    \"description\": \"This is a description of tournament 2\",\n    \"startDate\": \"2024-03-20T23:59:59\",\n    \"endDate\": \"2024-03-25T23:59:59\",\n    \"address\": \"123 Main St\",\n    \"format\": \"round_robin\",\n    \"participants\": 20,\n    \"imageUrl\": \"https://xs.pac-12.com/styles/crop_16_9_large_1x/s3/2022-04/Tennis%20Social%20Sizes_1920x1080-optimized.jpg?itok=WjlYagbf\",\n    \"status\": \"on_going\",\n    \"phase\": \"published\",\n    \"group\": {\n      \"id\": 1\n    },\n    \"isCreator\": false\n  }\n]",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "query",
+              "modifier": "status",
+              "value": "on_going",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "09628995-135f-4ac9-bc51-dc8a4622f913",
+          "body": "[\n  {\n    \"id\": 1,\n    \"name\": \"2022 PAC-12 Championships\",\n    \"description\": \"This is a description of tournament 1\",\n    \"startDate\": \"2024-03-20T23:59:59\",\n    \"endDate\": \"2024-03-25T23:59:59\",\n    \"address\": \"123 Main St\",\n    \"format\": \"round_robin\",\n    \"participants\": 49,\n    \"imageUrl\": \"https://xs.pac-12.com/styles/crop_16_9_large_1x/s3/2022-04/Tennis%20Social%20Sizes_1920x1080-optimized.jpg?itok=WjlYagbf\",\n    \"status\": \"completed\",\n    \"phase\": \"new\",\n      \"group\": {\n    \"id\": 1\n  },\n    \"isCreator\": true\n  },\n  {\n    \"id\": 2,\n    \"name\": \"2024 PAC-12 Championships\",\n    \"description\": \"This is a description of tournament 2\",\n    \"startDate\": \"2024-03-20T23:59:59\",\n    \"endDate\": \"2024-03-25T23:59:59\",\n    \"address\": \"123 Main St\",\n    \"format\": \"round_robin\",\n    \"participants\": 20,\n    \"imageUrl\": \"https://xs.pac-12.com/styles/crop_16_9_large_1x/s3/2022-04/Tennis%20Social%20Sizes_1920x1080-optimized.jpg?itok=WjlYagbf\",\n    \"status\": \"completed\",\n    \"phase\": \"published\",\n      \"group\": {\n    \"id\": 1\n  },\n    \"isCreator\": false\n  }\n]",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "query",
+              "modifier": "status",
+              "value": "completed",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "3d0b7306-d733-4d51-b4f0-e0396c7e5722",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "core/groups/*/tournaments/*/general-info",
+      "responses": [
+        {
+          "uuid": "287be277-d360-4834-bc4f-2c622587955e",
+          "body": "{\n  \"id\": 1,\n  \"name\": \"2022 PAC-12 Championships\",\n  \"description\": \"The PAC-12 Championships is a tennis tournament that is held annually in the United States. The tournament is held in the spring and features the top teams from the PAC-12 conference. The tournament is a single-elimination format with the winner being crowned the PAC-12 champion. The tournament is held at a different location each year and is a popular event for tennis fans.\",\n  \"startDate\": \"2024-03-20T23:59:59\",\n  \"endDate\": \"2024-03-25T23:59:59\",\n  \"address\": \"123 Main St\",\n  \"format\": \"round_robin\",\n  \"participants\": 10,\n  \"imageUrl\": \"https://xs.pac-12.com/styles/crop_16_9_large_1x/s3/2022-04/Tennis%20Social%20Sizes_1920x1080-optimized.jpg?itok=WjlYagbf\",\n  \"status\": \"upcoming\",\n  \"phase\": \"new\",\n  \"group\": {\n    \"id\": 1\n  },\n  \"isCreator\": true\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "0fa2cea7-103a-4449-965b-ecaa98e1b427",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "core/purchased-packages/me",
+      "responses": [
+        {
+          "uuid": "6721e315-f7b5-4d3f-8780-3df44a0cb4fc",
+          "body": "[\n  {\n    \"id\": 1,\n    \"name\": \"Basic Package for Beginer\",\n    \"services\": [\n      {\n        \"id\": \"service-1\",\n        \"name\": \"Group Management\",\n        \"type\": \"group\",\n        \"config\": {\n          \"maxGroups\": 1,\n          \"used\": 1\n        }\n      },\n      {\n        \"id\": \"service-2\",\n        \"name\": \"Tournament\",\n        \"type\": \"tournament\",\n        \"config\": {\n          \"maxTournaments\": 1,\n          \"used\": 0,\n          \"level\": \"basic\"\n        }\n      }\n    ],\n    \"expired\": false,\n    \"startDate\": \"2024-03-24T16:16:27\",\n    \"endDate\": \"2024-04-30T16:16:27\"\n  }\n]",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "88426539-576e-4203-adad-d379a358eb64",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "core/groups/*/members",
+      "responses": [
+        {
+          "uuid": "82b3ef7f-6809-4440-b308-1c9c9d48b412",
+          "body": "{\n  \"data\": [\n    {\n      \"userId\": 21,\n      \"groupId\": 1,\n      \"createdAt\": \"2024-03-17T04:37:20.559Z\",\n      \"updatedAt\": \"2024-03-17T04:37:20.559Z\",\n      \"user\": {\n        \"id\": 21,\n        \"email\": \"Hi5@m.com\",\n        \"name\": \"Hi5\",\n        \"image\": \"\",\n        \"role\": \"user\"\n      }\n    },\n    {\n      \"userId\": 30,\n      \"groupId\": 1,\n      \"createdAt\": \"2024-03-17T05:40:44.345Z\",\n      \"updatedAt\": \"2024-03-17T05:40:44.345Z\",\n      \"user\": {\n        \"id\": 30,\n        \"email\": \"hqkhai1636@gmail.com\",\n        \"name\": \"Truong Chi Hien\",\n        \"image\": \"\",\n        \"role\": \"user\"\n      }\n    },\n    {\n      \"userId\": 31,\n      \"groupId\": 1,\n      \"createdAt\": \"2024-03-17T05:40:44.345Z\",\n      \"updatedAt\": \"2024-03-17T05:40:44.345Z\",\n      \"user\": {\n        \"id\": 31,\n        \"email\": \"shincoder.forwork@gmail.com\",\n        \"name\": \"shin\",\n        \"image\": \"\",\n        \"role\": \"user\"\n      }\n    }\n  ],\n  \"totalPages\": 2,\n  \"totalCount\": 5\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "4c9b6b91-2778-45f0-a346-067bf3c1c609",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "core/groups/*/tournaments/*/participants",
+      "responses": [
+        {
+          "uuid": "7bf85ea0-0f42-4017-aa4a-a1a86ee997b1",
+          "body": "{\n  \"data\": [\n    {\n      \"userId\": 21,\n      \"groupTournamentId\": 1,\n      \"createdAt\": \"2024-03-17T04:37:20.559Z\",\n      \"updatedAt\": \"2024-03-17T04:37:20.559Z\",\n      \"user\": {\n        \"id\": 21,\n        \"email\": \"Hi5@m.com\",\n        \"name\": \"Hi5\",\n        \"image\": \"\",\n        \"role\": \"member\"\n      }\n    },\n    {\n      \"userId\": 30,\n      \"groupTournamentId\": 1,\n      \"createdAt\": \"2024-03-17T05:40:44.345Z\",\n      \"updatedAt\": \"2024-03-17T05:40:44.345Z\",\n      \"user\": {\n        \"id\": 30,\n        \"email\": \"hqkhai1636@gmail.com\",\n        \"name\": \"Truong Chi Hien\",\n        \"image\": \"\",\n        \"role\": \"member\"\n      }\n    },\n    {\n      \"userId\": 31,\n      \"groupTournamentId\": 1,\n      \"createdAt\": \"2024-03-17T05:40:44.345Z\",\n      \"updatedAt\": \"2024-03-17T05:40:44.345Z\",\n      \"user\": {\n        \"id\": 31,\n        \"email\": \"shincoder.forwork@gmail.com\",\n        \"name\": \"shin\",\n        \"image\": \"\",\n        \"role\": \"member\"\n      }\n    }\n  ],\n  \"totalPages\": 2,\n  \"totalCount\": 5,\n  \"isCreator\": true\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "9aadcef9-058d-4031-849f-7a99256d80e4",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "core/groups/*/tournaments/*/non-participants",
+      "responses": [
+        {
+          "uuid": "28586bc8-f851-4de1-95ba-df58383fe17f",
+          "body": "[\n  {\n    \"id\": 21,\n    \"email\": \"Hi5@m.com\",\n    \"name\": \"Hi5\",\n    \"image\": \"\",\n    \"role\": \"member\"\n  },\n  {\n    \"id\": 30,\n    \"email\": \"hqkhai1636@gmail.com\",\n    \"name\": \"Truong Chi Hien\",\n    \"image\": \"\",\n    \"role\": \"member\"\n  },\n  {\n    \"id\": 31,\n    \"email\": \"shincoder.forwork@gmail.com\",\n    \"name\": \"shin\",\n    \"image\": \"\",\n    \"role\": \"member\"\n  },\n    {\n    \"id\": 23,\n    \"email\": \"Hi5@m.com\",\n    \"name\": \"Hi5\",\n    \"image\": \"\",\n    \"role\": \"member\"\n  },\n  {\n    \"id\": 32,\n    \"email\": \"hqkhai1636@gmail.com\",\n    \"name\": \"Truong Chi Hien\",\n    \"image\": \"\",\n    \"role\": \"member\"\n  },\n  {\n    \"id\": 339,\n    \"email\": \"shincoder.forwork@gmail.com\",\n    \"name\": \"shin\",\n    \"image\": \"\",\n    \"role\": \"member\"\n  },\n    {\n    \"id\": 321,\n    \"email\": \"hqkhai1636@gmail.com\",\n    \"name\": \"Truong Chi Hien\",\n    \"image\": \"\",\n    \"role\": \"member\"\n  },\n  {\n    \"id\": 331,\n    \"email\": \"shincoder.forwork@gmail.com\",\n    \"name\": \"shin\",\n    \"image\": \"\",\n    \"role\": \"member\"\n  }\n]",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "e19311c6-c359-42ab-ac70-12d5d21301e1",
+      "type": "http",
+      "documentation": "",
+      "method": "post",
+      "endpoint": "core/groups/*/tournaments/*/participants",
+      "responses": [
+        {
+          "uuid": "f70db690-bf21-4c5e-b679-1371c1e78f42",
+          "body": "{}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "744d1afc-d4f0-4679-aa19-857cb79ff7fa",
+      "type": "http",
+      "documentation": "",
+      "method": "delete",
+      "endpoint": "core/groups/*/tournaments/*/participants/*",
+      "responses": [
+        {
+          "uuid": "ad17038e-eb8c-418a-addf-7a913e56cc22",
+          "body": "{}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "be6e22b1-6fb4-4705-b441-b8f43e9e455d",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "core/tournaments/*/participants",
+      "responses": [
+        {
+          "uuid": "853e603f-230f-4a74-8027-245a5ded3007",
+          "body": "{\n  \"data\": [\n    {\n      \"user1\": {\n        \"id\": 1,\n        \"name\": \"Huy Nguyen\",\n        \"image\": \"\",\n        \"email\": \"huy@gmail.com\",\n        \"gender\": \"male\"\n      },\n      \"appliedDate\": \"2024-03-20T23:59:59\"\n    },\n    {\n      \"user1\": {\n        \"id\": 2,\n        \"name\": \"Tri Do\",\n        \"image\": \"\",\n        \"email\": \"tri@gmail.com\",\n        \"gender\": \"male\"\n      },\n      \"appliedDate\": \"2024-03-20T23:59:59\"\n    }\n  ],\n  \"participantType\": \"single\",\n  \"maxParticipants\": 20,\n  \"totalPages\": 2,\n  \"totalCount\": 5\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "d23f4423-6172-4a20-99d4-01f64203b811",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "core/tournaments/*/applicants",
+      "responses": [
+        {
+          "uuid": "9e5a680a-3cfc-4754-bc95-3cf4b8b90550",
+          "body": "{\n  \"data\": [\n    {\n      \"user1\": {\n        \"id\": 1,\n        \"name\": \"Huy Nguyen\",\n        \"image\": \"https://mdbcdn.b-cdn.net/img/new/avatars/2.webp\",\n        \"email\": \"huy@gmail.com\",\n        \"gender\": \"male\"\n      },\n      \"message\": \"I want to join this tournament\",\n      \"status\": \"pending\",\n      \"appliedDate\": \"2024-03-20T23:59:59\"\n    },\n    {\n      \"user1\": {\n        \"id\": 1,\n        \"name\": \"Huy Nguyen\",\n        \"image\": \"https://mdbcdn.b-cdn.net/img/new/avatars/2.webp\",\n        \"email\": \"huy@gmail.com\",\n        \"gender\": \"male\"\n      },\n      \"message\": \"I want to join this tournament\",\n      \"status\": \"pending\",\n      \"appliedDate\": \"2024-03-20T23:59:59\"\n    }\n  ],\n  \"participantType\": \"single\",\n  \"maxParticipants\": 20,\n  \"totalPages\": 2,\n  \"totalCount\": 5\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "query",
+              "modifier": "status",
+              "value": "pending",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "efebb538-18b7-4218-b2e2-72d6cccba87b",
+          "body": "{\n  \"data\": [\n    {\n      \"user1\": {\n        \"id\": 1,\n        \"name\": \"Thong Nguyen\",\n        \"image\": \"https://mdbcdn.b-cdn.net/img/new/avatars/8.webp\",\n        \"email\": \"thong@gmail.com\",\n        \"gender\": \"male\"\n      },\n      \"message\": \"I want to join this tournament\",\n      \"status\": \"approved\",\n      \"appliedDate\": \"2024-03-20T23:59:59\"\n    },\n    {\n      \"user1\": {\n        \"id\": 1,\n        \"name\": \"Kiet Tran\",\n        \"image\": \"https://mdbcdn.b-cdn.net/img/new/avatars/8.webp\",\n        \"email\": \"kiet@gmail.com\",\n        \"gender\": \"male\"\n      },\n      \"message\": \"I want to join this tournament\",\n      \"status\": \"approved\",\n      \"appliedDate\": \"2024-03-20T23:59:59\"\n    }\n  ],\n  \"participantType\": \"single\",\n  \"maxParticipants\": 20,\n  \"totalPages\": 2,\n  \"totalCount\": 5\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "query",
+              "modifier": "status",
+              "value": "approved",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "45d5ce35-d8f1-4fa3-b22c-3398916a3590",
+          "body": "{\n  \"data\": [\n    {\n      \"user1\": {\n        \"id\": 1,\n        \"name\": \"Tri Nguyen\",\n        \"image\": \"https://mdbcdn.b-cdn.net/img/new/avatars/8.webp\",\n        \"email\": \"tri@gmail.com\",\n        \"gender\": \"male\"\n      },\n      \"message\": \"I want to join this tournament\",\n      \"status\": \"rejected\",\n      \"appliedDate\": \"2024-03-20T23:59:59\"\n    },\n    {\n      \"user1\": {\n        \"id\": 1,\n        \"name\": \"Huy Do\",\n        \"image\": \"https://mdbcdn.b-cdn.net/img/new/avatars/8.webp\",\n        \"email\": \"huy@gmail.com\",\n        \"gender\": \"male\"\n      },\n      \"message\": \"I want to join this tournament\",\n      \"status\": \"rejected\",\n      \"appliedDate\": \"2024-03-20T23:59:59\"\n    }\n  ],\n  \"participantType\": \"single\",\n  \"maxParticipants\": 20,\n  \"totalPages\": 2,\n  \"totalCount\": 5\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "query",
+              "modifier": "status",
+              "value": "rejected",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "83d95154-d296-4221-ba21-21f9522fed03",
+      "type": "http",
+      "documentation": "",
+      "method": "post",
+      "endpoint": "core/tournaments/*/applicants/approve",
+      "responses": [
+        {
+          "uuid": "0f9244df-2500-45c2-8d0f-b1e2bdf1c240",
+          "body": "{}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "f42dc714-d718-440d-b27e-76df604641b1",
+      "type": "http",
+      "documentation": "",
+      "method": "post",
+      "endpoint": "core/tournaments/*/applicants/reject",
+      "responses": [
+        {
+          "uuid": "1ee8699a-f1d0-4c83-8a8f-58b5a6741108",
+          "body": "{}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "50a99071-f847-4cd2-bc14-77f0e98b0500",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "core/tournaments/*/applicants/apply",
+      "responses": [
+        {
+          "uuid": "63e09404-3fce-470a-b8f6-92497f331e6a",
+          "body": "{\n  \"user1\": {\n    \"id\": 1,\n    \"name\": \"Huy Nguyen\",\n    \"image\": \"https://mdbcdn.b-cdn.net/img/new/avatars/2.webp\",\n    \"email\": \"huy@gmail.com\",\n    \"gender\": \"male\"\n  },\n  \"message\": \"I want to join this tournament\",\n  \"status\": \"pending\",\n  \"appliedDate\": \"2024-03-20T23:59:59\"\n}",
+          "latency": 0,
+          "statusCode": 204,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "2448c4cc-d2f4-4faa-a8f5-481b321312c4",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "core/tournaments/*/applicants/invitations",
+      "responses": [
+        {
+          "uuid": "724a5798-3e84-4708-b7f0-ebf985c70e96",
+          "body": "{\n  \"data\": [\n    {\n      \"user1\": {\n        \"id\": 1,\n        \"name\": \"Huy Nguyen\",\n        \"image\": \"https://mdbcdn.b-cdn.net/img/new/avatars/2.webp\",\n        \"email\": \"huy@gmail.com\",\n        \"gender\": \"male\"\n      },\n      \"user2\": {\n        \"id\": 2,\n        \"name\": \"Tri Do\",\n        \"image\": \"https://mdbcdn.b-cdn.net/img/new/avatars/2.webp\",\n        \"email\": \"tri@gmail.com\",\n        \"gender\": \"male\"\n      },\n      \"message\": \"We want to join this tournament\",\n      \"status\": \"inviting\"\n    },\n    {\n      \"user1\": {\n        \"id\": 3,\n        \"name\": \"Chi Hien\",\n        \"image\": \"https://mdbcdn.b-cdn.net/img/new/avatars/2.webp\",\n        \"email\": \"hien@gmail.com\",\n        \"gender\": \"male\"\n      },\n      \"user2\": {\n        \"id\": 2,\n        \"name\": \"Tri Do\",\n        \"image\": \"https://mdbcdn.b-cdn.net/img/new/avatars/2.webp\",\n        \"email\": \"tri@gmail.com\",\n        \"gender\": \"male\"\n      },\n      \"message\": \"We want to join this tournament\",\n      \"status\": \"inviting\"\n    }\n  ],\n  \"totalPages\": 2,\n  \"totalCount\": 5\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "query",
+              "modifier": "status",
+              "value": "inviting",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "a68721fc-2556-465e-9a0f-9bb9fcf8bf15",
+          "body": "{\n  \"data\": [\n    {\n      \"user1\": {\n        \"id\": 1,\n        \"name\": \"Huy Nguyen\",\n        \"image\": \"https://mdbcdn.b-cdn.net/img/new/avatars/2.webp\",\n        \"email\": \"huy@gmail.com\",\n        \"gender\": \"male\"\n      },\n      \"user2\": {\n        \"id\": 2,\n        \"name\": \"Tri Do\",\n        \"image\": \"https://mdbcdn.b-cdn.net/img/new/avatars/2.webp\",\n        \"email\": \"tri@gmail.com\",\n        \"gender\": \"male\"\n      },\n      \"message\": \"We want to join this tournament\",\n      \"status\": \"canceled\"\n    },\n    {\n      \"user1\": {\n        \"id\": 3,\n        \"name\": \"Chi Hien\",\n        \"image\": \"https://mdbcdn.b-cdn.net/img/new/avatars/2.webp\",\n        \"email\": \"hien@gmail.com\",\n        \"gender\": \"male\"\n      },\n      \"user2\": {\n        \"id\": 2,\n        \"name\": \"Tri Do\",\n        \"image\": \"https://mdbcdn.b-cdn.net/img/new/avatars/2.webp\",\n        \"email\": \"tri@gmail.com\",\n        \"gender\": \"male\"\n      },\n      \"message\": \"We want to join this tournament\",\n      \"status\": \"canceled\"\n    },\n    {\n      \"user1\": {\n        \"id\": 4,\n        \"name\": \"Huy Nguyen\",\n        \"image\": \"https://mdbcdn.b-cdn.net/img/new/avatars/2.webp\",\n        \"email\": \"huy@gmail.com\",\n        \"gender\": \"male\"\n      },\n      \"user2\": {\n        \"id\": 2,\n        \"name\": \"Tri Do\",\n        \"image\": \"https://mdbcdn.b-cdn.net/img/new/avatars/2.webp\",\n        \"email\": \"tri@gmail.com\",\n        \"gender\": \"male\"\n      },\n      \"message\": \"We want to join this tournament\",\n      \"status\": \"canceled\"\n    },\n    {\n      \"user1\": {\n        \"id\": 5,\n        \"name\": \"Chi Hien\",\n        \"image\": \"https://mdbcdn.b-cdn.net/img/new/avatars/2.webp\",\n        \"email\": \"hien@gmail.com\",\n        \"gender\": \"male\"\n      },\n      \"user2\": {\n        \"id\": 2,\n        \"name\": \"Tri Do\",\n        \"image\": \"https://mdbcdn.b-cdn.net/img/new/avatars/2.webp\",\n        \"email\": \"tri@gmail.com\",\n        \"gender\": \"male\"\n      },\n      \"message\": \"We want to join this tournament\",\n      \"status\": \"canceled\"\n    }\n  ],\n  \"totalPages\": 2,\n  \"totalCount\": 5\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "query",
+              "modifier": "status",
+              "value": "canceled",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "2dc2cf66-44d5-42f7-8f6d-2e5f5cbdf1c5",
+      "type": "http",
+      "documentation": "",
+      "method": "delete",
+      "endpoint": "core/tournaments/*/applicants/apply",
+      "responses": [
+        {
+          "uuid": "74636032-eb2c-4544-adc9-373b08937e63",
+          "body": "{}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "bb9eb18f-8e21-4f35-911d-201faa21fb34",
+      "type": "http",
+      "documentation": "",
+      "method": "post",
+      "endpoint": "core/tournaments/*/applicants/invitations/approve",
+      "responses": [
+        {
+          "uuid": "2d532601-185a-472d-9795-4228a8befabd",
+          "body": "{}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "d968d5d6-c65d-486d-8362-259f9dd61f03",
+      "type": "http",
+      "documentation": "",
+      "method": "post",
+      "endpoint": "core/tournaments/*/applicants/invitations/reject",
+      "responses": [
+        {
+          "uuid": "23dfdd46-c94a-48cb-87e3-5e589186d459",
+          "body": "{}",
           "latency": 0,
           "statusCode": 200,
           "label": "",

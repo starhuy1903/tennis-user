@@ -1,3 +1,5 @@
+import { MemberRole } from 'constants/group';
+
 export type CredentialPayload = {
   email: string;
   password: string;
@@ -88,6 +90,6 @@ export type MemberDto = {
   groupId: number;
   createdAt: string;
   updatedAt: string;
-  role: 'group_admin' | 'member';
+  role: MemberRole;
   user: MemberUser;
 };
