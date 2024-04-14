@@ -12,8 +12,6 @@ export default function Invitations() {
     tournamentId: parseInt(tournamentId!),
   });
 
-  console.log(data);
-
   if (isLoading) {
     return <CenterLoading />;
   }

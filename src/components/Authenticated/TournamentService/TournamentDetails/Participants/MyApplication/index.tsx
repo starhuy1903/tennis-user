@@ -23,8 +23,6 @@ export default function MyApplication() {
 
   const [getMyApplication, { isLoading }] = useLazyGetMyApplicationQuery();
 
-  console.log(myApplication);
-
   useEffect(() => {
     (async () => {
       try {
@@ -37,15 +35,15 @@ export default function MyApplication() {
     })();
   }, [getMyApplication, tournamentId]);
 
-  if (isLoading) {
-    return <CenterLoading />;
-  }
-
   const handleRegister = async () => {
     confirm({ description: 'Creating a tournament application will cancel all invitations from others.' })
       .then(() => dispatch(showModal(ModalKey.REGISTER_TOURNAMENT, { tournamentId: parseInt(tournamentId!) })))
       .catch(() => {});
   };
+
+  if (isLoading) {
+    return <CenterLoading />;
+  }
 
   return (
     <Box my={5}>

@@ -46,8 +46,6 @@ export default function Participants() {
 
   const [removeParticipant, { isLoading: isRemoveLoading }] = useRemoveParticipantMutation();
 
-  if (isLoading) return <CircularProgress />;
-
   const handleAddParticipant = () => {
     dispatch(
       showModal(ModalKey.ADD_PARTICIPANTS, { groupId: parseInt(groupId!), tournamentId: parseInt(tournamentId!) })
@@ -62,6 +60,8 @@ export default function Participants() {
       })
       .catch(() => {});
   };
+
+  if (isLoading) return <CircularProgress />;
 
   return (
     <Box my={5}>

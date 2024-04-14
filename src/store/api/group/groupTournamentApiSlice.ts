@@ -1,6 +1,6 @@
 import { TournamentStatus } from 'constants/tournament';
 import { GetListResult, GetPagingListOptions } from 'types/base';
-import { Participant, ParticipantDto } from 'types/group-tournament-participants';
+import { GroupTournamentParticipant, GroupTournamentUser } from 'types/group-tournament-participants';
 import { GroupTournament, GroupTournamentPayload } from 'types/tournament';
 
 import { apiWithToastSlice } from '../baseApiSlice';
@@ -32,7 +32,7 @@ const groupTournamentApiToastSlice = apiWithToastSlice.injectEndpoints({
       }),
     }),
     getGroupTournamentParticipants: build.query<
-      GetListResult<ParticipantDto> & { isCreator: boolean },
+      GetListResult<GroupTournamentParticipant> & { isCreator: boolean },
       GetPagingListOptions & { groupId: number; tournamentId: number }
     >({
       query: (args) => ({
@@ -44,7 +44,7 @@ const groupTournamentApiToastSlice = apiWithToastSlice.injectEndpoints({
         },
       }),
     }),
-    getGroupTournamentNonParticipants: build.query<Participant[], { groupId: number; tournamentId: number }>({
+    getGroupTournamentNonParticipants: build.query<GroupTournamentUser[], { groupId: number; tournamentId: number }>({
       query: (args) => ({
         url: `core/groups/${args.groupId}/tournaments/${args.tournamentId}/non-participants`,
       }),

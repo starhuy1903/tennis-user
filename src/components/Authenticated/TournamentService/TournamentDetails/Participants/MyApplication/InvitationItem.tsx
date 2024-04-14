@@ -31,12 +31,12 @@ export default function InvitationItem({ data }: { data: OpenTournamentApplicant
 
   const { tournamentId } = useParams();
 
-  const [approve, { isLoading: isApproving }] = useApproveInvitationMutation();
-  const [reject, { isLoading: isRejecting }] = useRejectInvitationMutation();
+  const [approveInvitation, { isLoading: isApproving }] = useApproveInvitationMutation();
+  const [rejectInvitation, { isLoading: isRejecting }] = useRejectInvitationMutation();
 
   const handleApprove = async () => {
     try {
-      await approve({ tournamentId: parseInt(tournamentId!), inviterId: data.user1.id }).unwrap();
+      await approveInvitation({ tournamentId: parseInt(tournamentId!), inviterId: data.user1.id }).unwrap();
       showSuccess(`Approved ${data.user1.name}'s invitation.`);
       navigate(`/tournaments/${tournamentId}/participants`);
     } catch (error) {
@@ -46,7 +46,7 @@ export default function InvitationItem({ data }: { data: OpenTournamentApplicant
 
   const handleReject = async () => {
     try {
-      await reject({ tournamentId: parseInt(tournamentId!), inviterId: data.user1.id }).unwrap();
+      await rejectInvitation({ tournamentId: parseInt(tournamentId!), inviterId: data.user1.id }).unwrap();
       showSuccess(`Rejected ${data.user1.name}'s invitation.`);
       navigate(`/tournaments/${tournamentId}/participants`);
     } catch (error) {

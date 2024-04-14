@@ -28,16 +28,16 @@ import { showSuccess } from 'utils/toast';
 export default function ApplicantItem({ data }: { data: OpenTournamentApplicant }) {
   const navigate = useNavigate();
 
-  const [expand, setExpand] = useState<boolean>(false);
+  const [expand, setExpand] = useState(false);
 
   const { tournamentId } = useParams();
 
-  const [approve, { isLoading: isApproving }] = useApproveTournamentApplicantMutation();
-  const [reject, { isLoading: isRejecting }] = useRejectTournamentApplicantMutation();
+  const [approveRequest, { isLoading: isApproving }] = useApproveTournamentApplicantMutation();
+  const [rejectRequest, { isLoading: isRejecting }] = useRejectTournamentApplicantMutation();
 
   const handleApprove = async () => {
     try {
-      await approve({ tournamentId: parseInt(tournamentId!), userId: data.user1.id }).unwrap();
+      await approveRequest({ tournamentId: parseInt(tournamentId!), userId: data.user1.id }).unwrap();
       showSuccess(`Approved ${data.user1.name}'s registration form.`);
     } catch (error) {
       // handle error
@@ -46,7 +46,7 @@ export default function ApplicantItem({ data }: { data: OpenTournamentApplicant 
 
   const handleReject = async () => {
     try {
-      await reject({ tournamentId: parseInt(tournamentId!), userId: data.user1.id }).unwrap();
+      await rejectRequest({ tournamentId: parseInt(tournamentId!), userId: data.user1.id }).unwrap();
       showSuccess(`Rejected ${data.user1.name}'s registration form.`);
     } catch (error) {
       // handle error

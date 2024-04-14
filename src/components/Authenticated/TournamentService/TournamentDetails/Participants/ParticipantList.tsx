@@ -63,7 +63,7 @@ export default function ParticipantList() {
           </TableHead>
           <TableBody>
             {data &&
-              data?.data.map((row) => (
+              data.data.map((row) => (
                 <TableRow
                   key={row.user1.id}
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}

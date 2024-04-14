@@ -1,6 +1,6 @@
 import { MemberRole } from 'constants/group';
 
-export type Participant = {
+export type GroupTournamentUser = {
   id: number;
   email: string;
   name: string;
@@ -8,10 +8,10 @@ export type Participant = {
   role: MemberRole;
 };
 
-export type ParticipantDto = {
+export type GroupTournamentParticipant = {
   userId: number;
   groupTournamentId: number;
-  user: Participant;
+  user: GroupTournamentUser;
   createdAt: string;
   updatedAt: string;
 };
