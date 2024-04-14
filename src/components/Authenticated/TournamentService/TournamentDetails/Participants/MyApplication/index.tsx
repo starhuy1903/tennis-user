@@ -6,6 +6,7 @@ import { useAppDispatch } from 'store';
 
 import CenterLoading from 'components/Common/CenterLoading';
 import { ModalKey } from 'constants/modal';
+import { RegistrationStatus } from 'constants/tournament-participants';
 import { useLazyGetMyApplicationQuery } from 'store/api/tournament/tournamentParticipantsApiSlice';
 import { showModal } from 'store/slice/modalSlice';
 import { OpenTournamentApplicant } from 'types/open-tournament-participants';
@@ -67,7 +68,9 @@ export default function MyApplication() {
             </Button>
           </Box>
 
-          <Invitations />
+          <Invitations status={RegistrationStatus.INVITING} />
+
+          <Invitations status={RegistrationStatus.CANCELED} />
         </Box>
       )}
     </Box>

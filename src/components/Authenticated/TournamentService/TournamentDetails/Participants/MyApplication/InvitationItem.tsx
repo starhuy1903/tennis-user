@@ -16,7 +16,7 @@ import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { GenderOptions } from 'constants/tournament';
-import { RegistrationStatusChip } from 'constants/tournament-participants';
+import { RegistrationStatus, RegistrationStatusChip } from 'constants/tournament-participants';
 import {
   useApproveInvitationMutation,
   useRejectInvitationMutation,
@@ -105,27 +105,31 @@ export default function InvitationItem({ data }: { data: OpenTournamentApplicant
               </Fab>
             </Tooltip>
 
-            <Tooltip title="Approve">
-              <Fab
-                size="small"
-                color="success"
-                onClick={handleApprove}
-                disabled={isApproving || isRejecting}
-              >
-                <CheckIcon />
-              </Fab>
-            </Tooltip>
+            {data.status !== RegistrationStatus.CANCELED && (
+              <>
+                <Tooltip title="Approve">
+                  <Fab
+                    size="small"
+                    color="success"
+                    onClick={handleApprove}
+                    disabled={isApproving || isRejecting}
+                  >
+                    <CheckIcon />
+                  </Fab>
+                </Tooltip>
 
-            <Tooltip title="Reject">
-              <Fab
-                size="small"
-                color="error"
-                onClick={handleReject}
-                disabled={isApproving || isRejecting}
-              >
-                <CloseIcon />
-              </Fab>
-            </Tooltip>
+                <Tooltip title="Reject">
+                  <Fab
+                    size="small"
+                    color="error"
+                    onClick={handleReject}
+                    disabled={isApproving || isRejecting}
+                  >
+                    <CloseIcon />
+                  </Fab>
+                </Tooltip>
+              </>
+            )}
           </Box>
         </Box>
       </AccordionDetails>
