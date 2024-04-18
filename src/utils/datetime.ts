@@ -14,11 +14,16 @@ export function formatDateTime(isoDate: string) {
   return date.format('DD/MM/YYYY HH:mm:ss');
 }
 
+export function formatTimeDate(isoDate: string) {
+  const date = moment(isoDate);
+  return date.format('HH:mm DD/MM/YYYY');
+}
+
 export const displayTimestamp = (
   timestamp: string,
   options?: {
     includeRelativeTimeToPresent?: boolean;
-  },
+  }
 ) => {
   const time = dayjs(timestamp);
   return `${time.format('YYYY-MM-DD HH:mm:ss')}${options?.includeRelativeTimeToPresent ? `(${time.fromNow()})` : ''}`;
@@ -28,6 +33,12 @@ export const displayTimestamp = (
 export const displayDate = (date: string) => {
   const time = moment(date);
   return time.format('DD MMM YYYY');
+};
+
+// 29 Oct 2023 12:00 PM
+export const displayDateTime = (date: string) => {
+  const time = moment(date);
+  return time.format('DD MMM YYYY hh:mm A');
 };
 
 // Feb 15 - Feb 20, 2024
