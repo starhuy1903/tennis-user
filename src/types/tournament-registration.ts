@@ -1,5 +1,5 @@
 export type TournamentRegistrationPayload = {
-    tournamentId: number;
-    userId: number;
-    registrationMessage: string;
-}
+  tournamentId: number;
+  message: string;
+  user2Email?: string;
+};
