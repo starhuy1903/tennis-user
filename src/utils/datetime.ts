@@ -29,6 +29,12 @@ export const displayTimestamp = (
   return `${time.format('YYYY-MM-DD HH:mm:ss')}${options?.includeRelativeTimeToPresent ? `(${time.fromNow()})` : ''}`;
 };
 
+// 7:30 PM
+export const displayTime = (time: string) => {
+  const t = moment(time, 'HH:mm:ss');
+  return t.format('hh:mm A');
+};
+
 // 29 Oct 2023
 export const displayDate = (date: string) => {
   const time = moment(date);

@@ -155,8 +155,6 @@ const CustomSeed = ({ seed }: IRenderSeedProps) => {
 };
 
 export default function KnockoutFixtures({ fixture }: { fixture: TournamentFixture }) {
-  if (!fixture) return null;
-
   return (
     <Box mt={5}>
       <Bracket

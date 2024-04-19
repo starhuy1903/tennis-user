@@ -3,11 +3,13 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import CenterLoading from 'components/Common/CenterLoading';
+import NoData from 'components/Common/NoData';
 import { TournamentFormat } from 'constants/tournament';
 import { useLazyGetTournamentFixtureQuery } from 'store/api/tournament/tournamentFixtureApiSlice';
 import { TournamentFixture } from 'types/tournament-fixtures';
 
 import KnockoutFixtures from './KnockoutFixture';
+import { RoundRobinFixture } from './RoundRobinFixture';
 
 export default function Fixtures() {
   const [fixture, setFixture] = useState<TournamentFixture | null>(null);
@@ -30,10 +32,19 @@ export default function Fixtures() {
 
   if (isLoading) return <CenterLoading />;
 
-  if (!fixture) return null;
+  if (!fixture)
+    return (
+      <Box
+        sx={{
+          py: 10,
+        }}
+      >
+        <NoData message="The fixture has not been published yet." />
+      </Box>
+    );
 
   if (fixture.format === TournamentFormat.KNOCKOUT) {
     return <KnockoutFixtures fixture={fixture} />;
   }
-  return <Box>Round Robin Fixtures</Box>;
+  return <RoundRobinFixture fixture={fixture} />;
 }
