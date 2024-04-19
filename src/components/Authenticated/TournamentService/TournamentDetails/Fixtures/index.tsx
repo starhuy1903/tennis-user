@@ -8,6 +8,7 @@ import { TournamentFormat } from 'constants/tournament';
 import { useLazyGetTournamentFixtureQuery } from 'store/api/tournament/tournamentFixtureApiSlice';
 import { TournamentFixture } from 'types/tournament-fixtures';
 
+import GroupPlayoffFixture from './GroupPlayoffFixture';
 import KnockoutFixtures from './KnockoutFixture';
 import { RoundRobinFixture } from './RoundRobinFixture';
 
@@ -45,6 +46,9 @@ export default function Fixtures() {
 
   if (fixture.format === TournamentFormat.KNOCKOUT) {
     return <KnockoutFixtures fixture={fixture} />;
+  } else if (fixture.format === TournamentFormat.ROUND_ROBIN) {
+    return <RoundRobinFixture fixture={fixture} />;
+  } else {
+    return <GroupPlayoffFixture fixture={fixture} />;
   }
-  return <RoundRobinFixture fixture={fixture} />;
 }
