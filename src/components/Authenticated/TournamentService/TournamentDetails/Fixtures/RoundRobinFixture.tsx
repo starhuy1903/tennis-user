@@ -79,8 +79,8 @@ export function RoundRobinFixture({ fixture }: { fixture: TournamentFixture }) {
                           }}
                         >
                           <Avatar
-                            src={match.player1.image}
-                            alt={match.player1.name}
+                            src={match.teams[0].user1.image}
+                            alt={match.teams[0].user1.name}
                             sx={{ width: '80px', height: '80px' }}
                           />
 
@@ -95,16 +95,16 @@ export function RoundRobinFixture({ fixture }: { fixture: TournamentFixture }) {
                               variant="h6"
                               fontWeight={600}
                             >
-                              {match.player1.name}
+                              {match.teams[0].user1.name}
                             </Typography>
 
-                            <Typography variant="body2">{match.player1.elo} ELO</Typography>
+                            <Typography variant="body2">{match.teams[0].user1.elo} ELO</Typography>
                           </Box>
                         </Box>
 
                         <Box>
-                          {match.player1.scores &&
-                            match.player1.scores
+                          {match.teams[0].scores &&
+                            match.teams[0].scores
                               .filter((score) => score.set === 'final')
                               .map((score) => (
                                 <Typography
@@ -162,8 +162,8 @@ export function RoundRobinFixture({ fixture }: { fixture: TournamentFixture }) {
                         }}
                       >
                         <Box>
-                          {match.player2.scores &&
-                            match.player2.scores
+                          {match.teams[1].scores &&
+                            match.teams[1].scores
                               .filter((score) => score.set === 'final')
                               .map((score, scoreIndex) => (
                                 <Typography
@@ -195,15 +195,15 @@ export function RoundRobinFixture({ fixture }: { fixture: TournamentFixture }) {
                               variant="h6"
                               fontWeight={600}
                             >
-                              {match.player2.name}
+                              {match.teams[1].user1.name}
                             </Typography>
 
-                            <Typography variant="body2">{match.player2.elo} ELO</Typography>
+                            <Typography variant="body2">{match.teams[1].user1.elo} ELO</Typography>
                           </Box>
 
                           <Avatar
-                            src={match.player2.image}
-                            alt={match.player2.name}
+                            src={match.teams[1].user1.image}
+                            alt={match.teams[1].user1.name}
                             sx={{ width: '80px', height: '80px' }}
                           />
                         </Box>

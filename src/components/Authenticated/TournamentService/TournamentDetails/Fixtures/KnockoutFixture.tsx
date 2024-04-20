@@ -3,11 +3,11 @@ import { Avatar, Box, Divider, Typography } from '@mui/material';
 import { Bracket, IRenderSeedProps, Seed, SeedItem, SeedTeam } from 'react-brackets';
 
 import { MatchStatus } from 'constants/tournament-fixtures';
-import { Player, TournamentFixture } from 'types/tournament-fixtures';
+import { Team, TournamentFixture } from 'types/tournament-fixtures';
 import { formatTimeDate } from 'utils/datetime';
 
-const CustomPlayer = ({ player }: { player: Player }) => {
-  if (!player)
+const CustomPlayer = ({ team }: { team: Team }) => {
+  if (!team)
     return (
       <SeedTeam
         style={{
@@ -39,8 +39,8 @@ const CustomPlayer = ({ player }: { player: Player }) => {
         }}
       >
         <Avatar
-          src={player.image}
-          alt={player.name}
+          src={team.user1.image}
+          alt={team.user1.name}
           sx={{ width: '50px', height: '50px' }}
         />
 
@@ -54,11 +54,11 @@ const CustomPlayer = ({ player }: { player: Player }) => {
           <Typography
             variant="body1"
             fontWeight={600}
-            color={player.isWinner ? '#FAA300' : 'text.primary'}
+            color={team.isWinner ? '#FAA300' : 'text.primary'}
           >
-            {player.name}
+            {team.user1.name}
           </Typography>
-          <Typography variant="caption">{player.elo} ELO</Typography>
+          <Typography variant="caption">{team.user1.elo} ELO</Typography>
         </Box>
       </Box>
 
@@ -69,7 +69,7 @@ const CustomPlayer = ({ player }: { player: Player }) => {
           mr: 2,
         }}
       >
-        {player.scores
+        {team.scores
           ?.slice()
           .reverse()
           .map((score: any, index: number) => (
@@ -106,7 +106,7 @@ const CustomSeed = ({ seed }: IRenderSeedProps) => {
           borderRadius: 5,
         }}
       >
-        <CustomPlayer player={seed.teams[0] as Player} />
+        <CustomPlayer team={seed.teams[0] as Team} />
 
         <Divider>
           <Typography
@@ -148,7 +148,7 @@ const CustomSeed = ({ seed }: IRenderSeedProps) => {
           </Typography>
         </Divider>
 
-        <CustomPlayer player={seed.teams[1] as Player} />
+        <CustomPlayer team={seed.teams[1] as Team} />
       </SeedItem>
     </Seed>
   );

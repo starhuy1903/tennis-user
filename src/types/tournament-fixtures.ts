@@ -7,52 +7,43 @@ export type Score = {
   tiebreak?: number;
 };
 
-export type Player = {
+export type User = {
   id: number;
   name: string;
   image: string;
   elo: number;
-  scores?: Score[];
-  isWinner?: boolean;
 };
 
-// For round-robin type
+export type Team = {
+  id: number;
+  user1: User;
+  user2?: User;
+  scores?: Score[];
+  isWinner?: boolean;
+  totalElo: number;
+};
+
 export type Match = {
   id: string;
   name: string;
   time: string;
   date: string;
+  venue: string;
   duration: number;
   status: MatchStatus;
-  player1: Player;
-  player2: Player;
+  teams: Team[];
 };
 
-export type RoundRobinRounds = {
+export type Round = {
+  title: string;
   matches: Match[];
-  title: string;
-};
-
-// For knockout type
-export type Seed = {
-  id: string;
-  name: string;
-  time: string;
-  date: string;
-  duration: number;
-  status: MatchStatus;
-  teams: Player[];
-};
-
-export type KnockoutRound = {
-  seeds: Seed[];
-  title: string;
+  seeds: Match[]; // same as matches, used for react-brackets
 };
 
 export type TournamentFixture = {
   // Can use both roundRobinRounds and knockoutRounds for "group_playoff" format
-  roundRobinRounds?: RoundRobinRounds[];
-  knockoutRounds?: KnockoutRound[];
+  roundRobinRounds?: Round[];
+  knockoutRounds?: Round[];
   format: TournamentFormat;
   participantType: ParticipantType;
   status: FixtureStatus;
