@@ -1,6 +1,7 @@
 import { Box } from '@mui/material';
 import { useState } from 'react';
 
+import MatchItem from './MatchItem';
 import MatchesList from './MatchesList';
 import SetupFixture from './SetupFixture';
 
@@ -19,6 +20,7 @@ export default function Fixtures() {
       mb={8}
     >
       <SetupFixture />
+      <MatchItem data={0} />
       {matchesData.length > 0 && <MatchesList matches={matchesData} />}
     </Box>
   );
