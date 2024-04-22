@@ -1,4 +1,5 @@
 export enum MatchStatus {
+  SKIPPED = 'skipped',
   SCHEDULED = 'scheduled',
   NO_PARTY = 'no_party',
   NO_SHOW = 'no_show',

@@ -1,8 +1,131 @@
+import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
+import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import { Avatar, Box, Button, Container, Stack, Typography } from '@mui/material';
 
 import { MatchStatus } from 'constants/tournament-fixtures';
-import { TournamentFixture } from 'types/tournament-fixtures';
+import { Score, TournamentFixture, User } from 'types/tournament-fixtures';
 import { displayDate, displayTime } from 'utils/datetime';
+
+const CustomPlayer = ({ player, direction }: { player: User; direction: 'left' | 'right' }) => {
+  if (direction === 'left') {
+    return (
+      <Box
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: 2,
+        }}
+      >
+        <Avatar
+          src={player.image}
+          alt={player.name}
+          sx={{ width: '80px', height: '80px' }}
+        />
+
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'flex-start',
+          }}
+        >
+          <Typography
+            variant="h6"
+            fontWeight={600}
+          >
+            {player.name}
+          </Typography>
+
+          <Typography variant="body2">{player.elo} ELO</Typography>
+        </Box>
+      </Box>
+    );
+  }
+
+  return (
+    <Box
+      sx={{
+        display: 'flex',
+        alignItems: 'center',
+        gap: 2,
+      }}
+    >
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'flex-end',
+        }}
+      >
+        <Typography
+          variant="h6"
+          fontWeight={600}
+        >
+          {player.name}
+        </Typography>
+
+        <Typography variant="body2">{player.elo} ELO</Typography>
+      </Box>
+
+      <Avatar
+        src={player.image}
+        alt={player.name}
+        sx={{ width: '80px', height: '80px' }}
+      />
+    </Box>
+  );
+};
+
+const MatchStatusBadge = ({ status }: { status: string }) => {
+  return (
+    <Typography
+      variant="h6"
+      sx={{
+        color:
+          status === MatchStatus.SCHEDULED || status === MatchStatus.DONE
+            ? 'green'
+            : status === MatchStatus.NO_PARTY || status === MatchStatus.SCORE_DONE
+              ? 'gray'
+              : status === MatchStatus.WALK_OVER
+                ? 'red'
+                : (theme) => theme.palette.info.main,
+        fontWeight: 'bold',
+        textAlign: 'center',
+      }}
+    >
+      {status === MatchStatus.SCHEDULED && 'SCHEDULED'}
+
+      {status === MatchStatus.NO_PARTY && 'NO PARTY'}
+
+      {status === MatchStatus.WALK_OVER && 'LIVE'}
+
+      {status === MatchStatus.DONE && 'SCORING IN PROGRESS'}
+
+      {status === MatchStatus.SCORE_DONE && 'FINISHED'}
+
+      {status === MatchStatus.NO_SHOW && 'TBD'}
+    </Typography>
+  );
+};
+
+const MatchScore = ({ scores }: { scores: Score[] }) => {
+  return (
+    <Box>
+      {scores.length !== 0 &&
+        scores
+          .filter((score) => score.set === 'final')
+          .map((score) => (
+            <Typography
+              variant="h4"
+              fontWeight={600}
+              lineHeight={1.5}
+            >
+              {score.game}
+            </Typography>
+          ))}
+    </Box>
+  );
+};
 
 export function RoundRobinFixture({ fixture }: { fixture: TournamentFixture }) {
   return (
@@ -32,11 +155,14 @@ export function RoundRobinFixture({ fixture }: { fixture: TournamentFixture }) {
               >
                 {round.title}
               </Typography>
-              {round.matches.map((match, matchIndex) => (
+
+              {round.seeds.map((match, matchIndex) => (
                 <Box key={matchIndex}>
                   <Box
                     sx={{
                       border: '1px solid #E0E0E0',
+                      borderRadius: 1,
+                      bgcolor: 'white',
                     }}
                   >
                     <Box
@@ -44,6 +170,7 @@ export function RoundRobinFixture({ fixture }: { fixture: TournamentFixture }) {
                         borderBottom: '1px solid #E0E0E0',
                         display: 'flex',
                         justifyContent: 'center',
+                        gap: 2,
                       }}
                     >
                       <Typography
@@ -51,6 +178,13 @@ export function RoundRobinFixture({ fixture }: { fixture: TournamentFixture }) {
                         color="gray"
                       >
                         <strong>Date / Time:</strong> {displayDate(match.date)}, {displayTime(match.time)}
+                      </Typography>
+
+                      <Typography
+                        variant="caption"
+                        color="gray"
+                      >
+                        <strong>Venue:</strong> {match.venue}
                       </Typography>
                     </Box>
 
@@ -71,50 +205,38 @@ export function RoundRobinFixture({ fixture }: { fixture: TournamentFixture }) {
                           px: 4,
                         }}
                       >
+                        <Stack
+                          direction="column"
+                          gap={2}
+                        >
+                          <CustomPlayer
+                            player={match.teams[0].user1}
+                            direction="left"
+                          />
+
+                          {match.teams[0]?.user2 && (
+                            <CustomPlayer
+                              player={match.teams[0].user2}
+                              direction="left"
+                            />
+                          )}
+                        </Stack>
+
                         <Box
                           sx={{
                             display: 'flex',
                             alignItems: 'center',
-                            gap: 2,
+                            gap: 1,
                           }}
                         >
-                          <Avatar
-                            src={match.teams[0].user1.image}
-                            alt={match.teams[0].user1.name}
-                            sx={{ width: '80px', height: '80px' }}
-                          />
+                          {match.teams[0].isWinner && (
+                            <ArrowRightIcon
+                              color="primary"
+                              fontSize="large"
+                            />
+                          )}
 
-                          <Box
-                            sx={{
-                              display: 'flex',
-                              flexDirection: 'column',
-                              alignItems: 'flex-start',
-                            }}
-                          >
-                            <Typography
-                              variant="h6"
-                              fontWeight={600}
-                            >
-                              {match.teams[0].user1.name}
-                            </Typography>
-
-                            <Typography variant="body2">{match.teams[0].user1.elo} ELO</Typography>
-                          </Box>
-                        </Box>
-
-                        <Box>
-                          {match.teams[0].scores &&
-                            match.teams[0].scores
-                              .filter((score) => score.set === 'final')
-                              .map((score) => (
-                                <Typography
-                                  variant="h4"
-                                  fontWeight={600}
-                                  lineHeight={1.5}
-                                >
-                                  {score.game}
-                                </Typography>
-                              ))}
+                          {match.teams[0]?.scores && <MatchScore scores={match.teams[0].scores} />}
                         </Box>
                       </Box>
 
@@ -123,33 +245,7 @@ export function RoundRobinFixture({ fixture }: { fixture: TournamentFixture }) {
                           width: '30%',
                         }}
                       >
-                        <Typography
-                          variant="h6"
-                          sx={{
-                            color:
-                              match.status === MatchStatus.SCHEDULED || match.status === MatchStatus.DONE
-                                ? 'green'
-                                : match.status === MatchStatus.NO_PARTY || match.status === MatchStatus.SCORE_DONE
-                                  ? 'gray'
-                                  : match.status === MatchStatus.WALK_OVER
-                                    ? 'red'
-                                    : (theme) => theme.palette.info.main,
-                            fontWeight: 'bold',
-                            textAlign: 'center',
-                          }}
-                        >
-                          {match.status === MatchStatus.SCHEDULED && 'SCHEDULED'}
-
-                          {match.status === MatchStatus.NO_PARTY && 'NO PARTY'}
-
-                          {match.status === MatchStatus.WALK_OVER && 'LIVE'}
-
-                          {match.status === MatchStatus.DONE && 'SCORING IN PROGRESS'}
-
-                          {match.status === MatchStatus.SCORE_DONE && 'FINISHED'}
-
-                          {match.status === MatchStatus.NO_SHOW && 'TBD'}
-                        </Typography>
+                        <MatchStatusBadge status={match.status} />
                       </Box>
 
                       <Box
@@ -161,52 +257,39 @@ export function RoundRobinFixture({ fixture }: { fixture: TournamentFixture }) {
                           px: 4,
                         }}
                       >
-                        <Box>
-                          {match.teams[1].scores &&
-                            match.teams[1].scores
-                              .filter((score) => score.set === 'final')
-                              .map((score, scoreIndex) => (
-                                <Typography
-                                  key={scoreIndex}
-                                  variant="h4"
-                                  fontWeight={600}
-                                  lineHeight={1.5}
-                                >
-                                  {score.game}
-                                </Typography>
-                              ))}
-                        </Box>
-
                         <Box
                           sx={{
                             display: 'flex',
                             alignItems: 'center',
-                            gap: 2,
+                            gap: 1,
                           }}
                         >
-                          <Box
-                            sx={{
-                              display: 'flex',
-                              flexDirection: 'column',
-                              alignItems: 'flex-end',
-                            }}
-                          >
-                            <Typography
-                              variant="h6"
-                              fontWeight={600}
-                            >
-                              {match.teams[1].user1.name}
-                            </Typography>
+                          {match.teams[1]?.scores && <MatchScore scores={match.teams[1].scores} />}
 
-                            <Typography variant="body2">{match.teams[1].user1.elo} ELO</Typography>
-                          </Box>
-
-                          <Avatar
-                            src={match.teams[1].user1.image}
-                            alt={match.teams[1].user1.name}
-                            sx={{ width: '80px', height: '80px' }}
-                          />
+                          {match.teams[1].isWinner && (
+                            <ArrowLeftIcon
+                              color="primary"
+                              fontSize="large"
+                            />
+                          )}
                         </Box>
+
+                        <Stack
+                          direction="column"
+                          gap={2}
+                        >
+                          <CustomPlayer
+                            player={match.teams[1].user1}
+                            direction="right"
+                          />
+
+                          {match.teams[1]?.user2 && (
+                            <CustomPlayer
+                              player={match.teams[1].user2}
+                              direction="right"
+                            />
+                          )}
+                        </Stack>
                       </Box>
                     </Box>
 
@@ -214,9 +297,22 @@ export function RoundRobinFixture({ fixture }: { fixture: TournamentFixture }) {
                       sx={{
                         borderTop: '1px solid #E0E0E0',
                         display: 'flex',
-                        justifyContent: 'center',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                        px: 16,
                       }}
                     >
+                      <Box>
+                        {match.teams[0]?.user2 && (
+                          <Typography
+                            variant="h6"
+                            color="green"
+                          >
+                            {match.teams[0].totalElo} ELO
+                          </Typography>
+                        )}
+                      </Box>
+
                       <Button
                         variant="contained"
                         color="info"
@@ -226,6 +322,17 @@ export function RoundRobinFixture({ fixture }: { fixture: TournamentFixture }) {
                       >
                         Details
                       </Button>
+
+                      <Box>
+                        {match.teams[0]?.user2 && (
+                          <Typography
+                            variant="h6"
+                            color="green"
+                          >
+                            {match.teams[1].totalElo} ELO
+                          </Typography>
+                        )}
+                      </Box>
                     </Box>
                   </Box>
                 </Box>

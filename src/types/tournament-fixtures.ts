@@ -19,24 +19,22 @@ export type Team = {
   user1: User;
   user2?: User;
   scores?: Score[];
-  isWinner?: boolean;
+  isWinner: boolean | null;
   totalElo: number;
 };
 
 export type Match = {
   id: string;
-  name: string;
   time: string;
   date: string;
-  venue: string;
   duration: number;
+  venue: string;
   status: MatchStatus;
   teams: Team[];
 };
 
 export type Round = {
   title: string;
-  matches: Match[];
   seeds: Match[]; // same as matches, used for react-brackets
 };
 
