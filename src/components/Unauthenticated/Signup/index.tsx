@@ -1,7 +1,22 @@
-import { Box, Button, FormControl, FormHelperText, FormLabel, Stack, TextField, Typography } from '@mui/material';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import {
+  Box,
+  Button,
+  FormControl,
+  FormHelperText,
+  FormLabel,
+  MenuItem,
+  Select,
+  Stack,
+  TextField,
+  Typography,
+} from '@mui/material';
+import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import dayjs from 'dayjs';
+import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 
+import { Gender, GenderOptions } from 'constants/tournament';
 import { isApiErrorResponse } from 'store/api/helper';
 import { useSignupMutation } from 'store/api/userApiSlice';
 import { SignupPayload } from 'types/user';
@@ -15,9 +30,20 @@ export default function Signup() {
   const {
     register,
     handleSubmit,
+    control,
     formState: { errors: formError },
+    getValues,
     watch,
-  } = useForm<SignupPayload>();
+  } = useForm<SignupPayload>({
+    defaultValues: {
+      name: '',
+      email: '',
+      gender: Gender.MALE,
+      dob: new Date().toISOString(),
+      password: '',
+      confirmPassword: '',
+    },
+  });
   const formValue = watch();
 
   const onSubmit: SubmitHandler<SignupPayload> = async (data) => {
@@ -39,47 +65,33 @@ export default function Signup() {
   return (
     <Box
       sx={{
-        width: '100%',
-        height: '80vh',
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'white',
-        fontFamily: 'Roboto, sans-serif',
+        height: '100%',
       }}
     >
       <Box
+        component="form"
+        autoComplete="off"
         sx={{
           px: 8,
-          py: 8,
+          py: 4,
           borderRadius: 2,
           backgroundColor: (theme) => theme.palette.background.default,
+          boxShadow: 3,
         }}
       >
-        <Box
+        <Typography
+          variant="h4"
+          gutterBottom
           sx={{
+            fontWeight: 600,
             textAlign: 'center',
           }}
         >
-          <Typography
-            variant="h4"
-            gutterBottom
-            sx={{
-              fontWeight: 600,
-            }}
-          >
-            Create an account
-          </Typography>
-          <Typography
-            variant="subtitle1"
-            gutterBottom
-            sx={{
-              color: (theme) => theme.palette.text.secondary,
-            }}
-          >
-            Start your 30-day free trial.
-          </Typography>
-        </Box>
+          Create an account
+        </Typography>
 
         <Box
           sx={{
@@ -115,6 +127,81 @@ export default function Signup() {
               />
               <FormHelperText id="name-helper-text">{formError.name?.message}</FormHelperText>
             </FormControl>
+
+            <Stack
+              direction="row"
+              spacing={2}
+            >
+              <Controller
+                control={control}
+                name="gender"
+                defaultValue={Gender.ANY}
+                rules={{ required: 'Please select a gender.' }}
+                render={({ field: { onChange, value } }) => (
+                  <FormControl
+                    fullWidth
+                    error={!!formError.gender}
+                  >
+                    <FormLabel htmlFor="gender">Gender</FormLabel>
+                    <Select
+                      value={value}
+                      id="gender"
+                      onChange={onChange}
+                      aria-describedby="gender-helper-text"
+                      size="small"
+                      sx={{
+                        backgroundColor: 'white',
+                      }}
+                    >
+                      {Object.entries(GenderOptions).map(([genderKey, genderValue], index) => (
+                        <MenuItem
+                          key={index}
+                          value={genderKey}
+                        >
+                          {genderValue}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                    <FormHelperText id="gender-helper-text">{formError.gender?.message}</FormHelperText>
+                  </FormControl>
+                )}
+              />
+
+              <Controller
+                control={control}
+                name="dob"
+                rules={{
+                  required: 'Date of birth is required!',
+                }}
+                render={({ field: { onChange } }) => (
+                  <FormControl
+                    fullWidth
+                    error={!!formError.dob}
+                  >
+                    <FormLabel htmlFor="dob">Date of birth</FormLabel>
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                      <DatePicker
+                        onChange={(date) => {
+                          onChange(date?.toISOString());
+                        }}
+                        defaultValue={dayjs(getValues('dob'))}
+                        format="DD/MM/YYYY"
+                        disableFuture
+                        slotProps={{
+                          textField: {
+                            size: 'small',
+                            sx: {
+                              backgroundColor: 'white',
+                            },
+                          },
+                        }}
+                      />
+                    </LocalizationProvider>
+                    <FormHelperText id="dob-helper-text">{formError.dob?.message}</FormHelperText>
+                  </FormControl>
+                )}
+              />
+            </Stack>
 
             <FormControl
               fullWidth
@@ -208,7 +295,7 @@ export default function Signup() {
             color="primary"
             disabled={isSubmitting}
             onClick={handleSubmit(onSubmit)}
-            sx={{ mt: 6, color: 'white', width: '100%' }}
+            sx={{ mt: 4, color: 'white', width: '100%' }}
           >
             {isSubmitting ? 'Loading ...' : 'Get started'}
           </Button>
