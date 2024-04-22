@@ -11,19 +11,16 @@ import { TournamentFixture } from 'types/tournament-fixtures';
 import GroupPlayoffFixture from './GroupPlayoffFixture';
 import KnockoutFixtures from './KnockoutFixture';
 import { RoundRobinFixture } from './RoundRobinFixture';
+import SetupFixture from './SetupFixture';
 
 export default function Fixtures() {
   const [fixture, setFixture] = useState<TournamentFixture | null>(null);
-
   const { tournamentId } = useParams();
-
   const [getFixture, { isLoading }] = useLazyGetTournamentFixtureQuery();
-
   useEffect(() => {
     (async () => {
       try {
         const res = await getFixture(parseInt(tournamentId!)).unwrap();
-
         setFixture(res);
       } catch (error) {
         console.error(error);
@@ -44,11 +41,12 @@ export default function Fixtures() {
       </Box>
     );
 
-  if (fixture.format === TournamentFormat.KNOCKOUT) {
-    return <KnockoutFixtures fixture={fixture} />;
-  } else if (fixture.format === TournamentFormat.ROUND_ROBIN) {
-    return <RoundRobinFixture fixture={fixture} />;
-  } else {
-    return <GroupPlayoffFixture fixture={fixture} />;
-  }
+  return (
+    <Box>
+      <SetupFixture />
+      {fixture.format === TournamentFormat.KNOCKOUT && <KnockoutFixtures fixture={fixture} />}
+      {fixture.format === TournamentFormat.ROUND_ROBIN && <RoundRobinFixture fixture={fixture} />}
+      {fixture.format === TournamentFormat.GROUP_PLAYOFF && <GroupPlayoffFixture fixture={fixture} />}
+    </Box>
+  );
 }

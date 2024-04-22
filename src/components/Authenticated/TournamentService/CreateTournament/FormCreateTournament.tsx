@@ -42,6 +42,7 @@ import { displayTimestamp } from 'utils/datetime';
 import { getUsedTournamentService } from 'utils/package';
 import { showSuccess } from 'utils/toast';
 
+// TODO: get from system config
 const tournamentFormatOptions = [
   { id: 1, value: 'knockout', displayValue: 'Knockout', level: 'basic' },
   { id: 2, value: 'round_robin', displayValue: 'Round Robin', level: 'basic' },
