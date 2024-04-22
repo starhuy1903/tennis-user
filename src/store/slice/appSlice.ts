@@ -4,6 +4,8 @@ import { AppConfigType } from 'types/app';
 
 const initialState: AppConfigType = {
   services: [],
+  openTournament: null,
+  groupTournament: null,
 };
 
 export const appSlice = createSlice({
