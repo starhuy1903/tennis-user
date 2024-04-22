@@ -34,51 +34,37 @@ export default function Login() {
   return (
     <Box
       sx={{
-        width: '100%',
-        height: '80vh',
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'white',
-        fontFamily: 'Roboto, sans-serif',
+        height: '100%',
       }}
     >
       <Box
+        component="form"
+        autoComplete="off"
         sx={{
           px: 8,
-          py: 8,
+          py: 4,
           borderRadius: 2,
-          backgroundColor: (theme) => theme.palette.background.default,
+          backgroundColor: 'white',
+          boxShadow: 2,
         }}
       >
-        <Box
+        <Typography
+          variant="h4"
+          gutterBottom
           sx={{
+            fontWeight: 600,
             textAlign: 'center',
           }}
         >
-          <Typography
-            variant="h4"
-            gutterBottom
-            sx={{
-              fontWeight: 600,
-            }}
-          >
-            Log in to your account
-          </Typography>
-          <Typography
-            variant="subtitle1"
-            gutterBottom
-            sx={{
-              color: (theme) => theme.palette.text.secondary,
-            }}
-          >
-            Welcome back! Please enter your details.
-          </Typography>
-        </Box>
+          Log in to your account
+        </Typography>
 
         <Box
           sx={{
-            mt: 2,
+            mt: 4,
           }}
         >
           <Stack
@@ -170,7 +156,7 @@ export default function Login() {
             color="primary"
             disabled={isSubmitting}
             onClick={handleSubmit(onSubmit)}
-            sx={{ mt: 6, color: 'white', width: '100%' }}
+            sx={{ mt: 4, color: 'white', width: '100%' }}
           >
             {isSubmitting ? 'Loading ...' : 'Login'}
           </Button>

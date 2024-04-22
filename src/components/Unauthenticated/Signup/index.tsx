@@ -78,8 +78,8 @@ export default function Signup() {
           px: 8,
           py: 4,
           borderRadius: 2,
-          backgroundColor: (theme) => theme.palette.background.default,
-          boxShadow: 3,
+          backgroundColor: 'white',
+          boxShadow: 2,
         }}
       >
         <Typography
