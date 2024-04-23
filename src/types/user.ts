@@ -1,4 +1,5 @@
 import { MemberRole } from 'constants/group';
+import { Gender } from 'constants/tournament';
 
 export type CredentialPayload = {
   email: string;
@@ -12,6 +13,8 @@ export type OAuthPayload = {
 export type SignupPayload = CredentialPayload & {
   confirmPassword: string;
   name: string;
+  gender: Gender;
+  dob: string;
 };
 
 export type VerifyPayload = {
