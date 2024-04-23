@@ -13,14 +13,22 @@ const CustomPlayer = ({ player, direction }: { player: User; direction: 'left' |
         sx={{
           display: 'flex',
           alignItems: 'center',
-          gap: 2,
+          gap: 4,
         }}
       >
-        <Avatar
-          src={player.image}
-          alt={player.name}
-          sx={{ width: '80px', height: '80px' }}
-        />
+        <Box
+          sx={{
+            borderLeft: '1px solid #E0E0E0',
+            borderRight: '1px solid #E0E0E0',
+            padding: 1,
+          }}
+        >
+          <Avatar
+            src={player.image}
+            alt={player.name}
+            sx={{ width: '80px', height: '80px' }}
+          />
+        </Box>
 
         <Box
           sx={{
@@ -47,7 +55,7 @@ const CustomPlayer = ({ player, direction }: { player: User; direction: 'left' |
       sx={{
         display: 'flex',
         alignItems: 'center',
-        gap: 2,
+        gap: 4,
       }}
     >
       <Box
@@ -67,11 +75,19 @@ const CustomPlayer = ({ player, direction }: { player: User; direction: 'left' |
         <Typography variant="body2">{player.elo} ELO</Typography>
       </Box>
 
-      <Avatar
-        src={player.image}
-        alt={player.name}
-        sx={{ width: '80px', height: '80px' }}
-      />
+      <Box
+        sx={{
+          borderLeft: '1px solid #E0E0E0',
+          borderRight: '1px solid #E0E0E0',
+          padding: 1,
+        }}
+      >
+        <Avatar
+          src={player.image}
+          alt={player.name}
+          sx={{ width: '80px', height: '80px' }}
+        />
+      </Box>
     </Box>
   );
 };
@@ -114,11 +130,12 @@ const MatchScore = ({ scores }: { scores: Score[] }) => {
       {scores.length !== 0 &&
         scores
           .filter((score) => score.set === 'final')
-          .map((score) => (
+          .map((score, index) => (
             <Typography
               variant="h4"
               fontWeight={600}
               lineHeight={1.5}
+              key={index}
             >
               {score.game}
             </Typography>
@@ -161,8 +178,6 @@ export function RoundRobinFixture({ fixture }: { fixture: TournamentFixture }) {
                   <Box
                     sx={{
                       border: '1px solid #E0E0E0',
-                      borderRadius: 1,
-                      bgcolor: 'white',
                     }}
                   >
                     <Box
@@ -193,7 +208,6 @@ export function RoundRobinFixture({ fixture }: { fixture: TournamentFixture }) {
                         display: 'flex',
                         justifyContent: 'space-between',
                         alignItems: 'center',
-                        py: 2,
                       }}
                     >
                       <Box
@@ -202,13 +216,10 @@ export function RoundRobinFixture({ fixture }: { fixture: TournamentFixture }) {
                           justifyContent: 'space-between',
                           alignItems: 'center',
                           width: '100%',
-                          px: 4,
+                          px: 2,
                         }}
                       >
-                        <Stack
-                          direction="column"
-                          gap={2}
-                        >
+                        <Stack direction="column">
                           <CustomPlayer
                             player={match.teams[0].user1}
                             direction="left"
@@ -254,7 +265,7 @@ export function RoundRobinFixture({ fixture }: { fixture: TournamentFixture }) {
                           justifyContent: 'space-between',
                           alignItems: 'center',
                           width: '100%',
-                          px: 4,
+                          px: 2,
                         }}
                       >
                         <Box
@@ -274,10 +285,7 @@ export function RoundRobinFixture({ fixture }: { fixture: TournamentFixture }) {
                           )}
                         </Box>
 
-                        <Stack
-                          direction="column"
-                          gap={2}
-                        >
+                        <Stack direction="column">
                           <CustomPlayer
                             player={match.teams[1].user1}
                             direction="right"
@@ -299,7 +307,7 @@ export function RoundRobinFixture({ fixture }: { fixture: TournamentFixture }) {
                         display: 'flex',
                         justifyContent: 'space-between',
                         alignItems: 'center',
-                        px: 16,
+                        px: 18,
                       }}
                     >
                       <Box>
