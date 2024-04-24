@@ -82,64 +82,20 @@
       "name": "Tournaments",
       "children": [
         {
-          "type": "route",
-          "uuid": "a644a9b7-b0eb-458a-8b67-c5d740e56e10"
+          "type": "folder",
+          "uuid": "6f76e0ea-9bca-411f-9d60-70d5d561a39e"
         },
         {
-          "type": "route",
-          "uuid": "77922702-2e13-4ce9-9dad-0f0ece01b7df"
-        },
-        {
-          "type": "route",
-          "uuid": "aed7b470-5c92-4a13-af73-5e01bab342eb"
-        },
-        {
-          "type": "route",
-          "uuid": "a228f9bc-5518-4e94-9551-2f99cd56ca93"
-        },
-        {
-          "type": "route",
-          "uuid": "d23f4423-6172-4a20-99d4-01f64203b811"
-        },
-        {
-          "type": "route",
-          "uuid": "be6e22b1-6fb4-4705-b441-b8f43e9e455d"
-        },
-        {
-          "type": "route",
-          "uuid": "83d95154-d296-4221-ba21-21f9522fed03"
-        },
-        {
-          "type": "route",
-          "uuid": "f42dc714-d718-440d-b27e-76df604641b1"
-        },
-        {
-          "type": "route",
-          "uuid": "2dc2cf66-44d5-42f7-8f6d-2e5f5cbdf1c5"
-        },
-        {
-          "type": "route",
-          "uuid": "50a99071-f847-4cd2-bc14-77f0e98b0500"
-        },
-        {
-          "type": "route",
-          "uuid": "2448c4cc-d2f4-4faa-a8f5-481b321312c4"
-        },
-        {
-          "type": "route",
-          "uuid": "bb9eb18f-8e21-4f35-911d-201faa21fb34"
-        },
-        {
-          "type": "route",
-          "uuid": "d968d5d6-c65d-486d-8362-259f9dd61f03"
+          "type": "folder",
+          "uuid": "f9cdb3a2-e83a-4a34-87b3-0c2579fc072d"
         },
         {
           "type": "folder",
           "uuid": "6c1a8e79-f432-4138-b297-aca1fb24f2d1"
         },
         {
-          "type": "route",
-          "uuid": "bf060a6c-42f3-4ee5-a97f-8db7699d8a94"
+          "type": "folder",
+          "uuid": "6a4fd3af-e3ed-4634-a533-f4ffe208f8c3"
         }
       ]
     },
@@ -218,6 +174,84 @@
         {
           "type": "route",
           "uuid": "744d1afc-d4f0-4679-aa19-857cb79ff7fa"
+        }
+      ]
+    },
+    {
+      "uuid": "f9cdb3a2-e83a-4a34-87b3-0c2579fc072d",
+      "name": "Participant",
+      "children": [
+        {
+          "type": "route",
+          "uuid": "d23f4423-6172-4a20-99d4-01f64203b811"
+        },
+        {
+          "type": "route",
+          "uuid": "be6e22b1-6fb4-4705-b441-b8f43e9e455d"
+        },
+        {
+          "type": "route",
+          "uuid": "83d95154-d296-4221-ba21-21f9522fed03"
+        },
+        {
+          "type": "route",
+          "uuid": "f42dc714-d718-440d-b27e-76df604641b1"
+        },
+        {
+          "type": "route",
+          "uuid": "2dc2cf66-44d5-42f7-8f6d-2e5f5cbdf1c5"
+        },
+        {
+          "type": "route",
+          "uuid": "50a99071-f847-4cd2-bc14-77f0e98b0500"
+        },
+        {
+          "type": "route",
+          "uuid": "2448c4cc-d2f4-4faa-a8f5-481b321312c4"
+        },
+        {
+          "type": "route",
+          "uuid": "bb9eb18f-8e21-4f35-911d-201faa21fb34"
+        },
+        {
+          "type": "route",
+          "uuid": "d968d5d6-c65d-486d-8362-259f9dd61f03"
+        }
+      ]
+    },
+    {
+      "uuid": "6f76e0ea-9bca-411f-9d60-70d5d561a39e",
+      "name": "CRUD",
+      "children": [
+        {
+          "type": "route",
+          "uuid": "a644a9b7-b0eb-458a-8b67-c5d740e56e10"
+        },
+        {
+          "type": "route",
+          "uuid": "77922702-2e13-4ce9-9dad-0f0ece01b7df"
+        },
+        {
+          "type": "route",
+          "uuid": "aed7b470-5c92-4a13-af73-5e01bab342eb"
+        },
+        {
+          "type": "route",
+          "uuid": "a228f9bc-5518-4e94-9551-2f99cd56ca93"
+        }
+      ]
+    },
+    {
+      "uuid": "6a4fd3af-e3ed-4634-a533-f4ffe208f8c3",
+      "name": "Fixtures",
+      "children": [
+        {
+          "type": "route",
+          "uuid": "bf060a6c-42f3-4ee5-a97f-8db7699d8a94"
+        },
+        {
+          "type": "route",
+          "uuid": "4fe43269-b674-4b3c-96bd-e3fb15995257"
         }
       ]
     }
@@ -1795,6 +1829,73 @@
           "body": "{\n  \"roundRobinRounds\": [\n    {\n      \"title\": \"Round 1\",\n      \"seeds\": [\n        {\n          \"id\": \"1\",\n          \"time\": \"10:00:00\",\n          \"date\": \"2024-04-16T10:00:00Z\",\n          \"duration\": 30,\n          \"venue\": \"Phu Tho Stadium\",\n          \"status\": \"score_done\",\n          \"teams\": [\n            {\n              \"id\": 1,\n              \"user1\": {\n                \"id\": 1,\n                \"name\": \"Evans D.\",\n                \"image\": \"https://static.flashscore.com/res/image/data/Op1c28yB-noXmEZHh.png\",\n                \"elo\": 500\n              },\n              \"user2\": {\n                \"id\": 1,\n                \"name\": \"Evans D.\",\n                \"image\": \"https://static.flashscore.com/res/image/data/Op1c28yB-noXmEZHh.png\",\n                \"elo\": 500\n              },\n              \"scores\": [\n                {\n                  \"set\": \"set1\",\n                  \"game\": 6\n                },\n                {\n                  \"set\": \"set2\",\n                  \"game\": 7,\n                  \"tiebreak\": 7\n                },\n                {\n                  \"set\": \"set3\",\n                  \"game\": 6,\n                  \"tiebreak\": 6\n                },\n                {\n                  \"set\": \"final\",\n                  \"game\": 0\n                }\n              ],\n              \"isWinner\": false,\n              \"totalElo\": 1000\n            },\n            {\n              \"id\": 2,\n              \"user1\": {\n                \"id\": 2,\n                \"name\": \"Nakashima B.\",\n                \"image\": \"https://static.flashscore.com/res/image/data/h8wF43GG-I3vxtblK.png\",\n                \"elo\": 500\n              },\n              \"user2\": {\n                \"id\": 2,\n                \"name\": \"Nakashima B.\",\n                \"image\": \"https://static.flashscore.com/res/image/data/h8wF43GG-I3vxtblK.png\",\n                \"elo\": 500\n              },\n              \"scores\": [\n                {\n                  \"set\": \"set1\",\n                  \"game\": 4\n                },\n                {\n                  \"set\": \"set2\",\n                  \"game\": 6,\n                  \"tiebreak\": 3\n                },\n                {\n                  \"set\": \"set3\",\n                  \"game\": 7,\n                  \"tiebreak\": 8\n                },\n                {\n                  \"set\": \"final\",\n                  \"game\": 2\n                }\n              ],\n              \"isWinner\": true,\n              \"totalElo\": 1000\n            }\n          ]\n        },\n        {\n          \"id\": \"2\",\n          \"time\": \"10:00:00\",\n          \"date\": \"2024-04-16T10:00:00Z\",\n          \"duration\": 30,\n          \"venue\": \"Phu Tho Stadium\",\n          \"status\": \"score_done\",\n          \"teams\": [\n            {\n              \"id\": 3,\n              \"user1\": {\n                \"id\": 3,\n                \"name\": \"Machac T.\",\n                \"image\": \"https://static.flashscore.com/res/image/data/bsWIvMjl-f3tbGyCl.png\",\n                \"elo\": 500\n              },\n              \"user2\": {\n                \"id\": 3,\n                \"name\": \"Machac T.\",\n                \"image\": \"https://static.flashscore.com/res/image/data/bsWIvMjl-f3tbGyCl.png\",\n                \"elo\": 500\n              },\n              \"scores\": [\n                {\n                  \"set\": \"set1\",\n                  \"game\": 6\n                },\n                {\n                  \"set\": \"set2\",\n                  \"game\": 3\n                },\n                {\n                  \"set\": \"set3\",\n                  \"game\": 6\n                },\n                {\n                  \"set\": \"final\",\n                  \"game\": 2\n                }\n              ],\n              \"isWinner\": true,\n              \"totalElo\": 1000\n            },\n            {\n              \"id\": 4,\n              \"user1\": {\n                \"id\": 4,\n                \"name\": \"Shang J.\",\n                \"image\": \"https://static.flashscore.com/res/image/data/Y7KvlfCa-vcHTmQNN.png\",\n                \"elo\": 500\n              },\n              \"user2\": {\n                \"id\": 4,\n                \"name\": \"Shang J.\",\n                \"image\": \"https://static.flashscore.com/res/image/data/Y7KvlfCa-vcHTmQNN.png\",\n                \"elo\": 500\n              },\n              \"scores\": [\n                {\n                  \"set\": \"set1\",\n                  \"game\": 3\n                },\n                {\n                  \"set\": \"set2\",\n                  \"game\": 6\n                },\n                {\n                  \"set\": \"set3\",\n                  \"game\": 4\n                },\n                {\n                  \"set\": \"final\",\n                  \"game\": 1\n                }\n              ],\n              \"isWinner\": false,\n              \"totalElo\": 1000\n            }\n          ]\n        }\n      ]\n    },\n    {\n      \"title\": \"Round 2\",\n      \"seeds\": [\n        {\n          \"id\": \"3\",\n          \"time\": \"10:00:00\",\n          \"date\": \"2024-04-16T10:00:00Z\",\n          \"duration\": 30,\n          \"venue\": \"Phu Tho Stadium\",\n          \"status\": \"done\",\n          \"teams\": [\n            {\n              \"id\": 1,\n              \"user1\": {\n                \"id\": 1,\n                \"name\": \"Evans D.\",\n                \"image\": \"https://static.flashscore.com/res/image/data/Op1c28yB-noXmEZHh.png\",\n                \"elo\": 500\n              },\n              \"user2\": {\n                \"id\": 1,\n                \"name\": \"Evans D.\",\n                \"image\": \"https://static.flashscore.com/res/image/data/Op1c28yB-noXmEZHh.png\",\n                \"elo\": 500\n              },\n              \"scores\": [],\n              \"isWinner\": null,\n              \"totalElo\": 1000\n            },\n            {\n              \"id\": 3,\n              \"user1\": {\n                \"id\": 3,\n                \"name\": \"Machac T.\",\n                \"image\": \"https://static.flashscore.com/res/image/data/bsWIvMjl-f3tbGyCl.png\",\n                \"elo\": 500\n              },\n              \"user2\": {\n                \"id\": 3,\n                \"name\": \"Machac T.\",\n                \"image\": \"https://static.flashscore.com/res/image/data/bsWIvMjl-f3tbGyCl.png\",\n                \"elo\": 500\n              },\n              \"scores\": [],\n              \"isWinner\": null,\n              \"totalElo\": 1000\n            }\n          ]\n        },\n        {\n          \"id\": \"4\",\n          \"time\": \"10:00:00\",\n          \"date\": \"2024-04-16T10:00:00Z\",\n          \"duration\": 30,\n          \"venue\": \"Phu Tho Stadium\",\n          \"status\": \"no_party\",\n          \"teams\": [\n            {\n              \"id\": 2,\n              \"user1\": {\n                \"id\": 2,\n                \"name\": \"Nakashima B.\",\n                \"image\": \"https://static.flashscore.com/res/image/data/h8wF43GG-I3vxtblK.png\",\n                \"elo\": 500\n              },\n              \"user2\": {\n                \"id\": 2,\n                \"name\": \"Nakashima B.\",\n                \"image\": \"https://static.flashscore.com/res/image/data/h8wF43GG-I3vxtblK.png\",\n                \"elo\": 500\n              },\n              \"scores\": [],\n              \"isWinner\": null,\n              \"totalElo\": 1000\n            },\n            {\n              \"id\": 4,\n              \"user1\": {\n                \"id\": 4,\n                \"name\": \"Shang J.\",\n                \"image\": \"https://static.flashscore.com/res/image/data/Y7KvlfCa-vcHTmQNN.png\",\n                \"elo\": 500\n              },\n              \"user2\": {\n                \"id\": 4,\n                \"name\": \"Shang J.\",\n                \"image\": \"https://static.flashscore.com/res/image/data/Y7KvlfCa-vcHTmQNN.png\",\n                \"elo\": 500\n              },\n              \"scores\": [],\n              \"isWinner\": null,\n              \"totalElo\": 1000\n            }\n          ]\n        }\n      ]\n    },\n    {\n      \"title\": \"Round 3\",\n      \"seeds\": [\n        {\n          \"id\": \"5\",\n          \"time\": \"10:00:00\",\n          \"date\": \"2024-04-16T10:00:00Z\",\n          \"duration\": 30,\n          \"venue\": \"Phu Tho Stadium\",\n          \"status\": \"scheduled\",\n          \"teams\": [\n            {\n              \"id\": 1,\n              \"user1\": {\n                \"id\": 1,\n                \"name\": \"Evans D.\",\n                \"image\": \"https://static.flashscore.com/res/image/data/Op1c28yB-noXmEZHh.png\",\n                \"elo\": 500\n              },\n              \"user2\": {\n                \"id\": 1,\n                \"name\": \"Evans D.\",\n                \"image\": \"https://static.flashscore.com/res/image/data/Op1c28yB-noXmEZHh.png\",\n                \"elo\": 500\n              },\n              \"scores\": [],\n              \"isWinner\": null,\n              \"totalElo\": 1000\n            },\n            {\n              \"id\": 4,\n              \"user1\": {\n                \"id\": 4,\n                \"name\": \"Shang J.\",\n                \"image\": \"https://static.flashscore.com/res/image/data/Y7KvlfCa-vcHTmQNN.png\",\n                \"elo\": 500\n              },\n              \"user2\": {\n                \"id\": 4,\n                \"name\": \"Shang J.\",\n                \"image\": \"https://static.flashscore.com/res/image/data/Y7KvlfCa-vcHTmQNN.png\",\n                \"elo\": 500\n              },\n              \"scores\": [],\n              \"isWinner\": null,\n              \"totalElo\": 1000\n            }\n          ]\n        },\n        {\n          \"id\": \"6\",\n          \"time\": \"10:00:00\",\n          \"date\": \"2024-04-16T10:00:00Z\",\n          \"duration\": 30,\n          \"venue\": \"Phu Tho Stadium\",\n          \"status\": \"walk_over\",\n          \"teams\": [\n            {\n              \"id\": 2,\n              \"user1\": {\n                \"id\": 2,\n                \"name\": \"Nakashima B.\",\n                \"image\": \"https://static.flashscore.com/res/image/data/h8wF43GG-I3vxtblK.png\",\n                \"elo\": 500\n              },\n              \"user2\": {\n                \"id\": 2,\n                \"name\": \"Nakashima B.\",\n                \"image\": \"https://static.flashscore.com/res/image/data/h8wF43GG-I3vxtblK.png\",\n                \"elo\": 500\n              },\n              \"scores\": [],\n              \"isWinner\": null,\n              \"totalElo\": 1000\n            },\n            {\n              \"id\": 3,\n              \"user1\": {\n                \"id\": 3,\n                \"name\": \"Machac T.\",\n                \"image\": \"https://static.flashscore.com/res/image/data/bsWIvMjl-f3tbGyCl.png\",\n                \"elo\": 500\n              },\n              \"user2\": {\n                \"id\": 3,\n                \"name\": \"Machac T.\",\n                \"image\": \"https://static.flashscore.com/res/image/data/bsWIvMjl-f3tbGyCl.png\",\n                \"elo\": 500\n              },\n              \"scores\": [],\n              \"isWinner\": null,\n              \"totalElo\": 1000\n            }\n          ]\n        }\n      ]\n    }\n  ],\n  \"knockoutRounds\": [\n    {\n      \"title\": \"Round 1\",\n      \"seeds\": [\n        {\n          \"id\": \"1\",\n          \"time\": \"10:00:00\",\n          \"date\": \"2024-04-16T10:00:00Z\",\n          \"duration\": 30,\n          \"venue\": \"Phu Tho Stadium\",\n          \"status\": \"skipped\",\n          \"teams\": [\n            {\n              \"id\": 1,\n              \"user1\": {\n                \"id\": 1,\n                \"name\": \"Evans D.\",\n                \"image\": \"https://static.flashscore.com/res/image/data/Op1c28yB-noXmEZHh.png\",\n                \"elo\": 500\n              },\n              \"user2\": {\n                \"id\": 1,\n                \"name\": \"Evans D.\",\n                \"image\": \"https://static.flashscore.com/res/image/data/Op1c28yB-noXmEZHh.png\",\n                \"elo\": 500\n              }\n            }\n          ]\n        },\n        {\n          \"id\": \"2\",\n          \"time\": \"10:00:00\",\n          \"date\": \"2024-04-16T10:00:00Z\",\n          \"duration\": 30,\n          \"venue\": \"Phu Tho Stadium\",\n          \"status\": \"score_done\",\n          \"teams\": [\n            {\n              \"id\": 3,\n              \"user1\": {\n                \"id\": 3,\n                \"name\": \"Machac T.\",\n                \"image\": \"https://static.flashscore.com/res/image/data/bsWIvMjl-f3tbGyCl.png\",\n                \"elo\": 500\n              },\n              \"user2\": {\n                \"id\": 3,\n                \"name\": \"Machac T.\",\n                \"image\": \"https://static.flashscore.com/res/image/data/bsWIvMjl-f3tbGyCl.png\",\n                \"elo\": 500\n              },\n              \"scores\": [\n                {\n                  \"set\": \"set1\",\n                  \"game\": 3\n                },\n                {\n                  \"set\": \"set2\",\n                  \"game\": 2\n                },\n                {\n                  \"set\": \"final\",\n                  \"game\": 0\n                }\n              ],\n              \"isWinner\": false,\n              \"totalElo\": 1000\n            },\n            {\n              \"id\": 4,\n              \"user1\": {\n                \"id\": 4,\n                \"name\": \"Shang J.\",\n                \"image\": \"https://static.flashscore.com/res/image/data/Y7KvlfCa-vcHTmQNN.png\",\n                \"elo\": 500\n              },\n              \"user2\": {\n                \"id\": 4,\n                \"name\": \"Shang J.\",\n                \"image\": \"https://static.flashscore.com/res/image/data/Y7KvlfCa-vcHTmQNN.png\",\n                \"elo\": 500\n              },\n              \"scores\": [\n                {\n                  \"set\": \"set1\",\n                  \"game\": 6\n                },\n                {\n                  \"set\": \"set2\",\n                  \"game\": 6\n                },\n                {\n                  \"set\": \"final\",\n                  \"game\": 2\n                }\n              ],\n              \"isWinner\": true,\n              \"totalElo\": 1000\n            }\n          ]\n        },\n        {\n          \"id\": \"3\",\n          \"time\": \"10:00:00\",\n          \"date\": \"2024-04-16T10:00:00Z\",\n          \"duration\": 30,\n          \"venue\": \"Phu Tho Stadium\",\n          \"status\": \"score_done\",\n          \"teams\": [\n            {\n              \"id\": 5,\n              \"user1\": {\n                \"id\": 5,\n                \"name\": \"Trungelliti M.\",\n                \"image\": \"https://static.flashscore.com/res/image/data/pnEkgXkl-69WazsLd.png\",\n                \"elo\": 500\n              },\n              \"user2\": {\n                \"id\": 5,\n                \"name\": \"Trungelliti M.\",\n                \"image\": \"https://static.flashscore.com/res/image/data/pnEkgXkl-69WazsLd.png\",\n                \"elo\": 500\n              },\n              \"scores\": [\n                {\n                  \"set\": \"set1\",\n                  \"game\": 6\n                },\n                {\n                  \"set\": \"set2\",\n                  \"game\": 7,\n                  \"tiebreak\": 7\n                },\n                {\n                  \"set\": \"final\",\n                  \"game\": 2\n                }\n              ],\n              \"isWinner\": true,\n              \"totalElo\": 1000\n            },\n            {\n              \"id\": 6,\n              \"user1\": {\n                \"id\": 6,\n                \"name\": \"Ajdukovic D.\",\n                \"image\": \"https://static.flashscore.com/res/image/data/lCnP1IBr-4zJqyaPk.png\",\n                \"elo\": 500\n              },\n              \"user2\": {\n                \"id\": 6,\n                \"name\": \"Ajdukovic D.\",\n                \"image\": \"https://static.flashscore.com/res/image/data/lCnP1IBr-4zJqyaPk.png\",\n                \"elo\": 500\n              },\n              \"scores\": [\n                {\n                  \"set\": \"set1\",\n                  \"game\": 4\n                },\n                {\n                  \"set\": \"set2\",\n                  \"game\": 6,\n                  \"tiebreak\": 4\n                },\n                {\n                  \"set\": \"final\",\n                  \"game\": 0\n                }\n              ],\n              \"isWinner\": false,\n              \"totalElo\": 1000\n            }\n          ]\n        },\n        {\n          \"id\": \"4\",\n          \"time\": \"10:00:00\",\n          \"date\": \"2024-04-16T10:00:00Z\",\n          \"duration\": 30,\n          \"venue\": \"Phu Tho Stadium\",\n          \"status\": \"score_done\",\n          \"teams\": [\n            {\n              \"id\": 7,\n              \"user1\": {\n                \"id\": 7,\n                \"name\": \"Munar J.\",\n                \"image\": \"https://static.flashscore.com/res/image/data/ENkQDBEG-pQ0ElVBe.png\",\n                \"elo\": 500\n              },\n              \"user2\": {\n                \"id\": 7,\n                \"name\": \"Munar J.\",\n                \"image\": \"https://static.flashscore.com/res/image/data/ENkQDBEG-pQ0ElVBe.png\",\n                \"elo\": 500\n              },\n              \"scores\": [\n                {\n                  \"set\": \"set1\",\n                  \"game\": 6\n                },\n                {\n                  \"set\": \"set2\",\n                  \"game\": 7,\n                  \"tiebreak\": 7\n                },\n                {\n                  \"set\": \"set3\",\n                  \"game\": 6,\n                  \"tiebreak\": 6\n                },\n                {\n                  \"set\": \"final\",\n                  \"game\": 0\n                }\n              ],\n              \"isWinner\": false,\n              \"totalElo\": 1000\n            },\n            {\n              \"id\": 8,\n              \"user1\": {\n                \"id\": 8,\n                \"name\": \"Nishioka Y.\",\n                \"image\": \"https://static.flashscore.com/res/image/data/UsWc3fXg-8n6cRsXc.png\",\n                \"elo\": 500\n              },\n              \"user2\": {\n                \"id\": 8,\n                \"name\": \"Nishioka Y.\",\n                \"image\": \"https://static.flashscore.com/res/image/data/UsWc3fXg-8n6cRsXc.png\",\n                \"elo\": 500\n              },\n              \"scores\": [\n                {\n                  \"set\": \"set1\",\n                  \"game\": 4\n                },\n                {\n                  \"set\": \"set2\",\n                  \"game\": 6,\n                  \"tiebreak\": 3\n                },\n                {\n                  \"set\": \"set3\",\n                  \"game\": 7,\n                  \"tiebreak\": 8\n                },\n                {\n                  \"set\": \"final\",\n                  \"game\": 2\n                }\n              ],\n              \"isWinner\": true,\n              \"totalElo\": 1000\n            }\n          ]\n        }\n      ]\n    },\n    {\n      \"title\": \"Round 2\",\n      \"seeds\": [\n        {\n          \"id\": \"5\",\n          \"time\": \"10:00:00\",\n          \"date\": \"2024-04-18T10:00:00Z\",\n          \"duration\": 30,\n          \"venue\": \"Phu Tho Stadium\",\n          \"status\": \"walk_over\",\n          \"teams\": [\n            {\n              \"id\": 1,\n              \"user1\": {\n                \"id\": 1,\n                \"name\": \"Evans D.\",\n                \"image\": \"https://static.flashscore.com/res/image/data/Op1c28yB-noXmEZHh.png\",\n                \"elo\": 500\n              },\n              \"user2\": {\n                \"id\": 1,\n                \"name\": \"Evans D.\",\n                \"image\": \"https://static.flashscore.com/res/image/data/Op1c28yB-noXmEZHh.png\",\n                \"elo\": 500\n              },\n              \"scores\": [],\n              \"isWinner\": null,\n              \"totalElo\": 1000\n            },\n            {\n              \"id\": 4,\n              \"user1\": {\n                \"id\": 4,\n                \"name\": \"Shang J.\",\n                \"image\": \"https://static.flashscore.com/res/image/data/Y7KvlfCa-vcHTmQNN.png\",\n                \"elo\": 500\n              },\n              \"user2\": {\n                \"id\": 4,\n                \"name\": \"Shang J.\",\n                \"image\": \"https://static.flashscore.com/res/image/data/Y7KvlfCa-vcHTmQNN.png\",\n                \"elo\": 500\n              },\n              \"scores\": [],\n              \"isWinner\": null,\n              \"totalElo\": 1000\n            }\n          ]\n        },\n        {\n          \"id\": \"6\",\n          \"time\": \"10:00:00\",\n          \"date\": \"2024-04-18T10:00:00Z\",\n          \"status\": \"scheduled\",\n          \"teams\": [\n            {\n              \"id\": 5,\n              \"user1\": {\n                \"id\": 5,\n                \"name\": \"Trungelliti M.\",\n                \"image\": \"https://static.flashscore.com/res/image/data/pnEkgXkl-69WazsLd.png\",\n                \"elo\": 500\n              },\n              \"user2\": {\n                \"id\": 5,\n                \"name\": \"Trungelliti M.\",\n                \"image\": \"https://static.flashscore.com/res/image/data/pnEkgXkl-69WazsLd.png\",\n                \"elo\": 500\n              },\n              \"scores\": [],\n              \"isWinner\": null,\n              \"totalElo\": 1000\n            },\n            {\n              \"id\": 8,\n              \"user1\": {\n                \"name\": \"Nishioka Y.\",\n                \"image\": \"https://static.flashscore.com/res/image/data/UsWc3fXg-8n6cRsXc.png\",\n                \"elo\": 500\n              },\n              \"user2\": {\n                \"name\": \"Nishioka Y.\",\n                \"image\": \"https://static.flashscore.com/res/image/data/UsWc3fXg-8n6cRsXc.png\",\n                \"elo\": 500\n              },\n              \"scores\": [],\n              \"isWinner\": null,\n              \"totalElo\": 1000\n            }\n          ]\n        }\n      ]\n    },\n    {\n      \"title\": \"Final Round\",\n      \"seeds\": [\n        {\n          \"id\": \"7\",\n          \"time\": \"\",\n          \"date\": \"\",\n          \"status\": \"no_show\",\n          \"teams\": []\n        }\n      ]\n    }\n  ],\n  \"participantType\": \"single\",\n  \"format\": \"group_playoff\",\n  \"status\": \"published\"\n}",
           "latency": 0,
           "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": "SEQUENTIAL"
+    },
+    {
+      "uuid": "4fe43269-b674-4b3c-96bd-e3fb15995257",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "core/tournaments/*/fixtures/*",
+      "responses": [
+        {
+          "uuid": "82da777e-2f6a-45db-956f-ea2befc7cac9",
+          "body": "{\n  \"id\": \"2\",\n  \"time\": \"10:00:00\",\n  \"date\": \"2024-04-24T06:50:16Z\",\n  \"duration\": 30,\n  \"venue\": \"Phu Tho Stadium\",\n  \"status\": \"score_done\",\n  \"teams\": [\n    {\n      \"id\": 3,\n      \"user1\": {\n        \"id\": 3,\n        \"name\": \"Machac T.\",\n        \"image\": \"https://static.flashscore.com/res/image/data/bsWIvMjl-f3tbGyCl.png\",\n        \"elo\": 500\n      },\n      \"user2\": {\n        \"id\": 3,\n        \"name\": \"Machac T.\",\n        \"image\": \"https://static.flashscore.com/res/image/data/bsWIvMjl-f3tbGyCl.png\",\n        \"elo\": 500\n      },\n      \"scores\": [\n        {\n          \"set\": \"set1\",\n          \"game\": 3,\n          \"min\": 60\n        },\n        {\n          \"set\": \"set2\",\n          \"game\": 2,\n          \"min\": 112\n        },\n        {\n          \"set\": \"final\",\n          \"game\": 0,\n          \"min\": 138\n        }\n      ],\n      \"isWinner\": false,\n      \"totalElo\": 1000\n    },\n    {\n      \"id\": 4,\n      \"user1\": {\n        \"id\": 4,\n        \"name\": \"Shang J.\",\n        \"image\": \"https://static.flashscore.com/res/image/data/Y7KvlfCa-vcHTmQNN.png\",\n        \"elo\": 500\n      },\n      \"user2\": {\n        \"id\": 4,\n        \"name\": \"Shang J.\",\n        \"image\": \"https://static.flashscore.com/res/image/data/Y7KvlfCa-vcHTmQNN.png\",\n        \"elo\": 500\n      },\n      \"scores\": [\n        {\n          \"set\": \"set1\",\n          \"game\": 6\n        },\n        {\n          \"set\": \"set2\",\n          \"game\": 6\n        },\n        {\n          \"set\": \"final\",\n          \"game\": 2\n        }\n      ],\n      \"isWinner\": true,\n      \"totalElo\": 1000\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "35c70e5e-0ecd-44e7-80ec-025d1576ca3c",
+          "body": "{\n  \"id\": \"2\",\n  \"time\": \"10:00:00\",\n  \"date\": \"2024-04-24T08:50:16Z\",\n  \"duration\": 30,\n  \"venue\": \"Phu Tho Stadium\",\n  \"status\": \"walk_over\",\n  \"teams\": [\n    {\n      \"id\": 3,\n      \"user1\": {\n        \"id\": 3,\n        \"name\": \"Machac T.\",\n        \"image\": \"https://static.flashscore.com/res/image/data/bsWIvMjl-f3tbGyCl.png\",\n        \"elo\": 500\n      },\n      \"user2\": {\n        \"id\": 3,\n        \"name\": \"Machac T.\",\n        \"image\": \"https://static.flashscore.com/res/image/data/bsWIvMjl-f3tbGyCl.png\",\n        \"elo\": 500\n      },\n      \"scores\": [\n        {\n          \"set\": \"set1\",\n          \"game\": 3,\n          \"min\": 60\n        },\n        {\n          \"set\": \"set2\",\n          \"game\": 2,\n          \"min\": 112\n        }\n      ],\n      \"isWinner\": null,\n      \"totalElo\": 1000\n    },\n    {\n      \"id\": 4,\n      \"user1\": {\n        \"id\": 4,\n        \"name\": \"Shang J.\",\n        \"image\": \"https://static.flashscore.com/res/image/data/Y7KvlfCa-vcHTmQNN.png\",\n        \"elo\": 500\n      },\n      \"user2\": {\n        \"id\": 4,\n        \"name\": \"Shang J.\",\n        \"image\": \"https://static.flashscore.com/res/image/data/Y7KvlfCa-vcHTmQNN.png\",\n        \"elo\": 500\n      },\n      \"scores\": [\n        {\n          \"set\": \"set1\",\n          \"game\": 6,\n          \"min\": 60\n        },\n        {\n          \"set\": \"set2\",\n          \"game\": 6,\n          \"min\": 112\n        }\n      ],\n      \"isWinner\": null,\n      \"totalElo\": 1000\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "483ccc82-7e3e-4e18-9b3f-9b6a200f2e71",
+          "body": "{}",
+          "latency": 0,
+          "statusCode": 204,
           "label": "",
           "headers": [],
           "bodyType": "INLINE",

@@ -14,6 +14,7 @@ import Profile from 'components/Authenticated/Profile';
 import TournamentService from 'components/Authenticated/TournamentService';
 import CreateTournament from 'components/Authenticated/TournamentService/CreateTournament';
 import { tournamentDetailsRoutes } from 'components/Authenticated/TournamentService/TournamentDetails';
+import MatchDetails from 'components/Authenticated/TournamentService/TournamentDetails/Fixtures/MatchDetails';
 import TournamentLayout from 'components/Authenticated/TournamentService/TournamentLayout';
 import CenterLoading from 'components/Common/CenterLoading';
 import AuthenticatedLayout from 'components/Common/Layout/AuthenticatedLayout';
@@ -130,6 +131,10 @@ const protectedRoutes = createBrowserRouter([
         element: <CreateTournament />,
       },
       tournamentDetailsRoutes,
+      {
+        path: ':tournamentId/fixtures/matches/:matchId',
+        element: <MatchDetails />,
+      },
     ],
   },
   {

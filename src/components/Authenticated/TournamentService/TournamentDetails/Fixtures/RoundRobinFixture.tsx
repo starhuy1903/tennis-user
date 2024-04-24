@@ -1,9 +1,10 @@
 import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import { Avatar, Box, Button, Container, Stack, Typography } from '@mui/material';
+import { Link } from 'react-router-dom';
 
 import { MatchStatus } from 'constants/tournament-fixtures';
-import { Score, TournamentFixture, User } from 'types/tournament-fixtures';
+import { Match, Score, TournamentFixture, User } from 'types/tournament-fixtures';
 import { displayDate, displayTime } from 'utils/datetime';
 
 const CustomPlayer = ({ player, direction }: { player: User; direction: 'left' | 'right' }) => {
@@ -144,6 +145,181 @@ const MatchScore = ({ scores }: { scores: Score[] }) => {
   );
 };
 
+export const MatchItem = ({ match }: { match: Match }) => {
+  return (
+    <Box
+      sx={{
+        border: '1px solid #E0E0E0',
+      }}
+    >
+      <Box
+        sx={{
+          borderBottom: '1px solid #E0E0E0',
+          display: 'flex',
+          justifyContent: 'center',
+          gap: 2,
+        }}
+      >
+        <Typography
+          variant="caption"
+          color="gray"
+        >
+          <strong>Date / Time:</strong> {displayDate(match.date)}, {displayTime(match.time)}
+        </Typography>
+
+        <Typography
+          variant="caption"
+          color="gray"
+        >
+          <strong>Venue:</strong> {match.venue}
+        </Typography>
+      </Box>
+
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+        }}
+      >
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            width: '100%',
+            px: 2,
+          }}
+        >
+          <Stack direction="column">
+            <CustomPlayer
+              player={match.teams[0].user1}
+              direction="left"
+            />
+
+            {match.teams[0]?.user2 && (
+              <CustomPlayer
+                player={match.teams[0].user2}
+                direction="left"
+              />
+            )}
+          </Stack>
+
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 1,
+            }}
+          >
+            {match.teams[0].isWinner && (
+              <ArrowRightIcon
+                color="primary"
+                fontSize="large"
+              />
+            )}
+
+            {match.teams[0]?.scores && <MatchScore scores={match.teams[0].scores} />}
+          </Box>
+        </Box>
+
+        <Box
+          sx={{
+            width: '30%',
+          }}
+        >
+          <MatchStatusBadge status={match.status} />
+        </Box>
+
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            width: '100%',
+            px: 2,
+          }}
+        >
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 1,
+            }}
+          >
+            {match.teams[1]?.scores && <MatchScore scores={match.teams[1].scores} />}
+
+            {match.teams[1].isWinner && (
+              <ArrowLeftIcon
+                color="primary"
+                fontSize="large"
+              />
+            )}
+          </Box>
+
+          <Stack direction="column">
+            <CustomPlayer
+              player={match.teams[1].user1}
+              direction="right"
+            />
+
+            {match.teams[1]?.user2 && (
+              <CustomPlayer
+                player={match.teams[1].user2}
+                direction="right"
+              />
+            )}
+          </Stack>
+        </Box>
+      </Box>
+
+      <Box
+        sx={{
+          borderTop: '1px solid #E0E0E0',
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          px: 18,
+        }}
+      >
+        <Box>
+          {match.teams[0]?.user2 && (
+            <Typography
+              variant="h6"
+              color="green"
+            >
+              {match.teams[0].totalElo} ELO
+            </Typography>
+          )}
+        </Box>
+
+        <Button
+          component={Link}
+          to={`matches/${match.id}`}
+          variant="contained"
+          color="info"
+          sx={{
+            borderRadius: 0,
+          }}
+        >
+          Details
+        </Button>
+
+        <Box>
+          {match.teams[0]?.user2 && (
+            <Typography
+              variant="h6"
+              color="green"
+            >
+              {match.teams[1].totalElo} ELO
+            </Typography>
+          )}
+        </Box>
+      </Box>
+    </Box>
+  );
+};
+
 export function RoundRobinFixture({ fixture }: { fixture: TournamentFixture }) {
   return (
     <Container maxWidth="lg">
@@ -174,176 +350,10 @@ export function RoundRobinFixture({ fixture }: { fixture: TournamentFixture }) {
               </Typography>
 
               {round.seeds.map((match, matchIndex) => (
-                <Box key={matchIndex}>
-                  <Box
-                    sx={{
-                      border: '1px solid #E0E0E0',
-                    }}
-                  >
-                    <Box
-                      sx={{
-                        borderBottom: '1px solid #E0E0E0',
-                        display: 'flex',
-                        justifyContent: 'center',
-                        gap: 2,
-                      }}
-                    >
-                      <Typography
-                        variant="caption"
-                        color="gray"
-                      >
-                        <strong>Date / Time:</strong> {displayDate(match.date)}, {displayTime(match.time)}
-                      </Typography>
-
-                      <Typography
-                        variant="caption"
-                        color="gray"
-                      >
-                        <strong>Venue:</strong> {match.venue}
-                      </Typography>
-                    </Box>
-
-                    <Box
-                      sx={{
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                        alignItems: 'center',
-                      }}
-                    >
-                      <Box
-                        sx={{
-                          display: 'flex',
-                          justifyContent: 'space-between',
-                          alignItems: 'center',
-                          width: '100%',
-                          px: 2,
-                        }}
-                      >
-                        <Stack direction="column">
-                          <CustomPlayer
-                            player={match.teams[0].user1}
-                            direction="left"
-                          />
-
-                          {match.teams[0]?.user2 && (
-                            <CustomPlayer
-                              player={match.teams[0].user2}
-                              direction="left"
-                            />
-                          )}
-                        </Stack>
-
-                        <Box
-                          sx={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: 1,
-                          }}
-                        >
-                          {match.teams[0].isWinner && (
-                            <ArrowRightIcon
-                              color="primary"
-                              fontSize="large"
-                            />
-                          )}
-
-                          {match.teams[0]?.scores && <MatchScore scores={match.teams[0].scores} />}
-                        </Box>
-                      </Box>
-
-                      <Box
-                        sx={{
-                          width: '30%',
-                        }}
-                      >
-                        <MatchStatusBadge status={match.status} />
-                      </Box>
-
-                      <Box
-                        sx={{
-                          display: 'flex',
-                          justifyContent: 'space-between',
-                          alignItems: 'center',
-                          width: '100%',
-                          px: 2,
-                        }}
-                      >
-                        <Box
-                          sx={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: 1,
-                          }}
-                        >
-                          {match.teams[1]?.scores && <MatchScore scores={match.teams[1].scores} />}
-
-                          {match.teams[1].isWinner && (
-                            <ArrowLeftIcon
-                              color="primary"
-                              fontSize="large"
-                            />
-                          )}
-                        </Box>
-
-                        <Stack direction="column">
-                          <CustomPlayer
-                            player={match.teams[1].user1}
-                            direction="right"
-                          />
-
-                          {match.teams[1]?.user2 && (
-                            <CustomPlayer
-                              player={match.teams[1].user2}
-                              direction="right"
-                            />
-                          )}
-                        </Stack>
-                      </Box>
-                    </Box>
-
-                    <Box
-                      sx={{
-                        borderTop: '1px solid #E0E0E0',
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                        alignItems: 'center',
-                        px: 18,
-                      }}
-                    >
-                      <Box>
-                        {match.teams[0]?.user2 && (
-                          <Typography
-                            variant="h6"
-                            color="green"
-                          >
-                            {match.teams[0].totalElo} ELO
-                          </Typography>
-                        )}
-                      </Box>
-
-                      <Button
-                        variant="contained"
-                        color="info"
-                        sx={{
-                          borderRadius: 0,
-                        }}
-                      >
-                        Details
-                      </Button>
-
-                      <Box>
-                        {match.teams[0]?.user2 && (
-                          <Typography
-                            variant="h6"
-                            color="green"
-                          >
-                            {match.teams[1].totalElo} ELO
-                          </Typography>
-                        )}
-                      </Box>
-                    </Box>
-                  </Box>
-                </Box>
+                <MatchItem
+                  key={matchIndex}
+                  match={match}
+                />
               ))}
             </Box>
           ))}

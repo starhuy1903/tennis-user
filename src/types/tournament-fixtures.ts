@@ -5,6 +5,7 @@ export type Score = {
   set: string;
   game: number;
   tiebreak?: number;
+  min?: number;
 };
 
 export type User = {

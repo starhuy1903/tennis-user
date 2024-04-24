@@ -2,6 +2,7 @@ import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import SensorsIcon from '@mui/icons-material/Sensors';
 import { Avatar, Box, Divider, Typography } from '@mui/material';
 import { Bracket, IRenderSeedProps, Seed, SeedItem, SeedTeam } from 'react-brackets';
+import { useNavigate } from 'react-router-dom';
 
 import { MatchStatus } from 'constants/tournament-fixtures';
 import { Team, TournamentFixture, User } from 'types/tournament-fixtures';
@@ -126,6 +127,8 @@ const CustomTeam = ({ team }: { team: Team }) => {
 };
 
 const CustomSeed = ({ seed }: IRenderSeedProps) => {
+  const navigate = useNavigate();
+
   return (
     <Seed style={{ fontSize: 16 }}>
       <SeedItem
@@ -135,53 +138,64 @@ const CustomSeed = ({ seed }: IRenderSeedProps) => {
           borderRadius: 5,
         }}
       >
-        <CustomTeam team={seed.teams[0] as Team} />
+        <Box
+          sx={{
+            cursor: seed.status !== MatchStatus.NO_SHOW ? 'pointer' : 'default',
+          }}
+          onClick={() => {
+            if (seed.status !== MatchStatus.NO_SHOW) {
+              navigate(`matches/${seed.id}`);
+            }
+          }}
+        >
+          <CustomTeam team={seed.teams[0] as Team} />
 
-        {seed.status !== MatchStatus.SKIPPED && (
-          <>
-            <Divider>
-              <Typography
-                variant="body2"
-                sx={{
-                  backgroundColor:
-                    seed.status === MatchStatus.SCHEDULED || seed.status === MatchStatus.DONE
-                      ? 'green'
-                      : seed.status === MatchStatus.NO_PARTY || seed.status === MatchStatus.SCORE_DONE
-                        ? 'gray'
-                        : seed.status === MatchStatus.WALK_OVER
-                          ? 'red'
-                          : (theme) => theme.palette.info.main,
-                  color: 'white',
-                  px: 1,
-                  py: 0.5,
-                  borderRadius: 1,
-                  fontWeight: 'bold',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 0.5,
-                }}
-              >
-                {seed.status === MatchStatus.SCHEDULED && formatTimeDate(seed.date!)}
+          {seed.status !== MatchStatus.SKIPPED && (
+            <>
+              <Divider>
+                <Typography
+                  variant="body2"
+                  sx={{
+                    backgroundColor:
+                      seed.status === MatchStatus.SCHEDULED || seed.status === MatchStatus.DONE
+                        ? 'green'
+                        : seed.status === MatchStatus.NO_PARTY || seed.status === MatchStatus.SCORE_DONE
+                          ? 'gray'
+                          : seed.status === MatchStatus.WALK_OVER
+                            ? 'red'
+                            : (theme) => theme.palette.info.main,
+                    color: 'white',
+                    px: 1,
+                    py: 0.5,
+                    borderRadius: 1,
+                    fontWeight: 'bold',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 0.5,
+                  }}
+                >
+                  {seed.status === MatchStatus.SCHEDULED && formatTimeDate(seed.date!)}
 
-                {seed.status === MatchStatus.NO_PARTY && 'NO PARTY'}
+                  {seed.status === MatchStatus.NO_PARTY && 'NO PARTY'}
 
-                {seed.status === MatchStatus.WALK_OVER && (
-                  <>
-                    <SensorsIcon fontSize="small" /> LIVE
-                  </>
-                )}
+                  {seed.status === MatchStatus.WALK_OVER && (
+                    <>
+                      <SensorsIcon fontSize="small" /> LIVE
+                    </>
+                  )}
 
-                {seed.status === MatchStatus.DONE && 'SCORING IN PROGRESS'}
+                  {seed.status === MatchStatus.DONE && 'SCORING IN PROGRESS'}
 
-                {seed.status === MatchStatus.SCORE_DONE && 'FINISHED'}
+                  {seed.status === MatchStatus.SCORE_DONE && 'FINISHED'}
 
-                {seed.status === MatchStatus.NO_SHOW && 'TBD'}
-              </Typography>
-            </Divider>
+                  {seed.status === MatchStatus.NO_SHOW && 'TBD'}
+                </Typography>
+              </Divider>
 
-            <CustomTeam team={seed.teams[1] as Team} />
-          </>
-        )}
+              <CustomTeam team={seed.teams[1] as Team} />
+            </>
+          )}
+        </Box>
       </SeedItem>
     </Seed>
   );
