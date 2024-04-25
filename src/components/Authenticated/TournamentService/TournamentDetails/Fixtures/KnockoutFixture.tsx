@@ -188,7 +188,7 @@ const CustomSeed = ({ seed }: IRenderSeedProps) => {
 
                   {seed.status === MatchStatus.SCORE_DONE && 'FINISHED'}
 
-                  {seed.status === MatchStatus.NO_SHOW && 'TBD'}
+                  {seed.status === MatchStatus.NO_SHOW && 'NO INFO'}
                 </Typography>
               </Divider>
 

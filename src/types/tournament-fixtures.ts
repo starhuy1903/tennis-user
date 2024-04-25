@@ -32,6 +32,7 @@ export type Match = {
   venue: string;
   status: MatchStatus;
   teams: Team[];
+  videoUrl?: string;
 };
 
 export type Round = {

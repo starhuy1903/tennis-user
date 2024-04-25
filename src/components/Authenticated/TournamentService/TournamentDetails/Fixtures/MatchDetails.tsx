@@ -2,6 +2,7 @@ import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import { Avatar, Box, Container, Stack, Table, TableBody, TableCell, TableRow, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
+import ReactPlayer from 'react-player/youtube';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import CenterLoading from 'components/Common/CenterLoading';
@@ -266,15 +267,9 @@ export default function MatchDetails() {
   }
 
   return (
-    <Container
-      maxWidth="md"
-      sx={{
-        mt: 2,
-      }}
-    >
+    <Container maxWidth="md">
       <Box
         sx={{
-          border: '1px solid #E0E0E0',
           bgcolor: 'white',
         }}
       >
@@ -300,7 +295,7 @@ export default function MatchDetails() {
             justifyContent: 'space-between',
             alignItems: 'center',
             px: 8,
-            py: 4,
+            py: 2,
           }}
         >
           <CustomTeam team={data.teams[0]} />
@@ -339,6 +334,34 @@ export default function MatchDetails() {
 
           <CustomTeam team={data.teams[1]} />
         </Box>
+
+        {/* Just demo for livestream feature */}
+        {data.videoUrl && (
+          <>
+            <MatchHeader>
+              <Typography
+                variant="body1"
+                color="white"
+                fontWeight="bold"
+              >
+                {data.status === MatchStatus.WALK_OVER ? 'Live Stream' : 'Match Video'}
+              </Typography>
+            </MatchHeader>
+
+            <Box
+              sx={{
+                py: 2,
+                px: 4,
+              }}
+            >
+              <ReactPlayer
+                width="100%"
+                controls={true}
+                url={data.videoUrl}
+              />
+            </Box>
+          </>
+        )}
 
         <MatchHeader>
           <Typography
