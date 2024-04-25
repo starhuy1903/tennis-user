@@ -4,8 +4,10 @@ import { Avatar, Box, Button, Container, Stack, Typography } from '@mui/material
 import { Link } from 'react-router-dom';
 
 import { MatchStatus } from 'constants/tournament-fixtures';
-import { Match, Score, TournamentFixture, User } from 'types/tournament-fixtures';
+import { Match, Round, Score, User } from 'types/tournament-fixtures';
 import { displayDate, displayTime } from 'utils/datetime';
+
+import NoData from '../NoData';
 
 const CustomPlayer = ({ player, direction }: { player: User; direction: 'left' | 'right' }) => {
   if (direction === 'left') {
@@ -320,7 +322,11 @@ export const MatchItem = ({ match }: { match: Match }) => {
   );
 };
 
-export function RoundRobinFixture({ fixture }: { fixture: TournamentFixture }) {
+export function RoundRobinFixture({ rounds }: { rounds: Round[] }) {
+  if (!rounds || rounds.length === 0) {
+    return <NoData message="No fixtures available" />;
+  }
+
   return (
     <Container maxWidth="lg">
       <Stack
@@ -328,7 +334,7 @@ export function RoundRobinFixture({ fixture }: { fixture: TournamentFixture }) {
         gap={6}
         my={5}
       >
-        {fixture.roundRobinRounds
+        {rounds
           ?.slice()
           .reverse()
           .map((round, roundIndex) => (

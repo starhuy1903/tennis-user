@@ -3,14 +3,14 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import CenterLoading from 'components/Common/CenterLoading';
+import GroupPlayoffFixture from 'components/Common/Fixtures/GroupPlayoffFixture';
+import KnockoutFixtures from 'components/Common/Fixtures/KnockoutFixture';
+import { RoundRobinFixture } from 'components/Common/Fixtures/RoundRobinFixture';
 import NoData from 'components/Common/NoData';
 import { TournamentFormat } from 'constants/tournament';
 import { useLazyGetTournamentFixtureQuery } from 'store/api/tournament/tournamentFixtureApiSlice';
 import { TournamentFixture } from 'types/tournament-fixtures';
 
-import GroupPlayoffFixture from './GroupPlayoffFixture';
-import KnockoutFixtures from './KnockoutFixture';
-import { RoundRobinFixture } from './RoundRobinFixture';
 import SetupFixture from './SetupFixture';
 
 export default function Fixtures() {
@@ -44,8 +44,8 @@ export default function Fixtures() {
   return (
     <Box>
       <SetupFixture />
-      {fixture.format === TournamentFormat.KNOCKOUT && <KnockoutFixtures fixture={fixture} />}
-      {fixture.format === TournamentFormat.ROUND_ROBIN && <RoundRobinFixture fixture={fixture} />}
+      {fixture.format === TournamentFormat.KNOCKOUT && <KnockoutFixtures rounds={fixture.knockoutRounds!} />}
+      {fixture.format === TournamentFormat.ROUND_ROBIN && <RoundRobinFixture rounds={fixture.roundRobinRounds!} />}
       {fixture.format === TournamentFormat.GROUP_PLAYOFF && <GroupPlayoffFixture fixture={fixture} />}
     </Box>
   );

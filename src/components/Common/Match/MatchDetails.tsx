@@ -3,12 +3,9 @@ import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import { Avatar, Box, Container, Stack, Table, TableBody, TableCell, TableRow, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import ReactPlayer from 'react-player/youtube';
-import { useNavigate, useParams } from 'react-router-dom';
 
-import CenterLoading from 'components/Common/CenterLoading';
 import { MatchStatus } from 'constants/tournament-fixtures';
-import { useGetMatchDetailsQuery } from 'store/api/tournament/tournamentFixtureApiSlice';
-import { Team, User } from 'types/tournament-fixtures';
+import { Match, Team, User } from 'types/tournament-fixtures';
 import { displayDate, displayDistanceFromNow, displayHour, displayTime } from 'utils/datetime';
 
 const MatchHeader = ({ children }: { children: React.ReactNode }) => {
@@ -249,23 +246,7 @@ const ScoreTable = ({ teams }: { teams: Team[] }) => {
   );
 };
 
-export default function MatchDetails() {
-  const navigate = useNavigate();
-
-  const { tournamentId, matchId } = useParams();
-
-  const { data, isLoading } = useGetMatchDetailsQuery({
-    tournamentId: parseInt(tournamentId!),
-    matchId: parseInt(matchId!),
-  });
-
-  if (isLoading) return <CenterLoading />;
-
-  if (!data) {
-    navigate(`/tournaments/${tournamentId}/fixtures`);
-    return;
-  }
-
+export default function MatchDetails({ match }: { match: Match }) {
   return (
     <Container maxWidth="md">
       <Box
@@ -278,14 +259,14 @@ export default function MatchDetails() {
             variant="caption"
             color="white"
           >
-            <strong>Date / Time:</strong> {displayDate(data.date)}, {displayTime(data.time)}
+            <strong>Date / Time:</strong> {displayDate(match.date)}, {displayTime(match.time)}
           </Typography>
 
           <Typography
             variant="caption"
             color="white"
           >
-            <strong>Venue:</strong> {data.venue}
+            <strong>Venue:</strong> {match.venue}
           </Typography>
         </MatchHeader>
 
@@ -298,7 +279,7 @@ export default function MatchDetails() {
             py: 2,
           }}
         >
-          <CustomTeam team={data.teams[0]} />
+          <CustomTeam team={match.teams[0]} />
 
           <Stack
             direction="column"
@@ -312,31 +293,31 @@ export default function MatchDetails() {
                 gap: 6,
               }}
             >
-              {data.teams[0]?.scores && (
+              {match.teams[0]?.scores && (
                 <MatchScore
-                  team={data.teams[0]}
+                  team={match.teams[0]}
                   direction="left"
                 />
               )}
 
-              <MatchStatusBadge status={data.status} />
+              <MatchStatusBadge status={match.status} />
 
-              {data.teams[1]?.scores && (
+              {match.teams[1]?.scores && (
                 <MatchScore
-                  team={data.teams[1]}
+                  team={match.teams[1]}
                   direction="right"
                 />
               )}
             </Box>
 
-            {data.status === MatchStatus.WALK_OVER && <Timer date={data.date} />}
+            {match.status === MatchStatus.WALK_OVER && <Timer date={match.date} />}
           </Stack>
 
-          <CustomTeam team={data.teams[1]} />
+          <CustomTeam team={match.teams[1]} />
         </Box>
 
         {/* Just demo for livestream feature */}
-        {data.videoUrl && (
+        {match.videoUrl && (
           <>
             <MatchHeader>
               <Typography
@@ -344,7 +325,7 @@ export default function MatchDetails() {
                 color="white"
                 fontWeight="bold"
               >
-                {data.status === MatchStatus.WALK_OVER ? 'Live Stream' : 'Match Video'}
+                {match.status === MatchStatus.WALK_OVER ? 'Live Stream' : 'Match Video'}
               </Typography>
             </MatchHeader>
 
@@ -357,7 +338,7 @@ export default function MatchDetails() {
               <ReactPlayer
                 width="100%"
                 controls={true}
-                url={data.videoUrl}
+                url={match.videoUrl}
               />
             </Box>
           </>
@@ -373,7 +354,7 @@ export default function MatchDetails() {
           </Typography>
         </MatchHeader>
 
-        <ScoreTable teams={data.teams} />
+        <ScoreTable teams={match.teams} />
       </Box>
     </Container>
   );

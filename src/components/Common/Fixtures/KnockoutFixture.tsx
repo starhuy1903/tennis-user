@@ -5,8 +5,10 @@ import { Bracket, IRenderSeedProps, Seed, SeedItem, SeedTeam } from 'react-brack
 import { useNavigate } from 'react-router-dom';
 
 import { MatchStatus } from 'constants/tournament-fixtures';
-import { Team, TournamentFixture, User } from 'types/tournament-fixtures';
+import { Round, Team, User } from 'types/tournament-fixtures';
 import { formatTimeDate } from 'utils/datetime';
+
+import NoData from '../NoData';
 
 const CustomPlayer = ({ player }: { player: User }) => {
   return (
@@ -201,11 +203,15 @@ const CustomSeed = ({ seed }: IRenderSeedProps) => {
   );
 };
 
-export default function KnockoutFixtures({ fixture }: { fixture: TournamentFixture }) {
+export default function KnockoutFixtures({ rounds }: { rounds: Round[] }) {
+  if (!rounds || rounds.length === 0) {
+    return <NoData message="No fixtures available" />;
+  }
+
   return (
     <Box mt={5}>
       <Bracket
-        rounds={fixture.knockoutRounds!}
+        rounds={rounds}
         roundTitleComponent={(title: React.ReactNode) => {
           return (
             <Box
