@@ -8,13 +8,13 @@ export type Service = {
 export type OpenTournamentConfig = {
   format: string[];
   gender: string[];
-  partipantType: string[];
+  participantType: string[];
 };
 
 export type GroupTournamentConfig = {
   format: string[];
   gender: string[];
-  partipantType: string[];
+  participantType: string[];
 };
 
 export type AppConfigType = {
