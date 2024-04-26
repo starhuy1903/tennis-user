@@ -39,7 +39,6 @@ export type ChangePasswordPayload = {
 export type LoginResponse = {
   accessToken: string;
   refreshToken: string;
-  tokenId: string;
   user: UserProfile;
 };
 
@@ -55,13 +54,14 @@ export type SignupResponse = MessageResponse & {
 export type ForgotPasswordResponse = SignupResponse;
 
 export type UserProfile = {
-  userInfo: {
-    id: number;
-    email: string;
-    name: string;
-    dob: string;
-    phoneNumber: string;
-  } | null;
+  id: number;
+  email: string;
+  name: string;
+  image: string;
+  dob: string;
+  phoneNumber: string;
+  gender: Gender;
+  role: string;
 };
 
 export type RefreshResponse = {
