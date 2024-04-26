@@ -19,7 +19,7 @@ export default function Participants() {
     if (data.isCreator) {
       return <ApplicantList />;
     } else {
-      return <MyApplication />;
+      return <MyApplication tournament={data} />;
     }
   } else {
     return <ParticipantList />;

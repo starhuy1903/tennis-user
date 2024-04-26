@@ -2,6 +2,7 @@ import { Box, FormControl, FormHelperText, FormLabel, TextField } from '@mui/mat
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useAppSelector } from 'store';
 
+import { ParticipantType } from 'constants/tournament';
 import { useCreateTournamentRegistrationMutation } from 'store/api/tournament/tournamentApiSlice';
 import { showSuccess } from 'utils/toast';
 
@@ -9,18 +10,21 @@ import BaseModal from './BaseModal';
 import { RegisterTournamentProps } from './types';
 
 type FormType = {
-  registrationMessage: string;
+  name: string;
+  message: string;
+  user2Email?: string;
 };
 
-export default function RegisterTournament({ tournamentId, onModalClose }: RegisterTournamentProps) {
-  const userId = useAppSelector((state) => state.user.userInfo?.id);
+export default function RegisterTournament({ tournamentId, participantType, onModalClose }: RegisterTournamentProps) {
+  const name = useAppSelector((state) => state.user.userInfo?.firstName);
 
   const [createTournamentRegistration, { isLoading }] = useCreateTournamentRegistrationMutation();
 
   const { handleSubmit, register, formState } = useForm<FormType>({
     mode: 'onTouched',
     defaultValues: {
-      registrationMessage: '',
+      message: '',
+      name: name || '',
     },
   });
 
@@ -30,42 +34,130 @@ export default function RegisterTournament({ tournamentId, onModalClose }: Regis
     try {
       await createTournamentRegistration({
         tournamentId,
-        userId: userId!,
-        registrationMessage: data.registrationMessage,
+        message: data.message,
+        user2Email: participantType !== ParticipantType.SINGLE ? data.user2Email : undefined,
       }).unwrap();
 
       showSuccess('Sent tournament registration request successfully!');
       onModalClose();
-    } catch (error) {
-      // handled error
+    } catch (err) {
+      console.error(err);
     }
   };
 
   const renderBody = () => {
+    if (participantType === ParticipantType.SINGLE) {
+      return (
+        <Box
+          component="form"
+          autoComplete="off"
+          sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}
+        >
+          <FormControl
+            fullWidth
+            error={!!formError.name}
+          >
+            <FormLabel htmlFor="name">Your name</FormLabel>
+            <TextField
+              {...register('name', {
+                required: 'Your name is required.',
+              })}
+              required
+              id="name"
+              error={!!formError.name}
+              aria-describedby="name-helper-text"
+              placeholder="Enter your name here"
+            />
+            <FormHelperText id="name-helper-text">{formError.name?.message}</FormHelperText>
+          </FormControl>
+
+          <FormControl
+            fullWidth
+            error={!!formError.message}
+          >
+            <FormLabel htmlFor="message">Registration message</FormLabel>
+            <TextField
+              {...register('message', {
+                required: 'The registration message is required.',
+              })}
+              required
+              id="message"
+              error={!!formError.message}
+              aria-describedby="message-helper-text"
+              multiline
+              rows={3}
+              placeholder="Enter your registration message here"
+            />
+            <FormHelperText id="message-helper-text">{formError.message?.message}</FormHelperText>
+          </FormControl>
+        </Box>
+      );
+    }
+
     return (
       <Box
         component="form"
         autoComplete="off"
-        sx={{ display: 'flex', flexDirection: 'column' }}
+        sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}
       >
         <FormControl
           fullWidth
-          error={!!formError.registrationMessage}
+          error={!!formError.name}
         >
-          <FormLabel htmlFor="regitrationMessage">Registration message</FormLabel>
+          <FormLabel htmlFor="name">Your name</FormLabel>
           <TextField
-            {...register('registrationMessage', {
+            {...register('name', {
+              required: 'Your name is required.',
+            })}
+            required
+            id="name"
+            error={!!formError.name}
+            aria-describedby="name-helper-text"
+            placeholder="Enter your name here"
+          />
+          <FormHelperText id="name-helper-text">{formError.name?.message}</FormHelperText>
+        </FormControl>
+
+        <FormControl
+          fullWidth
+          error={!!formError.user2Email}
+        >
+          <FormLabel htmlFor="user2Email">Your teammate's email</FormLabel>
+          <TextField
+            {...register('user2Email', {
+              required: `Your teammate's email is required.`,
+              pattern: {
+                value: /\S+@\S+\.\S+/,
+                message: 'Invalid email format.',
+              },
+            })}
+            required
+            id="user2Email"
+            error={!!formError.user2Email}
+            aria-describedby="user2Email-helper-text"
+            placeholder="Enter your teammate's email here"
+          />
+          <FormHelperText id="user2Email-helper-text">{formError.user2Email?.message}</FormHelperText>
+        </FormControl>
+
+        <FormControl
+          fullWidth
+          error={!!formError.message}
+        >
+          <FormLabel htmlFor="message">Registration message</FormLabel>
+          <TextField
+            {...register('message', {
               required: 'The registration message is required.',
             })}
             required
-            id="registrationMessage"
-            error={!!formError.registrationMessage}
-            aria-describedby="regitrationMessage-helper-text"
+            id="message"
+            error={!!formError.message}
+            aria-describedby="message-helper-text"
             multiline
             rows={3}
             placeholder="Enter your registration message here"
           />
-          <FormHelperText id="regitrationMessage-helper-text">{formError.registrationMessage?.message}</FormHelperText>
+          <FormHelperText id="message-helper-text">{formError.message?.message}</FormHelperText>
         </FormControl>
       </Box>
     );

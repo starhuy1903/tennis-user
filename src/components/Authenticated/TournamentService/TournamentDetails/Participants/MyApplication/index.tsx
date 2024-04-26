@@ -10,11 +10,12 @@ import { RegistrationStatus } from 'constants/tournament-participants';
 import { useLazyGetMyApplicationQuery } from 'store/api/tournament/tournamentParticipantsApiSlice';
 import { showModal } from 'store/slice/modalSlice';
 import { OpenTournamentApplicant } from 'types/open-tournament-participants';
+import { OpenTournament } from 'types/tournament';
 
 import ApplicationForm from './ApplicationForm';
 import Invitations from './Invitations';
 
-export default function MyApplication() {
+export default function MyApplication({ tournament }: { tournament: OpenTournament }) {
   const dispatch = useAppDispatch();
   const confirm = useConfirm();
 
@@ -38,7 +39,14 @@ export default function MyApplication() {
 
   const handleRegister = async () => {
     confirm({ description: 'Creating a tournament application will cancel all invitations from others.' })
-      .then(() => dispatch(showModal(ModalKey.REGISTER_TOURNAMENT, { tournamentId: parseInt(tournamentId!) })))
+      .then(() =>
+        dispatch(
+          showModal(ModalKey.REGISTER_TOURNAMENT, {
+            tournamentId: parseInt(tournamentId!),
+            participantType: tournament.participantType,
+          })
+        )
+      )
       .catch(() => {});
   };
 

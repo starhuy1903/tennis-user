@@ -3,7 +3,7 @@ import { Stack, Typography } from '@mui/material';
 
 import NoDataLogo from 'assets/icons/no-data.svg?react';
 
-const NoData = () => {
+const NoData = ({ message }: { message?: string }) => {
   return (
     <Stack
       alignItems="center"
@@ -13,7 +13,7 @@ const NoData = () => {
         width={80}
         height={80}
       />
-      <Typography variant="caption">No Data</Typography>
+      <Typography variant="caption">{message || 'No data available'}</Typography>
     </Stack>
   );
 };
