@@ -22,6 +22,10 @@ import { useSignupMutation } from 'store/api/userApiSlice';
 import { SignupPayload } from 'types/user';
 import { showError, showSuccess } from 'utils/toast';
 
+type FormType = SignupPayload & {
+  confirmPassword: string;
+};
+
 export default function Signup() {
   const navigate = useNavigate();
 
@@ -34,10 +38,11 @@ export default function Signup() {
     formState: { errors: formError },
     getValues,
     watch,
-  } = useForm<SignupPayload>({
+  } = useForm<FormType>({
     defaultValues: {
       name: '',
       email: '',
+      phoneNumber: '',
       gender: Gender.MALE,
       dob: new Date().toISOString(),
       password: '',
@@ -202,6 +207,28 @@ export default function Signup() {
                 )}
               />
             </Stack>
+
+            <FormControl
+              fullWidth
+              error={!!formError.phoneNumber}
+            >
+              <FormLabel htmlFor="phoneNumber">Phone number</FormLabel>
+              <TextField
+                {...register('phoneNumber', {
+                  required: 'Phone number is required!',
+                })}
+                id="phoneNumber"
+                placeholder="Enter your phone number"
+                error={!!formError.phoneNumber}
+                aria-describedby="phoneNumber-helper-text"
+                size="small"
+                sx={{
+                  backgroundColor: 'white',
+                }}
+                disabled={isSubmitting}
+              />
+              <FormHelperText id="phoneNumber-helper-text">{formError.phoneNumber?.message}</FormHelperText>
+            </FormControl>
 
             <FormControl
               fullWidth

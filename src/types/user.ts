@@ -11,10 +11,10 @@ export type OAuthPayload = {
 };
 
 export type SignupPayload = CredentialPayload & {
-  confirmPassword: string;
   name: string;
   gender: Gender;
   dob: string;
+  phoneNumber: string;
 };
 
 export type VerifyPayload = {
@@ -58,8 +58,7 @@ export type UserProfile = {
   userInfo: {
     id: number;
     email: string;
-    firstName: string;
-    lastName: string;
+    name: string;
     dob: string;
     phoneNumber: string;
   } | null;
