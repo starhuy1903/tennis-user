@@ -69,6 +69,15 @@ export default function InvitationItem({ data }: { data: OpenTournamentApplicant
 
           <Typography variant="h2">{data.user1.name}</Typography>
 
+          <Tooltip title={`${data.user1.elo} ELO`}>
+            <Chip
+              label={data.user1.elo}
+              size="small"
+              variant="filled"
+              color="primary"
+            />
+          </Tooltip>
+
           <Chip
             sx={{ width: 'fit-content' }}
             component="span"
@@ -83,14 +92,22 @@ export default function InvitationItem({ data }: { data: OpenTournamentApplicant
       <AccordionDetails>
         <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
           <Stack direction="column">
+            <Box
+              sx={{
+                display: 'flex',
+                gap: 2,
+              }}
+            >
+              <Typography variant="body1">
+                <b>Email:</b> {data.user1.email}
+              </Typography>
+              <Typography variant="body1">
+                <b>Gender:</b> {GenderOptions[data.user1.gender]}
+              </Typography>
+            </Box>
+
             <Typography variant="body1">
-              <strong>Email:</strong> {data.user1.email}
-            </Typography>
-            <Typography variant="body1">
-              <strong>Gender:</strong> {GenderOptions[data.user1.gender]}
-            </Typography>
-            <Typography variant="body1">
-              <strong>Message:</strong> {data.message}
+              <b>Message:</b> {data.message}
             </Typography>
           </Stack>
 

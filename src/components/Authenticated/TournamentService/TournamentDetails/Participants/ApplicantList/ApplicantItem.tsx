@@ -75,15 +75,33 @@ export default function ApplicantItem({ data }: { data: OpenTournamentApplicant 
 
             <Typography variant="h2">{data.user1.name}</Typography>
 
+            <Tooltip title={`${data.user1.elo} ELO`}>
+              <Chip
+                label={data.user1.elo}
+                size="small"
+                variant="filled"
+                color="primary"
+              />
+            </Tooltip>
+
             {data?.user2 && (
               <>
                 <Avatar
-                  src={data.user1.image}
-                  alt={data.user1.name}
+                  src={data.user2.image}
+                  alt={data.user2.name}
                   sx={{ width: '50px', height: '50px' }}
                 />
 
-                <Typography variant="h2">{data.user1.name}</Typography>
+                <Typography variant="h2">{data.user2.name}</Typography>
+
+                <Tooltip title={`${data.user2.elo} ELO`}>
+                  <Chip
+                    label={data.user2.elo}
+                    size="small"
+                    variant="filled"
+                    color="primary"
+                  />
+                </Tooltip>
               </>
             )}
 

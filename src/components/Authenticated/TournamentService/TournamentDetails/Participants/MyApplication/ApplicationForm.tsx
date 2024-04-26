@@ -77,11 +77,28 @@ export default function ApplicationForm({ data }: { data: OpenTournamentApplican
           justifyContent="space-between"
           alignItems={'center'}
         >
-          <Box sx={{ width: '50%', display: 'flex', justifyContent: 'center', alignItems: 'center', pt: 4 }}>
+          <Box
+            sx={{
+              width: '50%',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center',
+              gap: 2,
+              mt: 2,
+            }}
+          >
             <Avatar
               src={data?.user1.image}
               alt={data?.user1.name}
               sx={{ width: '180px', height: '180px' }}
+            />
+
+            <Chip
+              label={`${data.user1.elo} ELO`}
+              size="small"
+              variant="filled"
+              color="primary"
             />
           </Box>
 
@@ -124,11 +141,27 @@ export default function ApplicationForm({ data }: { data: OpenTournamentApplican
             direction="row"
             justifyContent="space-between"
           >
-            <Box sx={{ width: '50%', display: 'flex', justifyContent: 'center', alignItems: 'center', pt: 4 }}>
+            <Box
+              sx={{
+                width: '50%',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: 'center',
+                gap: 2,
+              }}
+            >
               <Avatar
                 src={data?.user2.image}
                 alt={data?.user2.name}
                 sx={{ width: '180px', height: '180px' }}
+              />
+
+              <Chip
+                label={`${data.user1.elo} ELO`}
+                size="small"
+                variant="filled"
+                color="primary"
               />
             </Box>
 
@@ -211,6 +244,7 @@ export default function ApplicationForm({ data }: { data: OpenTournamentApplican
                 variant="contained"
                 color="error"
                 onClick={handleCancelApplication}
+                disabled={isLoading}
               >
                 Cancel Application
               </Button>
