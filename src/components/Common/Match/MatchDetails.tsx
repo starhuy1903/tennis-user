@@ -1,12 +1,14 @@
 import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import { Avatar, Box, Container, Stack, Table, TableBody, TableCell, TableRow, Typography } from '@mui/material';
-import { useEffect, useState } from 'react';
 import ReactPlayer from 'react-player/youtube';
 
 import { MatchStatus } from 'constants/tournament-fixtures';
-import { Match, Team, User } from 'types/tournament-fixtures';
-import { displayDate, displayDistanceFromNow, displayHour, displayTime } from 'utils/datetime';
+import { FinalScore, Match, Score, Team, User } from 'types/tournament-fixtures';
+import { displayDate, displayHour, displayTime } from 'utils/datetime';
+
+import { Timer } from '../Timer';
+import { MatchStatusBadge } from './MatchStatusBadge';
 
 const MatchHeader = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -93,42 +95,10 @@ const CustomTeam = ({ team }: { team: Team }) => {
   );
 };
 
-const MatchStatusBadge = ({ status }: { status: string }) => {
-  return (
-    <Typography
-      variant="h6"
-      sx={{
-        color:
-          status === MatchStatus.SCHEDULED || status === MatchStatus.DONE
-            ? 'green'
-            : status === MatchStatus.NO_PARTY || status === MatchStatus.SCORE_DONE
-              ? 'gray'
-              : status === MatchStatus.WALK_OVER
-                ? 'red'
-                : (theme) => theme.palette.info.main,
-        fontWeight: 'bold',
-        textAlign: 'center',
-      }}
-    >
-      {status === MatchStatus.SCHEDULED && 'SCHEDULED'}
-
-      {status === MatchStatus.NO_PARTY && 'NO PARTY'}
-
-      {status === MatchStatus.WALK_OVER && 'LIVE'}
-
-      {status === MatchStatus.DONE && 'SCORING IN PROGRESS'}
-
-      {status === MatchStatus.SCORE_DONE && 'FINISHED'}
-
-      {status === MatchStatus.NO_SHOW && 'TBD'}
-    </Typography>
-  );
-};
-
-const MatchScore = ({ team, direction }: { team: Team; direction: 'left' | 'right' }) => {
+const MatchScore = ({ finalScore, team }: { finalScore: FinalScore; team: 1 | 2 }) => {
   return (
     <>
-      {team.isWinner && direction === 'left' && (
+      {finalScore.team1 > finalScore.team2 && team === 1 && (
         <ArrowRightIcon
           color="primary"
           fontSize="large"
@@ -139,22 +109,17 @@ const MatchScore = ({ team, direction }: { team: Team; direction: 'left' | 'righ
         />
       )}
 
-      {team.scores &&
-        team.scores.length !== 0 &&
-        team.scores
-          .filter((score) => score.set === 'final')
-          .map((score, index) => (
-            <Typography
-              variant="h3"
-              fontWeight={600}
-              lineHeight={1.5}
-              key={index}
-            >
-              {score.game}
-            </Typography>
-          ))}
+      {finalScore && (
+        <Typography
+          variant="h3"
+          fontWeight={600}
+          lineHeight={1.5}
+        >
+          {finalScore[`team${team}`]}
+        </Typography>
+      )}
 
-      {team.isWinner && direction === 'right' && (
+      {finalScore.team1 < finalScore.team2 && team === 2 && (
         <ArrowLeftIcon
           color="primary"
           fontSize="large"
@@ -168,78 +133,139 @@ const MatchScore = ({ team, direction }: { team: Team; direction: 'left' | 'righ
   );
 };
 
-const Timer = ({ date }: { date: string }) => {
-  const [time, setTime] = useState(displayDistanceFromNow(date));
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setTime(displayDistanceFromNow(date));
-    }, 1000);
-    return () => clearInterval(interval);
-  }, [date]);
-
-  return <Typography variant="h6">{time}</Typography>;
+const TeamCell = ({ team }: { team: Team }) => {
+  return (
+    <TableCell sx={{ display: 'flex', flexDirection: 'column', gap: 2, align: 'center' }}>
+      <Typography
+        variant="body1"
+        align="center"
+      >
+        {team.user1.name}
+      </Typography>
+      {team?.user2 && (
+        <Typography
+          variant="body1"
+          align="center"
+        >
+          {team.user2.name}
+        </Typography>
+      )}
+    </TableCell>
+  );
 };
 
-const ScoreTable = ({ teams }: { teams: Team[] }) => {
+const ScoreCell = ({ scores, team }: { scores: Score[]; team: 1 | 2 }) => {
   return (
-    <Table sx={{ minWidth: 650 }}>
-      <TableBody>
-        {teams.map(({ user1, user2, scores }, teamIndex) => (
-          <TableRow key={teamIndex}>
-            <TableCell sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-              <Typography
-                variant="body1"
-                align="center"
-              >
-                {user1.name}
-              </Typography>
-              {user2 && (
-                <Typography
-                  variant="body1"
-                  align="center"
-                >
-                  {user2.name}
-                </Typography>
-              )}
-            </TableCell>
-
-            <TableCell />
-
-            {scores
-              ?.slice()
-              .reverse()
-              .map((score, scoreIndex) => (
-                <TableCell
-                  key={scoreIndex}
-                  sx={{
-                    textAlign: 'center',
-                    fontWeight: score.set === 'final' ? 'bold' : 'normal',
-                  }}
-                >
-                  {score.game}
-                </TableCell>
-              ))}
-          </TableRow>
-        ))}
-        <TableRow>
-          <TableCell />
-          <TableCell>Match Time</TableCell>
-          {teams[0].scores
-            ?.slice()
-            .reverse()
-            .map((score, scoreIndex) => (
-              <TableCell
-                align="center"
-                key={scoreIndex}
-                sx={{
-                  textAlign: 'center',
-                  fontWeight: 'bold',
+    <>
+      {scores.length !== 0 ? (
+        scores.map((score, scoreIndex) => (
+          <TableCell
+            key={scoreIndex}
+            align="center"
+          >
+            {score[`team${team}`]}
+            {score[`tiebreakTeam${team}`] && (
+              <sup
+                style={{
+                  fontSize: 10,
+                  marginLeft: 2,
                 }}
               >
-                {displayHour(score.min!)}
+                {score[`tiebreakTeam${team}`]}
+              </sup>
+            )}
+          </TableCell>
+        ))
+      ) : (
+        <TableCell align="center">-</TableCell>
+      )}
+    </>
+  );
+};
+
+const ScoreTable = ({ match }: { match: Match }) => {
+  return (
+    <Table sx={{ minWidth: 650, tableLayout: 'fixed' }}>
+      <TableBody>
+        <TableRow>
+          <TableCell
+            sx={{
+              align: 'center',
+              fontWeight: 'bold',
+            }}
+          >
+            Team 1
+          </TableCell>
+
+          <TeamCell team={match.teams.team1!} />
+
+          <ScoreCell
+            scores={match.scores}
+            team={1}
+          />
+
+          <TableCell
+            sx={{
+              textAlign: 'center',
+              fontWeight: 'bold',
+            }}
+          >
+            {match.finalScore.team1}
+          </TableCell>
+        </TableRow>
+
+        <TableRow>
+          <TableCell
+            sx={{
+              align: 'center',
+              fontWeight: 'bold',
+            }}
+          >
+            Team 2
+          </TableCell>
+
+          <TeamCell team={match.teams.team2!} />
+
+          <ScoreCell
+            scores={match.scores}
+            team={2}
+          />
+
+          <TableCell
+            sx={{
+              textAlign: 'center',
+              fontWeight: 'bold',
+            }}
+          >
+            {match.finalScore.team2}
+          </TableCell>
+        </TableRow>
+
+        <TableRow>
+          <TableCell
+            sx={{
+              align: 'center',
+              fontWeight: 'bold',
+            }}
+          >
+            Match Time
+          </TableCell>
+          <TableCell align="center" />
+
+          {match.scores.length !== 0 ? (
+            match.scores.map((score, scoreIndex) => (
+              <TableCell
+                key={scoreIndex}
+                align="center"
+              >
+                {displayHour(score.time)}
               </TableCell>
-            ))}
+            ))
+          ) : (
+            <TableCell align="center">-</TableCell>
+          )}
+
+          <TableCell align="center" />
         </TableRow>
       </TableBody>
     </Table>
@@ -259,7 +285,7 @@ export default function MatchDetails({ match }: { match: Match }) {
             variant="caption"
             color="white"
           >
-            <strong>Date / Time:</strong> {displayDate(match.date)}, {displayTime(match.time)}
+            <strong>Date / Time:</strong> {displayDate(match.date)}, {displayTime(match.date)}
           </Typography>
 
           <Typography
@@ -279,7 +305,7 @@ export default function MatchDetails({ match }: { match: Match }) {
             py: 2,
           }}
         >
-          <CustomTeam team={match.teams[0]} />
+          <CustomTeam team={match.teams.team1!} />
 
           <Stack
             direction="column"
@@ -293,27 +319,23 @@ export default function MatchDetails({ match }: { match: Match }) {
                 gap: 6,
               }}
             >
-              {match.teams[0]?.scores && (
-                <MatchScore
-                  team={match.teams[0]}
-                  direction="left"
-                />
-              )}
+              <MatchScore
+                finalScore={match.finalScore}
+                team={1}
+              />
 
               <MatchStatusBadge status={match.status} />
 
-              {match.teams[1]?.scores && (
-                <MatchScore
-                  team={match.teams[1]}
-                  direction="right"
-                />
-              )}
+              <MatchScore
+                finalScore={match.finalScore}
+                team={2}
+              />
             </Box>
 
             {match.status === MatchStatus.WALK_OVER && <Timer date={match.date} />}
           </Stack>
 
-          <CustomTeam team={match.teams[1]} />
+          <CustomTeam team={match.teams.team2!} />
         </Box>
 
         {/* Just demo for livestream feature */}
@@ -325,7 +347,7 @@ export default function MatchDetails({ match }: { match: Match }) {
                 color="white"
                 fontWeight="bold"
               >
-                {match.status === MatchStatus.WALK_OVER ? 'Live Stream' : 'Match Video'}
+                {match.status === MatchStatus.WALK_OVER ? 'Live Video' : 'Match Video'}
               </Typography>
             </MatchHeader>
 
@@ -354,7 +376,7 @@ export default function MatchDetails({ match }: { match: Match }) {
           </Typography>
         </MatchHeader>
 
-        <ScoreTable teams={match.teams} />
+        <ScoreTable match={match} />
       </Box>
     </Container>
   );

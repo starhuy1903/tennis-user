@@ -1,13 +1,12 @@
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
-import SensorsIcon from '@mui/icons-material/Sensors';
 import { Avatar, Box, Divider, Typography } from '@mui/material';
 import { Bracket, IRenderSeedProps, Seed, SeedItem, SeedTeam } from 'react-brackets';
 import { useNavigate } from 'react-router-dom';
 
 import { MatchStatus } from 'constants/tournament-fixtures';
-import { Round, Team, User } from 'types/tournament-fixtures';
-import { formatTimeDate } from 'utils/datetime';
+import { Match, Round, User } from 'types/tournament-fixtures';
 
+import { MatchStatusBadge } from '../Match/MatchStatusBadge';
 import NoData from '../NoData';
 
 const CustomPlayer = ({ player }: { player: User }) => {
@@ -44,8 +43,13 @@ const CustomPlayer = ({ player }: { player: User }) => {
   );
 };
 
-const CustomTeam = ({ team }: { team: Team }) => {
-  if (!team)
+const CustomTeam = ({ match, teamNumber }: { match: Match | any; teamNumber: 1 | 2 }) => {
+  if (
+    !match ||
+    !match.teams[teamNumber - 1] ||
+    Object.keys(match.teams[teamNumber - 1]).length === 0 ||
+    match.status === MatchStatus.NO_SHOW
+  )
     return (
       <SeedTeam
         style={{
@@ -76,55 +80,72 @@ const CustomTeam = ({ team }: { team: Team }) => {
           gap: 2,
         }}
       >
-        <CustomPlayer player={team.user1} />
+        <CustomPlayer player={match.teams[teamNumber - 1].user1} />
 
-        {team.user2 && <CustomPlayer player={team.user2} />}
+        {match.teams[teamNumber - 1].user2 && <CustomPlayer player={match.teams[teamNumber - 1].user2} />}
       </Box>
 
+      <ScoreList
+        match={match}
+        teamNumber={teamNumber}
+      />
+    </SeedTeam>
+  );
+};
+
+const ScoreList = ({ match, teamNumber }: { match: Match | any; teamNumber: 1 | 2 }) => {
+  return (
+    <Box
+      sx={{
+        display: 'flex',
+        alignItems: 'center',
+      }}
+    >
+      {match.teams[teamNumber - 1].isWinner && (
+        <ArrowRightIcon
+          color="primary"
+          fontSize="large"
+        />
+      )}
       <Box
         sx={{
           display: 'flex',
-          alignItems: 'center',
+          gap: 2,
+          mr: 2,
         }}
       >
-        {team?.isWinner && (
-          <ArrowRightIcon
-            color="primary"
-            fontSize="large"
-          />
+        {match.finalScore && (
+          <Typography
+            variant="body1"
+            fontWeight={600}
+          >
+            {match.finalScore[`team${teamNumber}`]}
+          </Typography>
         )}
-        <Box
-          sx={{
-            display: 'flex',
-            gap: 2,
-            mr: 2,
-          }}
-        >
-          {team.scores
-            ?.slice()
-            .reverse()
-            .map((score: any, index: number) => (
-              <Typography
-                key={index}
-                variant="body1"
-                fontWeight={score.set === 'final' ? 600 : 400}
-              >
-                {score.game}
-                {score?.tiebreak && (
-                  <sup
-                    style={{
-                      fontSize: 10,
-                      marginLeft: 2,
-                    }}
-                  >
-                    {score.tiebreak}
-                  </sup>
-                )}
-              </Typography>
-            ))}
-        </Box>
+
+        {match.scores
+          ?.slice()
+          .reverse()
+          .map((score: any, index: number) => (
+            <Typography
+              key={index}
+              variant="body1"
+            >
+              {score[`team${teamNumber}`]}
+              {score[`tiebreakTeam${teamNumber}`] && (
+                <sup
+                  style={{
+                    fontSize: 10,
+                    marginLeft: 2,
+                  }}
+                >
+                  {score[`tiebreakTeam${teamNumber}`]}
+                </sup>
+              )}
+            </Typography>
+          ))}
       </Box>
-    </SeedTeam>
+    </Box>
   );
 };
 
@@ -150,51 +171,25 @@ const CustomSeed = ({ seed }: IRenderSeedProps) => {
             }
           }}
         >
-          <CustomTeam team={seed.teams[0] as Team} />
+          <CustomTeam
+            match={seed}
+            teamNumber={1}
+          />
 
           {seed.status !== MatchStatus.SKIPPED && (
             <>
               <Divider>
-                <Typography
-                  variant="body2"
-                  sx={{
-                    backgroundColor:
-                      seed.status === MatchStatus.SCHEDULED || seed.status === MatchStatus.DONE
-                        ? 'green'
-                        : seed.status === MatchStatus.NO_PARTY || seed.status === MatchStatus.SCORE_DONE
-                          ? 'gray'
-                          : seed.status === MatchStatus.WALK_OVER
-                            ? 'red'
-                            : (theme) => theme.palette.info.main,
-                    color: 'white',
-                    px: 1,
-                    py: 0.5,
-                    borderRadius: 1,
-                    fontWeight: 'bold',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 0.5,
-                  }}
-                >
-                  {seed.status === MatchStatus.SCHEDULED && formatTimeDate(seed.date!)}
-
-                  {seed.status === MatchStatus.NO_PARTY && 'NO PARTY'}
-
-                  {seed.status === MatchStatus.WALK_OVER && (
-                    <>
-                      <SensorsIcon fontSize="small" /> LIVE
-                    </>
-                  )}
-
-                  {seed.status === MatchStatus.DONE && 'SCORING IN PROGRESS'}
-
-                  {seed.status === MatchStatus.SCORE_DONE && 'FINISHED'}
-
-                  {seed.status === MatchStatus.NO_SHOW && 'NO INFO'}
-                </Typography>
+                <MatchStatusBadge
+                  status={seed.status}
+                  type="knockout"
+                  date={seed.date}
+                />
               </Divider>
 
-              <CustomTeam team={seed.teams[1] as Team} />
+              <CustomTeam
+                match={seed}
+                teamNumber={2}
+              />
             </>
           )}
         </Box>
@@ -208,10 +203,18 @@ export default function KnockoutFixtures({ rounds }: { rounds: Round[] }) {
     return <NoData message="No fixtures available" />;
   }
 
+  const mappedRounds = rounds.map((round) => ({
+    title: round.title,
+    seeds: round.matches.map((match) => ({
+      ...match,
+      teams: [match.teams.team1 || {}, match.teams.team2 || {}],
+    })),
+  }));
+
   return (
     <Box mt={5}>
       <Bracket
-        rounds={rounds}
+        rounds={mappedRounds}
         roundTitleComponent={(title: React.ReactNode) => {
           return (
             <Box

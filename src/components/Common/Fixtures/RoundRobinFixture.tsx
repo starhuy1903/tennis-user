@@ -4,9 +4,10 @@ import { Avatar, Box, Button, Container, Stack, Typography } from '@mui/material
 import { Link } from 'react-router-dom';
 
 import { MatchStatus } from 'constants/tournament-fixtures';
-import { Match, Round, Score, User } from 'types/tournament-fixtures';
+import { FinalScore, Match, Round, User } from 'types/tournament-fixtures';
 import { displayDate, displayTime } from 'utils/datetime';
 
+import { MatchStatusBadge } from '../Match/MatchStatusBadge';
 import NoData from '../NoData';
 
 const CustomPlayer = ({ player, direction }: { player: User; direction: 'left' | 'right' }) => {
@@ -95,59 +96,50 @@ const CustomPlayer = ({ player, direction }: { player: User; direction: 'left' |
   );
 };
 
-const MatchStatusBadge = ({ status }: { status: string }) => {
+const CustomScore = ({ finalScore, team }: { finalScore: FinalScore; team: 1 | 2 }) => {
   return (
-    <Typography
-      variant="h6"
-      sx={{
-        color:
-          status === MatchStatus.SCHEDULED || status === MatchStatus.DONE
-            ? 'green'
-            : status === MatchStatus.NO_PARTY || status === MatchStatus.SCORE_DONE
-              ? 'gray'
-              : status === MatchStatus.WALK_OVER
-                ? 'red'
-                : (theme) => theme.palette.info.main,
-        fontWeight: 'bold',
-        textAlign: 'center',
-      }}
-    >
-      {status === MatchStatus.SCHEDULED && 'SCHEDULED'}
+    <>
+      {finalScore.team1 > finalScore.team2 && team === 1 && (
+        <ArrowRightIcon
+          color="primary"
+          fontSize="large"
+          sx={{
+            position: 'absolute',
+            left: '-40px',
+          }}
+        />
+      )}
 
-      {status === MatchStatus.NO_PARTY && 'NO PARTY'}
+      {finalScore && (
+        <Typography
+          variant="h3"
+          fontWeight={600}
+          lineHeight={1.5}
+        >
+          {finalScore[`team${team}`]}
+        </Typography>
+      )}
 
-      {status === MatchStatus.WALK_OVER && 'LIVE'}
-
-      {status === MatchStatus.DONE && 'SCORING IN PROGRESS'}
-
-      {status === MatchStatus.SCORE_DONE && 'FINISHED'}
-
-      {status === MatchStatus.NO_SHOW && 'TBD'}
-    </Typography>
-  );
-};
-
-const MatchScore = ({ scores }: { scores: Score[] }) => {
-  return (
-    <Box>
-      {scores.length !== 0 &&
-        scores
-          .filter((score) => score.set === 'final')
-          .map((score, index) => (
-            <Typography
-              variant="h4"
-              fontWeight={600}
-              lineHeight={1.5}
-              key={index}
-            >
-              {score.game}
-            </Typography>
-          ))}
-    </Box>
+      {finalScore.team1 < finalScore.team2 && team === 2 && (
+        <ArrowLeftIcon
+          color="primary"
+          fontSize="large"
+          sx={{
+            position: 'absolute',
+            right: '-40px',
+          }}
+        />
+      )}
+    </>
   );
 };
 
 export const MatchItem = ({ match }: { match: Match }) => {
+  const isShowScore =
+    match.status === MatchStatus.WALK_OVER ||
+    match.status === MatchStatus.DONE ||
+    match.status === MatchStatus.SCORE_DONE;
+
   return (
     <Box
       sx={{
@@ -166,7 +158,7 @@ export const MatchItem = ({ match }: { match: Match }) => {
           variant="caption"
           color="gray"
         >
-          <strong>Date / Time:</strong> {displayDate(match.date)}, {displayTime(match.time)}
+          <strong>Date / Time:</strong> {displayDate(match.date)}, {displayTime(match.date)}
         </Typography>
 
         <Typography
@@ -194,35 +186,31 @@ export const MatchItem = ({ match }: { match: Match }) => {
           }}
         >
           <Stack direction="column">
-            <CustomPlayer
-              player={match.teams[0].user1}
-              direction="left"
-            />
+            {match.teams.team1 && (
+              <>
+                <CustomPlayer
+                  player={match.teams.team1.user1}
+                  direction="left"
+                />
 
-            {match.teams[0]?.user2 && (
-              <CustomPlayer
-                player={match.teams[0].user2}
-                direction="left"
-              />
+                {match.teams.team1?.user2 && (
+                  <CustomPlayer
+                    player={match.teams.team1.user2}
+                    direction="left"
+                  />
+                )}
+              </>
             )}
           </Stack>
 
-          <Box
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: 1,
-            }}
-          >
-            {match.teams[0].isWinner && (
-              <ArrowRightIcon
-                color="primary"
-                fontSize="large"
-              />
-            )}
-
-            {match.teams[0]?.scores && <MatchScore scores={match.teams[0].scores} />}
-          </Box>
+          {isShowScore ? (
+            <CustomScore
+              finalScore={match.finalScore}
+              team={1}
+            />
+          ) : (
+            <Box />
+          )}
         </Box>
 
         <Box
@@ -242,34 +230,30 @@ export const MatchItem = ({ match }: { match: Match }) => {
             px: 2,
           }}
         >
-          <Box
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: 1,
-            }}
-          >
-            {match.teams[1]?.scores && <MatchScore scores={match.teams[1].scores} />}
-
-            {match.teams[1].isWinner && (
-              <ArrowLeftIcon
-                color="primary"
-                fontSize="large"
-              />
-            )}
-          </Box>
+          {isShowScore ? (
+            <CustomScore
+              finalScore={match.finalScore}
+              team={1}
+            />
+          ) : (
+            <Box />
+          )}
 
           <Stack direction="column">
-            <CustomPlayer
-              player={match.teams[1].user1}
-              direction="right"
-            />
+            {match.teams.team2 && (
+              <>
+                <CustomPlayer
+                  player={match.teams.team2.user1}
+                  direction="right"
+                />
 
-            {match.teams[1]?.user2 && (
-              <CustomPlayer
-                player={match.teams[1].user2}
-                direction="right"
-              />
+                {match.teams.team2?.user2 && (
+                  <CustomPlayer
+                    player={match.teams.team2.user2}
+                    direction="right"
+                  />
+                )}
+              </>
             )}
           </Stack>
         </Box>
@@ -285,12 +269,12 @@ export const MatchItem = ({ match }: { match: Match }) => {
         }}
       >
         <Box>
-          {match.teams[0]?.user2 && (
+          {match.teams.team1?.user2 && (
             <Typography
               variant="h6"
               color="green"
             >
-              {match.teams[0].totalElo} ELO
+              {match.teams.team1.totalElo} ELO
             </Typography>
           )}
         </Box>
@@ -308,12 +292,12 @@ export const MatchItem = ({ match }: { match: Match }) => {
         </Button>
 
         <Box>
-          {match.teams[0]?.user2 && (
+          {match.teams.team2?.user2 && (
             <Typography
               variant="h6"
               color="green"
             >
-              {match.teams[1].totalElo} ELO
+              {match.teams.team2.totalElo} ELO
             </Typography>
           )}
         </Box>
@@ -355,7 +339,7 @@ export function RoundRobinFixture({ rounds }: { rounds: Round[] }) {
                 {round.title}
               </Typography>
 
-              {round.seeds.map((match, matchIndex) => (
+              {round.matches.map((match, matchIndex) => (
                 <MatchItem
                   key={matchIndex}
                   match={match}
