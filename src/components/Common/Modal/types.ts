@@ -1,4 +1,5 @@
 import { ModalKey } from 'constants/modal';
+import { ParticipantType } from 'constants/tournament';
 
 import { BaseModalProps } from './BaseModal';
 
@@ -31,6 +32,11 @@ export interface SelectPaymentMethodProps extends CommonModalProps {
   packageId: number;
 }
 
+export interface AddMatchProps extends CommonModalProps {
+  tournamentId: number;
+  participantType: ParticipantType;
+}
+
 /** External modal props: useModal */
 type FilteredModalProps<T extends CommonModalProps> = Omit<T, 'onModalClose'> & {
   onModalClose?: () => void;
@@ -46,4 +52,5 @@ interface _ModalPropsMap {
   [ModalKey.SELECT_PAYMENT_METHOD]: SelectPaymentMethodProps;
   [ModalKey.ADD_PARTICIPANTS]: AddParticipantsProps;
   [ModalKey.REGISTER_TOURNAMENT]: RegisterTournamentProps;
+  [ModalKey.ADD_MATCH]: AddMatchProps;
 }

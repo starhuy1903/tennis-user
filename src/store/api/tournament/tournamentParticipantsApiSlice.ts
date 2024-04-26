@@ -4,6 +4,7 @@ import { GetListResult, GetPagingListOptions } from 'types/base';
 import { OpenTournamentApplicant, OpenTournamentParticipant } from 'types/open-tournament-participants';
 
 import { apiWithToastSlice } from '../baseApiSlice';
+import { urlWithCorePrefix } from '../helper';
 
 const tournamentParticipantsApiToastSlice = apiWithToastSlice.injectEndpoints({
   endpoints: (build) => ({
@@ -32,7 +33,7 @@ const tournamentParticipantsApiToastSlice = apiWithToastSlice.injectEndpoints({
       GetPagingListOptions & { tournamentId: number }
     >({
       query: (args) => ({
-        url: `core/tournaments/${args.tournamentId}/participants`,
+        url: urlWithCorePrefix(`tournaments/${args.tournamentId}/participants`),
         params: {
           page: args.page,
           take: args.take,
