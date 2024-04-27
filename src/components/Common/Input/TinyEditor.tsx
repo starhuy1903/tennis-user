@@ -35,7 +35,7 @@ export default function TinyEditor({
       <Editor
         id={`${name}-editor`}
         apiKey={configs.tinyMceEditor}
-        onInit={(evt, editor) => {
+        onInit={(_, editor) => {
           editorRef.current = editor;
           setEditorMounted(true);
           editor.setContent(value);

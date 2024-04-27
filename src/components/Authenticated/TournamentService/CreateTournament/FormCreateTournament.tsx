@@ -71,7 +71,7 @@ export default function FormCreateTournament({ selectedPackage, setSelectedPacka
     defaultValues: {
       name: '',
       description: '',
-      contactPersonName: `${userInfo?.firstName} ${userInfo?.lastName}`,
+      contactPersonName: userInfo?.name,
       contactNumber: userInfo?.phoneNumber,
       contactEmail: userInfo?.email,
       startDate: new Date(new Date().getTime() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0] + 'T00:00:00', // 1 week later

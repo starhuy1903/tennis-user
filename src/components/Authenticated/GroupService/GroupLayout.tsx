@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Toolbar from '@mui/material/Toolbar';
 import { useTheme } from '@mui/material/styles';
-import { NavLink, Outlet } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
 
 import AvatarMenu from 'components/Common/Layout/AuthenticatedLayout/AvatarMenu';
 import MessageMenu from 'components/Common/Layout/AuthenticatedLayout/MessageMenu';
@@ -32,11 +32,6 @@ const GroupLayout = () => {
             <Logo sx={{ height: '100%' }} />
             <Box sx={{ flex: 1 }} />
             <Box sx={{ display: 'flex', columnGap: '5px' }}>
-              {/* <LinkButton to="feeds">Feeds</LinkButton>
-              <LinkButton to="tournaments">Tournaments</LinkButton>
-              <LinkButton to="/news">News</LinkButton>
-              <LinkButton to="/about">About</LinkButton>
-              <LinkButton to="/contact">Contact</LinkButton> */}
               <LinkButton
                 to="/groups"
                 buttonProps={{ type: 'button', variant: 'text' }}
