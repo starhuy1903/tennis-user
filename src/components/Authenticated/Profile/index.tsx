@@ -85,6 +85,7 @@ export default function Profile({ activeTab = 'feeds' }: ProfileProps) {
         >
           {ProfileTabs.map((tab) => (
             <Tab
+              key={tab.index}
               label={tab.label}
               {...a11yProps(tab.index)}
             />
@@ -93,6 +94,7 @@ export default function Profile({ activeTab = 'feeds' }: ProfileProps) {
       </Box>
       {ProfileTabs.map((tab) => (
         <TabPanel
+          key={tab.index}
           value={currentTab}
           index={tab.index}
         >

@@ -82,11 +82,12 @@ const userApiToastSlice = apiWithToastSlice.injectEndpoints({
         body,
       }),
     }),
-    getProfile: build.query<UserProfile, void>({
+    getProfile: build.query<{ userInfo: UserProfile }, void>({
       query: () => urlWithCorePrefix('users/me'),
       onQueryStarted: async (_, { dispatch, queryFulfilled }) => {
         const { data } = await queryFulfilled;
-        dispatch(setProfile(data));
+
+        dispatch(setProfile(data.userInfo));
       },
     }),
     affiliateSponsor: build.mutation<void, AffiliatedSponsorPayload>({

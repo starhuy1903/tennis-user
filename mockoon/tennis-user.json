@@ -110,6 +110,10 @@
         {
           "type": "route",
           "uuid": "c36142e0-77d5-4cf0-a2a6-9900c1a1db0f"
+        },
+        {
+          "type": "route",
+          "uuid": "ab6b7e94-e7e9-4f27-bf0d-c71019566a4a"
         }
       ]
     },
@@ -669,7 +673,7 @@
       "responses": [
         {
           "uuid": "f0d5ea8f-f88c-4e63-a437-7846dec15d2c",
-          "body": "{\n  \"userInfo\": {\n    \"id\": 1,\n    \"email\": \"huy@gmail.com\",\n    \"firstName\": \"Huy\",\n    \"lastName\": \"Nguyen\",\n    \"dob\": \"19/03/2002\",\n    \"phoneNumber\": \"0123456789\"\n  }\n}",
+          "body": "{\n  \"userInfo\": {\n    \"id\": 1,\n    \"email\": \"huy@gmail.com\",\n    \"name\": \"Huy Nguyen\",\n    \"image\": \"https://mdbcdn.b-cdn.net/img/new/avatars/2.webp\",\n    \"dob\": \"2002-03-19 00:00:00\",\n    \"phoneNumber\": \"0123456789\",\n    \"gender\": \"male\",\n    \"role\": \"user\"\n  }\n}",
           "latency": 0,
           "statusCode": 200,
           "label": "",
@@ -2026,6 +2030,35 @@
         }
       ],
       "responseMode": "SEQUENTIAL"
+    },
+    {
+      "uuid": "ab6b7e94-e7e9-4f27-bf0d-c71019566a4a",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "core/orders",
+      "responses": [
+        {
+          "uuid": "e51a74e7-db7b-4823-bbee-17220ecda3fa",
+          "body": "{\n    \"data\": [\n        {\n            \"id\": \"be143a31-ce96-4270-bdc9-7d5af7aa8d38\",\n            \"userId\": 29,\n            \"packageId\": 1,\n            \"price\": 12000000,\n            \"status\": \"completed\",\n            \"createdAt\": \"2024-04-24T13:25:01.518Z\",\n            \"updatedAt\": \"2024-04-24T13:25:18.333Z\",\n            \"package\": {\n                \"id\": 1,\n                \"name\": \"Group Management\",\n                \"price\": 12000000,\n                \"duration\": 12,\n                \"images\": [],\n                \"createdAt\": \"2024-04-16T11:17:21.057Z\",\n                \"updatedAt\": \"2024-04-16T11:17:21.057Z\",\n                \"description\": \"Manage Every Aspect Of Your Group, Sports Organization, Association & Federation.\",\n                \"features\": []\n            }\n        },\n        {\n            \"id\": \"a96a1085-4ecf-4186-8bd4-7557cf925680\",\n            \"userId\": 29,\n            \"packageId\": 2,\n            \"price\": 92000000,\n            \"status\": \"completed\",\n            \"createdAt\": \"2024-04-24T13:23:04.604Z\",\n            \"updatedAt\": \"2024-04-24T13:23:15.568Z\",\n            \"package\": {\n                \"id\": 2,\n                \"name\": \"Tournament Advanced\",\n                \"price\": 92000000,\n                \"duration\": 12,\n                \"images\": [],\n                \"createdAt\": \"2024-04-16T11:17:21.057Z\",\n                \"updatedAt\": \"2024-04-16T11:17:21.057Z\",\n                \"description\": \"Manage Participants, Generate Schedules & Score Matches While Keeping Track Of Scores & Statistics.\",\n                \"features\": []\n            }\n        },\n        {\n            \"id\": \"452136ff-7f7a-4dcb-bf5b-f5ed047b2483\",\n            \"userId\": 29,\n            \"packageId\": 1,\n            \"price\": 12000000,\n            \"status\": \"completed\",\n            \"createdAt\": \"2024-04-24T12:49:56.859Z\",\n            \"updatedAt\": \"2024-04-24T12:50:24.356Z\",\n            \"package\": {\n                \"id\": 1,\n                \"name\": \"Group Management\",\n                \"price\": 12000000,\n                \"duration\": 12,\n                \"images\": [],\n                \"createdAt\": \"2024-04-16T11:17:21.057Z\",\n                \"updatedAt\": \"2024-04-16T11:17:21.057Z\",\n                \"description\": \"Manage Every Aspect Of Your Group, Sports Organization, Association & Federation.\",\n                \"features\": []\n            }\n        }\n    ],\n    \"totalPages\": 1,\n    \"totalCount\": 3\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
     }
   ],
   "rootChildren": [
