@@ -16,7 +16,7 @@ import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { GenderOptions } from 'constants/tournament';
-import { RegistrationStatus, RegistrationStatusChip } from 'constants/tournament-participants';
+import { RegistrationStatus } from 'constants/tournament-participants';
 import {
   useApproveInvitationMutation,
   useRejectInvitationMutation,
@@ -78,14 +78,14 @@ export default function InvitationItem({ data }: { data: OpenTournamentApplicant
             />
           </Tooltip>
 
-          <Chip
+          {/* <Chip
             sx={{ width: 'fit-content' }}
             component="span"
             variant="filled"
             color={RegistrationStatusChip[data.status].chipColor}
             size="small"
             label={RegistrationStatusChip[data.status].displayText}
-          />
+          /> */}
         </Box>
       </AccordionSummary>
 

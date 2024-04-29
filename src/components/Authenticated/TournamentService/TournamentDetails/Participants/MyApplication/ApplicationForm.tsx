@@ -1,19 +1,8 @@
-import {
-  Avatar,
-  Box,
-  Button,
-  Chip,
-  Container,
-  FormControl,
-  FormLabel,
-  Stack,
-  TextField,
-  Typography,
-} from '@mui/material';
+import { Avatar, Box, Button, Container, FormControl, FormLabel, Stack, TextField, Typography } from '@mui/material';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { GenderOptions } from 'constants/tournament';
-import { RegistrationStatus, RegistrationStatusChip } from 'constants/tournament-participants';
+import { RegistrationStatus } from 'constants/tournament-participants';
 import { useDeleteApplicationMutation } from 'store/api/tournament/tournamentParticipantsApiSlice';
 import { OpenTournamentApplicant } from 'types/open-tournament-participants';
 import { formatDateTime } from 'utils/datetime';
@@ -24,7 +13,7 @@ export default function ApplicationForm({ data }: { data: OpenTournamentApplican
 
   const { tournamentId } = useParams();
 
-  const [cancelApplication, { isLoading }] = useDeleteApplicationMutation();
+  const [cancelApplication] = useDeleteApplicationMutation();
 
   const handleCancelApplication = async () => {
     try {
@@ -57,14 +46,14 @@ export default function ApplicationForm({ data }: { data: OpenTournamentApplican
           My Application
         </Typography>
 
-        <Chip
+        {/* <Chip
           sx={{ width: 'fit-content' }}
           component="span"
           variant="filled"
           color={RegistrationStatusChip[data.status].chipColor}
           size="medium"
           label={RegistrationStatusChip[data.status].displayText}
-        />
+        /> */}
       </Box>
 
       <Box

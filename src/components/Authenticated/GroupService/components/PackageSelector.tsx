@@ -11,7 +11,7 @@ import Grid from '@mui/material/Unstable_Grid2';
 import { useState } from 'react';
 
 import CustomLink from 'components/Common/CustomLink';
-import { BoughtPackage } from 'types/purchasedPackage';
+import { UserPackage } from 'types/package';
 import { ScrollbarStyle } from 'utils/style';
 
 import Package from './Package';
@@ -19,12 +19,12 @@ import Package from './Package';
 interface PackageSelectorProps {
   selected: string | null;
   handleSelect: () => void;
-  packages: Array<BoughtPackage>;
+  packages: Array<UserPackage>;
 }
 
-const PackageSelector = ({ selected, handleSelect, packages }: PackageSelectorProps) => {
+const PackageSelector = ({ selected, packages }: PackageSelectorProps) => {
   const [open, setOpen] = useState<boolean>(false);
-  const [selectedItem, setSelectedItem] = useState<string | null>(selected);
+  const [selectedItem, setSelectedItem] = useState(selected);
 
   return (
     <>
@@ -33,7 +33,7 @@ const PackageSelector = ({ selected, handleSelect, packages }: PackageSelectorPr
         <Package
           selected={true}
           handleSelect={() => {}}
-          data={packages.find((e) => selectedItem === e.id)!}
+          data={packages.find((e) => selectedItem === String(e.id))!}
         />
         <Button
           variant="outlined"
@@ -69,8 +69,8 @@ const PackageSelector = ({ selected, handleSelect, packages }: PackageSelectorPr
                 xl={4}
               >
                 <Package
-                  selected={selectedItem === e.id}
-                  handleSelect={() => setSelectedItem(e.id)}
+                  selected={selectedItem === String(e.id)}
+                  handleSelect={() => setSelectedItem(String(e.id))}
                   data={e}
                 />
               </Grid>
@@ -78,20 +78,6 @@ const PackageSelector = ({ selected, handleSelect, packages }: PackageSelectorPr
           </Grid>
         </DialogContent>
         <DialogActions sx={{ display: 'flex', justifyContent: 'center', columnGap: '10px' }}>
-          {/* <Button
-            variant="outlined"
-            color="error"
-            onClick={() => setOpen(false)}
-          >
-            Cancel
-          </Button>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() => setOpen(false)}
-          >
-            Cancel
-          </Button> */}
           <Button
             variant="outlined"
             onClick={() => setOpen(false)}

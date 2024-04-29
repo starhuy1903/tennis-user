@@ -1,14 +1,15 @@
 import { Package, UserPackage } from 'types/package';
 
 import { apiWithToastSlice } from './baseApiSlice';
+import { urlWithCorePrefix } from './helper';
 
 const packageApiToastSlice = apiWithToastSlice.injectEndpoints({
   endpoints: (build) => ({
     getPackages: build.query<Package[], void>({
-      query: () => `core/packages`,
+      query: () => urlWithCorePrefix('packages'),
     }),
     getMyPackages: build.query<UserPackage[], void>({
-      query: () => `core/my-packages`,
+      query: () => urlWithCorePrefix('my-packages'),
     }),
     // TODO: need to check
     getPurchasedPackages: build.query<UserPackage[], void>({

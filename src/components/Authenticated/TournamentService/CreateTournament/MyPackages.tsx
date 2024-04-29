@@ -1,16 +1,15 @@
 import { Box, Grid } from '@mui/material';
 
-import { ServiceType } from 'types/package';
+import { UserPackage } from 'types/package';
 
 import Pack from './Pack';
 
 interface MyPackagesProps {
-  packageData: any[];
+  packageData: UserPackage[];
   onChooseMyPackage: (id: number) => void;
-  type?: ServiceType;
 }
 
-export default function MyPackages({ packageData, onChooseMyPackage, type }: MyPackagesProps) {
+export default function MyPackages({ packageData, onChooseMyPackage }: MyPackagesProps) {
   return (
     <Box sx={{ padding: '20px' }}>
       <Grid

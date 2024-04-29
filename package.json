@@ -8,6 +8,7 @@
     "dev": "vite --mode dev",
     "prod": "vite --mode prod",
     "build": "tsc && vite build",
+    "build:prod": "tsc && vite build --mode prod",
     "lint": "eslint . --ext ts,tsx",
     "lint:fix": "eslint . --fix --ext ts,tsx",
     "preview": "vite preview"

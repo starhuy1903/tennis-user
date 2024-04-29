@@ -1,21 +1,21 @@
 import { Box, Button, Typography } from '@mui/material';
-import { Link, useNavigate } from 'react-router-dom';
-import { useAppSelector } from 'store';
+import { Link } from 'react-router-dom';
 
+// import { useAppSelector } from 'store';
 import News from './News';
 import Services from './Services';
 
 export default function Home() {
-  const navigate = useNavigate();
-  const { isLoggedIn } = useAppSelector((state) => state.user);
+  // const navigate = useNavigate();
+  // const { isLoggedIn } = useAppSelector((state) => state.user);
 
-  const handleGoToAffiliateSponsor = () => {
-    if (isLoggedIn) {
-      navigate('/affiliate-sponsor');
-    } else {
-      navigate('/login');
-    }
-  };
+  // const handleGoToAffiliateSponsor = () => {
+  //   if (isLoggedIn) {
+  //     navigate('/affiliate-sponsor');
+  //   } else {
+  //     navigate('/login');
+  //   }
+  // };
 
   return (
     <Box
