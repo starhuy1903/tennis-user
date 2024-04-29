@@ -21,6 +21,7 @@ import { a11yProps } from 'utils/ui';
 
 import AccountSettings from './components/AccountSettings';
 import PacksSection from './components/PacksSection';
+import PaymentSection from './components/PaymentSection';
 import ProfileSection from './components/ProfileSection';
 
 type ProfileTabName = 'feeds' | 'packages' | 'payments' | 'settings';
@@ -46,7 +47,7 @@ const ProfileTabs: Array<{
   {
     index: 2,
     label: 'Payments',
-    component: <Typography>Payments</Typography>,
+    component: <PaymentSection />,
     tabName: 'payments',
   },
   {
