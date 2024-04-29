@@ -1,4 +1,15 @@
-import { Avatar, Box, Button, Container, FormControl, FormLabel, Stack, TextField, Typography } from '@mui/material';
+import {
+  Avatar,
+  Box,
+  Button,
+  Chip,
+  Container,
+  FormControl,
+  FormLabel,
+  Stack,
+  TextField,
+  Typography,
+} from '@mui/material';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { GenderOptions } from 'constants/tournament';
@@ -13,7 +24,7 @@ export default function ApplicationForm({ data }: { data: OpenTournamentApplican
 
   const { tournamentId } = useParams();
 
-  const [cancelApplication] = useDeleteApplicationMutation();
+  const [cancelApplication, { isLoading }] = useDeleteApplicationMutation();
 
   const handleCancelApplication = async () => {
     try {
