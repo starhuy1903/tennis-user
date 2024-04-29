@@ -113,6 +113,10 @@
         },
         {
           "type": "route",
+          "uuid": "5d763eab-9366-42c9-a242-493aed3d623d"
+        },
+        {
+          "type": "route",
           "uuid": "c36142e0-77d5-4cf0-a2a6-9900c1a1db0f"
         }
       ]
@@ -2040,7 +2044,71 @@
       "responses": [
         {
           "uuid": "e51a74e7-db7b-4823-bbee-17220ecda3fa",
-          "body": "{\n  \"data\": [\n    {\n      \"id\": \"be143a31-ce96-4270-bdc9-7d5af7aa8d38\",\n      \"userId\": 29,\n      \"packageId\": 1,\n      \"price\": 12000000,\n      \"status\": \"new\",\n      \"createdAt\": \"2024-04-24T13:25:01.518Z\",\n      \"updatedAt\": \"2024-04-24T13:25:18.333Z\",\n      \"package\": {\n        \"id\": 1,\n        \"name\": \"Group Management\",\n        \"price\": 12000000,\n        \"duration\": 12,\n        \"images\": [],\n        \"createdAt\": \"2024-04-16T11:17:21.057Z\",\n        \"updatedAt\": \"2024-04-16T11:17:21.057Z\",\n        \"description\": \"Manage Every Aspect Of Your Group, Sports Organization, Association & Federation.\",\n        \"features\": []\n      }\n    },\n    {\n      \"id\": \"a96a1085-4ecf-4186-8bd4-7557cf925680\",\n      \"userId\": 29,\n      \"packageId\": 2,\n      \"price\": 92000000,\n      \"status\": \"completed\",\n      \"createdAt\": \"2024-04-24T13:23:04.604Z\",\n      \"updatedAt\": \"2024-04-24T13:23:15.568Z\",\n      \"package\": {\n        \"id\": 2,\n        \"name\": \"Tournament Advanced\",\n        \"price\": 92000000,\n        \"duration\": 12,\n        \"images\": [],\n        \"createdAt\": \"2024-04-16T11:17:21.057Z\",\n        \"updatedAt\": \"2024-04-16T11:17:21.057Z\",\n        \"description\": \"Manage Participants, Generate Schedules & Score Matches While Keeping Track Of Scores & Statistics.\",\n        \"features\": []\n      }\n    },\n    {\n      \"id\": \"452136ff-7f7a-4dcb-bf5b-f5ed047b2483\",\n      \"userId\": 29,\n      \"packageId\": 1,\n      \"price\": 12000000,\n      \"status\": \"canceled\",\n      \"createdAt\": \"2024-04-24T12:49:56.859Z\",\n      \"updatedAt\": \"2024-04-24T12:50:24.356Z\",\n      \"package\": {\n        \"id\": 1,\n        \"name\": \"Group Management\",\n        \"price\": 12000000,\n        \"duration\": 12,\n        \"images\": [],\n        \"createdAt\": \"2024-04-16T11:17:21.057Z\",\n        \"updatedAt\": \"2024-04-16T11:17:21.057Z\",\n        \"description\": \"Manage Every Aspect Of Your Group, Sports Organization, Association & Federation.\",\n        \"features\": []\n      }\n    },\n    {\n      \"id\": \"be143a31-ce96-4270-bdc9-7d5af7aa8d38\",\n      \"userId\": 29,\n      \"packageId\": 1,\n      \"price\": 12000000,\n      \"status\": \"new\",\n      \"createdAt\": \"2024-04-24T13:25:01.518Z\",\n      \"updatedAt\": \"2024-04-24T13:25:18.333Z\",\n      \"package\": {\n        \"id\": 1,\n        \"name\": \"Group Management\",\n        \"price\": 12000000,\n        \"duration\": 12,\n        \"images\": [],\n        \"createdAt\": \"2024-04-16T11:17:21.057Z\",\n        \"updatedAt\": \"2024-04-16T11:17:21.057Z\",\n        \"description\": \"Manage Every Aspect Of Your Group, Sports Organization, Association & Federation.\",\n        \"features\": []\n      }\n    },\n    {\n      \"id\": \"a96a1085-4ecf-4186-8bd4-7557cf925680\",\n      \"userId\": 29,\n      \"packageId\": 2,\n      \"price\": 92000000,\n      \"status\": \"completed\",\n      \"createdAt\": \"2024-04-24T13:23:04.604Z\",\n      \"updatedAt\": \"2024-04-24T13:23:15.568Z\",\n      \"package\": {\n        \"id\": 2,\n        \"name\": \"Tournament Advanced\",\n        \"price\": 92000000,\n        \"duration\": 12,\n        \"images\": [],\n        \"createdAt\": \"2024-04-16T11:17:21.057Z\",\n        \"updatedAt\": \"2024-04-16T11:17:21.057Z\",\n        \"description\": \"Manage Participants, Generate Schedules & Score Matches While Keeping Track Of Scores & Statistics.\",\n        \"features\": []\n      }\n    },\n    {\n      \"id\": \"452136ff-7f7a-4dcb-bf5b-f5ed047b2483\",\n      \"userId\": 29,\n      \"packageId\": 1,\n      \"price\": 12000000,\n      \"status\": \"canceled\",\n      \"createdAt\": \"2024-04-24T12:49:56.859Z\",\n      \"updatedAt\": \"2024-04-24T12:50:24.356Z\",\n      \"package\": {\n        \"id\": 1,\n        \"name\": \"Group Management\",\n        \"price\": 12000000,\n        \"duration\": 12,\n        \"images\": [],\n        \"createdAt\": \"2024-04-16T11:17:21.057Z\",\n        \"updatedAt\": \"2024-04-16T11:17:21.057Z\",\n        \"description\": \"Manage Every Aspect Of Your Group, Sports Organization, Association & Federation.\",\n        \"features\": []\n      }\n    },\n    {\n      \"id\": \"452136ff-7f7a-4dcb-bf5b-f5ed047b2483\",\n      \"userId\": 29,\n      \"packageId\": 1,\n      \"price\": 12000000,\n      \"status\": \"canceled\",\n      \"createdAt\": \"2024-04-24T12:49:56.859Z\",\n      \"updatedAt\": \"2024-04-24T12:50:24.356Z\",\n      \"package\": {\n        \"id\": 1,\n        \"name\": \"Group Management\",\n        \"price\": 12000000,\n        \"duration\": 12,\n        \"images\": [],\n        \"createdAt\": \"2024-04-16T11:17:21.057Z\",\n        \"updatedAt\": \"2024-04-16T11:17:21.057Z\",\n        \"description\": \"Manage Every Aspect Of Your Group, Sports Organization, Association & Federation.\",\n        \"features\": []\n      }\n    }\n  ],\n  \"totalPages\": 2,\n  \"totalCount\": 10\n}",
+          "body": "{\n  \"data\": [\n    {\n      \"id\": \"be143a31-ce96-4270-bdc9-7d5af7aa8d38\",\n      \"userId\": 29,\n      \"packageId\": 1,\n      \"price\": 12000000,\n      \"status\": \"completed\",\n      \"createdAt\": \"2024-04-24T13:25:01.518Z\",\n      \"updatedAt\": \"2024-04-24T13:25:18.333Z\",\n      \"package\": {\n        \"id\": 1,\n        \"name\": \"Group Management\",\n        \"price\": 12000000,\n        \"duration\": 12,\n        \"images\": [],\n        \"createdAt\": \"2024-04-16T11:17:21.057Z\",\n        \"updatedAt\": \"2024-04-16T11:17:21.057Z\",\n        \"description\": \"Manage Every Aspect Of Your Group, Sports Organization, Association & Federation.\",\n        \"features\": []\n      }\n    },\n    {\n      \"id\": \"a96a1085-4ecf-4186-8bd4-7557cf925680\",\n      \"userId\": 29,\n      \"packageId\": 2,\n      \"price\": 92000000,\n      \"status\": \"completed\",\n      \"createdAt\": \"2024-04-24T13:23:04.604Z\",\n      \"updatedAt\": \"2024-04-24T13:23:15.568Z\",\n      \"package\": {\n        \"id\": 2,\n        \"name\": \"Tournament Advanced\",\n        \"price\": 92000000,\n        \"duration\": 12,\n        \"images\": [],\n        \"createdAt\": \"2024-04-16T11:17:21.057Z\",\n        \"updatedAt\": \"2024-04-16T11:17:21.057Z\",\n        \"description\": \"Manage Participants, Generate Schedules & Score Matches While Keeping Track Of Scores & Statistics.\",\n        \"features\": []\n      }\n    },\n    {\n      \"id\": \"452136ff-7f7a-4dcb-bf5b-f5ed047b2412\",\n      \"userId\": 29,\n      \"packageId\": 1,\n      \"price\": 12000000,\n      \"status\": \"completed\",\n      \"createdAt\": \"2024-04-24T12:49:56.859Z\",\n      \"updatedAt\": \"2024-04-24T12:50:24.356Z\",\n      \"package\": {\n        \"id\": 1,\n        \"name\": \"Group Management\",\n        \"price\": 12000000,\n        \"duration\": 12,\n        \"images\": [],\n        \"createdAt\": \"2024-04-16T11:17:21.057Z\",\n        \"updatedAt\": \"2024-04-16T11:17:21.057Z\",\n        \"description\": \"Manage Every Aspect Of Your Group, Sports Organization, Association & Federation.\",\n        \"features\": []\n      }\n    },\n    {\n      \"id\": \"be143a31-ce96-4270-bdc9-7d5af7aa8d36\",\n      \"userId\": 29,\n      \"packageId\": 1,\n      \"price\": 12000000,\n      \"status\": \"completed\",\n      \"createdAt\": \"2024-04-24T13:25:01.518Z\",\n      \"updatedAt\": \"2024-04-24T13:25:18.333Z\",\n      \"package\": {\n        \"id\": 1,\n        \"name\": \"Group Management\",\n        \"price\": 12000000,\n        \"duration\": 12,\n        \"images\": [],\n        \"createdAt\": \"2024-04-16T11:17:21.057Z\",\n        \"updatedAt\": \"2024-04-16T11:17:21.057Z\",\n        \"description\": \"Manage Every Aspect Of Your Group, Sports Organization, Association & Federation.\",\n        \"features\": []\n      }\n    },\n    {\n      \"id\": \"a96a1085-4ecf-4186-8bd4-7557cf925689\",\n      \"userId\": 29,\n      \"packageId\": 2,\n      \"price\": 92000000,\n      \"status\": \"completed\",\n      \"createdAt\": \"2024-04-24T13:23:04.604Z\",\n      \"updatedAt\": \"2024-04-24T13:23:15.568Z\",\n      \"package\": {\n        \"id\": 2,\n        \"name\": \"Tournament Advanced\",\n        \"price\": 92000000,\n        \"duration\": 12,\n        \"images\": [],\n        \"createdAt\": \"2024-04-16T11:17:21.057Z\",\n        \"updatedAt\": \"2024-04-16T11:17:21.057Z\",\n        \"description\": \"Manage Participants, Generate Schedules & Score Matches While Keeping Track Of Scores & Statistics.\",\n        \"features\": []\n      }\n    }\n  ],\n  \"totalPages\": 2,\n  \"totalCount\": 10\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "query",
+              "modifier": "status",
+              "value": "completed",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "15161060-c38d-4a23-bf04-5d4411878eb6",
+          "body": "{\n  \"data\": [\n    {\n      \"id\": \"be143a31-ce96-4270-bdc9-7d5af7aa8d38\",\n      \"userId\": 29,\n      \"packageId\": 1,\n      \"price\": 12000000,\n      \"status\": \"cancelled\",\n      \"createdAt\": \"2024-04-24T13:25:01.518Z\",\n      \"updatedAt\": \"2024-04-24T13:25:18.333Z\",\n      \"package\": {\n        \"id\": 1,\n        \"name\": \"Group Management\",\n        \"price\": 12000000,\n        \"duration\": 12,\n        \"images\": [],\n        \"createdAt\": \"2024-04-16T11:17:21.057Z\",\n        \"updatedAt\": \"2024-04-16T11:17:21.057Z\",\n        \"description\": \"Manage Every Aspect Of Your Group, Sports Organization, Association & Federation.\",\n        \"features\": []\n      }\n    },\n    {\n      \"id\": \"a96a1085-4ecf-4186-8bd4-7557cf925680\",\n      \"userId\": 29,\n      \"packageId\": 2,\n      \"price\": 92000000,\n      \"status\": \"cancelled\",\n      \"createdAt\": \"2024-04-24T13:23:04.604Z\",\n      \"updatedAt\": \"2024-04-24T13:23:15.568Z\",\n      \"package\": {\n        \"id\": 2,\n        \"name\": \"Tournament Advanced\",\n        \"price\": 92000000,\n        \"duration\": 12,\n        \"images\": [],\n        \"createdAt\": \"2024-04-16T11:17:21.057Z\",\n        \"updatedAt\": \"2024-04-16T11:17:21.057Z\",\n        \"description\": \"Manage Participants, Generate Schedules & Score Matches While Keeping Track Of Scores & Statistics.\",\n        \"features\": []\n      }\n    },\n    {\n      \"id\": \"452136ff-7f7a-4dcb-bf5b-f5ed047b2412\",\n      \"userId\": 29,\n      \"packageId\": 1,\n      \"price\": 12000000,\n      \"status\": \"cancelled\",\n      \"createdAt\": \"2024-04-24T12:49:56.859Z\",\n      \"updatedAt\": \"2024-04-24T12:50:24.356Z\",\n      \"package\": {\n        \"id\": 1,\n        \"name\": \"Group Management\",\n        \"price\": 12000000,\n        \"duration\": 12,\n        \"images\": [],\n        \"createdAt\": \"2024-04-16T11:17:21.057Z\",\n        \"updatedAt\": \"2024-04-16T11:17:21.057Z\",\n        \"description\": \"Manage Every Aspect Of Your Group, Sports Organization, Association & Federation.\",\n        \"features\": []\n      }\n    }\n  ],\n  \"totalPages\": 1,\n  \"totalCount\": 3\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "query",
+              "modifier": "status",
+              "value": "cancelled",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "5d763eab-9366-42c9-a242-493aed3d623d",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "core/orders/*",
+      "responses": [
+        {
+          "uuid": "130dce38-9277-49e9-84ba-0053fd7c06b2",
+          "body": "{\n  \"id\": \"be143a31-ce96-4270-bdc9-7d5af7aa8d38\",\n  \"userId\": 29,\n  \"packageId\": 1,\n  \"price\": 12000000,\n  \"status\": \"completed\",\n  \"createdAt\": \"2024-04-24T13:25:01.518Z\",\n  \"updatedAt\": \"2024-04-24T13:25:18.333Z\",\n  \"package\": {\n    \"id\": 1,\n    \"name\": \"Group Management\",\n    \"price\": 12000000,\n    \"duration\": 12,\n    \"images\": [],\n    \"createdAt\": \"2024-04-16T11:17:21.057Z\",\n    \"updatedAt\": \"2024-04-16T11:17:21.057Z\",\n    \"description\": \"Manage Every Aspect Of Your Group, Sports Organization, Association & Federation.\",\n    \"features\": []\n  },\n  \"user\": {\n    \"id\": 29,\n    \"email\": \"tri1@gmail.com\",\n    \"image\": null,\n    \"name\": \"Tri Do\",\n    \"role\": \"user\",\n    \"phoneNumber\": \"0123123123\"\n  },\n  \"paymentMethod\": \"VNPAY\"\n}",
           "latency": 0,
           "statusCode": 200,
           "label": "",

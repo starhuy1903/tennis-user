@@ -31,6 +31,11 @@ export interface SelectPaymentMethodProps extends CommonModalProps {
   packageId: number;
 }
 
+export interface ShowOrderDetailProps extends CommonModalProps {
+  orderId: string;
+  onNavigate: () => void;
+}
+
 /** External modal props: useModal */
 // type FilteredModalProps<T extends CommonModalProps> = Omit<T, 'onModalClose'> & {
 //   onModalClose?: () => void;

@@ -18,6 +18,8 @@ export type FinalScore = {
 export type User = {
   id: number;
   name: string;
+  email: string;
+  phoneNumber: string;
   image: string;
   elo: number;
 };

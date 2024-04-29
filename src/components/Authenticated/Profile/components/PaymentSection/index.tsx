@@ -1,7 +1,10 @@
 import {
   Box,
+  MenuItem,
   Pagination,
   Paper,
+  Select,
+  Stack,
   Table,
   TableBody,
   TableCell,
@@ -10,12 +13,16 @@ import {
   TableRow,
   Typography,
 } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAppDispatch } from 'store';
 
 import CenterLoading from 'components/Common/CenterLoading';
 import NoData from 'components/Common/NoData';
+import { ModalKey } from 'constants/modal';
 import { OrderStatus, OrderStatusOptions } from 'constants/order';
 import { useGetOrdersQuery } from 'store/api/order/orderApiSlice';
+import { showModal } from 'store/slice/modalSlice';
 import { formatDateTime } from 'utils/datetime';
 import { displayCurrency } from 'utils/string';
 
@@ -51,11 +58,11 @@ const OrderStatusBadge = ({ status }: { status: OrderStatus }) => {
           text={OrderStatusOptions[OrderStatus.COMPLETED]}
         />
       );
-    case OrderStatus.CANCELED:
+    case OrderStatus.CANCELLED:
       return (
         <Badge
           color="#F7418F"
-          text={OrderStatusOptions[OrderStatus.CANCELED]}
+          text={OrderStatusOptions[OrderStatus.CANCELLED]}
         />
       );
     default:
@@ -63,12 +70,21 @@ const OrderStatusBadge = ({ status }: { status: OrderStatus }) => {
   }
 };
 export default function PaymentSection() {
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
+  const [status, setStatus] = useState<OrderStatus>(OrderStatus.COMPLETED);
   const [page, setPage] = useState<number>(1);
 
-  const { data, isLoading } = useGetOrdersQuery({
+  const { data, isLoading, refetch } = useGetOrdersQuery({
     page,
     take: 7,
+    status,
   });
+
+  useEffect(() => {
+    refetch();
+  }, [page, refetch]);
 
   if (isLoading) {
     return <CenterLoading />;
@@ -84,10 +100,30 @@ export default function PaymentSection() {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        gap: 4,
-        mt: 2,
+        gap: 2,
       }}
     >
+      <Stack
+        direction="row"
+        justifyContent="flex-end"
+        sx={{
+          width: '100%',
+        }}
+      >
+        <Select
+          value={status}
+          onChange={(event) => setStatus(event.target.value as OrderStatus)}
+          sx={{
+            mb: 2,
+            mr: 2,
+            width: '10%',
+          }}
+        >
+          <MenuItem value={OrderStatus?.COMPLETED}>{OrderStatusOptions[OrderStatus?.COMPLETED]}</MenuItem>
+          <MenuItem value={OrderStatus?.CANCELLED}>{OrderStatusOptions[OrderStatus?.CANCELLED]}</MenuItem>
+        </Select>
+      </Stack>
+
       <TableContainer component={Paper}>
         <Table
           sx={{ minWidth: 650 }}
@@ -110,7 +146,12 @@ export default function PaymentSection() {
               <TableRow
                 key={order.id}
                 onClick={() => {
-                  console.log('Clicked on order', order.id);
+                  dispatch(
+                    showModal(ModalKey.SHOW_ORDER_DETAIL, {
+                      orderId: order.id,
+                      onNavigate: () => navigate(`/pricing`),
+                    })
+                  );
                 }}
                 sx={{ cursor: 'pointer' }}
               >
@@ -131,6 +172,9 @@ export default function PaymentSection() {
         count={data?.totalPages}
         page={page}
         onChange={(event, value) => setPage(value)}
+        sx={{
+          mt: 2,
+        }}
       />
     </Box>
   );

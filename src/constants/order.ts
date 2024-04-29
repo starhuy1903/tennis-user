@@ -1,16 +1,21 @@
 export enum OrderStatus {
   NEW = 'new',
   COMPLETED = 'completed',
-  CANCELED = 'canceled',
+  CANCELLED = 'cancelled',
 }
 
 export const OrderStatusOptions = {
   [OrderStatus.NEW]: 'New',
   [OrderStatus.COMPLETED]: 'Completed',
-  [OrderStatus.CANCELED]: 'Canceled',
+  [OrderStatus.CANCELLED]: 'Cancelled',
 };
 
 export enum PaymentPartner {
   VNPAY = 'VNPAY',
   ZALOPAY = 'ZALOPAY',
 }
+
+export const PaymentPartnerOptions = {
+  [PaymentPartner.VNPAY]: 'VNPAY',
+  [PaymentPartner.ZALOPAY]: 'ZaloPay',
+};

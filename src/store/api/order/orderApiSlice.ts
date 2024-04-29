@@ -1,5 +1,7 @@
+import { OrderStatus, PaymentPartner } from 'constants/order';
 import { GetListResult, GetPagingListOptions } from 'types/base';
 import { CreateOrderPayload, CreateOrderResponse, Order } from 'types/order';
+import { User } from 'types/tournament-fixtures';
 
 import { apiWithToastSlice } from '../baseApiSlice';
 
@@ -12,10 +14,31 @@ const orderApiToastSlice = apiWithToastSlice.injectEndpoints({
         body,
       }),
     }),
-    getOrders: build.query<GetListResult<Order>, GetPagingListOptions>({
-      query: () => 'core/orders',
+    getOrders: build.query<
+      GetListResult<Order>,
+      GetPagingListOptions & {
+        status?: OrderStatus;
+      }
+    >({
+      query: ({ page, take, status }) => ({
+        url: 'core/orders',
+        params: {
+          page,
+          take,
+          status,
+        },
+      }),
+    }),
+    getOrderDetail: build.query<Order & { user: User; paymentMethod: PaymentPartner }, string>({
+      query: (orderId) => `core/orders/${orderId}`,
     }),
   }),
 });
 
-export const { useCreateOrderMutation, useGetOrdersQuery, useLazyGetOrdersQuery } = orderApiToastSlice;
+export const {
+  useCreateOrderMutation,
+  useGetOrdersQuery,
+  useLazyGetOrdersQuery,
+  useGetOrderDetailQuery,
+  useLazyGetOrderDetailQuery,
+} = orderApiToastSlice;
