@@ -1,10 +1,6 @@
 import { UserProfile } from 'types/user';
 
-export type UserActions = {
-  canCreateTournament: boolean;
-};
-
-export type UserSliceType = UserProfile & {
+export type UserSliceType = {
+  userInfo: UserProfile | null;
   isLoggedIn: boolean;
-  actions: UserActions;
 };

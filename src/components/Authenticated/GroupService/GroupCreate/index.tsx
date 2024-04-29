@@ -30,8 +30,8 @@ interface FormData {
   description?: string;
   language: string;
   activityZone: string;
-  purchasedPackageId: string;
-  image: any | null;
+  purchasedPackageId: number;
+  image: any;
 }
 
 const schema = yup.object({
@@ -39,7 +39,7 @@ const schema = yup.object({
   description: yup.string().optional(),
   language: yup.string().required("Group's language is required"),
   activityZone: yup.string().required('Please tell people where your group is active'),
-  purchasedPackageId: yup.string().required(),
+  purchasedPackageId: yup.number().required(),
   image: yup.mixed().required().nullable(),
 });
 
@@ -69,7 +69,7 @@ const GroupCreate = () => {
         description: '',
         language: LANGUAGES[0].value,
         activityZone: '',
-        purchasedPackageId: _purchasedPackages.length > 0 ? _purchasedPackages[0].id : '',
+        purchasedPackageId: _purchasedPackages.length > 0 ? _purchasedPackages[0].id : 0,
         image: null,
       };
     },
@@ -124,7 +124,7 @@ const GroupCreate = () => {
               {purchasedPackages && purchasedPackages?.length > 0 ? (
                 <Box sx={{ width: '50%', padding: '15px' }}>
                   <PackageSelector
-                    selected={getValues('purchasedPackageId')}
+                    selected={String(getValues('purchasedPackageId'))}
                     handleSelect={() => {}}
                     packages={purchasedPackages}
                   />

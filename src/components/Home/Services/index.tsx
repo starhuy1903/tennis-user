@@ -1,4 +1,4 @@
-import { Box, Button, Card, CardActionArea, CardContent, Grid, Typography } from '@mui/material';
+import { Box, Grid } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useAppSelector } from 'store';
 

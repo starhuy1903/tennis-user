@@ -1,5 +1,6 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { ModalPropsMap } from 'components/Common/Modal/types';
+
+// import { ModalPropsMap } from 'components/Common/Modal/types';
 import { ModalKey } from 'constants/modal';
 
 interface InitialState {
@@ -12,9 +13,9 @@ type ModalPayload = {
   [key: string]: any;
 };
 
-type ModalProps<T extends ModalKey> = {
-  onModalClose?: ((...args: any[]) => void) | null;
-} & ModalPropsMap[T];
+// type ModalProps<T extends ModalKey> = {
+//   onModalClose?: ((...args: any[]) => void) | null;
+// } & ModalPropsMap[T];
 
 const initialState: InitialState = {
   modalKey: null,
@@ -26,7 +27,7 @@ export const modalSlice = createSlice({
   initialState,
   reducers: {
     showModal: {
-      prepare: <T extends ModalKey>(modalKey: T | null, modalProps?: ModalProps<T>) => ({
+      prepare: <T extends ModalKey>(modalKey: T | null, modalProps?: any) => ({
         payload: { modalKey, ...modalProps },
       }),
       reducer: (_, action: PayloadAction<ModalPayload>) => ({
@@ -35,8 +36,8 @@ export const modalSlice = createSlice({
       }),
     },
     hideModal: (state, action: PayloadAction<any>) => {
-      if (action.payload === state.displayModal) {
-        state.displayModal = null;
+      if (action.payload === state.modalKey) {
+        state.modalKey = null;
       }
     },
   },

@@ -23,10 +23,10 @@ const centerAspectCrop = (mediaWidth: number, mediaHeight: number, aspect: numbe
       },
       aspect,
       mediaWidth,
-      mediaHeight,
+      mediaHeight
     ),
     mediaWidth,
-    mediaHeight,
+    mediaHeight
   );
 };
 
@@ -44,7 +44,7 @@ export default function CropImage({ image, aspect, onSubmit, onModalClose }: Cro
   const imgRef = useRef<HTMLImageElement>(null);
   const [crop, setCrop] = useState<Crop>();
   const [completedCrop, setCompletedCrop] = useState<PixelCrop>();
-  const [rotate, setRotate] = useState(0);
+  const [rotate] = useState(0);
 
   const onImageLoad = (e: React.SyntheticEvent<HTMLImageElement>) => {
     if (aspect) {
@@ -82,7 +82,7 @@ export default function CropImage({ image, aspect, onSubmit, onModalClose }: Cro
       0,
       0,
       offscreen.width,
-      offscreen.height,
+      offscreen.height
     );
     // You might want { type: "image/jpeg", quality: <0 to 1> } to
     // reduce image size
@@ -114,7 +114,7 @@ export default function CropImage({ image, aspect, onSubmit, onModalClose }: Cro
       }
     },
     100,
-    [completedCrop, rotate],
+    [completedCrop, rotate]
   );
 
   const body = (
