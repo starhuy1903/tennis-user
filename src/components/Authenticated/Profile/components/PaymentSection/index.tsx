@@ -171,7 +171,7 @@ export default function PaymentSection() {
       <Pagination
         count={data?.totalPages}
         page={page}
-        onChange={(event, value) => setPage(value)}
+        onChange={(_, value) => setPage(value)}
         sx={{
           mt: 2,
         }}
