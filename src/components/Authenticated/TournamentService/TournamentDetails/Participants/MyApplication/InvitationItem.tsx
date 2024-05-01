@@ -2,7 +2,7 @@ import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { Chip } from '@mui/material';
+// import { Chip } from '@mui/material';
 import Accordion from '@mui/material/Accordion';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
@@ -16,7 +16,7 @@ import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { GenderOptions } from 'constants/tournament';
-import { RegistrationStatus, RegistrationStatusChip } from 'constants/tournament-participants';
+import { RegistrationStatus } from 'constants/tournament-participants';
 import {
   useApproveInvitationMutation,
   useRejectInvitationMutation,
@@ -69,14 +69,14 @@ export default function InvitationItem({ data }: { data: OpenTournamentApplicant
 
           <Typography variant="h2">{data.user1.name}</Typography>
 
-          <Chip
+          {/* <Chip
             sx={{ width: 'fit-content' }}
             component="span"
             variant="filled"
             color={RegistrationStatusChip[data.status].chipColor}
             size="small"
             label={RegistrationStatusChip[data.status].displayText}
-          />
+          /> */}
         </Box>
       </AccordionSummary>
 

@@ -1,4 +1,4 @@
-import { FormControl, FormHelperText, FormLabel, MenuItem, Select, Stack, TextField } from '@mui/material';
+import { FormControl, FormHelperText, FormLabel, Stack, TextField } from '@mui/material';
 import { DatePicker, LocalizationProvider, TimePicker } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
@@ -23,7 +23,7 @@ interface FormType {
   team2: OpenTournamentParticipant;
 }
 
-export default function AddMatch({ tournamentId, participantType, onModalClose }: AddMatchProps) {
+export default function AddMatch({ tournamentId, onModalClose }: AddMatchProps) {
   const [createMatchRequest, { isLoading: isAddMatchLoading }] = useCreateMatchMutation();
   const { data: participantData, isLoading: fetchingParticipants } = useGetOpenTournamentParticipantsQuery({
     tournamentId,

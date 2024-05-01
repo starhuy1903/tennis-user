@@ -45,3 +45,7 @@ export const toastApiError = (data: unknown) => {
 export const urlWithCorePrefix = (url: string) => {
   return `core/${url}`;
 };
+
+export const urlWithAuthPrefix = (url: string) => {
+  return `auth/${url}`;
+};

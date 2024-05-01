@@ -1,32 +1,32 @@
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
-import { Box, Chip, Paper, Stack, Tab, Typography } from '@mui/material';
+import { Box, Paper, Stack, Tab, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { Outlet, useNavigate, useParams } from 'react-router-dom';
 import { useAppDispatch } from 'store';
 
 import CenterLoading from 'components/Common/CenterLoading';
-import { TournamentStatus } from 'constants/tournament';
+// import { TournamentStatus } from 'constants/tournament';
 import { useLazyGetOpenTournamentDetailsQuery } from 'store/api/tournament/tournamentApiSlice';
 import { setTournamentDetails } from 'store/slice/tournamentSlice';
 import { OpenTournament } from 'types/tournament';
 import { displayDateRange } from 'utils/datetime';
 import { showError } from 'utils/toast';
 
-const TournamentStatusChip = {
-  [TournamentStatus.UPCOMING]: {
-    displayText: 'Upcoming',
-    chipColor: 'warning',
-  },
-  [TournamentStatus.ON_GOING]: {
-    displayText: 'On Going',
-    chipColor: 'success',
-  },
-  [TournamentStatus.COMPLETED]: {
-    displayText: 'Completed',
-    chipColor: 'success',
-  },
-};
+// const TournamentStatusChip = {
+//   [TournamentStatus.UPCOMING]: {
+//     displayText: 'Upcoming',
+//     chipColor: 'warning',
+//   },
+//   [TournamentStatus.ON_GOING]: {
+//     displayText: 'On Going',
+//     chipColor: 'success',
+//   },
+//   [TournamentStatus.COMPLETED]: {
+//     displayText: 'Completed',
+//     chipColor: 'success',
+//   },
+// };
 
 const TournamentTabs = [
   {
@@ -99,14 +99,14 @@ export default function TournamentDetailsLayout() {
           >
             <Stack>
               <Typography variant="h6">{tournamentData.name}</Typography>
-              <Chip
+              {/* <Chip
                 sx={{ width: 'fit-content' }}
                 component="span"
                 variant="outlined"
                 color={TournamentStatusChip[tournamentData.status].chipColor}
                 size="small"
                 label={TournamentStatusChip[tournamentData.status].displayText}
-              />
+              /> */}
             </Stack>
             <Typography variant="subtitle1">
               {displayDateRange(tournamentData.startDate, tournamentData.endDate)}

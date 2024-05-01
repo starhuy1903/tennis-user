@@ -39,9 +39,11 @@ export type Package = {
   id: number;
   name: string;
   price: number;
+  duration: number;
+  images: string[];
   description: string;
-  type: PackageType;
   features: string[];
+  services: Service[];
 };
 
 export type UserPackage = {

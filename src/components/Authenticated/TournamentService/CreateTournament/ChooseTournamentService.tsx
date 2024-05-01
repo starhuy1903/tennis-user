@@ -4,13 +4,13 @@ import { useAppDispatch, useAppSelector } from 'store';
 
 import { ModalKey } from 'constants/modal';
 import { showModal } from 'store/slice/modalSlice';
+import { Package } from 'types/package';
 
 interface ChooseTournamentPackageProps {
-  packages: any;
-  onChoosePackage: any;
+  packages: Package[];
 }
 
-export default function ChooseTournamentPackage({ packages, onChoosePackage }: ChooseTournamentPackageProps) {
+export default function ChooseTournamentPackage({ packages }: ChooseTournamentPackageProps) {
   const dispatch = useAppDispatch();
 
   const userId = useAppSelector((state) => state.user.userInfo?.id);

@@ -17,7 +17,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
 import { Controller, useForm } from 'react-hook-form';
 
-import { TournamentFormat, TournamentFormatOptions } from 'constants/tournament';
+import { TournamentFormat } from 'constants/tournament';
 
 type FormType = {
   format: TournamentFormat;
@@ -38,7 +38,7 @@ const tournamentFormatOptions = [
 ];
 
 export default function SetupFixture() {
-  const { handleSubmit, register, control, formState, getValues } = useForm<FormType>({
+  const { register, control, formState, getValues } = useForm<FormType>({
     mode: 'onTouched',
     defaultValues: {
       numberOfParticipants: 0,

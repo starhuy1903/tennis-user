@@ -1,4 +1,4 @@
-import { ModalKey } from 'constants/modal';
+// import { ModalKey } from 'constants/modal';
 import { ParticipantType } from 'constants/tournament';
 
 import { BaseModalProps } from './BaseModal';
@@ -39,19 +39,18 @@ export interface AddMatchProps extends CommonModalProps {
 }
 
 /** External modal props: useModal */
-type FilteredModalProps<T extends CommonModalProps> = Omit<T, 'onModalClose'> & {
-  onModalClose?: () => void;
-};
+// type FilteredModalProps<T extends CommonModalProps> = Omit<T, 'onModalClose'> & {
+//   onModalClose?: () => void;
+// };
 
-export type ModalPropsMap = {
-  [K in ModalKey]: FilteredModalProps<_ModalPropsMap[K]>;
-};
+// export type ModalPropsMap = {
+//   [K in ModalKey]: FilteredModalProps<_ModalPropsMap[K]>;
+// };
 
-interface _ModalPropsMap {
-  [ModalKey.HELLO_WORLD]: HelloWorldProps;
-  [ModalKey.CROP_IMAGE]: CropImageProps;
-  [ModalKey.SELECT_PAYMENT_METHOD]: SelectPaymentMethodProps;
-  [ModalKey.ADD_PARTICIPANTS]: AddParticipantsProps;
-  [ModalKey.REGISTER_TOURNAMENT]: RegisterTournamentProps;
-  [ModalKey.ADD_MATCH]: AddMatchProps;
-}
+// type _ModalPropsMap = {
+//   [ModalKey.HELLO_WORLD]: HelloWorldProps;
+//   [ModalKey.CROP_IMAGE]: CropImageProps;
+//   [ModalKey.SELECT_PAYMENT_METHOD]: SelectPaymentMethodProps;
+//   [ModalKey.ADD_PARTICIPANTS]: AddParticipantsProps;
+//   [ModalKey.REGISTER_TOURNAMENT]: RegisterTournamentProps;
+// };

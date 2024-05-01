@@ -7,7 +7,7 @@ import { useMemo, useState } from 'react';
 
 import CenterLoading from 'components/Common/CenterLoading';
 import { useGetMyPackagesQuery, useGetPackagesQuery } from 'store/api/packageApiSlice';
-import { ServiceType, UserPackage } from 'types/package';
+import { UserPackage } from 'types/package';
 import { getValidTournamentPackages } from 'utils/package';
 
 import ChooseTournamentPackage from './ChooseTournamentService';
@@ -62,16 +62,12 @@ export default function CreateTournament() {
             </TabList>
           </Box>
           <TabPanel value="1">
-            <ChooseTournamentPackage
-              packages={packageData}
-              onChoosePackage={setSelectedPackage}
-            />
+            <ChooseTournamentPackage packages={packageData} />
           </TabPanel>
           <TabPanel value="2">
             <MyPackages
               packageData={myTournamentPackages}
               onChooseMyPackage={handleChooseMyPackage}
-              type={ServiceType.TOURNAMENT}
             />
           </TabPanel>
         </TabContext>
