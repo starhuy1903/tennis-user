@@ -12,6 +12,7 @@ import GroupMatchDetails from 'components/Authenticated/GroupService/GroupDetail
 import GroupLayout from 'components/Authenticated/GroupService/GroupLayout';
 import VNPReturn from 'components/Authenticated/PaymentReturn/VNPReturn';
 import Profile from 'components/Authenticated/Profile';
+import EditProfile from 'components/Authenticated/Profile/components/EditProfile';
 import TournamentService from 'components/Authenticated/TournamentService';
 import CreateTournament from 'components/Authenticated/TournamentService/CreateTournament';
 import { tournamentDetailsRoutes } from 'components/Authenticated/TournamentService/TournamentDetails';
@@ -78,6 +79,10 @@ const protectedRoutes = createBrowserRouter([
           {
             path: 'settings',
             element: <Profile activeTab="settings" />,
+          },
+          {
+            path: 'edit',
+            element: <EditProfile />,
           },
         ],
       },

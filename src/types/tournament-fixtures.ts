@@ -1,6 +1,8 @@
 import { ParticipantType, TournamentFormat } from 'constants/tournament';
 import { FixtureStatus, MatchStatus } from 'constants/tournament-fixtures';
 
+import { UserProfile } from './user';
+
 export type Score = {
   team1: number;
   team2: number;
@@ -15,19 +17,12 @@ export type FinalScore = {
   team2: number;
 };
 
-export type User = {
-  id: number;
-  name: string;
-  email: string;
-  phoneNumber: string;
-  image: string;
-  elo: number;
-};
+export type Player = UserProfile;
 
 export type Team = {
   id: number;
-  user1: User;
-  user2?: User;
+  user1: Player;
+  user2?: Player;
   isWinner: boolean | null;
   totalElo: number;
 };

@@ -27,7 +27,7 @@ export default function AccountSettings() {
   };
 
   return (
-    <Box sx={{ flexGrow: 1, bgcolor: 'background.paper', display: 'flex', height: 500 }}>
+    <Box sx={{ flexGrow: 1, bgcolor: 'background.paper', display: 'flex', height: '100%', minHeight: 500 }}>
       <Tabs
         orientation="vertical"
         value={currentTab}

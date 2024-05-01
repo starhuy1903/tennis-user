@@ -4,12 +4,12 @@ import { Bracket, IRenderSeedProps, Seed, SeedItem, SeedTeam } from 'react-brack
 import { useNavigate } from 'react-router-dom';
 
 import { MatchStatus } from 'constants/tournament-fixtures';
-import { Match, Round, User } from 'types/tournament-fixtures';
+import { Match, Player, Round } from 'types/tournament-fixtures';
 
 import { MatchStatusBadge } from '../Match/MatchStatusBadge';
 import NoData from '../NoData';
 
-const CustomPlayer = ({ player }: { player: User }) => {
+const CustomPlayer = ({ player }: { player: Player }) => {
   return (
     <Box
       sx={{

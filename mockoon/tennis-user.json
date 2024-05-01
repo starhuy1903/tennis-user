@@ -43,6 +43,10 @@
         },
         {
           "type": "route",
+          "uuid": "072264ec-c94d-472a-951f-2a3c34cea826"
+        },
+        {
+          "type": "route",
           "uuid": "f4ad9e96-6e07-46c2-8014-ed90749433b5"
         }
       ]
@@ -677,7 +681,7 @@
       "responses": [
         {
           "uuid": "f0d5ea8f-f88c-4e63-a437-7846dec15d2c",
-          "body": "{\n  \"userInfo\": {\n    \"id\": 1,\n    \"email\": \"huy@gmail.com\",\n    \"name\": \"Huy Nguyen\",\n    \"image\": \"https://mdbcdn.b-cdn.net/img/new/avatars/2.webp\",\n    \"dob\": \"2002-03-19 00:00:00\",\n    \"phoneNumber\": \"0123456789\",\n    \"gender\": \"male\",\n    \"role\": \"user\"\n  }\n}",
+          "body": "{\n  \"userInfo\": {\n    \"id\": 1,\n    \"email\": \"huy@gmail.com\",\n    \"name\": \"Huy Nguyen\",\n    \"image\": \"https://hips.hearstapps.com/hmg-prod/images/portrait-of-cat-sitting-outdoors-royalty-free-image-1701438826.jpg?crop=1xw:0.84366xh;center,top\",\n    \"dob\": \"2002-03-19T00:00:00Z\",\n    \"phoneNumber\": \"0123456789\",\n    \"gender\": \"male\",\n    \"role\": \"user\"\n  }\n}",
           "latency": 0,
           "statusCode": 200,
           "label": "",
@@ -2109,6 +2113,35 @@
         {
           "uuid": "130dce38-9277-49e9-84ba-0053fd7c06b2",
           "body": "{\n  \"id\": \"be143a31-ce96-4270-bdc9-7d5af7aa8d38\",\n  \"userId\": 29,\n  \"packageId\": 1,\n  \"price\": 12000000,\n  \"status\": \"completed\",\n  \"createdAt\": \"2024-04-24T13:25:01.518Z\",\n  \"updatedAt\": \"2024-04-24T13:25:18.333Z\",\n  \"package\": {\n    \"id\": 1,\n    \"name\": \"Group Management\",\n    \"price\": 12000000,\n    \"duration\": 12,\n    \"images\": [],\n    \"createdAt\": \"2024-04-16T11:17:21.057Z\",\n    \"updatedAt\": \"2024-04-16T11:17:21.057Z\",\n    \"description\": \"Manage Every Aspect Of Your Group, Sports Organization, Association & Federation.\",\n    \"features\": []\n  },\n  \"user\": {\n    \"id\": 29,\n    \"email\": \"tri1@gmail.com\",\n    \"image\": null,\n    \"name\": \"Tri Do\",\n    \"role\": \"user\",\n    \"phoneNumber\": \"0123123123\"\n  },\n  \"paymentMethod\": \"VNPAY\"\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "072264ec-c94d-472a-951f-2a3c34cea826",
+      "type": "http",
+      "documentation": "",
+      "method": "patch",
+      "endpoint": "auth/edit-profile",
+      "responses": [
+        {
+          "uuid": "439d9e80-392c-4ae7-9979-3d167e94809e",
+          "body": "{\n  \"id\": 1,\n  \"email\": \"huy@gmail.com\",\n  \"name\": \"Tri Do\",\n  \"image\": \"https://reviewed-com-res.cloudinary.com/image/fetch/s--UJ2sGByA--/b_white,c_limit,cs_srgb,f_auto,fl_progressive.strip_profile,g_center,q_auto,w_972/https://reviewed-production.s3.amazonaws.com/1597356287543/GettyImages-1171084311.jpg\",\n  \"dob\": \"2002-10-24T00:00:00Z\",\n  \"phoneNumber\": \"0123456789\",\n  \"gender\": \"male\",\n  \"role\": \"user\"\n}",
           "latency": 0,
           "statusCode": 200,
           "label": "",

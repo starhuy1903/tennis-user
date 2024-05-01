@@ -4,13 +4,13 @@ import { Avatar, Box, Button, Container, Stack, Typography } from '@mui/material
 import { Link } from 'react-router-dom';
 
 import { MatchStatus } from 'constants/tournament-fixtures';
-import { FinalScore, Match, Round, User } from 'types/tournament-fixtures';
+import { FinalScore, Match, Player, Round } from 'types/tournament-fixtures';
 import { displayDate, displayTime } from 'utils/datetime';
 
 import { MatchStatusBadge } from '../Match/MatchStatusBadge';
 import NoData from '../NoData';
 
-const CustomPlayer = ({ player, direction }: { player: User; direction: 'left' | 'right' }) => {
+const CustomPlayer = ({ player, direction }: { player: Player; direction: 'left' | 'right' }) => {
   if (direction === 'left') {
     return (
       <Box

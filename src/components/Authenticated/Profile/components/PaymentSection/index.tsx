@@ -78,7 +78,7 @@ export default function PaymentSection() {
 
   const { data, isLoading, refetch } = useGetOrdersQuery({
     page,
-    take: 7,
+    take: 5,
     status,
   });
 
@@ -100,7 +100,7 @@ export default function PaymentSection() {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        gap: 2,
+        gap: 1,
       }}
     >
       <Stack

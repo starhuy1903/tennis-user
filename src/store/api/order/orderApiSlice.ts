@@ -1,7 +1,7 @@
 import { OrderStatus, PaymentPartner } from 'constants/order';
 import { GetListResult, GetPagingListOptions } from 'types/base';
 import { CreateOrderPayload, CreateOrderResponse, Order } from 'types/order';
-import { User } from 'types/tournament-fixtures';
+import { UserProfile } from 'types/user';
 
 import { apiWithToastSlice } from '../baseApiSlice';
 
@@ -29,7 +29,7 @@ const orderApiToastSlice = apiWithToastSlice.injectEndpoints({
         },
       }),
     }),
-    getOrderDetail: build.query<Order & { user: User; paymentMethod: PaymentPartner }, string>({
+    getOrderDetail: build.query<Order & { user: UserProfile; paymentMethod: PaymentPartner }, string>({
       query: (orderId) => `core/orders/${orderId}`,
     }),
   }),

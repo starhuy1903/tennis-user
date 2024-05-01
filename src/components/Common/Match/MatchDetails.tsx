@@ -4,7 +4,7 @@ import { Avatar, Box, Container, Stack, Table, TableBody, TableCell, TableRow, T
 import ReactPlayer from 'react-player/youtube';
 
 import { MatchStatus } from 'constants/tournament-fixtures';
-import { FinalScore, Match, Score, Team, User } from 'types/tournament-fixtures';
+import { FinalScore, Match, Player, Score, Team } from 'types/tournament-fixtures';
 import { displayDate, displayHour, displayTime } from 'utils/datetime';
 
 import { Timer } from '../Timer';
@@ -27,7 +27,7 @@ const MatchHeader = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-const CustomPlayer = ({ player, isWinner }: { player: User; isWinner: boolean | null }) => {
+const CustomPlayer = ({ player, isWinner }: { player: Player; isWinner: boolean | null }) => {
   return (
     <Box
       sx={{
