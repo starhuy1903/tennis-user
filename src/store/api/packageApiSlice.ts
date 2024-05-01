@@ -13,7 +13,7 @@ const packageApiToastSlice = apiWithToastSlice.injectEndpoints({
     }),
     // TODO: need to check
     getPurchasedPackages: build.query<UserPackage[], void>({
-      query: () => 'core/purchased-packages/me',
+      query: () => urlWithCorePrefix('purchased-packages/me'),
     }),
   }),
 });

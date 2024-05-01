@@ -4,12 +4,13 @@ import { CreateOrderPayload, CreateOrderResponse, Order } from 'types/order';
 import { UserProfile } from 'types/user';
 
 import { apiWithToastSlice } from '../baseApiSlice';
+import { urlWithCorePrefix } from '../helper';
 
 const orderApiToastSlice = apiWithToastSlice.injectEndpoints({
   endpoints: (build) => ({
     createOrder: build.mutation<CreateOrderResponse, CreateOrderPayload>({
       query: (body) => ({
-        url: 'core/orders',
+        url: urlWithCorePrefix('orders'),
         method: 'POST',
         body,
       }),
@@ -21,7 +22,7 @@ const orderApiToastSlice = apiWithToastSlice.injectEndpoints({
       }
     >({
       query: ({ page, take, status }) => ({
-        url: 'core/orders',
+        url: urlWithCorePrefix('orders'),
         params: {
           page,
           take,
@@ -30,7 +31,7 @@ const orderApiToastSlice = apiWithToastSlice.injectEndpoints({
       }),
     }),
     getOrderDetail: build.query<Order & { user: UserProfile; paymentMethod: PaymentPartner }, string>({
-      query: (orderId) => `core/orders/${orderId}`,
+      query: (orderId) => urlWithCorePrefix(`orders/${orderId}`),
     }),
   }),
 });

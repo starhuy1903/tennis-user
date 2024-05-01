@@ -4,12 +4,13 @@ import { GroupTournamentParticipant, GroupTournamentUser } from 'types/group-tou
 import { GroupTournament, GroupTournamentPayload } from 'types/tournament';
 
 import { apiWithToastSlice } from '../baseApiSlice';
+import { urlWithCorePrefix } from '../helper';
 
 const groupTournamentApiToastSlice = apiWithToastSlice.injectEndpoints({
   endpoints: (build) => ({
     getGroupTournaments: build.query<GroupTournament[], { tournamentStatus?: TournamentStatus; groupId: number }>({
       query: (args) => ({
-        url: `core/groups/${args.groupId}/tournaments`,
+        url: urlWithCorePrefix(`groups/${args.groupId}/tournaments`),
         params: { status: args?.tournamentStatus },
       }),
     }),
@@ -21,12 +22,12 @@ const groupTournamentApiToastSlice = apiWithToastSlice.injectEndpoints({
       }
     >({
       query: (args) => {
-        return `core/groups/${args.groupId}/tournaments/${args.tournamentId}/general-info`;
+        return urlWithCorePrefix(`groups/${args.groupId}/tournaments/${args.tournamentId}/general-info`);
       },
     }),
     createGroupTournament: build.mutation<GroupTournament, GroupTournamentPayload>({
       query: (args) => ({
-        url: `core/groups/${args.groupId}/tournaments`,
+        url: urlWithCorePrefix(`groups/${args.groupId}/tournaments`),
         method: 'POST',
         body: args,
       }),
@@ -36,7 +37,7 @@ const groupTournamentApiToastSlice = apiWithToastSlice.injectEndpoints({
       GetPagingListOptions & { groupId: number; tournamentId: number }
     >({
       query: (args) => ({
-        url: `core/groups/${args.groupId}/tournaments/${args.tournamentId}/participants`,
+        url: urlWithCorePrefix(`groups/${args.groupId}/tournaments/${args.tournamentId}/participants`),
         params: {
           page: args.page,
           take: args.take,
@@ -46,19 +47,19 @@ const groupTournamentApiToastSlice = apiWithToastSlice.injectEndpoints({
     }),
     getGroupTournamentNonParticipants: build.query<GroupTournamentUser[], { groupId: number; tournamentId: number }>({
       query: (args) => ({
-        url: `core/groups/${args.groupId}/tournaments/${args.tournamentId}/non-participants`,
+        url: urlWithCorePrefix(`groups/${args.groupId}/tournaments/${args.tournamentId}/non-participants`),
       }),
     }),
     addParticipants: build.mutation<void, { groupId: number; tournamentId: number; userIds: number[] }>({
       query: (args) => ({
-        url: `core/groups/${args.groupId}/tournaments/${args.tournamentId}/participants`,
+        url: urlWithCorePrefix(`groups/${args.groupId}/tournaments/${args.tournamentId}/participants`),
         method: 'POST',
         body: { userIds: args.userIds },
       }),
     }),
     removeParticipant: build.mutation<void, { groupId: number; tournamentId: number; userId: number }>({
       query: (args) => ({
-        url: `core/groups/${args.groupId}/tournaments/${args.tournamentId}/participants/${args.userId}`,
+        url: urlWithCorePrefix(`groups/${args.groupId}/tournaments/${args.tournamentId}/participants/${args.userId}`),
         method: 'DELETE',
       }),
     }),

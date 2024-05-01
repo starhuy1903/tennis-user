@@ -2,6 +2,7 @@ import { GroupTournamentFixture } from 'types/group-tournament-fixtures';
 import { Match } from 'types/tournament-fixtures';
 
 import { apiWithToastSlice } from '../baseApiSlice';
+import { urlWithCorePrefix } from '../helper';
 
 const groupTournamentFixtureApiToastSlice = apiWithToastSlice.injectEndpoints({
   endpoints: (build) => ({
@@ -12,11 +13,11 @@ const groupTournamentFixtureApiToastSlice = apiWithToastSlice.injectEndpoints({
         tournamentId: number;
       }
     >({
-      query: ({ groupId, tournamentId }) => `core/groups/${groupId}/tournaments/${tournamentId}/fixtures`,
+      query: ({ groupId, tournamentId }) => urlWithCorePrefix(`groups/${groupId}/tournaments/${tournamentId}/fixtures`),
     }),
     getGroupMatchDetails: build.query<Match, { groupId: number; tournamentId: number; matchId: number }>({
       query: ({ groupId, tournamentId, matchId }) =>
-        `core/groups/${groupId}/tournaments/${tournamentId}/fixtures/${matchId}`,
+        urlWithCorePrefix(`groups/${groupId}/tournaments/${tournamentId}/fixtures/${matchId}`),
     }),
   }),
 });
