@@ -23,7 +23,7 @@ const userApiToastSlice = apiWithToastSlice.injectEndpoints({
   endpoints: (build) => ({
     login: build.mutation<LoginResponse, CredentialPayload>({
       query: (body) => ({
-        url: urlWithAuthPrefix('login'),
+        url: urlWithAuthPrefix('auth/login'),
         method: 'POST',
         body,
       }),
@@ -36,7 +36,7 @@ const userApiToastSlice = apiWithToastSlice.injectEndpoints({
     }),
     loginGoogle: build.mutation<LoginResponse, OAuthPayload>({
       query: (body) => ({
-        url: urlWithAuthPrefix('login/google'),
+        url: urlWithAuthPrefix('auth/login/google'),
         method: 'POST',
         body,
       }),
@@ -49,42 +49,42 @@ const userApiToastSlice = apiWithToastSlice.injectEndpoints({
     }),
     signup: build.mutation<SignupResponse, SignupPayload>({
       query: (body) => ({
-        url: urlWithAuthPrefix('signup'),
+        url: urlWithAuthPrefix('auth/signup'),
         method: 'POST',
         body,
       }),
     }),
     verify: build.mutation<MessageResponse, VerifyPayload>({
       query: (body) => ({
-        url: urlWithAuthPrefix('verify'),
+        url: urlWithAuthPrefix('auth/verify'),
         method: 'POST',
         body,
       }),
     }),
     forgotPassword: build.mutation<ForgotPasswordResponse, ForgotPasswordPayload>({
       query: (body) => ({
-        url: urlWithAuthPrefix('forgot-password'),
+        url: urlWithAuthPrefix('auth/forgot-password'),
         method: 'POST',
         body,
       }),
     }),
     resetPassword: build.mutation<MessageResponse, ResetPasswordPayload>({
       query: (body) => ({
-        url: urlWithAuthPrefix('reset-password'),
+        url: urlWithAuthPrefix('auth/reset-password'),
         method: 'POST',
         body,
       }),
     }),
     changePassword: build.mutation<MessageResponse, ChangePasswordPayload>({
       query: (body) => ({
-        url: urlWithAuthPrefix('change-password'),
+        url: urlWithAuthPrefix('auth/change-password'),
         method: 'POST',
         body,
       }),
     }),
     editProfile: build.mutation<UserProfile, Partial<UserProfile>>({
       query: (body) => ({
-        url: urlWithAuthPrefix('edit-profile'),
+        url: urlWithAuthPrefix('auth/edit-profile'),
         method: 'PATCH',
         body,
       }),
@@ -115,7 +115,7 @@ const userApiSlice = apiSlice.injectEndpoints({
   endpoints: (build) => ({
     logout: build.mutation<MessageResponse, void>({
       query: (body) => ({
-        url: urlWithAuthPrefix('logout'),
+        url: urlWithAuthPrefix('auth/logout'),
         method: 'POST',
         body,
       }),
