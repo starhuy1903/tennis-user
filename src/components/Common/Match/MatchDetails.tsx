@@ -1,8 +1,8 @@
 import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import { Avatar, Box, Container, Stack, Table, TableBody, TableCell, TableRow, Typography } from '@mui/material';
-import ReactPlayer from 'react-player/youtube';
 
+// import ReactPlayer from 'react-player/youtube';
 import { MatchStatus } from 'constants/tournament-fixtures';
 import { FinalScore, Match, Player, Score, Team } from 'types/tournament-fixtures';
 import { displayDate, displayHour, displayTime } from 'utils/datetime';
@@ -338,8 +338,8 @@ export default function MatchDetails({ match }: { match: Match }) {
           <CustomTeam team={match.teams.team2!} />
         </Box>
 
-        {/* Just demo for livestream feature */}
-        {match.videoUrl && (
+        {/* Livestream */}
+        {/* {match.videoUrl && (
           <>
             <MatchHeader>
               <Typography
@@ -364,7 +364,7 @@ export default function MatchDetails({ match }: { match: Match }) {
               />
             </Box>
           </>
-        )}
+        )} */}
 
         <MatchHeader>
           <Typography

@@ -40,7 +40,7 @@ export type Match = {
   };
   scores: Score[];
   finalScore: FinalScore;
-  videoUrl?: string;
+  // videoUrl?: string;
 };
 
 export type Round = {
