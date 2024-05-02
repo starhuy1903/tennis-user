@@ -18,7 +18,13 @@ export const isRefreshResponse = (data: unknown): data is RefreshResponse => {
 export const toastApiError = (data: unknown) => {
   const isErrorObject =
     typeof data === 'object' && data != null && 'message' in data && typeof (data as any).message === 'string';
-  const message = isErrorObject ? (data.message as string) : 'Something went wrong';
+  let message = 'Something went wrong';
+  if (isErrorObject) {
+    message = data.message as string;
+  } else if (Array.isArray((data as any).message)) {
+    message = (data as any).message[0];
+  }
+
   showError(message);
 };
 

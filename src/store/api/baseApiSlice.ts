@@ -6,7 +6,7 @@ import { logOut } from 'store/slice/userSlice';
 import auth from 'utils/auth';
 import { showError } from 'utils/toast';
 
-import { isRefreshResponse, toastApiError, urlWithAuthPrefix } from './helper';
+import { isApiErrorResponse, isRefreshResponse, toastApiError, urlWithAuthPrefix } from './helper';
 
 const mutex = new Mutex();
 
@@ -75,8 +75,10 @@ const queryWithToastError: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQue
   extraOptions
 ) => {
   const result = await baseQueryWithReAuth(args, api, extraOptions);
-  if (result.error) {
-    toastApiError(result.error.data);
+  const error = result.error;
+
+  if (error && isApiErrorResponse(error)) {
+    toastApiError(error.data);
   }
   return result;
 };
