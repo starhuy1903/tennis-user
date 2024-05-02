@@ -17,10 +17,9 @@ import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { Gender, GenderOptions } from 'constants/tournament';
-import { isApiErrorResponse } from 'store/api/helper';
 import { useSignupMutation } from 'store/api/userApiSlice';
 import { SignupPayload } from 'types/user';
-import { showError, showSuccess } from 'utils/toast';
+import { showSuccess } from 'utils/toast';
 
 type FormType = SignupPayload & {
   confirmPassword: string;
@@ -51,19 +50,18 @@ export default function Signup() {
   });
   const formValue = watch();
 
-  const onSubmit: SubmitHandler<SignupPayload> = async (data) => {
+  const onSubmit: SubmitHandler<FormType> = async (data) => {
+    const { confirmPassword, ...submitData } = data;
     try {
-      await requestSignup(data).unwrap();
+      await requestSignup(submitData).unwrap();
 
       showSuccess('Sign up successfully! Please log in to continue.');
 
-      setTimeout(async () => {
+      setTimeout(() => {
         navigate('/login');
       }, 1000);
     } catch (err) {
-      if (isApiErrorResponse(err)) {
-        showError(err.data.message);
-      }
+      // handled
     }
   };
 
@@ -157,6 +155,7 @@ export default function Signup() {
                       sx={{
                         backgroundColor: 'white',
                       }}
+                      disabled={isSubmitting}
                     >
                       {Object.entries(GenderOptions).map(([genderKey, genderValue], index) => (
                         <MenuItem
@@ -186,6 +185,7 @@ export default function Signup() {
                     <FormLabel htmlFor="dob">Date of birth</FormLabel>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                       <DatePicker
+                        disabled={isSubmitting}
                         onChange={(date) => {
                           onChange(date?.toISOString());
                         }}
