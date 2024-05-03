@@ -113,6 +113,7 @@ export const {
   useApplyTournamentMutation,
   useGetMyApplicationQuery,
   useDeleteApplicationMutation,
+  useApplyTournamentMutation,
   useLazyGetMyApplicationQuery,
   useGetInvitationsQuery,
   useLazyGetInvitationsQuery,

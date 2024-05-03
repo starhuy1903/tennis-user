@@ -91,7 +91,7 @@ const protectedRoutes = createBrowserRouter([
         element: <AffiliateSponsor />,
       },
       {
-        path: 'payment/return/vnpay',
+        path: 'payment/status',
         element: <VNPReturn />,
       },
     ],

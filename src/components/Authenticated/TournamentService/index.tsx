@@ -13,6 +13,7 @@ import { OpenTournament } from 'types/tournament';
 import TournamentList from './TournamentList';
 
 export default function TournamentService() {
+  const userId = useAppSelector((state) => state.user.userInfo?.id);
   const navigate = useNavigate();
   const userId = useAppSelector((state) => state.user.userInfo?.id);
 

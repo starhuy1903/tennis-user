@@ -21,7 +21,7 @@ const tournamentApiToastSlice = apiWithToastSlice.injectEndpoints({
       }),
     }),
     getOpenTournamentDetails: build.query<OpenTournament, number>({
-      query: (id) => urlWithCorePrefix(`tournaments/${id}/general-info`),
+      query: (id) => `core/tournaments/${id}/general-info`,
       transformResponse: (response: { data: OpenTournament }) => response.data,
     }),
     moveToNextPhase: build.mutation<OpenTournament, number>({

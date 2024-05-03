@@ -1,10 +1,14 @@
 import { Box, Button, FormControl, FormHelperText, FormLabel, TextField } from '@mui/material';
-import { useForm } from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
 import { useChangePasswordMutation } from 'store/api/userApiSlice';
 import { ChangePasswordPayload } from 'types/user';
 import { showSuccess } from 'utils/toast';
+
+type FormType = ChangePasswordPayload & {
+  confirmPassword: string;
+};
 
 export default function ChangePassword() {
   const navigate = useNavigate();
@@ -14,17 +18,18 @@ export default function ChangePassword() {
     register,
     formState: { errors },
     watch,
-  } = useForm<ChangePasswordPayload>({
+  } = useForm<FormType>({
     mode: 'onChange',
   });
   const formValue = watch();
 
   const [changePassword, { isLoading }] = useChangePasswordMutation();
 
-  const onSubmit = async (data: ChangePasswordPayload) => {
-    await changePassword(data).unwrap();
+  const onSubmit: SubmitHandler<FormType> = async (data) => {
+    const { confirmPassword, ...submitData } = data;
+    await changePassword(submitData).unwrap();
 
-    showSuccess('Change password successfully');
+    showSuccess('Changed password successfully');
     navigate('/profile');
   };
 

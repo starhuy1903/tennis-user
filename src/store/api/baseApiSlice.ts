@@ -6,7 +6,7 @@ import { logOut } from 'store/slice/userSlice';
 import auth from 'utils/auth';
 import { showError } from 'utils/toast';
 
-import { isRefreshResponse, toastApiError } from './helper';
+import { isApiErrorResponse, isRefreshResponse, toastApiError, urlWithAuthPrefix } from './helper';
 
 const mutex = new Mutex();
 
@@ -27,7 +27,7 @@ const baseQuery = fetchBaseQuery({
 const baseQueryWithReAuth: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError> = async (
   args,
   api,
-  extraOptions,
+  extraOptions
 ) => {
   // wait until the mutex is available without locking it
   await mutex.waitForUnlock();
@@ -40,12 +40,12 @@ const baseQueryWithReAuth: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQue
       try {
         const refreshResult = await baseQuery(
           {
-            url: 'auth/refresh',
+            url: urlWithAuthPrefix('auth/refresh'),
             method: 'POST',
             body: { refreshToken: auth.getRefreshToken() },
           },
           api,
-          extraOptions,
+          extraOptions
         );
 
         if (isRefreshResponse(refreshResult.data)) {
@@ -72,11 +72,13 @@ const baseQueryWithReAuth: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQue
 const queryWithToastError: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError> = async (
   args,
   api,
-  extraOptions,
+  extraOptions
 ) => {
   const result = await baseQueryWithReAuth(args, api, extraOptions);
-  if (result.error) {
-    toastApiError(result.error.data);
+  const error = result.error;
+
+  if (error && isApiErrorResponse(error)) {
+    toastApiError(error.data);
   }
   return result;
 };

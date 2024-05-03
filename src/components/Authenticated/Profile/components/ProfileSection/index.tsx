@@ -10,7 +10,6 @@ import Typography from '@mui/material/Typography';
 import { useTheme } from '@mui/material/styles';
 import { useAppSelector } from 'store';
 
-import CenterLoading from 'components/Common/CenterLoading';
 import LinkButton from 'components/Common/LinkButton';
 import { Gender } from 'constants/tournament';
 import { formatDate } from 'utils/datetime';
@@ -21,9 +20,7 @@ const ProfileSection = () => {
   const theme = useTheme();
   const user = useAppSelector((state) => state.user.userInfo);
 
-  if (!user) {
-    return <CenterLoading />;
-  }
+  if (!user) return null;
 
   return (
     <Paper sx={{ padding: '20px' }}>
@@ -41,7 +38,7 @@ const ProfileSection = () => {
         >
           <Avatar
             src={user.image}
-            alt="Avatar"
+            alt="user-profile"
           />
           <Stack
             direction="column"
@@ -64,6 +61,7 @@ const ProfileSection = () => {
               </Typography>
               {user.gender === Gender.MALE && (
                 <MaleIcon
+                  fontSize="medium"
                   sx={{
                     color: '#008DDA',
                   }}
@@ -71,7 +69,7 @@ const ProfileSection = () => {
               )}
               {user.gender === Gender.FEMALE && (
                 <FemaleIcon
-                  fontSize="large"
+                  fontSize="medium"
                   sx={{
                     color: '#FC819E',
                   }}
