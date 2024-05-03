@@ -1,16 +1,17 @@
 import { TournamentStatus } from 'constants/tournament';
 import { OpenTournament, OpenTournamentPayload } from 'types/tournament';
-import { TournamentRegistrationPayload } from 'types/tournament-registration';
 
 import { apiWithToastSlice } from '../baseApiSlice';
+import { urlWithCorePrefix } from '../helper';
 
 const tournamentApiToastSlice = apiWithToastSlice.injectEndpoints({
   endpoints: (build) => ({
-    getOpenTournaments: build.query<OpenTournament[], { tournamentStatus?: TournamentStatus }>({
+    getOpenTournaments: build.query<OpenTournament[], { userId: number; tournamentStatus?: TournamentStatus }>({
       query: (args) => ({
-        url: `core/tournaments`,
+        url: urlWithCorePrefix(`users/${args.userId}/tournaments`),
         params: { status: args?.tournamentStatus },
       }),
+      transformResponse: (response: { data: OpenTournament[] }) => response.data,
     }),
     createOpenTournament: build.mutation<OpenTournament, OpenTournamentPayload>({
       query: (payload) => ({
@@ -21,13 +22,7 @@ const tournamentApiToastSlice = apiWithToastSlice.injectEndpoints({
     }),
     getOpenTournamentDetails: build.query<OpenTournament, number>({
       query: (id) => `core/tournaments/${id}/general-info`,
-    }),
-    createTournamentRegistration: build.mutation<void, TournamentRegistrationPayload>({
-      query: (payload) => ({
-        url: `core/tournaments/registration`,
-        method: 'POST',
-        body: payload,
-      }),
+      transformResponse: (response: { data: OpenTournament }) => response.data,
     }),
     moveToNextPhase: build.mutation<OpenTournament, number>({
       query: (id) => ({
@@ -44,6 +39,5 @@ export const {
   useCreateOpenTournamentMutation,
   useGetOpenTournamentDetailsQuery,
   useLazyGetOpenTournamentDetailsQuery,
-  useCreateTournamentRegistrationMutation,
   useMoveToNextPhaseMutation,
 } = tournamentApiToastSlice;

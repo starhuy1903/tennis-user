@@ -86,12 +86,18 @@ export default function ApplicationForm({ data }: { data: OpenTournamentApplican
               >
                 <FormControl fullWidth>
                   <FormLabel htmlFor="name">Name</FormLabel>
-                  <TextField value={data?.user1.name} />
+                  <TextField
+                    value={data?.user1.name}
+                    disabled
+                  />
                 </FormControl>
 
                 <FormControl fullWidth>
                   <FormLabel htmlFor="name">Email</FormLabel>
-                  <TextField value={data?.user1.email} />
+                  <TextField
+                    value={data?.user1.email}
+                    disabled
+                  />
                 </FormControl>
               </Stack>
 
@@ -101,7 +107,10 @@ export default function ApplicationForm({ data }: { data: OpenTournamentApplican
               >
                 <FormControl fullWidth>
                   <FormLabel htmlFor="name">Gender</FormLabel>
-                  <TextField value={GenderOptions[data?.user1.gender]} />
+                  <TextField
+                    value={GenderOptions[data?.user1.gender]}
+                    disabled
+                  />
                 </FormControl>
               </Stack>
             </Stack>
@@ -133,12 +142,18 @@ export default function ApplicationForm({ data }: { data: OpenTournamentApplican
                 >
                   <FormControl fullWidth>
                     <FormLabel htmlFor="name">Name</FormLabel>
-                    <TextField value={data?.user2.name} />
+                    <TextField
+                      value={data?.user2.name}
+                      disabled
+                    />
                   </FormControl>
 
                   <FormControl fullWidth>
                     <FormLabel htmlFor="name">Email</FormLabel>
-                    <TextField value={data?.user2.email} />
+                    <TextField
+                      value={data?.user2.email}
+                      disabled
+                    />
                   </FormControl>
                 </Stack>
 
@@ -148,7 +163,10 @@ export default function ApplicationForm({ data }: { data: OpenTournamentApplican
                 >
                   <FormControl fullWidth>
                     <FormLabel htmlFor="name">Gender</FormLabel>
-                    <TextField value={GenderOptions[data?.user2.gender]} />
+                    <TextField
+                      value={GenderOptions[data?.user2.gender]}
+                      disabled
+                    />
                   </FormControl>
                 </Stack>
               </Stack>
@@ -171,7 +189,10 @@ export default function ApplicationForm({ data }: { data: OpenTournamentApplican
             >
               <FormControl fullWidth>
                 <FormLabel htmlFor="name">Applied Date</FormLabel>
-                <TextField value={formatDateTime(data.appliedDate)} />
+                <TextField
+                  value={formatDateTime(data.appliedDate)}
+                  disabled
+                />
               </FormControl>
 
               <FormControl fullWidth>
@@ -180,6 +201,7 @@ export default function ApplicationForm({ data }: { data: OpenTournamentApplican
                   value={data.message}
                   multiline
                   rows={4}
+                  disabled
                 />
               </FormControl>
             </Stack>
