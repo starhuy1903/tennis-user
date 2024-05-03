@@ -110,7 +110,6 @@ export const {
   useLazyGetOpenTournamentApplicantsQuery,
   useApproveTournamentApplicantMutation,
   useRejectTournamentApplicantMutation,
-  useApplyTournamentMutation,
   useGetMyApplicationQuery,
   useDeleteApplicationMutation,
   useApplyTournamentMutation,
