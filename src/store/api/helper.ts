@@ -55,3 +55,7 @@ export const urlWithCorePrefix = (url: string) => {
 export const urlWithAuthPrefix = (url: string) => {
   return `auth/${url}`;
 };
+
+export const urlWithPaymentPrefix = (url: string) => {
+  return `payment/${url}`;
+};
