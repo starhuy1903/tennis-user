@@ -1,3 +1,8 @@
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import FemaleIcon from '@mui/icons-material/Female';
+import MailIcon from '@mui/icons-material/Mail';
+import MaleIcon from '@mui/icons-material/Male';
+import PhoneIcon from '@mui/icons-material/Phone';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
@@ -6,7 +11,8 @@ import { useTheme } from '@mui/material/styles';
 import { useAppSelector } from 'store';
 
 import LinkButton from 'components/Common/LinkButton';
-import { GenderOptions } from 'constants/tournament';
+import { Gender } from 'constants/tournament';
+import { formatDate } from 'utils/datetime';
 
 import Avatar from './Avatar';
 
@@ -39,11 +45,64 @@ const ProfileSection = () => {
             flex={1}
             maxWidth={`calc(100% - 80px - 20px)`}
             marginLeft="20px"
+            color="gray"
+            spacing={0.5}
           >
-            <Typography fontSize="1.4rem">{user.name}</Typography>
-            <Typography>{GenderOptions[user.gender]}</Typography>
-            <Typography noWrap>{user.email}</Typography>
-            <Typography>{user.phoneNumber}</Typography>
+            <Stack
+              direction="row"
+              alignItems="center"
+              spacing={1}
+            >
+              <Typography
+                variant="h5"
+                color="black"
+              >
+                {user.name}
+              </Typography>
+              {user.gender === Gender.MALE && (
+                <MaleIcon
+                  fontSize="medium"
+                  sx={{
+                    color: '#008DDA',
+                  }}
+                />
+              )}
+              {user.gender === Gender.FEMALE && (
+                <FemaleIcon
+                  fontSize="medium"
+                  sx={{
+                    color: '#FC819E',
+                  }}
+                />
+              )}
+            </Stack>
+
+            <Stack
+              direction="row"
+              alignItems="center"
+              spacing={1}
+            >
+              <MailIcon />
+              <Typography>{user.email}</Typography>
+            </Stack>
+
+            <Stack
+              direction="row"
+              alignItems="center"
+              spacing={1}
+            >
+              <CalendarMonthIcon />
+              <Typography>{formatDate(user.dob)}</Typography>
+            </Stack>
+
+            <Stack
+              direction="row"
+              alignItems="center"
+              spacing={1}
+            >
+              <PhoneIcon />
+              <Typography>{user.phoneNumber}</Typography>
+            </Stack>
           </Stack>
         </Box>
         <Box>
