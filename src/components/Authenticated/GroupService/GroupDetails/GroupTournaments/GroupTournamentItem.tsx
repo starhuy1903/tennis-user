@@ -20,7 +20,7 @@ export default function GroupTournamentItem({ tournament }: { tournament: GroupT
       <CardActionArea>
         <CardMedia
           component="img"
-          image={tournament.imageUrl}
+          image={tournament.image}
           alt="news-image"
           sx={{
             filter: tournament.status === TournamentStatus.COMPLETED ? 'grayscale(100%)' : 'none',

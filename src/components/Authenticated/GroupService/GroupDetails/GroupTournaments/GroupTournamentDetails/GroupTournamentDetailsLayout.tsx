@@ -89,7 +89,7 @@ export default function GroupTournamentDetailsLayout() {
       <Paper sx={{ borderBottomLeftRadius: 16, borderBottomRightRadius: 16, border: '1px white solid' }}>
         <img
           style={{ width: '100%', height: 300, objectFit: 'cover' }}
-          src={tournamentData.imageUrl}
+          src={tournamentData.image}
           alt="tournament image"
         />
         <Box p={2}>
