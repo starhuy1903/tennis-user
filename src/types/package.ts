@@ -47,7 +47,7 @@ export type Package = {
 };
 
 export type UserPackage = {
-  id: number;
+  id: string;
   name: string;
   services: Service[];
   expired: boolean;

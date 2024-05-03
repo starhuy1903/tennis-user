@@ -3,6 +3,7 @@ import { Group, GroupDto, GroupUpdateDto, InvitationPayload } from 'types/group'
 import { MemberDto } from 'types/user';
 
 import { apiWithToastSlice } from '../baseApiSlice';
+import { urlWithCorePrefix } from '../helper';
 
 const groupApiToastSlice = apiWithToastSlice.injectEndpoints({
   endpoints: (build) => ({
@@ -50,7 +51,7 @@ const groupApiToastSlice = apiWithToastSlice.injectEndpoints({
     }),
     createGroup: build.mutation<void, GroupDto>({
       query: (body) => ({
-        url: 'core/groups',
+        url: urlWithCorePrefix('groups'),
         method: 'POST',
         body: { ...body, image: 'https://picsum.photos/id/251/300/200' },
       }),

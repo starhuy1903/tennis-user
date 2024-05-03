@@ -30,7 +30,7 @@ interface FormData {
   description?: string;
   language: string;
   activityZone: string;
-  purchasedPackageId: number;
+  purchasedPackageId: string;
   image: any;
 }
 
@@ -39,7 +39,7 @@ const schema = yup.object({
   description: yup.string().optional(),
   language: yup.string().required("Group's language is required"),
   activityZone: yup.string().required('Please tell people where your group is active'),
-  purchasedPackageId: yup.number().required(),
+  purchasedPackageId: yup.string().required(),
   image: yup.mixed().required().nullable(),
 });
 
@@ -69,7 +69,7 @@ const GroupCreate = () => {
         description: '',
         language: LANGUAGES[0].value,
         activityZone: '',
-        purchasedPackageId: _purchasedPackages.length > 0 ? _purchasedPackages[0].id : 0,
+        purchasedPackageId: _purchasedPackages.length > 0 ? _purchasedPackages[0].id : '',
         image: null,
       };
     },
