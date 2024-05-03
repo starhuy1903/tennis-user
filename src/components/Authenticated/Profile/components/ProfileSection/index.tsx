@@ -54,7 +54,7 @@ const ProfileSection = () => {
             <Stack
               direction="row"
               alignItems="center"
-              spacing={2}
+              spacing={1}
             >
               <Typography
                 variant="h5"
@@ -64,7 +64,6 @@ const ProfileSection = () => {
               </Typography>
               {user.gender === Gender.MALE && (
                 <MaleIcon
-                  fontSize="large"
                   sx={{
                     color: '#008DDA',
                   }}

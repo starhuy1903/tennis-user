@@ -152,6 +152,7 @@ export default function Login() {
           </Box>
 
           <Button
+            type="submit"
             variant="contained"
             color="primary"
             disabled={isSubmitting}

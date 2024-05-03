@@ -318,6 +318,7 @@ export default function Signup() {
           </Stack>
 
           <Button
+            type="submit"
             variant="contained"
             color="primary"
             disabled={isSubmitting}
