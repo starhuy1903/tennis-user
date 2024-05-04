@@ -21,7 +21,7 @@ export type OpenTournamentPayload = BaseTournamentPayload & {
   contactNumber: string;
   contactEmail: string;
   registrationDueDate: string;
-  purchasedPackageId: number;
+  purchasedPackageId: string;
   maxParticipants: number;
   gender: Gender;
   participantType: ParticipantType;

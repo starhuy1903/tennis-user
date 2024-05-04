@@ -14,7 +14,7 @@ import { getUsedTournamentService } from 'utils/package';
 
 interface PackProps {
   packageData: UserPackage;
-  onChooseMyPackage: (id: number) => void;
+  onChooseMyPackage: (id: string) => void;
 }
 
 const Pack = ({ packageData, onChooseMyPackage }: PackProps) => {
