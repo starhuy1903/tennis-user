@@ -19,7 +19,7 @@ import { CredentialPayload } from 'types/user';
 
 export default function Login() {
   const [requestLogin, { isLoading: isSubmitting }] = useLoginMutation();
-  const [requestLoginGoogle] = useLoginGoogleMutation();
+  const [requestLoginGoogle, { isLoading }] = useLoginGoogleMutation();
 
   const {
     register,
@@ -155,11 +155,11 @@ export default function Login() {
             type="submit"
             variant="contained"
             color="primary"
-            disabled={isSubmitting}
+            disabled={isSubmitting || isLoading}
             onClick={handleSubmit(onSubmit)}
             sx={{ mt: 4, color: 'white', width: '100%' }}
           >
-            {isSubmitting ? 'Loading ...' : 'Login'}
+            {isSubmitting || isLoading ? 'Loading ...' : 'Login'}
           </Button>
 
           <Divider
