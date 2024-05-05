@@ -24,7 +24,7 @@ export default function CreateTournament() {
 
   const myTournamentPackages = useMemo(() => getValidTournamentPackages(myPackageData || []), [myPackageData]);
 
-  const handleChooseMyPackage = (packageId: number) => {
+  const handleChooseMyPackage = (packageId: string) => {
     setSelectedPackage(myTournamentPackages?.find((e) => e.id === packageId) as UserPackage);
   };
 

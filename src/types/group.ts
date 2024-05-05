@@ -33,5 +33,5 @@ export type GroupUpdateDto = {
 };
 
 export type GroupDto = GroupUpdateDto & {
-  purchasedPackageId: number;
+  purchasedPackageId: string;
 };
