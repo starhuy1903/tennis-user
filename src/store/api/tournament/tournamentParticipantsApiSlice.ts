@@ -2,6 +2,7 @@ import { ParticipantType } from 'constants/tournament';
 import { RegistrationStatus } from 'constants/tournament-participants';
 import { GetListResult, GetPagingListOptions } from 'types/base';
 import { OpenTournamentApplicant, OpenTournamentParticipant } from 'types/open-tournament-participants';
+import { TournamentRegistrationPayload } from 'types/tournament-registration';
 
 import { apiWithToastSlice } from '../baseApiSlice';
 import { urlWithCorePrefix } from '../helper';
@@ -55,10 +56,18 @@ const tournamentParticipantsApiToastSlice = apiWithToastSlice.injectEndpoints({
         body: { userId },
       }),
     }),
+    applyTournament: build.mutation<void, TournamentRegistrationPayload>({
+      query: ({ tournamentId, user2Email, message }) => ({
+        url: urlWithCorePrefix(`tournaments/${tournamentId}/applicants/apply`),
+        method: 'POST',
+        body: { user2Email, message },
+      }),
+    }),
     getMyApplication: build.query<OpenTournamentApplicant, { tournamentId: number }>({
       query: ({ tournamentId }) => ({
         url: `core/tournaments/${tournamentId}/applicants/apply`,
       }),
+      transformResponse: (response: { data: OpenTournamentApplicant }) => response.data,
     }),
     deleteApplication: build.mutation<void, { tournamentId: number }>({
       query: ({ tournamentId }) => ({
@@ -103,6 +112,7 @@ export const {
   useRejectTournamentApplicantMutation,
   useGetMyApplicationQuery,
   useDeleteApplicationMutation,
+  useApplyTournamentMutation,
   useLazyGetMyApplicationQuery,
   useGetInvitationsQuery,
   useLazyGetInvitationsQuery,

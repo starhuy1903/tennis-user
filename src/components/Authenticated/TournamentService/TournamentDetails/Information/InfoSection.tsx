@@ -41,7 +41,7 @@ export default function InfoSection({
             sx={{
               display: 'flex',
               justifyContent: 'space-between',
-              width: '40%',
+              width: '45%',
               color: 'gray',
               pl: 2,
               pr: 1,

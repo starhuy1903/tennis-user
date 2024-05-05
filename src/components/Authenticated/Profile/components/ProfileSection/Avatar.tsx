@@ -10,7 +10,7 @@ const Avatar = ({ src, alt }: AvatarProps) => {
     <MuiAvatar
       alt={alt}
       src={src}
-      sx={{ width: '80px', height: '80px' }}
+      sx={{ width: '120px', height: '120px' }}
     />
   );
 };

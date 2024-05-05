@@ -3,7 +3,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { useAppSelector } from 'store';
 
 import { ParticipantType } from 'constants/tournament';
-import { useCreateTournamentRegistrationMutation } from 'store/api/tournament/tournamentApiSlice';
+import { useApplyTournamentMutation } from 'store/api/tournament/tournamentParticipantsApiSlice';
 import { showSuccess } from 'utils/toast';
 
 import BaseModal from './BaseModal';
@@ -18,7 +18,7 @@ type FormType = {
 export default function RegisterTournament({ tournamentId, participantType, onModalClose }: RegisterTournamentProps) {
   const name = useAppSelector((state) => state.user.userInfo?.name);
 
-  const [createTournamentRegistration, { isLoading }] = useCreateTournamentRegistrationMutation();
+  const [createTournamentRegistration, { isLoading }] = useApplyTournamentMutation();
 
   const { handleSubmit, register, formState } = useForm<FormType>({
     mode: 'onTouched',

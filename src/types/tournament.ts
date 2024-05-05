@@ -21,7 +21,7 @@ export type OpenTournamentPayload = BaseTournamentPayload & {
   contactNumber: string;
   contactEmail: string;
   registrationDueDate: string;
-  purchasedPackageId: number;
+  purchasedPackageId: string;
   maxParticipants: number;
   gender: Gender;
   participantType: ParticipantType;
@@ -32,7 +32,7 @@ export type OpenTournamentPayload = BaseTournamentPayload & {
 export type GroupTournament = Omit<GroupTournamentPayload, 'groupId'> & {
   id: number;
   participants: number;
-  imageUrl: string;
+  image: string;
   status: TournamentStatus;
   phase: TournamentPhase;
   isCreator: boolean;
@@ -42,7 +42,7 @@ export type GroupTournament = Omit<GroupTournamentPayload, 'groupId'> & {
 export type OpenTournament = Omit<OpenTournamentPayload, 'purchasedPackageId'> & {
   id: number;
   participants: number;
-  imageUrl: string;
+  image: string;
   status: TournamentStatus;
   phase: TournamentPhase;
   isCreator: boolean;

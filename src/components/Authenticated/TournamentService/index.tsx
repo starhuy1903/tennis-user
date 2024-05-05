@@ -3,6 +3,7 @@ import WorkspacePremiumIcon from '@mui/icons-material/WorkspacePremium';
 import { Box, Button, Stack, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAppSelector } from 'store';
 
 import CenterLoading from 'components/Common/CenterLoading';
 import { TournamentStatus } from 'constants/tournament';
@@ -12,6 +13,7 @@ import { OpenTournament } from 'types/tournament';
 import TournamentList from './TournamentList';
 
 export default function TournamentService() {
+  const userId = useAppSelector((state) => state.user.userInfo?.id);
   const navigate = useNavigate();
 
   const [tournaments, setTournaments] = useState<{
@@ -29,21 +31,23 @@ export default function TournamentService() {
   useEffect(() => {
     (async () => {
       try {
-        const responses = await Promise.all([
-          getTournaments({ tournamentStatus: TournamentStatus.UPCOMING }).unwrap(),
-          getTournaments({ tournamentStatus: TournamentStatus.ON_GOING }).unwrap(),
-          getTournaments({ tournamentStatus: TournamentStatus.COMPLETED }).unwrap(),
-        ]);
-        setTournaments({
-          upcoming: responses[0],
-          onGoing: responses[1],
-          completed: responses[2],
-        });
+        if (userId) {
+          const responses = await Promise.all([
+            getTournaments({ userId, tournamentStatus: TournamentStatus.UPCOMING }).unwrap(),
+            getTournaments({ userId, tournamentStatus: TournamentStatus.ON_GOING }).unwrap(),
+            getTournaments({ userId, tournamentStatus: TournamentStatus.COMPLETED }).unwrap(),
+          ]);
+          setTournaments({
+            upcoming: responses[0],
+            onGoing: responses[1],
+            completed: responses[2],
+          });
+        }
       } catch (error) {
         console.log(error);
       }
     })();
-  }, [getTournaments]);
+  }, [getTournaments, userId]);
 
   const handleCreateTournament = () => {
     navigate('/tournaments/create');
