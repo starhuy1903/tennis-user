@@ -7,6 +7,7 @@ export type OpenTournamentUser = {
   email: string;
   image?: string;
   gender: Gender;
+  elo: number;
 };
 
 export type OpenTournamentParticipant = {
