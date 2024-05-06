@@ -33,6 +33,11 @@ export interface SelectPaymentMethodProps extends CommonModalProps {
   packageId: number;
 }
 
+export interface ShowOrderDetailProps extends CommonModalProps {
+  orderId: string;
+  onNavigate: () => void;
+}
+
 export interface AddMatchProps extends CommonModalProps {
   tournamentId: number;
   participantType: ParticipantType;

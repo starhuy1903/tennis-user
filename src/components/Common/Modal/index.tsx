@@ -10,6 +10,7 @@ import HelloWorld from './HelloWorld';
 import InviteIntoGroup from './InviteIntoGroup';
 import RegisterTournament from './RegisterTournament';
 import SelectPaymentMethod from './SelectPaymentMethod';
+import ShowOrderDetail from './ShowOrderDetails';
 
 const ModalsMap: { [modalKey: string]: any } = {
   [ModalKey.HELLO_WORLD]: HelloWorld,
@@ -18,6 +19,7 @@ const ModalsMap: { [modalKey: string]: any } = {
   [ModalKey.SELECT_PAYMENT_METHOD]: SelectPaymentMethod,
   [ModalKey.REGISTER_TOURNAMENT]: RegisterTournament,
   [ModalKey.ADD_PARTICIPANTS]: AddParticipants,
+  [ModalKey.SHOW_ORDER_DETAIL]: ShowOrderDetail,
   [ModalKey.ADD_MATCH]: AddMatch,
 };
 

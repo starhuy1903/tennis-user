@@ -32,6 +32,7 @@ const PacksSection = () => {
         >
           {packages.map((e) => (
             <Grid
+              key={e.id}
               xs={12}
               md={6}
               lg={4}

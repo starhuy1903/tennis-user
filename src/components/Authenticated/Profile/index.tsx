@@ -19,9 +19,10 @@ import { useNavigate } from 'react-router-dom';
 import TabPanel from 'components/Common/TabPanel';
 import { a11yProps } from 'utils/ui';
 
-import AccountSettings from './components/AccountSettings';
-import PacksSection from './components/PacksSection';
-import ProfileSection from './components/ProfileSection';
+import AccountSettings from './AccountSettings';
+import PacksSection from './PacksSection';
+import PaymentSection from './PaymentSection';
+import ProfileSection from './ProfileSection';
 
 type ProfileTabName = 'feeds' | 'packages' | 'payments' | 'settings';
 
@@ -46,7 +47,7 @@ const ProfileTabs: Array<{
   {
     index: 2,
     label: 'Payments',
-    component: <Typography>Payments</Typography>,
+    component: <PaymentSection />,
     tabName: 'payments',
   },
   {
@@ -85,6 +86,7 @@ export default function Profile({ activeTab = 'feeds' }: ProfileProps) {
         >
           {ProfileTabs.map((tab) => (
             <Tab
+              key={tab.index}
               label={tab.label}
               {...a11yProps(tab.index)}
             />
@@ -93,6 +95,7 @@ export default function Profile({ activeTab = 'feeds' }: ProfileProps) {
       </Box>
       {ProfileTabs.map((tab) => (
         <TabPanel
+          key={tab.index}
           value={currentTab}
           index={tab.index}
         >
