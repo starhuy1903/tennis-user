@@ -37,6 +37,7 @@ export default function AccountSettings() {
       >
         {AccountSettingTabs.map((tab) => (
           <Tab
+            key={tab.index}
             label={tab.label}
             {...a11yProps(tab.index)}
           />
@@ -44,6 +45,7 @@ export default function AccountSettings() {
       </Tabs>
       {AccountSettingTabs.map((tab) => (
         <TabPanel
+          key={tab.index}
           value={currentTab}
           index={tab.index}
         >
