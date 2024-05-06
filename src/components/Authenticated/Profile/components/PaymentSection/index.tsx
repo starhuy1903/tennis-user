@@ -14,11 +14,15 @@ import {
   Typography,
 } from '@mui/material';
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAppDispatch } from 'store';
 
 import CenterLoading from 'components/Common/CenterLoading';
 import NoData from 'components/Common/NoData';
+import { ModalKey } from 'constants/modal';
 import { OrderStatus, OrderStatusOptions } from 'constants/order';
 import { useGetOrdersQuery } from 'store/api/order/orderApiSlice';
+import { showModal } from 'store/slice/modalSlice';
 import { formatDateTime } from 'utils/datetime';
 import { displayCurrency } from 'utils/string';
 
@@ -67,8 +71,8 @@ const OrderStatusBadge = ({ status }: { status: OrderStatus }) => {
 };
 
 export default function PaymentSection() {
-  // const navigate = useNavigate();
-  // const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   const [status, setStatus] = useState<OrderStatus>(OrderStatus.COMPLETED);
   const [page, setPage] = useState<number>(1);
@@ -143,12 +147,12 @@ export default function PaymentSection() {
               <TableRow
                 key={order.id}
                 onClick={() => {
-                  //   dispatch(
-                  //     showModal(ModalKey.SHOW_ORDER_DETAIL, {
-                  //       orderId: order.id,
-                  //       onNavigate: () => navigate(`/pricing`),
-                  //     })
-                  //   );
+                  dispatch(
+                    showModal(ModalKey.SHOW_ORDER_DETAIL, {
+                      orderId: order.id,
+                      onNavigate: () => navigate(`/pricing`),
+                    })
+                  );
                 }}
                 sx={{ cursor: 'pointer' }}
               >
