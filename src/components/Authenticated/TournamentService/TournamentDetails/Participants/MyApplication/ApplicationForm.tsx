@@ -45,9 +45,9 @@ const ApplicantInfo = ({ title, user }: { title: string; user: UserProfile }) =>
         />
 
         <Chip
-          label={`${user.elo} ELO`}
+          label={`${user.elo || 'No'} ELO`}
           size="small"
-          variant="filled"
+          variant={user.elo ? 'filled' : 'outlined'}
           color="primary"
         />
       </Box>

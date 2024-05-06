@@ -67,14 +67,12 @@ export default function InvitationItem({ data }: { data: OpenTournamentApplicant
             sx={{ width: '50px', height: '50px' }}
           />
 
-          <Tooltip title={`${data.user1.elo} ELO`}>
-            <Chip
-              label={data.user1.elo}
-              size="small"
-              variant="filled"
-              color="primary"
-            />
-          </Tooltip>
+          <Chip
+            label={`${data.user1.elo || 'No'} ELO`}
+            size="small"
+            variant={data.user1.elo ? 'filled' : 'outlined'}
+            color="primary"
+          />
 
           <Typography variant="h2">{data.user1.name}</Typography>
 
