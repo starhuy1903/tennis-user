@@ -116,9 +116,8 @@ export default function PaymentSection() {
           onChange={(event) => setStatus(event.target.value as OrderStatus)}
           sx={{
             mb: 2,
-            mr: 2,
-            width: '10%',
           }}
+          size="small"
         >
           <MenuItem value={OrderStatus?.COMPLETED}>{OrderStatusOptions[OrderStatus?.COMPLETED]}</MenuItem>
           <MenuItem value={OrderStatus?.CANCELLED}>{OrderStatusOptions[OrderStatus?.CANCELLED]}</MenuItem>
