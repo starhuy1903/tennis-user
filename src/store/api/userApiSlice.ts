@@ -56,7 +56,7 @@ const userApiToastSlice = apiWithToastSlice.injectEndpoints({
     }),
     verify: build.mutation<MessageResponse, VerifyPayload>({
       query: (body) => ({
-        url: urlWithAuthPrefix('/auth/verify'),
+        url: urlWithAuthPrefix('auth/verify'),
         method: 'POST',
         body,
       }),
@@ -81,6 +81,17 @@ const userApiToastSlice = apiWithToastSlice.injectEndpoints({
         method: 'POST',
         body,
       }),
+    }),
+    editProfile: build.mutation<UserProfile, Partial<UserProfile>>({
+      query: (body) => ({
+        url: urlWithAuthPrefix('auth/edit-profile'),
+        method: 'PATCH',
+        body,
+      }),
+      onQueryStarted: async (_, { dispatch, queryFulfilled }) => {
+        const { data } = await queryFulfilled;
+        dispatch(setProfile(data));
+      },
     }),
     getProfile: build.query<UserProfile, void>({
       query: () => urlWithCorePrefix('users/me'),
@@ -119,6 +130,7 @@ export const {
   useForgotPasswordMutation,
   useResetPasswordMutation,
   useChangePasswordMutation,
+  useEditProfileMutation,
   useLazyGetProfileQuery,
   useAffiliateSponsorMutation,
 } = userApiToastSlice;
