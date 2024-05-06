@@ -1,8 +1,8 @@
 import { Box, Stack, Typography } from '@mui/material';
 import { useState } from 'react';
 
+import { PaymentPartner } from 'constants/order';
 import { useCreateOrderMutation } from 'store/api/order/orderApiSlice';
-import { PaymentPartner } from 'types/order';
 import { showError } from 'utils/toast';
 
 import VNPay from 'assets/images/vnpay.jpg';

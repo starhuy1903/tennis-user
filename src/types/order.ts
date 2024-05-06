@@ -1,15 +1,6 @@
+import { OrderStatus, PaymentPartner } from 'constants/order';
+
 import { BaseType } from './base';
-
-export enum OrderStatus {
-  NEW = 'new',
-  COMPLETED = 'completed',
-  CANCELED = 'canceled',
-}
-
-export enum PaymentPartner {
-  VNPAY = 'VNPAY',
-  ZALOPAY = 'ZALOPAY',
-}
 
 export type Order = BaseType & {
   id: string;
