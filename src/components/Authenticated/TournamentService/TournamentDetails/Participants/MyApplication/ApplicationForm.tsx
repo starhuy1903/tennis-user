@@ -15,11 +15,12 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { GenderOptions } from 'constants/tournament';
 import { RegistrationStatus } from 'constants/tournament-participants';
 import { useDeleteApplicationMutation } from 'store/api/tournament/tournamentParticipantsApiSlice';
-import { OpenTournamentApplicant, OpenTournamentUser } from 'types/open-tournament-participants';
+import { OpenTournamentApplicant } from 'types/open-tournament-participants';
+import { UserProfile } from 'types/user';
 import { formatDateTime } from 'utils/datetime';
 import { showSuccess } from 'utils/toast';
 
-const ApplicantInfo = ({ title, user }: { title: string; user: OpenTournamentUser }) => {
+const ApplicantInfo = ({ title, user }: { title: string; user: UserProfile }) => {
   return (
     <Stack
       direction="row"

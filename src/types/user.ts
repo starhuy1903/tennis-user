@@ -61,6 +61,7 @@ export type UserProfile = {
   phoneNumber: string;
   gender: Gender;
   role: string;
+  elo: number | null;
 };
 
 export type RefreshResponse = {
