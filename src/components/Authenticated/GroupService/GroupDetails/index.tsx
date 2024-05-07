@@ -12,7 +12,7 @@ import InfoSection from './InfoSection';
 import Member from './Member';
 import UpdateGroupInformation from './UpdateGroupInformation';
 
-const GroupTabs = [
+const SharedTabs = [
   {
     index: 0,
     label: 'Feeds',
@@ -27,15 +27,19 @@ const GroupTabs = [
   },
   {
     index: 2,
-    label: 'Update Information',
-    hash: 'information',
-    component: <UpdateGroupInformation />,
-  },
-  {
-    index: 3,
     label: 'Group Tournaments',
     hash: 'tournaments',
     component: <GroupTournaments />,
+  },
+];
+
+const GroupAdminTabs = [
+  ...SharedTabs,
+  {
+    index: 3,
+    label: 'Update Information',
+    hash: 'information',
+    component: <UpdateGroupInformation />,
   },
 ];
 
@@ -45,6 +49,8 @@ export default function GroupDetails() {
 
   const { groupId } = useParams();
   const { data } = useGetGroupDetailsQuery(parseInt(groupId!));
+
+  const GroupTabs = data?.isCreator ? GroupAdminTabs : SharedTabs;
 
   const [currentTab, setCurrentTab] = useState<number>(
     GroupTabs.find((e) => location.hash === `#${e.hash}`)?.index || GroupTabs[0].index
