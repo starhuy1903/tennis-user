@@ -2,12 +2,12 @@ import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import { Box, CircularProgress, Fab, FormControl, TextField, Tooltip, Typography } from '@mui/material';
 import { useDebounce } from 'hooks';
 import { useConfirm } from 'material-ui-confirm';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useAppDispatch } from 'store';
 
 import { ModalKey } from 'constants/modal';
-import { useGetGroupMembersQuery } from 'store/api/group/groupApiSlice';
+import { useGetGroupDetailsQuery, useGetGroupMembersQuery } from 'store/api/group/groupApiSlice';
 import { showModal } from 'store/slice/modalSlice';
 
 import MemberItems from './MemberItems';
@@ -21,10 +21,11 @@ export default function Member() {
 
   const { groupId } = useParams();
   const { data, isLoading } = useGetGroupMembersQuery({ page: 1, take: 10, id: parseInt(groupId!) });
+  const { data: groupDetail } = useGetGroupDetailsQuery(parseInt(groupId!));
 
-  const members = useMemo(() => {
-    return data?.data.filter((e) => e.role !== 'group_admin') || [];
-  }, [data?.data]);
+  // const members = useMemo(() => {
+  //   return data?.data.filter((e) => e.role !== 'group_admin') || [];
+  // }, [data?.data]);
 
   const handleInvite = () => {
     dispatch(showModal(ModalKey.INVITE_INTO_GROUP));
@@ -75,9 +76,11 @@ export default function Member() {
       <Box sx={{ height: 'calc(100% - 60px)', overflow: 'auto' }}>
         {isLoading ? (
           <CircularProgress />
-        ) : members.length > 0 ? (
-          members.map((e) => (
+        ) : data && data?.data.length > 0 ? (
+          data?.data.map((e) => (
             <MemberItems
+              role={e.role}
+              isCreator={groupDetail?.isCreator || false}
               key={e.user.id}
               data={e.user}
               expanded={expand === e.user.id}
