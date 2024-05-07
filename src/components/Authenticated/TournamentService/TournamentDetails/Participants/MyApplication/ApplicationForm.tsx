@@ -71,7 +71,7 @@ const ApplicantInfo = ({ title, user }: { title: string; user: UserProfile }) =>
             </FormControl>
 
             <FormControl fullWidth>
-              <FormLabel htmlFor="name">Email</FormLabel>
+              <FormLabel htmlFor="email">Email</FormLabel>
               <TextField
                 value={user.email}
                 disabled
@@ -84,7 +84,7 @@ const ApplicantInfo = ({ title, user }: { title: string; user: UserProfile }) =>
             spacing={2}
           >
             <FormControl fullWidth>
-              <FormLabel htmlFor="name">Gender</FormLabel>
+              <FormLabel htmlFor="gender">Gender</FormLabel>
               <TextField
                 value={GenderOptions[user.gender]}
                 disabled
@@ -176,7 +176,7 @@ export default function ApplicationForm({ data }: { data: OpenTournamentApplican
               spacing={2}
             >
               <FormControl fullWidth>
-                <FormLabel htmlFor="name">Applied Date</FormLabel>
+                <FormLabel htmlFor="applied-date">Applied Date</FormLabel>
                 <TextField
                   value={formatDateTime(data.appliedDate)}
                   disabled
@@ -184,7 +184,7 @@ export default function ApplicationForm({ data }: { data: OpenTournamentApplican
               </FormControl>
 
               <FormControl fullWidth>
-                <FormLabel htmlFor="name">Message</FormLabel>
+                <FormLabel htmlFor="message">Message</FormLabel>
                 <TextField
                   value={data.message}
                   multiline
