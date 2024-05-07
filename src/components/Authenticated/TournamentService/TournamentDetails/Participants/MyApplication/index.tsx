@@ -56,7 +56,7 @@ export default function MyApplication({ tournament }: { tournament: OpenTourname
 
   return (
     <Box my={5}>
-      {myApplication ? (
+      {myApplication && myApplication.status != RegistrationStatus.CANCELED ? (
         <ApplicationForm data={myApplication} />
       ) : (
         <Box>
