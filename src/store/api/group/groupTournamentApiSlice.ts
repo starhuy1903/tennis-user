@@ -49,14 +49,14 @@ const groupTournamentApiToastSlice = apiWithToastSlice.injectEndpoints({
         url: `core/groups/${args.groupId}/tournaments/${args.tournamentId}/non-participants`,
       }),
     }),
-    addParticipants: build.mutation<void, { groupId: number; tournamentId: number; userIds: number[] }>({
+    addParticipants: build.mutation<void, { groupId: number; tournamentId: number; userIds: string[] }>({
       query: (args) => ({
         url: `core/groups/${args.groupId}/tournaments/${args.tournamentId}/participants`,
         method: 'POST',
         body: { userIds: args.userIds },
       }),
     }),
-    removeParticipant: build.mutation<void, { groupId: number; tournamentId: number; userId: number }>({
+    removeParticipant: build.mutation<void, { groupId: number; tournamentId: number; userId: string }>({
       query: (args) => ({
         url: `core/groups/${args.groupId}/tournaments/${args.tournamentId}/participants/${args.userId}`,
         method: 'DELETE',
