@@ -27,7 +27,7 @@ export interface RegisterTournamentProps extends CommonModalProps {
 }
 
 export interface SelectPaymentMethodProps extends CommonModalProps {
-  userId: number;
+  userId: string;
   packageId: number;
 }
 
