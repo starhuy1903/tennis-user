@@ -6,6 +6,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 import CenterLoading from 'components/Common/CenterLoading';
 import { TournamentStatus } from 'constants/tournament';
+import { useGetGroupDetailsQuery } from 'store/api/group/groupApiSlice';
 import { useLazyGetGroupTournamentsQuery } from 'store/api/group/groupTournamentApiSlice';
 import { GroupTournament } from 'types/tournament';
 import { showError } from 'utils/toast';
@@ -28,6 +29,7 @@ export default function GroupTournaments() {
   const { groupId } = useParams();
 
   const [getTournaments, { isLoading }] = useLazyGetGroupTournamentsQuery();
+  const { data: groupDetail } = useGetGroupDetailsQuery(parseInt(groupId!));
 
   useEffect(() => {
     (async () => {
@@ -83,12 +85,14 @@ export default function GroupTournaments() {
               Upcoming Tournaments
             </Typography>
           </Stack>
-          <Button
-            variant="outlined"
-            onClick={handleCreateTournament}
-          >
-            Create tournament
-          </Button>
+          {groupDetail?.isCreator && (
+            <Button
+              variant="outlined"
+              onClick={handleCreateTournament}
+            >
+              Create tournament
+            </Button>
+          )}
         </Stack>
         <GroupTournamentList tournaments={tournaments.upcoming} />
       </Box>
