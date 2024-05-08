@@ -34,7 +34,7 @@ const tournamentParticipantsApiToastSlice = apiWithToastSlice.injectEndpoints({
       GetPagingListOptions & { tournamentId: number }
     >({
       query: (args) => ({
-        url: `core/tournaments/${args.tournamentId}/participants`,
+        url: urlWithCorePrefix(`tournaments/${args.tournamentId}/participants`),
         params: {
           page: args.page,
           take: args.take,

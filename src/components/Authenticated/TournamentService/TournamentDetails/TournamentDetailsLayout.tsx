@@ -3,10 +3,12 @@ import TabList from '@mui/lab/TabList';
 import { Box, Paper, Stack, Tab, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { Outlet, useNavigate, useParams } from 'react-router-dom';
+import { useAppDispatch } from 'store';
 
 import CenterLoading from 'components/Common/CenterLoading';
 // import { TournamentStatus } from 'constants/tournament';
 import { useLazyGetOpenTournamentDetailsQuery } from 'store/api/tournament/tournamentApiSlice';
+import { setTournamentDetails } from 'store/slice/tournamentSlice';
 import { OpenTournament } from 'types/tournament';
 import { displayDateRange } from 'utils/datetime';
 import { showError } from 'utils/toast';
@@ -43,6 +45,7 @@ const TournamentTabs = [
 
 export default function TournamentDetailsLayout() {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const [getTournamentDetails, { isLoading }] = useLazyGetOpenTournamentDetailsQuery();
   const [tournamentData, setTournamentData] = useState<OpenTournament | null>(null);
 
@@ -61,6 +64,7 @@ export default function TournamentDetailsLayout() {
         try {
           const res = await getTournamentDetails(parseInt(tournamentId)).unwrap();
           setTournamentData(res);
+          dispatch(setTournamentDetails(res));
         } catch (error) {
           showError('Tournament not found.');
           navigate('/tournaments');
@@ -70,7 +74,7 @@ export default function TournamentDetailsLayout() {
         navigate('/tournaments');
       }
     })();
-  }, [getTournamentDetails, navigate, tournamentId]);
+  }, [getTournamentDetails, navigate, tournamentId, dispatch]);
 
   useEffect(() => {
     navigate(`/tournaments/${tournamentId}/participants`);
