@@ -48,7 +48,7 @@ const ProfileSection = () => {
             />
 
             <Chip
-              label={`${user.elo || '500'} ELO`}
+              label={`${user.elo || 'No'} ELO`}
               size="small"
               variant={user.elo ? 'filled' : 'outlined'}
               color="primary"
