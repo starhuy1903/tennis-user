@@ -1,5 +1,5 @@
 import { GetListResult, GetPagingListOptions } from 'types/base';
-import { Group, GroupDto, GroupUpdateDto, InvitationPayload } from 'types/group';
+import { CreateGroupDto, Group, GroupUpdateDto, InvitationPayload } from 'types/group';
 import { MemberDto } from 'types/user';
 
 import { apiWithToastSlice } from '../baseApiSlice';
@@ -49,12 +49,20 @@ const groupApiToastSlice = apiWithToastSlice.injectEndpoints({
     getGroupDetails: build.query<Group, number>({
       query: (id) => `core/groups/${id}`,
     }),
-    createGroup: build.mutation<void, GroupDto>({
-      query: (body) => ({
-        url: urlWithCorePrefix('groups'),
-        method: 'POST',
-        body: { ...body, image: 'https://picsum.photos/id/251/300/200' },
-      }),
+    createGroup: build.mutation<Group, CreateGroupDto>({
+      query: (body) => {
+        const formData = new FormData();
+
+        Object.entries(body).forEach(([key, value]) => {
+          formData.append(key, value as string | Blob);
+        });
+
+        return {
+          url: urlWithCorePrefix('groups'),
+          method: 'POST',
+          body: formData,
+        };
+      },
     }),
     updateGroup: build.mutation<void, { id: number; data: GroupUpdateDto }>({
       query: (body) => ({
