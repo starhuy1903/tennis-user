@@ -5,7 +5,7 @@ import { Package } from './package';
 
 export type Order = BaseType & {
   id: string;
-  userId: number;
+  userId: string;
   packageId: number;
   price: number;
   status: OrderStatus;
@@ -20,7 +20,7 @@ export type PaymentResponse = {
 
 export type CreateOrderPayload = {
   packageId: number;
-  userId: number;
+  userId: string;
   partner: PaymentPartner;
 };
 

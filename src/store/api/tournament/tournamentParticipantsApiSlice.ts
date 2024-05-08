@@ -34,7 +34,7 @@ const tournamentParticipantsApiToastSlice = apiWithToastSlice.injectEndpoints({
       GetPagingListOptions & { tournamentId: number }
     >({
       query: (args) => ({
-        url: `core/tournaments/${args.tournamentId}/participants`,
+        url: urlWithCorePrefix(`tournaments/${args.tournamentId}/participants`),
         params: {
           page: args.page,
           take: args.take,
@@ -42,14 +42,14 @@ const tournamentParticipantsApiToastSlice = apiWithToastSlice.injectEndpoints({
         },
       }),
     }),
-    approveTournamentApplicant: build.mutation<void, { tournamentId: number; userId: number }>({
+    approveTournamentApplicant: build.mutation<void, { tournamentId: number; userId: string }>({
       query: ({ tournamentId, userId }) => ({
         url: `core/tournaments/${tournamentId}/applicants/approve`,
         method: 'POST',
         body: { userId },
       }),
     }),
-    rejectTournamentApplicant: build.mutation<void, { tournamentId: number; userId: number }>({
+    rejectTournamentApplicant: build.mutation<void, { tournamentId: number; userId: string }>({
       query: ({ tournamentId, userId }) => ({
         url: `core/tournaments/${tournamentId}/applicants/reject`,
         method: 'POST',
@@ -86,14 +86,14 @@ const tournamentParticipantsApiToastSlice = apiWithToastSlice.injectEndpoints({
         },
       }),
     }),
-    approveInvitation: build.mutation<void, { tournamentId: number; inviterId: number }>({
+    approveInvitation: build.mutation<void, { tournamentId: number; inviterId: string }>({
       query: ({ tournamentId, inviterId }) => ({
         url: `core/tournaments/${tournamentId}/applicants/invitations/approve`,
         method: 'POST',
         body: { inviterId },
       }),
     }),
-    rejectInvitation: build.mutation<void, { tournamentId: number; inviterId: number }>({
+    rejectInvitation: build.mutation<void, { tournamentId: number; inviterId: string }>({
       query: ({ tournamentId, inviterId }) => ({
         url: `core/tournaments/${tournamentId}/applicants/invitations/reject`,
         method: 'POST',

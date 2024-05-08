@@ -52,7 +52,7 @@ export default function Participants() {
     );
   };
 
-  const handleRemoveParticipant = (userId: number, name: string) => {
+  const handleRemoveParticipant = (userId: string, name: string) => {
     confirm({ description: `This action will remove ${name} from this tournament.` })
       .then(() => {
         removeParticipant({ groupId: parseInt(groupId!), tournamentId: parseInt(tournamentId!), userId });

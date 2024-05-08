@@ -1,4 +1,6 @@
 // import { ModalKey } from 'constants/modal';
+import { ParticipantType } from 'constants/tournament';
+
 import { BaseModalProps } from './BaseModal';
 
 /** Internal modal props: component */
@@ -27,13 +29,18 @@ export interface RegisterTournamentProps extends CommonModalProps {
 }
 
 export interface SelectPaymentMethodProps extends CommonModalProps {
-  userId: number;
+  userId: string;
   packageId: number;
 }
 
 export interface ShowOrderDetailProps extends CommonModalProps {
   orderId: string;
   onNavigate: () => void;
+}
+
+export interface AddMatchProps extends CommonModalProps {
+  tournamentId: number;
+  participantType: ParticipantType;
 }
 
 /** External modal props: useModal */

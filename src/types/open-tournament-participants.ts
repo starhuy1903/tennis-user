@@ -2,7 +2,7 @@ import { Gender } from 'constants/tournament';
 import { RegistrationStatus } from 'constants/tournament-participants';
 
 export type OpenTournamentUser = {
-  id: number;
+  id: string;
   name: string;
   email: string;
   image?: string;

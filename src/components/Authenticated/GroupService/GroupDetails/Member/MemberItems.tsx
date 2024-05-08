@@ -24,7 +24,7 @@ interface MemberItemsProps {
   data: MemberUser;
   expanded: boolean;
   handleChange: (event: SyntheticEvent, newExpanded: boolean) => void;
-  handleDelete: (id: number, name: string) => void;
+  handleDelete: (id: string, name: string) => void;
 }
 
 const MemberItems = ({ role, isCreator, data, expanded, handleChange, handleDelete }: MemberItemsProps) => {
