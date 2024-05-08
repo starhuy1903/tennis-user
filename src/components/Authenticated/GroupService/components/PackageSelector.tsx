@@ -18,11 +18,11 @@ import Package from './Package';
 
 interface PackageSelectorProps {
   selected: string | null;
-  handleSelect: () => void;
+  handleSelect: (purchasedPackageId: string) => void;
   packages: Array<UserPackage>;
 }
 
-const PackageSelector = ({ selected, packages }: PackageSelectorProps) => {
+const PackageSelector = ({ selected, packages, handleSelect }: PackageSelectorProps) => {
   const [open, setOpen] = useState<boolean>(false);
   const [selectedItem, setSelectedItem] = useState(selected);
 
@@ -70,7 +70,10 @@ const PackageSelector = ({ selected, packages }: PackageSelectorProps) => {
               >
                 <Package
                   selected={selectedItem === String(e.id)}
-                  handleSelect={() => setSelectedItem(String(e.id))}
+                  handleSelect={() => {
+                    setSelectedItem(String(e.id));
+                    handleSelect(String(e.id));
+                  }}
                   data={e}
                 />
               </Grid>
