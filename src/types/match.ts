@@ -30,6 +30,14 @@ export type Match = {
   duration: number; // 60
   state: MatchState;
   nextMatchId: string | null; // Id for the next match in upper bracket, if it's final match it must be null
-  tournamentRoundText: '4'; // Text for Round Header
+  tournamentRoundText: string; // Text for Round Header
   participants: MatchParticipant[];
+};
+
+export type MatchPayload = {
+  tournamentId: number;
+  name: string;
+  time: string; // 09:00:00
+  date: string; // 2024-03-20
+  duration: number; // 60
 };
