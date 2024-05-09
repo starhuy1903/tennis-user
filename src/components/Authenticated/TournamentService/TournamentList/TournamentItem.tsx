@@ -9,7 +9,7 @@ import { ModalKey } from 'constants/modal';
 import { TournamentStatus } from 'constants/tournament';
 import { showModal } from 'store/slice/modalSlice';
 import { OpenTournament } from 'types/tournament';
-import { displayDateRange, displayDayLeft, isExpired } from 'utils/datetime';
+import { displayDateRange, displayDayLeft } from 'utils/datetime';
 
 export default function TournamentItem({
   tournament,
@@ -122,7 +122,6 @@ export default function TournamentItem({
               variant="contained"
               color="primary"
               fullWidth
-              disabled={isExpired(tournament.registrationDueDate)}
               sx={{
                 mt: 2,
               }}
