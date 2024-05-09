@@ -19,10 +19,10 @@ import { useNavigate } from 'react-router-dom';
 import TabPanel from 'components/Common/TabPanel';
 import { a11yProps } from 'utils/ui';
 
-import AccountSettings from './components/AccountSettings';
-import PacksSection from './components/PacksSection';
-import PaymentSection from './components/PaymentSection';
-import ProfileSection from './components/ProfileSection';
+import AccountSettings from './AccountSettings';
+import PacksSection from './PacksSection';
+import PaymentSection from './PaymentSection';
+import ProfileSection from './ProfileSection';
 
 type ProfileTabName = 'feeds' | 'packages' | 'payments' | 'settings';
 

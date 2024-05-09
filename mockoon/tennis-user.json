@@ -911,7 +911,7 @@
       "type": "http",
       "documentation": "",
       "method": "get",
-      "endpoint": "core/system-config",
+      "endpoint": "core/systems-config",
       "responses": [
         {
           "uuid": "4b13c145-cd24-4381-a950-1ccf9609bcd7",

@@ -16,8 +16,86 @@ import { GenderOptions } from 'constants/tournament';
 import { RegistrationStatus } from 'constants/tournament-participants';
 import { useDeleteApplicationMutation } from 'store/api/tournament/tournamentParticipantsApiSlice';
 import { OpenTournamentApplicant } from 'types/open-tournament-participants';
+import { UserProfile } from 'types/user';
 import { formatDateTime } from 'utils/datetime';
 import { showSuccess } from 'utils/toast';
+
+const ApplicantInfo = ({ title, user }: { title: string; user: UserProfile }) => {
+  return (
+    <Stack
+      direction="row"
+      justifyContent="space-between"
+      alignItems="center"
+    >
+      <Box
+        sx={{
+          width: '50%',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+          gap: 2,
+          mt: 2,
+        }}
+      >
+        <Avatar
+          src={user.image}
+          alt={user.name}
+          sx={{ width: '180px', height: '180px' }}
+        />
+
+        <Chip
+          label={`${user.elo || 'No'} ELO`}
+          size="small"
+          variant={user.elo ? 'filled' : 'outlined'}
+          color="primary"
+        />
+      </Box>
+
+      <Box sx={{ width: '100%' }}>
+        <Typography variant="h6">{title}</Typography>
+        <Stack
+          sx={{ mt: 1 }}
+          spacing={2}
+        >
+          <Stack
+            direction="row"
+            spacing={2}
+          >
+            <FormControl fullWidth>
+              <FormLabel htmlFor="name">Name</FormLabel>
+              <TextField
+                value={user.name}
+                disabled
+              />
+            </FormControl>
+
+            <FormControl fullWidth>
+              <FormLabel htmlFor="email">Email</FormLabel>
+              <TextField
+                value={user.email}
+                disabled
+              />
+            </FormControl>
+          </Stack>
+
+          <Stack
+            direction="row"
+            spacing={2}
+          >
+            <FormControl fullWidth>
+              <FormLabel htmlFor="gender">Gender</FormLabel>
+              <TextField
+                value={GenderOptions[user.gender]}
+                disabled
+              />
+            </FormControl>
+          </Stack>
+        </Stack>
+      </Box>
+    </Stack>
+  );
+};
 
 export default function ApplicationForm({ data }: { data: OpenTournamentApplicant }) {
   const navigate = useNavigate();
@@ -72,150 +150,16 @@ export default function ApplicationForm({ data }: { data: OpenTournamentApplican
         autoComplete="off"
         sx={{ display: 'flex', flexDirection: 'column', gap: 4, mt: 4 }}
       >
-        <Stack
-          direction="row"
-          justifyContent="space-between"
-          alignItems={'center'}
-        >
-          <Box
-            sx={{
-              width: '50%',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-              alignItems: 'center',
-              gap: 2,
-              mt: 2,
-            }}
-          >
-            <Avatar
-              src={data?.user1.image}
-              alt={data?.user1.name}
-              sx={{ width: '180px', height: '180px' }}
-            />
-
-            <Chip
-              label={`${data.user1.elo} ELO`}
-              size="small"
-              variant="filled"
-              color="primary"
-            />
-          </Box>
-
-          <Box sx={{ width: '100%' }}>
-            <Typography variant="h6">{data?.user2 ? 'Application 1' : 'Information'}</Typography>
-            <Stack
-              sx={{ mt: 1 }}
-              spacing={2}
-            >
-              <Stack
-                direction="row"
-                spacing={2}
-              >
-                <FormControl fullWidth>
-                  <FormLabel htmlFor="name">Name</FormLabel>
-                  <TextField
-                    value={data?.user1.name}
-                    disabled
-                  />
-                </FormControl>
-
-                <FormControl fullWidth>
-                  <FormLabel htmlFor="name">Email</FormLabel>
-                  <TextField
-                    value={data?.user1.email}
-                    disabled
-                  />
-                </FormControl>
-              </Stack>
-
-              <Stack
-                direction="row"
-                spacing={2}
-              >
-                <FormControl fullWidth>
-                  <FormLabel htmlFor="name">Gender</FormLabel>
-                  <TextField
-                    value={GenderOptions[data?.user1.gender]}
-                    disabled
-                  />
-                </FormControl>
-              </Stack>
-            </Stack>
-          </Box>
-        </Stack>
+        <ApplicantInfo
+          title={data?.user2 ? 'Applicant 1' : 'Information'}
+          user={data.user1}
+        />
 
         {data?.user2 && (
-          <Stack
-            direction="row"
-            justifyContent="space-between"
-          >
-            <Box
-              sx={{
-                width: '50%',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'center',
-                alignItems: 'center',
-                gap: 2,
-              }}
-            >
-              <Avatar
-                src={data?.user2.image}
-                alt={data?.user2.name}
-                sx={{ width: '180px', height: '180px' }}
-              />
-
-              <Chip
-                label={`${data.user1.elo} ELO`}
-                size="small"
-                variant="filled"
-                color="primary"
-              />
-            </Box>
-
-            <Box sx={{ width: '100%' }}>
-              <Typography variant="h6">Applicant 2</Typography>
-              <Stack
-                sx={{ mt: 1 }}
-                spacing={2}
-              >
-                <Stack
-                  direction="row"
-                  spacing={2}
-                >
-                  <FormControl fullWidth>
-                    <FormLabel htmlFor="name">Name</FormLabel>
-                    <TextField
-                      value={data?.user2.name}
-                      disabled
-                    />
-                  </FormControl>
-
-                  <FormControl fullWidth>
-                    <FormLabel htmlFor="name">Email</FormLabel>
-                    <TextField
-                      value={data?.user2.email}
-                      disabled
-                    />
-                  </FormControl>
-                </Stack>
-
-                <Stack
-                  direction="row"
-                  spacing={2}
-                >
-                  <FormControl fullWidth>
-                    <FormLabel htmlFor="name">Gender</FormLabel>
-                    <TextField
-                      value={GenderOptions[data?.user2.gender]}
-                      disabled
-                    />
-                  </FormControl>
-                </Stack>
-              </Stack>
-            </Box>
-          </Stack>
+          <ApplicantInfo
+            title="Applicant 2"
+            user={data.user2}
+          />
         )}
 
         <Stack
@@ -232,7 +176,7 @@ export default function ApplicationForm({ data }: { data: OpenTournamentApplican
               spacing={2}
             >
               <FormControl fullWidth>
-                <FormLabel htmlFor="name">Applied Date</FormLabel>
+                <FormLabel htmlFor="applied-date">Applied Date</FormLabel>
                 <TextField
                   value={formatDateTime(data.appliedDate)}
                   disabled
@@ -240,7 +184,7 @@ export default function ApplicationForm({ data }: { data: OpenTournamentApplican
               </FormControl>
 
               <FormControl fullWidth>
-                <FormLabel htmlFor="name">Message</FormLabel>
+                <FormLabel htmlFor="message">Message</FormLabel>
                 <TextField
                   value={data.message}
                   multiline

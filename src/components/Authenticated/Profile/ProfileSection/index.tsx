@@ -3,6 +3,7 @@ import FemaleIcon from '@mui/icons-material/Female';
 import MailIcon from '@mui/icons-material/Mail';
 import MaleIcon from '@mui/icons-material/Male';
 import PhoneIcon from '@mui/icons-material/Phone';
+import { Chip, Tooltip } from '@mui/material';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
@@ -36,10 +37,30 @@ const ProfileSection = () => {
             },
           }}
         >
-          <Avatar
-            src={user.image}
-            alt="user-profile"
-          />
+          <Box
+            sx={{
+              position: 'relative',
+            }}
+          >
+            <Avatar
+              src={user.image}
+              alt="user-profile"
+            />
+
+            <Chip
+              label={`${user.elo || 'No'} ELO`}
+              size="small"
+              variant={user.elo ? 'filled' : 'outlined'}
+              color="primary"
+              sx={{
+                position: 'absolute',
+                bottom: 0,
+                left: '50%',
+                transform: 'translateX(-50%)',
+                backgroundColor: user.elo ? theme.palette.primary.main : 'white',
+              }}
+            />
+          </Box>
           <Stack
             direction="column"
             flex={1}
@@ -59,21 +80,26 @@ const ProfileSection = () => {
               >
                 {user.name}
               </Typography>
+
               {user.gender === Gender.MALE && (
-                <MaleIcon
-                  fontSize="medium"
-                  sx={{
-                    color: '#008DDA',
-                  }}
-                />
+                <Tooltip title="Gender: Male">
+                  <MaleIcon
+                    fontSize="medium"
+                    sx={{
+                      color: '#008DDA',
+                    }}
+                  />
+                </Tooltip>
               )}
               {user.gender === Gender.FEMALE && (
-                <FemaleIcon
-                  fontSize="medium"
-                  sx={{
-                    color: '#FC819E',
-                  }}
-                />
+                <Tooltip title="Gender: Female">
+                  <FemaleIcon
+                    fontSize="medium"
+                    sx={{
+                      color: '#FC819E',
+                    }}
+                  />
+                </Tooltip>
               )}
             </Stack>
 
@@ -82,8 +108,10 @@ const ProfileSection = () => {
               alignItems="center"
               spacing={1}
             >
-              <MailIcon />
-              <Typography>{user.email}</Typography>
+              <Tooltip title="Email">
+                <MailIcon />
+              </Tooltip>
+              <Typography>{user.email ? user.email : '--'}</Typography>
             </Stack>
 
             <Stack
@@ -91,8 +119,10 @@ const ProfileSection = () => {
               alignItems="center"
               spacing={1}
             >
-              <CalendarMonthIcon />
-              <Typography>{formatDate(user.dob)}</Typography>
+              <Tooltip title="Date of birth">
+                <CalendarMonthIcon />
+              </Tooltip>
+              <Typography>{user.dob ? formatDate(user.dob) : '--'}</Typography>
             </Stack>
 
             <Stack
@@ -100,8 +130,10 @@ const ProfileSection = () => {
               alignItems="center"
               spacing={1}
             >
-              <PhoneIcon />
-              <Typography>{user.phoneNumber}</Typography>
+              <Tooltip title="Phone number">
+                <PhoneIcon />
+              </Tooltip>
+              <Typography>{user.phoneNumber ? user.phoneNumber : '--'}</Typography>
             </Stack>
           </Stack>
         </Box>

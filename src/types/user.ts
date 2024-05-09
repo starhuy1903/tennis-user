@@ -53,7 +53,7 @@ export type SignupResponse = MessageResponse & {
 export type ForgotPasswordResponse = SignupResponse;
 
 export type UserProfile = {
-  id: number;
+  id: string;
   email: string;
   name: string;
   image: string;
@@ -80,7 +80,7 @@ export type AffiliatedSponsorPayload = {
 };
 
 export type MemberUser = {
-  id: number;
+  id: string;
   email: string;
   name: string;
   image?: string;
@@ -88,7 +88,7 @@ export type MemberUser = {
 };
 
 export type MemberDto = {
-  userId: number;
+  userId: string;
   groupId: number;
   createdAt: string;
   updatedAt: string;

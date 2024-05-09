@@ -69,14 +69,12 @@ export default function InvitationItem({ data }: { data: OpenTournamentApplicant
 
           <Typography variant="h2">{data.user1.name}</Typography>
 
-          <Tooltip title={`${data.user1.elo} ELO`}>
-            <Chip
-              label={data.user1.elo}
-              size="small"
-              variant="filled"
-              color="primary"
-            />
-          </Tooltip>
+          <Chip
+            label={`${data.user1.elo || 'No'} ELO`}
+            size="small"
+            variant={data.user1.elo ? 'filled' : 'outlined'}
+            color="primary"
+          />
 
           {/* <Chip
             sx={{ width: 'fit-content' }}
@@ -105,9 +103,8 @@ export default function InvitationItem({ data }: { data: OpenTournamentApplicant
                 <b>Gender:</b> {GenderOptions[data.user1.gender]}
               </Typography>
             </Box>
-
             <Typography variant="body1">
-              <b>Message:</b> {data.message}
+              <strong>Message:</strong> {data.message}
             </Typography>
           </Stack>
 

@@ -1,18 +1,10 @@
-import { Gender } from 'constants/tournament';
 import { RegistrationStatus } from 'constants/tournament-participants';
 
-export type OpenTournamentUser = {
-  id: number;
-  name: string;
-  email: string;
-  image?: string;
-  gender: Gender;
-  elo: number;
-};
+import { UserProfile } from './user';
 
 export type OpenTournamentParticipant = {
-  user1: OpenTournamentUser;
-  user2?: OpenTournamentUser;
+  user1: UserProfile;
+  user2?: UserProfile;
   appliedDate: string;
 };
 

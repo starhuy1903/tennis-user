@@ -6,7 +6,7 @@ import { urlWithCorePrefix } from '../helper';
 
 const tournamentApiToastSlice = apiWithToastSlice.injectEndpoints({
   endpoints: (build) => ({
-    getOpenTournaments: build.query<OpenTournament[], { userId: number; tournamentStatus?: TournamentStatus }>({
+    getOpenTournaments: build.query<OpenTournament[], { userId: string; tournamentStatus?: TournamentStatus }>({
       query: (args) => ({
         url: urlWithCorePrefix(`users/${args.userId}/tournaments`),
         params: { status: args?.tournamentStatus },

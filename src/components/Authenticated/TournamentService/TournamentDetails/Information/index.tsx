@@ -1,6 +1,5 @@
 import { Box, Button, Divider, Grid, Typography } from '@mui/material';
-import { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from 'store';
 
 import CenterLoading from 'components/Common/CenterLoading';
 import Steps from 'components/Common/Steps';
@@ -11,76 +10,54 @@ import {
   TournamentPhase,
   TournamentPhaseOptions,
 } from 'constants/tournament';
-import {
-  useLazyGetOpenTournamentDetailsQuery,
-  useMoveToNextPhaseMutation,
-} from 'store/api/tournament/tournamentApiSlice';
-import { OpenTournament } from 'types/tournament';
+import { useMoveToNextPhaseMutation } from 'store/api/tournament/tournamentApiSlice';
+import { setTournamentDetails } from 'store/slice/tournamentSlice';
 import { displayDate } from 'utils/datetime';
-import { showError } from 'utils/toast';
+import { showError, showSuccess } from 'utils/toast';
 
 import InfoSection from './InfoSection';
 
 export default function Information() {
-  const navigate = useNavigate();
-  const [getTournamentDetails, { isLoading }] = useLazyGetOpenTournamentDetailsQuery();
+  const dispatch = useAppDispatch();
   const [moveToNextPhase, { isLoading: isNextPhaseLoading }] = useMoveToNextPhaseMutation();
+  const tournamentData = useAppSelector((state) => state.tournament.data);
 
-  const [tournament, setTournament] = useState<OpenTournament | null>(null);
-
-  const { tournamentId } = useParams();
-
-  useEffect(() => {
-    (async () => {
-      if (tournamentId) {
-        try {
-          const res = await getTournamentDetails(parseInt(tournamentId)).unwrap();
-          setTournament(res);
-        } catch (error) {
-          showError('Tournament not found.');
-          navigate('/tournaments');
-        }
-      } else {
-        showError('Tournament not found.');
-        navigate('/tournaments');
-      }
-    })();
-  }, [getTournamentDetails, navigate, tournamentId]);
-
-  const handleNextPhaseClick = async () => {
+  const handlePublishTournament = async () => {
     try {
-      const res = await moveToNextPhase(parseInt(tournamentId!)).unwrap();
+      if (!tournamentData) throw new Error('Tournament data not found');
 
-      setTournament(res);
+      const res = await moveToNextPhase(tournamentData.id).unwrap();
+      dispatch(setTournamentDetails(res));
+      showSuccess('Published tournament successfully.');
     } catch (error) {
-      showError('Failed to move to next phase.');
+      showError('Published tournament failed.');
     }
   };
 
-  if (isLoading || !tournament) {
+  if (!tournamentData) {
     return <CenterLoading />;
   }
 
   const tournamentTimelineFields = [
-    { label: 'DUE BY', value: displayDate(tournament.registrationDueDate) },
-    { label: 'START', value: displayDate(tournament.startDate) },
-    { label: 'ENDS', value: displayDate(tournament.endDate) },
+    { label: 'DUE BY', value: displayDate(tournamentData.registrationDueDate) },
+    { label: 'START', value: displayDate(tournamentData.startDate) },
+    { label: 'ENDS', value: displayDate(tournamentData.endDate) },
   ];
 
   // Format, participants, gender, participant type, players born after, scope
   const tournamentDetailsFields = [
-    { label: 'PARTICIPANTS', value: `${tournament.participants}/${tournament.maxParticipants}` },
-    { label: 'TYPE', value: ParticipantTypeOptions[tournament.participantType] },
-    { label: 'GENDER', value: GenderOptions[tournament.gender] },
-    { label: 'FORMAT', value: TournamentFormatOptions[tournament.format] },
-    { label: 'BORN AFTER', value: displayDate(tournament.playersBornAfterDate) },
+    { label: 'PARTICIPANTS', value: `${tournamentData.participants}/${tournamentData.maxParticipants}` },
+    { label: 'TYPE', value: ParticipantTypeOptions[tournamentData.participantType] },
+    { label: 'GENDER', value: GenderOptions[tournamentData.gender] },
+    { label: 'FORMAT', value: TournamentFormatOptions[tournamentData.format] },
+    { label: 'BORN AFTER', value: displayDate(tournamentData.playersBornAfterDate) },
   ];
 
   const contactInformationFields = [
-    { label: 'NAME', value: tournament.contactPersonName },
-    { label: 'NUMBER', value: tournament.contactNumber, variant: 'phone' as const },
-    { label: 'EMAIL', value: tournament.contactEmail, variant: 'email' as const },
-    { label: 'ADDRESS', value: tournament.address },
+    { label: 'NAME', value: tournamentData.contactPersonName },
+    { label: 'NUMBER', value: tournamentData.contactNumber, variant: 'phone' as const },
+    { label: 'EMAIL', value: tournamentData.contactEmail, variant: 'email' as const },
+    { label: 'ADDRESS', value: tournamentData.address },
   ];
 
   const steps = Object.values(TournamentPhaseOptions);
@@ -108,7 +85,7 @@ export default function Information() {
           variant="body1"
           textAlign="justify"
         >
-          {tournament.description}
+          {tournamentData.description}
         </Typography>
 
         <Divider
@@ -126,21 +103,10 @@ export default function Information() {
           }}
         >
           <Typography variant="h4">Phases</Typography>
-
-          {tournament.isCreator && tournament.phase !== TournamentPhase.COMPLETED && (
-            <Button
-              variant="contained"
-              size="medium"
-              onClick={handleNextPhaseClick}
-              disabled={isNextPhaseLoading}
-            >
-              Next Phase
-            </Button>
-          )}
         </Box>
 
         <Steps
-          currentStep={TournamentPhaseOptions[tournament.phase]}
+          currentStep={TournamentPhaseOptions[tournamentData.phase]}
           steps={steps}
         />
       </Grid>
@@ -153,6 +119,16 @@ export default function Information() {
           gap: 2,
         }}
       >
+        {tournamentData.isCreator && tournamentData.phase === TournamentPhase.NEW && (
+          <Button
+            variant="contained"
+            size="medium"
+            onClick={handlePublishTournament}
+            disabled={isNextPhaseLoading}
+          >
+            Publish tournament
+          </Button>
+        )}
         <InfoSection
           title="Tournament Time Line"
           fields={tournamentTimelineFields}

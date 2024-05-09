@@ -6,7 +6,7 @@ import Pack from './Pack';
 
 interface MyPackagesProps {
   packageData: UserPackage[];
-  onChooseMyPackage: (id: number) => void;
+  onChooseMyPackage: (id: string) => void;
 }
 
 export default function MyPackages({ packageData, onChooseMyPackage }: MyPackagesProps) {
