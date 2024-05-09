@@ -9,9 +9,15 @@ import { ModalKey } from 'constants/modal';
 import { TournamentStatus } from 'constants/tournament';
 import { showModal } from 'store/slice/modalSlice';
 import { OpenTournament } from 'types/tournament';
-import { displayDateRange, displayDayLeft } from 'utils/datetime';
+import { displayDateRange, displayDayLeft, isExpired } from 'utils/datetime';
 
-export default function TournamentItem({ tournament }: { tournament: OpenTournament }) {
+export default function TournamentItem({
+  tournament,
+  isRegisterable = false,
+}: {
+  tournament: OpenTournament;
+  isRegisterable?: boolean;
+}) {
   const dispatch = useAppDispatch();
 
   const handleRegister = async (tournamentId: number) => {
@@ -101,7 +107,7 @@ export default function TournamentItem({ tournament }: { tournament: OpenTournam
           <Typography variant="subtitle1">{`${tournament.participants}/${tournament.maxParticipants} participants`}</Typography>
         </Box>
 
-        {tournament.status === TournamentStatus.UPCOMING && (
+        {isRegisterable && (
           <Box>
             <Box
               display="flex"
@@ -116,6 +122,7 @@ export default function TournamentItem({ tournament }: { tournament: OpenTournam
               variant="contained"
               color="primary"
               fullWidth
+              disabled={isExpired(tournament.registrationDueDate)}
               sx={{
                 mt: 2,
               }}

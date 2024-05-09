@@ -60,3 +60,9 @@ export const displayDayLeft = (end: string) => {
   if (endDate.isBefore(now)) return 'Expired';
   return `${endDate.fromNow(true).charAt(0).toUpperCase()}${endDate.fromNow(true).slice(1)} left`;
 };
+
+export const isExpired = (end: string) => {
+  const endDate = moment(end);
+  const now = moment();
+  return endDate.isBefore(now);
+};

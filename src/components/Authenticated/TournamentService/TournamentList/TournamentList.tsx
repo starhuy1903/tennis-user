@@ -6,9 +6,15 @@ import { OpenTournament } from 'types/tournament';
 
 import TournamentItem from './TournamentItem';
 
-export default function TournamentList({ tournaments }: { tournaments: OpenTournament[] }) {
+export default function TournamentList({
+  tournaments,
+  isRegisterable,
+}: {
+  tournaments: OpenTournament[];
+  isRegisterable?: boolean;
+}) {
   if (tournaments.length === 0) {
-    return <NoData />;
+    return <NoData message="No tournaments found." />;
   }
 
   return (
@@ -19,7 +25,10 @@ export default function TournamentList({ tournaments }: { tournaments: OpenTourn
       >
         {tournaments.map((item) => (
           <SwiperSlide key={item.id}>
-            <TournamentItem tournament={item} />
+            <TournamentItem
+              tournament={item}
+              isRegisterable={isRegisterable}
+            />
           </SwiperSlide>
         ))}
       </Swiper>
