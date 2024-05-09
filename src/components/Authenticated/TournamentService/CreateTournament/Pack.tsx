@@ -56,18 +56,6 @@ const Pack = ({ packageData, onChooseMyPackage }: PackProps) => {
                 >
                   {service.name}
                 </Typography>
-                {service.type === ServiceType.TOURNAMENT && (
-                  <Typography display="inline">
-                    {usedService.config.level === 'basic' ? (
-                      <Chip label="Basic" />
-                    ) : (
-                      <Chip
-                        label="Advanced"
-                        color="info"
-                      />
-                    )}
-                  </Typography>
-                )}
               </Stack>
             ))}
           </Stack>
