@@ -59,7 +59,7 @@ export default function Fixtures() {
 
   if (isLoading || !tournamentData) return <CenterLoading />;
 
-  if (!isCreator && fixture?.status === FixtureStatus.NEW)
+  if (!isCreator && fixture?.status && [FixtureStatus.NEW, FixtureStatus.DRAFT].includes(fixture.status))
     return (
       <Box
         sx={{
