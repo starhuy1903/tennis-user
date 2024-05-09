@@ -40,14 +40,13 @@ export default function AllTournaments() {
           getTournaments(TournamentStatus.UPCOMING, true).unwrap(), // Cache to avoid multiple requests
           getTournaments(TournamentStatus.ON_GOING, true).unwrap(),
           getTournaments(TournamentStatus.COMPLETED, true).unwrap(),
-          // getUnregisteredTournaments(undefined, true).unwrap(),
+          getUnregisteredTournaments(undefined, true).unwrap(),
         ]);
         setTournaments({
           upcoming: responses[0],
           onGoing: responses[1],
           completed: responses[2],
-          // unregistered: responses[3],
-          unregistered: [],
+          unregistered: responses[3],
         });
       } catch (error) {
         console.log(error);

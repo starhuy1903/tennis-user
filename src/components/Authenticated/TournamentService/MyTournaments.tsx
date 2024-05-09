@@ -17,12 +17,10 @@ export default function MyTournaments() {
     upcoming: OpenTournament[];
     onGoing: OpenTournament[];
     completed: OpenTournament[];
-    created: OpenTournament[];
   }>({
     upcoming: [],
     onGoing: [],
     completed: [],
-    created: [],
   });
 
   const [getTournaments, { isLoading }] = useLazyGetMyTournamentsQuery();
@@ -39,7 +37,6 @@ export default function MyTournaments() {
           upcoming: responses[0],
           onGoing: responses[1],
           completed: responses[2],
-          created: [],
         });
       } catch (error) {
         console.log(error);
