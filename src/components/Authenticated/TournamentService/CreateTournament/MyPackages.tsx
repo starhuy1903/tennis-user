@@ -18,6 +18,7 @@ export default function MyPackages({ packagesData, onChooseMyPackage }: MyPackag
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
+          height: 500,
         }}
       >
         <NoData
