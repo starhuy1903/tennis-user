@@ -501,7 +501,7 @@ export default function FormCreateTournament({ selectedPackage, setSelectedPacka
               fullWidth
               error={!!formError.maxParticipants}
             >
-              <FormLabel htmlFor="contactEmail">Max participants</FormLabel>
+              <FormLabel htmlFor="maxParticipants">Max participants</FormLabel>
               <TextField
                 {...register('maxParticipants', {
                   required: 'The max participants is required.',
