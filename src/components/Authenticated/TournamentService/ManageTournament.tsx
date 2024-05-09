@@ -6,7 +6,7 @@ import CenterLoading from 'components/Common/CenterLoading';
 import NoData from 'components/Common/NoData';
 import { useGetCreatedTournamentsQuery } from 'store/api/tournament/tournamentApiSlice';
 
-import TournamentList from './TournamentList';
+import TournamentList from './TournamentList/TournamentList';
 
 export default function ManageTournaments() {
   const navigate = useNavigate();

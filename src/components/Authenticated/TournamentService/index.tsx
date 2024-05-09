@@ -5,8 +5,8 @@ import { Box, Tab } from '@mui/material';
 import { useState } from 'react';
 
 import AllTournaments from './AllTournaments';
+import ManageTournaments from './ManageTournament';
 import MyTournaments from './MyTournaments';
-import ManageTournaments from './TournamentList/ManageTournament';
 
 export default function TournamentService() {
   const [currentTab, setCurrentTab] = useState('1');
