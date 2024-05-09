@@ -28,7 +28,7 @@ const tournamentApiToastSlice = apiWithToastSlice.injectEndpoints({
     }),
     getCreatedTournaments: build.query<OpenTournament[], void>({
       query: () => ({
-        url: urlWithCorePrefix(`tournaments/created`),
+        url: urlWithCorePrefix(`tournaments/me`),
       }),
       transformResponse: (response: { data: OpenTournament[] }) => response.data,
     }),
