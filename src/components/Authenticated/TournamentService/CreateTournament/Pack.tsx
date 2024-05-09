@@ -1,16 +1,14 @@
 import ElectricalServicesOutlinedIcon from '@mui/icons-material/ElectricalServicesOutlined';
-import { Button, CardActions, Chip } from '@mui/material';
+import { Button, CardActions } from '@mui/material';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardHeader from '@mui/material/CardHeader';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import { useMemo } from 'react';
 
-import { ServiceType, UserPackage } from 'types/package';
+import { UserPackage } from 'types/package';
 import { displayTimestamp } from 'utils/datetime';
-import { getUsedTournamentService } from 'utils/package';
 
 interface PackProps {
   packageData: UserPackage;
@@ -18,7 +16,7 @@ interface PackProps {
 }
 
 const Pack = ({ packageData, onChooseMyPackage }: PackProps) => {
-  const usedService = useMemo(() => getUsedTournamentService(packageData), [packageData]);
+  // const usedService = useMemo(() => getUsedTournamentService(packageData), [packageData]);
 
   return (
     <Card>
