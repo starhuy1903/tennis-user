@@ -2,11 +2,14 @@ import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import { Box, Paper, Stack, Tab, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
-import { Outlet, useNavigate, useParams } from 'react-router-dom';
+import { Outlet, useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useAppDispatch } from 'store';
 
 import CenterLoading from 'components/Common/CenterLoading';
+import { defaultTournamentImage } from 'constants/tournament';
 // import { TournamentStatus } from 'constants/tournament';
 import { useLazyGetOpenTournamentDetailsQuery } from 'store/api/tournament/tournamentApiSlice';
+import { setTournamentDetails } from 'store/slice/tournamentSlice';
 import { OpenTournament } from 'types/tournament';
 import { displayDateRange } from 'utils/datetime';
 import { showError } from 'utils/toast';
@@ -43,10 +46,13 @@ const TournamentTabs = [
 
 export default function TournamentDetailsLayout() {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const location = useLocation();
+  const pathParts = location.pathname.split('/');
   const [getTournamentDetails, { isLoading }] = useLazyGetOpenTournamentDetailsQuery();
   const [tournamentData, setTournamentData] = useState<OpenTournament | null>(null);
 
-  const [currentTab, setCurrentTab] = useState(TournamentTabs[0].value);
+  const [currentTab, setCurrentTab] = useState(pathParts[pathParts.length - 1]);
 
   const { tournamentId } = useParams();
 
@@ -61,6 +67,7 @@ export default function TournamentDetailsLayout() {
         try {
           const res = await getTournamentDetails(parseInt(tournamentId)).unwrap();
           setTournamentData(res);
+          dispatch(setTournamentDetails(res));
         } catch (error) {
           showError('Tournament not found.');
           navigate('/tournaments');
@@ -70,11 +77,7 @@ export default function TournamentDetailsLayout() {
         navigate('/tournaments');
       }
     })();
-  }, [getTournamentDetails, navigate, tournamentId]);
-
-  useEffect(() => {
-    navigate(`/tournaments/${tournamentId}/participants`);
-  }, []);
+  }, [getTournamentDetails, navigate, tournamentId, dispatch]);
 
   if (isLoading || !tournamentData) {
     return <CenterLoading />;
@@ -85,7 +88,7 @@ export default function TournamentDetailsLayout() {
       <Paper sx={{ borderBottomLeftRadius: 16, borderBottomRightRadius: 16, border: '1px white solid' }}>
         <img
           style={{ width: '100%', height: 300, objectFit: 'cover' }}
-          src={tournamentData.image}
+          src={tournamentData.image || defaultTournamentImage}
           alt="tournament image"
         />
         <Box p={2}>
