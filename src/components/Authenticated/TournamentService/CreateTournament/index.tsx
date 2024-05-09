@@ -52,23 +52,23 @@ export default function CreateTournament() {
               variant="fullWidth"
             >
               <Tab
-                label="Buy Packages"
+                label="My Packages"
                 value="1"
               />
               <Tab
-                label="My Packages"
+                label="Buy Packages"
                 value="2"
               />
             </TabList>
           </Box>
           <TabPanel value="1">
-            <ChooseTournamentPackage packages={packageData} />
-          </TabPanel>
-          <TabPanel value="2">
             <MyPackages
-              packageData={myTournamentPackages}
+              packagesData={myTournamentPackages}
               onChooseMyPackage={handleChooseMyPackage}
             />
+          </TabPanel>
+          <TabPanel value="2">
+            <ChooseTournamentPackage packages={packageData} />
           </TabPanel>
         </TabContext>
       )}

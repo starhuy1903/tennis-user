@@ -1,15 +1,33 @@
 import { Box, Grid } from '@mui/material';
 
+import NoData from 'components/Common/NoData';
 import { UserPackage } from 'types/package';
 
 import Pack from './Pack';
 
 interface MyPackagesProps {
-  packageData: UserPackage[];
+  packagesData: UserPackage[];
   onChooseMyPackage: (id: string) => void;
 }
 
-export default function MyPackages({ packageData, onChooseMyPackage }: MyPackagesProps) {
+export default function MyPackages({ packagesData, onChooseMyPackage }: MyPackagesProps) {
+  if (!packagesData || packagesData.length === 0) {
+    return (
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
+        <NoData
+          message={`You haven't owned a package that support creating tournament.`}
+          gap={4}
+        />
+      </Box>
+    );
+  }
+
   return (
     <Box sx={{ padding: '20px' }}>
       <Grid
@@ -17,7 +35,7 @@ export default function MyPackages({ packageData, onChooseMyPackage }: MyPackage
         spacing={2}
         mt={4}
       >
-        {packageData.map((item) => (
+        {packagesData.map((item) => (
           <Grid
             xs={12}
             md={6}
