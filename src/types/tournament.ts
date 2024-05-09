@@ -42,7 +42,7 @@ export type GroupTournament = Omit<GroupTournamentPayload, 'groupId'> & {
 export type OpenTournament = Omit<OpenTournamentPayload, 'purchasedPackageId'> & {
   id: number;
   participants: number;
-  image: string;
+  image: string | null;
   status: TournamentStatus;
   phase: TournamentPhase;
   isCreator: boolean;

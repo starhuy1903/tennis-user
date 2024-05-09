@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import { useAppDispatch } from 'store';
 
 import { ModalKey } from 'constants/modal';
-import { TournamentStatus } from 'constants/tournament';
+import { TournamentStatus, defaultTournamentImage } from 'constants/tournament';
 import { showModal } from 'store/slice/modalSlice';
 import { OpenTournament } from 'types/tournament';
 import { displayDateRange, displayDayLeft } from 'utils/datetime';
@@ -34,7 +34,7 @@ export default function TournamentItem({
       <CardActionArea>
         <CardMedia
           component="img"
-          image={tournament.image}
+          image={tournament.image || defaultTournamentImage}
           alt="news-image"
           sx={{
             filter: tournament.status === TournamentStatus.COMPLETED ? 'grayscale(100%)' : 'none',
