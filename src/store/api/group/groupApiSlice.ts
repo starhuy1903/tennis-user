@@ -46,7 +46,12 @@ const groupApiToastSlice = apiWithToastSlice.injectEndpoints({
         },
       }),
     }),
-    getGroupDetails: build.query<Group, number>({
+    getGroupDetails: build.query<
+      Group & {
+        isCreator: boolean;
+      },
+      number
+    >({
       query: (id) => `core/groups/${id}`,
     }),
     createGroup: build.mutation<void, GroupDto>({
@@ -63,6 +68,12 @@ const groupApiToastSlice = apiWithToastSlice.injectEndpoints({
         body: { ...body.data, image: 'https://picsum.photos/id/251/300/200' },
       }),
     }),
+    leaveGroup: build.mutation<void, number>({
+      query: (id) => ({
+        url: urlWithCorePrefix(`groups/${id}/leave`),
+        method: 'POST',
+      }),
+    }),
   }),
 });
 
@@ -76,4 +87,5 @@ export const {
   useCreateGroupMutation,
   useGetGroupMembersQuery,
   useUpdateGroupMutation,
+  useLeaveGroupMutation,
 } = groupApiToastSlice;
