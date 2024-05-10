@@ -22,10 +22,7 @@ export default function ManageTournaments() {
   }
 
   return (
-    <Stack
-      gap={4}
-      mt={4}
-    >
+    <Stack gap={4}>
       <Box>
         <Stack
           direction="row"
