@@ -11,7 +11,7 @@ interface MyPackagesProps {
 }
 
 export default function MyPackages({ packagesData, onChooseMyPackage }: MyPackagesProps) {
-  if (!packagesData || packagesData.length === 0) {
+  if (packagesData.length === 0) {
     return (
       <Box
         sx={{
