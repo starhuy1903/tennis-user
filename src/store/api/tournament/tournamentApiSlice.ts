@@ -15,7 +15,7 @@ const tournamentApiToastSlice = apiWithToastSlice.injectEndpoints({
     }),
     createOpenTournament: build.mutation<OpenTournament, OpenTournamentPayload>({
       query: (payload) => ({
-        url: `core/tournaments`,
+        url: urlWithCorePrefix(`tournaments`),
         method: 'POST',
         body: payload,
       }),
@@ -26,7 +26,7 @@ const tournamentApiToastSlice = apiWithToastSlice.injectEndpoints({
     }),
     moveToNextPhase: build.mutation<OpenTournament, number>({
       query: (id) => ({
-        url: `core/tournaments/${id}/next-phase`,
+        url: urlWithCorePrefix(`tournaments/${id}/next-phase`),
         method: 'PATCH',
       }),
     }),
