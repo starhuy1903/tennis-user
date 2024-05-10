@@ -8,7 +8,6 @@ import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Unstable_Grid2';
 import { useConfirm } from 'material-ui-confirm';
 import { useForm } from 'react-hook-form';
-import toast from 'react-hot-toast';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAppDispatch } from 'store';
 import * as yup from 'yup';
@@ -19,6 +18,7 @@ import SingleImagePicker from 'components/Common/Input/SingleImagePicker';
 import { LANGUAGES } from 'constants/app';
 import { useLazyGetGroupDetailsQuery, useUpdateGroupMutation } from 'store/api/group/groupApiSlice';
 import { setLoading } from 'store/slice/statusSlice';
+import { showError, showSuccess } from 'utils/toast';
 
 interface FormData {
   name: string;
@@ -33,7 +33,7 @@ const schema = yup.object({
   description: yup.string().optional(),
   language: yup.string().required("Group's language is required"),
   activityZone: yup.string().required('Please tell people where your group is active'),
-  image: yup.mixed().required().nullable(),
+  image: yup.string().required(),
 });
 
 const UpdateGroupInformation = () => {
@@ -53,25 +53,21 @@ const UpdateGroupInformation = () => {
     reset,
     watch,
   } = useForm<FormData>({
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
     resolver: yupResolver(schema),
     mode: 'onChange',
     defaultValues: async () => {
-      let detail;
-
       try {
-        detail = await getGroupDetail(parseInt(groupId!)).unwrap();
+        const res = await getGroupDetail(parseInt(groupId!)).unwrap();
 
         return {
-          name: detail.name,
-          description: detail.description,
-          language: detail.language,
-          activityZone: detail.activityZone,
-          image: null,
+          name: res.name,
+          description: res.description,
+          language: res.language,
+          activityZone: res.activityZone,
+          image: res.image,
         };
       } catch (err) {
-        toast.error('Detail not found!');
+        showError('Group not found!');
         navigate('/groups', { replace: true });
 
         return {
@@ -79,7 +75,7 @@ const UpdateGroupInformation = () => {
           description: '',
           language: LANGUAGES[0].value,
           activityZone: '',
-          image: null,
+          image: '',
         };
       }
     },
@@ -87,13 +83,13 @@ const UpdateGroupInformation = () => {
 
   const formValue = watch();
 
-  const handleCreateGroup = handleSubmit((data: FormData) => {
+  const handleUpdateGroupInfo = handleSubmit((data: FormData) => {
     confirm({ title: 'Confirm update', description: `Update information change ?` })
       .then(async () => {
         dispatch(setLoading(true));
         try {
           await updateGroup({ id: groupDetail!.id, data }).unwrap();
-          toast.success('Information updated');
+          showSuccess('Updated group information successfully!');
           reset(data);
         } catch {
           /* empty */
@@ -106,7 +102,7 @@ const UpdateGroupInformation = () => {
   return (
     <Box
       component="form"
-      onSubmit={handleCreateGroup}
+      onSubmit={handleUpdateGroupInfo}
       sx={{ paddingBottom: '20px' }}
     >
       <Stack
@@ -166,12 +162,12 @@ const UpdateGroupInformation = () => {
                 <Grid xs={12}>
                   <SingleImagePicker
                     label="Upload a background image for your group"
-                    image={formValue.image}
+                    imageUrl={formValue.image}
                     handleUpload={(value) => {
                       setValue('image', value);
                     }}
                     handleRemove={() => {
-                      setValue('image', null);
+                      setValue('image', '');
                     }}
                   />
                 </Grid>

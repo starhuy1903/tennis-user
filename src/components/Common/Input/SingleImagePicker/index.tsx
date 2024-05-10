@@ -1,33 +1,55 @@
 import Box from '@mui/material/Box';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
+import axios from 'axios';
+import { configs } from 'configurations';
 import { memo, useCallback } from 'react';
+import { useAppDispatch } from 'store';
 
 import { ImageFileConfig } from 'constants/app';
+import { ModalKey } from 'constants/modal';
+import { showModal } from 'store/slice/modalSlice';
+import auth from 'utils/auth';
+import { showError } from 'utils/toast';
 
 import DropFileContainer from './DropFileContainer';
 import ImagePreview from './ImagePreview';
 import UploadImageCard from './UploadImageCard';
-import { useAppDispatch } from 'store';
-import { showModal } from 'store/slice/modalSlice';
-import { ModalKey } from 'constants/modal';
 
 interface SingleImagePickerProps {
   label: string;
-  image?: File;
-  handleUpload: (file: File | null) => void;
+  imageUrl?: string;
+  handleUpload: (imageUrl: string) => void;
   handleRemove: () => void;
 }
 
-const SingleImagePicker = memo(({ label, image, handleUpload, handleRemove }: SingleImagePickerProps) => {
-  const renderUpdateImageContainer = ({ open, disabled }: { open: () => void; disabled: boolean }) => (
-    <UploadImageCard
-      open={open}
-      disabled={disabled}
-    />
-  );
-
+const SingleImagePicker = memo(({ label, imageUrl, handleUpload, handleRemove }: SingleImagePickerProps) => {
   const dispatch = useAppDispatch();
+
+  const handleUploadImage = useCallback(
+    (file: File | null) => {
+      if (!file) {
+        return;
+      }
+      const formData = new FormData();
+      formData.append('file', file);
+
+      axios
+        .post<{ url: string }>(`${configs.apiUrl}/core/files/upload`, formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            'Authorization': `Bearer ${auth.getAccessToken()}`,
+          },
+        })
+        .then((res) => {
+          handleUpload(res.data.url);
+        })
+        .catch((_) => {
+          showError('Upload file failed');
+        });
+    },
+    [handleUpload]
+  );
 
   const handleDropImage = useCallback(
     (file: File | null) => {
@@ -39,21 +61,27 @@ const SingleImagePicker = memo(({ label, image, handleUpload, handleRemove }: Si
         showModal(ModalKey.CROP_IMAGE, {
           image: file,
           aspect: 16 / 9,
-          onSubmit: handleUpload,
-        }),
+          onSubmit: handleUploadImage,
+        })
       );
     },
-    [dispatch, handleUpload],
+    [dispatch, handleUploadImage]
   );
 
+  const renderUpdateImageContainer = ({ open, disabled }: { open: () => void; disabled: boolean }) => (
+    <UploadImageCard
+      open={open}
+      disabled={disabled}
+    />
+  );
 
   return (
     <FormControl>
       <FormLabel sx={{ mb: 1 }}>{label}</FormLabel>
       <Box>
-        {image ? (
+        {imageUrl ? (
           <ImagePreview
-            image={image}
+            imageUrl={imageUrl}
             onDeleteImage={handleRemove}
           />
         ) : (

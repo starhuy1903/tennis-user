@@ -15,7 +15,6 @@ import {
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
-import { useEffect, useState } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { useAppSelector } from 'store';
@@ -27,14 +26,12 @@ import { UserProfile } from 'types/user';
 import { showError, showSuccess } from 'utils/toast';
 
 type FormType = Omit<UserProfile, 'id' | 'email' | 'elo'> & {
-  image: any;
+  image: string;
 };
 
 export default function EditProfile() {
   const navigate = useNavigate();
   const userInfo = useAppSelector((state) => state.user.userInfo);
-
-  const [isUpdateAvatar, setIsUpdateAvatar] = useState(false);
 
   const [editProfile, { isLoading }] = useEditProfileMutation();
 
@@ -45,28 +42,12 @@ export default function EditProfile() {
       phoneNumber: userInfo?.phoneNumber,
       dob: userInfo?.dob,
       gender: userInfo?.gender,
+      image: userInfo?.image,
     },
   });
 
   const { errors: formError } = formState;
   const formValue = watch();
-
-  useEffect(() => {
-    if (userInfo?.image) {
-      const fetchImage = async () => {
-        try {
-          const response = await fetch(userInfo?.image);
-          const blob = await response.blob();
-          const file = new File([blob], 'avatar.jpg', { type: blob.type });
-          setValue('image', file);
-        } catch (error) {
-          console.error(error);
-        }
-      };
-
-      fetchImage();
-    }
-  }, [setValue, userInfo?.image]);
 
   const onSubmit: SubmitHandler<FormType> = async (data) => {
     try {
@@ -75,14 +56,14 @@ export default function EditProfile() {
         data.dob === userInfo?.dob &&
         data.phoneNumber === userInfo?.phoneNumber &&
         data.gender === userInfo?.gender &&
-        !isUpdateAvatar
+        data.image === userInfo?.image
       ) {
         showError('Your profile has not been changed.');
         return;
       }
 
       await editProfile(data).unwrap();
-      showSuccess('Profile updated successfully.');
+      showSuccess('Updated profile successfully.');
       navigate('/profile');
     } catch (error) {
       console.error(error);
@@ -230,13 +211,12 @@ export default function EditProfile() {
 
           <SingleImagePicker
             label="Avatar"
-            image={formValue.image}
+            imageUrl={formValue.image}
             handleUpload={(value) => {
               setValue('image', value);
-              setIsUpdateAvatar(true);
             }}
             handleRemove={() => {
-              setValue('image', null);
+              setValue('image', '');
             }}
           />
 

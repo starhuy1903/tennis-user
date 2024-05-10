@@ -29,6 +29,7 @@
     "@trivago/prettier-plugin-sort-imports": "^4.3.0",
     "@vitejs/plugin-react": "^4.2.1",
     "async-mutex": "^0.4.1",
+    "axios": "^1.6.8",
     "dayjs": "^1.11.10",
     "email-validator": "^2.0.4",
     "eslint-plugin-prettier": "^5.1.3",
