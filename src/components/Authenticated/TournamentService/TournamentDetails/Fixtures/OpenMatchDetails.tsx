@@ -1,25 +1,42 @@
+import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { useAppSelector } from 'store';
 
 import CenterLoading from 'components/Common/CenterLoading';
 import MatchDetails from 'components/Common/Match/MatchDetails';
-import { useGetMatchDetailsQuery } from 'store/api/tournament/tournamentFixtureApiSlice';
+import { useLazyGetMatchDetailsQuery } from 'store/api/tournament/tournamentFixtureApiSlice';
+import { Match } from 'types/tournament-fixtures';
 
 export default function OpenMatchDetails() {
   const navigate = useNavigate();
+  const tournamentData = useAppSelector((state) => state.tournament.data);
 
-  const { tournamentId, matchId } = useParams();
+  const { matchId } = useParams();
+  const [match, setMatch] = useState<Match | null>(null);
 
-  const { data, isLoading } = useGetMatchDetailsQuery({
-    tournamentId: parseInt(tournamentId!),
-    matchId: parseInt(matchId!),
-  });
+  const [getMatchDetailsRequest, { isLoading }] = useLazyGetMatchDetailsQuery();
 
-  if (isLoading) return <CenterLoading />;
+  useEffect(() => {
+    (async () => {
+      if (tournamentData && matchId) {
+        try {
+          const res = await getMatchDetailsRequest({
+            tournamentId: tournamentData.id,
+            matchId: Number(matchId),
+          }).unwrap();
 
-  if (!data) {
-    navigate(`/tournaments/${tournamentId}/fixtures`);
-    return;
-  }
+          setMatch(res);
+        } catch (err) {
+          // handled error
+          navigate(`/tournaments/${tournamentData?.id}/fixtures`);
+        }
+      } else {
+        navigate(`/tournaments/${tournamentData?.id}/fixtures`);
+      }
+    })();
+  }, [getMatchDetailsRequest, matchId, navigate, tournamentData]);
 
-  return <MatchDetails match={data} />;
+  if (isLoading || !match) return <CenterLoading />;
+
+  return <MatchDetails match={match} />;
 }

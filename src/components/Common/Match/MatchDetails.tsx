@@ -10,6 +10,8 @@ import { displayDate, displayHour, displayTime } from 'utils/datetime';
 import { Timer } from '../Timer';
 import { MatchStatusBadge } from './MatchStatusBadge';
 
+type TeamType = 1 | 2;
+
 const MatchHeader = ({ children }: { children: React.ReactNode }) => {
   return (
     <Box
@@ -27,7 +29,7 @@ const MatchHeader = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-const CustomPlayer = ({ player, isWinner }: { player: Player; isWinner: boolean | null }) => {
+const CustomPlayer = ({ player, isWinner }: { player: Player; isWinner: boolean }) => {
   return (
     <Box
       sx={{
@@ -73,14 +75,14 @@ const CustomTeam = ({ team }: { team: Team }) => {
     >
       <CustomPlayer
         player={team.user1}
-        isWinner={team.isWinner}
+        isWinner={!!team.isWinner}
       />
 
       {team?.user2 && (
         <>
           <CustomPlayer
             player={team.user2}
-            isWinner={team.isWinner}
+            isWinner={!!team.isWinner}
           />
 
           <Typography
@@ -95,7 +97,7 @@ const CustomTeam = ({ team }: { team: Team }) => {
   );
 };
 
-const MatchScore = ({ finalScore, team }: { finalScore: FinalScore; team: 1 | 2 }) => {
+const MatchScore = ({ finalScore, team }: { finalScore: FinalScore; team: TeamType }) => {
   return (
     <>
       {finalScore.team1 > finalScore.team2 && team === 1 && (
@@ -154,7 +156,7 @@ const TeamCell = ({ team }: { team: Team }) => {
   );
 };
 
-const ScoreCell = ({ scores, team }: { scores: Score[]; team: 1 | 2 }) => {
+const ScoreCell = ({ scores, team }: { scores: Score[]; team: TeamType }) => {
   return (
     <>
       {scores.length !== 0 ? (
@@ -307,10 +309,7 @@ export default function MatchDetails({ match }: { match: Match }) {
         >
           <CustomTeam team={match.teams.team1!} />
 
-          <Stack
-            direction="column"
-            alignItems="center"
-          >
+          <Stack alignItems="center">
             <Box
               sx={{
                 position: 'relative',

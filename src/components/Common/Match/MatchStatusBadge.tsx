@@ -4,6 +4,15 @@ import { Typography } from '@mui/material';
 import { MatchStatus } from 'constants/tournament-fixtures';
 import { formatTimeDate } from 'utils/datetime';
 
+const statusTextMap: { [key: string]: string } = {
+  [MatchStatus.SCHEDULED]: 'SCHEDULED',
+  [MatchStatus.NO_PARTY]: 'NO PARTY',
+  [MatchStatus.WALK_OVER]: 'LIVE',
+  [MatchStatus.DONE]: 'SCORING IN PROGRESS',
+  [MatchStatus.SCORE_DONE]: 'FINISHED',
+  [MatchStatus.NO_SHOW]: 'NO INFO',
+};
+
 export const MatchStatusBadge = ({
   status,
   type = 'default',
@@ -16,15 +25,6 @@ export const MatchStatusBadge = ({
   const isScheduledOrDone = status === MatchStatus.SCHEDULED || status === MatchStatus.DONE;
   const isNoPartyOrScoreDone = status === MatchStatus.NO_PARTY || status === MatchStatus.SCORE_DONE;
   const isWalkOver = status === MatchStatus.WALK_OVER;
-
-  const statusTextMap: { [key: string]: string } = {
-    [MatchStatus.SCHEDULED]: 'SCHEDULED',
-    [MatchStatus.NO_PARTY]: 'NO PARTY',
-    [MatchStatus.WALK_OVER]: 'LIVE',
-    [MatchStatus.DONE]: 'SCORING IN PROGRESS',
-    [MatchStatus.SCORE_DONE]: 'FINISHED',
-    [MatchStatus.NO_SHOW]: 'NO INFO',
-  };
 
   if (type === 'knockout') {
     return (
