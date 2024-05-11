@@ -1,7 +1,7 @@
 import { MemberRole } from 'constants/group';
 
 export type GroupTournamentUser = {
-  id: number;
+  id: string;
   email: string;
   name: string;
   image?: string;
@@ -9,7 +9,7 @@ export type GroupTournamentUser = {
 };
 
 export type GroupTournamentParticipant = {
-  userId: number;
+  userId: string;
   groupTournamentId: number;
   user: GroupTournamentUser;
   createdAt: string;

@@ -2,6 +2,7 @@ import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { Chip } from '@mui/material';
 import Accordion from '@mui/material/Accordion';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
@@ -14,6 +15,7 @@ import Typography from '@mui/material/Typography';
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
+import { FormatDateTime } from 'constants/datetime';
 import { GenderOptions } from 'constants/tournament';
 import { RegistrationStatus } from 'constants/tournament-participants';
 import {
@@ -21,8 +23,38 @@ import {
   useRejectTournamentApplicantMutation,
 } from 'store/api/tournament/tournamentParticipantsApiSlice';
 import { OpenTournamentApplicant } from 'types/open-tournament-participants';
-import { formatDateTime } from 'utils/datetime';
+import { UserProfile } from 'types/user';
+import { displayDateTime } from 'utils/datetime';
 import { showSuccess } from 'utils/toast';
+
+const ApplicantTitle = ({ user }: { user: UserProfile }) => {
+  return (
+    <>
+      <Avatar
+        src={user.image}
+        alt={user.name}
+        sx={{ width: '50px', height: '50px' }}
+      />
+
+      <Typography variant="h2">{user.name}</Typography>
+
+      <Chip
+        label={`${user.elo || 'No'} ELO`}
+        size="small"
+        variant={user.elo ? 'filled' : 'outlined'}
+        color="primary"
+      />
+    </>
+  );
+};
+
+const InfoItem = ({ label, value }: { label: string; value: string }) => {
+  return (
+    <Typography variant="body1">
+      <b>{label}:</b> {value}
+    </Typography>
+  );
+};
 
 export default function ApplicantItem({ data }: { data: OpenTournamentApplicant }) {
   const navigate = useNavigate();
@@ -66,24 +98,17 @@ export default function ApplicantItem({ data }: { data: OpenTournamentApplicant 
           }}
         >
           <Box sx={{ display: 'flex', alignItems: 'center', columnGap: '20px' }}>
-            <Avatar
-              src={data.user1.image}
-              alt={data.user1.name}
-              sx={{ width: '50px', height: '50px' }}
-            />
+            <ApplicantTitle user={data.user1} />
 
-            <Typography variant="h2">{data.user1.name}</Typography>
+            {data?.user2 && <ApplicantTitle user={data.user2} />}
 
-            {data?.user2 && (
-              <>
-                <Avatar
-                  src={data.user1.image}
-                  alt={data.user1.name}
-                  sx={{ width: '50px', height: '50px' }}
-                />
-
-                <Typography variant="h2">{data.user1.name}</Typography>
-              </>
+            {/* <Chip
+              sx={{ width: 'fit-content' }}
+              component="span"
+              variant="filled"
+              color={RegistrationStatusChip[data.status].chipColor}
+              size="small"
+              label={RegistrationStatusChip[data.status].displayText}
             )}
 
             {/* <Chip
@@ -107,12 +132,14 @@ export default function ApplicantItem({ data }: { data: OpenTournamentApplicant 
                 gap: 2,
               }}
             >
-              <Typography variant="body1">
-                <strong>{data?.user2 ? 'Applicant 1:' : 'Email:'}</strong> {data.user1.email}
-              </Typography>
-              <Typography variant="body1">
-                <strong>Gender:</strong> {GenderOptions[data.user1.gender]}
-              </Typography>
+              <InfoItem
+                label={data?.user2 ? 'Applicant 1' : 'Email'}
+                value={data.user1.email}
+              />
+              <InfoItem
+                label="Gender"
+                value={GenderOptions[data.user1.gender]}
+              />
             </Box>
 
             {data?.user2 && (
@@ -122,21 +149,30 @@ export default function ApplicantItem({ data }: { data: OpenTournamentApplicant 
                   gap: 2,
                 }}
               >
-                <Typography variant="body1">
-                  <strong>Applicant 2:</strong> {data.user2.email}
-                </Typography>
-                <Typography variant="body1">
-                  <strong>Gender:</strong> {GenderOptions[data.user2.gender]}
-                </Typography>
+                <InfoItem
+                  label="Applicant 2"
+                  value={data.user2.email}
+                />
+
+                <InfoItem
+                  label="Gender"
+                  value={GenderOptions[data.user2.gender]}
+                />
               </Box>
             )}
 
-            <Typography variant="body1">
-              <strong>Message:</strong> {data.message}
-            </Typography>
-            <Typography variant="body1">
-              <strong>Applied date:</strong> {formatDateTime(data.appliedDate)}
-            </Typography>
+            <InfoItem
+              label="Message"
+              value={data.message}
+            />
+
+            <InfoItem
+              label="Applied Date"
+              value={displayDateTime({
+                dateTime: data.appliedDate,
+                targetFormat: FormatDateTime.DATE_AND_FULL_TIME,
+              })}
+            />
           </Stack>
 
           <Box sx={{ display: 'flex', alignItems: 'flex-end', columnGap: '10px' }}>

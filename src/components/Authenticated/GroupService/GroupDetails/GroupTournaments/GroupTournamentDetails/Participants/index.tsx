@@ -19,6 +19,7 @@ import { useConfirm } from 'material-ui-confirm';
 import { useParams } from 'react-router-dom';
 import { useAppDispatch } from 'store';
 
+import { FormatDateTime } from 'constants/datetime';
 import { MemberRoleOptions } from 'constants/group';
 import { ModalKey } from 'constants/modal';
 import {
@@ -26,7 +27,7 @@ import {
   useRemoveParticipantMutation,
 } from 'store/api/group/groupTournamentApiSlice';
 import { showModal } from 'store/slice/modalSlice';
-import { formatDateTime } from 'utils/datetime';
+import { displayDateTime } from 'utils/datetime';
 import { showSuccess } from 'utils/toast';
 
 const titles = ['Name', 'Email address', 'Role', 'Joined at', ''];
@@ -52,7 +53,7 @@ export default function Participants() {
     );
   };
 
-  const handleRemoveParticipant = (userId: number, name: string) => {
+  const handleRemoveParticipant = (userId: string, name: string) => {
     confirm({ description: `This action will remove ${name} from this tournament.` })
       .then(() => {
         removeParticipant({ groupId: parseInt(groupId!), tournamentId: parseInt(tournamentId!), userId });
@@ -138,7 +139,9 @@ export default function Participants() {
                     <Typography variant="body1">{MemberRoleOptions[row.user.role]}</Typography>
                   </TableCell>
                   <TableCell align="center">
-                    <Typography variant="body1">{formatDateTime(row.createdAt)}</Typography>
+                    <Typography variant="body1">
+                      {displayDateTime({ dateTime: row.createdAt, targetFormat: FormatDateTime.DATE_AND_FULL_TIME })}
+                    </Typography>
                   </TableCell>
 
                   {data?.isCreator && !isRemoveLoading ? (

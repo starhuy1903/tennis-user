@@ -1,130 +1,51 @@
-import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
-import WorkspacePremiumIcon from '@mui/icons-material/WorkspacePremium';
-import { Box, Button, Stack, Typography } from '@mui/material';
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useAppSelector } from 'store';
+import TabContext from '@mui/lab/TabContext';
+import TabList from '@mui/lab/TabList';
+import TabPanel from '@mui/lab/TabPanel';
+import { Box, Tab } from '@mui/material';
+import { useState } from 'react';
 
-import CenterLoading from 'components/Common/CenterLoading';
-import { TournamentStatus } from 'constants/tournament';
-import { useLazyGetOpenTournamentsQuery } from 'store/api/tournament/tournamentApiSlice';
-import { OpenTournament } from 'types/tournament';
-
-import TournamentList from './TournamentList';
+import AllTournaments from './AllTournaments';
+import ManageTournaments from './ManageTournament';
+import MyTournaments from './MyTournaments';
 
 export default function TournamentService() {
-  const userId = useAppSelector((state) => state.user.userInfo?.id);
-  const navigate = useNavigate();
+  const [currentTab, setCurrentTab] = useState('1');
 
-  const [tournaments, setTournaments] = useState<{
-    upcoming: OpenTournament[];
-    onGoing: OpenTournament[];
-    completed: OpenTournament[];
-  }>({
-    upcoming: [],
-    onGoing: [],
-    completed: [],
-  });
-
-  const [getTournaments, { isLoading }] = useLazyGetOpenTournamentsQuery();
-
-  useEffect(() => {
-    (async () => {
-      try {
-        if (userId) {
-          const responses = await Promise.all([
-            getTournaments({ userId, tournamentStatus: TournamentStatus.UPCOMING }).unwrap(),
-            getTournaments({ userId, tournamentStatus: TournamentStatus.ON_GOING }).unwrap(),
-            getTournaments({ userId, tournamentStatus: TournamentStatus.COMPLETED }).unwrap(),
-          ]);
-          setTournaments({
-            upcoming: responses[0],
-            onGoing: responses[1],
-            completed: responses[2],
-          });
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    })();
-  }, [getTournaments, userId]);
-
-  const handleCreateTournament = () => {
-    navigate('/tournaments/create');
+  const handleChangeTab = (_: React.SyntheticEvent, newValue: string) => {
+    setCurrentTab(newValue);
   };
 
-  if (isLoading) {
-    return <CenterLoading height="10vh" />;
-  }
-
   return (
-    <Stack
-      gap={4}
-      mt={4}
-    >
-      <Box>
-        <Stack
-          direction="row"
-          justifyContent="space-between"
+    <TabContext value={currentTab}>
+      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+        <TabList
+          onChange={handleChangeTab}
+          aria-label="lab API tabs example"
+          variant="fullWidth"
         >
-          <Stack
-            direction="row"
-            alignItems="center"
-            gap={1}
-          >
-            <EmojiEventsIcon />
-            <Typography
-              variant="h5"
-              fontWeight={500}
-            >
-              Upcoming Tournaments
-            </Typography>
-          </Stack>
-          <Button
-            variant="outlined"
-            onClick={handleCreateTournament}
-          >
-            Create tournament
-          </Button>
-        </Stack>
-        <TournamentList tournaments={tournaments.upcoming} />
+          <Tab
+            label="All Tournaments"
+            value="1"
+          />
+          <Tab
+            label="My Tournaments"
+            value="2"
+          />
+          <Tab
+            label="Manage Tournaments"
+            value="3"
+          />
+        </TabList>
       </Box>
-
-      <Box>
-        <Stack
-          direction="row"
-          alignItems="center"
-          gap={1}
-        >
-          <EmojiEventsIcon />
-          <Typography
-            variant="h5"
-            fontWeight={500}
-          >
-            Ongoing Tournaments
-          </Typography>
-        </Stack>
-
-        <TournamentList tournaments={tournaments.onGoing} />
-      </Box>
-
-      <Box>
-        <Stack
-          direction="row"
-          alignItems="center"
-          gap={1}
-        >
-          <WorkspacePremiumIcon />
-          <Typography
-            variant="h5"
-            fontWeight={500}
-          >
-            Completed Tournaments
-          </Typography>
-        </Stack>
-
-        <TournamentList tournaments={tournaments.completed} />
-      </Box>
-    </Stack>
+      <TabPanel value="1">
+        <AllTournaments />
+      </TabPanel>
+      <TabPanel value="2">
+        <MyTournaments />
+      </TabPanel>
+      <TabPanel value="3">
+        <ManageTournaments />
+      </TabPanel>
+    </TabContext>
   );
 }

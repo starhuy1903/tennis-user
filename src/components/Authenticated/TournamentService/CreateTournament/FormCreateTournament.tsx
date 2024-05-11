@@ -80,6 +80,7 @@ export default function FormCreateTournament({ selectedPackage, setSelectedPacka
         new Date(new Date().getTime() + 6 * 24 * 60 * 60 * 1000).toISOString().split('T')[0] + 'T00:00:00',
       playersBornAfterDate: '1990-01-01T00:00:00',
       address: '',
+      maxParticipants: 20,
     },
   });
 
@@ -89,6 +90,7 @@ export default function FormCreateTournament({ selectedPackage, setSelectedPacka
     try {
       const submitData: OpenTournamentPayload = {
         ...data,
+        maxParticipants: Number(data.maxParticipants),
         purchasedPackageId: selectedPackage.id,
       };
 
@@ -501,7 +503,7 @@ export default function FormCreateTournament({ selectedPackage, setSelectedPacka
               fullWidth
               error={!!formError.maxParticipants}
             >
-              <FormLabel htmlFor="contactEmail">Max participants</FormLabel>
+              <FormLabel htmlFor="maxParticipants">Max participants</FormLabel>
               <TextField
                 {...register('maxParticipants', {
                   required: 'The max participants is required.',
@@ -605,15 +607,32 @@ export default function FormCreateTournament({ selectedPackage, setSelectedPacka
             />
           </Stack>
         </Stack>
-        <Button
-          variant="contained"
-          color="primary"
-          disabled={isLoading}
-          onClick={handleSubmit(onSubmit)}
-          sx={{ mt: 4 }}
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'right',
+            gap: 2,
+          }}
         >
-          Create tournament
-        </Button>
+          <Button
+            variant="outlined"
+            color="secondary"
+            disabled={isLoading}
+            onClick={handleGoPreviousStep}
+            sx={{ mt: 4 }}
+          >
+            Cancel
+          </Button>
+          <Button
+            variant="contained"
+            color="primary"
+            disabled={isLoading}
+            onClick={handleSubmit(onSubmit)}
+            sx={{ mt: 4 }}
+          >
+            Create tournament
+          </Button>
+        </Box>
       </Box>
     </Container>
   );

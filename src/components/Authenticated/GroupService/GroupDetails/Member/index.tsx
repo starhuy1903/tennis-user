@@ -15,7 +15,7 @@ import MemberItems from './MemberItems';
 export default function Member() {
   const dispatch = useAppDispatch();
   const confirm = useConfirm();
-  const [expand, setExpand] = useState<number | null>(null);
+  const [expand, setExpand] = useState<string | null>(null);
   const [searchValue, setSearchValue] = useState<string>('');
   const debouncedSearchValue = useDebounce(searchValue, 2000);
 
@@ -31,11 +31,11 @@ export default function Member() {
     dispatch(showModal(ModalKey.INVITE_INTO_GROUP));
   };
 
-  const handleExpandChange = (_id: number) => (_: React.SyntheticEvent, newExpanded: boolean) => {
+  const handleExpandChange = (_id: string) => (_: React.SyntheticEvent, newExpanded: boolean) => {
     setExpand(newExpanded ? _id : null);
   };
 
-  const handleRemoveMember = (_id: number, name: string) => {
+  const handleRemoveMember = (_id: string, name: string) => {
     confirm({ description: `This action will remove ${name} from this group.` })
       .then(() => {})
       .catch(() => {});

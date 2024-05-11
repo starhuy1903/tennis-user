@@ -12,7 +12,7 @@ import BaseModal from './BaseModal';
 import { AddParticipantsProps } from './types';
 
 export default function AddParticipants({ groupId, tournamentId, onModalClose }: AddParticipantsProps) {
-  const [selectedParticipants, setSelectedParticipants] = useState<number[]>([]);
+  const [selectedParticipants, setSelectedParticipants] = useState<string[]>([]);
 
   const { data, isLoading } = useGetGroupTournamentNonParticipantsQuery(
     {
@@ -24,7 +24,7 @@ export default function AddParticipants({ groupId, tournamentId, onModalClose }:
 
   const [addParticipants, { isLoading: isAddLoading }] = useAddParticipantsMutation();
 
-  const handleCheckboxChange = (userId: number) => {
+  const handleCheckboxChange = (userId: string) => {
     setSelectedParticipants((prevSelectedParticipants) =>
       prevSelectedParticipants.includes(userId)
         ? prevSelectedParticipants.filter((id) => id !== userId)
@@ -32,7 +32,7 @@ export default function AddParticipants({ groupId, tournamentId, onModalClose }:
     );
   };
 
-  const handleAddParticipants = async (userIds: number[]) => {
+  const handleAddParticipants = async (userIds: string[]) => {
     try {
       await addParticipants({ groupId, tournamentId, userIds }).unwrap();
       showSuccess('Added participants to the tournament successfully.');
