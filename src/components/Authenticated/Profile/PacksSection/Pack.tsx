@@ -1,91 +1,71 @@
-import { CardActions } from '@mui/material';
-import Box from '@mui/material/Box';
+import { Button } from '@mui/material';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
-import CardHeader from '@mui/material/CardHeader';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
+import { useNavigate } from 'react-router-dom';
+import { useAppDispatch } from 'store';
 
-import LinkButton from 'components/Common/LinkButton';
+import { ModalKey } from 'constants/modal';
+import { showModal } from 'store/slice/modalSlice';
+import { UserPackage } from 'types/package';
 import { displayTimestamp } from 'utils/datetime';
 
-interface PackProps {
-  id: string;
-  name: string;
-  startTimestamp: string;
-  endTimestamp: string;
-  groupName?: string;
-  groupId?: string;
-}
+const Pack = ({ pack }: { pack: UserPackage }) => {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
-const Pack = ({ id, name, startTimestamp, endTimestamp, groupName }: PackProps) => {
+  const handleNavigate = (serviceName: string) => {
+    navigate(`/${serviceName}/create`);
+  };
+
   return (
     <Card>
-      <CardHeader
-        title={name}
-        titleTypographyProps={{ variant: 'h2' }}
-      />
       <CardContent>
         <Stack>
-          <Box>
-            <Typography
-              display="inline"
-              fontWeight="bold"
-              marginRight="10px"
-            >
-              Started at:
-            </Typography>
-            <Typography display="inline">
-              {displayTimestamp(startTimestamp, { includeRelativeTimeToPresent: true })}
-            </Typography>
-          </Box>
-          <Box>
-            <Typography
-              display="inline"
-              fontWeight="bold"
-              marginRight="10px"
-            >
-              Last until:
-            </Typography>
-            <Typography display="inline">
-              {displayTimestamp(endTimestamp, { includeRelativeTimeToPresent: true })}
-            </Typography>
-          </Box>
-          <Box>
-            {groupName ? (
-              <>
-                <Typography
-                  display="inline"
-                  fontWeight="bold"
-                  marginRight="10px"
-                >
-                  Group:
-                </Typography>
-                <Typography display="inline">{groupName}</Typography>
-              </>
-            ) : (
-              <Typography fontWeight="bold">Group not created.</Typography>
-            )}
-          </Box>
+          <Typography
+            variant="h6"
+            mb={1}
+            color="primary"
+          >
+            {pack.name}
+          </Typography>
+
+          <Typography
+            display="inline"
+            variant="body2"
+            color="gray"
+          >
+            <b>Start date:</b> {displayTimestamp(pack.startDate)}
+          </Typography>
+
+          <Typography
+            display="inline"
+            variant="body2"
+            color="gray"
+          >
+            <b>End date:</b> {displayTimestamp(pack.endDate)}
+          </Typography>
+
+          <Button
+            variant="contained"
+            color="primary"
+            sx={{
+              mt: 2,
+            }}
+            onClick={() => {
+              dispatch(
+                showModal(ModalKey.SHOW_PACKAGE_DETAIL, {
+                  package: pack,
+                  onNavigate: handleNavigate,
+                })
+              );
+            }}
+          >
+            View
+          </Button>
         </Stack>
       </CardContent>
-      <CardActions>
-        {groupName ? (
-          <LinkButton
-            buttonProps={{ variant: 'contained', fullWidth: true }}
-            to={`/groups/${id}`}
-          >
-            Go to group
-          </LinkButton>
-        ) : (
-          <LinkButton
-            buttonProps={{ variant: 'contained', fullWidth: true }}
-            to={`/groups/${id}/create`}
-          >
-            Create group
-          </LinkButton>
-        )}
-      </CardActions>
     </Card>
   );
 };
