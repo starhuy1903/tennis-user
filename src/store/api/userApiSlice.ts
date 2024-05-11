@@ -97,6 +97,7 @@ const userApiToastSlice = apiWithToastSlice.injectEndpoints({
       query: () => urlWithCorePrefix('users/me'),
       onQueryStarted: async (_, { dispatch, queryFulfilled }) => {
         const { data } = await queryFulfilled;
+
         dispatch(setProfile(data));
       },
     }),

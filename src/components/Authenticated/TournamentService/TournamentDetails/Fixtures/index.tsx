@@ -4,6 +4,9 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'store';
 
 import CenterLoading from 'components/Common/CenterLoading';
+import GroupPlayoffFixture from 'components/Common/Fixtures/GroupPlayoffFixture';
+import KnockoutFixtures from 'components/Common/Fixtures/KnockoutFixture';
+import { RoundRobinFixture } from 'components/Common/Fixtures/RoundRobinFixture';
 import NoData from 'components/Common/NoData';
 import { ModalKey } from 'constants/modal';
 import { TournamentFormat } from 'constants/tournament';
@@ -13,9 +16,6 @@ import { showModal } from 'store/slice/modalSlice';
 import { TournamentFixture } from 'types/tournament-fixtures';
 import { checkGeneratedFixture } from 'utils/tournament';
 
-import GroupPlayoffFixture from './GroupPlayoffFixture';
-import KnockoutFixtures from './KnockoutFixture';
-import { RoundRobinFixture } from './RoundRobinFixture';
 import SetupFixture from './SetupFixture';
 
 export default function Fixtures() {
@@ -73,8 +73,8 @@ export default function Fixtures() {
   return (
     <Box mt={4}>
       {isCreator && fixture?.status === FixtureStatus.NEW && <SetupFixture />}
-      {fixture?.format === TournamentFormat.KNOCKOUT && <KnockoutFixtures fixture={fixture} />}
-      {fixture?.format === TournamentFormat.ROUND_ROBIN && <RoundRobinFixture fixture={fixture} />}
+      {fixture?.format === TournamentFormat.KNOCKOUT && <KnockoutFixtures rounds={fixture.knockoutRounds!} />}
+      {fixture?.format === TournamentFormat.ROUND_ROBIN && <RoundRobinFixture rounds={fixture.roundRobinRounds!} />}
       {fixture?.format === TournamentFormat.GROUP_PLAYOFF && <GroupPlayoffFixture fixture={fixture} />}
 
       {/* Create match button */}
