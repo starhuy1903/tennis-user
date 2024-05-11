@@ -1,15 +1,8 @@
-import { Box, Button, Divider, Grid, Typography } from '@mui/material';
+import { Button, Divider, Grid, Typography } from '@mui/material';
 import { useAppDispatch, useAppSelector } from 'store';
 
-import Steps from 'components/Common/Steps';
 import { FormatDateTime } from 'constants/datetime';
-import {
-  GenderOptions,
-  ParticipantTypeOptions,
-  TournamentFormatOptions,
-  TournamentPhase,
-  TournamentPhaseOptions,
-} from 'constants/tournament';
+import { GenderOptions, ParticipantTypeOptions, TournamentFormatOptions, TournamentPhase } from 'constants/tournament';
 import { useMoveToNextPhaseMutation } from 'store/api/tournament/tournamentApiSlice';
 import { selectTournament, setTournamentDetails } from 'store/slice/tournamentSlice';
 import { displayDateTime } from 'utils/datetime';
@@ -61,8 +54,6 @@ export default function Information() {
     { label: 'ADDRESS', value: tournamentData.address },
   ];
 
-  const steps = Object.values(TournamentPhaseOptions);
-
   return (
     <Grid
       container
@@ -88,28 +79,6 @@ export default function Information() {
         >
           {tournamentData.description}
         </Typography>
-
-        <Divider
-          sx={{
-            my: 2,
-          }}
-        />
-
-        <Box
-          sx={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            mb: 4,
-          }}
-        >
-          <Typography variant="h4">Phases</Typography>
-        </Box>
-
-        <Steps
-          currentStep={TournamentPhaseOptions[tournamentData.phase]}
-          steps={steps}
-        />
       </Grid>
       <Grid
         item
