@@ -10,7 +10,7 @@ import { TournamentStatus } from 'constants/tournament';
 import { useLazyGetMyTournamentsQuery } from 'store/api/tournament/tournamentApiSlice';
 import { OpenTournament } from 'types/tournament';
 
-import TournamentList from './TournamentList/TournamentList';
+import TournamentList from './TournamentList';
 
 export default function MyTournaments() {
   const [tournaments, setTournaments] = useState<{

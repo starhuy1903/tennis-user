@@ -14,7 +14,7 @@ import {
 } from 'store/api/tournament/tournamentApiSlice';
 import { OpenTournament } from 'types/tournament';
 
-import TournamentList from './TournamentList/TournamentList';
+import TournamentList from './TournamentList';
 
 export default function AllTournaments() {
   const [tournaments, setTournaments] = useState<{
