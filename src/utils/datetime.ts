@@ -4,21 +4,6 @@ import moment from 'moment';
 
 dayjs.extend(relativeTime);
 
-export function formatDate(isoDate: string) {
-  const date = moment(isoDate);
-  return date.format('DD/MM/YYYY');
-}
-
-export function formatDateTime(isoDate: string) {
-  const date = moment(isoDate);
-  return date.format('DD/MM/YYYY HH:mm:ss');
-}
-
-export function formatTimeDate(isoDate: string) {
-  const date = moment(isoDate);
-  return date.format('HH:mm DD/MM/YYYY');
-}
-
 export const displayTimestamp = (
   timestamp: string,
   options?: {
@@ -29,22 +14,17 @@ export const displayTimestamp = (
   return `${time.format('YYYY-MM-DD HH:mm:ss')}${options?.includeRelativeTimeToPresent ? ` (${time.fromNow()})` : ''}`;
 };
 
-// 7:30 PM
-export const displayTime = (time: string) => {
-  const t = moment(time, 'HH:mm:ss');
-  return t.format('hh:mm A');
-};
-
-// 29 Oct 2023
-export const displayDate = (date: string) => {
-  const time = moment(date);
-  return time.format('DD MMM YYYY');
-};
-
-// 29 Oct 2023 12:00 PM
-export const displayDateTime = (date: string) => {
-  const time = moment(date);
-  return time.format('DD MMM YYYY hh:mm A');
+export const displayDateTime = ({
+  dateTime,
+  formatSpecification,
+  targetFormat,
+}: {
+  dateTime: string;
+  formatSpecification?: string;
+  targetFormat: string;
+}) => {
+  const t = moment(dateTime, formatSpecification);
+  return t.format(targetFormat);
 };
 
 // Feb 15 - Feb 20, 2024
@@ -80,4 +60,10 @@ export const displayDistanceFromNow = (date: string) => {
   const minutes = duration.minutes();
   const seconds = duration.seconds();
   return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+};
+
+export const checkExpiredDate = (end: string) => {
+  const endDate = moment(end);
+  const now = moment();
+  return endDate.isBefore(now);
 };

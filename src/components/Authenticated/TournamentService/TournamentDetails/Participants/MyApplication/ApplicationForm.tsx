@@ -12,12 +12,13 @@ import {
 } from '@mui/material';
 import { useNavigate, useParams } from 'react-router-dom';
 
+import { FormatDateTime } from 'constants/datetime';
 import { GenderOptions } from 'constants/tournament';
 import { RegistrationStatus } from 'constants/tournament-participants';
 import { useDeleteApplicationMutation } from 'store/api/tournament/tournamentParticipantsApiSlice';
 import { OpenTournamentApplicant } from 'types/open-tournament-participants';
 import { UserProfile } from 'types/user';
-import { formatDateTime } from 'utils/datetime';
+import { displayDateTime } from 'utils/datetime';
 import { showSuccess } from 'utils/toast';
 
 const ApplicantInfo = ({ title, user }: { title: string; user: UserProfile }) => {
@@ -178,7 +179,10 @@ export default function ApplicationForm({ data }: { data: OpenTournamentApplican
               <FormControl fullWidth>
                 <FormLabel htmlFor="applied-date">Applied Date</FormLabel>
                 <TextField
-                  value={formatDateTime(data.appliedDate)}
+                  value={displayDateTime({
+                    dateTime: data.appliedDate,
+                    targetFormat: FormatDateTime.DATE_AND_FULL_TIME,
+                  })}
                   disabled
                 />
               </FormControl>

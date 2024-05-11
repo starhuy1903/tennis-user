@@ -3,9 +3,10 @@ import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import { Avatar, Box, Button, Container, Stack, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
 
+import { FormatDateTime } from 'constants/datetime';
 import { MatchStatus } from 'constants/tournament-fixtures';
 import { FinalScore, Match, Player, Round } from 'types/tournament-fixtures';
-import { displayDate, displayTime } from 'utils/datetime';
+import { displayDateTime } from 'utils/datetime';
 
 import { MatchStatusBadge } from '../Match/MatchStatusBadge';
 import NoData from '../NoData';
@@ -158,7 +159,13 @@ export const MatchItem = ({ match }: { match: Match }) => {
           variant="caption"
           color="gray"
         >
-          <strong>Date / Time:</strong> {displayDate(match.date)}, {displayTime(match.date)}
+          <strong>Date / Time:</strong> {displayDateTime({ dateTime: match.date, targetFormat: FormatDateTime.DATE_2 })}
+          ,{' '}
+          {displayDateTime({
+            dateTime: match.date,
+            formatSpecification: FormatDateTime.FULL_TIME,
+            targetFormat: FormatDateTime.MERIDIEM_HOUR,
+          })}
         </Typography>
 
         <Typography

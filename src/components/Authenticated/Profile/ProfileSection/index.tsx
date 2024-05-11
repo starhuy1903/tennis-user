@@ -12,8 +12,9 @@ import { useTheme } from '@mui/material/styles';
 import { useAppSelector } from 'store';
 
 import LinkButton from 'components/Common/LinkButton';
+import { FormatDateTime } from 'constants/datetime';
 import { Gender } from 'constants/tournament';
-import { formatDate } from 'utils/datetime';
+import { displayDateTime } from 'utils/datetime';
 
 import Avatar from './Avatar';
 
@@ -122,7 +123,9 @@ const ProfileSection = () => {
               <Tooltip title="Date of birth">
                 <CalendarMonthIcon />
               </Tooltip>
-              <Typography>{user.dob ? formatDate(user.dob) : '--'}</Typography>
+              <Typography>
+                {user.dob ? displayDateTime({ dateTime: user.dob, targetFormat: FormatDateTime.DATE_1 }) : '--'}
+              </Typography>
             </Stack>
 
             <Stack

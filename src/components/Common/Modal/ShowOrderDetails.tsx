@@ -11,15 +11,23 @@ import {
   Typography,
 } from '@mui/material';
 
+import { FormatDateTime } from 'constants/datetime';
 import { OrderStatus, PaymentPartnerOptions } from 'constants/order';
 import { useGetOrderDetailQuery } from 'store/api/order/orderApiSlice';
-import { formatDateTime } from 'utils/datetime';
+import { displayDateTime } from 'utils/datetime';
 import { displayCurrency } from 'utils/string';
 
 import CenterLoading from '../CenterLoading';
 import { InfoItem } from '../InfoItem';
 import BaseModal from './BaseModal';
 import { ShowOrderDetailsProps } from './types';
+
+const formatDateTime = (dateTime: string) => {
+  return displayDateTime({
+    dateTime,
+    targetFormat: FormatDateTime.DATE_AND_FULL_TIME,
+  });
+};
 
 export default function ShowOrderDetail({ orderId, onNavigate, onModalClose }: ShowOrderDetailsProps) {
   const { data, isLoading } = useGetOrderDetailQuery(orderId);
