@@ -3,7 +3,7 @@ import FemaleIcon from '@mui/icons-material/Female';
 import MailIcon from '@mui/icons-material/Mail';
 import MaleIcon from '@mui/icons-material/Male';
 import PhoneIcon from '@mui/icons-material/Phone';
-import { Tooltip } from '@mui/material';
+import { Chip, Tooltip } from '@mui/material';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
@@ -12,8 +12,9 @@ import { useTheme } from '@mui/material/styles';
 import { useAppSelector } from 'store';
 
 import LinkButton from 'components/Common/LinkButton';
+import { FormatDateTime } from 'constants/datetime';
 import { Gender } from 'constants/tournament';
-import { formatDate } from 'utils/datetime';
+import { displayDateTime } from 'utils/datetime';
 
 import Avatar from './Avatar';
 
@@ -37,10 +38,30 @@ const ProfileSection = () => {
             },
           }}
         >
-          <Avatar
-            src={user.image}
-            alt="user-profile"
-          />
+          <Box
+            sx={{
+              position: 'relative',
+            }}
+          >
+            <Avatar
+              src={user.image}
+              alt="user-profile"
+            />
+
+            <Chip
+              label={`${user.elo || 'No'} ELO`}
+              size="small"
+              variant={user.elo ? 'filled' : 'outlined'}
+              color="primary"
+              sx={{
+                position: 'absolute',
+                bottom: 0,
+                left: '50%',
+                transform: 'translateX(-50%)',
+                backgroundColor: user.elo ? theme.palette.primary.main : 'white',
+              }}
+            />
+          </Box>
           <Stack
             direction="column"
             flex={1}
@@ -102,7 +123,9 @@ const ProfileSection = () => {
               <Tooltip title="Date of birth">
                 <CalendarMonthIcon />
               </Tooltip>
-              <Typography>{user.dob ? formatDate(user.dob) : '--'}</Typography>
+              <Typography>
+                {user.dob ? displayDateTime({ dateTime: user.dob, targetFormat: FormatDateTime.DATE_1 }) : '--'}
+              </Typography>
             </Stack>
 
             <Stack

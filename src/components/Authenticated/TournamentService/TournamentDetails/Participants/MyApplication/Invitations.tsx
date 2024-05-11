@@ -29,8 +29,11 @@ export default function Invitations({ status }: { status: RegistrationStatus.INV
             {status === RegistrationStatus.INVITING ? 'Invitations' : 'Canceled Invitations'}
           </Typography>
 
-          {data.data.map((e) => (
-            <InvitationItem data={e} />
+          {data.data.map((e, index) => (
+            <InvitationItem
+              data={e}
+              key={index}
+            />
           ))}
         </>
       )}

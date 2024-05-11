@@ -41,7 +41,7 @@ const schema = yup.object({
   language: yup.string().required("Group's language is required"),
   activityZone: yup.string().required('Please tell people where your group is active'),
   purchasedPackageId: yup.string().required(),
-  image: yup.mixed().required().nullable(),
+  image: yup.string().required(),
 });
 
 const GroupCreate = () => {
@@ -72,7 +72,7 @@ const GroupCreate = () => {
         language: LANGUAGES[0].value,
         activityZone: '',
         purchasedPackageId: _purchasedPackages.length > 0 ? _purchasedPackages[0].id : '',
-        image: null,
+        image: '',
       };
     },
   });
@@ -215,14 +215,13 @@ const GroupCreate = () => {
                     <Grid xs={12}>
                       <SingleImagePicker
                         label="Upload a background image for your group"
-                        image={formValue.image}
+                        imageUrl={formValue.image}
                         handleUpload={(value) => {
                           setValue('image', value);
                           setIsUploadImage(true);
                         }}
                         handleRemove={() => {
-                          setValue('image', null);
-                          setIsUploadImage(false);
+                          setValue('image', '');
                         }}
                       />
                     </Grid>

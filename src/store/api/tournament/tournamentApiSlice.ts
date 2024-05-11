@@ -6,16 +6,35 @@ import { urlWithCorePrefix } from '../helper';
 
 const tournamentApiToastSlice = apiWithToastSlice.injectEndpoints({
   endpoints: (build) => ({
-    getOpenTournaments: build.query<OpenTournament[], { userId: string; tournamentStatus?: TournamentStatus }>({
-      query: (args) => ({
-        url: urlWithCorePrefix(`users/${args.userId}/tournaments`),
-        params: { status: args?.tournamentStatus },
+    getOpenTournaments: build.query<OpenTournament[], TournamentStatus | void>({
+      query: (status) => ({
+        url: urlWithCorePrefix(`tournaments`),
+        params: { status },
+      }),
+      transformResponse: (response: { data: OpenTournament[] }) => response.data,
+    }),
+    getMyTournaments: build.query<OpenTournament[], TournamentStatus | void>({
+      query: (status) => ({
+        url: urlWithCorePrefix(`users/tournaments`),
+        params: { status },
+      }),
+      transformResponse: (response: { data: OpenTournament[] }) => response.data,
+    }),
+    getUnregisteredTournaments: build.query<OpenTournament[], void>({
+      query: () => ({
+        url: urlWithCorePrefix(`tournaments/unregistered`),
+      }),
+      transformResponse: (response: { data: OpenTournament[] }) => response.data,
+    }),
+    getCreatedTournaments: build.query<OpenTournament[], void>({
+      query: () => ({
+        url: urlWithCorePrefix(`tournaments/me`),
       }),
       transformResponse: (response: { data: OpenTournament[] }) => response.data,
     }),
     createOpenTournament: build.mutation<OpenTournament, OpenTournamentPayload>({
       query: (payload) => ({
-        url: `core/tournaments`,
+        url: urlWithCorePrefix(`tournaments`),
         method: 'POST',
         body: payload,
       }),
@@ -26,7 +45,7 @@ const tournamentApiToastSlice = apiWithToastSlice.injectEndpoints({
     }),
     moveToNextPhase: build.mutation<OpenTournament, number>({
       query: (id) => ({
-        url: `core/tournaments/${id}/next-phase`,
+        url: urlWithCorePrefix(`tournaments/${id}/next-phase`),
         method: 'PATCH',
       }),
     }),
@@ -36,6 +55,12 @@ const tournamentApiToastSlice = apiWithToastSlice.injectEndpoints({
 export const {
   useGetOpenTournamentsQuery,
   useLazyGetOpenTournamentsQuery,
+  useGetMyTournamentsQuery,
+  useLazyGetMyTournamentsQuery,
+  useGetUnregisteredTournamentsQuery,
+  useLazyGetUnregisteredTournamentsQuery,
+  useGetCreatedTournamentsQuery,
+  useLazyGetCreatedTournamentsQuery,
   useCreateOpenTournamentMutation,
   useGetOpenTournamentDetailsQuery,
   useLazyGetOpenTournamentDetailsQuery,

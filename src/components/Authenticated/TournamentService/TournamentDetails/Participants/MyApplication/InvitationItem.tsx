@@ -2,7 +2,7 @@ import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-// import { Chip } from '@mui/material';
+import { Chip } from '@mui/material';
 import Accordion from '@mui/material/Accordion';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
@@ -69,6 +69,13 @@ export default function InvitationItem({ data }: { data: OpenTournamentApplicant
 
           <Typography variant="h2">{data.user1.name}</Typography>
 
+          <Chip
+            label={`${data.user1.elo || 'No'} ELO`}
+            size="small"
+            variant={data.user1.elo ? 'filled' : 'outlined'}
+            color="primary"
+          />
+
           {/* <Chip
             sx={{ width: 'fit-content' }}
             component="span"
@@ -83,12 +90,19 @@ export default function InvitationItem({ data }: { data: OpenTournamentApplicant
       <AccordionDetails>
         <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
           <Stack direction="column">
-            <Typography variant="body1">
-              <strong>Email:</strong> {data.user1.email}
-            </Typography>
-            <Typography variant="body1">
-              <strong>Gender:</strong> {GenderOptions[data.user1.gender]}
-            </Typography>
+            <Box
+              sx={{
+                display: 'flex',
+                gap: 2,
+              }}
+            >
+              <Typography variant="body1">
+                <b>Email:</b> {data.user1.email}
+              </Typography>
+              <Typography variant="body1">
+                <b>Gender:</b> {GenderOptions[data.user1.gender]}
+              </Typography>
+            </Box>
             <Typography variant="body1">
               <strong>Message:</strong> {data.message}
             </Typography>

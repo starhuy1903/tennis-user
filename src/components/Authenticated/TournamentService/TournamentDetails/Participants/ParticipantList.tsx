@@ -13,11 +13,42 @@ import {
 } from '@mui/material';
 import { useParams } from 'react-router-dom';
 
+import { FormatDateTime } from 'constants/datetime';
 import { GenderOptions } from 'constants/tournament';
 import { useGetOpenTournamentParticipantsQuery } from 'store/api/tournament/tournamentParticipantsApiSlice';
-import { formatDateTime } from 'utils/datetime';
+import { UserProfile } from 'types/user';
+import { displayDateTime } from 'utils/datetime';
 
-const titles = ['Name', 'Email address', 'Gender', 'Applied date'];
+const titles = ['Name', 'ELO', 'Email address', 'Phone', 'Gender', 'Applied date'];
+
+const ParticipantName = ({ user }: { user: UserProfile }) => {
+  return (
+    <Box sx={{ display: 'flex', alignItems: 'center', columnGap: '20px' }}>
+      <Avatar
+        src={user.image}
+        alt={user.name}
+        sx={{ width: '50px', height: '50px' }}
+      />
+      <Typography variant="body1">{user.name}</Typography>
+    </Box>
+  );
+};
+
+const Cell = ({ children }: { children: React.ReactNode }) => {
+  return (
+    <TableCell align="center">
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          rowGap: '40px',
+        }}
+      >
+        {children}
+      </Box>
+    </TableCell>
+  );
+};
 
 export default function ParticipantList() {
   const { tournamentId } = useParams();
@@ -73,55 +104,42 @@ export default function ParticipantList() {
                     scope="row"
                   >
                     <Box sx={{ display: 'flex', flexDirection: 'column', rowGap: '10px' }}>
-                      <Box sx={{ display: 'flex', alignItems: 'center', columnGap: '20px' }}>
-                        <Avatar
-                          src={row.user1?.image}
-                          alt={row.user1?.name}
-                          sx={{ width: '50px', height: '50px' }}
-                        />
-                        <Typography variant="body1">{row.user1?.name}</Typography>
-                      </Box>
+                      <ParticipantName user={row.user1} />
 
-                      {row?.user2 && (
-                        <Box sx={{ display: 'flex', alignItems: 'center', columnGap: '20px' }}>
-                          <Avatar
-                            src={row.user2?.image}
-                            alt={row.user2?.name}
-                            sx={{ width: '50px', height: '50px' }}
-                          />
-                          <Typography variant="body1">{row.user2?.name}</Typography>
-                        </Box>
-                      )}
+                      {row?.user2 && <ParticipantName user={row.user2} />}
                     </Box>
                   </TableCell>
+
+                  <Cell>
+                    <Box>{row.user1.elo || '--'}</Box>
+
+                    {row.user2 && <Box>{row.user2.elo || '--'}</Box>}
+                  </Cell>
+
+                  <Cell>
+                    <Box>{row.user1.email}</Box>
+
+                    {row.user2 && <Box>{row.user2.email}</Box>}
+                  </Cell>
+
+                  <Cell>
+                    <Box>{row.user1.phoneNumber}</Box>
+
+                    {row.user2 && <Box>{row.user2.phoneNumber}</Box>}
+                  </Cell>
+
+                  <Cell>
+                    <Box>{GenderOptions[row.user1.gender]}</Box>
+
+                    {row.user2 && <Box>{GenderOptions[row.user1.gender]}</Box>}
+                  </Cell>
+
                   <TableCell align="center">
-                    <Box
-                      sx={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        rowGap: '40px',
-                      }}
-                    >
-                      <Box>{row.user1.email}</Box>
-
-                      {row.user2 && <Box>{row.user2.email}</Box>}
-                    </Box>
+                    {displayDateTime({
+                      dateTime: row.appliedDate,
+                      targetFormat: FormatDateTime.DATE_AND_FULL_TIME,
+                    })}
                   </TableCell>
-                  <TableCell align="center">
-                    {' '}
-                    <Box
-                      sx={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        rowGap: '40px',
-                      }}
-                    >
-                      <Box>{GenderOptions[row.user1.gender]}</Box>
-
-                      {row.user2 && <Box>{GenderOptions[row.user1.gender]}</Box>}
-                    </Box>
-                  </TableCell>
-                  <TableCell align="center">{formatDateTime(row.appliedDate)}</TableCell>
                 </TableRow>
               ))}
           </TableBody>
