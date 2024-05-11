@@ -14,14 +14,12 @@ interface PackagePricingProps {
   title?: string;
   description?: string;
   type?: PackageType;
-  loginRequired?: boolean;
 }
 
 export default function PackagePricing({
   title = 'Our packages',
   description = 'We offer a variety of packages to suit your needs.',
   type,
-  loginRequired = false,
 }: PackagePricingProps) {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -32,7 +30,7 @@ export default function PackagePricing({
   const { data: packages, isLoading } = useGetPackagesQuery(type);
 
   const handleBuyPackage = async (packageId: number) => {
-    if (loginRequired && !isLoggedIn) {
+    if (!isLoggedIn) {
       return navigate('/login');
     }
 
