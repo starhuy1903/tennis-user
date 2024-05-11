@@ -9,14 +9,14 @@ const groupApiToastSlice = apiWithToastSlice.injectEndpoints({
   endpoints: (build) => ({
     addMember: build.mutation<void, InvitationPayload>({
       query: (body) => ({
-        url: 'core/groups/invite',
+        url: urlWithCorePrefix('groups/invite'),
         method: 'POST',
         body,
       }),
     }),
     getGroupMembers: build.query<GetListResult<MemberDto>, GetPagingListOptions & { id: number }>({
       query: (body) => ({
-        url: `core/groups/${body.id}/members`,
+        url: urlWithCorePrefix(`groups/${body.id}/members`),
         params: {
           page: body.page,
           take: body.take,
@@ -26,7 +26,7 @@ const groupApiToastSlice = apiWithToastSlice.injectEndpoints({
     }),
     getMyGroups: build.query<GetListResult<Group>, GetPagingListOptions>({
       query: (body) => ({
-        url: 'core/groups',
+        url: urlWithCorePrefix('groups'),
         params: {
           page: body.page,
           take: body.take,
@@ -37,7 +37,7 @@ const groupApiToastSlice = apiWithToastSlice.injectEndpoints({
     }),
     getJoinedGroups: build.query<GetListResult<Group>, GetPagingListOptions>({
       query: (body) => ({
-        url: 'core/groups',
+        url: urlWithCorePrefix('groups'),
         params: {
           page: body.page,
           take: body.take,
@@ -47,7 +47,7 @@ const groupApiToastSlice = apiWithToastSlice.injectEndpoints({
       }),
     }),
     getGroupDetails: build.query<Group, number>({
-      query: (id) => `core/groups/${id}`,
+      query: (id) => urlWithCorePrefix(`groups/${id}`),
     }),
     createGroup: build.mutation<void, GroupDto>({
       query: (body) => ({
@@ -58,7 +58,7 @@ const groupApiToastSlice = apiWithToastSlice.injectEndpoints({
     }),
     updateGroup: build.mutation<void, { id: number; data: GroupUpdateDto }>({
       query: (body) => ({
-        url: `core/groups/${body.id}`,
+        url: urlWithCorePrefix(`groups/${body.id}`),
         method: 'PATCH',
         body: { ...body.data, image: 'https://picsum.photos/id/251/300/200' },
       }),
