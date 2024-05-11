@@ -30,7 +30,7 @@ const orderApiToastSlice = apiWithToastSlice.injectEndpoints({
         },
       }),
     }),
-    getOrderDetail: build.query<Order & { user: UserProfile; paymentMethod: PaymentPartner }, string>({
+    getOrderDetail: build.query<Order & { user: UserProfile; partner: PaymentPartner }, string>({
       query: (orderId) => urlWithCorePrefix(`orders/${orderId}`),
     }),
   }),
