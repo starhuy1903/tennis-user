@@ -15,6 +15,7 @@ import Typography from '@mui/material/Typography';
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
+import { FormatDateTime } from 'constants/datetime';
 import { GenderOptions } from 'constants/tournament';
 import { RegistrationStatus } from 'constants/tournament-participants';
 import {
@@ -23,7 +24,7 @@ import {
 } from 'store/api/tournament/tournamentParticipantsApiSlice';
 import { OpenTournamentApplicant } from 'types/open-tournament-participants';
 import { UserProfile } from 'types/user';
-import { formatDateTime } from 'utils/datetime';
+import { displayDateTime } from 'utils/datetime';
 import { showSuccess } from 'utils/toast';
 
 const ApplicantTitle = ({ user }: { user: UserProfile }) => {
@@ -167,7 +168,10 @@ export default function ApplicantItem({ data }: { data: OpenTournamentApplicant 
 
             <InfoItem
               label="Applied Date"
-              value={formatDateTime(data.appliedDate)}
+              value={displayDateTime({
+                dateTime: data.appliedDate,
+                targetFormat: FormatDateTime.DATE_AND_FULL_TIME,
+              })}
             />
           </Stack>
 

@@ -9,9 +9,15 @@ import { ModalKey } from 'constants/modal';
 import { TournamentStatus, defaultTournamentImage } from 'constants/tournament';
 import { showModal } from 'store/slice/modalSlice';
 import { OpenTournament } from 'types/tournament';
-import { displayDateRange, displayDayLeft } from 'utils/datetime';
+import { checkExpiredDate, displayDateRange, displayDayLeft } from 'utils/datetime';
 
-export default function TournamentItem({ tournament }: { tournament: OpenTournament }) {
+export default function TournamentItem({
+  tournament,
+  isRegisterable = false,
+}: {
+  tournament: OpenTournament;
+  isRegisterable?: boolean;
+}) {
   const dispatch = useAppDispatch();
 
   const handleRegister = async (tournamentId: number) => {
@@ -23,28 +29,38 @@ export default function TournamentItem({ tournament }: { tournament: OpenTournam
       sx={{
         my: 2,
         position: 'relative',
+        width: '320px',
       }}
     >
       <CardActionArea>
-        <CardMedia
-          component="img"
-          image={tournament.image || defaultTournamentImage}
-          alt="news-image"
+        <Box
           sx={{
-            filter: tournament.status === TournamentStatus.COMPLETED ? 'grayscale(100%)' : 'none',
-            transition: 'filter 0.3s',
+            height: '200px',
           }}
-          onMouseEnter={(event) => {
-            if (tournament.status === TournamentStatus.COMPLETED) {
-              event.currentTarget.style.filter = 'grayscale(0%)';
-            }
-          }}
-          onMouseLeave={(event) => {
-            if (tournament.status === TournamentStatus.COMPLETED) {
-              event.currentTarget.style.filter = 'grayscale(100%)';
-            }
-          }}
-        />
+        >
+          <CardMedia
+            component="img"
+            image={tournament.image || defaultTournamentImage}
+            alt="news-image"
+            sx={{
+              filter: tournament.status === TournamentStatus.COMPLETED ? 'grayscale(100%)' : 'none',
+              transition: 'filter 0.3s',
+              width: '100%',
+              height: '100%',
+              objectFit: 'content',
+            }}
+            onMouseEnter={(event) => {
+              if (tournament.status === TournamentStatus.COMPLETED) {
+                event.currentTarget.style.filter = 'grayscale(0%)';
+              }
+            }}
+            onMouseLeave={(event) => {
+              if (tournament.status === TournamentStatus.COMPLETED) {
+                event.currentTarget.style.filter = 'grayscale(100%)';
+              }
+            }}
+          />
+        </Box>
 
         {/* <Box
           sx={{
@@ -101,17 +117,23 @@ export default function TournamentItem({ tournament }: { tournament: OpenTournam
           <Typography variant="subtitle1">{`${tournament.participants}/${tournament.maxParticipants} participants`}</Typography>
         </Box>
 
-        {tournament.status === TournamentStatus.UPCOMING && (
-          <Box>
+        <Box>
+          {tournament.status === TournamentStatus.UPCOMING && (
             <Box
               display="flex"
               gap={1}
               color="red"
             >
               <AccessTimeIcon />
-              <Typography variant="subtitle1">{displayDayLeft(tournament.registrationDueDate)}</Typography>
+              <Typography variant="subtitle1">
+                {checkExpiredDate(tournament.registrationDueDate)
+                  ? 'Registration has expired'
+                  : displayDayLeft(tournament.registrationDueDate)}
+              </Typography>
             </Box>
+          )}
 
+          {isRegisterable && (
             <Button
               variant="contained"
               color="primary"
@@ -123,8 +145,8 @@ export default function TournamentItem({ tournament }: { tournament: OpenTournam
             >
               Register
             </Button>
-          </Box>
-        )}
+          )}
+        </Box>
 
         <Button
           component={Link}

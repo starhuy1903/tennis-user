@@ -19,14 +19,22 @@ import { useAppDispatch } from 'store';
 
 import CenterLoading from 'components/Common/CenterLoading';
 import NoData from 'components/Common/NoData';
+import { FormatDateTime } from 'constants/datetime';
 import { ModalKey } from 'constants/modal';
 import { OrderStatus, OrderStatusOptions } from 'constants/order';
 import { useGetOrdersQuery } from 'store/api/order/orderApiSlice';
 import { showModal } from 'store/slice/modalSlice';
-import { formatDateTime } from 'utils/datetime';
+import { displayDateTime } from 'utils/datetime';
 import { displayCurrency } from 'utils/string';
 
 const titles = ['Order ID', 'Total Price', 'Status', 'Created At', 'Updated At'];
+
+const formatDateTime = (dateTime: string) => {
+  return displayDateTime({
+    dateTime,
+    targetFormat: FormatDateTime.DATE_AND_FULL_TIME,
+  });
+};
 
 const Badge = ({ color, text }: { color: string; text: string }) => (
   <Typography

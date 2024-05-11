@@ -1,8 +1,9 @@
 import SensorsIcon from '@mui/icons-material/Sensors';
 import { Typography } from '@mui/material';
 
+import { FormatDateTime } from 'constants/datetime';
 import { MatchStatus } from 'constants/tournament-fixtures';
-import { formatTimeDate } from 'utils/datetime';
+import { displayDateTime } from 'utils/datetime';
 
 const statusTextMap: { [key: string]: string } = {
   [MatchStatus.SCHEDULED]: 'SCHEDULED',
@@ -49,7 +50,7 @@ export const MatchStatusBadge = ({
         }}
       >
         {status === MatchStatus.SCHEDULED ? (
-          formatTimeDate(date!)
+          displayDateTime({ dateTime: date!, targetFormat: FormatDateTime.TIME_AND_DATE })
         ) : status === MatchStatus.WALK_OVER ? (
           <>
             <SensorsIcon fontSize="small" /> LIVE

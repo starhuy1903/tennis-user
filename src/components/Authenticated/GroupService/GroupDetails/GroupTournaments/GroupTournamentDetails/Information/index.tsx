@@ -4,6 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 import CenterLoading from 'components/Common/CenterLoading';
 import Steps from 'components/Common/Steps';
+import { FormatDateTime } from 'constants/datetime';
 import {
   ParticipantType,
   ParticipantTypeOptions,
@@ -13,7 +14,7 @@ import {
 } from 'constants/tournament';
 import { useLazyGetGroupTournamentDetailsQuery } from 'store/api/group/groupTournamentApiSlice';
 import { GroupTournament } from 'types/tournament';
-import { displayDate } from 'utils/datetime';
+import { displayDateTime } from 'utils/datetime';
 import { showError } from 'utils/toast';
 
 import InfoSection from './InfoSection';
@@ -62,8 +63,8 @@ export default function Information() {
   }
 
   const tournamentTimelineFields = [
-    { label: 'START', value: displayDate(tournament.startDate) },
-    { label: 'ENDS', value: displayDate(tournament.endDate) },
+    { label: 'START', value: displayDateTime({ dateTime: tournament.startDate, targetFormat: FormatDateTime.DATE_2 }) },
+    { label: 'ENDS', value: displayDateTime({ dateTime: tournament.endDate, targetFormat: FormatDateTime.DATE_2 }) },
     { label: 'VENUE', value: tournament.address },
   ];
 
