@@ -22,6 +22,20 @@ export default function TournamentList({
       <Swiper
         spaceBetween={20}
         slidesPerView={4}
+        breakpoints={{
+          0: {
+            slidesPerView: 1,
+          },
+          750: {
+            slidesPerView: 2,
+          },
+          1080: {
+            slidesPerView: 3,
+          },
+          1420: {
+            slidesPerView: 4,
+          },
+        }}
       >
         {tournaments.map((item) => (
           <SwiperSlide key={item.id}>
