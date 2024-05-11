@@ -109,7 +109,7 @@ export default function ApplicationForm({ data }: { data: OpenTournamentApplican
   const handleCancelApplication = async () => {
     try {
       await cancelApplication({ tournamentId: tournamentData.id }).unwrap();
-      showSuccess('Canceled Application has been .');
+      showSuccess('Canceled application successfully.');
       navigate(`/tournaments/${tournamentData.id}/participants`);
     } catch (error) {
       // handled error
