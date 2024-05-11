@@ -3,16 +3,14 @@ import TabList from '@mui/lab/TabList';
 import { Box, Paper, Stack, Tab, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { Outlet, useLocation, useNavigate, useParams } from 'react-router-dom';
-import { useAppDispatch } from 'store';
+import { useAppDispatch, useAppSelector } from 'store';
 
 import CenterLoading from 'components/Common/CenterLoading';
 import { defaultTournamentImage } from 'constants/tournament';
 // import { TournamentStatus } from 'constants/tournament';
 import { useLazyGetOpenTournamentDetailsQuery } from 'store/api/tournament/tournamentApiSlice';
-import { setTournamentDetails } from 'store/slice/tournamentSlice';
-import { OpenTournament } from 'types/tournament';
+import { selectTournament, setTournamentDetails } from 'store/slice/tournamentSlice';
 import { displayDateRange } from 'utils/datetime';
-import { showError } from 'utils/toast';
 
 // const TournamentStatusChip = {
 //   [TournamentStatus.UPCOMING]: {
@@ -50,7 +48,7 @@ export default function TournamentDetailsLayout() {
   const location = useLocation();
   const pathParts = location.pathname.split('/');
   const [getTournamentDetails, { isLoading }] = useLazyGetOpenTournamentDetailsQuery();
-  const [tournamentData, setTournamentData] = useState<OpenTournament | null>(null);
+  const tournamentData = useAppSelector(selectTournament);
 
   const [currentTab, setCurrentTab] = useState(pathParts[pathParts.length - 1]);
 
@@ -66,20 +64,17 @@ export default function TournamentDetailsLayout() {
       if (tournamentId) {
         try {
           const res = await getTournamentDetails(parseInt(tournamentId)).unwrap();
-          setTournamentData(res);
           dispatch(setTournamentDetails(res));
         } catch (error) {
-          showError('Tournament not found.');
           navigate('/tournaments');
         }
       } else {
-        showError('Tournament not found.');
         navigate('/tournaments');
       }
     })();
   }, [getTournamentDetails, navigate, tournamentId, dispatch]);
 
-  if (isLoading || !tournamentData) {
+  if (isLoading || tournamentData.id === 0) {
     return <CenterLoading />;
   }
 

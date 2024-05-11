@@ -1,16 +1,16 @@
-import { Alert, Box, CircularProgress } from '@mui/material';
+import { Alert, Box } from '@mui/material';
 import { useAppSelector } from 'store';
 
 import { TournamentPhase } from 'constants/tournament';
+import { selectTournament } from 'store/slice/tournamentSlice';
 
 import ApplicantList from './ApplicantList';
 import MyApplication from './MyApplication';
 import ParticipantList from './ParticipantList';
 
 export default function Participants() {
-  const tournamentData = useAppSelector((state) => state.tournament.data);
+  const tournamentData = useAppSelector(selectTournament);
 
-  if (!tournamentData) return <CircularProgress />;
   const isCreator = tournamentData.isCreator;
 
   if (isCreator && tournamentData.phase === TournamentPhase.NEW) {
