@@ -75,5 +75,6 @@ export const {
   useLazyGetGroupDetailsQuery,
   useCreateGroupMutation,
   useGetGroupMembersQuery,
+  useLazyGetGroupMembersQuery,
   useUpdateGroupMutation,
 } = groupApiToastSlice;

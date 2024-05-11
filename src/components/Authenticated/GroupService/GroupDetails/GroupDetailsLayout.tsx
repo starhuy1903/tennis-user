@@ -15,32 +15,24 @@ import InfoSection from './InfoSection';
 
 const SharedTabs = [
   {
-    //   index: 0,
     label: 'Feeds',
     value: 'feeds',
-    //   component: <Feeds />,
   },
   {
-    //   index: 1,
     label: 'Members',
     value: 'members',
-    //   component: <Member />,
   },
   {
-    //   index: 2,
     label: 'Group Tournaments',
     value: 'tournaments',
-    //   component: <GroupTournaments />,
   },
 ];
 
 const GroupAdminTabs = [
   ...SharedTabs,
   {
-    //   index: 3,
     label: 'Update Information',
     value: 'information',
-    //   component: <UpdateGroupInformation />,
   },
 ];
 

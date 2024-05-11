@@ -3,12 +3,13 @@ import { Box, CircularProgress, Fab, FormControl, TextField, Tooltip, Typography
 import { useDebounce } from 'hooks';
 import { useConfirm } from 'material-ui-confirm';
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { useAppDispatch } from 'store';
+import { useAppDispatch, useAppSelector } from 'store';
 
 import { ModalKey } from 'constants/modal';
-import { useGetGroupDetailsQuery, useGetGroupMembersQuery } from 'store/api/group/groupApiSlice';
+import { useLazyGetGroupMembersQuery } from 'store/api/group/groupApiSlice';
 import { showModal } from 'store/slice/modalSlice';
+import { GetListResult } from 'types/base';
+import { MemberDto } from 'types/user';
 
 import MemberItems from './MemberItems';
 
@@ -18,10 +19,10 @@ export default function Member() {
   const [expand, setExpand] = useState<string | null>(null);
   const [searchValue, setSearchValue] = useState<string>('');
   const debouncedSearchValue = useDebounce(searchValue, 2000);
+  const groupData = useAppSelector((state) => state.group.data);
 
-  const { groupId } = useParams();
-  const { data, isLoading } = useGetGroupMembersQuery({ page: 1, take: 10, id: parseInt(groupId!) });
-  const { data: groupDetail } = useGetGroupDetailsQuery(parseInt(groupId!));
+  const [memberData, setMemberData] = useState<GetListResult<MemberDto> | null>();
+  const [getGroupMemberRequest, { isLoading }] = useLazyGetGroupMembersQuery();
 
   // const members = useMemo(() => {
   //   return data?.data.filter((e) => e.role !== 'group_admin') || [];
@@ -51,6 +52,19 @@ export default function Member() {
     }
   }, [debouncedSearchValue]);
 
+  useEffect(() => {
+    (async () => {
+      if (groupData?.id) {
+        try {
+          const res = await getGroupMemberRequest({ page: 1, take: 10, id: groupData.id }).unwrap();
+          setMemberData(res);
+        } catch (error) {
+          // handled error
+        }
+      }
+    })();
+  }, [getGroupMemberRequest, groupData?.id]);
+
   return (
     <Box sx={{ height: '100%', overflow: 'hidden' }}>
       <Box sx={{ display: 'flex', alignItems: 'center', columnGap: '20px', height: '60px', marginBottom: '10px' }}>
@@ -76,11 +90,11 @@ export default function Member() {
       <Box sx={{ height: 'calc(100% - 60px)', overflow: 'auto' }}>
         {isLoading ? (
           <CircularProgress />
-        ) : data && data?.data.length > 0 ? (
-          data?.data.map((e) => (
+        ) : memberData && memberData.data.length > 0 ? (
+          memberData.data.map((e) => (
             <MemberItems
               role={e.role}
-              isCreator={groupDetail?.isCreator || false}
+              isCreator={!!groupData?.isCreator}
               key={e.user.id}
               data={e.user}
               expanded={expand === e.user.id}
