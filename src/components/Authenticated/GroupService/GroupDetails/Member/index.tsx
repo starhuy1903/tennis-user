@@ -6,10 +6,11 @@ import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'store';
 
 import { ModalKey } from 'constants/modal';
-import { useLazyGetGroupMembersQuery } from 'store/api/group/groupApiSlice';
+import { useLazyGetGroupMembersQuery, useRemoveMemberMutation } from 'store/api/group/groupApiSlice';
 import { showModal } from 'store/slice/modalSlice';
 import { GetListResult } from 'types/base';
 import { MemberDto } from 'types/user';
+import { showError, showSuccess } from 'utils/toast';
 
 import MemberItems from './MemberItems';
 
@@ -36,9 +37,29 @@ export default function Member() {
     setExpand(newExpanded ? _id : null);
   };
 
+  const [removeMember] = useRemoveMemberMutation();
   const handleRemoveMember = (_id: string, name: string) => {
     confirm({ description: `This action will remove ${name} from this group.` })
-      .then(() => {})
+      .then(async () => {
+        try {
+          if (groupData) {
+            await removeMember({ groupId: groupData.id, userId: _id });
+
+            setMemberData((prev) => {
+              if (prev) {
+                return {
+                  ...prev,
+                  data: prev.data.filter((e) => e.user.id !== _id),
+                };
+              }
+              return prev;
+            });
+            showSuccess('Remove member successfully.');
+          }
+        } catch (error) {
+          showError('Remove member failed.');
+        }
+      })
       .catch(() => {});
   };
 

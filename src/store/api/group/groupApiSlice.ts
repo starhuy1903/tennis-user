@@ -14,6 +14,12 @@ const groupApiToastSlice = apiWithToastSlice.injectEndpoints({
         body,
       }),
     }),
+    removeMember: build.mutation<void, { groupId: number; userId: string }>({
+      query: ({ groupId, userId }) => ({
+        url: urlWithCorePrefix(`groups/${groupId}/members/${userId}`),
+        method: 'DELETE',
+      }),
+    }),
     getGroupMembers: build.query<GetListResult<MemberDto>, GetPagingListOptions & { id: number }>({
       query: (body) => ({
         url: urlWithCorePrefix(`groups/${body.id}/members`),
@@ -68,6 +74,7 @@ const groupApiToastSlice = apiWithToastSlice.injectEndpoints({
 
 export const {
   useAddMemberMutation,
+  useRemoveMemberMutation,
   useGetMyGroupsQuery,
   useLazyGetMyGroupsQuery,
   useGetGroupDetailsQuery,
