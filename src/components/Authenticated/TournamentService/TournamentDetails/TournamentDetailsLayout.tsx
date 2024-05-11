@@ -1,13 +1,14 @@
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
-import { Box, Paper, Stack, Tab, Typography } from '@mui/material';
+import { Box, Container, Divider, Paper, Stack, Tab, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { Outlet, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'store';
 
 import CenterLoading from 'components/Common/CenterLoading';
-import { defaultTournamentImage } from 'constants/tournament';
 // import { TournamentStatus } from 'constants/tournament';
+import Steps from 'components/Common/Steps';
+import { TournamentPhaseOptions, defaultTournamentImage } from 'constants/tournament';
 import { useLazyGetOpenTournamentDetailsQuery } from 'store/api/tournament/tournamentApiSlice';
 import { selectTournament, setTournamentDetails } from 'store/slice/tournamentSlice';
 import { displayDateRange } from 'utils/datetime';
@@ -41,6 +42,8 @@ const TournamentTabs = [
     value: 'info',
   },
 ];
+
+const steps = Object.values(TournamentPhaseOptions);
 
 export default function TournamentDetailsLayout() {
   const navigate = useNavigate();
@@ -79,17 +82,19 @@ export default function TournamentDetailsLayout() {
   }
 
   return (
-    <Box>
+    <Container maxWidth="lg">
       <Paper sx={{ borderBottomLeftRadius: 16, borderBottomRightRadius: 16, border: '1px white solid' }}>
         <img
           style={{ width: '100%', height: 300, objectFit: 'cover' }}
           src={tournamentData.image || defaultTournamentImage}
           alt="tournament image"
         />
-        <Box p={2}>
+
+        <Box pt={1}>
           <Stack
             direction="row"
             justifyContent="space-between"
+            px={2}
           >
             <Stack>
               <Typography variant="h6">{tournamentData.name}</Typography>
@@ -107,8 +112,24 @@ export default function TournamentDetailsLayout() {
             </Typography>
           </Stack>
 
-          <TabContext value={currentTab}>
-            <Box sx={{ mt: 2 }}>
+          <Box
+            mb={2}
+            mt={3}
+          >
+            <Steps
+              currentStep={TournamentPhaseOptions[tournamentData.phase]}
+              steps={steps}
+            />
+          </Box>
+
+          <Divider
+            sx={{
+              my: 1,
+            }}
+          />
+
+          <Box px={4}>
+            <TabContext value={currentTab}>
               <TabList
                 onChange={handleChangeTab}
                 aria-label="lab API tabs example"
@@ -124,11 +145,12 @@ export default function TournamentDetailsLayout() {
                   );
                 })}
               </TabList>
-            </Box>
-          </TabContext>
+            </TabContext>
+          </Box>
         </Box>
       </Paper>
+
       <Outlet />
-    </Box>
+    </Container>
   );
 }
