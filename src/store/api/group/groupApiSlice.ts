@@ -51,16 +51,10 @@ const groupApiToastSlice = apiWithToastSlice.injectEndpoints({
     }),
     createGroup: build.mutation<Group, CreateGroupDto>({
       query: (body) => {
-        const formData = new FormData();
-
-        Object.entries(body).forEach(([key, value]) => {
-          formData.append(key, value as string | Blob);
-        });
-
         return {
           url: urlWithCorePrefix('groups'),
           method: 'POST',
-          body: formData,
+          body,
         };
       },
     }),

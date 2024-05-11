@@ -32,7 +32,7 @@ interface FormData {
   language: string;
   activityZone: string;
   purchasedPackageId: string;
-  image: any;
+  image: string;
 }
 
 const schema = yup.object({
@@ -247,11 +247,7 @@ const GroupCreate = () => {
                         type="submit"
                         variant="contained"
                         disabled={
-                          !isValid ||
-                          !purchasedPackages ||
-                          purchasedPackages?.length === 0 ||
-                          isSubmitting ||
-                          !isUploadImage
+                          !purchasedPackages || purchasedPackages?.length === 0 || isSubmitting || !isUploadImage
                         }
                       >
                         Create group

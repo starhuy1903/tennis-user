@@ -34,7 +34,7 @@ export type GroupUpdateDto = {
 
 export type CreateGroupDto = {
   name: string;
-  image: File;
+  image: string;
   description: string;
   language: string;
   activityZone: string;
