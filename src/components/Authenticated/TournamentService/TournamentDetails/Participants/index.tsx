@@ -1,27 +1,33 @@
-import { CircularProgress } from '@mui/material';
-import { useParams } from 'react-router-dom';
+import { Alert, Box, CircularProgress } from '@mui/material';
+import { useAppSelector } from 'store';
 
 import { TournamentPhase } from 'constants/tournament';
-import { useGetOpenTournamentDetailsQuery } from 'store/api/tournament/tournamentApiSlice';
 
 import ApplicantList from './ApplicantList';
 import MyApplication from './MyApplication';
 import ParticipantList from './ParticipantList';
 
 export default function Participants() {
-  const { tournamentId } = useParams();
+  const tournamentData = useAppSelector((state) => state.tournament.data);
 
-  const { data, isLoading } = useGetOpenTournamentDetailsQuery(parseInt(tournamentId!));
+  if (!tournamentData) return <CircularProgress />;
+  const isCreator = tournamentData.isCreator;
 
-  if (isLoading) return <CircularProgress />;
+  if (isCreator && tournamentData.phase === TournamentPhase.NEW) {
+    return (
+      <Box mt={4}>
+        <Alert severity="info">You need to publish the tournament first to see the participants.</Alert>
+      </Box>
+    );
+  }
 
-  if (data?.phase === TournamentPhase.NEW || data?.phase === TournamentPhase.PUBLISHED) {
-    if (data.isCreator) {
+  if (tournamentData.phase === TournamentPhase.PUBLISHED) {
+    if (isCreator) {
       return <ApplicantList />;
     } else {
-      return <MyApplication tournament={data} />;
+      return <MyApplication tournament={tournamentData} />;
     }
-  } else {
-    return <ParticipantList />;
   }
+
+  return <ParticipantList />;
 }

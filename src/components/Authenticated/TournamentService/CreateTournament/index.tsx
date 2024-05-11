@@ -5,12 +5,12 @@ import { Box } from '@mui/material';
 import Tab from '@mui/material/Tab';
 import { useMemo, useState } from 'react';
 
+import PackagePricing from 'components/Common/ PackagePricing';
 import CenterLoading from 'components/Common/CenterLoading';
-import { useGetMyPackagesQuery, useGetPackagesQuery } from 'store/api/packageApiSlice';
-import { UserPackage } from 'types/package';
+import { useGetMyPackagesQuery } from 'store/api/packageApiSlice';
+import { PackageType, UserPackage } from 'types/package';
 import { getValidTournamentPackages } from 'utils/package';
 
-import ChooseTournamentPackage from './ChooseTournamentService';
 import FormCreateTournament from './FormCreateTournament';
 import MyPackages from './MyPackages';
 
@@ -19,7 +19,6 @@ export default function CreateTournament() {
 
   const [selectedPackage, setSelectedPackage] = useState<UserPackage | null>(null);
 
-  const { data: packageData, isSuccess: fetchedPackages } = useGetPackagesQuery();
   const { data: myPackageData, isSuccess: fetchedMyPackages } = useGetMyPackagesQuery();
 
   const myTournamentPackages = useMemo(() => getValidTournamentPackages(myPackageData || []), [myPackageData]);
@@ -32,7 +31,7 @@ export default function CreateTournament() {
     setCurrentTab(newValue);
   };
 
-  if (!fetchedPackages || !fetchedMyPackages) {
+  if (!fetchedMyPackages) {
     return <CenterLoading />;
   }
 
@@ -52,22 +51,25 @@ export default function CreateTournament() {
               variant="fullWidth"
             >
               <Tab
-                label="Buy Packages"
+                label="My Packages"
                 value="1"
               />
               <Tab
-                label="My Packages"
+                label="Buy Packages"
                 value="2"
               />
             </TabList>
           </Box>
           <TabPanel value="1">
-            <ChooseTournamentPackage packages={packageData} />
+            <MyPackages
+              packagesData={myTournamentPackages}
+              onChooseMyPackage={handleChooseMyPackage}
+            />
           </TabPanel>
           <TabPanel value="2">
-            <MyPackages
-              packageData={myTournamentPackages}
-              onChooseMyPackage={handleChooseMyPackage}
+            <PackagePricing
+              type={PackageType.TOURNAMENT}
+              title="Our tournament packages"
             />
           </TabPanel>
         </TabContext>

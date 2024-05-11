@@ -1,26 +1,14 @@
 import CloseSharpIcon from '@mui/icons-material/CloseSharp';
 import { Box, IconButton } from '@mui/material';
-import { useMemo } from 'react';
 
 interface ImagePreviewProps {
-  image: File | null;
-  onDeleteImage: (file: File) => void;
+  imageUrl: string;
+  onDeleteImage: () => void;
   disabled?: boolean;
 }
 
-export default function ImagePreview({
-  image,
-  onDeleteImage,
-  disabled = false,
-}: ImagePreviewProps) {
-  const renderedImg = useMemo(() => {
-    if (image) {
-      return URL.createObjectURL(image);
-    }
-    return '';
-  }, [image]);
-
-  if (!image) {
+export default function ImagePreview({ imageUrl, onDeleteImage, disabled = false }: ImagePreviewProps) {
+  if (!imageUrl) {
     return null;
   }
 
@@ -35,7 +23,7 @@ export default function ImagePreview({
       sx={{ opacity: disabled ? 0.5 : 1 }}
     >
       <img
-        src={renderedImg}
+        src={imageUrl}
         alt=""
         style={{ objectFit: 'cover', width: '100%', height: '100%' }}
       />
@@ -46,10 +34,13 @@ export default function ImagePreview({
           top: 8,
           right: 8,
         }}
-        onClick={() => onDeleteImage(image)}
+        onClick={onDeleteImage}
         disabled={disabled}
       >
-        <CloseSharpIcon color="action" fontSize="small" />
+        <CloseSharpIcon
+          color="action"
+          fontSize="small"
+        />
       </IconButton>
     </Box>
   );
