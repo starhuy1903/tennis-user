@@ -2,10 +2,11 @@ import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import { Avatar, Box, Container, Stack, Table, TableBody, TableCell, TableRow, Typography } from '@mui/material';
 
+import { FormatDateTime } from 'constants/datetime';
 // import ReactPlayer from 'react-player/youtube';
 import { MatchStatus } from 'constants/tournament-fixtures';
 import { FinalScore, Match, Player, Score, Team } from 'types/tournament-fixtures';
-import { displayDate, displayHour, displayTime } from 'utils/datetime';
+import { displayDateTime, displayHour } from 'utils/datetime';
 
 import { Timer } from '../Timer';
 import { MatchStatusBadge } from './MatchStatusBadge';
@@ -287,7 +288,13 @@ export default function MatchDetails({ match }: { match: Match }) {
             variant="caption"
             color="white"
           >
-            <strong>Date / Time:</strong> {displayDate(match.date)}, {displayTime(match.date)}
+            <strong>Date / Time:</strong>{' '}
+            {displayDateTime({ dateTime: match.date, targetFormat: FormatDateTime.DATE_2 })},{' '}
+            {displayDateTime({
+              dateTime: match.date,
+              formatSpecification: FormatDateTime.FULL_TIME,
+              targetFormat: FormatDateTime.MERIDIEM_HOUR,
+            })}
           </Typography>
 
           <Typography

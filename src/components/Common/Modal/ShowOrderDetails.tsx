@@ -12,14 +12,22 @@ import {
   Typography,
 } from '@mui/material';
 
+import { FormatDateTime } from 'constants/datetime';
 import { OrderStatus, PaymentPartnerOptions } from 'constants/order';
 import { useGetOrderDetailQuery } from 'store/api/order/orderApiSlice';
-import { formatDateTime } from 'utils/datetime';
+import { displayDateTime } from 'utils/datetime';
 import { displayCurrency } from 'utils/string';
 
 import CenterLoading from '../CenterLoading';
 import BaseModal from './BaseModal';
 import { ShowOrderDetailProps } from './types';
+
+const formatDateTime = (dateTime: string) => {
+  return displayDateTime({
+    dateTime,
+    targetFormat: FormatDateTime.DATE_AND_FULL_TIME,
+  });
+};
 
 const InfoItem = ({ label, value, isBold = false }: { label: string; value: string; isBold?: boolean }) => (
   <Stack

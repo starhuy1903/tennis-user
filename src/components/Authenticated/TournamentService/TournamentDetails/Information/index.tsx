@@ -3,6 +3,7 @@ import { useAppDispatch, useAppSelector } from 'store';
 
 import CenterLoading from 'components/Common/CenterLoading';
 import Steps from 'components/Common/Steps';
+import { FormatDateTime } from 'constants/datetime';
 import {
   GenderOptions,
   ParticipantTypeOptions,
@@ -12,10 +13,17 @@ import {
 } from 'constants/tournament';
 import { useMoveToNextPhaseMutation } from 'store/api/tournament/tournamentApiSlice';
 import { setTournamentDetails } from 'store/slice/tournamentSlice';
-import { displayDate } from 'utils/datetime';
+import { displayDateTime } from 'utils/datetime';
 import { showError, showSuccess } from 'utils/toast';
 
 import InfoSection from './InfoSection';
+
+const displayDate = (date: string) => {
+  return displayDateTime({
+    dateTime: date,
+    targetFormat: FormatDateTime.DATE_2,
+  });
+};
 
 export default function Information() {
   const dispatch = useAppDispatch();
