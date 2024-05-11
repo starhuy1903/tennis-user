@@ -9,7 +9,7 @@ import { ModalKey } from 'constants/modal';
 import { TournamentStatus, defaultTournamentImage } from 'constants/tournament';
 import { showModal } from 'store/slice/modalSlice';
 import { OpenTournament } from 'types/tournament';
-import { displayDateRange, displayDayLeft, isExpired } from 'utils/datetime';
+import { checkExpiredDate, displayDateRange, displayDayLeft } from 'utils/datetime';
 
 export default function TournamentItem({
   tournament,
@@ -126,7 +126,7 @@ export default function TournamentItem({
             >
               <AccessTimeIcon />
               <Typography variant="subtitle1">
-                {isExpired(tournament.registrationDueDate)
+                {checkExpiredDate(tournament.registrationDueDate)
                   ? 'Registration has expired'
                   : displayDayLeft(tournament.registrationDueDate)}
               </Typography>
