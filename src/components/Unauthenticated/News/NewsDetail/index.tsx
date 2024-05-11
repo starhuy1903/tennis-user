@@ -7,9 +7,10 @@ import { useNavigate, useParams } from 'react-router-dom';
 import BreadCrumb from 'components/Common/Breadcrumb';
 import CenterLoading from 'components/Common/CenterLoading';
 import NewsSwiper from 'components/Home/News';
+import { FormatDateTime } from 'constants/datetime';
 import { useLazyGetNewsByIdQuery } from 'store/api/unauthenticated/newsApiSlice';
 import { News } from 'types/news';
-import { formatDateTime } from 'utils/datetime';
+import { displayDateTime } from 'utils/datetime';
 
 const breadcrumbs = [
   { title: 'Home', to: '/', active: true },
@@ -88,7 +89,9 @@ export default function NewsDetail() {
               color: 'gray',
             }}
           />
-          <Typography variant="subtitle1">{formatDateTime(news.createdAt)}</Typography>
+          <Typography variant="subtitle1">
+            {displayDateTime({ dateTime: news.createdAt, targetFormat: FormatDateTime.DATE_AND_FULL_TIME })}
+          </Typography>
         </Box>
       </Stack>
 

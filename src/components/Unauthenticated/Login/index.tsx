@@ -105,19 +105,6 @@ export default function Login() {
               <TextField
                 {...register('password', {
                   required: 'Password is required!',
-                  minLength: {
-                    value: 6,
-                    message: 'Password must be at least 6 characters!',
-                  },
-                  maxLength: {
-                    value: 20,
-                    message: 'Password must be at most 20 characters!',
-                  },
-                  validate: {
-                    hasNumber: (value) => /\d/.test(value) || 'Password must contain a number!',
-                    hasUppercase: (value) => /[A-Z]/.test(value) || 'Password must contain an uppercase letter!',
-                    hasLowercase: (value) => /[a-z]/.test(value) || 'Password must contain a lowercase letter!',
-                  },
                 })}
                 id="password"
                 type="password"

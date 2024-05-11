@@ -13,10 +13,11 @@ import {
 } from '@mui/material';
 import { useParams } from 'react-router-dom';
 
+import { FormatDateTime } from 'constants/datetime';
 import { GenderOptions } from 'constants/tournament';
 import { useGetOpenTournamentParticipantsQuery } from 'store/api/tournament/tournamentParticipantsApiSlice';
 import { UserProfile } from 'types/user';
-import { formatDateTime } from 'utils/datetime';
+import { displayDateTime } from 'utils/datetime';
 
 const titles = ['Name', 'ELO', 'Email address', 'Phone', 'Gender', 'Applied date'];
 
@@ -133,7 +134,12 @@ export default function ParticipantList() {
                     {row.user2 && <Box>{GenderOptions[row.user1.gender]}</Box>}
                   </Cell>
 
-                  <TableCell align="center">{formatDateTime(row.appliedDate)}</TableCell>
+                  <TableCell align="center">
+                    {displayDateTime({
+                      dateTime: row.appliedDate,
+                      targetFormat: FormatDateTime.DATE_AND_FULL_TIME,
+                    })}
+                  </TableCell>
                 </TableRow>
               ))}
           </TableBody>
