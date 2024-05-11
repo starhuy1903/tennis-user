@@ -26,7 +26,7 @@ export const displayTimestamp = (
   }
 ) => {
   const time = dayjs(timestamp);
-  return `${time.format('YYYY-MM-DD HH:mm:ss')}${options?.includeRelativeTimeToPresent ? `(${time.fromNow()})` : ''}`;
+  return `${time.format('YYYY-MM-DD HH:mm:ss')}${options?.includeRelativeTimeToPresent ? ` (${time.fromNow()})` : ''}`;
 };
 
 // 7:30 PM
