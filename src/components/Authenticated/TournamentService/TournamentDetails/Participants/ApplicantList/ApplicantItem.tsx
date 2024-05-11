@@ -13,7 +13,8 @@ import Stack from '@mui/material/Stack';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 import { useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { useAppSelector } from 'store';
 
 import { FormatDateTime } from 'constants/datetime';
 import { GenderOptions } from 'constants/tournament';
@@ -22,6 +23,7 @@ import {
   useApproveTournamentApplicantMutation,
   useRejectTournamentApplicantMutation,
 } from 'store/api/tournament/tournamentParticipantsApiSlice';
+import { selectTournament } from 'store/slice/tournamentSlice';
 import { OpenTournamentApplicant } from 'types/open-tournament-participants';
 import { UserProfile } from 'types/user';
 import { displayDateTime } from 'utils/datetime';
@@ -58,27 +60,25 @@ const InfoItem = ({ label, value }: { label: string; value: string }) => {
 
 export default function ApplicantItem({ data }: { data: OpenTournamentApplicant }) {
   const navigate = useNavigate();
-
+  const tournamentData = useAppSelector(selectTournament);
   const [expand, setExpand] = useState(false);
-
-  const { tournamentId } = useParams();
 
   const [approveRequest, { isLoading: isApproving }] = useApproveTournamentApplicantMutation();
   const [rejectRequest, { isLoading: isRejecting }] = useRejectTournamentApplicantMutation();
 
   const handleApprove = async () => {
     try {
-      await approveRequest({ tournamentId: parseInt(tournamentId!), userId: data.user1.id }).unwrap();
-      showSuccess(`Approved ${data.user1.name}'s registration form.`);
+      await approveRequest({ tournamentId: tournamentData.id, userId: data.user1.id }).unwrap();
+      showSuccess(`Approved ${data.user1.name}'s registration form successfully.`);
     } catch (error) {
-      // handle error
+      // handled error
     }
   };
 
   const handleReject = async () => {
     try {
-      await rejectRequest({ tournamentId: parseInt(tournamentId!), userId: data.user1.id }).unwrap();
-      showSuccess(`Rejected ${data.user1.name}'s registration form.`);
+      await rejectRequest({ tournamentId: tournamentData.id, userId: data.user1.id }).unwrap();
+      showSuccess(`Rejected ${data.user1.name}'s registration form successfully.`);
     } catch (error) {
       // handle error
     }

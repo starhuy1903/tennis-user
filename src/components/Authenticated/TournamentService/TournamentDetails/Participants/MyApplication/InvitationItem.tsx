@@ -13,7 +13,8 @@ import Stack from '@mui/material/Stack';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 import { useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { useAppSelector } from 'store';
 
 import { GenderOptions } from 'constants/tournament';
 import { RegistrationStatus } from 'constants/tournament-participants';
@@ -21,24 +22,24 @@ import {
   useApproveInvitationMutation,
   useRejectInvitationMutation,
 } from 'store/api/tournament/tournamentParticipantsApiSlice';
+import { selectTournament } from 'store/slice/tournamentSlice';
 import { OpenTournamentApplicant } from 'types/open-tournament-participants';
 import { showSuccess } from 'utils/toast';
 
 export default function InvitationItem({ data }: { data: OpenTournamentApplicant }) {
   const navigate = useNavigate();
+  const tournamentData = useAppSelector(selectTournament);
 
-  const [expand, setExpand] = useState<boolean>(false);
-
-  const { tournamentId } = useParams();
+  const [expand, setExpand] = useState(false);
 
   const [approveInvitation, { isLoading: isApproving }] = useApproveInvitationMutation();
   const [rejectInvitation, { isLoading: isRejecting }] = useRejectInvitationMutation();
 
   const handleApprove = async () => {
     try {
-      await approveInvitation({ tournamentId: parseInt(tournamentId!), inviterId: data.user1.id }).unwrap();
-      showSuccess(`Approved ${data.user1.name}'s invitation.`);
-      navigate(`/tournaments/${tournamentId}/participants`);
+      await approveInvitation({ tournamentId: tournamentData.id, inviterId: data.user1.id }).unwrap();
+      showSuccess(`Approved ${data.user1.name}'s invitation successfully.`);
+      navigate(`/tournaments/${tournamentData.id}/participants`);
     } catch (error) {
       // handle error
     }
@@ -46,9 +47,9 @@ export default function InvitationItem({ data }: { data: OpenTournamentApplicant
 
   const handleReject = async () => {
     try {
-      await rejectInvitation({ tournamentId: parseInt(tournamentId!), inviterId: data.user1.id }).unwrap();
-      showSuccess(`Rejected ${data.user1.name}'s invitation.`);
-      navigate(`/tournaments/${tournamentId}/participants`);
+      await rejectInvitation({ tournamentId: tournamentData.id, inviterId: data.user1.id }).unwrap();
+      showSuccess(`Rejected ${data.user1.name}'s invitation successfully.`);
+      navigate(`/tournaments/${tournamentData.id}/participants`);
     } catch (error) {
       // handle error
     }

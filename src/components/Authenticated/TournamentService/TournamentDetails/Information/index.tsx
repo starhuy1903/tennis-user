@@ -1,7 +1,6 @@
 import { Box, Button, Divider, Grid, Typography } from '@mui/material';
 import { useAppDispatch, useAppSelector } from 'store';
 
-import CenterLoading from 'components/Common/CenterLoading';
 import Steps from 'components/Common/Steps';
 import { FormatDateTime } from 'constants/datetime';
 import {
@@ -12,9 +11,9 @@ import {
   TournamentPhaseOptions,
 } from 'constants/tournament';
 import { useMoveToNextPhaseMutation } from 'store/api/tournament/tournamentApiSlice';
-import { setTournamentDetails } from 'store/slice/tournamentSlice';
+import { selectTournament, setTournamentDetails } from 'store/slice/tournamentSlice';
 import { displayDateTime } from 'utils/datetime';
-import { showError, showSuccess } from 'utils/toast';
+import { showSuccess } from 'utils/toast';
 
 import InfoSection from './InfoSection';
 
@@ -28,23 +27,17 @@ const displayDate = (date: string) => {
 export default function Information() {
   const dispatch = useAppDispatch();
   const [moveToNextPhase, { isLoading: isNextPhaseLoading }] = useMoveToNextPhaseMutation();
-  const tournamentData = useAppSelector((state) => state.tournament.data);
+  const tournamentData = useAppSelector(selectTournament);
 
   const handlePublishTournament = async () => {
     try {
-      if (!tournamentData) throw new Error('Tournament data not found');
-
       const res = await moveToNextPhase(tournamentData.id).unwrap();
       dispatch(setTournamentDetails(res));
       showSuccess('Published tournament successfully.');
     } catch (error) {
-      showError('Published tournament failed.');
+      // handled error
     }
   };
-
-  if (!tournamentData) {
-    return <CenterLoading />;
-  }
 
   const tournamentTimelineFields = [
     { label: 'DUE BY', value: displayDate(tournamentData.registrationDueDate) },
