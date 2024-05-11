@@ -1,4 +1,5 @@
+import { Group } from 'types/group';
+
 export type GroupSliceType = {
-  groupId: string | null;
-  isAdmin: boolean;
+  data: Group | null;
 };

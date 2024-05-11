@@ -46,26 +46,21 @@ const groupApiToastSlice = apiWithToastSlice.injectEndpoints({
         },
       }),
     }),
-    getGroupDetails: build.query<
-      Group & {
-        isCreator: boolean;
-      },
-      number
-    >({
+    getGroupDetails: build.query<Group, number>({
       query: (id) => urlWithCorePrefix(`groups/${id}`),
     }),
     createGroup: build.mutation<void, GroupDto>({
       query: (body) => ({
         url: urlWithCorePrefix('groups'),
         method: 'POST',
-        body: { ...body, image: 'https://picsum.photos/id/251/300/200' },
+        body: body,
       }),
     }),
     updateGroup: build.mutation<void, { id: number; data: GroupUpdateDto }>({
       query: (body) => ({
         url: urlWithCorePrefix(`groups/${body.id}`),
         method: 'PATCH',
-        body: { ...body.data, image: 'https://picsum.photos/id/251/300/200' },
+        body: body.data,
       }),
     }),
   }),

@@ -9,7 +9,6 @@ import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Unstable_Grid2';
 import { useConfirm } from 'material-ui-confirm';
 import { useForm } from 'react-hook-form';
-import toast from 'react-hot-toast';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAppDispatch } from 'store';
 import * as yup from 'yup';
@@ -22,6 +21,7 @@ import { LANGUAGES } from 'constants/app';
 import { useCreateGroupMutation } from 'store/api/group/groupApiSlice';
 import { useLazyGetPurchasedPackagesQuery } from 'store/api/packageApiSlice';
 import { setLoading } from 'store/slice/statusSlice';
+import { showSuccess } from 'utils/toast';
 
 import PackageSelector from '../components/PackageSelector';
 
@@ -83,10 +83,11 @@ const GroupCreate = () => {
         dispatch(setLoading(true));
         try {
           await createGroup(data).unwrap();
-          toast.success('Group created');
+
+          showSuccess('Group created successfully.');
           navigate('/groups');
-        } catch {
-          /* empty */
+        } catch (error) {
+          // handled error
         }
         dispatch(setLoading(false));
       })
@@ -158,7 +159,7 @@ const GroupCreate = () => {
               )}
             </Paper>
 
-            {purchasedPackages && purchasedPackages?.length > 0 && (
+            {purchasedPackages && purchasedPackages.length > 0 && (
               <>
                 <Paper sx={{ padding: 2 }}>
                   <Typography

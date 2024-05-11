@@ -22,6 +22,7 @@ export type Group = {
   purchasedPackage: UserPackage;
   createdAt: string;
   updatedAt: string;
+  isCreator: boolean;
 };
 
 export type GroupUpdateDto = {
