@@ -6,8 +6,8 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Unstable_Grid2';
 import { useConfirm } from 'material-ui-confirm';
-import { useMemo, useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { useMemo } from 'react';
+import { Controller, useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAppDispatch } from 'store';
 import * as yup from 'yup';
@@ -26,7 +26,7 @@ import { showSuccess } from 'utils/toast';
 
 import PackageSelector from '../components/PackageSelector';
 
-interface FormData {
+interface FormType {
   name: string;
   description: string;
   language: string;
@@ -37,7 +37,7 @@ interface FormData {
 
 const schema = yup.object({
   name: yup.string().required("Group's name is required"),
-  description: yup.string().required("Group's description is required"),
+  description: yup.string().required('The description is required'),
   language: yup.string().required("Group's language is required"),
   activityZone: yup.string().required('Please tell people where your group is active'),
   purchasedPackageId: yup.string().required(),
@@ -54,16 +54,14 @@ const GroupCreate = () => {
     [purchasedPackages]
   );
   const [createGroup, { isLoading: isSubmitting }] = useCreateGroupMutation();
-  const [isUploadImage, setIsUploadImage] = useState(false);
 
   const {
     control,
     handleSubmit,
-    formState: { isLoading },
-    setValue,
+    formState: { isLoading, errors },
     getValues,
     watch,
-  } = useForm<FormData>({
+  } = useForm<FormType>({
     resolver: yupResolver(schema),
     mode: 'onChange',
     defaultValues: async () => {
@@ -82,7 +80,9 @@ const GroupCreate = () => {
 
   const formValue = watch();
 
-  const handleCreateGroup = handleSubmit((data: FormData) => {
+  const disabledSubmitBtn = isSubmitting || Object.keys(errors).length > 0;
+
+  const handleCreateGroup = handleSubmit((data: FormType) => {
     confirm({ title: 'Confirm group creation', description: `Create group ${formValue.name} ?` }).then(async () => {
       try {
         dispatch(setLoading(true));
@@ -217,16 +217,20 @@ const GroupCreate = () => {
                       />
                     </Grid>
                     <Grid xs={12}>
-                      <SingleImagePicker
-                        label="Upload a background image for your group"
-                        imageUrl={formValue.image}
-                        handleUpload={(value) => {
-                          setValue('image', value);
-                          setIsUploadImage(true);
-                        }}
-                        handleRemove={() => {
-                          setValue('image', '');
-                        }}
+                      <Controller
+                        name="image"
+                        control={control}
+                        defaultValue=""
+                        render={({ field: { onChange, value } }) => (
+                          <SingleImagePicker
+                            label="Upload a background image for your group"
+                            imageUrl={value}
+                            handleUpload={onChange}
+                            handleRemove={() => {
+                              onChange('');
+                            }}
+                          />
+                        )}
                       />
                     </Grid>
                   </Grid>
@@ -246,7 +250,7 @@ const GroupCreate = () => {
                     <Button
                       type="submit"
                       variant="contained"
-                      disabled={!isUploadImage || isSubmitting}
+                      disabled={disabledSubmitBtn}
                     >
                       Create group
                     </Button>
