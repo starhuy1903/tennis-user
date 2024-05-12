@@ -1,16 +1,18 @@
 import { Box, Typography } from '@mui/material';
-import { useParams } from 'react-router-dom';
+import { useAppSelector } from 'store';
 
 import CenterLoading from 'components/Common/CenterLoading';
 import { RegistrationStatus } from 'constants/tournament-participants';
 import { useGetInvitationsQuery } from 'store/api/tournament/tournamentParticipantsApiSlice';
+import { selectTournament } from 'store/slice/tournamentSlice';
 
 import InvitationItem from './InvitationItem';
 
 export default function Invitations({ status }: { status: RegistrationStatus.INVITING | RegistrationStatus.CANCELED }) {
-  const { tournamentId } = useParams();
+  const tournamentData = useAppSelector(selectTournament);
+
   const { data, isLoading } = useGetInvitationsQuery({
-    tournamentId: parseInt(tournamentId!),
+    tournamentId: tournamentData.id,
     status,
   });
 

@@ -1,22 +1,17 @@
-import LanguageIcon from '@mui/icons-material/Language';
-import LogoutIcon from '@mui/icons-material/Logout';
-import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
-import PlaceIcon from '@mui/icons-material/Place';
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
-import { Box, Button, Container, Divider, Paper, Stack, Tab, Typography } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { Box, Container, Divider, Paper, Tab } from '@mui/material';
+import { useEffect, useMemo, useState } from 'react';
 import { Outlet, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useAppDispatch } from 'store';
 
 import CenterLoading from 'components/Common/CenterLoading';
-import { IconTitle } from 'components/Common/IconTitle';
-import { LanguageOptions } from 'constants/app';
-import { defaultGroupImage } from 'constants/group';
-import { useLazyGetGroupDetailsQuery, useLeaveGroupMutation } from 'store/api/group/groupApiSlice';
+import { useLazyGetGroupDetailsQuery } from 'store/api/group/groupApiSlice';
 import { setGroupDetails } from 'store/slice/groupSlice';
 import { Group } from 'types/group';
 import { showError } from 'utils/toast';
+
+import InfoSection from './InfoSection';
 
 const SharedTabs = [
   {
@@ -28,7 +23,7 @@ const SharedTabs = [
     value: 'members',
   },
   {
-    label: 'Tournaments',
+    label: 'Group Tournaments',
     value: 'tournaments',
   },
 ];
@@ -43,34 +38,28 @@ const GroupAdminTabs = [
 
 export default function GroupDetailsLayout() {
   const navigate = useNavigate();
-  const dispatch = useAppDispatch();
   const location = useLocation();
   const pathParts = location.pathname.split('/');
-
-  const [getGroupDetails, { isLoading }] = useLazyGetGroupDetailsQuery();
-  const [leaveGroup, { isLoading: leaveLoading }] = useLeaveGroupMutation();
-
-  const [groupData, setGroupData] = useState<Group | null>(null);
-  const [groupTabs, setGroupTabs] = useState(SharedTabs);
-
-  const [currentTab, setCurrentTab] = useState(pathParts[pathParts.length - 1]);
+  const dispatch = useAppDispatch();
 
   const { groupId } = useParams();
 
-  const handleChangeTab = (_: React.SyntheticEvent, newValue: string) => {
+  const [getGroupDetails, { isLoading }] = useLazyGetGroupDetailsQuery();
+
+  const [groupData, setGroupData] = useState<Group | null>(null);
+
+  const GroupTabs = groupData?.isCreator ? GroupAdminTabs : SharedTabs;
+
+  const initializedTab = useMemo(
+    () => (GroupTabs.find((tab) => tab.value === pathParts[3]) ? pathParts[3] : GroupTabs[0].value),
+    [GroupTabs, pathParts]
+  );
+
+  const [currentTab, setCurrentTab] = useState('');
+
+  const handleChange = (_: React.SyntheticEvent, newValue: string) => {
     setCurrentTab(newValue);
     navigate(`/groups/${groupId}/${newValue}`);
-  };
-
-  const handleLeaveGroup = async () => {
-    try {
-      await leaveGroup(parseInt(groupId!)).unwrap();
-
-      showError('Leave group successfully.');
-      navigate('/groups');
-    } catch (error) {
-      showError('Failed to leave group.');
-    }
   };
 
   useEffect(() => {
@@ -79,9 +68,6 @@ export default function GroupDetailsLayout() {
         try {
           const res = await getGroupDetails(parseInt(groupId)).unwrap();
           setGroupData(res);
-          if (res.isCreator) {
-            setGroupTabs(GroupAdminTabs);
-          }
           dispatch(setGroupDetails(res));
         } catch (error) {
           showError('Group not found.');
@@ -92,7 +78,7 @@ export default function GroupDetailsLayout() {
         navigate('/groups');
       }
     })();
-  }, [getGroupDetails, navigate, dispatch, groupId]);
+  }, [dispatch, getGroupDetails, groupId, navigate]);
 
   if (isLoading || !groupData) {
     return <CenterLoading />;
@@ -101,72 +87,18 @@ export default function GroupDetailsLayout() {
   return (
     <Container maxWidth="lg">
       <Paper sx={{ borderBottomLeftRadius: 16, borderBottomRightRadius: 16, border: '1px white solid', mb: 4 }}>
-        <img
-          style={{ width: '100%', height: 300, objectFit: 'cover' }}
-          src={groupData.image || defaultGroupImage}
-          alt="group image"
-        />
-
-        <Stack
-          direction="row"
-          justifyContent="space-between"
-          pt={1}
-          px={2}
-        >
-          <Stack>
-            <Typography
-              variant="h4"
-              fontWeight={500}
-            >
-              {groupData.name}
-            </Typography>
-
-            <Stack color="gray">
-              <Stack
-                direction="row"
-                gap={2}
-              >
-                <IconTitle
-                  icon={<PeopleAltIcon />}
-                  title={`${groupData.memberCount} ${groupData.memberCount > 1 ? 'members' : 'member'}`}
-                />
-
-                <IconTitle
-                  icon={<LanguageIcon />}
-                  title={LanguageOptions[groupData.language]}
-                />
-              </Stack>
-
-              <IconTitle
-                icon={<PlaceIcon />}
-                title={groupData.activityZone}
-              />
-            </Stack>
-          </Stack>
-
-          <Box>
-            <Button
-              variant="contained"
-              color="error"
-              startIcon={<LogoutIcon />}
-              onClick={handleLeaveGroup}
-              disabled={leaveLoading}
-            >
-              Leave Group
-            </Button>
-          </Box>
-        </Stack>
+        <InfoSection data={groupData} />
 
         <Divider sx={{ my: 1 }} />
 
         <Box px={4}>
-          <TabContext value={currentTab}>
+          <TabContext value={currentTab || initializedTab}>
             <TabList
-              onChange={handleChangeTab}
+              onChange={handleChange}
               aria-label="lab API tabs example"
               variant="fullWidth"
             >
-              {groupTabs.map((tab) => {
+              {GroupTabs.map((tab) => {
                 return (
                   <Tab
                     key={tab.value}

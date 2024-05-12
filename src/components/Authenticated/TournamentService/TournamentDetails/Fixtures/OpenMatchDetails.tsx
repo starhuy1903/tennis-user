@@ -5,11 +5,13 @@ import { useAppSelector } from 'store';
 import CenterLoading from 'components/Common/CenterLoading';
 import MatchDetails from 'components/Common/Match/MatchDetails';
 import { useLazyGetMatchDetailsQuery } from 'store/api/tournament/tournamentFixtureApiSlice';
+import { selectTournament } from 'store/slice/tournamentSlice';
 import { Match } from 'types/tournament-fixtures';
+import { showError } from 'utils/toast';
 
 export default function OpenMatchDetails() {
   const navigate = useNavigate();
-  const tournamentData = useAppSelector((state) => state.tournament.data);
+  const tournamentData = useAppSelector(selectTournament);
 
   const { matchId } = useParams();
   const [match, setMatch] = useState<Match | null>(null);
@@ -18,7 +20,7 @@ export default function OpenMatchDetails() {
 
   useEffect(() => {
     (async () => {
-      if (tournamentData && matchId) {
+      if (matchId) {
         try {
           const res = await getMatchDetailsRequest({
             tournamentId: tournamentData.id,
@@ -32,6 +34,7 @@ export default function OpenMatchDetails() {
         }
       } else {
         navigate(`/tournaments/${tournamentData?.id}/fixtures`);
+        showError('Match not found');
       }
     })();
   }, [getMatchDetailsRequest, matchId, navigate, tournamentData]);

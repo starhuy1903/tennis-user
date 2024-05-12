@@ -53,4 +53,5 @@ export type UserPackage = {
   expired: boolean;
   startDate: string;
   endDate: string;
+  orderId?: string;
 };

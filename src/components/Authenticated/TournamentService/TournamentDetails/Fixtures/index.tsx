@@ -1,6 +1,6 @@
 import { Box, Button } from '@mui/material';
 import { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'store';
 
 import CenterLoading from 'components/Common/CenterLoading';
@@ -13,6 +13,7 @@ import { TournamentFormat } from 'constants/tournament';
 import { FixtureStatus } from 'constants/tournament-fixtures';
 import { useLazyGetTournamentFixtureQuery } from 'store/api/tournament/tournamentFixtureApiSlice';
 import { showModal } from 'store/slice/modalSlice';
+import { selectTournament } from 'store/slice/tournamentSlice';
 import { TournamentFixture } from 'types/tournament-fixtures';
 import { checkGeneratedFixture } from 'utils/tournament';
 
@@ -22,16 +23,14 @@ export default function Fixtures() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [fixture, setFixture] = useState<TournamentFixture | null>(null);
-  const { tournamentId } = useParams();
+
   const [getFixture, { isLoading }] = useLazyGetTournamentFixtureQuery();
 
-  const tournamentData = useAppSelector((state) => state.tournament.data);
+  const tournamentData = useAppSelector(selectTournament);
 
-  const isCreator = !!tournamentData?.isCreator;
+  const isCreator = tournamentData.isCreator;
 
   const handleAddMatch = () => {
-    if (!tournamentData) return;
-
     dispatch(
       showModal(ModalKey.ADD_MATCH, {
         tournamentId: tournamentData.id,
@@ -42,22 +41,18 @@ export default function Fixtures() {
 
   useEffect(() => {
     (async () => {
-      if (tournamentData) {
-        if (isCreator || checkGeneratedFixture(tournamentData.phase)) {
-          try {
-            const res = await getFixture(parseInt(tournamentId!)).unwrap();
-            setFixture(res);
-          } catch (error) {
-            console.error(error);
-          }
+      if (isCreator || checkGeneratedFixture(tournamentData.phase)) {
+        try {
+          const res = await getFixture(tournamentData.id).unwrap();
+          setFixture(res);
+        } catch (error) {
+          // handled error
         }
-      } else {
-        navigate('/tournaments');
       }
     })();
-  }, [getFixture, tournamentData, tournamentId, navigate, isCreator]);
+  }, [getFixture, tournamentData, navigate, isCreator]);
 
-  if (isLoading || !tournamentData) return <CenterLoading />;
+  if (isLoading) return <CenterLoading />;
 
   if (!isCreator && fixture?.status && [FixtureStatus.NEW, FixtureStatus.DRAFT].includes(fixture.status))
     return (
