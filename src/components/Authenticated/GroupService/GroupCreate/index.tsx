@@ -100,18 +100,22 @@ const GroupCreate = () => {
     <Box
       component="form"
       onSubmit={handleCreateGroup}
-      sx={{ paddingBottom: '20px' }}
+      sx={{ paddingBottom: '20px', marginY: 4 }}
     >
       <Typography
-        variant="h1"
-        textAlign="center"
-        marginBottom="10px"
+        variant="h4"
+        noWrap
+        component="h4"
+        sx={{
+          display: 'flex',
+          fontWeight: 700,
+        }}
       >
-        Create your group
+        GROUP CREATION FORM
       </Typography>
       <Stack
-        direction="column"
         spacing={2}
+        mt={2}
       >
         {isLoading ? (
           <CenterLoading height="80vh" />
