@@ -1,42 +1,36 @@
-import { Box, Button, Divider, Grid, Typography } from '@mui/material';
+import { Button, Divider, Grid, Typography } from '@mui/material';
 import { useAppDispatch, useAppSelector } from 'store';
 
-import CenterLoading from 'components/Common/CenterLoading';
-import Steps from 'components/Common/Steps';
-import {
-  GenderOptions,
-  ParticipantTypeOptions,
-  TournamentFormatOptions,
-  TournamentPhase,
-  TournamentPhaseOptions,
-} from 'constants/tournament';
+import { FormatDateTime } from 'constants/datetime';
+import { GenderOptions, ParticipantTypeOptions, TournamentFormatOptions, TournamentPhase } from 'constants/tournament';
 import { useMoveToNextPhaseMutation } from 'store/api/tournament/tournamentApiSlice';
-import { setTournamentDetails } from 'store/slice/tournamentSlice';
-import { displayDate } from 'utils/datetime';
-import { showError, showSuccess } from 'utils/toast';
+import { selectTournament, setTournamentDetails } from 'store/slice/tournamentSlice';
+import { displayDateTime } from 'utils/datetime';
+import { showSuccess } from 'utils/toast';
 
 import InfoSection from './InfoSection';
+
+const displayDate = (date: string) => {
+  return displayDateTime({
+    dateTime: date,
+    targetFormat: FormatDateTime.DATE_2,
+  });
+};
 
 export default function Information() {
   const dispatch = useAppDispatch();
   const [moveToNextPhase, { isLoading: isNextPhaseLoading }] = useMoveToNextPhaseMutation();
-  const tournamentData = useAppSelector((state) => state.tournament.data);
+  const tournamentData = useAppSelector(selectTournament);
 
   const handlePublishTournament = async () => {
     try {
-      if (!tournamentData) throw new Error('Tournament data not found');
-
       const res = await moveToNextPhase(tournamentData.id).unwrap();
       dispatch(setTournamentDetails(res));
       showSuccess('Published tournament successfully.');
     } catch (error) {
-      showError('Published tournament failed.');
+      // handled error
     }
   };
-
-  if (!tournamentData) {
-    return <CenterLoading />;
-  }
 
   const tournamentTimelineFields = [
     { label: 'DUE BY', value: displayDate(tournamentData.registrationDueDate) },
@@ -59,8 +53,6 @@ export default function Information() {
     { label: 'EMAIL', value: tournamentData.contactEmail, variant: 'email' as const },
     { label: 'ADDRESS', value: tournamentData.address },
   ];
-
-  const steps = Object.values(TournamentPhaseOptions);
 
   return (
     <Grid
@@ -87,28 +79,6 @@ export default function Information() {
         >
           {tournamentData.description}
         </Typography>
-
-        <Divider
-          sx={{
-            my: 2,
-          }}
-        />
-
-        <Box
-          sx={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            mb: 4,
-          }}
-        >
-          <Typography variant="h4">Phases</Typography>
-        </Box>
-
-        <Steps
-          currentStep={TournamentPhaseOptions[tournamentData.phase]}
-          steps={steps}
-        />
       </Grid>
       <Grid
         item

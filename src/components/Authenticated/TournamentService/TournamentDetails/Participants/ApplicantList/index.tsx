@@ -1,18 +1,20 @@
 import { Box, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useAppSelector } from 'store';
 
 import CenterLoading from 'components/Common/CenterLoading';
 import { RegistrationStatus } from 'constants/tournament-participants';
 import { useLazyGetOpenTournamentApplicantsQuery } from 'store/api/tournament/tournamentParticipantsApiSlice';
+import { selectTournament } from 'store/slice/tournamentSlice';
 import { OpenTournamentApplicant } from 'types/open-tournament-participants';
 
 import ApplicantItem from './ApplicantItem';
 
 export default function ApplicantList() {
-  const { tournamentId } = useParams();
+  const tournamentData = useAppSelector(selectTournament);
 
-  const [getApplicants, { isLoading }] = useLazyGetOpenTournamentApplicantsQuery();
+  const [fetchingTournament, setFetchingTournament] = useState(false);
+  const [getApplicants] = useLazyGetOpenTournamentApplicantsQuery();
 
   const [applicants, setApplicants] = useState<{
     unapproved: OpenTournamentApplicant[];
@@ -27,10 +29,11 @@ export default function ApplicantList() {
   useEffect(() => {
     (async () => {
       try {
+        setFetchingTournament(true);
         const responses = await Promise.all([
-          getApplicants({ tournamentId: parseInt(tournamentId!) }).unwrap(),
-          getApplicants({ tournamentId: parseInt(tournamentId!), status: RegistrationStatus.APPROVED }).unwrap(),
-          getApplicants({ tournamentId: parseInt(tournamentId!), status: RegistrationStatus.REJECTED }).unwrap(),
+          getApplicants({ tournamentId: tournamentData.id }).unwrap(),
+          getApplicants({ tournamentId: tournamentData.id, status: RegistrationStatus.APPROVED }).unwrap(),
+          getApplicants({ tournamentId: tournamentData.id, status: RegistrationStatus.REJECTED }).unwrap(),
         ]);
         setApplicants({
           unapproved: responses[0].data,
@@ -39,11 +42,13 @@ export default function ApplicantList() {
         });
       } catch (error) {
         console.log(error);
+      } finally {
+        setFetchingTournament(false);
       }
     })();
-  }, [getApplicants, tournamentId]);
+  }, [getApplicants, tournamentData]);
 
-  if (isLoading) {
+  if (fetchingTournament) {
     return <CenterLoading height="10vh" />;
   }
 

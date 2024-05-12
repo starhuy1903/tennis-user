@@ -11,6 +11,7 @@ import InviteIntoGroup from './InviteIntoGroup';
 import RegisterTournament from './RegisterTournament';
 import SelectPaymentMethod from './SelectPaymentMethod';
 import ShowOrderDetail from './ShowOrderDetails';
+import ShowPackageDetails from './ShowPackageDetails';
 
 const ModalsMap: { [modalKey: string]: any } = {
   [ModalKey.HELLO_WORLD]: HelloWorld,
@@ -21,6 +22,7 @@ const ModalsMap: { [modalKey: string]: any } = {
   [ModalKey.ADD_PARTICIPANTS]: AddParticipants,
   [ModalKey.SHOW_ORDER_DETAIL]: ShowOrderDetail,
   [ModalKey.ADD_MATCH]: AddMatch,
+  [ModalKey.SHOW_PACKAGE_DETAIL]: ShowPackageDetails,
 };
 
 export function ModalContainer() {

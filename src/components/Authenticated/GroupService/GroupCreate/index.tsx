@@ -1,5 +1,4 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Tooltip } from '@mui/material';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
@@ -7,7 +6,7 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Unstable_Grid2';
 import { useConfirm } from 'material-ui-confirm';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAppDispatch } from 'store';
@@ -22,7 +21,8 @@ import { LANGUAGES } from 'constants/app';
 import { useCreateGroupMutation } from 'store/api/group/groupApiSlice';
 import { useLazyGetPurchasedPackagesQuery } from 'store/api/packageApiSlice';
 import { setLoading } from 'store/slice/statusSlice';
-import { showError, showSuccess } from 'utils/toast';
+import { getValidGroupPackages } from 'utils/package';
+import { showSuccess } from 'utils/toast';
 
 import PackageSelector from '../components/PackageSelector';
 
@@ -32,7 +32,7 @@ interface FormData {
   language: string;
   activityZone: string;
   purchasedPackageId: string;
-  image: any;
+  image: string;
 }
 
 const schema = yup.object({
@@ -41,7 +41,7 @@ const schema = yup.object({
   language: yup.string().required("Group's language is required"),
   activityZone: yup.string().required('Please tell people where your group is active'),
   purchasedPackageId: yup.string().required(),
-  image: yup.mixed().required().nullable(),
+  image: yup.string().required(),
 });
 
 const GroupCreate = () => {
@@ -49,30 +49,33 @@ const GroupCreate = () => {
   const confirm = useConfirm();
   const dispatch = useAppDispatch();
   const [getPurchasedPackage, { data: purchasedPackages }] = useLazyGetPurchasedPackagesQuery();
+  const validGroupPackages = useMemo(
+    () => (purchasedPackages ? getValidGroupPackages(purchasedPackages) : []),
+    [purchasedPackages]
+  );
   const [createGroup, { isLoading: isSubmitting }] = useCreateGroupMutation();
   const [isUploadImage, setIsUploadImage] = useState(false);
 
   const {
     control,
     handleSubmit,
-    formState: { isValid, isLoading },
+    formState: { isLoading },
     setValue,
     getValues,
     watch,
   } = useForm<FormData>({
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
     resolver: yupResolver(schema),
     mode: 'onChange',
     defaultValues: async () => {
       const _purchasedPackages = await getPurchasedPackage().unwrap();
+      const groupPackages = getValidGroupPackages(_purchasedPackages);
       return {
         name: '',
         description: '',
         language: LANGUAGES[0].value,
         activityZone: '',
-        purchasedPackageId: _purchasedPackages.length > 0 ? _purchasedPackages[0].id : '',
-        image: null,
+        purchasedPackageId: groupPackages.length > 0 ? groupPackages[0].id : '',
+        image: '',
       };
     },
   });
@@ -80,22 +83,19 @@ const GroupCreate = () => {
   const formValue = watch();
 
   const handleCreateGroup = handleSubmit((data: FormData) => {
-    confirm({ title: 'Confirm group creation', description: `Create group ${formValue.name} ?` })
-      .then(async () => {
+    confirm({ title: 'Confirm group creation', description: `Create group ${formValue.name} ?` }).then(async () => {
+      try {
         dispatch(setLoading(true));
+        await createGroup(data).unwrap();
 
-        try {
-          await createGroup(data).unwrap();
-
-          showSuccess('Group created');
-          navigate('/groups');
-        } catch (error) {
-          console.log(error);
-          showError('Failed to create group');
-        }
+        showSuccess('Created group successfully.');
+        navigate('/groups');
+      } catch (error) {
+        // handled error
+      } finally {
         dispatch(setLoading(false));
-      })
-      .catch(() => {});
+      }
+    });
   });
 
   return (
@@ -103,21 +103,25 @@ const GroupCreate = () => {
       component="form"
       autoComplete="off"
       onSubmit={handleCreateGroup}
-      sx={{ paddingBottom: '20px' }}
+      sx={{ paddingBottom: '20px', marginY: 4 }}
     >
       <Typography
-        variant="h1"
-        textAlign="center"
-        marginBottom="10px"
+        variant="h4"
+        noWrap
+        component="h4"
+        sx={{
+          display: 'flex',
+          fontWeight: 700,
+        }}
       >
-        Create your group
+        GROUP CREATION FORM
       </Typography>
       <Stack
-        direction="column"
         spacing={2}
+        mt={2}
       >
         {isLoading ? (
-          <CenterLoading />
+          <CenterLoading height="80vh" />
         ) : (
           <>
             <Paper sx={{ padding: 2 }}>
@@ -127,12 +131,12 @@ const GroupCreate = () => {
               >
                 Package
               </Typography>
-              {purchasedPackages && purchasedPackages?.length > 0 ? (
+              {validGroupPackages && validGroupPackages.length > 0 ? (
                 <Box sx={{ width: '50%', padding: '15px' }}>
                   <PackageSelector
                     selected={String(getValues('purchasedPackageId'))}
-                    handleSelect={(value: string) => setValue('purchasedPackageId', value)}
-                    packages={purchasedPackages}
+                    handleSelect={() => {}}
+                    packages={validGroupPackages}
                   />
                 </Box>
               ) : (
@@ -164,7 +168,7 @@ const GroupCreate = () => {
               )}
             </Paper>
 
-            {purchasedPackages && purchasedPackages?.length > 0 && (
+            {validGroupPackages && validGroupPackages.length > 0 && (
               <>
                 <Paper sx={{ padding: 2 }}>
                   <Typography
@@ -215,14 +219,13 @@ const GroupCreate = () => {
                     <Grid xs={12}>
                       <SingleImagePicker
                         label="Upload a background image for your group"
-                        image={formValue.image}
+                        imageUrl={formValue.image}
                         handleUpload={(value) => {
                           setValue('image', value);
                           setIsUploadImage(true);
                         }}
                         handleRemove={() => {
-                          setValue('image', null);
-                          setIsUploadImage(false);
+                          setValue('image', '');
                         }}
                       />
                     </Grid>
@@ -239,26 +242,15 @@ const GroupCreate = () => {
                   >
                     Cancel
                   </Button>
-                  <Tooltip
-                    title={isValid ? 'Create group' : 'Please provide valid information to continue'}
-                    placement="top"
-                  >
-                    <Box component="span">
-                      <Button
-                        type="submit"
-                        variant="contained"
-                        disabled={
-                          !isValid ||
-                          !purchasedPackages ||
-                          purchasedPackages?.length === 0 ||
-                          isSubmitting ||
-                          !isUploadImage
-                        }
-                      >
-                        Create group
-                      </Button>
-                    </Box>
-                  </Tooltip>
+                  <Box component="span">
+                    <Button
+                      type="submit"
+                      variant="contained"
+                      disabled={!isUploadImage || isSubmitting}
+                    >
+                      Create group
+                    </Button>
+                  </Box>
                 </Paper>
               </>
             )}

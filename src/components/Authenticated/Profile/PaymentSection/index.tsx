@@ -19,14 +19,22 @@ import { useAppDispatch } from 'store';
 
 import CenterLoading from 'components/Common/CenterLoading';
 import NoData from 'components/Common/NoData';
+import { FormatDateTime } from 'constants/datetime';
 import { ModalKey } from 'constants/modal';
 import { OrderStatus, OrderStatusOptions } from 'constants/order';
 import { useGetOrdersQuery } from 'store/api/order/orderApiSlice';
 import { showModal } from 'store/slice/modalSlice';
-import { formatDateTime } from 'utils/datetime';
+import { displayDateTime } from 'utils/datetime';
 import { displayCurrency } from 'utils/string';
 
 const titles = ['Order ID', 'Total Price', 'Status', 'Created At', 'Updated At'];
+
+const formatDateTime = (dateTime: string) => {
+  return displayDateTime({
+    dateTime,
+    targetFormat: FormatDateTime.DATE_AND_FULL_TIME,
+  });
+};
 
 const Badge = ({ color, text }: { color: string; text: string }) => (
   <Typography
@@ -91,10 +99,6 @@ export default function PaymentSection() {
     return <CenterLoading />;
   }
 
-  if (!data || data.data.length === 0) {
-    return <NoData message="You don't have any orders." />;
-  }
-
   return (
     <Box
       sx={{
@@ -124,58 +128,64 @@ export default function PaymentSection() {
         </Select>
       </Stack>
 
-      <TableContainer component={Paper}>
-        <Table
-          sx={{ minWidth: 650 }}
-          aria-label="locations"
-        >
-          <TableHead>
-            <TableRow>
-              {titles.map((title) => (
-                <TableCell
-                  align="center"
-                  key={title}
-                >
-                  {title}
-                </TableCell>
-              ))}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {data.data.map((order) => (
-              <TableRow
-                key={order.id}
-                onClick={() => {
-                  dispatch(
-                    showModal(ModalKey.SHOW_ORDER_DETAIL, {
-                      orderId: order.id,
-                      onNavigate: () => navigate(`/pricing`),
-                    })
-                  );
-                }}
-                sx={{ cursor: 'pointer' }}
-              >
-                <TableCell align="center">{order.id}</TableCell>
-                <TableCell align="center">{displayCurrency(order.price)}</TableCell>
-                <TableCell align="center">
-                  <OrderStatusBadge status={order.status} />
-                </TableCell>
-                <TableCell align="center">{formatDateTime(order.createdAt)}</TableCell>
-                <TableCell align="center">{formatDateTime(order.updatedAt)}</TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+      {data && data.data.length > 0 ? (
+        <>
+          <TableContainer component={Paper}>
+            <Table
+              sx={{ minWidth: 650 }}
+              aria-label="locations"
+            >
+              <TableHead>
+                <TableRow>
+                  {titles.map((title) => (
+                    <TableCell
+                      align="center"
+                      key={title}
+                    >
+                      {title}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {data.data.map((order) => (
+                  <TableRow
+                    key={order.id}
+                    onClick={() => {
+                      dispatch(
+                        showModal(ModalKey.SHOW_ORDER_DETAIL, {
+                          orderId: order.id,
+                          onNavigate: () => navigate(`/pricing`),
+                        })
+                      );
+                    }}
+                    sx={{ cursor: 'pointer' }}
+                  >
+                    <TableCell align="center">{order.id}</TableCell>
+                    <TableCell align="center">{displayCurrency(order.price)}</TableCell>
+                    <TableCell align="center">
+                      <OrderStatusBadge status={order.status} />
+                    </TableCell>
+                    <TableCell align="center">{formatDateTime(order.createdAt)}</TableCell>
+                    <TableCell align="center">{formatDateTime(order.updatedAt)}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
 
-      <Pagination
-        count={data?.totalPages}
-        page={page}
-        onChange={(_, value) => setPage(value)}
-        sx={{
-          mt: 2,
-        }}
-      />
+          <Pagination
+            count={data?.totalPages}
+            page={page}
+            onChange={(_, value) => setPage(value)}
+            sx={{
+              mt: 2,
+            }}
+          />
+        </>
+      ) : (
+        <NoData message="You don't have any orders." />
+      )}
     </Box>
   );
 }

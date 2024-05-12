@@ -10,14 +10,17 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { useAppSelector } from 'store';
 
+import { FormatDateTime } from 'constants/datetime';
 import { GenderOptions } from 'constants/tournament';
 import { RegistrationStatus } from 'constants/tournament-participants';
 import { useDeleteApplicationMutation } from 'store/api/tournament/tournamentParticipantsApiSlice';
+import { selectTournament } from 'store/slice/tournamentSlice';
 import { OpenTournamentApplicant } from 'types/open-tournament-participants';
 import { UserProfile } from 'types/user';
-import { formatDateTime } from 'utils/datetime';
+import { displayDateTime } from 'utils/datetime';
 import { showSuccess } from 'utils/toast';
 
 const ApplicantInfo = ({ title, user }: { title: string; user: UserProfile }) => {
@@ -99,18 +102,17 @@ const ApplicantInfo = ({ title, user }: { title: string; user: UserProfile }) =>
 
 export default function ApplicationForm({ data }: { data: OpenTournamentApplicant }) {
   const navigate = useNavigate();
-
-  const { tournamentId } = useParams();
+  const tournamentData = useAppSelector(selectTournament);
 
   const [cancelApplication, { isLoading }] = useDeleteApplicationMutation();
 
   const handleCancelApplication = async () => {
     try {
-      await cancelApplication({ tournamentId: parseInt(tournamentId!) }).unwrap();
-      showSuccess('Application has been canceled.');
-      navigate(`/tournaments/${tournamentId}/participants`);
+      await cancelApplication({ tournamentId: tournamentData.id }).unwrap();
+      showSuccess('Canceled application successfully.');
+      navigate(`/tournaments/${tournamentData.id}/participants`);
     } catch (error) {
-      // handle error
+      // handled error
     }
   };
 
@@ -178,7 +180,10 @@ export default function ApplicationForm({ data }: { data: OpenTournamentApplican
               <FormControl fullWidth>
                 <FormLabel htmlFor="applied-date">Applied Date</FormLabel>
                 <TextField
-                  value={formatDateTime(data.appliedDate)}
+                  value={displayDateTime({
+                    dateTime: data.appliedDate,
+                    targetFormat: FormatDateTime.DATE_AND_FULL_TIME,
+                  })}
                   disabled
                 />
               </FormControl>

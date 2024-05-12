@@ -3,11 +3,11 @@ import { Stack, Typography } from '@mui/material';
 
 import NoDataLogo from 'assets/icons/no-data.svg?react';
 
-const NoData = ({ message }: { message?: string }) => {
+const NoData = ({ message, gap = 1 }: { message?: string; gap?: number }) => {
   return (
     <Stack
       alignItems="center"
-      gap={1}
+      gap={gap}
     >
       <NoDataLogo
         width={80}

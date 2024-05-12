@@ -1,5 +1,6 @@
 // import { ModalKey } from 'constants/modal';
 import { ParticipantType } from 'constants/tournament';
+import { UserPackage } from 'types/package';
 
 import { BaseModalProps } from './BaseModal';
 
@@ -33,14 +34,19 @@ export interface SelectPaymentMethodProps extends CommonModalProps {
   packageId: number;
 }
 
-export interface ShowOrderDetailProps extends CommonModalProps {
+export interface ShowOrderDetailsProps extends CommonModalProps {
   orderId: string;
-  onNavigate: () => void;
+  onNavigate?: () => void;
 }
 
 export interface AddMatchProps extends CommonModalProps {
   tournamentId: number;
   participantType: ParticipantType;
+}
+
+export interface ShowPackageDetailsProps extends CommonModalProps {
+  package: UserPackage;
+  onNavigate: (serviceName: string) => void;
 }
 
 /** External modal props: useModal */

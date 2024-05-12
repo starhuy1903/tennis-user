@@ -9,14 +9,20 @@ const groupApiToastSlice = apiWithToastSlice.injectEndpoints({
   endpoints: (build) => ({
     addMember: build.mutation<void, InvitationPayload>({
       query: (body) => ({
-        url: 'core/groups/invite',
+        url: urlWithCorePrefix('groups/invite'),
         method: 'POST',
         body,
       }),
     }),
+    removeMember: build.mutation<void, { groupId: number; userId: string }>({
+      query: ({ groupId, userId }) => ({
+        url: urlWithCorePrefix(`groups/${groupId}/members/${userId}`),
+        method: 'DELETE',
+      }),
+    }),
     getGroupMembers: build.query<GetListResult<MemberDto>, GetPagingListOptions & { id: number }>({
       query: (body) => ({
-        url: `core/groups/${body.id}/members`,
+        url: urlWithCorePrefix(`groups/${body.id}/members`),
         params: {
           page: body.page,
           take: body.take,
@@ -26,7 +32,7 @@ const groupApiToastSlice = apiWithToastSlice.injectEndpoints({
     }),
     getMyGroups: build.query<GetListResult<Group>, GetPagingListOptions>({
       query: (body) => ({
-        url: 'core/groups',
+        url: urlWithCorePrefix('groups'),
         params: {
           page: body.page,
           take: body.take,
@@ -37,7 +43,7 @@ const groupApiToastSlice = apiWithToastSlice.injectEndpoints({
     }),
     getJoinedGroups: build.query<GetListResult<Group>, GetPagingListOptions>({
       query: (body) => ({
-        url: 'core/groups',
+        url: urlWithCorePrefix('groups'),
         params: {
           page: body.page,
           take: body.take,
@@ -47,28 +53,20 @@ const groupApiToastSlice = apiWithToastSlice.injectEndpoints({
       }),
     }),
     getGroupDetails: build.query<Group, number>({
-      query: (id) => `core/groups/${id}`,
+      query: (id) => urlWithCorePrefix(`groups/${id}`),
     }),
     createGroup: build.mutation<Group, CreateGroupDto>({
-      query: (body) => {
-        const formData = new FormData();
-
-        Object.entries(body).forEach(([key, value]) => {
-          formData.append(key, value as string | Blob);
-        });
-
-        return {
-          url: urlWithCorePrefix('groups'),
-          method: 'POST',
-          body: formData,
-        };
-      },
+      query: (body) => ({
+        url: urlWithCorePrefix('groups'),
+        method: 'POST',
+        body,
+      }),
     }),
     updateGroup: build.mutation<void, { id: number; data: GroupUpdateDto }>({
       query: (body) => ({
-        url: `core/groups/${body.id}`,
+        url: urlWithCorePrefix(`groups/${body.id}`),
         method: 'PATCH',
-        body: { ...body.data, image: 'https://picsum.photos/id/251/300/200' },
+        body: body.data,
       }),
     }),
   }),
@@ -76,6 +74,7 @@ const groupApiToastSlice = apiWithToastSlice.injectEndpoints({
 
 export const {
   useAddMemberMutation,
+  useRemoveMemberMutation,
   useGetMyGroupsQuery,
   useLazyGetMyGroupsQuery,
   useGetGroupDetailsQuery,
@@ -83,5 +82,6 @@ export const {
   useLazyGetGroupDetailsQuery,
   useCreateGroupMutation,
   useGetGroupMembersQuery,
+  useLazyGetGroupMembersQuery,
   useUpdateGroupMutation,
 } = groupApiToastSlice;

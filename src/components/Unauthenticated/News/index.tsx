@@ -5,9 +5,10 @@ import { Link } from 'react-router-dom';
 import BreadCrumb from 'components/Common/Breadcrumb';
 import CenterLoading from 'components/Common/CenterLoading';
 import NoData from 'components/Common/NoData';
+import { FormatDateTime } from 'constants/datetime';
 import { useLazyGetNewsQuery } from 'store/api/unauthenticated/newsApiSlice';
 import { News as NewsType } from 'types/news';
-import { formatDateTime } from 'utils/datetime';
+import { displayDateTime } from 'utils/datetime';
 import { limitString } from 'utils/string';
 
 const breadcrumbs = [
@@ -76,7 +77,9 @@ export default function News() {
                     alt="news-image"
                   />
                   <CardContent>
-                    <Typography variant="caption">{formatDateTime(item.createdAt)}</Typography>
+                    <Typography variant="caption">
+                      {displayDateTime({ dateTime: item.createdAt, targetFormat: FormatDateTime.DATE_AND_FULL_TIME })}
+                    </Typography>
                     <Typography
                       gutterBottom
                       variant="h6"
