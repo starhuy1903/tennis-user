@@ -69,6 +69,12 @@ const groupApiToastSlice = apiWithToastSlice.injectEndpoints({
         body: body.data,
       }),
     }),
+    leaveGroup: build.mutation<void, number>({
+      query: (id) => ({
+        url: urlWithCorePrefix(`groups/${id}/leave`),
+        method: 'POST',
+      }),
+    }),
   }),
 });
 
@@ -84,4 +90,5 @@ export const {
   useGetGroupMembersQuery,
   useLazyGetGroupMembersQuery,
   useUpdateGroupMutation,
+  useLeaveGroupMutation,
 } = groupApiToastSlice;
