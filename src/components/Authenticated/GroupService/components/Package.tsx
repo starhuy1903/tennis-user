@@ -12,10 +12,9 @@ import { displayTimestamp } from 'utils/datetime';
 interface PackageProps {
   data: UserPackage;
   selected: boolean;
-  handleSelect: () => void;
+  handleSelect?: () => void;
 }
 
-// !! Need to update package UI
 const Package = ({ data, selected, handleSelect }: PackageProps) => {
   return (
     <Card
@@ -25,7 +24,7 @@ const Package = ({ data, selected, handleSelect }: PackageProps) => {
         borderColor: (theme) => (selected ? theme.palette.primary.main : 'transparent'),
       }}
       onClick={() => {
-        if (!selected) handleSelect();
+        if (!selected) handleSelect?.();
       }}
     >
       <CardHeader
