@@ -1,4 +1,3 @@
-// import toast from 'react-hot-toast';
 import { RefreshResponse } from 'types/user';
 import { showError } from 'utils/toast';
 

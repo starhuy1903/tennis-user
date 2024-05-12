@@ -1,5 +1,4 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { CircularProgress } from '@mui/material';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
@@ -8,12 +7,14 @@ import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Unstable_Grid2';
 import { useConfirm } from 'material-ui-confirm';
+import { useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAppDispatch } from 'store';
 import * as yup from 'yup';
 
+import CenterLoading from 'components/Common/CenterLoading';
 import ControlledSelect from 'components/Common/Input/ControlledSelect';
 import ControlledTextField from 'components/Common/Input/ControlledTextField';
 import SingleImagePicker from 'components/Common/Input/SingleImagePicker';
@@ -22,6 +23,7 @@ import { LANGUAGES } from 'constants/app';
 import { useCreateGroupMutation } from 'store/api/group/groupApiSlice';
 import { useLazyGetPurchasedPackagesQuery } from 'store/api/packageApiSlice';
 import { setLoading } from 'store/slice/statusSlice';
+import { getValidGroupPackages } from 'utils/package';
 
 import PackageSelector from '../components/PackageSelector';
 
@@ -48,6 +50,10 @@ const GroupCreate = () => {
   const confirm = useConfirm();
   const dispatch = useAppDispatch();
   const [getPurchasedPackage, { data: purchasedPackages }] = useLazyGetPurchasedPackagesQuery();
+  const validGroupPackages = useMemo(
+    () => (purchasedPackages ? getValidGroupPackages(purchasedPackages) : []),
+    [purchasedPackages]
+  );
   const [createGroup] = useCreateGroupMutation();
 
   const {
@@ -58,18 +64,17 @@ const GroupCreate = () => {
     getValues,
     watch,
   } = useForm<FormData>({
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
     resolver: yupResolver(schema),
     mode: 'onChange',
     defaultValues: async () => {
       const _purchasedPackages = await getPurchasedPackage().unwrap();
+      const groupPackages = getValidGroupPackages(_purchasedPackages);
       return {
         name: '',
         description: '',
         language: LANGUAGES[0].value,
         activityZone: '',
-        purchasedPackageId: _purchasedPackages.length > 0 ? _purchasedPackages[0].id : '',
+        purchasedPackageId: groupPackages.length > 0 ? groupPackages[0].id : '',
         image: '',
       };
     },
@@ -78,19 +83,17 @@ const GroupCreate = () => {
   const formValue = watch();
 
   const handleCreateGroup = handleSubmit((data: FormData) => {
-    confirm({ title: 'Confirm group creation', description: `Create group ${formValue.name} ?` })
-      .then(async () => {
-        dispatch(setLoading(true));
-        try {
-          await createGroup(data).unwrap();
-          toast.success('Group created');
-          navigate('/groups');
-        } catch {
-          /* empty */
-        }
-        dispatch(setLoading(false));
-      })
-      .catch(() => {});
+    confirm({ title: 'Confirm group creation', description: `Create group ${formValue.name} ?` }).then(async () => {
+      dispatch(setLoading(true));
+      try {
+        await createGroup(data).unwrap();
+        toast.success('Group created');
+        navigate('/groups');
+      } catch {
+        /* empty */
+      }
+      dispatch(setLoading(false));
+    });
   });
 
   return (
@@ -111,7 +114,7 @@ const GroupCreate = () => {
         spacing={2}
       >
         {isLoading ? (
-          <CircularProgress />
+          <CenterLoading height="80vh" />
         ) : (
           <>
             <Paper sx={{ padding: 2 }}>
@@ -121,12 +124,12 @@ const GroupCreate = () => {
               >
                 Package
               </Typography>
-              {purchasedPackages && purchasedPackages?.length > 0 ? (
+              {validGroupPackages && validGroupPackages.length > 0 ? (
                 <Box sx={{ width: '50%', padding: '15px' }}>
                   <PackageSelector
                     selected={String(getValues('purchasedPackageId'))}
                     handleSelect={() => {}}
-                    packages={purchasedPackages}
+                    packages={validGroupPackages}
                   />
                 </Box>
               ) : (
@@ -158,7 +161,7 @@ const GroupCreate = () => {
               )}
             </Paper>
 
-            {purchasedPackages && purchasedPackages?.length > 0 && (
+            {validGroupPackages && validGroupPackages.length > 0 && (
               <>
                 <Paper sx={{ padding: 2 }}>
                   <Typography
@@ -239,7 +242,7 @@ const GroupCreate = () => {
                       <Button
                         type="submit"
                         variant="contained"
-                        disabled={!isValid || !purchasedPackages || purchasedPackages?.length === 0}
+                        disabled={!isValid || !validGroupPackages || validGroupPackages.length === 0}
                       >
                         Create group
                       </Button>

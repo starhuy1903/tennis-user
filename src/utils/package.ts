@@ -20,6 +20,18 @@ export const getValidTournamentPackages = (myPackageData: UserPackage[]): UserPa
   });
 };
 
+export const getUsedGroupService = (packageData: UserPackage) => {
+  return packageData.services.find(
+    (service) => isGroupServiceType(service) && service.config.used < service.config.maxGroups
+  ) as GroupService;
+};
+
+export const getValidGroupPackages = (myPackageData: UserPackage[]): UserPackage[] => {
+  return myPackageData.filter((boughtPackage) => {
+    return !boughtPackage.expired && !!getUsedGroupService(boughtPackage);
+  });
+};
+
 export const isValidService = (service: Service) => {
   if (isTournamentServiceType(service)) {
     return service.config.used < service.config.maxTournaments;
