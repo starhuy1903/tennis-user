@@ -52,13 +52,8 @@ const groupApiToastSlice = apiWithToastSlice.injectEndpoints({
         },
       }),
     }),
-    getGroupDetails: build.query<
-      Group & {
-        isCreator: boolean;
-      },
-      number
-    >({
-      query: (id) => `core/groups/${id}`,
+    getGroupDetails: build.query<Group, number>({
+      query: (id) => urlWithCorePrefix(`groups/${id}`),
     }),
     createGroup: build.mutation<void, GroupDto>({
       query: (body) => ({
