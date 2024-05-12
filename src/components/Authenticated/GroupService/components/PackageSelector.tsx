@@ -23,16 +23,21 @@ interface PackageSelectorProps {
 }
 
 const PackageSelector = ({ selected, packages }: PackageSelectorProps) => {
-  const [open, setOpen] = useState<boolean>(false);
+  const [open, setOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState(selected);
 
   return (
     <>
       <FormControl fullWidth>
-        <FormLabel>Your selected package</FormLabel>
+        <FormLabel
+          sx={{
+            mb: 2,
+          }}
+        >
+          Your selected package
+        </FormLabel>
         <Package
-          selected={true}
-          handleSelect={() => {}}
+          selected
           data={packages.find((e) => selectedItem === String(e.id))!}
         />
         <Button
@@ -69,8 +74,8 @@ const PackageSelector = ({ selected, packages }: PackageSelectorProps) => {
                 xl={4}
               >
                 <Package
-                  selected={selectedItem === String(e.id)}
-                  handleSelect={() => setSelectedItem(String(e.id))}
+                  selected={selectedItem === e.id}
+                  handleSelect={() => setSelectedItem(e.id)}
                   data={e}
                 />
               </Grid>
