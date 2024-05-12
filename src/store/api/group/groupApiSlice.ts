@@ -14,6 +14,12 @@ const groupApiToastSlice = apiWithToastSlice.injectEndpoints({
         body,
       }),
     }),
+    removeMember: build.mutation<void, { groupId: number; userId: string }>({
+      query: ({ groupId, userId }) => ({
+        url: urlWithCorePrefix(`groups/${groupId}/members/${userId}`),
+        method: 'DELETE',
+      }),
+    }),
     getGroupMembers: build.query<GetListResult<MemberDto>, GetPagingListOptions & { id: number }>({
       query: (body) => ({
         url: urlWithCorePrefix(`groups/${body.id}/members`),
@@ -50,19 +56,17 @@ const groupApiToastSlice = apiWithToastSlice.injectEndpoints({
       query: (id) => urlWithCorePrefix(`groups/${id}`),
     }),
     createGroup: build.mutation<Group, CreateGroupDto>({
-      query: (body) => {
-        return {
-          url: urlWithCorePrefix('groups'),
-          method: 'POST',
-          body,
-        };
-      },
+      query: (body) => ({
+        url: urlWithCorePrefix('groups'),
+        method: 'POST',
+        body,
+      }),
     }),
     updateGroup: build.mutation<void, { id: number; data: GroupUpdateDto }>({
       query: (body) => ({
         url: urlWithCorePrefix(`groups/${body.id}`),
         method: 'PATCH',
-        body: { ...body.data, image: 'https://picsum.photos/id/251/300/200' },
+        body: body.data,
       }),
     }),
   }),
@@ -70,6 +74,7 @@ const groupApiToastSlice = apiWithToastSlice.injectEndpoints({
 
 export const {
   useAddMemberMutation,
+  useRemoveMemberMutation,
   useGetMyGroupsQuery,
   useLazyGetMyGroupsQuery,
   useGetGroupDetailsQuery,
@@ -77,5 +82,6 @@ export const {
   useLazyGetGroupDetailsQuery,
   useCreateGroupMutation,
   useGetGroupMembersQuery,
+  useLazyGetGroupMembersQuery,
   useUpdateGroupMutation,
 } = groupApiToastSlice;

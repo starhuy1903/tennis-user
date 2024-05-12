@@ -1,7 +1,6 @@
 import {
   Avatar,
   Box,
-  CircularProgress,
   Paper,
   Table,
   TableBody,
@@ -11,11 +10,13 @@ import {
   TableRow,
   Typography,
 } from '@mui/material';
-import { useParams } from 'react-router-dom';
+import { useAppSelector } from 'store';
 
+import CenterLoading from 'components/Common/CenterLoading';
 import { FormatDateTime } from 'constants/datetime';
 import { GenderOptions } from 'constants/tournament';
 import { useGetOpenTournamentParticipantsQuery } from 'store/api/tournament/tournamentParticipantsApiSlice';
+import { selectTournament } from 'store/slice/tournamentSlice';
 import { UserProfile } from 'types/user';
 import { displayDateTime } from 'utils/datetime';
 
@@ -51,15 +52,15 @@ const Cell = ({ children }: { children: React.ReactNode }) => {
 };
 
 export default function ParticipantList() {
-  const { tournamentId } = useParams();
+  const tournamentData = useAppSelector(selectTournament);
 
   const { data, isLoading } = useGetOpenTournamentParticipantsQuery({
     page: 1,
     take: 10,
-    tournamentId: parseInt(tournamentId!),
+    tournamentId: tournamentData.id,
   });
 
-  if (isLoading) return <CircularProgress />;
+  if (isLoading) return <CenterLoading height="30vh" />;
 
   return (
     <Box my={4}>

@@ -1,15 +1,13 @@
 import { Box, Button } from '@mui/material';
 import { useConfirm } from 'material-ui-confirm';
-import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { useAppDispatch } from 'store';
+import { useAppDispatch, useAppSelector } from 'store';
 
 import CenterLoading from 'components/Common/CenterLoading';
 import { ModalKey } from 'constants/modal';
 import { RegistrationStatus } from 'constants/tournament-participants';
-import { useLazyGetMyApplicationQuery } from 'store/api/tournament/tournamentParticipantsApiSlice';
+import { useGetMyApplicationQuery } from 'store/api/tournament/tournamentParticipantsApiSlice';
 import { showModal } from 'store/slice/modalSlice';
-import { OpenTournamentApplicant } from 'types/open-tournament-participants';
+import { selectTournament } from 'store/slice/tournamentSlice';
 import { OpenTournament } from 'types/tournament';
 
 import ApplicationForm from './ApplicationForm';
@@ -18,31 +16,16 @@ import Invitations from './Invitations';
 export default function MyApplication({ tournament }: { tournament: OpenTournament }) {
   const dispatch = useAppDispatch();
   const confirm = useConfirm();
+  const tournamentData = useAppSelector(selectTournament);
 
-  const [myApplication, setMyApplication] = useState<OpenTournamentApplicant | null>(null);
-
-  const { tournamentId } = useParams();
-
-  const [getMyApplication, { isLoading }] = useLazyGetMyApplicationQuery();
-
-  useEffect(() => {
-    (async () => {
-      try {
-        const res = await getMyApplication({ tournamentId: parseInt(tournamentId!) }).unwrap();
-
-        setMyApplication(res);
-      } catch (error) {
-        console.error(error);
-      }
-    })();
-  }, [getMyApplication, tournamentId]);
+  const { data: myApplication, isLoading } = useGetMyApplicationQuery({ tournamentId: tournamentData.id });
 
   const handleRegister = async () => {
     confirm({ description: 'Creating a tournament application will cancel all invitations from others.' })
       .then(() =>
         dispatch(
           showModal(ModalKey.REGISTER_TOURNAMENT, {
-            tournamentId: parseInt(tournamentId!),
+            tournamentId: tournamentData.id,
             participantType: tournament.participantType,
           })
         )

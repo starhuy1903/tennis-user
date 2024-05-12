@@ -2,7 +2,6 @@ import {
   Box,
   Divider,
   Paper,
-  Stack,
   Table,
   TableBody,
   TableCell,
@@ -19,8 +18,9 @@ import { displayDateTime } from 'utils/datetime';
 import { displayCurrency } from 'utils/string';
 
 import CenterLoading from '../CenterLoading';
+import { InfoItem } from '../InfoItem';
 import BaseModal from './BaseModal';
-import { ShowOrderDetailProps } from './types';
+import { ShowOrderDetailsProps } from './types';
 
 const formatDateTime = (dateTime: string) => {
   return displayDateTime({
@@ -29,17 +29,7 @@ const formatDateTime = (dateTime: string) => {
   });
 };
 
-const InfoItem = ({ label, value, isBold = false }: { label: string; value: string; isBold?: boolean }) => (
-  <Stack
-    direction="row"
-    justifyContent="space-between"
-  >
-    <Typography sx={{ fontWeight: isBold ? 'bold' : 'normal' }}>{label}</Typography>
-    <Typography sx={{ fontWeight: isBold ? 'bold' : 'normal' }}>{value}</Typography>
-  </Stack>
-);
-
-export default function ShowOrderDetail({ orderId, onNavigate, onModalClose }: ShowOrderDetailProps) {
+export default function ShowOrderDetail({ orderId, onNavigate, onModalClose }: ShowOrderDetailsProps) {
   const { data, isLoading } = useGetOrderDetailQuery(orderId);
 
   const renderBody = () => {
@@ -115,7 +105,7 @@ export default function ShowOrderDetail({ orderId, onNavigate, onModalClose }: S
                 />
                 <InfoItem
                   label="Payment Method"
-                  value={PaymentPartnerOptions[data.paymentMethod]}
+                  value={PaymentPartnerOptions[data.partner]}
                 />
               </>
             )}
@@ -132,14 +122,12 @@ export default function ShowOrderDetail({ orderId, onNavigate, onModalClose }: S
           <Table aria-label="items">
             <TableHead>
               <TableRow>
-                <TableCell align="center">ID</TableCell>
                 <TableCell align="center">Package Name</TableCell>
                 <TableCell align="center">Duration</TableCell>
                 <TableCell align="center">Price</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              <TableCell align="center">{data.package.id}</TableCell>
               <TableCell align="center">{data.package.name}</TableCell>
               <TableCell align="center">{data.package.duration} months</TableCell>
               <TableCell align="center">{displayCurrency(data.package.price)}</TableCell>
@@ -155,9 +143,11 @@ export default function ShowOrderDetail({ orderId, onNavigate, onModalClose }: S
       headerText="Order Detail"
       onModalClose={onModalClose}
       body={renderBody()}
-      primaryButtonText="Buy Again"
+      primaryButtonText={onNavigate ? 'Buy Again' : 'Ok'}
       onClickPrimaryButton={() => {
-        onNavigate();
+        if (onNavigate) {
+          onNavigate();
+        }
         onModalClose();
       }}
       size="md"

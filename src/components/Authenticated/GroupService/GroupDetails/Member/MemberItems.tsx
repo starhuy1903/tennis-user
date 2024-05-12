@@ -1,6 +1,7 @@
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import CloseIcon from '@mui/icons-material/Close';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { Chip } from '@mui/material';
 import Accordion from '@mui/material/Accordion';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
@@ -12,17 +13,22 @@ import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 import { SyntheticEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAppSelector } from 'store';
 
+import { MemberRole } from 'constants/group';
 import { MemberUser } from 'types/user';
 
 interface MemberItemsProps {
+  role: MemberRole;
+  isCreator: boolean;
   data: MemberUser;
   expanded: boolean;
   handleChange: (event: SyntheticEvent, newExpanded: boolean) => void;
   handleDelete: (id: string, name: string) => void;
 }
 
-const MemberItems = ({ data, expanded, handleChange, handleDelete }: MemberItemsProps) => {
+const MemberItems = ({ role, isCreator, data, expanded, handleChange, handleDelete }: MemberItemsProps) => {
+  const userId = useAppSelector((state) => state.user.userInfo?.id);
   const navigate = useNavigate();
 
   return (
@@ -38,6 +44,30 @@ const MemberItems = ({ data, expanded, handleChange, handleDelete }: MemberItems
             sx={{ width: '50px', height: '50px' }}
           />
           <Typography variant="h2">{data.name}</Typography>
+
+          {userId === data.id && (
+            <Chip
+              label="You"
+              size="small"
+              variant="filled"
+              sx={{
+                backgroundColor: '#91C788',
+                color: 'white',
+              }}
+            />
+          )}
+
+          {role === MemberRole.GROUP_ADMIN && (
+            <Chip
+              label="Admin"
+              size="small"
+              variant="filled"
+              sx={{
+                backgroundColor: '#FF2E63',
+                color: 'white',
+              }}
+            />
+          )}
         </Box>
       </AccordionSummary>
       <AccordionDetails>
@@ -58,15 +88,17 @@ const MemberItems = ({ data, expanded, handleChange, handleDelete }: MemberItems
                 <AccountBoxIcon />
               </Fab>
             </Tooltip>
-            <Tooltip title="Remove from group">
-              <Fab
-                size="small"
-                color="error"
-                onClick={() => handleDelete(data.id, data.name)}
-              >
-                <CloseIcon />
-              </Fab>
-            </Tooltip>
+            {isCreator && role !== MemberRole.GROUP_ADMIN && userId !== data.id && (
+              <Tooltip title="Remove from group">
+                <Fab
+                  size="small"
+                  color="error"
+                  onClick={() => handleDelete(data.id, data.name)}
+                >
+                  <CloseIcon />
+                </Fab>
+              </Tooltip>
+            )}
           </Box>
         </Box>
       </AccordionDetails>
