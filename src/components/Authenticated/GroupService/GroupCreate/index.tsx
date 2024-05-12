@@ -88,7 +88,7 @@ const GroupCreate = () => {
         dispatch(setLoading(true));
         await createGroup(data).unwrap();
 
-        showSuccess('Group created successfully.');
+        showSuccess('Created group successfully.');
         navigate('/groups');
       } catch (error) {
         // handled error
