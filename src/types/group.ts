@@ -27,7 +27,7 @@ export type Group = {
 
 export type GroupUpdateDto = {
   name?: string;
-  image?: File;
+  image?: string;
   description?: string;
   language?: string;
   activityZone?: string;
