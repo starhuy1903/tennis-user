@@ -26,13 +26,18 @@ export type Group = {
 };
 
 export type GroupUpdateDto = {
-  name: string;
+  name?: string;
   image?: string;
   description?: string;
   language?: string;
   activityZone?: string;
 };
 
-export type GroupDto = GroupUpdateDto & {
+export type CreateGroupDto = {
+  name: string;
+  image: string;
+  description: string;
+  language: string;
+  activityZone: string;
   purchasedPackageId: string;
 };

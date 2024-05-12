@@ -18,7 +18,7 @@ import Package from './Package';
 
 interface PackageSelectorProps {
   selected: string | null;
-  handleSelect: () => void;
+  handleSelect: (purchasedPackageId: string) => void;
   packages: Array<UserPackage>;
 }
 

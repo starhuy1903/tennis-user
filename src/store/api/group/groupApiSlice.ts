@@ -1,5 +1,5 @@
 import { GetListResult, GetPagingListOptions } from 'types/base';
-import { Group, GroupDto, GroupUpdateDto, InvitationPayload } from 'types/group';
+import { CreateGroupDto, Group, GroupUpdateDto, InvitationPayload } from 'types/group';
 import { MemberDto } from 'types/user';
 
 import { apiWithToastSlice } from '../baseApiSlice';
@@ -55,11 +55,11 @@ const groupApiToastSlice = apiWithToastSlice.injectEndpoints({
     getGroupDetails: build.query<Group, number>({
       query: (id) => urlWithCorePrefix(`groups/${id}`),
     }),
-    createGroup: build.mutation<void, GroupDto>({
+    createGroup: build.mutation<Group, CreateGroupDto>({
       query: (body) => ({
         url: urlWithCorePrefix('groups'),
         method: 'POST',
-        body: body,
+        body,
       }),
     }),
     updateGroup: build.mutation<void, { id: number; data: GroupUpdateDto }>({

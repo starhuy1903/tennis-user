@@ -21,6 +21,7 @@ interface SingleImagePickerProps {
   imageUrl?: string;
   handleUpload: (imageUrl: string) => void;
   handleRemove: () => void;
+  disabled?: boolean;
 }
 
 const SingleImagePicker = memo(({ label, imageUrl, handleUpload, handleRemove }: SingleImagePickerProps) => {
