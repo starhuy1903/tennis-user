@@ -9,7 +9,6 @@ import Grid from '@mui/material/Unstable_Grid2';
 import { useConfirm } from 'material-ui-confirm';
 import { useMemo } from 'react';
 import { useForm } from 'react-hook-form';
-import toast from 'react-hot-toast';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAppDispatch } from 'store';
 import * as yup from 'yup';
@@ -24,6 +23,7 @@ import { useCreateGroupMutation } from 'store/api/group/groupApiSlice';
 import { useLazyGetPurchasedPackagesQuery } from 'store/api/packageApiSlice';
 import { setLoading } from 'store/slice/statusSlice';
 import { getValidGroupPackages } from 'utils/package';
+import { showSuccess } from 'utils/toast';
 
 import PackageSelector from '../components/PackageSelector';
 
@@ -84,15 +84,17 @@ const GroupCreate = () => {
 
   const handleCreateGroup = handleSubmit((data: FormData) => {
     confirm({ title: 'Confirm group creation', description: `Create group ${formValue.name} ?` }).then(async () => {
-      dispatch(setLoading(true));
       try {
+        dispatch(setLoading(true));
         await createGroup(data).unwrap();
-        toast.success('Group created');
+
+        showSuccess('Group created successfully.');
         navigate('/groups');
-      } catch {
-        /* empty */
+      } catch (error) {
+        // handled error
+      } finally {
+        dispatch(setLoading(false));
       }
-      dispatch(setLoading(false));
     });
   });
 
@@ -246,7 +248,7 @@ const GroupCreate = () => {
                       <Button
                         type="submit"
                         variant="contained"
-                        disabled={!isValid || !validGroupPackages || validGroupPackages.length === 0}
+                        disabled={!isValid}
                       >
                         Create group
                       </Button>

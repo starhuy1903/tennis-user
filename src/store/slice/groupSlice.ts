@@ -1,29 +1,23 @@
-// import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
-// import { Group, GroupStatus } from 'types/group';
+import { Group } from 'types/group';
+import { GroupSliceType } from 'types/store/group';
 
-// const initialState: Group = {
-//   id: null,
-//   name: '',
-//   description: '',
-//   status: GroupStatus.ACTIVE,
-//   adminId: null,
-//   packageId: null,
-//   startDate: '',
-//   endDate: '',
-// };
+const initialState: GroupSliceType = {
+  data: null,
+};
 
-// export const groupSlice = createSlice({
-//   name: 'group',
-//   initialState,
-//   reducers: {
-//     setGroupInfo: (_, action: PayloadAction<Group>) => ({
-//       ...action.payload,
-//     }),
-//     resetGroupInfo: (_) => ({
-//       ...initialState,
-//     }),
-//   },
-// });
+export const groupSlice = createSlice({
+  name: 'group',
+  initialState,
+  reducers: {
+    setGroupDetails: (state, action: PayloadAction<Group>) => {
+      state.data = action.payload;
+    },
+    resetGroupDetails: (state) => {
+      state.data = null;
+    },
+  },
+});
 
-// export const { setGroupInfo, resetGroupInfo } = groupSlice.actions;
+export const { setGroupDetails, resetGroupDetails } = groupSlice.actions;

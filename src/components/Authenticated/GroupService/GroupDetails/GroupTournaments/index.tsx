@@ -2,7 +2,8 @@ import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import WorkspacePremiumIcon from '@mui/icons-material/WorkspacePremium';
 import { Box, Button, Stack, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { useAppSelector } from 'store';
 
 import CenterLoading from 'components/Common/CenterLoading';
 import { TournamentStatus } from 'constants/tournament';
@@ -25,18 +26,17 @@ export default function GroupTournaments() {
     completed: [],
   });
 
-  const { groupId } = useParams();
-
   const [getTournaments, { isLoading }] = useLazyGetGroupTournamentsQuery();
+  const groupData = useAppSelector((state) => state.group.data);
 
   useEffect(() => {
     (async () => {
       try {
-        if (groupId) {
+        if (groupData?.id) {
           const responses = await Promise.all([
-            getTournaments({ tournamentStatus: TournamentStatus.UPCOMING, groupId: parseInt(groupId) }).unwrap(),
-            getTournaments({ tournamentStatus: TournamentStatus.ON_GOING, groupId: parseInt(groupId) }).unwrap(),
-            getTournaments({ tournamentStatus: TournamentStatus.COMPLETED, groupId: parseInt(groupId) }).unwrap(),
+            getTournaments({ tournamentStatus: TournamentStatus.UPCOMING, groupId: groupData.id }).unwrap(),
+            getTournaments({ tournamentStatus: TournamentStatus.ON_GOING, groupId: groupData.id }).unwrap(),
+            getTournaments({ tournamentStatus: TournamentStatus.COMPLETED, groupId: groupData.id }).unwrap(),
           ]);
           setTournaments({
             upcoming: responses[0],
@@ -45,15 +45,16 @@ export default function GroupTournaments() {
           });
         } else {
           showError('Group not found.');
+          navigate('/groups');
         }
       } catch (error) {
         console.log(error);
       }
     })();
-  }, [getTournaments, groupId]);
+  }, [getTournaments, groupData?.id, navigate]);
 
   const handleCreateTournament = () => {
-    navigate(`/groups/${groupId}/tournaments/create`);
+    navigate(`/groups/${groupData?.id}/tournaments/create`);
   };
 
   if (isLoading) {
@@ -83,12 +84,14 @@ export default function GroupTournaments() {
               Upcoming Tournaments
             </Typography>
           </Stack>
-          <Button
-            variant="outlined"
-            onClick={handleCreateTournament}
-          >
-            Create tournament
-          </Button>
+          {groupData?.isCreator && (
+            <Button
+              variant="outlined"
+              onClick={handleCreateTournament}
+            >
+              Create tournament
+            </Button>
+          )}
         </Stack>
         <GroupTournamentList tournaments={tournaments.upcoming} />
       </Box>

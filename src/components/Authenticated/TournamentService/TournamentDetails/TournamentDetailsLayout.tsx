@@ -53,7 +53,7 @@ export default function TournamentDetailsLayout() {
   const [getTournamentDetails, { isLoading }] = useLazyGetOpenTournamentDetailsQuery();
   const tournamentData = useAppSelector(selectTournament);
 
-  const [currentTab, setCurrentTab] = useState(pathParts[pathParts.length - 1]);
+  const [currentTab, setCurrentTab] = useState(pathParts[3]);
 
   const { tournamentId } = useParams();
 
