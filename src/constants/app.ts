@@ -21,3 +21,15 @@ export const LANGUAGES = [
     label: 'Tiếng Việt',
   },
 ];
+
+export enum Language {
+  EN = 'EN',
+  VN = 'VN',
+}
+
+export const LanguageOptions: {
+  [key: Language | string]: string;
+} = {
+  [Language.EN]: 'English',
+  [Language.VN]: 'Vietnamese',
+};

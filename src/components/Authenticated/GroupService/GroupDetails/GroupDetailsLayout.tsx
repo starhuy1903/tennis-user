@@ -1,6 +1,6 @@
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
-import { Box, Tab } from '@mui/material';
+import { Box, Container, Divider, Paper, Tab } from '@mui/material';
 import { useEffect, useMemo, useState } from 'react';
 import { Outlet, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useAppDispatch } from 'store';
@@ -85,11 +85,14 @@ export default function GroupDetailsLayout() {
   }
 
   return (
-    <Box sx={{ width: '100%' }}>
-      <InfoSection data={groupData} />
-      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <TabContext value={currentTab || initializedTab}>
-          <Box sx={{ mt: 2 }}>
+    <Container maxWidth="lg">
+      <Paper sx={{ borderBottomLeftRadius: 16, borderBottomRightRadius: 16, border: '1px white solid', mb: 4 }}>
+        <InfoSection data={groupData} />
+
+        <Divider sx={{ my: 1 }} />
+
+        <Box px={4}>
+          <TabContext value={currentTab || initializedTab}>
             <TabList
               onChange={handleChange}
               aria-label="lab API tabs example"
@@ -105,10 +108,11 @@ export default function GroupDetailsLayout() {
                 );
               })}
             </TabList>
-          </Box>
-        </TabContext>
-      </Box>
+          </TabContext>
+        </Box>
+      </Paper>
+
       <Outlet />
-    </Box>
+    </Container>
   );
 }
