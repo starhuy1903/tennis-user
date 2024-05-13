@@ -4,6 +4,9 @@ import TabPanel from '@mui/lab/TabPanel';
 import { Box, Tab } from '@mui/material';
 import { useState } from 'react';
 
+import CenterLoading from 'components/Common/CenterLoading';
+import { useGetCreatedTournamentsQuery } from 'store/api/tournament/tournamentApiSlice';
+
 import AllTournaments from './AllTournaments';
 import ManageTournaments from './ManageTournament';
 import MyTournaments from './MyTournaments';
@@ -14,6 +17,12 @@ export default function TournamentService() {
   const handleChangeTab = (_: React.SyntheticEvent, newValue: string) => {
     setCurrentTab(newValue);
   };
+
+  const { data: tournaments, isLoading } = useGetCreatedTournamentsQuery();
+
+  if (isLoading) {
+    return <CenterLoading />;
+  }
 
   return (
     <TabContext value={currentTab}>
@@ -31,10 +40,12 @@ export default function TournamentService() {
             label="My Tournaments"
             value="2"
           />
-          <Tab
-            label="Manage Tournaments"
-            value="3"
-          />
+          {tournaments && tournaments.length !== 0 && (
+            <Tab
+              label="Manage Tournaments"
+              value="3"
+            />
+          )}
         </TabList>
       </Box>
       <TabPanel value="1">
@@ -43,9 +54,11 @@ export default function TournamentService() {
       <TabPanel value="2">
         <MyTournaments />
       </TabPanel>
-      <TabPanel value="3">
-        <ManageTournaments />
-      </TabPanel>
+      {tournaments && tournaments.length !== 0 && (
+        <TabPanel value="3">
+          <ManageTournaments tournaments={tournaments} />
+        </TabPanel>
+      )}
     </TabContext>
   );
 }
