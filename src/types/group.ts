@@ -2,6 +2,7 @@ import { UserPackage } from './package';
 
 export type InvitationPayload = {
   email: string;
+  groupId: number;
 };
 
 export enum GroupStatus {

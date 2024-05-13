@@ -1,4 +1,5 @@
 import { Box, FormControl, FormHelperText, FormLabel, TextField } from '@mui/material';
+import EmailValidator from 'email-validator';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
 import { useAddMemberMutation } from 'store/api/group/groupApiSlice';
@@ -45,6 +46,7 @@ export default function InviteIntoGroup({ groupId, onModalClose }: InviteIntoGro
           <TextField
             {...register('email', {
               required: 'The email is required.',
+              validate: (value) => EmailValidator.validate(value) || 'Invalid email format.',
             })}
             required
             id="email"
