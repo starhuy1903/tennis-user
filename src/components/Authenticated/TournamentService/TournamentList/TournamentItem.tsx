@@ -21,7 +21,7 @@ export default function TournamentItem({
   const dispatch = useAppDispatch();
 
   const handleRegister = async (tournamentId: number) => {
-    dispatch(showModal(ModalKey.REGISTER_TOURNAMENT, { tournamentId }));
+    dispatch(showModal(ModalKey.REGISTER_TOURNAMENT, { tournamentId, participantType: tournament.participantType }));
   };
 
   return (
