@@ -30,7 +30,7 @@ export default function Member() {
   // }, [data?.data]);
 
   const handleInvite = () => {
-    dispatch(showModal(ModalKey.INVITE_INTO_GROUP));
+    dispatch(showModal(ModalKey.INVITE_INTO_GROUP, { groupId: groupData?.id }));
   };
 
   const handleExpandChange = (_id: string) => (_: React.SyntheticEvent, newExpanded: boolean) => {
