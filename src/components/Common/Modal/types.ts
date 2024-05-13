@@ -19,6 +19,10 @@ export interface CropImageProps extends CommonModalProps {
   onSubmit: (file: File) => void;
 }
 
+export interface InviteIntoGroupProps extends CommonModalProps {
+  groupId: number;
+}
+
 export interface AddParticipantsProps extends CommonModalProps {
   groupId: number;
   tournamentId: number;

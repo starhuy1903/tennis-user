@@ -1,28 +1,27 @@
 import { Box, FormControl, FormHelperText, FormLabel, TextField } from '@mui/material';
+import EmailValidator from 'email-validator';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
 import { useAddMemberMutation } from 'store/api/group/groupApiSlice';
+import { InvitationPayload } from 'types/group';
 import { showSuccess } from 'utils/toast';
 
 import BaseModal from './BaseModal';
-import { CommonModalProps } from './types';
+import { InviteIntoGroupProps } from './types';
 
-type FormType = {
-  email: string;
-};
-
-export default function InviteIntoGroup({ onModalClose }: CommonModalProps) {
+export default function InviteIntoGroup({ groupId, onModalClose }: InviteIntoGroupProps) {
   const [requestAddMember, { isLoading }] = useAddMemberMutation();
-  const { handleSubmit, register, formState } = useForm<FormType>({
+  const { handleSubmit, register, formState } = useForm<InvitationPayload>({
     mode: 'onTouched',
     defaultValues: {
+      groupId,
       email: '',
     },
   });
 
   const { errors: formError } = formState;
 
-  const onSubmit: SubmitHandler<FormType> = async (data) => {
+  const onSubmit: SubmitHandler<InvitationPayload> = async (data) => {
     try {
       await requestAddMember(data).unwrap();
       showSuccess('Sent an invitation to join group via email successfully.');
@@ -47,6 +46,7 @@ export default function InviteIntoGroup({ onModalClose }: CommonModalProps) {
           <TextField
             {...register('email', {
               required: 'The email is required.',
+              validate: (value) => EmailValidator.validate(value) || 'Invalid email format.',
             })}
             required
             id="email"
