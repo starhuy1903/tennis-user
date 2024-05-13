@@ -1,4 +1,5 @@
-import { Box, Grid } from '@mui/material';
+import { Box } from '@mui/material';
+import { Swiper, SwiperSlide } from 'swiper/react';
 
 import NoData from 'components/Common/NoData';
 import { UserPackage } from 'types/package';
@@ -30,26 +31,39 @@ export default function MyPackages({ packagesData, onChooseMyPackage }: MyPackag
   }
 
   return (
-    <Box sx={{ padding: '20px' }}>
-      <Grid
-        container
-        spacing={2}
-        mt={4}
+    <Box mt={2}>
+      <Swiper
+        spaceBetween={20}
+        slidesPerView={4}
+        breakpoints={{
+          0: {
+            slidesPerView: 1,
+          },
+          775: {
+            slidesPerView: 2,
+          },
+          1100: {
+            slidesPerView: 3,
+          },
+          1400: {
+            slidesPerView: 4,
+          },
+        }}
       >
         {packagesData.map((item) => (
-          <Grid
-            xs={12}
-            md={6}
-            lg={4}
-            xl={3}
+          <SwiperSlide
+            key={item.id}
+            style={{
+              padding: '2px',
+            }}
           >
             <Pack
               packageData={item}
               onChooseMyPackage={onChooseMyPackage}
             />
-          </Grid>
+          </SwiperSlide>
         ))}
-      </Grid>
+      </Swiper>
     </Box>
   );
 }
