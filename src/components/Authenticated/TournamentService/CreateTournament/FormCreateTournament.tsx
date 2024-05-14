@@ -615,7 +615,7 @@ export default function FormCreateTournament({ selectedPackage, setSelectedPacka
             defaultValue=""
             render={({ field: { onChange, value } }) => (
               <SingleImagePicker
-                label="Upload a background image for your group"
+                label="Upload a background image for your tournament"
                 imageUrl={value}
                 handleUpload={onChange}
                 handleRemove={() => {

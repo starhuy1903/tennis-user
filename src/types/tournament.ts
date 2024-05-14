@@ -9,6 +9,7 @@ export type BaseTournamentPayload = {
   startDate: string;
   endDate: string;
   address: string;
+  image: string;
 };
 
 export type GroupTournamentPayload = BaseTournamentPayload & {
@@ -27,13 +28,11 @@ export type OpenTournamentPayload = BaseTournamentPayload & {
   participantType: ParticipantType;
   playersBornAfterDate: string;
   format: TournamentFormat;
-  image: string;
 };
 
 export type GroupTournament = Omit<GroupTournamentPayload, 'groupId'> & {
   id: number;
   participants: number;
-  image: string;
   status: TournamentStatus;
   phase: TournamentPhase;
   isCreator: boolean;

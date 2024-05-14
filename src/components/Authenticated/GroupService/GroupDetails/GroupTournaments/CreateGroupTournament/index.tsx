@@ -19,6 +19,7 @@ import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { useAppSelector } from 'store';
 
+import SingleImagePicker from 'components/Common/Input/SingleImagePicker';
 import { useCreateGroupTournamentMutation } from 'store/api/group/groupTournamentApiSlice';
 import { selectGroup } from 'store/slice/groupSlice';
 import { GroupTournamentPayload } from 'types/tournament';
@@ -44,6 +45,7 @@ export default function CreateGroupTournament() {
       startDate: new Date(new Date().getTime() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0] + 'T00:00:00',
       endDate: new Date(new Date().getTime() + 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0] + 'T23:59:59',
       address: '',
+      image: '',
     },
   });
 
@@ -295,6 +297,22 @@ export default function CreateGroupTournament() {
               )}
             />
           </Stack>
+
+          <Controller
+            name="image"
+            control={control}
+            defaultValue=""
+            render={({ field: { onChange, value } }) => (
+              <SingleImagePicker
+                label="Upload a image for your tournament"
+                imageUrl={value}
+                handleUpload={onChange}
+                handleRemove={() => {
+                  onChange('');
+                }}
+              />
+            )}
+          />
         </Stack>
         <Button
           variant="contained"
