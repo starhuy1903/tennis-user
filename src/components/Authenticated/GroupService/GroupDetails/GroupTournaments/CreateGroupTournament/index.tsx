@@ -16,11 +16,13 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import dayjs from 'dayjs';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { useAppSelector } from 'store';
 
 import { useCreateGroupTournamentMutation } from 'store/api/group/groupTournamentApiSlice';
+import { selectGroup } from 'store/slice/groupSlice';
 import { GroupTournamentPayload } from 'types/tournament';
-import { showError, showSuccess } from 'utils/toast';
+import { showSuccess } from 'utils/toast';
 
 const tournamentFormatOptions = [
   { id: 1, value: 'knockout', displayValue: 'Knockout', level: 'basic' },
@@ -32,8 +34,7 @@ type FormType = Omit<GroupTournamentPayload, 'groupId'>;
 export default function CreateGroupTournament() {
   const navigate = useNavigate();
   const [requestCreateTournament, { isLoading }] = useCreateGroupTournamentMutation();
-
-  const { groupId } = useParams();
+  const groupData = useAppSelector(selectGroup);
 
   const { handleSubmit, register, control, formState, getValues } = useForm<FormType>({
     mode: 'onTouched',
@@ -49,22 +50,17 @@ export default function CreateGroupTournament() {
   const { errors: formError } = formState;
 
   const onSubmit: SubmitHandler<FormType> = async (data) => {
-    if (groupId) {
-      try {
-        const submitData: GroupTournamentPayload = {
-          ...data,
-          groupId: parseInt(groupId),
-        };
+    try {
+      const submitData: GroupTournamentPayload = {
+        ...data,
+        groupId: groupData.id,
+      };
 
-        await requestCreateTournament(submitData).unwrap();
-        showSuccess('Created group tournament successfully.');
-        navigate(`/groups/${groupId}`);
-      } catch (error) {
-        // handled error
-      }
-    } else {
-      showError('Missing groupId.');
-      navigate('/groups');
+      await requestCreateTournament(submitData).unwrap();
+      showSuccess('Created group tournament successfully.');
+      navigate(`/groups/${groupData.id}`);
+    } catch (error) {
+      // handled error
     }
   };
 

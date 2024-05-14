@@ -8,24 +8,24 @@ import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Unstable_Grid2';
 import { useConfirm } from 'material-ui-confirm';
 import { useForm } from 'react-hook-form';
-import { useNavigate, useParams } from 'react-router-dom';
-import { useAppDispatch } from 'store';
+import { useAppDispatch, useAppSelector } from 'store';
 import * as yup from 'yup';
 
 import ControlledSelect from 'components/Common/Input/ControlledSelect';
 import ControlledTextField from 'components/Common/Input/ControlledTextField';
 import SingleImagePicker from 'components/Common/Input/SingleImagePicker';
 import { LANGUAGES } from 'constants/app';
-import { useLazyGetGroupDetailsQuery, useUpdateGroupMutation } from 'store/api/group/groupApiSlice';
+import { useUpdateGroupMutation } from 'store/api/group/groupApiSlice';
+import { selectGroup } from 'store/slice/groupSlice';
 import { setLoading } from 'store/slice/statusSlice';
-import { showError, showSuccess } from 'utils/toast';
+import { showSuccess } from 'utils/toast';
 
-interface FormData {
+interface FormType {
   name: string;
   description?: string;
   language: string;
   activityZone: string;
-  image: any | null;
+  image: string;
 }
 
 const schema = yup.object({
@@ -37,13 +37,11 @@ const schema = yup.object({
 });
 
 const UpdateGroupInformation = () => {
-  const navigate = useNavigate();
   const confirm = useConfirm();
   const dispatch = useAppDispatch();
-  const { groupId } = useParams();
+  const groupData = useAppSelector(selectGroup);
 
   const [updateGroup] = useUpdateGroupMutation();
-  const [getGroupDetail, { data: groupDetail }] = useLazyGetGroupDetailsQuery();
 
   const {
     control,
@@ -52,51 +50,32 @@ const UpdateGroupInformation = () => {
     setValue,
     reset,
     watch,
-  } = useForm<FormData>({
+  } = useForm<FormType>({
     resolver: yupResolver(schema),
     mode: 'onChange',
-    defaultValues: async () => {
-      try {
-        const res = await getGroupDetail(parseInt(groupId!)).unwrap();
-
-        return {
-          name: res.name,
-          description: res.description,
-          language: res.language,
-          activityZone: res.activityZone,
-          image: res.image,
-        };
-      } catch (err) {
-        showError('Group not found!');
-        navigate('/groups', { replace: true });
-
-        return {
-          name: '',
-          description: '',
-          language: LANGUAGES[0].value,
-          activityZone: '',
-          image: '',
-        };
-      }
+    defaultValues: {
+      name: groupData.name,
+      description: groupData.description,
+      language: groupData.language,
+      activityZone: groupData.activityZone,
+      image: groupData.image,
     },
   });
 
   const formValue = watch();
 
-  const handleUpdateGroupInfo = handleSubmit((data: FormData) => {
-    confirm({ title: 'Confirm update', description: `Update information change ?` })
-      .then(async () => {
-        dispatch(setLoading(true));
-        try {
-          await updateGroup({ id: groupDetail!.id, data }).unwrap();
-          showSuccess('Updated group information successfully!');
-          reset(data);
-        } catch {
-          /* empty */
-        }
-        dispatch(setLoading(false));
-      })
-      .catch(() => {});
+  const handleUpdateGroupInfo = handleSubmit((data: FormType) => {
+    confirm({ title: 'Confirm update', description: `Update information change ?` }).then(async () => {
+      dispatch(setLoading(true));
+      try {
+        await updateGroup({ id: groupData.id, data }).unwrap();
+        showSuccess('Updated group information successfully!');
+        reset(data);
+      } catch {
+        /* empty */
+      }
+      dispatch(setLoading(false));
+    });
   });
 
   return (
