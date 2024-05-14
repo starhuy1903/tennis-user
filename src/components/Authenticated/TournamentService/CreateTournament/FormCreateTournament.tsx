@@ -27,6 +27,7 @@ import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { useAppSelector } from 'store';
 
+import SingleImagePicker from 'components/Common/Input/SingleImagePicker';
 import {
   Gender,
   GenderOptions,
@@ -81,6 +82,7 @@ export default function FormCreateTournament({ selectedPackage, setSelectedPacka
       playersBornAfterDate: '1990-01-01T00:00:00',
       address: '',
       maxParticipants: 20,
+      image: '',
     },
   });
 
@@ -606,6 +608,22 @@ export default function FormCreateTournament({ selectedPackage, setSelectedPacka
               )}
             />
           </Stack>
+
+          <Controller
+            name="image"
+            control={control}
+            defaultValue=""
+            render={({ field: { onChange, value } }) => (
+              <SingleImagePicker
+                label="Upload a background image for your group"
+                imageUrl={value}
+                handleUpload={onChange}
+                handleRemove={() => {
+                  onChange('');
+                }}
+              />
+            )}
+          />
         </Stack>
         <Box
           sx={{

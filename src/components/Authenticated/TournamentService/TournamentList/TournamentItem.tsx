@@ -1,7 +1,7 @@
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import PeopleIcon from '@mui/icons-material/People';
-import { Box, Button, Card, CardActionArea, CardContent, CardMedia, Typography } from '@mui/material';
+import { Box, Button, Card, CardActionArea, CardContent, CardMedia, Tooltip, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { useAppDispatch } from 'store';
 
@@ -86,13 +86,17 @@ export default function TournamentItem({
       </CardActionArea>
 
       <CardContent>
-        <Typography
-          variant="h6"
-          fontWeight="bold"
-          gutterBottom
-        >
-          {tournament.name}
-        </Typography>
+        <Tooltip title={tournament.name}>
+          <Typography
+            variant="h6"
+            fontWeight="bold"
+            noWrap
+            gutterBottom
+          >
+            {tournament.name}
+          </Typography>
+        </Tooltip>
+
         <Box
           display="flex"
           gap={1}

@@ -36,7 +36,7 @@ export default function Member() {
   const handleInvite = () => {
     dispatch(
       showModal(ModalKey.INVITE_INTO_GROUP, {
-        group: groupData.id,
+        groupId: groupData.id,
       })
     );
   };
