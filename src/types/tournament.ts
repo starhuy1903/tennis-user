@@ -27,6 +27,7 @@ export type OpenTournamentPayload = BaseTournamentPayload & {
   participantType: ParticipantType;
   playersBornAfterDate: string;
   format: TournamentFormat;
+  image: string;
 };
 
 export type GroupTournament = Omit<GroupTournamentPayload, 'groupId'> & {
