@@ -14,11 +14,12 @@ import MyTournaments from './MyTournaments';
 export default function TournamentService() {
   const [currentTab, setCurrentTab] = useState('1');
 
+  const { data: tournaments, isLoading } = useGetCreatedTournamentsQuery();
+  const shouldShowManageTournamentTab = tournaments && tournaments.length !== 0;
+
   const handleChangeTab = (_: React.SyntheticEvent, newValue: string) => {
     setCurrentTab(newValue);
   };
-
-  const { data: tournaments, isLoading } = useGetCreatedTournamentsQuery();
 
   if (isLoading) {
     return <CenterLoading />;
@@ -40,7 +41,7 @@ export default function TournamentService() {
             label="My Tournaments"
             value="2"
           />
-          {tournaments && tournaments.length !== 0 && (
+          {shouldShowManageTournamentTab && (
             <Tab
               label="Manage Tournaments"
               value="3"
@@ -54,7 +55,7 @@ export default function TournamentService() {
       <TabPanel value="2">
         <MyTournaments />
       </TabPanel>
-      {tournaments && tournaments.length !== 0 && (
+      {shouldShowManageTournamentTab && (
         <TabPanel value="3">
           <ManageTournaments tournaments={tournaments} />
         </TabPanel>
