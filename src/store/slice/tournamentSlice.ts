@@ -1,6 +1,14 @@
-import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { PayloadAction, createSelector, createSlice } from '@reduxjs/toolkit';
+import { RootState } from 'store';
 
-import { Gender, ParticipantType, TournamentFormat, TournamentPhase, TournamentStatus } from 'constants/tournament';
+import {
+  Gender,
+  ParticipantType,
+  TournamentFormat,
+  TournamentPhase,
+  TournamentRole,
+  TournamentStatus,
+} from 'constants/tournament';
 import { UserPackage } from 'types/package';
 import { TournamentSliceType } from 'types/store/tournament';
 import { OpenTournament } from 'types/tournament';
@@ -34,8 +42,8 @@ const initialState: TournamentSliceType = {
   image: '',
   status: TournamentStatus.UPCOMING,
   phase: TournamentPhase.NEW,
-  isCreator: false,
   purchasedPackage: initialPurchasedPackage,
+  tournamentRoles: [],
 };
 
 export const tournamentSlice = createSlice({
@@ -54,3 +62,14 @@ export const tournamentSlice = createSlice({
 export const selectTournament = (state: { tournament: TournamentSliceType }) => state.tournament;
 
 export const { setTournamentDetails, resetTournamentDetails } = tournamentSlice.actions;
+
+export const checkTournamentRole = createSelector(
+  (state: RootState) => state.tournament.tournamentRoles || [TournamentRole.PARTICIPANT],
+  (roles) => {
+    return {
+      isParticipant: roles.includes(TournamentRole.PARTICIPANT),
+      isCreator: roles.includes(TournamentRole.CREATOR),
+      isReferee: roles.includes(TournamentRole.REFEREE),
+    };
+  }
+);

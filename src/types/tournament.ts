@@ -1,4 +1,11 @@
-import { Gender, ParticipantType, TournamentFormat, TournamentPhase, TournamentStatus } from 'constants/tournament';
+import {
+  Gender,
+  ParticipantType,
+  TournamentFormat,
+  TournamentPhase,
+  TournamentRole,
+  TournamentStatus,
+} from 'constants/tournament';
 
 import { Group } from './group';
 import { UserPackage } from './package';
@@ -45,6 +52,6 @@ export type OpenTournament = Omit<OpenTournamentPayload, 'purchasedPackageId'> &
   image: string | null;
   status: TournamentStatus;
   phase: TournamentPhase;
-  isCreator: boolean;
   purchasedPackage: UserPackage;
+  tournamentRoles: TournamentRole[];
 };
