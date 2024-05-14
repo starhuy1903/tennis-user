@@ -12,7 +12,7 @@
 //   );
 // };
 // export default Profile;
-import { Box, Tab, Tabs, Typography } from '@mui/material';
+import { Box, Tab, Tabs } from '@mui/material';
 import { ReactNode, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -20,6 +20,7 @@ import TabPanel from 'components/Common/TabPanel';
 import { a11yProps } from 'utils/ui';
 
 import AccountSettings from './AccountSettings';
+import FeedSection from './FeedSection';
 import PacksSection from './PacksSection';
 import PaymentSection from './PaymentSection';
 import ProfileSection from './ProfileSection';
@@ -35,7 +36,7 @@ const ProfileTabs: Array<{
   {
     index: 0,
     label: 'Feeds',
-    component: <Typography>Feeds</Typography>,
+    component: <FeedSection />,
     tabName: 'feeds',
   },
   {
