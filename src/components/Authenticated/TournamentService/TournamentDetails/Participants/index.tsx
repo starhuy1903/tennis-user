@@ -2,7 +2,7 @@ import { Alert, Box } from '@mui/material';
 import { useAppSelector } from 'store';
 
 import { TournamentPhase } from 'constants/tournament';
-import { selectTournament } from 'store/slice/tournamentSlice';
+import { checkTournamentRole, selectTournament } from 'store/slice/tournamentSlice';
 
 import ApplicantList from './ApplicantList';
 import MyApplication from './MyApplication';
@@ -11,7 +11,7 @@ import ParticipantList from './ParticipantList';
 export default function Participants() {
   const tournamentData = useAppSelector(selectTournament);
 
-  const isCreator = tournamentData.isCreator;
+  const { isCreator } = useAppSelector(checkTournamentRole);
 
   if (isCreator && tournamentData.phase === TournamentPhase.NEW) {
     return (

@@ -1,4 +1,4 @@
-import { Box, Button } from '@mui/material';
+import { Alert, Box, Button } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'store';
@@ -7,13 +7,12 @@ import CenterLoading from 'components/Common/CenterLoading';
 import GroupPlayoffFixture from 'components/Common/Fixtures/GroupPlayoffFixture';
 import KnockoutFixtures from 'components/Common/Fixtures/KnockoutFixture';
 import { RoundRobinFixture } from 'components/Common/Fixtures/RoundRobinFixture';
-import NoData from 'components/Common/NoData';
 import { ModalKey } from 'constants/modal';
 import { TournamentFormat } from 'constants/tournament';
 import { FixtureStatus } from 'constants/tournament-fixtures';
 import { useLazyGetTournamentFixtureQuery } from 'store/api/tournament/tournamentFixtureApiSlice';
 import { showModal } from 'store/slice/modalSlice';
-import { selectTournament } from 'store/slice/tournamentSlice';
+import { checkTournamentRole, selectTournament } from 'store/slice/tournamentSlice';
 import { TournamentFixture } from 'types/tournament-fixtures';
 import { checkGeneratedFixture } from 'utils/tournament';
 
@@ -28,7 +27,7 @@ export default function Fixtures() {
 
   const tournamentData = useAppSelector(selectTournament);
 
-  const isCreator = tournamentData.isCreator;
+  const { isCreator } = useAppSelector(checkTournamentRole);
 
   const handleAddMatch = () => {
     dispatch(
@@ -54,14 +53,13 @@ export default function Fixtures() {
 
   if (isLoading) return <CenterLoading />;
 
-  if (!isCreator && fixture?.status && [FixtureStatus.NEW, FixtureStatus.DRAFT].includes(fixture.status))
+  if (
+    !isCreator &&
+    (!fixture || (fixture?.status && [FixtureStatus.NEW, FixtureStatus.DRAFT].includes(fixture.status)))
+  )
     return (
-      <Box
-        sx={{
-          py: 10,
-        }}
-      >
-        <NoData message="The fixture has not been published yet." />
+      <Box mt={4}>
+        <Alert severity="info">In the process of generating fixtures. Please wait for the organizers to publish.</Alert>
       </Box>
     );
 

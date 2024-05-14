@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from 'store';
 import { FormatDateTime } from 'constants/datetime';
 import { GenderOptions, ParticipantTypeOptions, TournamentFormatOptions, TournamentPhase } from 'constants/tournament';
 import { useMoveToNextPhaseMutation } from 'store/api/tournament/tournamentApiSlice';
-import { selectTournament, setTournamentDetails } from 'store/slice/tournamentSlice';
+import { checkTournamentRole, selectTournament, setTournamentDetails } from 'store/slice/tournamentSlice';
 import { displayDateTime } from 'utils/datetime';
 import { showSuccess } from 'utils/toast';
 
@@ -21,6 +21,8 @@ export default function Information() {
   const dispatch = useAppDispatch();
   const [moveToNextPhase, { isLoading: isNextPhaseLoading }] = useMoveToNextPhaseMutation();
   const tournamentData = useAppSelector(selectTournament);
+
+  const { isCreator } = useAppSelector(checkTournamentRole);
 
   const handlePublishTournament = async () => {
     try {
@@ -89,7 +91,7 @@ export default function Information() {
           gap: 2,
         }}
       >
-        {tournamentData.isCreator && tournamentData.phase === TournamentPhase.NEW && (
+        {isCreator && tournamentData.phase === TournamentPhase.NEW && (
           <Button
             variant="contained"
             size="medium"
