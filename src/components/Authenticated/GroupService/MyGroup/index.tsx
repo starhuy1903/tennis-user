@@ -1,6 +1,5 @@
 import AddIcon from '@mui/icons-material/Add';
 import Box from '@mui/material/Box';
-import CircularProgress from '@mui/material/CircularProgress';
 import Fab from '@mui/material/Fab';
 import Paper from '@mui/material/Paper';
 import Tooltip from '@mui/material/Tooltip';
@@ -8,14 +7,18 @@ import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Unstable_Grid2';
 import { useNavigate } from 'react-router-dom';
 
+import CenterLoading from 'components/Common/CenterLoading';
 import { useGetMyGroupsQuery } from 'store/api/group/groupApiSlice';
 
-import GroupCard from '../components/GroupCard';
+import GroupCard from '../Common/GroupCard';
 
-// !! Need paging
+// TODO: Need paging
 export default function MyGroup() {
   const navigate = useNavigate();
-  const { data: groupsData, isLoading } = useGetMyGroupsQuery({ page: 1, take: 10 });
+  const { data: groupsData, isLoading } = useGetMyGroupsQuery(
+    { page: 1, take: 10 },
+    { refetchOnMountOrArgChange: true }
+  );
 
   return (
     <Paper sx={{ padding: '15px' }}>
@@ -41,13 +44,13 @@ export default function MyGroup() {
       </Box>
       <Box>
         {isLoading ? (
-          <CircularProgress />
+          <CenterLoading height="30vh" />
         ) : groupsData?.data && groupsData.data.length > 0 ? (
           <Grid
             container
             spacing={3}
           >
-            {groupsData?.data.map((e) => (
+            {groupsData.data.map((e) => (
               <Grid
                 xs={12}
                 sm={6}

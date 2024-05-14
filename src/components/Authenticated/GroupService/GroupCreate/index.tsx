@@ -24,7 +24,7 @@ import { setLoading } from 'store/slice/statusSlice';
 import { getValidGroupPackages } from 'utils/package';
 import { showSuccess } from 'utils/toast';
 
-import PackageSelector from '../components/PackageSelector';
+import PackageSelector from '../Common/PackageSelector';
 
 interface FormType {
   name: string;

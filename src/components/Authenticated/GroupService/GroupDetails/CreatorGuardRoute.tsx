@@ -2,17 +2,19 @@ import { useEffect } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { useAppSelector } from 'store';
 
+import { selectGroup } from 'store/slice/groupSlice';
+
 export default function CreatorGuardRoute() {
-  const groupData = useAppSelector((state) => state.group.data);
+  const groupData = useAppSelector(selectGroup);
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!groupData?.isCreator) {
-      navigate(`/groups/${groupData?.id}`);
+    if (!groupData.isCreator) {
+      navigate(`/groups/${groupData.id}`);
     }
-  }, [groupData?.id, groupData?.isCreator, navigate]);
+  }, [groupData.id, groupData.isCreator, navigate]);
 
-  if (groupData?.isCreator) {
+  if (groupData.isCreator) {
     return <Outlet />;
   }
 

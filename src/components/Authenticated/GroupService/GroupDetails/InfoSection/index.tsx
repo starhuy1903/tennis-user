@@ -8,7 +8,6 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { useNavigate } from 'react-router-dom';
 
-import CenterLoading from 'components/Common/CenterLoading';
 import { IconTitle } from 'components/Common/IconTitle';
 import { LanguageOptions } from 'constants/app';
 import { defaultGroupImage } from 'constants/group';
@@ -17,7 +16,7 @@ import { Group } from 'types/group';
 import { showSuccess } from 'utils/toast';
 
 interface InfoSectionProps {
-  data?: Group;
+  data: Group;
 }
 
 const InfoSection = ({ data }: InfoSectionProps) => {
@@ -26,19 +25,15 @@ const InfoSection = ({ data }: InfoSectionProps) => {
   const [leaveGroup, { isLoading: leaveLoading }] = useLeaveGroupMutation();
 
   const handleLeaveGroup = async () => {
-    if (data) {
-      try {
-        await leaveGroup(data?.id).unwrap();
+    try {
+      await leaveGroup(data.id).unwrap();
 
-        showSuccess('Left group successfully.');
-        navigate('/groups');
-      } catch (error) {
-        // handled error
-      }
+      showSuccess('Left group successfully.');
+      navigate('/groups');
+    } catch (error) {
+      // handled error
     }
   };
-
-  if (!data) return <CenterLoading />;
 
   return (
     <>

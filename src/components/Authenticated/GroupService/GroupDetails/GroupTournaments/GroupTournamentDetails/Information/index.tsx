@@ -1,6 +1,7 @@
 import { Box, Divider, Grid, Typography } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { useAppSelector } from 'store';
 
 import CenterLoading from 'components/Common/CenterLoading';
 import Steps from 'components/Common/Steps';
@@ -13,40 +14,34 @@ import {
   TournamentPhaseOptions,
 } from 'constants/tournament';
 import { useLazyGetGroupTournamentDetailsQuery } from 'store/api/group/groupTournamentApiSlice';
-import { GroupTournament } from 'types/tournament';
+import { selectGroup } from 'store/slice/groupSlice';
 import { displayDateTime } from 'utils/datetime';
-import { showError } from 'utils/toast';
 
 import InfoSection from './InfoSection';
 
 export default function Information() {
   const navigate = useNavigate();
-  const [getTournamentDetails, { isLoading }] = useLazyGetGroupTournamentDetailsQuery();
+  const groupData = useAppSelector(selectGroup);
+  const [getTournamentDetails, { isLoading, data: tournament }] = useLazyGetGroupTournamentDetailsQuery();
   // const [moveToNextPhase, { isLoading: isNextPhaseLoading }] = useMoveToNextPhaseMutation();
-
-  const [tournament, setTournament] = useState<GroupTournament | null>(null);
-
-  const { groupId, tournamentId } = useParams();
+  const { tournamentId } = useParams();
 
   useEffect(() => {
     (async () => {
-      if (tournamentId && groupId) {
+      if (tournamentId) {
         try {
-          const res = await getTournamentDetails({
-            groupId: parseInt(groupId),
+          await getTournamentDetails({
+            groupId: groupData.id,
             tournamentId: parseInt(tournamentId),
           }).unwrap();
-          setTournament(res);
         } catch (error) {
-          showError('Group tournament not found.');
-          navigate(`/groups/${groupId}`);
+          navigate(`/groups/${groupData.id}`);
         }
       } else {
-        showError('Group tournament not found.');
-        navigate(`/groups/${groupId}`);
+        navigate(`/groups/${groupData.id}`);
       }
     })();
-  }, [getTournamentDetails, groupId, navigate, tournamentId]);
+  }, [getTournamentDetails, groupData.id, navigate, tournamentId]);
 
   // const handleNextPhaseClick = async () => {
   //   try {

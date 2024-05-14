@@ -1,3 +1,4 @@
+import { setGroupDetails } from 'store/slice/groupSlice';
 import { GetListResult, GetPagingListOptions } from 'types/base';
 import { CreateGroupDto, Group, GroupUpdateDto, InvitationPayload } from 'types/group';
 import { MemberDto } from 'types/user';
@@ -54,6 +55,10 @@ const groupApiToastSlice = apiWithToastSlice.injectEndpoints({
     }),
     getGroupDetails: build.query<Group, number>({
       query: (id) => urlWithCorePrefix(`groups/${id}`),
+      onQueryStarted: async (_, { dispatch, queryFulfilled }) => {
+        const { data } = await queryFulfilled;
+        dispatch(setGroupDetails(data));
+      },
     }),
     createGroup: build.mutation<Group, CreateGroupDto>({
       query: (body) => ({

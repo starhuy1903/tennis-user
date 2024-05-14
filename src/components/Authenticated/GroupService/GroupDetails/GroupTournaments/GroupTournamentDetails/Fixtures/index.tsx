@@ -1,6 +1,7 @@
 import { Box } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import { useAppSelector } from 'store';
 
 import CenterLoading from 'components/Common/CenterLoading';
 import KnockoutFixtures from 'components/Common/Fixtures/KnockoutFixture';
@@ -8,27 +9,26 @@ import { RoundRobinFixture } from 'components/Common/Fixtures/RoundRobinFixture'
 import NoData from 'components/Common/NoData';
 import { TournamentFormat } from 'constants/tournament';
 import { useLazyGetGroupTournamentFixtureQuery } from 'store/api/group/groupTournamentFixtureApiSlice';
-import { GroupTournamentFixture } from 'types/group-tournament-fixtures';
+import { selectGroup } from 'store/slice/groupSlice';
 
 export default function Fixtures() {
-  const [fixture, setFixture] = useState<GroupTournamentFixture | null>(null);
-  const { groupId, tournamentId } = useParams();
+  const groupData = useAppSelector(selectGroup);
+  const { tournamentId } = useParams();
 
-  const [getGroupFixture, { isLoading }] = useLazyGetGroupTournamentFixtureQuery();
+  const [getGroupFixture, { isLoading, data: fixture }] = useLazyGetGroupTournamentFixtureQuery();
 
   useEffect(() => {
     (async () => {
       try {
-        const res = await getGroupFixture({
-          groupId: parseInt(groupId!),
+        await getGroupFixture({
+          groupId: groupData.id,
           tournamentId: parseInt(tournamentId!),
         }).unwrap();
-        setFixture(res);
       } catch (error) {
-        console.error(error);
+        // handled error
       }
     })();
-  }, [getGroupFixture, groupId, tournamentId]);
+  }, [getGroupFixture, groupData.id, tournamentId]);
 
   if (isLoading) return <CenterLoading />;
 

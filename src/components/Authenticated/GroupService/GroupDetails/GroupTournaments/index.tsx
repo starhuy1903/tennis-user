@@ -8,8 +8,8 @@ import { useAppSelector } from 'store';
 import CenterLoading from 'components/Common/CenterLoading';
 import { TournamentStatus } from 'constants/tournament';
 import { useLazyGetGroupTournamentsQuery } from 'store/api/group/groupTournamentApiSlice';
+import { selectGroup } from 'store/slice/groupSlice';
 import { GroupTournament } from 'types/tournament';
-import { showError } from 'utils/toast';
 
 import GroupTournamentList from './GroupTournamentList';
 
@@ -27,28 +27,23 @@ export default function GroupTournaments() {
   });
 
   const [getTournaments, { isLoading }] = useLazyGetGroupTournamentsQuery();
-  const groupData = useAppSelector((state) => state.group.data);
+  const groupData = useAppSelector(selectGroup);
 
   useEffect(() => {
     (async () => {
       try {
-        if (groupData?.id) {
-          const responses = await Promise.all([
-            getTournaments({ tournamentStatus: TournamentStatus.UPCOMING, groupId: groupData.id }).unwrap(),
-            getTournaments({ tournamentStatus: TournamentStatus.ON_GOING, groupId: groupData.id }).unwrap(),
-            getTournaments({ tournamentStatus: TournamentStatus.COMPLETED, groupId: groupData.id }).unwrap(),
-          ]);
-          setTournaments({
-            upcoming: responses[0],
-            onGoing: responses[1],
-            completed: responses[2],
-          });
-        } else {
-          showError('Group not found.');
-          navigate('/groups');
-        }
+        const responses = await Promise.all([
+          getTournaments({ tournamentStatus: TournamentStatus.UPCOMING, groupId: groupData.id }).unwrap(),
+          getTournaments({ tournamentStatus: TournamentStatus.ON_GOING, groupId: groupData.id }).unwrap(),
+          getTournaments({ tournamentStatus: TournamentStatus.COMPLETED, groupId: groupData.id }).unwrap(),
+        ]);
+        setTournaments({
+          upcoming: responses[0],
+          onGoing: responses[1],
+          completed: responses[2],
+        });
       } catch (error) {
-        console.log(error);
+        // handled error
       }
     })();
   }, [getTournaments, groupData?.id, navigate]);

@@ -3,13 +3,13 @@ import TabList from '@mui/lab/TabList';
 import { Box, Paper, Stack, Tab, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { Outlet, useNavigate, useParams } from 'react-router-dom';
+import { useAppSelector } from 'store';
 
 import CenterLoading from 'components/Common/CenterLoading';
 // import { TournamentStatus } from 'constants/tournament';
 import { useLazyGetGroupTournamentDetailsQuery } from 'store/api/group/groupTournamentApiSlice';
-import { GroupTournament } from 'types/tournament';
+import { selectGroup } from 'store/slice/groupSlice';
 import { displayDateRange } from 'utils/datetime';
-import { showError } from 'utils/toast';
 
 // const TournamentStatusChip = {
 //   [TournamentStatus.UPCOMING]: {
@@ -43,42 +43,39 @@ const GroupTournamentTabs = [
 
 export default function GroupTournamentDetailsLayout() {
   const navigate = useNavigate();
-  const [getTournamentDetails, { isLoading }] = useLazyGetGroupTournamentDetailsQuery();
-  const [tournamentData, setTournamentData] = useState<GroupTournament | null>(null);
+  const groupData = useAppSelector(selectGroup);
+
+  const [getTournamentDetails, { isLoading, data: tournamentData }] = useLazyGetGroupTournamentDetailsQuery();
 
   const [currentTab, setCurrentTab] = useState(GroupTournamentTabs[0].value);
 
-  const { groupId, tournamentId } = useParams();
+  const { tournamentId } = useParams();
 
   const handleChangeTab = (_: React.SyntheticEvent, newValue: string) => {
     setCurrentTab(newValue);
-    navigate(`/groups/${groupId}/tournaments/${tournamentId}/${newValue}`);
+    navigate(`/groups/${groupData.id}/tournaments/${tournamentId}/${newValue}`);
   };
 
   useEffect(() => {
     (async () => {
-      if (tournamentId && groupId) {
+      if (tournamentId) {
         try {
-          const res = await getTournamentDetails({
-            groupId: parseInt(groupId),
+          await getTournamentDetails({
+            groupId: groupData.id,
             tournamentId: parseInt(tournamentId),
           }).unwrap();
-
-          setTournamentData(res);
         } catch (error) {
-          showError('Group tournament not found.');
-          navigate(`/groups/${groupId}`);
+          navigate(`/groups/${groupData.id}`);
         }
       } else {
-        showError('Group tournament not found.');
-        navigate(`/groups/${groupId}`);
+        navigate(`/groups/${groupData.id}`);
       }
     })();
-  }, [getTournamentDetails, groupId, navigate, tournamentId]);
+  }, [getTournamentDetails, groupData.id, navigate, tournamentId]);
 
   useEffect(() => {
-    navigate(`groups/${groupId}/tournaments/${tournamentId}/participants`);
-  }, [groupId, navigate, tournamentId]);
+    navigate(`groups/${groupData.id}/tournaments/${tournamentId}/participants`);
+  }, [groupData.id, navigate, tournamentId]);
 
   if (isLoading || !tournamentData) {
     return <CenterLoading />;
