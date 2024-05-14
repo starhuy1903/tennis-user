@@ -1,26 +1,11 @@
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
-import { Box, Button, Stack, Typography } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import { Box, Stack, Typography } from '@mui/material';
 
-import CenterLoading from 'components/Common/CenterLoading';
-import NoData from 'components/Common/NoData';
-import { useGetCreatedTournamentsQuery } from 'store/api/tournament/tournamentApiSlice';
+import { OpenTournament } from 'types/tournament';
 
 import TournamentList from './TournamentList';
 
-export default function ManageTournaments() {
-  const navigate = useNavigate();
-
-  const { data: tournaments, isLoading } = useGetCreatedTournamentsQuery();
-
-  const handleCreateTournament = () => {
-    navigate('/tournaments/create');
-  };
-
-  if (isLoading) {
-    return <CenterLoading height="10vh" />;
-  }
-
+export default function ManageTournaments({ tournaments }: { tournaments: OpenTournament[] }) {
   return (
     <Stack gap={4}>
       <Box>
@@ -45,20 +30,9 @@ export default function ManageTournaments() {
               My Created Tournaments
             </Typography>
           </Stack>
-          <Button
-            variant="contained"
-            size="small"
-            onClick={handleCreateTournament}
-          >
-            Create tournament
-          </Button>
         </Stack>
 
-        {tournaments && tournaments.length !== 0 ? (
-          <TournamentList tournaments={tournaments} />
-        ) : (
-          <NoData message="You have not created any tournaments." />
-        )}
+        <TournamentList tournaments={tournaments} />
       </Box>
     </Stack>
   );

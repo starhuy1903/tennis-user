@@ -2,8 +2,9 @@ import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import LocalFireDepartmentIcon from '@mui/icons-material/LocalFireDepartment';
 import NewReleasesIcon from '@mui/icons-material/NewReleases';
 import WorkspacePremiumIcon from '@mui/icons-material/WorkspacePremium';
-import { Box, Stack, Typography } from '@mui/material';
+import { Box, Button, Stack, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import CenterLoading from 'components/Common/CenterLoading';
 import NoData from 'components/Common/NoData';
@@ -17,6 +18,8 @@ import { OpenTournament } from 'types/tournament';
 import TournamentList from './TournamentList';
 
 export default function AllTournaments() {
+  const navigate = useNavigate();
+
   const [tournaments, setTournaments] = useState<{
     upcoming: OpenTournament[];
     onGoing: OpenTournament[];
@@ -54,6 +57,10 @@ export default function AllTournaments() {
     })();
   }, [getTournaments, getUnregisteredTournaments]);
 
+  const handleCreateTournament = () => {
+    navigate('/tournaments/create');
+  };
+
   if (fetchingUnregisteredTournaments || fetchingTournament) {
     return <CenterLoading height="10vh" />;
   }
@@ -63,16 +70,29 @@ export default function AllTournaments() {
       <Box>
         <Stack
           direction="row"
-          alignItems="center"
-          gap={1}
+          justifyContent="space-between"
         >
-          <NewReleasesIcon color="primary" />
-          <Typography
-            variant="h5"
-            fontWeight={500}
+          <Stack
+            direction="row"
+            alignItems="center"
+            gap={1}
           >
-            New Tournaments
-          </Typography>
+            <NewReleasesIcon color="primary" />
+            <Typography
+              variant="h5"
+              fontWeight={500}
+            >
+              New Tournaments
+            </Typography>
+          </Stack>
+
+          <Button
+            variant="contained"
+            size="small"
+            onClick={handleCreateTournament}
+          >
+            Create tournament
+          </Button>
         </Stack>
         {tournaments.unregistered.length !== 0 ? (
           <TournamentList
