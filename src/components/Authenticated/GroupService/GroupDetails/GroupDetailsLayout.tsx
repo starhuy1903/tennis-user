@@ -78,7 +78,12 @@ export default function GroupDetailsLayout() {
   }
 
   return (
-    <Container maxWidth="lg">
+    <Container
+      maxWidth="lg"
+      sx={{
+        minHeight: '120vh',
+      }}
+    >
       <Paper sx={{ borderBottomLeftRadius: 16, borderBottomRightRadius: 16, border: '1px white solid', mb: 4 }}>
         <InfoSection data={groupData} />
 
