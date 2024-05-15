@@ -91,7 +91,12 @@ export default function TournamentDetailsLayout() {
   }
 
   return (
-    <Container maxWidth="lg">
+    <Container
+      maxWidth="lg"
+      sx={{
+        minHeight: '120vh',
+      }}
+    >
       <Paper sx={{ borderBottomLeftRadius: 16, borderBottomRightRadius: 16, border: '1px white solid' }}>
         <img
           style={{ width: '100%', height: 300, objectFit: 'cover' }}

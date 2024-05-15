@@ -1,5 +1,5 @@
 import { TournamentStatus } from 'constants/tournament';
-import { OpenTournament, OpenTournamentPayload } from 'types/tournament';
+import { OpenTournament, OpenTournamentPayload, UpdateTournamentPayload } from 'types/tournament';
 
 import { apiWithToastSlice } from '../baseApiSlice';
 import { urlWithCorePrefix } from '../helper';
@@ -49,6 +49,13 @@ const tournamentApiToastSlice = apiWithToastSlice.injectEndpoints({
         method: 'PATCH',
       }),
     }),
+    updateTournament: build.mutation<OpenTournament, { tournamentId: number; payload: UpdateTournamentPayload }>({
+      query: ({ tournamentId, payload }) => ({
+        url: urlWithCorePrefix(`tournaments/${tournamentId}`),
+        method: 'PATCH',
+        body: payload,
+      }),
+    }),
   }),
 });
 
@@ -65,4 +72,5 @@ export const {
   useGetOpenTournamentDetailsQuery,
   useLazyGetOpenTournamentDetailsQuery,
   usePublishTournamentMutation,
+  useUpdateTournamentMutation,
 } = tournamentApiToastSlice;
