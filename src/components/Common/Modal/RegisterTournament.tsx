@@ -15,8 +15,14 @@ type FormType = {
   user2Email?: string;
 };
 
-export default function RegisterTournament({ tournamentId, participantType, onModalClose }: RegisterTournamentProps) {
+export default function RegisterTournament({
+  tournamentId,
+  participantType,
+  fetchMyApplication,
+  onModalClose,
+}: RegisterTournamentProps) {
   const name = useAppSelector((state) => state.user.userInfo?.name);
+  const isSingleType = participantType === ParticipantType.SINGLE;
 
   const [createTournamentRegistration, { isLoading }] = useApplyTournamentMutation();
 
@@ -35,10 +41,11 @@ export default function RegisterTournament({ tournamentId, participantType, onMo
       await createTournamentRegistration({
         tournamentId,
         message: data.message,
-        user2Email: participantType !== ParticipantType.SINGLE ? data.user2Email : undefined,
+        user2Email: !isSingleType ? data.user2Email : undefined,
       }).unwrap();
 
-      showSuccess('Sent tournament registration request successfully!');
+      showSuccess('Sent tournament registration request successfully.');
+      fetchMyApplication();
       onModalClose();
     } catch (err) {
       console.error(err);
@@ -46,7 +53,7 @@ export default function RegisterTournament({ tournamentId, participantType, onMo
   };
 
   const renderBody = () => {
-    if (participantType === ParticipantType.SINGLE) {
+    if (isSingleType) {
       return (
         <Box
           component="form"
@@ -168,7 +175,7 @@ export default function RegisterTournament({ tournamentId, participantType, onMo
       headerText="Register Tournament"
       onModalClose={onModalClose}
       body={renderBody()}
-      primaryButtonText="Continue"
+      primaryButtonText="Apply"
       onClickPrimaryButton={handleSubmit(onSubmit)}
       disabledPrimaryButton={isLoading}
     />

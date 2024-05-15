@@ -5,13 +5,13 @@ import { useAppSelector } from 'store';
 import CenterLoading from 'components/Common/CenterLoading';
 import MatchDetails from 'components/Common/Match/MatchDetails';
 import { useLazyGetMatchDetailsQuery } from 'store/api/tournament/tournamentFixtureApiSlice';
-import { selectTournament } from 'store/slice/tournamentSlice';
+import { selectTournamentData } from 'store/slice/tournamentSlice';
 import { Match } from 'types/tournament-fixtures';
 import { showError } from 'utils/toast';
 
 export default function OpenMatchDetails() {
   const navigate = useNavigate();
-  const tournamentData = useAppSelector(selectTournament);
+  const tournamentData = useAppSelector(selectTournamentData);
 
   const { matchId } = useParams();
   const [match, setMatch] = useState<Match | null>(null);

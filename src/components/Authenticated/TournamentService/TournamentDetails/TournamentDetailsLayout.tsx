@@ -10,7 +10,7 @@ import CenterLoading from 'components/Common/CenterLoading';
 import Steps from 'components/Common/Steps';
 import { TournamentPhaseOptions, defaultTournamentImage } from 'constants/tournament';
 import { useLazyGetOpenTournamentDetailsQuery } from 'store/api/tournament/tournamentApiSlice';
-import { selectTournament, setTournamentDetails } from 'store/slice/tournamentSlice';
+import { selectTournament, setTournamentDetails, shouldRefreshTournamentData } from 'store/slice/tournamentSlice';
 import { displayDateRange } from 'utils/datetime';
 
 // const TournamentStatusChip = {
@@ -51,7 +51,7 @@ export default function TournamentDetailsLayout() {
   const location = useLocation();
   const pathParts = location.pathname.split('/');
   const [getTournamentDetails, { isLoading }] = useLazyGetOpenTournamentDetailsQuery();
-  const tournamentData = useAppSelector(selectTournament);
+  const { data: tournamentData, shouldRefreshData } = useAppSelector(selectTournament);
 
   const [currentTab, setCurrentTab] = useState(pathParts[3]);
 
@@ -65,17 +65,26 @@ export default function TournamentDetailsLayout() {
   useEffect(() => {
     (async () => {
       if (tournamentId) {
-        try {
-          const res = await getTournamentDetails(parseInt(tournamentId)).unwrap();
-          dispatch(setTournamentDetails(res));
-        } catch (error) {
-          navigate('/tournaments');
+        if (shouldRefreshData) {
+          try {
+            const res = await getTournamentDetails(parseInt(tournamentId)).unwrap();
+            dispatch(setTournamentDetails(res));
+            dispatch(shouldRefreshTournamentData(false));
+          } catch (error) {
+            navigate('/tournaments');
+          }
         }
       } else {
         navigate('/tournaments');
       }
     })();
-  }, [getTournamentDetails, navigate, tournamentId, dispatch]);
+  }, [getTournamentDetails, navigate, tournamentId, dispatch, shouldRefreshData]);
+
+  useEffect(() => {
+    return () => {
+      dispatch(shouldRefreshTournamentData(true));
+    };
+  }, [dispatch]);
 
   if (isLoading || tournamentData.id === 0) {
     return <CenterLoading />;

@@ -12,7 +12,7 @@ import { TournamentFormat } from 'constants/tournament';
 import { FixtureStatus } from 'constants/tournament-fixtures';
 import { useLazyGetTournamentFixtureQuery } from 'store/api/tournament/tournamentFixtureApiSlice';
 import { showModal } from 'store/slice/modalSlice';
-import { checkTournamentRole, selectTournament } from 'store/slice/tournamentSlice';
+import { checkTournamentRole, selectTournamentData } from 'store/slice/tournamentSlice';
 import { TournamentFixture } from 'types/tournament-fixtures';
 import { checkGeneratedFixture } from 'utils/tournament';
 
@@ -25,7 +25,7 @@ export default function Fixtures() {
 
   const [getFixture, { isLoading }] = useLazyGetTournamentFixtureQuery();
 
-  const tournamentData = useAppSelector(selectTournament);
+  const tournamentData = useAppSelector(selectTournamentData);
 
   const { isCreator } = useAppSelector(checkTournamentRole);
 

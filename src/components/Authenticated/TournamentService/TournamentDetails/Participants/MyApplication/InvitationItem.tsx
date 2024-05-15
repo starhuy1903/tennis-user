@@ -22,13 +22,13 @@ import {
   useApproveInvitationMutation,
   useRejectInvitationMutation,
 } from 'store/api/tournament/tournamentParticipantsApiSlice';
-import { selectTournament } from 'store/slice/tournamentSlice';
+import { selectTournamentData } from 'store/slice/tournamentSlice';
 import { OpenTournamentApplicant } from 'types/open-tournament-participants';
 import { showSuccess } from 'utils/toast';
 
 export default function InvitationItem({ data }: { data: OpenTournamentApplicant }) {
   const navigate = useNavigate();
-  const tournamentData = useAppSelector(selectTournament);
+  const tournamentData = useAppSelector(selectTournamentData);
 
   const [expand, setExpand] = useState(false);
 

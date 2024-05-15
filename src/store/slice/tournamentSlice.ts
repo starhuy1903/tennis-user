@@ -23,48 +23,55 @@ const initialPurchasedPackage: UserPackage = {
 };
 
 const initialState: TournamentSliceType = {
-  name: '',
-  description: '',
-  startDate: '',
-  endDate: '',
-  address: '',
-  contactPersonName: '',
-  contactNumber: '',
-  contactEmail: '',
-  registrationDueDate: '',
-  maxParticipants: 0,
-  gender: Gender.ANY,
-  participantType: ParticipantType.SINGLE,
-  playersBornAfterDate: '',
-  format: TournamentFormat.ROUND_ROBIN,
-  id: 0,
-  participants: 0,
-  image: '',
-  status: TournamentStatus.UPCOMING,
-  phase: TournamentPhase.NEW,
-  purchasedPackage: initialPurchasedPackage,
-  tournamentRoles: [],
+  data: {
+    name: '',
+    description: '',
+    startDate: '',
+    endDate: '',
+    address: '',
+    contactPersonName: '',
+    contactNumber: '',
+    contactEmail: '',
+    registrationDueDate: '',
+    maxParticipants: 0,
+    gender: Gender.ANY,
+    participantType: ParticipantType.SINGLE,
+    playersBornAfterDate: '',
+    format: TournamentFormat.ROUND_ROBIN,
+    id: 0,
+    participants: 0,
+    image: '',
+    status: TournamentStatus.UPCOMING,
+    phase: TournamentPhase.NEW,
+    purchasedPackage: initialPurchasedPackage,
+    tournamentRoles: [],
+  },
+  shouldRefreshData: true, // to call the API on the first render
 };
 
 export const tournamentSlice = createSlice({
   name: 'tournament',
   initialState,
   reducers: {
-    setTournamentDetails: (_, action: PayloadAction<OpenTournament>) => ({
-      ...action.payload,
-    }),
-    resetTournamentDetails: (_) => ({
-      ...initialState,
-    }),
+    setTournamentDetails: (state, action: PayloadAction<OpenTournament>) => {
+      state.data = action.payload;
+    },
+    resetTournamentDetails: (state) => {
+      state.data = initialState.data;
+    },
+    shouldRefreshTournamentData: (state, action: PayloadAction<boolean>) => {
+      state.shouldRefreshData = action.payload;
+    },
   },
 });
 
-export const selectTournament = (state: { tournament: TournamentSliceType }) => state.tournament;
+export const selectTournament = (state: RootState) => state.tournament;
+export const selectTournamentData = (state: RootState) => state.tournament.data;
 
-export const { setTournamentDetails, resetTournamentDetails } = tournamentSlice.actions;
+export const { setTournamentDetails, resetTournamentDetails, shouldRefreshTournamentData } = tournamentSlice.actions;
 
 export const checkTournamentRole = createSelector(
-  (state: RootState) => state.tournament.tournamentRoles || [TournamentRole.PARTICIPANT],
+  (state: RootState) => selectTournamentData(state).tournamentRoles || [TournamentRole.PARTICIPANT],
   (roles) => {
     return {
       isParticipant: roles.includes(TournamentRole.PARTICIPANT),
