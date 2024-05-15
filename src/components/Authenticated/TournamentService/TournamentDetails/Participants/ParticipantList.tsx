@@ -16,7 +16,7 @@ import CenterLoading from 'components/Common/CenterLoading';
 import { FormatDateTime } from 'constants/datetime';
 import { GenderOptions } from 'constants/tournament';
 import { useGetOpenTournamentParticipantsQuery } from 'store/api/tournament/tournamentParticipantsApiSlice';
-import { selectTournament } from 'store/slice/tournamentSlice';
+import { selectTournamentData } from 'store/slice/tournamentSlice';
 import { UserProfile } from 'types/user';
 import { displayDateTime } from 'utils/datetime';
 
@@ -52,7 +52,7 @@ const Cell = ({ children }: { children: React.ReactNode }) => {
 };
 
 export default function ParticipantList() {
-  const tournamentData = useAppSelector(selectTournament);
+  const tournamentData = useAppSelector(selectTournamentData);
 
   const { data, isLoading } = useGetOpenTournamentParticipantsQuery({
     page: 1,

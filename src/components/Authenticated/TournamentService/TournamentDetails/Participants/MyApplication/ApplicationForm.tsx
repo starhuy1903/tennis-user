@@ -10,14 +10,13 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
 import { useAppSelector } from 'store';
 
 import { FormatDateTime } from 'constants/datetime';
 import { GenderOptions } from 'constants/tournament';
 import { RegistrationStatus } from 'constants/tournament-participants';
 import { useDeleteApplicationMutation } from 'store/api/tournament/tournamentParticipantsApiSlice';
-import { selectTournament } from 'store/slice/tournamentSlice';
+import { selectTournamentData } from 'store/slice/tournamentSlice';
 import { OpenTournamentApplicant } from 'types/open-tournament-participants';
 import { UserProfile } from 'types/user';
 import { displayDateTime } from 'utils/datetime';
@@ -100,9 +99,13 @@ const ApplicantInfo = ({ title, user }: { title: string; user: UserProfile }) =>
   );
 };
 
-export default function ApplicationForm({ data }: { data: OpenTournamentApplicant }) {
-  const navigate = useNavigate();
-  const tournamentData = useAppSelector(selectTournament);
+interface ApplicationFormProps {
+  data: OpenTournamentApplicant;
+  fetchMyApplication: () => void;
+}
+
+export default function ApplicationForm({ data, fetchMyApplication }: ApplicationFormProps) {
+  const tournamentData = useAppSelector(selectTournamentData);
 
   const [cancelApplication, { isLoading }] = useDeleteApplicationMutation();
 
@@ -110,7 +113,7 @@ export default function ApplicationForm({ data }: { data: OpenTournamentApplican
     try {
       await cancelApplication({ tournamentId: tournamentData.id }).unwrap();
       showSuccess('Canceled application successfully.');
-      navigate(`/tournaments/${tournamentData.id}/participants`);
+      fetchMyApplication();
     } catch (error) {
       // handled error
     }

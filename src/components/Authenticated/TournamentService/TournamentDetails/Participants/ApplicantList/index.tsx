@@ -5,13 +5,13 @@ import { useAppSelector } from 'store';
 import CenterLoading from 'components/Common/CenterLoading';
 import { RegistrationStatus } from 'constants/tournament-participants';
 import { useLazyGetOpenTournamentApplicantsQuery } from 'store/api/tournament/tournamentParticipantsApiSlice';
-import { selectTournament } from 'store/slice/tournamentSlice';
+import { selectTournamentData } from 'store/slice/tournamentSlice';
 import { OpenTournamentApplicant } from 'types/open-tournament-participants';
 
 import ApplicantItem from './ApplicantItem';
 
 export default function ApplicantList() {
-  const tournamentData = useAppSelector(selectTournament);
+  const tournamentData = useAppSelector(selectTournamentData);
 
   const [fetchingTournament, setFetchingTournament] = useState(false);
   const [getApplicants] = useLazyGetOpenTournamentApplicantsQuery();
