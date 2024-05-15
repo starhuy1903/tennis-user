@@ -43,9 +43,9 @@ const tournamentApiToastSlice = apiWithToastSlice.injectEndpoints({
       query: (id) => `core/tournaments/${id}/general-info`,
       transformResponse: (response: { data: OpenTournament }) => response.data,
     }),
-    moveToNextPhase: build.mutation<OpenTournament, number>({
-      query: (id) => ({
-        url: urlWithCorePrefix(`tournaments/${id}/next-phase`),
+    publishTournament: build.mutation<void, number>({
+      query: (tournamentId) => ({
+        url: urlWithCorePrefix(`tournaments/${tournamentId}/publish`),
         method: 'PATCH',
       }),
     }),
@@ -64,5 +64,5 @@ export const {
   useCreateOpenTournamentMutation,
   useGetOpenTournamentDetailsQuery,
   useLazyGetOpenTournamentDetailsQuery,
-  useMoveToNextPhaseMutation,
+  usePublishTournamentMutation,
 } = tournamentApiToastSlice;

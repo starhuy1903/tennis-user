@@ -7,8 +7,8 @@ import CenterLoading from 'components/Common/CenterLoading';
 import { ModalKey } from 'constants/modal';
 import { RegistrationStatus } from 'constants/tournament-participants';
 import {
+  useGetMyApplicationQuery,
   useLazyGetInvitationsQuery,
-  useLazyGetMyApplicationQuery,
 } from 'store/api/tournament/tournamentParticipantsApiSlice';
 import { showModal } from 'store/slice/modalSlice';
 import { OpenTournamentApplicant } from 'types/open-tournament-participants';
@@ -29,16 +29,18 @@ export default function MyApplication({ tournament }: { tournament: OpenTourname
     inviting: [],
     canceled: [],
   });
-  const [myApplication, setMyApplication] = useState<OpenTournamentApplicant | null>(null);
 
-  const [getApplication, { isLoading: fetchingApplycation }] = useLazyGetMyApplicationQuery();
+  const {
+    data: myApplication,
+    isLoading: fetchingApplycation,
+    refetch: fetchMyApplication,
+  } = useGetMyApplicationQuery(tournament.id);
   const [getInvitations, { isLoading: fetchingInvitations }] = useLazyGetInvitationsQuery();
 
   useEffect(() => {
     (async () => {
       try {
         const responses = await Promise.all([
-          getApplication(tournament.id, true).unwrap(), // Cache to avoid multiple requests
           getInvitations(
             {
               tournamentId: tournament.id,
@@ -55,16 +57,15 @@ export default function MyApplication({ tournament }: { tournament: OpenTourname
           ).unwrap(),
         ]);
 
-        setMyApplication(responses[0]);
         setInvitations({
-          inviting: responses[1],
-          canceled: responses[2],
+          inviting: responses[0],
+          canceled: responses[1],
         });
       } catch (error) {
         console.log(error);
       }
     })();
-  }, [getApplication, getInvitations, tournament.id]);
+  }, [getInvitations, tournament.id]);
 
   const handleRegister = async () => {
     const showRegisterModal = () => {
@@ -72,6 +73,7 @@ export default function MyApplication({ tournament }: { tournament: OpenTourname
         showModal(ModalKey.REGISTER_TOURNAMENT, {
           tournamentId: tournament.id,
           participantType: tournament.participantType,
+          fetchMyApplication,
         })
       );
     };
@@ -103,7 +105,10 @@ export default function MyApplication({ tournament }: { tournament: OpenTourname
   return (
     <Box my={5}>
       {myApplication && myApplication.status !== RegistrationStatus.CANCELED ? (
-        <ApplicationForm data={myApplication} />
+        <ApplicationForm
+          data={myApplication}
+          fetchMyApplication={fetchMyApplication}
+        />
       ) : (
         <Box>
           <Box

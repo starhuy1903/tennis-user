@@ -23,7 +23,7 @@ import {
   useApproveTournamentApplicantMutation,
   useRejectTournamentApplicantMutation,
 } from 'store/api/tournament/tournamentParticipantsApiSlice';
-import { selectTournament } from 'store/slice/tournamentSlice';
+import { selectTournamentData } from 'store/slice/tournamentSlice';
 import { OpenTournamentApplicant } from 'types/open-tournament-participants';
 import { UserProfile } from 'types/user';
 import { displayDateTime } from 'utils/datetime';
@@ -60,7 +60,7 @@ const InfoItem = ({ label, value }: { label: string; value: string }) => {
 
 export default function ApplicantItem({ data }: { data: OpenTournamentApplicant }) {
   const navigate = useNavigate();
-  const tournamentData = useAppSelector(selectTournament);
+  const tournamentData = useAppSelector(selectTournamentData);
   const [expand, setExpand] = useState(false);
 
   const [approveRequest, { isLoading: isApproving }] = useApproveTournamentApplicantMutation();

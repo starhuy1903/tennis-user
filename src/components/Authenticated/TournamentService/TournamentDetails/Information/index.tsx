@@ -3,8 +3,8 @@ import { useAppDispatch, useAppSelector } from 'store';
 
 import { FormatDateTime } from 'constants/datetime';
 import { GenderOptions, ParticipantTypeOptions, TournamentFormatOptions, TournamentPhase } from 'constants/tournament';
-import { useMoveToNextPhaseMutation } from 'store/api/tournament/tournamentApiSlice';
-import { checkTournamentRole, selectTournament, setTournamentDetails } from 'store/slice/tournamentSlice';
+import { usePublishTournamentMutation } from 'store/api/tournament/tournamentApiSlice';
+import { checkTournamentRole, selectTournamentData, shouldRefreshTournamentData } from 'store/slice/tournamentSlice';
 import { displayDateTime } from 'utils/datetime';
 import { showSuccess } from 'utils/toast';
 
@@ -19,15 +19,15 @@ const displayDate = (date: string) => {
 
 export default function Information() {
   const dispatch = useAppDispatch();
-  const [moveToNextPhase, { isLoading: isNextPhaseLoading }] = useMoveToNextPhaseMutation();
-  const tournamentData = useAppSelector(selectTournament);
+  const [publishTournamentRequest, { isLoading: publishingTournament }] = usePublishTournamentMutation();
+  const tournamentData = useAppSelector(selectTournamentData);
 
   const { isCreator } = useAppSelector(checkTournamentRole);
 
   const handlePublishTournament = async () => {
     try {
-      const res = await moveToNextPhase(tournamentData.id).unwrap();
-      dispatch(setTournamentDetails(res));
+      await publishTournamentRequest(tournamentData.id).unwrap();
+      dispatch(shouldRefreshTournamentData(true));
       showSuccess('Published tournament successfully.');
     } catch (error) {
       // handled error
@@ -96,7 +96,7 @@ export default function Information() {
             variant="contained"
             size="medium"
             onClick={handlePublishTournament}
-            disabled={isNextPhaseLoading}
+            disabled={publishingTournament}
           >
             Publish tournament
           </Button>
