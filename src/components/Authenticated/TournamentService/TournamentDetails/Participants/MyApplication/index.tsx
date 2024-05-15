@@ -1,13 +1,18 @@
 import { Box, Button } from '@mui/material';
 import { useConfirm } from 'material-ui-confirm';
+import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'store';
 
 import CenterLoading from 'components/Common/CenterLoading';
 import { ModalKey } from 'constants/modal';
 import { RegistrationStatus } from 'constants/tournament-participants';
-import { useGetMyApplicationQuery } from 'store/api/tournament/tournamentParticipantsApiSlice';
+import {
+  useLazyGetInvitationsQuery,
+  useLazyGetMyApplicationQuery,
+} from 'store/api/tournament/tournamentParticipantsApiSlice';
 import { showModal } from 'store/slice/modalSlice';
 import { selectTournament } from 'store/slice/tournamentSlice';
+import { OpenTournamentApplicant } from 'types/open-tournament-participants';
 import { OpenTournament } from 'types/tournament';
 
 import ApplicationForm from './ApplicationForm';
@@ -18,22 +23,71 @@ export default function MyApplication({ tournament }: { tournament: OpenTourname
   const confirm = useConfirm();
   const tournamentData = useAppSelector(selectTournament);
 
-  const { data: myApplication, isLoading } = useGetMyApplicationQuery({ tournamentId: tournamentData.id });
+  const [invitations, setInvitations] = useState<{
+    inviting: OpenTournamentApplicant[];
+    canceled: OpenTournamentApplicant[];
+  }>({
+    inviting: [],
+    canceled: [],
+  });
+  const [myApplication, setMyApplication] = useState<OpenTournamentApplicant | null>(null);
+
+  const [getApplication, { isLoading: fetchingApplycation }] = useLazyGetMyApplicationQuery();
+  const [getInvitations, { isLoading: fetchingInvitations }] = useLazyGetInvitationsQuery();
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const responses = await Promise.all([
+          getApplication(tournamentData.id, true).unwrap(), // Cache to avoid multiple requests
+          getInvitations(
+            {
+              tournamentId: tournamentData.id,
+              status: RegistrationStatus.INVITING,
+            },
+            true
+          ).unwrap(),
+          getInvitations(
+            {
+              tournamentId: tournamentData.id,
+              status: RegistrationStatus.CANCELED,
+            },
+            true
+          ).unwrap(),
+        ]);
+
+        setMyApplication(responses[0]);
+        setInvitations({
+          inviting: responses[1],
+          canceled: responses[2],
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    })();
+  }, [getApplication, getInvitations, tournamentData.id]);
 
   const handleRegister = async () => {
+    const showRegisterModal = () => {
+      dispatch(
+        showModal(ModalKey.REGISTER_TOURNAMENT, {
+          tournamentId: tournamentData.id,
+          participantType: tournament.participantType,
+        })
+      );
+    };
+
+    if (!invitations.inviting?.length) {
+      showRegisterModal();
+      return;
+    }
+
     confirm({ description: 'Creating a tournament application will cancel all invitations from others.' })
-      .then(() =>
-        dispatch(
-          showModal(ModalKey.REGISTER_TOURNAMENT, {
-            tournamentId: tournamentData.id,
-            participantType: tournament.participantType,
-          })
-        )
-      )
+      .then(showRegisterModal)
       .catch(() => {});
   };
 
-  if (isLoading) {
+  if (fetchingApplycation || fetchingInvitations) {
     return <CenterLoading />;
   }
 
@@ -59,9 +113,15 @@ export default function MyApplication({ tournament }: { tournament: OpenTourname
             </Button>
           </Box>
 
-          <Invitations status={RegistrationStatus.INVITING} />
+          <Invitations
+            title="Invitations"
+            invitations={invitations.inviting}
+          />
 
-          <Invitations status={RegistrationStatus.CANCELED} />
+          <Invitations
+            title="Canceled Invitations"
+            invitations={invitations.canceled}
+          />
         </Box>
       )}
     </Box>

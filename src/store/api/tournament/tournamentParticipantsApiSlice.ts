@@ -63,8 +63,8 @@ const tournamentParticipantsApiToastSlice = apiWithToastSlice.injectEndpoints({
         body: { user2Email, message },
       }),
     }),
-    getMyApplication: build.query<OpenTournamentApplicant, { tournamentId: number }>({
-      query: ({ tournamentId }) => ({
+    getMyApplication: build.query<OpenTournamentApplicant, number>({
+      query: (tournamentId) => ({
         url: urlWithCorePrefix(`tournaments/${tournamentId}/applicants/apply`),
       }),
       transformResponse: (response: { data: OpenTournamentApplicant }) => response.data,
@@ -76,7 +76,7 @@ const tournamentParticipantsApiToastSlice = apiWithToastSlice.injectEndpoints({
       }),
     }),
     getInvitations: build.query<
-      GetListResult<OpenTournamentApplicant>,
+      OpenTournamentApplicant[],
       { tournamentId: number; status: RegistrationStatus.INVITING | RegistrationStatus.CANCELED }
     >({
       query: ({ tournamentId, status }) => ({
@@ -85,6 +85,7 @@ const tournamentParticipantsApiToastSlice = apiWithToastSlice.injectEndpoints({
           status,
         },
       }),
+      transformResponse: (response: { data: OpenTournamentApplicant[] }) => response.data,
     }),
     approveInvitation: build.mutation<void, { tournamentId: number; inviterId: string }>({
       query: ({ tournamentId, inviterId }) => ({
