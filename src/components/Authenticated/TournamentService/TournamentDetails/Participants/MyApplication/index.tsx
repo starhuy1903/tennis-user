@@ -1,7 +1,7 @@
-import { Box, Button } from '@mui/material';
+import { Alert, Box, Button } from '@mui/material';
 import { useConfirm } from 'material-ui-confirm';
 import { useEffect, useState } from 'react';
-import { useAppDispatch, useAppSelector } from 'store';
+import { useAppDispatch } from 'store';
 
 import CenterLoading from 'components/Common/CenterLoading';
 import { ModalKey } from 'constants/modal';
@@ -11,9 +11,9 @@ import {
   useLazyGetMyApplicationQuery,
 } from 'store/api/tournament/tournamentParticipantsApiSlice';
 import { showModal } from 'store/slice/modalSlice';
-import { selectTournament } from 'store/slice/tournamentSlice';
 import { OpenTournamentApplicant } from 'types/open-tournament-participants';
 import { OpenTournament } from 'types/tournament';
+import { checkExpiredDate } from 'utils/datetime';
 
 import ApplicationForm from './ApplicationForm';
 import Invitations from './Invitations';
@@ -21,7 +21,6 @@ import Invitations from './Invitations';
 export default function MyApplication({ tournament }: { tournament: OpenTournament }) {
   const dispatch = useAppDispatch();
   const confirm = useConfirm();
-  const tournamentData = useAppSelector(selectTournament);
 
   const [invitations, setInvitations] = useState<{
     inviting: OpenTournamentApplicant[];
@@ -39,17 +38,17 @@ export default function MyApplication({ tournament }: { tournament: OpenTourname
     (async () => {
       try {
         const responses = await Promise.all([
-          getApplication(tournamentData.id, true).unwrap(), // Cache to avoid multiple requests
+          getApplication(tournament.id, true).unwrap(), // Cache to avoid multiple requests
           getInvitations(
             {
-              tournamentId: tournamentData.id,
+              tournamentId: tournament.id,
               status: RegistrationStatus.INVITING,
             },
             true
           ).unwrap(),
           getInvitations(
             {
-              tournamentId: tournamentData.id,
+              tournamentId: tournament.id,
               status: RegistrationStatus.CANCELED,
             },
             true
@@ -65,13 +64,13 @@ export default function MyApplication({ tournament }: { tournament: OpenTourname
         console.log(error);
       }
     })();
-  }, [getApplication, getInvitations, tournamentData.id]);
+  }, [getApplication, getInvitations, tournament.id]);
 
   const handleRegister = async () => {
     const showRegisterModal = () => {
       dispatch(
         showModal(ModalKey.REGISTER_TOURNAMENT, {
-          tournamentId: tournamentData.id,
+          tournamentId: tournament.id,
           participantType: tournament.participantType,
         })
       );
@@ -89,6 +88,16 @@ export default function MyApplication({ tournament }: { tournament: OpenTourname
 
   if (fetchingApplycation || fetchingInvitations) {
     return <CenterLoading />;
+  }
+
+  if (checkExpiredDate(tournament.registrationDueDate)) {
+    return (
+      <Box mt={4}>
+        <Alert severity="error">
+          The registration deadline has passed. You can no longer register for this tournament.
+        </Alert>
+      </Box>
+    );
   }
 
   return (
