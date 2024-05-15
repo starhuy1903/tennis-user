@@ -1,4 +1,5 @@
 import { Button, Divider, Grid, Typography } from '@mui/material';
+import { useConfirm } from 'material-ui-confirm';
 import { useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'store';
 
@@ -21,6 +22,8 @@ const displayDate = (date: string) => {
 
 export default function Information() {
   const dispatch = useAppDispatch();
+  const confirm = useConfirm();
+
   const [publishTournamentRequest, { isLoading: publishingTournament }] = usePublishTournamentMutation();
   const tournamentData = useAppSelector(selectTournamentData);
   const [shouldOpenChangeSettings, setShouldOpenChangeSettings] = useState(false);
@@ -28,13 +31,18 @@ export default function Information() {
   const { isCreator } = useAppSelector(checkTournamentRole);
 
   const handlePublishTournament = async () => {
-    try {
-      await publishTournamentRequest(tournamentData.id).unwrap();
-      dispatch(shouldRefreshTournamentData(true));
-      showSuccess('Published tournament successfully.');
-    } catch (error) {
-      // handled error
-    }
+    confirm({
+      title: 'Publish Tournament',
+      description: `You can't change Tournament Settings after publishing. Are you sure you want to publish?`,
+    }).then(async () => {
+      try {
+        await publishTournamentRequest(tournamentData.id).unwrap();
+        dispatch(shouldRefreshTournamentData(true));
+        showSuccess('Published tournament successfully.');
+      } catch (error) {
+        // handled error
+      }
+    });
   };
 
   const tournamentTimelineFields = [

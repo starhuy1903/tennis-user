@@ -251,7 +251,10 @@ export default function UpdateTournament({ onCloseForm }: { onCloseForm: () => v
             {/* Timeline */}
             <Box sx={{ width: '100%' }}>
               <Typography variant="h6">Timeline</Typography>
-              <Stack spacing={2}>
+              <Stack
+                spacing={2}
+                sx={{ mt: 1 }}
+              >
                 <Stack
                   spacing={2}
                   direction="row"
@@ -376,6 +379,7 @@ export default function UpdateTournament({ onCloseForm }: { onCloseForm: () => v
               <FormControl
                 fullWidth
                 error={!!formError.address}
+                sx={{ mt: 1 }}
               >
                 <FormLabel htmlFor="address">Address detail</FormLabel>
                 <TextField
