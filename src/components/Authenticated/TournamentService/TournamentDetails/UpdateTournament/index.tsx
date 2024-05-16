@@ -21,7 +21,7 @@ import { useAppSelector } from 'store';
 
 import SingleImagePicker from 'components/Common/Input/SingleImagePicker';
 import { GenderOptions, ParticipantTypeOptions } from 'constants/tournament';
-import { useUpdateTournamentMutation } from 'store/api/tournament/tournamentApiSlice';
+import { useUpdateTournamentMutation } from 'store/api/tournament/creator/general';
 import { selectTournamentData, shouldRefreshTournamentData } from 'store/slice/tournamentSlice';
 import { UpdateTournamentPayload } from 'types/tournament';
 import { areEqualObjects } from 'utils/object';
