@@ -12,6 +12,7 @@ import { TournamentPhaseOptions, defaultTournamentImage } from 'constants/tourna
 import { useLazyGetOpenTournamentDetailsQuery } from 'store/api/tournament/tournamentApiSlice';
 import { selectTournament, setTournamentDetails, shouldRefreshTournamentData } from 'store/slice/tournamentSlice';
 import { displayDateRange } from 'utils/datetime';
+import { getNextPhaseInString } from 'utils/tournament';
 
 // const TournamentStatusChip = {
 //   [TournamentStatus.UPCOMING]: {
@@ -126,7 +127,11 @@ export default function TournamentDetailsLayout() {
             mt={3}
           >
             <Steps
-              currentStep={TournamentPhaseOptions[tournamentData.phase]}
+              currentStep={
+                TournamentPhaseOptions[
+                  getNextPhaseInString(tournamentData.phase) as keyof typeof TournamentPhaseOptions
+                ]
+              }
               steps={steps}
             />
           </Box>
