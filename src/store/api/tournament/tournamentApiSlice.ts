@@ -52,7 +52,7 @@ const tournamentApiToastSlice = apiWithToastSlice.injectEndpoints({
     updateTournament: build.mutation<OpenTournament, { tournamentId: number; payload: UpdateTournamentPayload }>({
       query: ({ tournamentId, payload }) => ({
         url: urlWithCorePrefix(`tournaments/${tournamentId}`),
-        method: 'PATCH',
+        method: 'PUT',
         body: payload,
       }),
     }),

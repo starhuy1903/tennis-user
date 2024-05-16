@@ -24,6 +24,7 @@ import { GenderOptions, ParticipantTypeOptions, TournamentPhase } from 'constant
 import { useUpdateTournamentMutation } from 'store/api/tournament/tournamentApiSlice';
 import { selectTournamentData, shouldRefreshTournamentData } from 'store/slice/tournamentSlice';
 import { UpdateTournamentPayload } from 'types/tournament';
+import { areEqualObjects } from 'utils/object';
 import { showError, showSuccess } from 'utils/toast';
 
 const tournamentFormatOptions = [
@@ -63,16 +64,21 @@ export default function UpdateTournament({ onCloseForm }: { onCloseForm: () => v
 
   const onSubmit: SubmitHandler<UpdateTournamentPayload> = async (data) => {
     try {
-      const updateData: Partial<UpdateTournamentPayload> = {};
-      (Object.keys(data) as (keyof UpdateTournamentPayload)[]).forEach((key) => {
-        if (data[key] !== tournamentData[key]) {
-          updateData[key] = data[key] as any;
-        }
-      });
+      const {
+        id,
+        participants,
+        tournamentRoles,
+        phase,
+        status,
+        purchasedPackage,
+        createdAt,
+        updatedAt,
+        ...originalData
+      } = tournamentData;
 
-      if (Object.keys(updateData).length > 0) {
-        console.log(updateData);
-        await requestUpdateTournament({ tournamentId: tournamentData.id, payload: updateData }).unwrap();
+      if (!areEqualObjects(originalData, data)) {
+        await requestUpdateTournament({ tournamentId: id, payload: data }).unwrap();
+
         showSuccess('Updated tournament successfully.');
         dispatch(shouldRefreshTournamentData(true));
         onCloseForm();
