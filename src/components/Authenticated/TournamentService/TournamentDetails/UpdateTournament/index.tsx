@@ -20,12 +20,13 @@ import { useDispatch } from 'react-redux';
 import { useAppSelector } from 'store';
 
 import SingleImagePicker from 'components/Common/Input/SingleImagePicker';
-import { GenderOptions, ParticipantTypeOptions, TournamentPhase } from 'constants/tournament';
+import { GenderOptions, ParticipantTypeOptions } from 'constants/tournament';
 import { useUpdateTournamentMutation } from 'store/api/tournament/tournamentApiSlice';
 import { selectTournamentData, shouldRefreshTournamentData } from 'store/slice/tournamentSlice';
 import { UpdateTournamentPayload } from 'types/tournament';
 import { areEqualObjects } from 'utils/object';
 import { showError, showSuccess } from 'utils/toast';
+import { checkFinalizedApplicants, checkPublishedTournament } from 'utils/tournament';
 
 const tournamentFormatOptions = [
   { id: 1, value: 'knockout', displayValue: 'Knockout', level: 'basic' },
@@ -247,7 +248,7 @@ export default function UpdateTournament({ onCloseForm }: { onCloseForm: () => v
           </Box>
         </Stack>
 
-        {[TournamentPhase.NEW, TournamentPhase.PUBLISHED].includes(tournamentData.phase) && (
+        {!checkFinalizedApplicants(tournamentData.phase) && (
           <Stack
             direction="row"
             justifyContent="space-between"
@@ -411,7 +412,7 @@ export default function UpdateTournament({ onCloseForm }: { onCloseForm: () => v
         {/* Game Settings */}
 
         <Stack spacing={2}>
-          {tournamentData.phase === TournamentPhase.NEW && (
+          {!checkPublishedTournament(tournamentData.phase) && (
             <>
               <Typography variant="h6">Tournament Settings</Typography>
               <Stack

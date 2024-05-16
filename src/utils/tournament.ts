@@ -18,3 +18,8 @@ export const checkPublishedTournament = (tournamentPhase: TournamentPhase) => {
   const currentPhaseNumber = PhaseNumber[tournamentPhase];
   return currentPhaseNumber >= PhaseNumber[TournamentPhase.PUBLISHED];
 };
+
+export const checkFinalizedApplicants = (tournamentPhase: TournamentPhase) => {
+  const currentPhaseNumber = PhaseNumber[tournamentPhase];
+  return currentPhaseNumber >= PhaseNumber[TournamentPhase.FINALIZED_APPLICANTS];
+};
