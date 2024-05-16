@@ -5,7 +5,7 @@ import { Box, Tab } from '@mui/material';
 import { useState } from 'react';
 
 import CenterLoading from 'components/Common/CenterLoading';
-import { useGetCreatedTournamentsQuery } from 'store/api/tournament/tournamentApiSlice';
+import { useGetCreatedTournamentsQuery } from 'store/api/tournament/creator/general';
 
 import AllTournaments from './AllTournaments';
 import ManageTournaments from './ManageTournament';
@@ -15,7 +15,7 @@ export default function TournamentService() {
   const [currentTab, setCurrentTab] = useState('1');
 
   const { data: tournaments, isLoading } = useGetCreatedTournamentsQuery();
-  const shouldShowManageTournamentTab = tournaments && tournaments.length !== 0;
+  const shouldShowManageTournamentTab = tournaments && tournaments.length > 0;
 
   const handleChangeTab = (_: React.SyntheticEvent, newValue: string) => {
     setCurrentTab(newValue);

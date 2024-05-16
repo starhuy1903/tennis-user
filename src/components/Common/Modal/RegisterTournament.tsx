@@ -3,7 +3,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { useAppSelector } from 'store';
 
 import { ParticipantType } from 'constants/tournament';
-import { useApplyTournamentMutation } from 'store/api/tournament/tournamentParticipantsApiSlice';
+import { useApplyTournamentMutation } from 'store/api/tournament/participant/participant';
 import { showSuccess } from 'utils/toast';
 
 import BaseModal from './BaseModal';

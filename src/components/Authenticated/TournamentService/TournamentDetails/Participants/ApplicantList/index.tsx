@@ -1,20 +1,26 @@
-import { Box, Typography } from '@mui/material';
-import { useEffect, useState } from 'react';
-import { useAppSelector } from 'store';
+import { Box, Button, Typography } from '@mui/material';
+import { useConfirm } from 'material-ui-confirm';
+import { useCallback, useEffect, useState } from 'react';
+import { useAppDispatch, useAppSelector } from 'store';
 
 import CenterLoading from 'components/Common/CenterLoading';
+import NoData from 'components/Common/NoData';
 import { RegistrationStatus } from 'constants/tournament-participants';
-import { useLazyGetOpenTournamentApplicantsQuery } from 'store/api/tournament/tournamentParticipantsApiSlice';
-import { selectTournamentData } from 'store/slice/tournamentSlice';
+import { useFinalizeApplicantMutation } from 'store/api/tournament/creator/participant';
+import { useLazyGetOpenTournamentApplicantsQuery } from 'store/api/tournament/shared/participant';
+import { selectTournamentData, shouldRefreshTournamentData } from 'store/slice/tournamentSlice';
 import { OpenTournamentApplicant } from 'types/open-tournament-participants';
 
 import ApplicantItem from './ApplicantItem';
 
 export default function ApplicantList() {
+  const confirm = useConfirm();
   const tournamentData = useAppSelector(selectTournamentData);
+  const dispatch = useAppDispatch();
 
-  const [fetchingTournament, setFetchingTournament] = useState(false);
-  const [getApplicants] = useLazyGetOpenTournamentApplicantsQuery();
+  const [fetchingApplicant, setFetchingApplicant] = useState(false);
+  const [getApplicantsRequest] = useLazyGetOpenTournamentApplicantsQuery();
+  const [finalizeApplicantRequest, { isLoading: finalizing }] = useFinalizeApplicantMutation();
 
   const [applicants, setApplicants] = useState<{
     unapproved: OpenTournamentApplicant[];
@@ -26,14 +32,28 @@ export default function ApplicantList() {
     rejected: [],
   });
 
+  const handleFinalizeApplicant = useCallback(() => {
+    confirm({
+      title: 'Confirmation',
+      description: 'After finalizing, you cannot change the Tournament Timeline. Are you sure you want to finalize?',
+    }).then(async () => {
+      try {
+        await finalizeApplicantRequest(tournamentData.id);
+        dispatch(shouldRefreshTournamentData(true));
+      } catch (e) {
+        // handled error
+      }
+    });
+  }, [confirm, dispatch, finalizeApplicantRequest, tournamentData.id]);
+
   useEffect(() => {
     (async () => {
       try {
-        setFetchingTournament(true);
+        setFetchingApplicant(true);
         const responses = await Promise.all([
-          getApplicants({ tournamentId: tournamentData.id }).unwrap(),
-          getApplicants({ tournamentId: tournamentData.id, status: RegistrationStatus.APPROVED }).unwrap(),
-          getApplicants({ tournamentId: tournamentData.id, status: RegistrationStatus.REJECTED }).unwrap(),
+          getApplicantsRequest({ tournamentId: tournamentData.id }).unwrap(),
+          getApplicantsRequest({ tournamentId: tournamentData.id, status: RegistrationStatus.APPROVED }).unwrap(),
+          getApplicantsRequest({ tournamentId: tournamentData.id, status: RegistrationStatus.REJECTED }).unwrap(),
         ]);
         setApplicants({
           unapproved: responses[0].data,
@@ -43,12 +63,14 @@ export default function ApplicantList() {
       } catch (error) {
         console.log(error);
       } finally {
-        setFetchingTournament(false);
+        setFetchingApplicant(false);
       }
     })();
-  }, [getApplicants, tournamentData]);
+  }, [getApplicantsRequest, tournamentData]);
 
-  if (fetchingTournament) {
+  const disabledFinalizeBtn = finalizing || applicants.approved.length === 0;
+
+  if (fetchingApplicant) {
     return <CenterLoading height="10vh" />;
   }
 
@@ -64,22 +86,34 @@ export default function ApplicantList() {
       {applicants && applicants.unapproved.length > 0 ? (
         applicants.unapproved.map((e) => <ApplicantItem data={e} />)
       ) : (
-        <Typography textAlign="center">No applicants yet.</Typography>
+        <NoData message="No applicants yet." />
       )}
 
-      <Typography
-        variant="h4"
+      <Box
         mt={6}
         mb={2}
       >
-        Approved Applicants
-      </Typography>
+        <Box
+          display="flex"
+          justifyContent="space-between"
+        >
+          <Typography variant="h4">Approved Applicants</Typography>
 
-      {applicants && applicants.approved.length > 0 ? (
-        applicants.approved.map((e) => <ApplicantItem data={e} />)
-      ) : (
-        <Typography textAlign="center">No approved applicants yet.</Typography>
-      )}
+          <Button
+            variant="contained"
+            onClick={handleFinalizeApplicant}
+            disabled={disabledFinalizeBtn}
+          >
+            Finalize Applicant
+          </Button>
+        </Box>
+
+        {applicants && applicants.approved.length > 0 ? (
+          applicants.approved.map((e) => <ApplicantItem data={e} />)
+        ) : (
+          <NoData message="No approved applicants yet." />
+        )}
+      </Box>
 
       <Typography
         variant="h4"
@@ -92,7 +126,7 @@ export default function ApplicantList() {
       {applicants && applicants.rejected.length > 0 ? (
         applicants.rejected.map((e) => <ApplicantItem data={e} />)
       ) : (
-        <Typography textAlign="center">No rejected applicants yet.</Typography>
+        <NoData message="No rejected applicants yet." />
       )}
     </Box>
   );

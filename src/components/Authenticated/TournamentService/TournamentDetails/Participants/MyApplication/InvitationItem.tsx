@@ -21,7 +21,7 @@ import { RegistrationStatus } from 'constants/tournament-participants';
 import {
   useApproveInvitationMutation,
   useRejectInvitationMutation,
-} from 'store/api/tournament/tournamentParticipantsApiSlice';
+} from 'store/api/tournament/participant/participant';
 import { selectTournamentData } from 'store/slice/tournamentSlice';
 import { OpenTournamentApplicant } from 'types/open-tournament-participants';
 import { showSuccess } from 'utils/toast';

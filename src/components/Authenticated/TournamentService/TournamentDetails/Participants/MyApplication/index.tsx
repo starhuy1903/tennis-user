@@ -6,10 +6,8 @@ import { useAppDispatch } from 'store';
 import CenterLoading from 'components/Common/CenterLoading';
 import { ModalKey } from 'constants/modal';
 import { RegistrationStatus } from 'constants/tournament-participants';
-import {
-  useGetMyApplicationQuery,
-  useLazyGetInvitationsQuery,
-} from 'store/api/tournament/tournamentParticipantsApiSlice';
+import { useGetMyApplicationQuery } from 'store/api/tournament/participant/participant';
+import { useLazyGetInvitationsQuery } from 'store/api/tournament/tournamentParticipantsApiSlice';
 import { showModal } from 'store/slice/modalSlice';
 import { OpenTournamentApplicant } from 'types/open-tournament-participants';
 import { OpenTournament } from 'types/tournament';

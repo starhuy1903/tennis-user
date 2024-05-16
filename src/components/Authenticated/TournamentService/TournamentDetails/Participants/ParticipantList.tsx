@@ -15,7 +15,7 @@ import { useAppSelector } from 'store';
 import CenterLoading from 'components/Common/CenterLoading';
 import { FormatDateTime } from 'constants/datetime';
 import { GenderOptions } from 'constants/tournament';
-import { useGetOpenTournamentParticipantsQuery } from 'store/api/tournament/tournamentParticipantsApiSlice';
+import { useGetOpenTournamentParticipantsQuery } from 'store/api/tournament/shared/participant';
 import { selectTournamentData } from 'store/slice/tournamentSlice';
 import { UserProfile } from 'types/user';
 import { displayDateTime } from 'utils/datetime';
