@@ -45,6 +45,8 @@ const initialState: TournamentSliceType = {
     phase: TournamentPhase.NEW,
     purchasedPackage: initialPurchasedPackage,
     tournamentRoles: [],
+    createdAt: '',
+    updatedAt: '',
   },
   shouldRefreshData: true, // to call the API on the first render
 };
