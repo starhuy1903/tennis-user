@@ -3,7 +3,7 @@ import { useAppSelector } from 'store';
 
 import CenterLoading from 'components/Common/CenterLoading';
 import { RegistrationStatus } from 'constants/tournament-participants';
-import { useGetInvitationsQuery } from 'store/api/tournament/tournamentParticipantsApiSlice';
+import { useGetInvitationsQuery } from 'store/api/tournament/participant/participant';
 import { selectTournamentData } from 'store/slice/tournamentSlice';
 
 import InvitationItem from './InvitationItem';

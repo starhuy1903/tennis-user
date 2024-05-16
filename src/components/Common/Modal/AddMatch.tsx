@@ -5,7 +5,7 @@ import dayjs from 'dayjs';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 
 import { useCreateMatchMutation } from 'store/api/fixture/matchApiSlice';
-import { useGetOpenTournamentParticipantsQuery } from 'store/api/tournament/tournamentParticipantsApiSlice';
+import { useGetOpenTournamentParticipantsQuery } from 'store/api/tournament/shared/participant';
 import { OpenTournamentParticipant } from 'types/open-tournament-participants';
 import { showSuccess } from 'utils/toast';
 
