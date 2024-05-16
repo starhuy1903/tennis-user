@@ -15,7 +15,7 @@ import { useAppSelector } from 'store';
 import { FormatDateTime } from 'constants/datetime';
 import { GenderOptions } from 'constants/tournament';
 import { RegistrationStatus } from 'constants/tournament-participants';
-import { useDeleteApplicationMutation } from 'store/api/tournament/tournamentParticipantsApiSlice';
+import { useDeleteApplicationMutation } from 'store/api/tournament/participant/participant';
 import { selectTournamentData } from 'store/slice/tournamentSlice';
 import { OpenTournamentApplicant } from 'types/open-tournament-participants';
 import { UserProfile } from 'types/user';

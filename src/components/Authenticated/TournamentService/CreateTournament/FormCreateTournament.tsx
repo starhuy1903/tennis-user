@@ -36,7 +36,7 @@ import {
   TournamentFormat,
   TournamentLevel,
 } from 'constants/tournament';
-import { useCreateOpenTournamentMutation } from 'store/api/tournament/tournamentApiSlice';
+import { useCreateOpenTournamentMutation } from 'store/api/tournament/creator/general';
 import { UserPackage } from 'types/package';
 import { OpenTournamentPayload } from 'types/tournament';
 import { displayTimestamp } from 'utils/datetime';

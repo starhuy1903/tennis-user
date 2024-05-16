@@ -1,5 +1,5 @@
 import { Alert, Box, Button } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'store';
 
@@ -10,10 +10,9 @@ import { RoundRobinFixture } from 'components/Common/Fixtures/RoundRobinFixture'
 import { ModalKey } from 'constants/modal';
 import { TournamentFormat } from 'constants/tournament';
 import { FixtureStatus } from 'constants/tournament-fixtures';
-import { useLazyGetTournamentFixtureQuery } from 'store/api/tournament/tournamentFixtureApiSlice';
+import { useLazyGetTournamentFixtureQuery } from 'store/api/tournament/shared/fixture';
 import { showModal } from 'store/slice/modalSlice';
 import { checkTournamentRole, selectTournamentData } from 'store/slice/tournamentSlice';
-import { TournamentFixture } from 'types/tournament-fixtures';
 import { checkGeneratedFixture } from 'utils/tournament';
 
 import SetupFixture from './SetupFixture';
@@ -21,9 +20,8 @@ import SetupFixture from './SetupFixture';
 export default function Fixtures() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const [fixture, setFixture] = useState<TournamentFixture | null>(null);
 
-  const [getFixture, { isLoading }] = useLazyGetTournamentFixtureQuery();
+  const [getFixtureRequest, { isLoading: fetchingFixture, data: fixture }] = useLazyGetTournamentFixtureQuery();
 
   const tournamentData = useAppSelector(selectTournamentData);
 
@@ -42,16 +40,15 @@ export default function Fixtures() {
     (async () => {
       if (isCreator || checkGeneratedFixture(tournamentData.phase)) {
         try {
-          const res = await getFixture(tournamentData.id).unwrap();
-          setFixture(res);
+          await getFixtureRequest(tournamentData.id).unwrap();
         } catch (error) {
           // handled error
         }
       }
     })();
-  }, [getFixture, tournamentData, navigate, isCreator]);
+  }, [getFixtureRequest, tournamentData, navigate, isCreator]);
 
-  if (isLoading) return <CenterLoading />;
+  if (fetchingFixture) return <CenterLoading />;
 
   if (
     !isCreator &&

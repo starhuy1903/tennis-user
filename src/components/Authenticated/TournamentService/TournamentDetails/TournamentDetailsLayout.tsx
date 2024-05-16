@@ -9,9 +9,10 @@ import CenterLoading from 'components/Common/CenterLoading';
 // import { TournamentStatus } from 'constants/tournament';
 import Steps from 'components/Common/Steps';
 import { TournamentPhaseOptions, defaultTournamentImage } from 'constants/tournament';
-import { useLazyGetOpenTournamentDetailsQuery } from 'store/api/tournament/tournamentApiSlice';
+import { useLazyGetOpenTournamentDetailsQuery } from 'store/api/tournament/shared/general';
 import { selectTournament, setTournamentDetails, shouldRefreshTournamentData } from 'store/slice/tournamentSlice';
 import { displayDateRange } from 'utils/datetime';
+import { getNextPhaseInString } from 'utils/tournament';
 
 // const TournamentStatusChip = {
 //   [TournamentStatus.UPCOMING]: {
@@ -131,7 +132,11 @@ export default function TournamentDetailsLayout() {
             mt={3}
           >
             <Steps
-              currentStep={TournamentPhaseOptions[tournamentData.phase]}
+              currentStep={
+                TournamentPhaseOptions[
+                  getNextPhaseInString(tournamentData.phase) as keyof typeof TournamentPhaseOptions
+                ]
+              }
               steps={steps}
             />
           </Box>

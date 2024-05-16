@@ -4,7 +4,7 @@ import { useAppSelector } from 'store';
 
 import CenterLoading from 'components/Common/CenterLoading';
 import MatchDetails from 'components/Common/Match/MatchDetails';
-import { useLazyGetMatchDetailsQuery } from 'store/api/tournament/tournamentFixtureApiSlice';
+import { useLazyGetMatchDetailsQuery } from 'store/api/tournament/shared/fixture';
 import { selectTournamentData } from 'store/slice/tournamentSlice';
 import { Match } from 'types/tournament-fixtures';
 import { showError } from 'utils/toast';

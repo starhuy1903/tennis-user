@@ -22,7 +22,7 @@ import { RegistrationStatus } from 'constants/tournament-participants';
 import {
   useApproveTournamentApplicantMutation,
   useRejectTournamentApplicantMutation,
-} from 'store/api/tournament/tournamentParticipantsApiSlice';
+} from 'store/api/tournament/creator/participant';
 import { selectTournamentData } from 'store/slice/tournamentSlice';
 import { OpenTournamentApplicant } from 'types/open-tournament-participants';
 import { UserProfile } from 'types/user';

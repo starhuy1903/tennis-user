@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react';
 import CenterLoading from 'components/Common/CenterLoading';
 import NoData from 'components/Common/NoData';
 import { TournamentStatus } from 'constants/tournament';
-import { useLazyGetMyTournamentsQuery } from 'store/api/tournament/tournamentApiSlice';
+import { useLazyGetMyTournamentsQuery } from 'store/api/tournament/shared/general';
 import { OpenTournament } from 'types/tournament';
 
 import TournamentList from './TournamentList';

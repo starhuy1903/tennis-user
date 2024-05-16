@@ -1,9 +1,13 @@
+import { apiWithToastSlice } from 'store/api/baseApiSlice';
+import { urlWithCorePrefix } from 'store/api/helper';
 import { Match, TournamentFixture } from 'types/tournament-fixtures';
 
-import { apiWithToastSlice } from '../baseApiSlice';
-import { urlWithCorePrefix } from '../helper';
-
-const tournamentFixturesApiToastSlice = apiWithToastSlice.injectEndpoints({
+export const {
+  useGetTournamentFixtureQuery,
+  useLazyGetTournamentFixtureQuery,
+  useGetMatchDetailsQuery,
+  useLazyGetMatchDetailsQuery,
+} = apiWithToastSlice.injectEndpoints({
   endpoints: (build) => ({
     getTournamentFixture: build.query<TournamentFixture, number>({
       query: (id) => urlWithCorePrefix(`tournaments/${id}/fixtures`),
@@ -13,10 +17,3 @@ const tournamentFixturesApiToastSlice = apiWithToastSlice.injectEndpoints({
     }),
   }),
 });
-
-export const {
-  useGetTournamentFixtureQuery,
-  useLazyGetTournamentFixtureQuery,
-  useGetMatchDetailsQuery,
-  useLazyGetMatchDetailsQuery,
-} = tournamentFixturesApiToastSlice;

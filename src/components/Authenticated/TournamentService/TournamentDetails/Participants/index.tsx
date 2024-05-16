@@ -10,24 +10,35 @@ import ParticipantList from './ParticipantList';
 
 export default function Participants() {
   const tournamentData = useAppSelector(selectTournamentData);
-
   const { isCreator } = useAppSelector(checkTournamentRole);
 
-  if (isCreator && tournamentData.phase === TournamentPhase.NEW) {
-    return (
-      <Box mt={4}>
-        <Alert severity="info">You need to publish the tournament first to see the participants.</Alert>
-      </Box>
-    );
-  }
-
-  if (tournamentData.phase === TournamentPhase.PUBLISHED) {
-    if (isCreator) {
-      return <ApplicantList />;
-    } else {
-      return <MyApplication tournament={tournamentData} />;
+  if (isCreator) {
+    switch (tournamentData.phase) {
+      case TournamentPhase.NEW:
+        return (
+          <Box mt={4}>
+            <Alert severity="info">You need to publish the tournament first to see the participants.</Alert>
+          </Box>
+        );
+      case TournamentPhase.PUBLISHED:
+        return <ApplicantList />;
+      case TournamentPhase.FINALIZED_APPLICANTS:
+      case TournamentPhase.GENERATED_FIXTURES:
+      case TournamentPhase.SCORED_MATCHES:
+      case TournamentPhase.COMPLETED:
+        return <ParticipantList />;
     }
   }
 
-  return <ParticipantList />;
+  switch (tournamentData.phase) {
+    case TournamentPhase.NEW:
+      return null;
+    case TournamentPhase.PUBLISHED:
+      return <MyApplication tournament={tournamentData} />;
+    case TournamentPhase.FINALIZED_APPLICANTS:
+    case TournamentPhase.GENERATED_FIXTURES:
+    case TournamentPhase.SCORED_MATCHES:
+    case TournamentPhase.COMPLETED:
+      return <ParticipantList />;
+  }
 }

@@ -12,7 +12,7 @@ import { TournamentStatus } from 'constants/tournament';
 import {
   useLazyGetOpenTournamentsQuery,
   useLazyGetUnregisteredTournamentsQuery,
-} from 'store/api/tournament/tournamentApiSlice';
+} from 'store/api/tournament/shared/general';
 import { OpenTournament } from 'types/tournament';
 
 import TournamentList from './TournamentList';
