@@ -1,4 +1,5 @@
 import { Box, Button, Typography } from '@mui/material';
+import { useConfirm } from 'material-ui-confirm';
 import { useCallback, useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'store';
 
@@ -13,6 +14,7 @@ import { OpenTournamentApplicant } from 'types/open-tournament-participants';
 import ApplicantItem from './ApplicantItem';
 
 export default function ApplicantList() {
+  const confirm = useConfirm();
   const tournamentData = useAppSelector(selectTournamentData);
   const dispatch = useAppDispatch();
 
@@ -30,14 +32,19 @@ export default function ApplicantList() {
     rejected: [],
   });
 
-  const handleFinalizeApplicant = useCallback(async () => {
-    try {
-      await finalizeApplicantRequest(tournamentData.id);
-      dispatch(shouldRefreshTournamentData(true));
-    } catch (e) {
-      // handled error
-    }
-  }, [dispatch, finalizeApplicantRequest, tournamentData.id]);
+  const handleFinalizeApplicant = useCallback(() => {
+    confirm({
+      title: 'Confirmation',
+      description: 'After finalizing, you cannot change the Tournament Timeline. Are you sure you want to finalize?',
+    }).then(async () => {
+      try {
+        await finalizeApplicantRequest(tournamentData.id);
+        dispatch(shouldRefreshTournamentData(true));
+      } catch (e) {
+        // handled error
+      }
+    });
+  }, [confirm, dispatch, finalizeApplicantRequest, tournamentData.id]);
 
   useEffect(() => {
     (async () => {
