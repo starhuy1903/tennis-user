@@ -37,6 +37,8 @@ export default function MyApplication({ tournament }: { tournament: OpenTourname
   } = useGetMyApplicationQuery(tournament.id);
   const [getInvitations, { isLoading: fetchingInvitations }] = useLazyGetInvitationsQuery();
 
+  const isRegistered = myApplication && myApplication.status !== RegistrationStatus.CANCELED;
+
   useEffect(() => {
     (async () => {
       try {
@@ -92,7 +94,7 @@ export default function MyApplication({ tournament }: { tournament: OpenTourname
     return <CenterLoading />;
   }
 
-  if (checkExpiredDate(tournament.registrationDueDate)) {
+  if (!isRegistered && checkExpiredDate(tournament.registrationDueDate)) {
     return (
       <Box mt={4}>
         <Alert severity="error">
@@ -104,7 +106,7 @@ export default function MyApplication({ tournament }: { tournament: OpenTourname
 
   return (
     <Box my={5}>
-      {myApplication && myApplication.status !== RegistrationStatus.CANCELED ? (
+      {isRegistered ? (
         <ApplicationForm
           data={myApplication}
           fetchMyApplication={fetchMyApplication}
