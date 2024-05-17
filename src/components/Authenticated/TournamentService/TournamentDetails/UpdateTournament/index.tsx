@@ -24,7 +24,7 @@ import { GenderOptions, ParticipantTypeOptions } from 'constants/tournament';
 import { useUpdateTournamentMutation } from 'store/api/tournament/creator/general';
 import { selectTournamentData, shouldRefreshTournamentData } from 'store/slice/tournamentSlice';
 import { UpdateTournamentPayload } from 'types/tournament';
-import { areEqualObjects } from 'utils/object';
+import { isEqual } from 'utils/object';
 import { showError, showSuccess } from 'utils/toast';
 import { checkFinalizedApplicants, checkPublishedTournament } from 'utils/tournament';
 
@@ -65,20 +65,8 @@ export default function UpdateTournament({ onCloseForm }: { onCloseForm: () => v
 
   const onSubmit: SubmitHandler<UpdateTournamentPayload> = async (data) => {
     try {
-      const {
-        id,
-        participants,
-        tournamentRoles,
-        phase,
-        status,
-        purchasedPackage,
-        createdAt,
-        updatedAt,
-        ...originalData
-      } = tournamentData;
-
-      if (!areEqualObjects(originalData, data)) {
-        await requestUpdateTournament({ tournamentId: id, payload: data }).unwrap();
+      if (!isEqual(tournamentData, { ...tournamentData, ...data })) {
+        await requestUpdateTournament({ tournamentId: tournamentData.id, payload: data }).unwrap();
 
         showSuccess('Updated tournament successfully.');
         dispatch(shouldRefreshTournamentData(true));

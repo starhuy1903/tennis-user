@@ -7,7 +7,6 @@ import {
   TournamentStatus,
 } from 'constants/tournament';
 
-import { BaseType } from './base';
 import { Group } from './group';
 import { UserPackage } from './package';
 
@@ -47,14 +46,14 @@ export type GroupTournament = Omit<GroupTournamentPayload, 'groupId'> & {
   group: Group;
 };
 
-export type OpenTournament = BaseType &
-  Omit<OpenTournamentPayload, 'purchasedPackageId'> & {
-    participants: number;
-    image: string | null;
-    status: TournamentStatus;
-    phase: TournamentPhase;
-    purchasedPackage: UserPackage;
-    tournamentRoles: TournamentRole[];
-  };
+export type OpenTournament = Omit<OpenTournamentPayload, 'purchasedPackageId'> & {
+  id: number;
+  participants: number;
+  image: string | null;
+  status: TournamentStatus;
+  phase: TournamentPhase;
+  purchasedPackage: UserPackage;
+  tournamentRoles: TournamentRole[];
+};
 
 export type UpdateTournamentPayload = Omit<OpenTournamentPayload, 'purchasedPackageId'>;
