@@ -16,8 +16,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
 import EmailValidator from 'email-validator';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import { useDispatch } from 'react-redux';
-import { useAppSelector } from 'store';
+import { useAppDispatch, useAppSelector } from 'store';
 
 import SingleImagePicker from 'components/Common/Input/SingleImagePicker';
 import { GenderOptions, ParticipantTypeOptions } from 'constants/tournament';
@@ -35,7 +34,7 @@ const tournamentFormatOptions = [
 ];
 
 export default function UpdateTournament({ onCloseForm }: { onCloseForm: () => void }) {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const tournamentData = useAppSelector(selectTournamentData);
 
   const [requestUpdateTournament, { isLoading }] = useUpdateTournamentMutation();
