@@ -6,8 +6,10 @@ import { useAppDispatch, useAppSelector } from 'store';
 import CenterLoading from 'components/Common/CenterLoading';
 import NoData from 'components/Common/NoData';
 import { RegistrationStatus } from 'constants/tournament-participants';
-import { useFinalizeApplicantMutation } from 'store/api/tournament/creator/participant';
-import { useLazyGetOpenTournamentApplicantsQuery } from 'store/api/tournament/shared/participant';
+import {
+  useFinalizeApplicantMutation,
+  useLazyGetOpenTournamentApplicantsQuery,
+} from 'store/api/tournament/creator/participant';
 import { selectTournamentData, shouldRefreshTournamentData } from 'store/slice/tournamentSlice';
 import { OpenTournamentApplicant } from 'types/open-tournament-participants';
 
