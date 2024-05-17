@@ -56,3 +56,14 @@ export type TournamentFixture = {
   participantType: ParticipantType;
   status: FixtureStatus;
 };
+
+export type FixturePayload = {
+  format: TournamentFormat;
+  fixtureStartDate: string;
+  fixtureEndDate: string;
+  matchesStartTime: string;
+  matchesEndTime: string;
+  matchDuration: number;
+  breakDuration: number; // in minutes
+  venue: string;
+};
