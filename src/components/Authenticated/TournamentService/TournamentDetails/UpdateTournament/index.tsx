@@ -1,3 +1,4 @@
+import { DevTool } from '@hookform/devtools';
 import {
   Box,
   Button,
@@ -15,7 +16,9 @@ import { DatePicker, DateTimePicker, LocalizationProvider } from '@mui/x-date-pi
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
 import EmailValidator from 'email-validator';
+import { isEqual } from 'lodash-es';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { useUpdate } from 'react-use';
 import { useAppDispatch, useAppSelector } from 'store';
 
 import SingleImagePicker from 'components/Common/Input/SingleImagePicker';
@@ -23,8 +26,7 @@ import { GenderOptions, ParticipantTypeOptions } from 'constants/tournament';
 import { useUpdateTournamentMutation } from 'store/api/tournament/creator/general';
 import { selectTournamentData, shouldRefreshTournamentData } from 'store/slice/tournamentSlice';
 import { UpdateTournamentPayload } from 'types/tournament';
-import { isEqual } from 'utils/object';
-import { showError, showSuccess } from 'utils/toast';
+import { showSuccess } from 'utils/toast';
 import { checkFinalizedApplicants, checkPublishedTournament } from 'utils/tournament';
 
 const tournamentFormatOptions = [
@@ -36,8 +38,12 @@ const tournamentFormatOptions = [
 export default function UpdateTournament({ onCloseForm }: { onCloseForm: () => void }) {
   const dispatch = useAppDispatch();
   const tournamentData = useAppSelector(selectTournamentData);
+  const update = useUpdate();
 
-  const [requestUpdateTournament, { isLoading }] = useUpdateTournamentMutation();
+  const [requestUpdateTournament, { isLoading: updatingData }] = useUpdateTournamentMutation();
+
+  const hasPublishedTournament = checkPublishedTournament(tournamentData.phase);
+  const hasFinalizedApplicants = checkFinalizedApplicants(tournamentData.phase);
 
   const { handleSubmit, register, control, formState, getValues } = useForm<UpdateTournamentPayload>({
     mode: 'onTouched',
@@ -61,22 +67,21 @@ export default function UpdateTournament({ onCloseForm }: { onCloseForm: () => v
   });
 
   const { errors: formError } = formState;
+  const { id, purchasedPackage, tournamentRoles, participants, phase, status, ...originalData } = tournamentData;
 
   const onSubmit: SubmitHandler<UpdateTournamentPayload> = async (data) => {
     try {
-      if (!isEqual(tournamentData, { ...tournamentData, ...data })) {
-        await requestUpdateTournament({ tournamentId: tournamentData.id, payload: data }).unwrap();
+      await requestUpdateTournament({ tournamentId: tournamentData.id, payload: data }).unwrap();
 
-        showSuccess('Updated tournament successfully.');
-        dispatch(shouldRefreshTournamentData(true));
-        onCloseForm();
-      } else {
-        showError('Your tournament has not been changed.');
-      }
+      showSuccess('Updated tournament successfully.');
+      dispatch(shouldRefreshTournamentData(true));
+      onCloseForm();
     } catch (error) {
       // handled error
     }
   };
+
+  const disabledUpdateBtn = updatingData || isEqual(originalData, getValues());
 
   return (
     <Container
@@ -94,7 +99,6 @@ export default function UpdateTournament({ onCloseForm }: { onCloseForm: () => v
       >
         TOURNAMENT UPDATE FORM
       </Typography>
-
       <Box
         component="form"
         autoComplete="off"
@@ -130,6 +134,7 @@ export default function UpdateTournament({ onCloseForm }: { onCloseForm: () => v
                   error={!!formError.name}
                   aria-describedby="name-helper-text"
                   placeholder="Tournament name"
+                  disabled={updatingData}
                 />
                 <FormHelperText id="name-helper-text">{formError.name?.message}</FormHelperText>
               </FormControl>
@@ -152,6 +157,7 @@ export default function UpdateTournament({ onCloseForm }: { onCloseForm: () => v
                   multiline
                   rows={3}
                   placeholder="Say something about your tournament"
+                  disabled={updatingData}
                 />
                 <FormHelperText id="description-helper-text">{formError.description?.message}</FormHelperText>
               </FormControl>
@@ -179,6 +185,7 @@ export default function UpdateTournament({ onCloseForm }: { onCloseForm: () => v
                   id="contactPersonName"
                   error={!!formError.contactPersonName}
                   aria-describedby="contactPersonName-helper-text"
+                  disabled={updatingData}
                 />
                 <FormHelperText id="contactPersonName-helper-text">
                   {formError.contactPersonName?.message}
@@ -208,6 +215,7 @@ export default function UpdateTournament({ onCloseForm }: { onCloseForm: () => v
                     id="contactNumber"
                     error={!!formError.contactNumber}
                     aria-describedby="contactNumber-helper-text"
+                    disabled={updatingData}
                   />
                   <FormHelperText id="contactNumber-helper-text">{formError.contactNumber?.message}</FormHelperText>
                 </FormControl>
@@ -227,6 +235,7 @@ export default function UpdateTournament({ onCloseForm }: { onCloseForm: () => v
                     id="contactEmail"
                     error={!!formError.contactEmail}
                     aria-describedby="contactEmail-helper-text"
+                    disabled={updatingData}
                   />
                   <FormHelperText id="contactEmail-helper-text">{formError.contactEmail?.message}</FormHelperText>
                 </FormControl>
@@ -235,319 +244,323 @@ export default function UpdateTournament({ onCloseForm }: { onCloseForm: () => v
           </Box>
         </Stack>
 
-        {!checkFinalizedApplicants(tournamentData.phase) && (
-          <Stack
-            direction="row"
-            justifyContent="space-between"
-            spacing={4}
-            marginTop={2}
-          >
-            {/* Timeline */}
-            <Box sx={{ width: '100%' }}>
-              <Typography variant="h6">Timeline</Typography>
+        <Stack
+          direction="row"
+          justifyContent="space-between"
+          spacing={4}
+          marginTop={2}
+        >
+          {/* Timeline */}
+          <Box sx={{ width: '100%' }}>
+            <Typography variant="h6">Timeline</Typography>
+            <Stack
+              spacing={2}
+              sx={{ mt: 1 }}
+            >
               <Stack
                 spacing={2}
-                sx={{ mt: 1 }}
+                direction="row"
               >
-                <Stack
-                  spacing={2}
-                  direction="row"
-                >
-                  <Controller
-                    control={control}
-                    name="startDate"
-                    rules={{
-                      required: 'The start date is required.',
-                      validate: (value) => {
-                        const startDate = dayjs(value);
-                        if (startDate.isBefore(dayjs(), 'day')) {
-                          return 'The start date cannot be in the past.';
-                        }
-                        return true;
-                      },
-                    }}
-                    render={({ field: { onChange } }) => (
-                      <FormControl
-                        fullWidth
-                        error={!!formError.startDate}
-                      >
-                        <FormLabel htmlFor="startDate">Start date</FormLabel>
-                        <LocalizationProvider dateAdapter={AdapterDayjs}>
-                          <DatePicker
-                            onChange={(date) => {
-                              onChange(date?.toISOString());
-                            }}
-                            disablePast
-                            defaultValue={dayjs(getValues('startDate'))}
-                            format="DD/MM/YYYY"
-                          />
-                        </LocalizationProvider>
-                        <FormHelperText id="startDate-helper-text">{formError.startDate?.message}</FormHelperText>
-                      </FormControl>
-                    )}
-                  />
-                  <Controller
-                    control={control}
-                    name="endDate"
-                    rules={{
-                      required: 'The end date is required.',
-                      validate: (value) => {
-                        const startDate = dayjs(getValues('startDate'));
-                        const endDate = dayjs(value);
-
-                        if (!endDate.isAfter(startDate, 'day')) {
-                          return 'The end date must be after the start date.';
-                        }
-                        return true;
-                      },
-                    }}
-                    render={({ field: { onChange } }) => (
-                      <FormControl
-                        fullWidth
-                        error={!!formError.endDate}
-                      >
-                        <FormLabel htmlFor="endDate">End date</FormLabel>
-                        <LocalizationProvider dateAdapter={AdapterDayjs}>
-                          <DatePicker
-                            onChange={(date) => {
-                              onChange(date?.toISOString());
-                            }}
-                            disablePast
-                            defaultValue={dayjs(getValues('endDate'))}
-                            format="DD/MM/YYYY"
-                          />
-                        </LocalizationProvider>
-                        <FormHelperText id="endDate-helper-text">{formError.endDate?.message}</FormHelperText>
-                      </FormControl>
-                    )}
-                  />
-                </Stack>
-                <Stack
-                  spacing={2}
-                  direction="row"
-                >
-                  <Controller
-                    control={control}
-                    name="registrationDueDate"
-                    rules={{
-                      required: 'The registration due date is required.',
-                      validate: (value) => {
-                        const startDate = dayjs(getValues('startDate'));
-                        const registrationDueDate = dayjs(value);
-
-                        if (!registrationDueDate.isBefore(startDate, 'day')) {
-                          return 'The registration due date must be before the start date.';
-                        }
-                        return true;
-                      },
-                    }}
-                    render={({ field: { onChange } }) => (
-                      <FormControl
-                        fullWidth
-                        error={!!formError.registrationDueDate}
-                      >
-                        <FormLabel htmlFor="registrationDueDate">Registration due date</FormLabel>
-                        <LocalizationProvider dateAdapter={AdapterDayjs}>
-                          <DateTimePicker
-                            onChange={(date) => {
-                              onChange(date?.toISOString());
-                            }}
-                            disablePast
-                            defaultValue={dayjs(getValues('registrationDueDate'))}
-                            format="DD/MM/YYYY HH:mm"
-                          />
-                        </LocalizationProvider>
-                        <FormHelperText id="registrationDueDate-helper-text">
-                          {formError.registrationDueDate?.message}
-                        </FormHelperText>
-                      </FormControl>
-                    )}
-                  />
-                </Stack>
-              </Stack>
-            </Box>
-
-            {/* Location address */}
-            <Box sx={{ width: '100%' }}>
-              <Typography variant="h6">Location Address</Typography>
-              <FormControl
-                fullWidth
-                error={!!formError.address}
-                sx={{ mt: 1 }}
-              >
-                <FormLabel htmlFor="address">Address detail</FormLabel>
-                <TextField
-                  placeholder="Address detail"
-                  {...register('address', {
-                    required: 'The address is required.',
-                    minLength: {
-                      value: 20,
-                      message: 'The address must be at least 20 characters.',
+                <Controller
+                  control={control}
+                  name="startDate"
+                  rules={{
+                    required: 'The start date is required.',
+                    validate: (value) => {
+                      const startDate = dayjs(value);
+                      if (startDate.isBefore(dayjs(), 'day')) {
+                        return 'The start date cannot be in the past.';
+                      }
+                      return true;
                     },
-                  })}
-                  required
-                  id="address"
-                  error={!!formError.address}
-                  aria-describedby="address-helper-text"
-                />
-                <FormHelperText id="address-helper-text">{formError.address?.message}</FormHelperText>
-              </FormControl>
-              <Stack></Stack>
-            </Box>
-          </Stack>
-        )}
-        {/* Game Settings */}
-
-        <Stack spacing={2}>
-          {!checkPublishedTournament(tournamentData.phase) && (
-            <>
-              <Typography variant="h6">Tournament Settings</Typography>
-              <Stack
-                direction="row"
-                spacing={2}
-              >
-                <Controller
-                  control={control}
-                  name="format"
-                  render={({ field: { onChange, value } }) => (
-                    <FormControl
-                      fullWidth
-                      error={!!formError.format}
-                    >
-                      <FormLabel htmlFor="format">Choose format</FormLabel>
-                      <Select
-                        value={value}
-                        id="format"
-                        onChange={onChange}
-                        aria-describedby="format-helper-text"
-                      >
-                        {tournamentFormatOptions.map((tournamentOption) => (
-                          <MenuItem
-                            key={tournamentOption.id}
-                            value={tournamentOption.value}
-                          >
-                            {tournamentOption.displayValue}
-                          </MenuItem>
-                        ))}
-                      </Select>
-                      <FormHelperText id="format-helper-text">{formError.format?.message}</FormHelperText>
-                    </FormControl>
-                  )}
-                />
-                <FormControl
-                  fullWidth
-                  error={!!formError.maxParticipants}
-                >
-                  <FormLabel htmlFor="maxParticipants">Max participants</FormLabel>
-                  <TextField
-                    {...register('maxParticipants', {
-                      required: 'The max participants is required.',
-                      validate: (value) =>
-                        (value && value >= tournamentData.participants) ||
-                        'The max participants must be greater than current participants.',
-                    })}
-                    required
-                    type="number"
-                    id="maxParticipants"
-                    error={!!formError.maxParticipants}
-                    aria-describedby="maxParticipants-helper-text"
-                  />
-                  <FormHelperText id="maxParticipants-helper-text">{formError.maxParticipants?.message}</FormHelperText>
-                </FormControl>
-              </Stack>
-              <Stack
-                direction="row"
-                spacing={2}
-              >
-                <Controller
-                  control={control}
-                  name="gender"
-                  rules={{ required: 'Please select a gender.' }}
-                  render={({ field: { onChange, value } }) => (
-                    <FormControl
-                      fullWidth
-                      error={!!formError.gender}
-                    >
-                      <FormLabel htmlFor="gender">Gender</FormLabel>
-                      <Select
-                        value={value}
-                        id="gender"
-                        onChange={onChange}
-                        aria-describedby="gender-helper-text"
-                      >
-                        {Object.entries(GenderOptions).map(([genderKey, genderValue], index) => (
-                          <MenuItem
-                            key={index}
-                            value={genderKey}
-                          >
-                            {genderValue}
-                          </MenuItem>
-                        ))}
-                      </Select>
-                      <FormHelperText id="gender-helper-text">{formError.gender?.message}</FormHelperText>
-                    </FormControl>
-                  )}
-                />
-                <Controller
-                  control={control}
-                  name="participantType"
-                  render={({ field: { onChange, value } }) => (
-                    <FormControl
-                      fullWidth
-                      error={!!formError.participantType}
-                    >
-                      <FormLabel htmlFor="participantType">Participant type</FormLabel>
-                      <Select
-                        value={value}
-                        id="participantType"
-                        onChange={onChange}
-                        aria-describedby="participantType-helper-text"
-                      >
-                        {Object.entries(ParticipantTypeOptions).map(
-                          ([participantTypeKey, participantTypeValue], index) => (
-                            <MenuItem
-                              key={index}
-                              value={participantTypeKey}
-                            >
-                              {participantTypeValue}
-                            </MenuItem>
-                          )
-                        )}
-                      </Select>
-                      <FormHelperText id="participantType-helper-text">
-                        {formError.participantType?.message}
-                      </FormHelperText>
-                    </FormControl>
-                  )}
-                />
-                <Controller
-                  control={control}
-                  name="playersBornAfterDate"
+                  }}
                   render={({ field: { onChange } }) => (
                     <FormControl
                       fullWidth
-                      error={!!formError.playersBornAfterDate}
+                      error={!!formError.startDate}
                     >
-                      <FormLabel htmlFor="playersBornAfterDate">Player born after</FormLabel>
+                      <FormLabel htmlFor="startDate">Start date</FormLabel>
                       <LocalizationProvider dateAdapter={AdapterDayjs}>
                         <DatePicker
                           onChange={(date) => {
                             onChange(date?.toISOString());
                           }}
-                          defaultValue={dayjs(getValues('playersBornAfterDate'))}
+                          disablePast
+                          defaultValue={dayjs(getValues('startDate'))}
                           format="DD/MM/YYYY"
-                          disableFuture
+                          disabled={updatingData || hasFinalizedApplicants}
                         />
                       </LocalizationProvider>
-                      <FormHelperText id="playersBornAfterDate-helper-text">
-                        {formError.playersBornAfterDate?.message}
+                      <FormHelperText id="startDate-helper-text">{formError.startDate?.message}</FormHelperText>
+                    </FormControl>
+                  )}
+                />
+                <Controller
+                  control={control}
+                  name="endDate"
+                  rules={{
+                    required: 'The end date is required.',
+                    validate: (value) => {
+                      const startDate = dayjs(getValues('startDate'));
+                      const endDate = dayjs(value);
+
+                      if (!endDate.isAfter(startDate, 'day')) {
+                        return 'The end date must be after the start date.';
+                      }
+                      return true;
+                    },
+                  }}
+                  render={({ field: { onChange } }) => (
+                    <FormControl
+                      fullWidth
+                      error={!!formError.endDate}
+                    >
+                      <FormLabel htmlFor="endDate">End date</FormLabel>
+                      <LocalizationProvider dateAdapter={AdapterDayjs}>
+                        <DatePicker
+                          onChange={(date) => {
+                            onChange(date?.toISOString());
+                          }}
+                          disablePast
+                          defaultValue={dayjs(getValues('endDate'))}
+                          format="DD/MM/YYYY"
+                          disabled={updatingData || hasFinalizedApplicants}
+                        />
+                      </LocalizationProvider>
+                      <FormHelperText id="endDate-helper-text">{formError.endDate?.message}</FormHelperText>
+                    </FormControl>
+                  )}
+                />
+              </Stack>
+              <Stack
+                spacing={2}
+                direction="row"
+              >
+                <Controller
+                  control={control}
+                  name="registrationDueDate"
+                  rules={{
+                    required: 'The registration due date is required.',
+                    validate: (value) => {
+                      const startDate = dayjs(getValues('startDate'));
+                      const registrationDueDate = dayjs(value);
+
+                      if (!registrationDueDate.isBefore(startDate, 'day')) {
+                        return 'The registration due date must be before the start date.';
+                      }
+                      return true;
+                    },
+                  }}
+                  render={({ field: { onChange } }) => (
+                    <FormControl
+                      fullWidth
+                      error={!!formError.registrationDueDate}
+                    >
+                      <FormLabel htmlFor="registrationDueDate">Registration due date</FormLabel>
+                      <LocalizationProvider dateAdapter={AdapterDayjs}>
+                        <DateTimePicker
+                          onChange={(date) => {
+                            onChange(date?.toISOString());
+                          }}
+                          disablePast
+                          defaultValue={dayjs(getValues('registrationDueDate'))}
+                          format="DD/MM/YYYY HH:mm"
+                          disabled={updatingData || hasFinalizedApplicants}
+                        />
+                      </LocalizationProvider>
+                      <FormHelperText id="registrationDueDate-helper-text">
+                        {formError.registrationDueDate?.message}
                       </FormHelperText>
                     </FormControl>
                   )}
                 />
               </Stack>
-            </>
-          )}
+            </Stack>
+          </Box>
+
+          {/* Location address */}
+          <Box sx={{ width: '100%' }}>
+            <Typography variant="h6">Location Address</Typography>
+            <FormControl
+              fullWidth
+              error={!!formError.address}
+              sx={{ mt: 1 }}
+            >
+              <FormLabel htmlFor="address">Address detail</FormLabel>
+              <TextField
+                placeholder="Address detail"
+                {...register('address', {
+                  required: 'The address is required.',
+                  minLength: {
+                    value: 20,
+                    message: 'The address must be at least 20 characters.',
+                  },
+                })}
+                required
+                id="address"
+                error={!!formError.address}
+                aria-describedby="address-helper-text"
+                disabled={updatingData || hasFinalizedApplicants}
+              />
+              <FormHelperText id="address-helper-text">{formError.address?.message}</FormHelperText>
+            </FormControl>
+          </Box>
+        </Stack>
+
+        {/* Game Settings */}
+        <Stack spacing={2}>
+          <>
+            <Typography variant="h6">Tournament Settings</Typography>
+            <Stack
+              direction="row"
+              spacing={2}
+            >
+              <Controller
+                control={control}
+                name="format"
+                render={({ field: { onChange, value } }) => (
+                  <FormControl
+                    fullWidth
+                    error={!!formError.format}
+                  >
+                    <FormLabel htmlFor="format">Choose format</FormLabel>
+                    <Select
+                      value={value}
+                      id="format"
+                      onChange={onChange}
+                      aria-describedby="format-helper-text"
+                      disabled={updatingData || hasPublishedTournament}
+                    >
+                      {tournamentFormatOptions.map((tournamentOption) => (
+                        <MenuItem
+                          key={tournamentOption.id}
+                          value={tournamentOption.value}
+                        >
+                          {tournamentOption.displayValue}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                    <FormHelperText id="format-helper-text">{formError.format?.message}</FormHelperText>
+                  </FormControl>
+                )}
+              />
+              <FormControl
+                fullWidth
+                error={!!formError.maxParticipants}
+              >
+                <FormLabel htmlFor="maxParticipants">Max participants</FormLabel>
+                <TextField
+                  {...register('maxParticipants', {
+                    required: 'The max participants is required.',
+                    validate: (value) =>
+                      (value && value >= tournamentData.participants) ||
+                      'The max participants must be greater than current participants.',
+                  })}
+                  required
+                  type="number"
+                  id="maxParticipants"
+                  error={!!formError.maxParticipants}
+                  aria-describedby="maxParticipants-helper-text"
+                  disabled={updatingData || hasPublishedTournament}
+                />
+                <FormHelperText id="maxParticipants-helper-text">{formError.maxParticipants?.message}</FormHelperText>
+              </FormControl>
+            </Stack>
+            <Stack
+              direction="row"
+              spacing={2}
+            >
+              <Controller
+                control={control}
+                name="gender"
+                rules={{ required: 'Please select a gender.' }}
+                render={({ field: { onChange, value } }) => (
+                  <FormControl
+                    fullWidth
+                    error={!!formError.gender}
+                  >
+                    <FormLabel htmlFor="gender">Gender</FormLabel>
+                    <Select
+                      value={value}
+                      id="gender"
+                      onChange={onChange}
+                      aria-describedby="gender-helper-text"
+                      disabled={updatingData || hasPublishedTournament}
+                    >
+                      {Object.entries(GenderOptions).map(([genderKey, genderValue], index) => (
+                        <MenuItem
+                          key={index}
+                          value={genderKey}
+                        >
+                          {genderValue}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                    <FormHelperText id="gender-helper-text">{formError.gender?.message}</FormHelperText>
+                  </FormControl>
+                )}
+              />
+              <Controller
+                control={control}
+                name="participantType"
+                render={({ field: { onChange, value } }) => (
+                  <FormControl
+                    fullWidth
+                    error={!!formError.participantType}
+                  >
+                    <FormLabel htmlFor="participantType">Participant type</FormLabel>
+                    <Select
+                      value={value}
+                      id="participantType"
+                      onChange={onChange}
+                      aria-describedby="participantType-helper-text"
+                      disabled={updatingData || hasPublishedTournament}
+                    >
+                      {Object.entries(ParticipantTypeOptions).map(
+                        ([participantTypeKey, participantTypeValue], index) => (
+                          <MenuItem
+                            key={index}
+                            value={participantTypeKey}
+                          >
+                            {participantTypeValue}
+                          </MenuItem>
+                        )
+                      )}
+                    </Select>
+                    <FormHelperText id="participantType-helper-text">
+                      {formError.participantType?.message}
+                    </FormHelperText>
+                  </FormControl>
+                )}
+              />
+              <Controller
+                control={control}
+                name="playersBornAfterDate"
+                render={({ field: { onChange } }) => (
+                  <FormControl
+                    fullWidth
+                    error={!!formError.playersBornAfterDate}
+                  >
+                    <FormLabel htmlFor="playersBornAfterDate">Player born after</FormLabel>
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                      <DatePicker
+                        onChange={(date) => {
+                          onChange(date?.toISOString());
+                        }}
+                        defaultValue={dayjs(getValues('playersBornAfterDate'))}
+                        format="DD/MM/YYYY"
+                        disableFuture
+                        disabled={updatingData || hasPublishedTournament}
+                      />
+                    </LocalizationProvider>
+                    <FormHelperText id="playersBornAfterDate-helper-text">
+                      {formError.playersBornAfterDate?.message}
+                    </FormHelperText>
+                  </FormControl>
+                )}
+              />
+            </Stack>
+          </>
 
           <Controller
             name="image"
@@ -556,10 +569,15 @@ export default function UpdateTournament({ onCloseForm }: { onCloseForm: () => v
               <SingleImagePicker
                 label="Upload a background image for your tournament"
                 imageUrl={value}
-                handleUpload={onChange}
+                handleUpload={(imageUrl) => {
+                  onChange(imageUrl);
+                  update();
+                }}
                 handleRemove={() => {
                   onChange('');
+                  update();
                 }}
+                disabled={updatingData}
               />
             )}
           />
@@ -575,7 +593,7 @@ export default function UpdateTournament({ onCloseForm }: { onCloseForm: () => v
           <Button
             variant="outlined"
             color="secondary"
-            disabled={isLoading}
+            disabled={updatingData}
             onClick={onCloseForm}
             sx={{ mt: 4 }}
           >
@@ -584,18 +602,15 @@ export default function UpdateTournament({ onCloseForm }: { onCloseForm: () => v
           <Button
             variant="contained"
             color="primary"
-            disabled={isLoading}
+            disabled={disabledUpdateBtn}
             onClick={handleSubmit(onSubmit)}
             sx={{ mt: 4 }}
           >
-            {isLoading ? 'Updating...' : 'Update'}
+            {updatingData ? 'Updating...' : 'Update'}
           </Button>
         </Box>
       </Box>
+      <DevTool control={control} /> {/* set up the dev tool */}
     </Container>
   );
 }
-
-// export default function UpdateTournament() {
-//   return <Box>UpdateTournament</Box>;
-// }

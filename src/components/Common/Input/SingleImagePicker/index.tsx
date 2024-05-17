@@ -24,7 +24,7 @@ interface SingleImagePickerProps {
   disabled?: boolean;
 }
 
-const SingleImagePicker = memo(({ label, imageUrl, handleUpload, handleRemove }: SingleImagePickerProps) => {
+const SingleImagePicker = memo(({ label, imageUrl, handleUpload, handleRemove, disabled }: SingleImagePickerProps) => {
   const dispatch = useAppDispatch();
 
   const handleUploadImage = useCallback(
@@ -69,10 +69,16 @@ const SingleImagePicker = memo(({ label, imageUrl, handleUpload, handleRemove }:
     [dispatch, handleUploadImage]
   );
 
-  const renderUpdateImageContainer = ({ open, disabled }: { open: () => void; disabled: boolean }) => (
+  const renderUpdateImageContainer = ({
+    open,
+    disabled: disabledDropFile,
+  }: {
+    open: () => void;
+    disabled: boolean;
+  }) => (
     <UploadImageCard
       open={open}
-      disabled={disabled}
+      disabled={disabledDropFile}
     />
   );
 
@@ -91,6 +97,7 @@ const SingleImagePicker = memo(({ label, imageUrl, handleUpload, handleRemove }:
             acceptMIMETypes={ImageFileConfig.ACCEPTED_MINE_TYPES}
             renderChildren={renderUpdateImageContainer}
             maxSize={ImageFileConfig.MAX_SIZE}
+            disabled={disabled}
           />
         )}
       </Box>
