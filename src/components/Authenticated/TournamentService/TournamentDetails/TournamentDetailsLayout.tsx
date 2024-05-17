@@ -1,7 +1,7 @@
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import { Box, Container, Divider, Paper, Stack, Tab, Typography } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Outlet, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'store';
 
@@ -49,12 +49,18 @@ const steps = Object.values(TournamentPhaseOptions);
 export default function TournamentDetailsLayout() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const location = useLocation();
-  const pathParts = location.pathname.split('/');
+  const { pathname } = useLocation();
   const [getTournamentDetails, { isLoading }] = useLazyGetOpenTournamentDetailsQuery();
   const { data: tournamentData, shouldRefreshData } = useAppSelector(selectTournament);
 
-  const [currentTab, setCurrentTab] = useState(pathParts[3]);
+  const getActiveTab = useCallback(() => {
+    const pathParts = pathname.split('/');
+    const activeTabFromPath = pathParts[3]; // /tournaments/:tournamentId/:activeTab
+    const activeTab = TournamentTabs.find((tab) => tab.value === activeTabFromPath);
+    return activeTab ? activeTab.value : TournamentTabs[2].value; // default to info tab
+  }, [pathname]);
+
+  const [currentTab, setCurrentTab] = useState(getActiveTab);
 
   const { tournamentId } = useParams();
 
@@ -62,6 +68,10 @@ export default function TournamentDetailsLayout() {
     setCurrentTab(newValue);
     navigate(`/tournaments/${tournamentId}/${newValue}`);
   };
+
+  useEffect(() => {
+    setCurrentTab(getActiveTab);
+  }, [getActiveTab]);
 
   useEffect(() => {
     (async () => {

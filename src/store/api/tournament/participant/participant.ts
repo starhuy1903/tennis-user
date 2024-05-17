@@ -1,7 +1,6 @@
 import { RegistrationStatus } from 'constants/tournament-participants';
 import { apiWithToastSlice } from 'store/api/baseApiSlice';
 import { urlWithCorePrefix } from 'store/api/helper';
-import { GetListResult } from 'types/base';
 import { OpenTournamentApplicant } from 'types/open-tournament-participants';
 import { TournamentRegistrationPayload } from 'types/tournament-registration';
 
@@ -10,6 +9,7 @@ export const {
   useGetMyApplicationQuery,
   useDeleteApplicationMutation,
   useGetInvitationsQuery,
+  useLazyGetInvitationsQuery,
   useApproveInvitationMutation,
   useRejectInvitationMutation,
 } = apiWithToastSlice.injectEndpoints({
@@ -21,8 +21,8 @@ export const {
         body: { user2Email, message },
       }),
     }),
-    getMyApplication: build.query<OpenTournamentApplicant, { tournamentId: number }>({
-      query: ({ tournamentId }) => ({
+    getMyApplication: build.query<OpenTournamentApplicant, number>({
+      query: (tournamentId) => ({
         url: urlWithCorePrefix(`tournaments/${tournamentId}/applicants/apply`),
       }),
       transformResponse: (response: { data: OpenTournamentApplicant }) => response.data,
@@ -34,7 +34,7 @@ export const {
       }),
     }),
     getInvitations: build.query<
-      GetListResult<OpenTournamentApplicant>,
+      OpenTournamentApplicant[],
       { tournamentId: number; status: RegistrationStatus.INVITING | RegistrationStatus.CANCELED }
     >({
       query: ({ tournamentId, status }) => ({
@@ -43,6 +43,7 @@ export const {
           status,
         },
       }),
+      transformResponse: (response: { data: OpenTournamentApplicant[] }) => response.data,
     }),
     approveInvitation: build.mutation<void, { tournamentId: number; inviterId: string }>({
       query: ({ tournamentId, inviterId }) => ({

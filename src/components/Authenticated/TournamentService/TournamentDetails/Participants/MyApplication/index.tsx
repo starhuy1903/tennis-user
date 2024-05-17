@@ -1,14 +1,16 @@
-import { Box, Button } from '@mui/material';
+import { Alert, Box, Button } from '@mui/material';
 import { useConfirm } from 'material-ui-confirm';
-import { useAppDispatch, useAppSelector } from 'store';
+import { useEffect, useState } from 'react';
+import { useAppDispatch } from 'store';
 
 import CenterLoading from 'components/Common/CenterLoading';
 import { ModalKey } from 'constants/modal';
 import { RegistrationStatus } from 'constants/tournament-participants';
-import { useGetMyApplicationQuery } from 'store/api/tournament/participant/participant';
+import { useGetMyApplicationQuery, useLazyGetInvitationsQuery } from 'store/api/tournament/participant/participant';
 import { showModal } from 'store/slice/modalSlice';
-import { selectTournamentData } from 'store/slice/tournamentSlice';
+import { OpenTournamentApplicant } from 'types/open-tournament-participants';
 import { OpenTournament } from 'types/tournament';
+import { checkExpiredDate } from 'utils/datetime';
 
 import ApplicationForm from './ApplicationForm';
 import Invitations from './Invitations';
@@ -16,35 +18,92 @@ import Invitations from './Invitations';
 export default function MyApplication({ tournament }: { tournament: OpenTournament }) {
   const dispatch = useAppDispatch();
   const confirm = useConfirm();
-  const tournamentData = useAppSelector(selectTournamentData);
+
+  const [invitations, setInvitations] = useState<{
+    inviting: OpenTournamentApplicant[];
+    canceled: OpenTournamentApplicant[];
+  }>({
+    inviting: [],
+    canceled: [],
+  });
 
   const {
     data: myApplication,
-    isLoading,
+    isLoading: fetchingApplycation,
     refetch: fetchMyApplication,
-  } = useGetMyApplicationQuery({ tournamentId: tournamentData.id });
+  } = useGetMyApplicationQuery(tournament.id);
+  const [getInvitations, { isLoading: fetchingInvitations }] = useLazyGetInvitationsQuery();
+
+  const isRegistered = myApplication && myApplication.status !== RegistrationStatus.CANCELED;
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const responses = await Promise.all([
+          getInvitations(
+            {
+              tournamentId: tournament.id,
+              status: RegistrationStatus.INVITING,
+            },
+            true
+          ).unwrap(),
+          getInvitations(
+            {
+              tournamentId: tournament.id,
+              status: RegistrationStatus.CANCELED,
+            },
+            true
+          ).unwrap(),
+        ]);
+
+        setInvitations({
+          inviting: responses[0],
+          canceled: responses[1],
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    })();
+  }, [getInvitations, tournament.id]);
 
   const handleRegister = async () => {
+    const showRegisterModal = () => {
+      dispatch(
+        showModal(ModalKey.REGISTER_TOURNAMENT, {
+          tournamentId: tournament.id,
+          participantType: tournament.participantType,
+          fetchMyApplication,
+        })
+      );
+    };
+
+    if (!invitations.inviting?.length) {
+      showRegisterModal();
+      return;
+    }
+
     confirm({ description: 'Creating a tournament application will cancel all invitations from others.' })
-      .then(() =>
-        dispatch(
-          showModal(ModalKey.REGISTER_TOURNAMENT, {
-            tournamentId: tournamentData.id,
-            participantType: tournament.participantType,
-            fetchMyApplication,
-          })
-        )
-      )
+      .then(showRegisterModal)
       .catch(() => {});
   };
 
-  if (isLoading) {
+  if (fetchingApplycation || fetchingInvitations) {
     return <CenterLoading />;
+  }
+
+  if (!isRegistered && checkExpiredDate(tournament.registrationDueDate)) {
+    return (
+      <Box mt={4}>
+        <Alert severity="error">
+          The registration deadline has passed. You can no longer register for this tournament.
+        </Alert>
+      </Box>
+    );
   }
 
   return (
     <Box my={5}>
-      {myApplication && myApplication.status !== RegistrationStatus.CANCELED ? (
+      {isRegistered ? (
         <ApplicationForm
           data={myApplication}
           fetchMyApplication={fetchMyApplication}
@@ -67,9 +126,15 @@ export default function MyApplication({ tournament }: { tournament: OpenTourname
             </Button>
           </Box>
 
-          <Invitations status={RegistrationStatus.INVITING} />
+          <Invitations
+            title="Invitations"
+            invitations={invitations.inviting}
+          />
 
-          <Invitations status={RegistrationStatus.CANCELED} />
+          <Invitations
+            title="Canceled Invitations"
+            invitations={invitations.canceled}
+          />
         </Box>
       )}
     </Box>
