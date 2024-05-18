@@ -54,6 +54,11 @@ export interface ShowPackageDetailsProps extends CommonModalProps {
   onNavigate: (serviceName: string) => void;
 }
 
+export type AddRefereeProps = CommonModalProps & {
+  tournamentId: number;
+  onSubmit: () => void;
+};
+
 /** External modal props: useModal */
 // type FilteredModalProps<T extends CommonModalProps> = Omit<T, 'onModalClose'> & {
 //   onModalClose?: () => void;

@@ -1,7 +1,7 @@
 import { ParticipantType } from 'constants/tournament';
 import { RegistrationStatus } from 'constants/tournament-participants';
 import { GetListResult, GetPagingListOptions } from 'types/base';
-import { OpenTournamentApplicant } from 'types/open-tournament-participants';
+import { OpenTournamentApplicant, Referee } from 'types/open-tournament-participants';
 
 import { apiWithToastSlice } from '../../baseApiSlice';
 import { urlWithCorePrefix } from '../../helper';
@@ -11,6 +11,9 @@ export const {
   useLazyGetOpenTournamentApplicantsQuery,
   useApproveTournamentApplicantMutation,
   useRejectTournamentApplicantMutation,
+  useGetRefereesQuery,
+  useLazyGetRefereesQuery,
+  useAddRefereeMutation,
   useFinalizeApplicantMutation,
 } = apiWithToastSlice.injectEndpoints({
   endpoints: (build) => ({
@@ -45,10 +48,20 @@ export const {
         body: { userId },
       }),
     }),
+    getReferees: build.query<GetListResult<Referee>, number>({
+      query: (tournamentId) => urlWithCorePrefix(`tournaments/${tournamentId}/referees`),
+    }),
+    addReferee: build.mutation<void, { tournamentId: number; email: string }>({
+      query: ({ tournamentId, email }) => ({
+        url: urlWithCorePrefix(`tournaments/${tournamentId}/referees`),
+        method: 'POST',
+        body: { email },
+      }),
+    }),
     finalizeApplicant: build.mutation<void, number>({
       query: (tournamentId) => ({
         url: urlWithCorePrefix(`tournaments/${tournamentId}/applicants/finalize`),
-        method: 'PATCH',
+        method: 'POST',
       }),
     }),
   }),

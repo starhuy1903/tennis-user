@@ -1,4 +1,3 @@
-import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -13,7 +12,6 @@ import Stack from '@mui/material/Stack';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { useAppSelector } from 'store';
 
 import { FormatDateTime } from 'constants/datetime';
@@ -59,7 +57,6 @@ const InfoItem = ({ label, value }: { label: string; value: string }) => {
 };
 
 export default function ApplicantItem({ data }: { data: OpenTournamentApplicant }) {
-  const navigate = useNavigate();
   const tournamentData = useAppSelector(selectTournamentData);
   const [expand, setExpand] = useState(false);
 
@@ -83,6 +80,8 @@ export default function ApplicantItem({ data }: { data: OpenTournamentApplicant 
       // handle error
     }
   };
+
+  const disabledBtn = isApproving || isRejecting;
 
   return (
     <Accordion
@@ -176,7 +175,8 @@ export default function ApplicantItem({ data }: { data: OpenTournamentApplicant 
           </Stack>
 
           <Box sx={{ display: 'flex', alignItems: 'flex-end', columnGap: '10px' }}>
-            <Tooltip title="View Profile">
+            {/* TODO: need to implement view profile */}
+            {/* <Tooltip title="View Profile">
               <Fab
                 size="small"
                 color="info"
@@ -184,7 +184,7 @@ export default function ApplicantItem({ data }: { data: OpenTournamentApplicant 
               >
                 <AccountBoxIcon />
               </Fab>
-            </Tooltip>
+            </Tooltip> */}
 
             {data.status === RegistrationStatus.PENDING && (
               <>
@@ -193,7 +193,7 @@ export default function ApplicantItem({ data }: { data: OpenTournamentApplicant 
                     size="small"
                     color="success"
                     onClick={handleApprove}
-                    disabled={isApproving || isRejecting}
+                    disabled={disabledBtn}
                   >
                     <CheckIcon />
                   </Fab>
@@ -204,7 +204,7 @@ export default function ApplicantItem({ data }: { data: OpenTournamentApplicant 
                     size="small"
                     color="error"
                     onClick={handleReject}
-                    disabled={isApproving || isRejecting}
+                    disabled={disabledBtn}
                   >
                     <CloseIcon />
                   </Fab>

@@ -12,6 +12,7 @@ import RegisterTournament from './RegisterTournament';
 import SelectPaymentMethod from './SelectPaymentMethod';
 import ShowOrderDetail from './ShowOrderDetails';
 import ShowPackageDetails from './ShowPackageDetails';
+import AddReferee from './Tournament/AddReferee';
 
 const ModalsMap: { [modalKey: string]: any } = {
   [ModalKey.HELLO_WORLD]: HelloWorld,
@@ -23,6 +24,7 @@ const ModalsMap: { [modalKey: string]: any } = {
   [ModalKey.SHOW_ORDER_DETAIL]: ShowOrderDetail,
   [ModalKey.ADD_MATCH]: AddMatch,
   [ModalKey.SHOW_PACKAGE_DETAIL]: ShowPackageDetails,
+  [ModalKey.ADD_REFEREE]: AddReferee,
 };
 
 export function ModalContainer() {

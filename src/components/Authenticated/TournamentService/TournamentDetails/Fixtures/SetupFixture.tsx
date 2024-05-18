@@ -24,11 +24,11 @@ import { FixturePayload } from 'types/tournament-fixtures';
 
 type FormType = FixturePayload;
 
-const tournamentFormatOptions = [
-  { id: 1, value: 'knockout', displayValue: 'Knockout', level: 'basic' },
-  { id: 2, value: 'round_robin', displayValue: 'Round Robin', level: 'basic' },
-  { id: 3, value: 'group_playoff', displayValue: 'Group Playoff', level: 'advanced' },
-];
+// const tournamentFormatOptions = [
+//   { id: 1, value: 'knockout', displayValue: 'Knockout', level: 'basic' },
+//   { id: 2, value: 'round_robin', displayValue: 'Round Robin', level: 'basic' },
+//   { id: 3, value: 'group_playoff', displayValue: 'Group Playoff', level: 'advanced' },
+// ];
 
 export default function SetupFixture() {
   const tournamentData = useAppSelector(selectTournamentData);
