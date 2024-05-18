@@ -56,7 +56,13 @@ const InfoItem = ({ label, value }: { label: string; value: string }) => {
   );
 };
 
-export default function ApplicantItem({ data }: { data: OpenTournamentApplicant }) {
+export default function ApplicantItem({
+  data,
+  refetchApplicantData,
+}: {
+  data: OpenTournamentApplicant;
+  refetchApplicantData: () => Promise<void>;
+}) {
   const tournamentData = useAppSelector(selectTournamentData);
   const [expand, setExpand] = useState(false);
 
@@ -67,6 +73,7 @@ export default function ApplicantItem({ data }: { data: OpenTournamentApplicant 
     try {
       await approveRequest({ tournamentId: tournamentData.id, userId: data.user1.id }).unwrap();
       showSuccess(`Approved ${data.user1.name}'s registration form successfully.`);
+      await refetchApplicantData();
     } catch (error) {
       // handled error
     }
@@ -76,6 +83,7 @@ export default function ApplicantItem({ data }: { data: OpenTournamentApplicant 
     try {
       await rejectRequest({ tournamentId: tournamentData.id, userId: data.user1.id }).unwrap();
       showSuccess(`Rejected ${data.user1.name}'s registration form successfully.`);
+      await refetchApplicantData();
     } catch (error) {
       // handle error
     }

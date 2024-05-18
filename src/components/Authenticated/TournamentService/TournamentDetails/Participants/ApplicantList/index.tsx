@@ -1,6 +1,6 @@
 import { Box, Button, Typography } from '@mui/material';
 import { useConfirm } from 'material-ui-confirm';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'store';
 
 import CenterLoading from 'components/Common/CenterLoading';
@@ -25,14 +25,39 @@ export default function ApplicantList() {
   const [finalizeApplicantRequest, { isLoading: finalizing }] = useFinalizeApplicantMutation();
 
   const [applicants, setApplicants] = useState<{
-    unapproved: OpenTournamentApplicant[];
+    all: OpenTournamentApplicant[];
     approved: OpenTournamentApplicant[];
     rejected: OpenTournamentApplicant[];
   }>({
-    unapproved: [],
+    all: [],
     approved: [],
     rejected: [],
   });
+
+  const unapprovedApplicants = useMemo(
+    () => applicants.all.filter((a) => a.status === RegistrationStatus.PENDING) || [],
+    [applicants]
+  );
+
+  const handleGetApplicantData = useCallback(async () => {
+    try {
+      setFetchingApplicant(true);
+      const responses = await Promise.all([
+        getApplicantsRequest({ tournamentId: tournamentData.id }).unwrap(),
+        getApplicantsRequest({ tournamentId: tournamentData.id, status: RegistrationStatus.APPROVED }).unwrap(),
+        getApplicantsRequest({ tournamentId: tournamentData.id, status: RegistrationStatus.REJECTED }).unwrap(),
+      ]);
+      setApplicants({
+        all: responses[0].data,
+        approved: responses[1].data,
+        rejected: responses[2].data,
+      });
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setFetchingApplicant(false);
+    }
+  }, [getApplicantsRequest, tournamentData.id]);
 
   const handleFinalizeApplicant = useCallback(() => {
     confirm({
@@ -40,7 +65,7 @@ export default function ApplicantList() {
       description: 'After finalizing, you cannot change the Tournament Timeline. Are you sure you want to finalize?',
     }).then(async () => {
       try {
-        await finalizeApplicantRequest(tournamentData.id);
+        await finalizeApplicantRequest(tournamentData.id).unwrap();
         dispatch(shouldRefreshTournamentData(true));
       } catch (e) {
         // handled error
@@ -49,26 +74,8 @@ export default function ApplicantList() {
   }, [confirm, dispatch, finalizeApplicantRequest, tournamentData.id]);
 
   useEffect(() => {
-    (async () => {
-      try {
-        setFetchingApplicant(true);
-        const responses = await Promise.all([
-          getApplicantsRequest({ tournamentId: tournamentData.id }).unwrap(),
-          getApplicantsRequest({ tournamentId: tournamentData.id, status: RegistrationStatus.APPROVED }).unwrap(),
-          getApplicantsRequest({ tournamentId: tournamentData.id, status: RegistrationStatus.REJECTED }).unwrap(),
-        ]);
-        setApplicants({
-          unapproved: responses[0].data,
-          approved: responses[1].data,
-          rejected: responses[2].data,
-        });
-      } catch (error) {
-        console.log(error);
-      } finally {
-        setFetchingApplicant(false);
-      }
-    })();
-  }, [getApplicantsRequest, tournamentData]);
+    handleGetApplicantData();
+  }, [handleGetApplicantData]);
 
   const disabledFinalizeBtn = finalizing || applicants.approved.length === 0;
 
@@ -85,16 +92,18 @@ export default function ApplicantList() {
         Applicants
       </Typography>
 
-      {applicants && applicants.unapproved.length > 0 ? (
-        applicants.unapproved.map((e) => <ApplicantItem data={e} />)
+      {unapprovedApplicants.length > 0 ? (
+        unapprovedApplicants.map((e) => (
+          <ApplicantItem
+            data={e}
+            refetchApplicantData={handleGetApplicantData}
+          />
+        ))
       ) : (
         <NoData message="No applicants yet." />
       )}
 
-      <Box
-        mt={6}
-        mb={2}
-      >
+      <Box mt={6}>
         <Box
           display="flex"
           justifyContent="space-between"
@@ -110,11 +119,18 @@ export default function ApplicantList() {
           </Button>
         </Box>
 
-        {applicants && applicants.approved.length > 0 ? (
-          applicants.approved.map((e) => <ApplicantItem data={e} />)
-        ) : (
-          <NoData message="No approved applicants yet." />
-        )}
+        <Box mt={2}>
+          {applicants && applicants.approved.length > 0 ? (
+            applicants.approved.map((e) => (
+              <ApplicantItem
+                data={e}
+                refetchApplicantData={handleGetApplicantData}
+              />
+            ))
+          ) : (
+            <NoData message="No approved applicants yet." />
+          )}
+        </Box>
       </Box>
 
       <Typography
@@ -126,7 +142,12 @@ export default function ApplicantList() {
       </Typography>
 
       {applicants && applicants.rejected.length > 0 ? (
-        applicants.rejected.map((e) => <ApplicantItem data={e} />)
+        applicants.rejected.map((e) => (
+          <ApplicantItem
+            data={e}
+            refetchApplicantData={handleGetApplicantData}
+          />
+        ))
       ) : (
         <NoData message="No rejected applicants yet." />
       )}
