@@ -45,8 +45,8 @@ export default function RegisterTournament({
       }).unwrap();
 
       showSuccess('Sent tournament registration request successfully.');
-      fetchMyApplication();
       onModalClose();
+      fetchMyApplication();
     } catch (err) {
       console.error(err);
     }

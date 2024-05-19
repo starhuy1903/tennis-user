@@ -2,7 +2,7 @@ import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import PeopleIcon from '@mui/icons-material/People';
 import { Box, Button, Card, CardActionArea, CardContent, CardMedia, Tooltip, Typography } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAppDispatch } from 'store';
 
 import { ModalKey } from 'constants/modal';
@@ -19,9 +19,20 @@ export default function TournamentItem({
   isRegisterable?: boolean;
 }) {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const handleRegister = async (tournamentId: number) => {
-    dispatch(showModal(ModalKey.REGISTER_TOURNAMENT, { tournamentId, participantType: tournament.participantType }));
+    dispatch(
+      showModal(ModalKey.REGISTER_TOURNAMENT, {
+        tournamentId,
+        participantType: tournament.participantType,
+        fetchMyApplication: () => navigate(`/tournaments/${tournament.id}/participants`),
+      })
+    );
+  };
+
+  const handleView = () => {
+    navigate(`/tournaments/${tournament.id}`);
   };
 
   return (
@@ -32,7 +43,7 @@ export default function TournamentItem({
         width: '320px',
       }}
     >
-      <CardActionArea>
+      <CardActionArea onClick={() => handleView()}>
         <Box
           sx={{
             height: '200px',
