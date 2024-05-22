@@ -43,7 +43,7 @@ export default function TournamentItem({
         width: '320px',
       }}
     >
-      <CardActionArea onClick={() => handleView()}>
+      <CardActionArea onClick={handleView}>
         <Box
           sx={{
             height: '200px',
