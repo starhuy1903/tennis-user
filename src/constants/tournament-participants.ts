@@ -14,7 +14,12 @@ export const RegistrationStatusOptions = {
   [RegistrationStatus.REJECTED]: 'Rejected',
 };
 
-export const RegistrationStatusChip = {
+export const RegistrationStatusChip: {
+  [key in RegistrationStatus]: {
+    displayText: string;
+    chipColor: 'default' | 'primary' | 'secondary' | 'info' | 'success' | 'warning' | 'error';
+  };
+} = {
   [RegistrationStatus.INVITING]: {
     displayText: 'Inviting',
     chipColor: 'warning',

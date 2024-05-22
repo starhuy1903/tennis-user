@@ -14,7 +14,7 @@ import { useAppSelector } from 'store';
 
 import { FormatDateTime } from 'constants/datetime';
 import { GenderOptions } from 'constants/tournament';
-import { RegistrationStatus } from 'constants/tournament-participants';
+import { RegistrationStatus, RegistrationStatusChip } from 'constants/tournament-participants';
 import { useDeleteApplicationMutation } from 'store/api/tournament/participant/participant';
 import { selectTournamentData } from 'store/slice/tournamentSlice';
 import { OpenTournamentApplicant } from 'types/open-tournament-participants';
@@ -140,14 +140,14 @@ export default function ApplicationForm({ data, fetchMyApplication }: Applicatio
           My Application
         </Typography>
 
-        {/* <Chip
+        <Chip
           sx={{ width: 'fit-content' }}
           component="span"
           variant="filled"
           color={RegistrationStatusChip[data.status].chipColor}
           size="medium"
           label={RegistrationStatusChip[data.status].displayText}
-        /> */}
+        />
       </Box>
 
       <Box
