@@ -233,7 +233,7 @@ export default function ParticipantList() {
                   ))
                 ) : referees && referees.data.length > 0 ? (
                   referees.data.map((row) => (
-                    <TableRow key={row.userId}>
+                    <TableRow key={row.id}>
                       <TableCell
                         component="th"
                         scope="row"

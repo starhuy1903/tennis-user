@@ -215,7 +215,7 @@ export default function KnockoutFixtures({ rounds }: { rounds: Round[] }) {
     <Box mt={5}>
       <Bracket
         rounds={mappedRounds}
-        roundTitleComponent={(title: React.ReactNode) => {
+        roundTitleComponent={(title) => {
           return (
             <Box
               sx={{

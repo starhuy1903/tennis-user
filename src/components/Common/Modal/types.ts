@@ -1,6 +1,7 @@
 // import { ModalKey } from 'constants/modal';
 import { ParticipantType } from 'constants/tournament';
 import { UserPackage } from 'types/package';
+import { Match } from 'types/tournament-fixtures';
 
 import { BaseModalProps } from './BaseModal';
 
@@ -47,6 +48,8 @@ export interface ShowOrderDetailsProps extends CommonModalProps {
 export interface AddMatchProps extends CommonModalProps {
   tournamentId: number;
   participantType: ParticipantType;
+  match: Match;
+  onUpdate: (data: any) => void;
 }
 
 export interface ShowPackageDetailsProps extends CommonModalProps {

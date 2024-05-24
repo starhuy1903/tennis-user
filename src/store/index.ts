@@ -23,7 +23,7 @@ const combinedReducer = combineReducers({
 const store = configureStore({
   reducer: combinedReducer,
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(apiSlice.middleware).concat(apiWithToastSlice.middleware),
+    getDefaultMiddleware({ serializableCheck: false }).concat(apiSlice.middleware).concat(apiWithToastSlice.middleware),
   devTools: true,
 });
 

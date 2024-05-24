@@ -1,46 +1,88 @@
 import { Alert, Box, Button } from '@mui/material';
-import { useEffect } from 'react';
+import produce from 'immer';
+import { useCallback, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from 'store';
+import { useAppSelector } from 'store';
 
 import CenterLoading from 'components/Common/CenterLoading';
 import GroupPlayoffFixture from 'components/Common/Fixtures/GroupPlayoffFixture';
-import KnockoutFixtures from 'components/Common/Fixtures/KnockoutFixture';
-import { RoundRobinFixture } from 'components/Common/Fixtures/RoundRobinFixture';
-import { ModalKey } from 'constants/modal';
+import RoundRobinFixture from 'components/Common/Fixtures/RoundRobin';
 import { TournamentFormat, TournamentPhase } from 'constants/tournament';
 import { FixtureStatus } from 'constants/tournament-fixtures';
+import { useSaveFixtureMutation } from 'store/api/tournament/creator/fixture';
 import { useLazyGetTournamentFixtureQuery } from 'store/api/tournament/shared/fixture';
-import { showModal } from 'store/slice/modalSlice';
 import { checkTournamentRole, selectTournamentData } from 'store/slice/tournamentSlice';
+import { FixturePayload, TournamentFixture } from 'types/tournament-fixtures';
+import { showSuccess } from 'utils/toast';
 import { checkGeneratedFixture } from 'utils/tournament';
 
 import SetupFixture from './SetupFixture';
 
 export default function Fixtures() {
-  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const [getFixtureRequest, { isLoading: fetchingFixture, data: fixture }] = useLazyGetTournamentFixtureQuery();
+  const [fixture, setFixture] = useState<TournamentFixture | null>(null);
+  const [fixtureConfig, setFixtureConfig] = useState<FixturePayload | null>(null);
+  const [getFixtureRequest, { isLoading: fetchingFixture }] = useLazyGetTournamentFixtureQuery();
+  const [saveFixtureRequest, { isLoading: savingFixture }] = useSaveFixtureMutation();
 
   const tournamentData = useAppSelector(selectTournamentData);
-
   const { isCreator } = useAppSelector(checkTournamentRole);
 
-  const handleAddMatch = () => {
-    dispatch(
-      showModal(ModalKey.ADD_MATCH, {
-        tournamentId: tournamentData.id,
-        participantType: tournamentData.participantType,
-      })
-    );
-  };
+  const handleUpdateFixture = useCallback((match: any) => {
+    setFixture((prev) => {
+      if (prev) {
+        const updatedGroups = produce(prev.roundRobinGroups, (draftGroups) => {
+          draftGroups?.[0].rounds.forEach((round) => {
+            round.matches.forEach((m) => {
+              if (m.id === match.id) {
+                m.title = match.name;
+                m.matchStartDate = match.date;
+                m.duration = match.duration;
+                m.refereeId = match.refereeId;
+              }
+            });
+          });
+        });
+        return { ...prev, roundRobinGroups: updatedGroups };
+      }
+      return prev;
+    });
+  }, []);
+
+  const handleSaveFixture = useCallback(
+    async (type: 'draft' | 'publish') => {
+      try {
+        if (!fixture || !fixtureConfig) return;
+        const { participantType, ...submittedFixture } = fixture;
+        const submitData = {
+          ...submittedFixture,
+          ...fixtureConfig,
+          status: type === 'draft' ? FixtureStatus.DRAFT : FixtureStatus.PUBLISHED,
+        };
+
+        await saveFixtureRequest({
+          tournamentId: tournamentData.id,
+          body: { ...submitData, id: String(submitData.id) },
+        }).unwrap();
+        if (type === 'publish') {
+          showSuccess('Saved and published fixture successfully.');
+        } else {
+          showSuccess('Saved draft fixture successfully.');
+        }
+      } catch (error) {
+        // handled error
+      }
+    },
+    [fixture, fixtureConfig, saveFixtureRequest, tournamentData.id]
+  );
 
   useEffect(() => {
     (async () => {
       if (isCreator || checkGeneratedFixture(tournamentData.phase)) {
         try {
-          await getFixtureRequest(tournamentData.id).unwrap();
+          const res = await getFixtureRequest(tournamentData.id).unwrap();
+          setFixture(res);
         } catch (error) {
           // handled error
         }
@@ -75,25 +117,50 @@ export default function Fixtures() {
 
       return (
         <Box mt={4}>
-          {shouldRenderSetupForm && <SetupFixture />}
-          {fixture && (
-            <>
-              {fixture.format === TournamentFormat.KNOCKOUT && <KnockoutFixtures rounds={fixture.knockoutRounds!} />}
-              {fixture.format === TournamentFormat.ROUND_ROBIN && (
-                <RoundRobinFixture rounds={fixture.roundRobinRounds!} />
-              )}
-              {fixture.format === TournamentFormat.GROUP_PLAYOFF && <GroupPlayoffFixture fixture={fixture} />}
-            </>
+          {shouldRenderSetupForm && (
+            <SetupFixture
+              setFixtureData={setFixture}
+              setFixtureConfig={setFixtureConfig}
+            />
           )}
-          {/* Create match button */}
-          <Box>
-            <Button
-              variant="text"
-              onClick={handleAddMatch}
-            >
-              Add match
-            </Button>
-          </Box>
+
+          {fixture?.id && (
+            <Box sx={{ overflowX: 'hidden', border: '1px solid' }}>
+              <Box sx={{ overflow: 'scroll' }}>
+                {/* <Typography>This is sample fixture.</Typography> */}
+                {/* {fixture.format === TournamentFormat.KNOCKOUT && (
+                  <KnockoutFixtures rounds={fixture.knockoutGroup?.rounds} />
+                )} */}
+                {fixture.format === TournamentFormat.ROUND_ROBIN && (
+                  <RoundRobinFixture
+                    rounds={fixture?.roundRobinGroups?.[0].rounds}
+                    onUpdateMatch={handleUpdateFixture}
+                  />
+                )}
+                {fixture.format === TournamentFormat.GROUP_PLAYOFF && <GroupPlayoffFixture fixture={fixture} />}
+              </Box>
+              <Box
+                display="flex"
+                justifyContent="flex-end"
+                gap={2}
+              >
+                <Button
+                  variant="outlined"
+                  onClick={() => handleSaveFixture('draft')}
+                  disabled={savingFixture}
+                >
+                  Save as a draft
+                </Button>
+                <Button
+                  variant="contained"
+                  onClick={() => handleSaveFixture('publish')}
+                  disabled={savingFixture}
+                >
+                  Save & Publish
+                </Button>
+              </Box>
+            </Box>
+          )}
         </Box>
       );
     }
@@ -108,8 +175,8 @@ export default function Fixtures() {
 
   return (
     <Box mt={4}>
-      {fixture?.format === TournamentFormat.KNOCKOUT && <KnockoutFixtures rounds={fixture.knockoutRounds!} />}
-      {fixture?.format === TournamentFormat.ROUND_ROBIN && <RoundRobinFixture rounds={fixture.roundRobinRounds!} />}
+      {/* {fixture?.format === TournamentFormat.KNOCKOUT && <KnockoutFixtures rounds={fixture.knockoutRounds!} />} */}
+      {/* {fixture?.format === TournamentFormat.ROUND_ROBIN && <RoundRobinFixture rounds={fixture.roundRobinRounds!} />} */}
       {fixture?.format === TournamentFormat.GROUP_PLAYOFF && <GroupPlayoffFixture fixture={fixture} />}
     </Box>
   );

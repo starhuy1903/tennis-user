@@ -18,19 +18,29 @@ import dayjs from 'dayjs';
 import { Controller, useForm } from 'react-hook-form';
 import { useAppSelector } from 'store';
 
+import { TournamentFormat } from 'constants/tournament';
 import { useGenerateFixtureMutation } from 'store/api/tournament/creator/fixture';
 import { selectTournamentData } from 'store/slice/tournamentSlice';
-import { FixturePayload } from 'types/tournament-fixtures';
+import { FixturePayload, TournamentFixture } from 'types/tournament-fixtures';
 
 type FormType = FixturePayload;
 
-// const tournamentFormatOptions = [
-//   { id: 1, value: 'knockout', displayValue: 'Knockout', level: 'basic' },
-//   { id: 2, value: 'round_robin', displayValue: 'Round Robin', level: 'basic' },
-//   { id: 3, value: 'group_playoff', displayValue: 'Group Playoff', level: 'advanced' },
-// ];
+const tournamentFormatOptions = [
+  { id: 1, value: 'knockout', displayValue: 'Knockout', level: 'basic' },
+  { id: 2, value: 'round_robin', displayValue: 'Round Robin', level: 'basic' },
+  { id: 3, value: 'group_playoff', displayValue: 'Group Playoff', level: 'advanced' },
+];
 
-export default function SetupFixture() {
+const getDisplayFormatText = (format: TournamentFormat) => {
+  return tournamentFormatOptions.find((option) => option.value === format)?.displayValue;
+};
+
+type SetupFixtureProps = {
+  setFixtureData: React.Dispatch<React.SetStateAction<TournamentFixture | null>>;
+  setFixtureConfig: React.Dispatch<React.SetStateAction<FixturePayload | null>>;
+};
+
+export default function SetupFixture({ setFixtureData, setFixtureConfig }: SetupFixtureProps) {
   const tournamentData = useAppSelector(selectTournamentData);
   const [generateFixtureRequest, { isLoading: generatingFixture }] = useGenerateFixtureMutation();
 
@@ -50,11 +60,17 @@ export default function SetupFixture() {
 
   const handleGenerateFixtures = handleSubmit(async (data) => {
     try {
+      const submittedData = {
+        ...data,
+        format: tournamentData.format,
+        venue: '86A, ap 5 xa Xuan Thoi Thuong, huyen Hoc Mon',
+      };
       const res = await generateFixtureRequest({
         tournamentId: tournamentData.id,
-        body: { ...data, format: tournamentData.format, venue: '86A, ap 5 xa Xuan Thoi Thuong, huyen Hoc Mon' },
+        body: submittedData,
       }).unwrap();
-      console.log('res ', res);
+      setFixtureConfig(submittedData);
+      setFixtureData(res);
     } catch (error) {
       // handle error
     }
@@ -67,6 +83,35 @@ export default function SetupFixture() {
         component="form"
       >
         <Typography variant="h4">SETUP FIXTURE</Typography>
+        {/* Setup configuration */}
+        <Paper
+          sx={{ width: '100%', p: 2, mt: 2 }}
+          elevation={3}
+        >
+          <Stack>
+            <Typography variant="h6">Fixture configuration</Typography>
+            <Stack
+              direction="row"
+              spacing={2}
+              justifyContent="space-between"
+            >
+              <FormControl fullWidth>
+                <FormLabel>Tournament format</FormLabel>
+                <TextField
+                  value={getDisplayFormatText(tournamentData.format)}
+                  disabled
+                />
+              </FormControl>
+              <FormControl fullWidth>
+                <FormLabel>Number of participants</FormLabel>
+                <TextField
+                  value={tournamentData.maxParticipants}
+                  disabled
+                />
+              </FormControl>
+            </Stack>
+          </Stack>
+        </Paper>
         <Stack
           direction="row"
           justifyItems="start"

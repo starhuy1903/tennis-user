@@ -1,100 +1,133 @@
-import { FormControl, FormHelperText, FormLabel, Stack, TextField } from '@mui/material';
+import { FormControl, FormHelperText, FormLabel, MenuItem, Select, Stack, TextField } from '@mui/material';
 import { DatePicker, LocalizationProvider, TimePicker } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 
-import { useCreateMatchMutation } from 'store/api/fixture/matchApiSlice';
-import { useGetOpenTournamentParticipantsQuery } from 'store/api/tournament/shared/participant';
-import { OpenTournamentParticipant } from 'types/open-tournament-participants';
-import { showSuccess } from 'utils/toast';
+import { useGetTeamQuery } from 'store/api/tournament/creator/fixture';
+import { useGetRefereesQuery } from 'store/api/tournament/creator/participant';
 
 import CenterLoading from '../CenterLoading';
 import BaseModal from './BaseModal';
 import { AddMatchProps } from './types';
 
 interface FormType {
-  tournamentId: number;
   name: string;
   time: string;
   date: string;
   duration: number;
-  team1: OpenTournamentParticipant;
-  team2: OpenTournamentParticipant;
+  team1Id: string;
+  team2Id: string;
+  refereeId: string;
 }
 
-export default function AddMatch({ tournamentId, onModalClose }: AddMatchProps) {
-  const [createMatchRequest, { isLoading: isAddMatchLoading }] = useCreateMatchMutation();
-  const { data: participantData, isLoading: fetchingParticipants } = useGetOpenTournamentParticipantsQuery({
-    tournamentId,
+export default function AddMatch({ tournamentId, match, onUpdate, onModalClose }: AddMatchProps) {
+  const { data: teamData, isLoading: fetchingTeamData } = useGetTeamQuery(tournamentId, {
+    refetchOnMountOrArgChange: true,
   });
 
-  const { handleSubmit, control, formState, register, getValues } = useForm<FormType>({
+  const { data: referees, isLoading: fetchingRefereeData } = useGetRefereesQuery(tournamentId);
+
+  const { handleSubmit, control, formState, register, getValues, watch } = useForm<FormType>({
     defaultValues: {
-      tournamentId: tournamentId,
-      name: '',
-      time: dayjs().hour(8).minute(0).second(0).toISOString(),
-      date: dayjs().toISOString(),
-      duration: 30,
+      name: match.title,
+      time: match.time,
+      date: match.matchStartDate || '',
+      duration: match.duration,
+      refereeId: match.refereeId || '',
+      team1Id: match.teams.team1?.id,
+      team2Id: match.teams.team2?.id,
     },
   });
 
   const { errors: formError } = formState;
 
-  const onSubmit: SubmitHandler<FormType> = async (data) => {
-    try {
-      await createMatchRequest(data).unwrap();
-      showSuccess('Match created successfully');
-      onModalClose();
-    } catch (error) {
-      // handle error
-    }
+  const onSubmit: SubmitHandler<FormType> = (data) => {
+    const updatedData = { ...data, id: match.id, duration: Number(data.duration) };
+    onUpdate(updatedData);
+    onModalClose();
   };
 
+  const isLoading = fetchingRefereeData || fetchingTeamData;
+
   const renderBody = () => {
-    if (fetchingParticipants) {
+    if (isLoading) {
       return <CenterLoading />;
     }
-
-    console.log({ participantData });
 
     return (
       <Stack
         component="form"
         spacing={2}
       >
-        <Stack direction="row">
+        <Stack
+          direction="row"
+          spacing={2}
+        >
           {/* Team 1 */}
-          {/* <Controller
-            control={control}
-            name="team1"
-            // defaultValue={tournamentFormatOptions[0].value as TournamentFormat}
-            render={({ field: { onChange, value } }) => (
-              <FormControl
-                fullWidth
-                error={!!formError.team1}
-              >
-                
-                <Select
-                  value={value}
-                  id="team1"
-                  onChange={onChange}
-                  aria-describedby="team1-helper-text"
+          <Stack sx={{ width: '100%' }}>
+            <Controller
+              control={control}
+              name="team1Id"
+              render={({ field: { onChange, value } }) => (
+                <FormControl
+                  fullWidth
+                  error={!!formError.team1Id}
                 >
-                  {participantData?.data.map((participant) => (
-                    <MenuItem
-                      key={participant.}
-                      value={tournamentOption.value}
-                    >
-                      {participant.user1.name}
-                    </MenuItem>
-                  ))}
-                </Select>
-                <FormHelperText id="team1-helper-text">{formError.team1?.message}</FormHelperText>
-              </FormControl>
-            )}
-          /> */}
-          {/* Participant 2 */}
+                  <Select
+                    value={value}
+                    id="team1Id"
+                    onChange={onChange}
+                    aria-describedby="team1Id-helper-text"
+                  >
+                    {teamData?.data
+                      .filter((option) => option.id !== watch('team2Id'))
+                      .map((option) => (
+                        <MenuItem
+                          key={option.id}
+                          value={option.id}
+                        >
+                          {option.user1.name}
+                        </MenuItem>
+                      ))}
+                  </Select>
+                  <FormHelperText id="team1Id-helper-text">{formError.team1Id?.message}</FormHelperText>
+                </FormControl>
+              )}
+            />
+          </Stack>
+          {/* Team 2 */}
+          <Stack sx={{ width: '100%' }}>
+            <Controller
+              control={control}
+              name="team2Id"
+              render={({ field: { onChange, value } }) => (
+                <FormControl
+                  fullWidth
+                  error={!!formError.team2Id}
+                >
+                  <Select
+                    value={value}
+                    id="team2Id"
+                    onChange={onChange}
+                    aria-describedby="team2Id-helper-text"
+                  >
+                    {teamData?.data
+                      .filter((option) => option.id !== watch('team1Id'))
+                      .map((option) => (
+                        <MenuItem
+                          key={option.id}
+                          value={option.id}
+                        >
+                          {option.user1.name}
+                        </MenuItem>
+                      ))}
+                  </Select>
+                  <FormHelperText id="team2Id-helper-text">{formError.team2Id?.message}</FormHelperText>
+                </FormControl>
+              )}
+            />
+          </Stack>
         </Stack>
         <Stack
           direction="row"
@@ -193,18 +226,50 @@ export default function AddMatch({ tournamentId, onModalClose }: AddMatchProps) 
             )}
           />
         </Stack>
+        <Stack direction="row">
+          <Controller
+            control={control}
+            name="refereeId"
+            render={({ field: { onChange, value } }) => (
+              <FormControl
+                fullWidth
+                error={!!formError.refereeId}
+              >
+                <FormLabel htmlFor="refereeId">Select referee</FormLabel>
+                <Select
+                  id="refereeId"
+                  value={value}
+                  onChange={onChange}
+                  aria-describedby="refereeId-helper-text"
+                >
+                  {referees?.data.map((option) => (
+                    <MenuItem
+                      key={option.id}
+                      value={option.id}
+                    >
+                      {option.name}
+                    </MenuItem>
+                  ))}
+                </Select>
+                <FormHelperText id="refereeId-helper-text">{formError.refereeId?.message}</FormHelperText>
+              </FormControl>
+            )}
+          />
+        </Stack>
       </Stack>
     );
   };
 
   return (
     <BaseModal
-      headerText="Add Participants"
+      size="md"
+      headerText="Edit match"
       onModalClose={onModalClose}
       body={renderBody()}
-      primaryButtonText="Create"
+      primaryButtonText="Update"
       onClickPrimaryButton={handleSubmit(onSubmit)}
-      disabledPrimaryButton={isAddMatchLoading}
+      disabledPrimaryButton={isLoading}
+      disabledSecondaryButton={isLoading}
     />
   );
 }

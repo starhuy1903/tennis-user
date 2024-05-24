@@ -14,9 +14,10 @@ export type OpenTournamentApplicant = OpenTournamentParticipant & {
   status: RegistrationStatus;
 };
 export type Referee = {
-  userId: string;
+  id: string;
   phoneNumber: string;
   name: string;
   image: string;
   gender: Gender;
+  dob: string;
 };
