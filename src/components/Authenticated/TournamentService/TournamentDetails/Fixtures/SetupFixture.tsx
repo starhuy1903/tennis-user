@@ -21,9 +21,9 @@ import { useAppSelector } from 'store';
 import { TournamentFormat } from 'constants/tournament';
 import { useGenerateFixtureMutation } from 'store/api/tournament/creator/fixture';
 import { selectTournamentData } from 'store/slice/tournamentSlice';
-import { FixturePayload, TournamentFixture } from 'types/tournament-fixtures';
+import { CreateFixtureRequest, FixtureResponse } from 'types/tournament-fixtures';
 
-type FormType = FixturePayload;
+type FormType = CreateFixtureRequest;
 
 const tournamentFormatOptions = [
   { id: 1, value: 'knockout', displayValue: 'Knockout', level: 'basic' },
@@ -36,9 +36,9 @@ const getDisplayFormatText = (format: TournamentFormat) => {
 };
 
 type SetupFixtureProps = {
-  fixtureConfig: FixturePayload | null;
-  setFixtureData: React.Dispatch<React.SetStateAction<TournamentFixture | null>>;
-  setFixtureConfig: React.Dispatch<React.SetStateAction<FixturePayload | null>>;
+  fixtureConfig: CreateFixtureRequest | null;
+  setFixtureData: React.Dispatch<React.SetStateAction<FixtureResponse | null>>;
+  setFixtureConfig: React.Dispatch<React.SetStateAction<CreateFixtureRequest | null>>;
 };
 
 export default function SetupFixture({ fixtureConfig, setFixtureData, setFixtureConfig }: SetupFixtureProps) {

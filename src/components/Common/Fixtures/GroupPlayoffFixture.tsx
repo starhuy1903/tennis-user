@@ -1,8 +1,8 @@
 import { Box, Divider } from '@mui/material';
 
-import { TournamentFixture } from 'types/tournament-fixtures';
+import { FixtureResponse } from 'types/tournament-fixtures';
 
-export default function GroupPlayoffFixture({ fixture }: { fixture: TournamentFixture }) {
+export default function GroupPlayoffFixture({ fixture }: { fixture: FixtureResponse }) {
   console.log({ fixture });
 
   return (

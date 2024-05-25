@@ -11,7 +11,12 @@ import { FixtureStatus } from 'constants/tournament-fixtures';
 import { useClearDraftFixtureMutation, useSaveFixtureMutation } from 'store/api/tournament/creator/fixture';
 import { useLazyGetTournamentFixtureQuery } from 'store/api/tournament/shared/fixture';
 import { checkTournamentRole, selectTournamentData, shouldRefreshTournamentData } from 'store/slice/tournamentSlice';
-import { FixturePayload, TournamentFixture } from 'types/tournament-fixtures';
+import {
+  CreateFixtureRequest,
+  FixtureResponse,
+  isGeneratedNewFixtureType,
+  isGeneratedNewRoundRobinFixture,
+} from 'types/tournament-fixtures';
 import { showSuccess } from 'utils/toast';
 import { checkGeneratedFixture } from 'utils/tournament';
 
@@ -21,8 +26,8 @@ export default function Fixtures() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  const [fixture, setFixture] = useState<TournamentFixture | null>(null);
-  const [fixtureConfig, setFixtureConfig] = useState<FixturePayload | null>(null);
+  const [fixture, setFixture] = useState<FixtureResponse | null>(null);
+  const [fixtureConfig, setFixtureConfig] = useState<CreateFixtureRequest | null>(null);
   const [getFixtureRequest, { isLoading: fetchingFixture }] = useLazyGetTournamentFixtureQuery();
   const [saveFixtureRequest, { isLoading: savingFixture }] = useSaveFixtureMutation();
   const [clearDraftFixtureRequest, { isLoading: clearingDraft }] = useClearDraftFixtureMutation();
@@ -33,7 +38,7 @@ export default function Fixtures() {
   const handleSaveFixture = useCallback(
     async (type: 'draft' | 'publish') => {
       try {
-        if (!fixture || !fixtureConfig) return;
+        if (!fixture || !fixtureConfig || !isGeneratedNewFixtureType(fixture)) return;
         const { participantType, ...submittedFixture } = fixture;
         const submitData = {
           ...submittedFixture,
@@ -63,7 +68,7 @@ export default function Fixtures() {
     try {
       await clearDraftFixtureRequest(tournamentData.id).unwrap();
       showSuccess('Clear draft fixture successfully.');
-      setFixture({ status: FixtureStatus.NEW } as TournamentFixture);
+      setFixture({ status: FixtureStatus.NEW });
     } catch (error) {
       // handled error
     }
@@ -84,7 +89,7 @@ export default function Fixtures() {
               matchDuration: res.matchDuration,
               breakDuration: res.breakDuration,
               venue: res.venue,
-            } as FixturePayload);
+            } as CreateFixtureRequest);
           }
         } catch (error) {
           // handled error
@@ -128,16 +133,16 @@ export default function Fixtures() {
             />
           )}
 
-          {fixture?.id && (
+          {fixture && isGeneratedNewFixtureType(fixture) && (
             <Box sx={{ overflowX: 'hidden', border: '1px solid', pY: 2 }}>
               <Box sx={{ overflow: 'scroll' }}>
                 {/* <Typography>This is sample fixture.</Typography> */}
                 {/* {fixture.format === TournamentFormat.KNOCKOUT && (
                   <KnockoutFixtures rounds={fixture.knockoutGroup?.rounds} />
                 )} */}
-                {fixture.format === TournamentFormat.ROUND_ROBIN && (
+                {fixture.format === TournamentFormat.ROUND_ROBIN && isGeneratedNewRoundRobinFixture(fixture) && (
                   <RoundRobinFixture
-                    rounds={fixture?.roundRobinGroups?.[0].rounds}
+                    rounds={fixture.roundRobinGroups?.[0].rounds}
                     setFixtureData={setFixture}
                   />
                 )}
@@ -192,7 +197,9 @@ export default function Fixtures() {
     <Box mt={4}>
       {/* {fixture?.format === TournamentFormat.KNOCKOUT && <KnockoutFixtures rounds={fixture.knockoutRounds!} />} */}
       {/* {fixture?.format === TournamentFormat.ROUND_ROBIN && <RoundRobinFixture rounds={fixture.roundRobinRounds!} />} */}
-      {fixture?.format === TournamentFormat.GROUP_PLAYOFF && <GroupPlayoffFixture fixture={fixture} />}
+      {isGeneratedNewFixtureType(fixture) && fixture.format === TournamentFormat.GROUP_PLAYOFF && (
+        <GroupPlayoffFixture fixture={fixture} />
+      )}
     </Box>
   );
 }
