@@ -15,3 +15,22 @@ export default function CenterLoading({ width = '100%', height = '100vh' }: { wi
     </Box>
   );
 }
+
+export const OverlayLoading = () => (
+  <Box
+    sx={{
+      position: 'absolute',
+      width: '100%',
+      height: '100%',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: 'rgba(255, 255, 255, 0.5)',
+      top: 0,
+      left: 0,
+      zIndex: 1,
+    }}
+  >
+    <CircularProgress />
+  </Box>
+);
