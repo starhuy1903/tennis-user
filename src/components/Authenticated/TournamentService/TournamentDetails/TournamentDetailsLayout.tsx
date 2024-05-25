@@ -1,6 +1,6 @@
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
-import { Box, Container, Divider, Paper, Stack, Tab, Typography } from '@mui/material';
+import { Box, Chip, Container, Divider, Paper, Stack, Tab, Typography } from '@mui/material';
 import { useCallback, useEffect, useState } from 'react';
 import { Outlet, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'store';
@@ -10,7 +10,12 @@ import CenterLoading from 'components/Common/CenterLoading';
 import Steps from 'components/Common/Steps';
 import { TournamentPhaseOptions, defaultTournamentImage } from 'constants/tournament';
 import { useLazyGetOpenTournamentDetailsQuery } from 'store/api/tournament/shared/general';
-import { selectTournament, setTournamentDetails, shouldRefreshTournamentData } from 'store/slice/tournamentSlice';
+import {
+  checkTournamentRole,
+  selectTournament,
+  setTournamentDetails,
+  shouldRefreshTournamentData,
+} from 'store/slice/tournamentSlice';
 import { displayDateRange } from 'utils/datetime';
 import { getNextPhaseInString } from 'utils/tournament';
 
@@ -52,6 +57,7 @@ export default function TournamentDetailsLayout() {
   const { pathname } = useLocation();
   const [getTournamentDetails, { isLoading }] = useLazyGetOpenTournamentDetailsQuery();
   const { data: tournamentData, shouldRefreshData } = useAppSelector(selectTournament);
+  const { isCreator } = useAppSelector(checkTournamentRole);
 
   const getActiveTab = useCallback(() => {
     const pathParts = pathname.split('/');
@@ -114,19 +120,27 @@ export default function TournamentDetailsLayout() {
           <Stack
             direction="row"
             justifyContent="space-between"
+            alignItems="center"
             px={2}
           >
-            <Stack>
+            <Stack
+              direction="row"
+              alignItems="center"
+              gap={1}
+            >
               <Typography variant="h6">{tournamentData.name}</Typography>
-              {/* <Chip
-                sx={{ width: 'fit-content' }}
-                component="span"
-                variant="outlined"
-                color={TournamentStatusChip[tournamentData.status].chipColor}
-                size="small"
-                label={TournamentStatusChip[tournamentData.status].displayText}
-              /> */}
+              {isCreator && (
+                <Chip
+                  sx={{ width: 'fit-content' }}
+                  component="span"
+                  variant="outlined"
+                  color="error"
+                  size="small"
+                  label="Creator"
+                />
+              )}
             </Stack>
+
             <Typography variant="subtitle1">
               {displayDateRange(tournamentData.startDate, tournamentData.endDate)}
             </Typography>
