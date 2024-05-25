@@ -268,7 +268,7 @@ export default function UpdateTournament({ onCloseForm }: { onCloseForm: () => v
                     required: 'The start date is required.',
                     validate: (value) => {
                       const startDate = dayjs(value);
-                      if (startDate.isBefore(dayjs(), 'day')) {
+                      if (value !== originalData.startDate && startDate.isBefore(dayjs(), 'day')) {
                         return 'The start date cannot be in the past.';
                       }
                       return true;

@@ -5,7 +5,7 @@ import { useAppSelector } from 'store';
 
 import CenterLoading from 'components/Common/CenterLoading';
 import KnockoutFixtures from 'components/Common/Fixtures/KnockoutFixture';
-import { RoundRobinFixture } from 'components/Common/Fixtures/RoundRobinFixture';
+import RoundRobinFixture from 'components/Common/Fixtures/RoundRobin';
 import NoData from 'components/Common/NoData';
 import { TournamentFormat } from 'constants/tournament';
 import { useLazyGetGroupTournamentFixtureQuery } from 'store/api/group/groupTournamentFixtureApiSlice';
