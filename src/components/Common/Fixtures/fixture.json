@@ -1,0 +1,193 @@
+{
+    "id": "d9a963d4-b1b2-4cc3-b0a3-77471fa89994",
+    "knockoutGroup": {
+        "id": "572abcb8-d5b4-4533-99f5-9237fd74ed29",
+        "title": "Knockout Group",
+        "isFinal": true,
+        "rounds": [
+            {
+                "title": "Round 1",
+                "id": "e5d75d84-0d3f-4805-8e09-768fae8fc5cc",
+                "matches": [
+                    {
+                        "id": "306519fb-e850-42c0-bb7c-a17f1b78a03f",
+                        "nextMatchId": "0016bf97-5255-476e-8958-d45414370280",
+                        "title": "Match 1",
+                        "matchStartDate": null,
+                        "duration": 30,
+                        "status": "scheduled",
+                        "teams": {
+                            "team1": {
+                                "user1": {
+                                    "id": "83cc226b-1336-42af-8abc-4edac566d4c0",
+                                    "image": null,
+                                    "name": "Huy Nguyen"
+                                },
+                                "user2": null,
+                                "id": "9228c9e5-127f-428c-8844-970592694403"
+                            },
+                            "team2": {
+                                "user1": {
+                                    "id": "36fb6d69-4e03-4c14-9a33-e98ea9f4ed9d",
+                                    "image": null,
+                                    "name": "Huy Nguyen"
+                                },
+                                "user2": null,
+                                "id": "4e136b42-4f78-48a0-8382-c36bcceb94ad"
+                            }
+                        },
+                        "refereeId": null,
+                        "venue": "86A, ap 5 xa Xuan Thoi Thuong, huyen Hoc Mon"
+                    },
+                    {
+                        "id": "5a5f6e8e-2c4c-4ad8-b7ce-d909ea7f65ac",
+                        "nextMatchId": "0016bf97-5255-476e-8958-d45414370280",
+                        "title": "Match 2",
+                        "matchStartDate": null,
+                        "duration": 30,
+                        "status": "skipped",
+                        "teams": {
+                            "team1": {
+                                "user1": {
+                                    "id": "5619b876-5c87-49cb-b9c2-a9c620feb103",
+                                    "image": null,
+                                    "name": "Huy Nguyen 3"
+                                },
+                                "user2": null,
+                                "id": "0b47c912-82ba-4137-8eb1-3dc392cfc26a"
+                            },
+                            "team2": null
+                        },
+                        "refereeId": null,
+                        "venue": "86A, ap 5 xa Xuan Thoi Thuong, huyen Hoc Mon"
+                    },
+                    {
+                        "id": "a1284926-f60c-4fb2-b347-ff5856207e64",
+                        "nextMatchId": "ae46f23a-ed9f-4b03-bba1-87529faea93a",
+                        "title": "Match 3",
+                        "matchStartDate": null,
+                        "duration": 30,
+                        "status": "skipped",
+                        "teams": {
+                            "team1": {
+                                "user1": {
+                                    "id": "94a0f849-d722-44d7-8f0f-50146c61c3dd",
+                                    "image": "https://www.google.com/imgres?imgurl=https%3A%2F%2Fthumbs.dreamstime.com%2Fb%2Fbusinessman-icon-vector-male-avatar-profile-image-profile-businessman-icon-vector-male-avatar-profile-image-182095609.jpg&tbnid=h6WAlFck7O29-M&vet=12ahUKEwikwb7xk5uGAxVRre4BHVH9AlUQMygAegQIARBy..i&imgrefurl=https%3A%2F%2Fwww.dreamstime.com%2Funknown-male-avatar-profile-image-businessman-vector-unknown-male-avatar-profile-image-businessman-vector-profile-image179373829&docid=mfTXeLzTwmQxOM&w=800&h=800&q=avatar%20profile&ved=2ahUKEwikwb7xk5uGAxVRre4BHVH9AlUQMygAegQIARBy",
+                                    "name": "Huy Nguyen 1"
+                                },
+                                "user2": null,
+                                "id": "58f569db-32ac-4be2-a817-072178a0308e"
+                            },
+                            "team2": null
+                        },
+                        "refereeId": null,
+                        "venue": "86A, ap 5 xa Xuan Thoi Thuong, huyen Hoc Mon"
+                    },
+                    {
+                        "id": "770459ac-40fd-44a5-9b73-8c1befa2f4b3",
+                        "nextMatchId": "ae46f23a-ed9f-4b03-bba1-87529faea93a",
+                        "title": "Match 4",
+                        "matchStartDate": null,
+                        "duration": 30,
+                        "status": "skipped",
+                        "teams": {
+                            "team1": {
+                                "user1": {
+                                    "id": "54df148f-5562-4b6c-b9f5-3551388acd54",
+                                    "image": null,
+                                    "name": "Huy Nguyen"
+                                },
+                                "user2": null,
+                                "id": "89a017ba-a140-49d4-ac43-0a6a6f31dde0"
+                            },
+                            "team2": null
+                        },
+                        "refereeId": null,
+                        "venue": "86A, ap 5 xa Xuan Thoi Thuong, huyen Hoc Mon"
+                    }
+                ]
+            },
+            {
+                "title": "Round 2",
+                "id": "d7563df1-365d-45c8-a151-16f2611f5eba",
+                "matches": [
+                    {
+                        "id": "0016bf97-5255-476e-8958-d45414370280",
+                        "nextMatchId": "9f8f3cae-e53f-4c73-b883-5aa2636d3115",
+                        "title": "Match 1",
+                        "matchStartDate": null,
+                        "duration": 30,
+                        "status": "no_show",
+                        "teams": {
+                            "team1": null,
+                            "team2": {
+                                "user1": {
+                                    "id": "5619b876-5c87-49cb-b9c2-a9c620feb103",
+                                    "image": null,
+                                    "name": "Huy Nguyen 3"
+                                },
+                                "user2": null,
+                                "id": "0b47c912-82ba-4137-8eb1-3dc392cfc26a"
+                            }
+                        },
+                        "refereeId": null,
+                        "venue": "86A, ap 5 xa Xuan Thoi Thuong, huyen Hoc Mon"
+                    },
+                    {
+                        "id": "ae46f23a-ed9f-4b03-bba1-87529faea93a",
+                        "nextMatchId": "9f8f3cae-e53f-4c73-b883-5aa2636d3115",
+                        "title": "Match 2",
+                        "matchStartDate": null,
+                        "duration": 30,
+                        "status": "scheduled",
+                        "teams": {
+                            "team1": {
+                                "user1": {
+                                    "id": "94a0f849-d722-44d7-8f0f-50146c61c3dd",
+                                    "image": "https://www.google.com/imgres?imgurl=https%3A%2F%2Fthumbs.dreamstime.com%2Fb%2Fbusinessman-icon-vector-male-avatar-profile-image-profile-businessman-icon-vector-male-avatar-profile-image-182095609.jpg&tbnid=h6WAlFck7O29-M&vet=12ahUKEwikwb7xk5uGAxVRre4BHVH9AlUQMygAegQIARBy..i&imgrefurl=https%3A%2F%2Fwww.dreamstime.com%2Funknown-male-avatar-profile-image-businessman-vector-unknown-male-avatar-profile-image-businessman-vector-profile-image179373829&docid=mfTXeLzTwmQxOM&w=800&h=800&q=avatar%20profile&ved=2ahUKEwikwb7xk5uGAxVRre4BHVH9AlUQMygAegQIARBy",
+                                    "name": "Huy Nguyen 1"
+                                },
+                                "user2": null,
+                                "id": "58f569db-32ac-4be2-a817-072178a0308e"
+                            },
+                            "team2": {
+                                "user1": {
+                                    "id": "54df148f-5562-4b6c-b9f5-3551388acd54",
+                                    "image": null,
+                                    "name": "Huy Nguyen"
+                                },
+                                "user2": null,
+                                "id": "89a017ba-a140-49d4-ac43-0a6a6f31dde0"
+                            }
+                        },
+                        "refereeId": null,
+                        "venue": "86A, ap 5 xa Xuan Thoi Thuong, huyen Hoc Mon"
+                    }
+                ]
+            },
+            {
+                "title": "Round 3",
+                "id": "d2c1381d-65c4-48c4-a167-c67de293603e",
+                "matches": [
+                    {
+                        "id": "9f8f3cae-e53f-4c73-b883-5aa2636d3115",
+                        "nextMatchId": null,
+                        "title": "Match 1",
+                        "matchStartDate": null,
+                        "duration": 30,
+                        "status": "no_show",
+                        "teams": {
+                            "team1": null,
+                            "team2": null
+                        },
+                        "refereeId": null,
+                        "venue": "86A, ap 5 xa Xuan Thoi Thuong, huyen Hoc Mon"
+                    }
+                ]
+            }
+        ]
+    },
+    "status": "new",
+    "participantType": "single",
+    "format": "knockout"
+}

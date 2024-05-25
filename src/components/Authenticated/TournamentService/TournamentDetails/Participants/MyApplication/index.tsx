@@ -29,7 +29,7 @@ export default function MyApplication({ tournament }: { tournament: OpenTourname
 
   const {
     data: myApplication,
-    isLoading: fetchingApplycation,
+    isLoading: fetchingApplication,
     refetch: fetchMyApplication,
   } = useGetMyApplicationQuery(tournament.id);
   const [getInvitations, { isLoading: fetchingInvitations }] = useLazyGetInvitationsQuery();
@@ -87,7 +87,7 @@ export default function MyApplication({ tournament }: { tournament: OpenTourname
       .catch(() => {});
   };
 
-  if (fetchingApplycation || fetchingInvitations) {
+  if (fetchingApplication || fetchingInvitations) {
     return <CenterLoading />;
   }
 

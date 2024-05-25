@@ -2,17 +2,16 @@ import { Box, Divider } from '@mui/material';
 
 import { TournamentFixture } from 'types/tournament-fixtures';
 
-import KnockoutFixtures from './KnockoutFixture';
-import { RoundRobinFixture } from './RoundRobinFixture';
-
 export default function GroupPlayoffFixture({ fixture }: { fixture: TournamentFixture }) {
+  console.log({ fixture });
+
   return (
     <Box>
-      <KnockoutFixtures rounds={fixture.knockoutRounds!} />
+      {/* <KnockoutFixtures rounds={fixture.knockoutRounds!} /> */}
 
       <Divider sx={{ my: 5 }} />
 
-      <RoundRobinFixture rounds={fixture.roundRobinRounds!} />
+      {/* <RoundRobinFixture rounds={fixture.roundRobinRounds!} /> */}
     </Box>
   );
 }

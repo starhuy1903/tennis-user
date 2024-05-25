@@ -30,10 +30,10 @@ export default function TournamentList({
           0: {
             slidesPerView: 1,
           },
-          1020: {
+          750: {
             slidesPerView: 2,
           },
-          1480: {
+          1080: {
             slidesPerView: 3,
           },
         }}
