@@ -1,4 +1,5 @@
 import Fixtures from './Fixtures';
+import OpenMatchDetails from './Fixtures/OpenMatchDetails';
 import Information from './Information';
 import Participants from './Participants';
 import TournamentDetailsLayout from './TournamentDetailsLayout';
@@ -22,6 +23,10 @@ export const tournamentDetailsRoutes = {
     {
       path: 'info',
       element: <Information />,
+    },
+    {
+      path: 'matches/:matchId',
+      element: <OpenMatchDetails />,
     },
   ],
 };

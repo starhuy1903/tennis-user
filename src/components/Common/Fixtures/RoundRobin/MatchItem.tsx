@@ -1,15 +1,11 @@
-import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
-import ArrowRightIcon from '@mui/icons-material/ArrowRight';
-import { Avatar, Box, Button, Container, Stack, Typography } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Avatar, Box, Stack, Typography } from '@mui/material';
+import { ArrowLeftIcon, ArrowRightIcon } from '@mui/x-date-pickers';
 
+import { MatchStatusBadge } from 'components/Common/Match/MatchStatusBadge';
 import { FormatDateTime } from 'constants/datetime';
 import { MatchStatus } from 'constants/tournament-fixtures';
-import { FinalScore, Match, Player, Round } from 'types/tournament-fixtures';
+import { FinalScore, Match, Player } from 'types/tournament-fixtures';
 import { displayDateTime } from 'utils/datetime';
-
-import { MatchStatusBadge } from '../Match/MatchStatusBadge';
-import NoData from '../NoData';
 
 const CustomPlayer = ({ player, direction }: { player: Player; direction: 'left' | 'right' }) => {
   if (direction === 'left') {
@@ -135,17 +131,21 @@ const CustomScore = ({ finalScore, team }: { finalScore: FinalScore; team: 1 | 2
   );
 };
 
-export const MatchItem = ({ match }: { match: Match }) => {
-  const isShowScore =
-    match.status === MatchStatus.WALK_OVER ||
-    match.status === MatchStatus.DONE ||
-    match.status === MatchStatus.SCORE_DONE;
+type MathItemProps = {
+  match: Match;
+  onClick: () => void;
+};
+
+export const MatchItem = ({ match, onClick }: MathItemProps) => {
+  const shouldShowScore = [MatchStatus.WALK_OVER, MatchStatus.DONE, MatchStatus.SCORE_DONE].includes(match.status);
 
   return (
     <Box
       sx={{
         border: '1px solid #E0E0E0',
+        cursor: 'pointer',
       }}
+      onClick={onClick}
     >
       <Box
         sx={{
@@ -159,13 +159,8 @@ export const MatchItem = ({ match }: { match: Match }) => {
           variant="caption"
           color="gray"
         >
-          <strong>Date / Time:</strong> {displayDateTime({ dateTime: match.date, targetFormat: FormatDateTime.DATE_2 })}
-          ,{' '}
-          {displayDateTime({
-            dateTime: match.date,
-            formatSpecification: FormatDateTime.FULL_TIME,
-            targetFormat: FormatDateTime.MERIDIEM_HOUR,
-          })}
+          <strong>Date / Time:</strong>{' '}
+          {displayDateTime({ dateTime: match.matchStartDate || '', targetFormat: FormatDateTime.DATE_AND_FULL_TIME })}
         </Typography>
 
         <Typography
@@ -192,7 +187,7 @@ export const MatchItem = ({ match }: { match: Match }) => {
             px: 2,
           }}
         >
-          <Stack direction="column">
+          <Stack>
             {match.teams.team1 && (
               <>
                 <CustomPlayer
@@ -200,7 +195,7 @@ export const MatchItem = ({ match }: { match: Match }) => {
                   direction="left"
                 />
 
-                {match.teams.team1?.user2 && (
+                {match.teams.team1.user2 && (
                   <CustomPlayer
                     player={match.teams.team1.user2}
                     direction="left"
@@ -210,7 +205,7 @@ export const MatchItem = ({ match }: { match: Match }) => {
             )}
           </Stack>
 
-          {isShowScore ? (
+          {shouldShowScore ? (
             <CustomScore
               finalScore={match.finalScore}
               team={1}
@@ -237,7 +232,7 @@ export const MatchItem = ({ match }: { match: Match }) => {
             px: 2,
           }}
         >
-          {isShowScore ? (
+          {shouldShowScore ? (
             <CustomScore
               finalScore={match.finalScore}
               team={1}
@@ -246,7 +241,7 @@ export const MatchItem = ({ match }: { match: Match }) => {
             <Box />
           )}
 
-          <Stack direction="column">
+          <Stack>
             {match.teams.team2 && (
               <>
                 <CustomPlayer
@@ -266,95 +261,51 @@ export const MatchItem = ({ match }: { match: Match }) => {
         </Box>
       </Box>
 
-      <Box
-        sx={{
-          borderTop: '1px solid #E0E0E0',
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          px: 18,
-        }}
-      >
-        <Box>
-          {match.teams.team1?.user2 && (
-            <Typography
-              variant="h6"
-              color="green"
-            >
-              {match.teams.team1.totalElo} ELO
-            </Typography>
-          )}
-        </Box>
-
-        <Button
-          component={Link}
-          to={`matches/${match.id}`}
-          variant="contained"
-          color="info"
+      {match.teams.team1?.user2 && (
+        <Box
           sx={{
-            borderRadius: 0,
+            borderTop: '1px solid #E0E0E0',
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            px: 18,
           }}
         >
-          Details
-        </Button>
+          <Box>
+            {match.teams.team1?.user2 && (
+              <Typography
+                variant="h6"
+                color="green"
+              >
+                {match.teams.team1.totalElo} ELO
+              </Typography>
+            )}
+          </Box>
 
-        <Box>
-          {match.teams.team2?.user2 && (
-            <Typography
-              variant="h6"
-              color="green"
-            >
-              {match.teams.team2.totalElo} ELO
-            </Typography>
-          )}
+          {/* <Button
+            component={Link}
+            to={`matches/${match.id}`}
+            variant="contained"
+            color="info"
+            sx={{
+              borderRadius: 0,
+            }}
+          >
+            Details
+          </Button> */}
+
+          <Box>
+            {match.teams.team2?.user2 && (
+              <Typography
+                variant="h6"
+                color="green"
+              >
+                {match.teams.team2.totalElo} ELO
+              </Typography>
+            )}
+          </Box>
         </Box>
-      </Box>
+      )}
     </Box>
   );
 };
-
-export function RoundRobinFixture({ rounds }: { rounds: Round[] }) {
-  if (!rounds || rounds.length === 0) {
-    return <NoData message="No fixtures available" />;
-  }
-
-  return (
-    <Container maxWidth="lg">
-      <Stack
-        direction="column"
-        gap={6}
-        my={5}
-      >
-        {rounds
-          ?.slice()
-          .reverse()
-          .map((round, roundIndex) => (
-            <Box
-              key={roundIndex}
-              sx={{
-                width: '100%',
-                display: 'flex',
-                flexDirection: 'column',
-                gap: 2,
-              }}
-            >
-              <Typography
-                variant="h4"
-                fontWeight={600}
-                textAlign="center"
-              >
-                {round.title}
-              </Typography>
-
-              {round.matches.map((match, matchIndex) => (
-                <MatchItem
-                  key={matchIndex}
-                  match={match}
-                />
-              ))}
-            </Box>
-          ))}
-      </Stack>
-    </Container>
-  );
-}

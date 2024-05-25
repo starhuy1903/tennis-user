@@ -1,4 +1,5 @@
 import { Box } from '@mui/material';
+import { A11y, Autoplay, Navigation, Pagination, Scrollbar } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 import NoData from 'components/Common/NoData';
@@ -20,8 +21,11 @@ export default function TournamentList({
   return (
     <Box>
       <Swiper
-        spaceBetween={20}
-        slidesPerView={4}
+        modules={[Navigation, Pagination, Scrollbar, Autoplay, A11y]}
+        slidesPerView={3}
+        navigation
+        pagination={{ clickable: true }}
+        scrollbar={{ draggable: true }}
         breakpoints={{
           0: {
             slidesPerView: 1,
@@ -32,10 +36,8 @@ export default function TournamentList({
           1080: {
             slidesPerView: 3,
           },
-          1420: {
-            slidesPerView: 4,
-          },
         }}
+        style={{ paddingLeft: '100px' }}
       >
         {tournaments.map((item) => (
           <SwiperSlide key={item.id}>

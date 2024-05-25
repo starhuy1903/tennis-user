@@ -33,9 +33,9 @@ const AvatarMenu = () => {
   const [logoutRequest] = useLogoutMutation();
 
   const handleLogout = useCallback(async () => {
-    await logoutRequest();
     dispatch(logOut());
     navigate('/');
+    await logoutRequest();
   }, [dispatch, logoutRequest, navigate]);
 
   return (
