@@ -7,6 +7,7 @@ export const {
   useLazyGetCreatedTournamentsQuery,
   useCreateOpenTournamentMutation,
   usePublishTournamentMutation,
+  useUnpublishTournamentMutation,
   useUpdateTournamentMutation,
 } = apiWithToastSlice.injectEndpoints({
   endpoints: (build) => ({
@@ -26,7 +27,13 @@ export const {
     publishTournament: build.mutation<void, number>({
       query: (tournamentId) => ({
         url: urlWithCorePrefix(`tournaments/${tournamentId}/publish`),
-        method: 'PATCH',
+        method: 'POST',
+      }),
+    }),
+    unpublishTournament: build.mutation<void, number>({
+      query: (tournamentId) => ({
+        url: urlWithCorePrefix(`tournaments/${tournamentId}/unpublish`),
+        method: 'POST',
       }),
     }),
     updateTournament: build.mutation<OpenTournament, { tournamentId: number; payload: UpdateTournamentPayload }>({

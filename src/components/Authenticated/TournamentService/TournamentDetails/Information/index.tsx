@@ -5,7 +5,7 @@ import { useAppDispatch, useAppSelector } from 'store';
 
 import { FormatDateTime } from 'constants/datetime';
 import { GenderOptions, ParticipantTypeOptions, TournamentFormatOptions, TournamentPhase } from 'constants/tournament';
-import { usePublishTournamentMutation } from 'store/api/tournament/creator/general';
+import { usePublishTournamentMutation, useUnpublishTournamentMutation } from 'store/api/tournament/creator/general';
 import { checkTournamentRole, selectTournamentData, shouldRefreshTournamentData } from 'store/slice/tournamentSlice';
 import { displayDateTime } from 'utils/datetime';
 import { showSuccess } from 'utils/toast';
@@ -25,6 +25,8 @@ export default function Information() {
   const confirm = useConfirm();
 
   const [publishTournamentRequest, { isLoading: publishingTournament }] = usePublishTournamentMutation();
+  const [unpublishTournamentRequest, { isLoading: unpublishingTournament }] = useUnpublishTournamentMutation();
+
   const tournamentData = useAppSelector(selectTournamentData);
   const [shouldOpenChangeSettings, setShouldOpenChangeSettings] = useState(false);
 
@@ -39,6 +41,21 @@ export default function Information() {
         await publishTournamentRequest(tournamentData.id).unwrap();
         dispatch(shouldRefreshTournamentData(true));
         showSuccess('Published tournament successfully.');
+      } catch (error) {
+        // handled error
+      }
+    });
+  };
+
+  const handleUnpublishTournament = async () => {
+    confirm({
+      title: 'Unpublish Tournament',
+      description: `Unpublishing the tournament will make it invisible to the public. Are you sure you want to unpublish?`,
+    }).then(async () => {
+      try {
+        await unpublishTournamentRequest(tournamentData.id).unwrap();
+        dispatch(shouldRefreshTournamentData(true));
+        showSuccess('Unpublished tournament successfully.');
       } catch (error) {
         // handled error
       }
@@ -114,6 +131,17 @@ export default function Information() {
             disabled={publishingTournament}
           >
             Publish tournament
+          </Button>
+        )}
+
+        {isCreator && tournamentData.phase === TournamentPhase.PUBLISHED && (
+          <Button
+            variant="contained"
+            size="medium"
+            onClick={handleUnpublishTournament}
+            disabled={unpublishingTournament}
+          >
+            Unpublish tournament
           </Button>
         )}
 
