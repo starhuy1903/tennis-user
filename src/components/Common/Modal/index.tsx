@@ -3,9 +3,9 @@ import { useAppDispatch, useAppSelector } from 'store';
 import { ModalKey } from 'constants/modal';
 import { showModal } from 'store/slice/modalSlice';
 
-import AddMatch from './AddMatch';
 import AddParticipants from './AddParticipants';
 import CropImage from './CropImage';
+import EditMatch from './EditMatch';
 import HelloWorld from './HelloWorld';
 import InviteIntoGroup from './InviteIntoGroup';
 import RegisterTournament from './RegisterTournament';
@@ -22,7 +22,7 @@ const ModalsMap: { [modalKey: string]: any } = {
   [ModalKey.REGISTER_TOURNAMENT]: RegisterTournament,
   [ModalKey.ADD_PARTICIPANTS]: AddParticipants,
   [ModalKey.SHOW_ORDER_DETAIL]: ShowOrderDetail,
-  [ModalKey.ADD_MATCH]: AddMatch,
+  [ModalKey.EDIT_MATCH]: EditMatch,
   [ModalKey.SHOW_PACKAGE_DETAIL]: ShowPackageDetails,
   [ModalKey.ADD_REFEREE]: AddReferee,
 };

@@ -159,15 +159,8 @@ export const MatchItem = ({ match, onClick }: MathItemProps) => {
           variant="caption"
           color="gray"
         >
-          <strong>Date / Time:</strong> {displayDateTime({ dateTime: match.date, targetFormat: FormatDateTime.DATE_2 })}
-          ,{' '}
-          {match.date
-            ? displayDateTime({
-                dateTime: match.date,
-                formatSpecification: FormatDateTime.FULL_TIME,
-                targetFormat: FormatDateTime.MERIDIEM_HOUR,
-              })
-            : 'N/A'}
+          <strong>Date / Time:</strong>{' '}
+          {displayDateTime({ dateTime: match.matchStartDate || '', targetFormat: FormatDateTime.DATE_AND_FULL_TIME })}
         </Typography>
 
         <Typography

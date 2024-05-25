@@ -1,7 +1,8 @@
-// import { ModalKey } from 'constants/modal';
 import { ParticipantType } from 'constants/tournament';
+import { EditMatchPayload } from 'types/match';
+import { Referee } from 'types/open-tournament-participants';
 import { UserPackage } from 'types/package';
-import { Match } from 'types/tournament-fixtures';
+import { EditMatchTeam, Match } from 'types/tournament-fixtures';
 
 import { BaseModalProps } from './BaseModal';
 
@@ -45,11 +46,13 @@ export interface ShowOrderDetailsProps extends CommonModalProps {
   onNavigate?: () => void;
 }
 
-export interface AddMatchProps extends CommonModalProps {
+export interface EditMatchProps extends CommonModalProps {
   tournamentId: number;
+  referees: Referee[];
+  teamData: EditMatchTeam[];
   participantType: ParticipantType;
   match: Match;
-  onUpdate: (data: any) => void;
+  onUpdate: (data: EditMatchPayload) => void;
 }
 
 export interface ShowPackageDetailsProps extends CommonModalProps {

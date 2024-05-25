@@ -36,23 +36,24 @@ const getDisplayFormatText = (format: TournamentFormat) => {
 };
 
 type SetupFixtureProps = {
+  fixtureConfig: FixturePayload | null;
   setFixtureData: React.Dispatch<React.SetStateAction<TournamentFixture | null>>;
   setFixtureConfig: React.Dispatch<React.SetStateAction<FixturePayload | null>>;
 };
 
-export default function SetupFixture({ setFixtureData, setFixtureConfig }: SetupFixtureProps) {
+export default function SetupFixture({ fixtureConfig, setFixtureData, setFixtureConfig }: SetupFixtureProps) {
   const tournamentData = useAppSelector(selectTournamentData);
   const [generateFixtureRequest, { isLoading: generatingFixture }] = useGenerateFixtureMutation();
 
   const { register, control, formState, getValues, handleSubmit } = useForm<FormType>({
     mode: 'onTouched',
     defaultValues: {
-      fixtureStartDate: dayjs().toISOString(),
-      fixtureEndDate: dayjs().add(1, 'day').toISOString(),
-      matchesStartTime: dayjs('2022-04-17T08:00').toISOString(),
-      matchesEndTime: dayjs('2022-04-17T20:00').toISOString(),
-      matchDuration: 30,
-      breakDuration: 10,
+      fixtureStartDate: fixtureConfig?.fixtureStartDate || dayjs().toISOString(),
+      fixtureEndDate: fixtureConfig?.fixtureEndDate || dayjs().add(1, 'day').toISOString(),
+      matchesStartTime: fixtureConfig?.matchesStartTime || dayjs('2022-04-17T08:00').toISOString(),
+      matchesEndTime: fixtureConfig?.matchesEndTime || dayjs('2022-04-17T20:00').toISOString(),
+      matchDuration: fixtureConfig?.matchDuration || 30,
+      breakDuration: fixtureConfig?.breakDuration || 10,
     },
   });
 
@@ -62,6 +63,7 @@ export default function SetupFixture({ setFixtureData, setFixtureConfig }: Setup
     try {
       const submittedData = {
         ...data,
+        matchDuration: Number(data.matchDuration),
         format: tournamentData.format,
         venue: '86A, ap 5 xa Xuan Thoi Thuong, huyen Hoc Mon',
       };

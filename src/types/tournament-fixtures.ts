@@ -75,7 +75,18 @@ export type Round = {
   matches: Match[];
 };
 
-export type TournamentFixture = {
+export type FixturePayload = {
+  format: TournamentFormat;
+  fixtureStartDate: string;
+  fixtureEndDate: string;
+  matchesStartTime: string;
+  matchesEndTime: string;
+  matchDuration: number;
+  breakDuration: number; // in minutes
+  venue: string;
+};
+
+export type TournamentFixture = FixturePayload & {
   // Can use both roundRobinRounds and knockoutRounds for "group_playoff" format
   roundRobinGroups?: {
     id: string;
@@ -89,21 +100,9 @@ export type TournamentFixture = {
     isFinal: boolean;
     rounds: Round[];
   };
-  format: TournamentFormat;
   participantType: ParticipantType;
   status: FixtureStatus;
   id?: string;
-};
-
-export type FixturePayload = {
-  format: TournamentFormat;
-  fixtureStartDate: string;
-  fixtureEndDate: string;
-  matchesStartTime: string;
-  matchesEndTime: string;
-  matchDuration: number;
-  breakDuration: number; // in minutes
-  venue: string;
 };
 
 export type BaseSaveFixture = {

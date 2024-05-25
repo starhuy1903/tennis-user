@@ -1,38 +1,21 @@
 import { FormControl, FormHelperText, FormLabel, MenuItem, Select, Stack, TextField } from '@mui/material';
-import { DatePicker, LocalizationProvider, TimePicker } from '@mui/x-date-pickers';
+import { DateTimePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 
-import { useGetTeamQuery } from 'store/api/tournament/creator/fixture';
-import { useGetRefereesQuery } from 'store/api/tournament/creator/participant';
+import { EditMatchPayload } from 'types/match';
 
-import CenterLoading from '../CenterLoading';
 import BaseModal from './BaseModal';
-import { AddMatchProps } from './types';
+import { EditMatchProps } from './types';
 
-interface FormType {
-  name: string;
-  time: string;
-  date: string;
-  duration: number;
-  team1Id: string;
-  team2Id: string;
-  refereeId: string;
-}
+type FormType = Omit<EditMatchPayload, 'id'>;
 
-export default function AddMatch({ tournamentId, match, onUpdate, onModalClose }: AddMatchProps) {
-  const { data: teamData, isLoading: fetchingTeamData } = useGetTeamQuery(tournamentId, {
-    refetchOnMountOrArgChange: true,
-  });
-
-  const { data: referees, isLoading: fetchingRefereeData } = useGetRefereesQuery(tournamentId);
-
+export default function EditMatch({ match, referees, teamData, onUpdate, onModalClose }: EditMatchProps) {
   const { handleSubmit, control, formState, register, getValues, watch } = useForm<FormType>({
     defaultValues: {
       name: match.title,
-      time: match.time,
-      date: match.matchStartDate || '',
+      dateTime: match.matchStartDate || '',
       duration: match.duration,
       refereeId: match.refereeId || '',
       team1Id: match.teams.team1?.id,
@@ -48,13 +31,7 @@ export default function AddMatch({ tournamentId, match, onUpdate, onModalClose }
     onModalClose();
   };
 
-  const isLoading = fetchingRefereeData || fetchingTeamData;
-
   const renderBody = () => {
-    if (isLoading) {
-      return <CenterLoading />;
-    }
-
     return (
       <Stack
         component="form"
@@ -80,7 +57,7 @@ export default function AddMatch({ tournamentId, match, onUpdate, onModalClose }
                     onChange={onChange}
                     aria-describedby="team1Id-helper-text"
                   >
-                    {teamData?.data
+                    {teamData
                       .filter((option) => option.id !== watch('team2Id'))
                       .map((option) => (
                         <MenuItem
@@ -112,7 +89,7 @@ export default function AddMatch({ tournamentId, match, onUpdate, onModalClose }
                     onChange={onChange}
                     aria-describedby="team2Id-helper-text"
                   >
-                    {teamData?.data
+                    {teamData
                       .filter((option) => option.id !== watch('team1Id'))
                       .map((option) => (
                         <MenuItem
@@ -155,30 +132,30 @@ export default function AddMatch({ tournamentId, match, onUpdate, onModalClose }
             />
             <FormHelperText id="name-helper-text">{formError.name?.message}</FormHelperText>
           </FormControl>
-          {/* Date */}
+          {/* Date time */}
           <Controller
             control={control}
-            name="date"
+            name="dateTime"
             rules={{
-              required: 'The date is required.',
+              required: 'The date time is required.',
             }}
             render={({ field: { onChange } }) => (
               <FormControl
                 fullWidth
-                error={!!formError.date}
+                error={!!formError.dateTime}
               >
-                <FormLabel htmlFor="date">Date</FormLabel>
+                <FormLabel htmlFor="dateTime">Date time</FormLabel>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DatePicker
+                  <DateTimePicker
                     onChange={(date) => {
                       onChange(date?.toISOString());
                     }}
                     disablePast
-                    defaultValue={dayjs(getValues('date'))}
-                    format="DD/MM/YYYY"
+                    defaultValue={dayjs(getValues('dateTime'))}
+                    format="DD/MM/YYYY HH:mm"
                   />
                 </LocalizationProvider>
-                <FormHelperText id="date-helper-text">{formError.date?.message}</FormHelperText>
+                <FormHelperText id="dateTime-helper-text">{formError.dateTime?.message}</FormHelperText>
               </FormControl>
             )}
           />
@@ -205,8 +182,36 @@ export default function AddMatch({ tournamentId, match, onUpdate, onModalClose }
             />
             <FormHelperText id="duration-helper-text">{formError.duration?.message}</FormHelperText>
           </FormControl>
-          {/* Start time */}
           <Controller
+            control={control}
+            name="refereeId"
+            render={({ field: { onChange, value } }) => (
+              <FormControl
+                fullWidth
+                error={!!formError.refereeId}
+              >
+                <FormLabel htmlFor="refereeId">Select referee</FormLabel>
+                <Select
+                  id="refereeId"
+                  value={value}
+                  onChange={onChange}
+                  aria-describedby="refereeId-helper-text"
+                >
+                  {referees.map((option) => (
+                    <MenuItem
+                      key={option.id}
+                      value={option.id}
+                    >
+                      {option.name}
+                    </MenuItem>
+                  ))}
+                </Select>
+                <FormHelperText id="refereeId-helper-text">{formError.refereeId?.message}</FormHelperText>
+              </FormControl>
+            )}
+          />
+          {/* Start time */}
+          {/* <Controller
             control={control}
             name="time"
             render={({ field: { onChange } }) => (
@@ -224,37 +229,7 @@ export default function AddMatch({ tournamentId, match, onUpdate, onModalClose }
                 <FormHelperText id="time-helper-text">{formError.time?.message}</FormHelperText>
               </FormControl>
             )}
-          />
-        </Stack>
-        <Stack direction="row">
-          <Controller
-            control={control}
-            name="refereeId"
-            render={({ field: { onChange, value } }) => (
-              <FormControl
-                fullWidth
-                error={!!formError.refereeId}
-              >
-                <FormLabel htmlFor="refereeId">Select referee</FormLabel>
-                <Select
-                  id="refereeId"
-                  value={value}
-                  onChange={onChange}
-                  aria-describedby="refereeId-helper-text"
-                >
-                  {referees?.data.map((option) => (
-                    <MenuItem
-                      key={option.id}
-                      value={option.id}
-                    >
-                      {option.name}
-                    </MenuItem>
-                  ))}
-                </Select>
-                <FormHelperText id="refereeId-helper-text">{formError.refereeId?.message}</FormHelperText>
-              </FormControl>
-            )}
-          />
+          /> */}
         </Stack>
       </Stack>
     );
@@ -268,8 +243,6 @@ export default function AddMatch({ tournamentId, match, onUpdate, onModalClose }
       body={renderBody()}
       primaryButtonText="Update"
       onClickPrimaryButton={handleSubmit(onSubmit)}
-      disabledPrimaryButton={isLoading}
-      disabledSecondaryButton={isLoading}
     />
   );
 }

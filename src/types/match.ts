@@ -41,3 +41,13 @@ export type MatchPayload = {
   date: string; // 2024-03-20
   duration: number; // 60
 };
+
+export type EditMatchPayload = {
+  id: string;
+  name: string;
+  dateTime: string;
+  duration: number;
+  team1Id: string;
+  team2Id: string;
+  refereeId: string;
+};
