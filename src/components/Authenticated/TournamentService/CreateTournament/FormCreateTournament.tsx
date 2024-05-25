@@ -78,7 +78,7 @@ export default function FormCreateTournament({ selectedPackage, setSelectedPacka
       startDate: new Date(new Date().getTime() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0] + 'T00:00:00', // 1 week later
       endDate: new Date(new Date().getTime() + 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0] + 'T23:59:59', // 1 month later
       registrationDueDate:
-        new Date(new Date().getTime() + 6 * 24 * 60 * 60 * 1000).toISOString().split('T')[0] + 'T00:00:00',
+        new Date(new Date().getTime() + 6 * 24 * 60 * 60 * 1000).toISOString().split('T')[0] + 'T23:59:59',
       playersBornAfterDate: '1990-01-01T00:00:00',
       address: '',
       maxParticipants: 20,

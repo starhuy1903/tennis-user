@@ -25,7 +25,7 @@ export const {
     publishTournament: build.mutation<void, number>({
       query: (tournamentId) => ({
         url: urlWithCorePrefix(`tournaments/${tournamentId}/publish`),
-        method: 'PATCH',
+        method: 'POST',
       }),
     }),
   }),
