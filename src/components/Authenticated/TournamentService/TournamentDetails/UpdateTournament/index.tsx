@@ -18,7 +18,6 @@ import dayjs from 'dayjs';
 import EmailValidator from 'email-validator';
 import { isEqual } from 'lodash-es';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import { useUpdate } from 'react-use';
 import { useAppDispatch, useAppSelector } from 'store';
 
 import SingleImagePicker from 'components/Common/Input/SingleImagePicker';
@@ -38,14 +37,13 @@ const tournamentFormatOptions = [
 export default function UpdateTournament({ onCloseForm }: { onCloseForm: () => void }) {
   const dispatch = useAppDispatch();
   const tournamentData = useAppSelector(selectTournamentData);
-  const update = useUpdate();
 
   const [requestUpdateTournament, { isLoading: updatingData }] = useUpdateTournamentMutation();
 
   const hasPublishedTournament = checkPublishedTournament(tournamentData.phase);
   const hasFinalizedApplicants = checkFinalizedApplicants(tournamentData.phase);
 
-  const { handleSubmit, register, control, formState, getValues } = useForm<UpdateTournamentPayload>({
+  const { handleSubmit, register, control, formState, getValues, watch } = useForm<UpdateTournamentPayload>({
     mode: 'onTouched',
     defaultValues: {
       name: tournamentData.name,
@@ -81,7 +79,7 @@ export default function UpdateTournament({ onCloseForm }: { onCloseForm: () => v
     }
   };
 
-  const disabledUpdateBtn = updatingData || isEqual(originalData, getValues());
+  const disabledUpdateBtn = updatingData || isEqual(originalData, watch());
 
   return (
     <Container
@@ -503,16 +501,18 @@ export default function UpdateTournament({ onCloseForm }: { onCloseForm: () => v
               <Controller
                 control={control}
                 name="participantType"
-                render={({ field: { onChange, value } }) => (
+                render={({ field: { onChange, onBlur, ref, value } }) => (
                   <FormControl
                     fullWidth
                     error={!!formError.participantType}
                   >
                     <FormLabel htmlFor="participantType">Participant type</FormLabel>
                     <Select
+                      ref={ref}
                       value={value}
                       id="participantType"
                       onChange={onChange}
+                      onBlur={onBlur}
                       aria-describedby="participantType-helper-text"
                       disabled={updatingData || hasPublishedTournament}
                     >
@@ -569,13 +569,9 @@ export default function UpdateTournament({ onCloseForm }: { onCloseForm: () => v
               <SingleImagePicker
                 label="Upload a background image for your tournament"
                 imageUrl={value}
-                handleUpload={(imageUrl) => {
-                  onChange(imageUrl);
-                  update();
-                }}
+                handleUpload={onChange}
                 handleRemove={() => {
                   onChange('');
-                  update();
                 }}
                 disabled={updatingData}
               />
