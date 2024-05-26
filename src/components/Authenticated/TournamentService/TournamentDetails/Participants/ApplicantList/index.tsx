@@ -3,8 +3,9 @@ import { useConfirm } from 'material-ui-confirm';
 import { useCallback, useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'store';
 
-import CenterLoading, { OverlayLoading } from 'components/Common/CenterLoading';
+import CenterLoading from 'components/Common/CenterLoading';
 import NoData from 'components/Common/NoData';
+import OverlayCenterLoading from 'components/Common/OverlayCenterLoading';
 import { RegistrationStatus } from 'constants/tournament-participants';
 import {
   useFinalizeApplicantMutation,
@@ -104,7 +105,7 @@ export default function ApplicantList() {
           <NoData message="No applicants yet." />
         )}
 
-        {fetchingApplicant && applicants && applicants.unapproved.length && <OverlayLoading />}
+        {fetchingApplicant && applicants && applicants.unapproved.length && <OverlayCenterLoading />}
       </Box>
 
       <Box mt={6}>
@@ -136,7 +137,7 @@ export default function ApplicantList() {
             <NoData message="No approved applicants yet." />
           )}
 
-          {fetchingApplicant && applicants && applicants.approved.length > 0 && <OverlayLoading />}
+          {fetchingApplicant && applicants && applicants.approved.length > 0 && <OverlayCenterLoading />}
         </Box>
       </Box>
 
@@ -160,7 +161,7 @@ export default function ApplicantList() {
           <NoData message="No rejected applicants yet." />
         )}
 
-        {fetchingApplicant && applicants && applicants.rejected.length > 0 && <OverlayLoading />}
+        {fetchingApplicant && applicants && applicants.rejected.length > 0 && <OverlayCenterLoading />}
       </Box>
     </Box>
   );
