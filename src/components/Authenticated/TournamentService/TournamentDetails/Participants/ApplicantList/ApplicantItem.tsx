@@ -72,6 +72,7 @@ export default function ApplicantItem({
   const handleApprove = async () => {
     try {
       await approveRequest({ tournamentId: tournamentData.id, userId: data.user1.id }).unwrap();
+      setExpand(false);
       showSuccess(`Approved ${data.user1.name}'s registration form successfully.`);
       await refetchApplicantData();
     } catch (error) {
@@ -82,6 +83,7 @@ export default function ApplicantItem({
   const handleReject = async () => {
     try {
       await rejectRequest({ tournamentId: tournamentData.id, userId: data.user1.id }).unwrap();
+      setExpand(false);
       showSuccess(`Rejected ${data.user1.name}'s registration form successfully.`);
       await refetchApplicantData();
     } catch (error) {

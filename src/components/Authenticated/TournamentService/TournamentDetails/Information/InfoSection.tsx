@@ -18,6 +18,7 @@ export default function InfoSection({
         backgroundColor: 'white',
         border: '1px solid #e0e0e0',
         borderRadius: 2,
+        minWidth: 300,
       }}
     >
       <Typography variant="h6">{title}</Typography>
@@ -41,7 +42,7 @@ export default function InfoSection({
             sx={{
               display: 'flex',
               justifyContent: 'space-between',
-              width: '45%',
+              minWidth: 120,
               color: 'gray',
               pl: 2,
               pr: 1,

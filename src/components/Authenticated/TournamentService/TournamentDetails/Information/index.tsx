@@ -65,7 +65,8 @@ export default function Information() {
     >
       <Grid
         item
-        xs={9}
+        xs={6}
+        md={8}
       >
         <Typography variant="h4">Information</Typography>
 
@@ -82,9 +83,11 @@ export default function Information() {
           {tournamentData.description}
         </Typography>
       </Grid>
+
       <Grid
         item
-        xs={3}
+        xs={6}
+        md={4}
         sx={{
           display: 'flex',
           flexDirection: 'column',
