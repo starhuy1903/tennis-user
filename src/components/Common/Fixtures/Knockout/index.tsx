@@ -1,10 +1,8 @@
 import { Box } from '@mui/material';
-import { Bracket, IRoundProps } from 'react-brackets';
+import { Bracket, IRoundProps, SeedItem } from 'react-brackets';
 
+import NoData from 'components/Common/NoData';
 import { FixtureResponse, Round } from 'types/tournament-fixtures';
-
-import NoData from '../NoData';
-import CustomSeedItem from './Knockout/SeedItem';
 
 type KnockoutFixturesProps = {
   rounds: Round[];
@@ -48,7 +46,7 @@ export default function KnockoutFixtures({ rounds }: KnockoutFixturesProps) {
             </Box>
           );
         }}
-        renderSeedComponent={CustomSeedItem}
+        renderSeedComponent={SeedItem}
       />
     </Box>
   );
