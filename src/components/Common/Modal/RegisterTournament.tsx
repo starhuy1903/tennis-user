@@ -18,7 +18,7 @@ type FormType = {
 export default function RegisterTournament({
   tournamentId,
   participantType,
-  fetchMyApplication,
+  onSuccess,
   onModalClose,
 }: RegisterTournamentProps) {
   const name = useAppSelector((state) => state.user.userInfo?.name);
@@ -46,7 +46,7 @@ export default function RegisterTournament({
 
       showSuccess('Sent tournament registration request successfully.');
       onModalClose();
-      fetchMyApplication();
+      onSuccess?.();
     } catch (err) {
       console.error(err);
     }

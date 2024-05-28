@@ -21,12 +21,12 @@ export default function TournamentItem({
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const handleRegister = async (tournamentId: number) => {
+  const handleRegister = (tournamentId: number) => {
     dispatch(
       showModal(ModalKey.REGISTER_TOURNAMENT, {
         tournamentId,
         participantType: tournament.participantType,
-        fetchMyApplication: () => navigate(`/tournaments/${tournament.id}/participants`),
+        onSuccess: () => navigate(`/tournaments/${tournament.id}/participants`),
       })
     );
   };

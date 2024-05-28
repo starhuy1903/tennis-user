@@ -33,7 +33,7 @@ export interface AddParticipantsProps extends CommonModalProps {
 export interface RegisterTournamentProps extends CommonModalProps {
   tournamentId: number;
   participantType: string;
-  fetchMyApplication: () => void;
+  onSuccess?: () => void;
 }
 
 export interface SelectPaymentMethodProps extends CommonModalProps {
