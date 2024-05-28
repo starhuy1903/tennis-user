@@ -27,7 +27,7 @@ import { checkTournamentRole, selectTournamentData } from 'store/slice/tournamen
 import { UserProfile } from 'types/user';
 import { displayDateTime } from 'utils/datetime';
 
-const titles = ['Name', 'ELO', 'Email address', 'Phone', 'Gender', 'Applied date'];
+const titles = ['Name', 'ELO', 'Email address', 'Gender', 'Applied date'];
 const refereeTableTitle = ['', 'Name', 'Phone number', 'Gender'];
 
 const ParticipantName = ({ user }: { user: UserProfile }) => {
@@ -73,7 +73,7 @@ export default function ParticipantList() {
 
   const handleGetRefereeData = useCallback(async () => {
     try {
-      await getReferees(tournamentData.id);
+      await getReferees(tournamentData.id).unwrap();
     } catch (err) {
       // handled error
     }
@@ -126,9 +126,9 @@ export default function ParticipantList() {
           </TableHead>
           <TableBody>
             {isLoading ? (
-              [1, 1, 1].map(() => (
+              Array(3).map(() => (
                 <TableRow>
-                  <TableCell colSpan={6}>
+                  <TableCell colSpan={titles.length}>
                     <Skeleton
                       variant="rectangular"
                       height={30}
@@ -162,10 +162,6 @@ export default function ParticipantList() {
                         {row.user2 && <Box>{row.user2.email}</Box>}
                       </Cell>
                       <Cell>
-                        <Box>{row.user1.phoneNumber}</Box>
-                        {row.user2 && <Box>{row.user2.phoneNumber}</Box>}
-                      </Cell>
-                      <Cell>
                         <Box>{GenderOptions[row.user1.gender]}</Box>
                         {row.user2 && <Box>{GenderOptions[row.user1.gender]}</Box>}
                       </Cell>
@@ -179,7 +175,7 @@ export default function ParticipantList() {
                   ))
                 ) : (
                   <TableRow>
-                    <TableCell colSpan={6}>
+                    <TableCell colSpan={titles.length}>
                       <NoData />
                     </TableCell>
                   </TableRow>
@@ -221,7 +217,7 @@ export default function ParticipantList() {
               </TableHead>
               <TableBody>
                 {fetchingRefereeData ? (
-                  [1, 1, 1].map(() => (
+                  Array(3).map(() => (
                     <TableRow>
                       <TableCell colSpan={refereeTableTitle.length}>
                         <Skeleton
