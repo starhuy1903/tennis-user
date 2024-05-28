@@ -1,6 +1,8 @@
+import KeyboardDoubleArrowDownIcon from '@mui/icons-material/KeyboardDoubleArrowDown';
+import KeyboardDoubleArrowUpIcon from '@mui/icons-material/KeyboardDoubleArrowUp';
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
-import { Box, Chip, Container, Divider, Paper, Stack, Tab, Typography } from '@mui/material';
+import { Box, Chip, Collapse, Container, Divider, IconButton, Paper, Stack, Tab, Typography } from '@mui/material';
 import { useCallback, useEffect, useState } from 'react';
 import { Outlet, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'store';
@@ -15,6 +17,7 @@ import {
   selectTournament,
   setTournamentDetails,
   shouldRefreshTournamentData,
+  showTournamentBackground,
 } from 'store/slice/tournamentSlice';
 import { displayDateRange } from 'utils/datetime';
 import { getNextPhaseInString } from 'utils/tournament';
@@ -56,7 +59,7 @@ export default function TournamentDetailsLayout() {
   const dispatch = useAppDispatch();
   const { pathname } = useLocation();
   const [getTournamentDetails, { isLoading }] = useLazyGetOpenTournamentDetailsQuery();
-  const { data: tournamentData, shouldRefreshData } = useAppSelector(selectTournament);
+  const { data: tournamentData, shouldRefreshData, showBackground } = useAppSelector(selectTournament);
   const { isCreator } = useAppSelector(checkTournamentRole);
 
   const getActiveTab = useCallback(() => {
@@ -110,11 +113,36 @@ export default function TournamentDetailsLayout() {
   return (
     <Container maxWidth="lg">
       <Paper sx={{ borderBottomLeftRadius: 16, borderBottomRightRadius: 16, border: '1px white solid' }}>
-        <img
-          style={{ width: '100%', height: 300, objectFit: 'cover' }}
-          src={tournamentData.image || defaultTournamentImage}
-          alt="tournament image"
-        />
+        <Box position="relative">
+          <Collapse in={showBackground}>
+            <img
+              style={{ width: '100%', height: 300, objectFit: 'cover' }}
+              src={tournamentData.image || defaultTournamentImage}
+              alt="tournament image"
+            />
+          </Collapse>
+          <IconButton
+            aria-label="collapse"
+            sx={{ position: 'absolute', left: '50%', bottom: 0, transform: 'translateX(-50%)' }}
+            onClick={() => dispatch(showTournamentBackground(false))}
+          >
+            <KeyboardDoubleArrowUpIcon />
+          </IconButton>
+        </Box>
+
+        <Collapse in={!showBackground}>
+          <Box
+            display="flex"
+            justifyContent="center"
+          >
+            <IconButton
+              aria-label="collapse"
+              onClick={() => dispatch(showTournamentBackground(true))}
+            >
+              <KeyboardDoubleArrowDownIcon />
+            </IconButton>
+          </Box>
+        </Collapse>
 
         <Box pt={1}>
           <Stack
