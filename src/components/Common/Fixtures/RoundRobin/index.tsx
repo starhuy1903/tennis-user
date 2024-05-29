@@ -18,7 +18,7 @@ import NoData from '../../NoData';
 import { MatchItem } from './MatchItem';
 
 type RoundRobinFixtureProps = {
-  rounds?: Round[];
+  rounds: Round[];
   setFixtureData?: React.Dispatch<React.SetStateAction<FixtureResponse | null>>;
 };
 

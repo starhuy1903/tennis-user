@@ -47,12 +47,12 @@ const AvatarMenu = () => {
         {
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-ignore
-          userInfo?.avatar ? (
+          userInfo.image ? (
             <Avatar
               alt="username"
               // eslint-disable-next-line @typescript-eslint/ban-ts-comment
               // @ts-ignore
-              src={userInfo.avatar}
+              src={userInfo.image}
             />
           ) : (
             <AccountCircle />
