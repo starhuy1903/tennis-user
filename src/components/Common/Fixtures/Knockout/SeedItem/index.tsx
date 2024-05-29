@@ -1,23 +1,34 @@
 import { Box, Divider } from '@mui/material';
 import { useCallback } from 'react';
 import { IRenderSeedProps, Seed, SeedItem } from 'react-brackets';
-import { useNavigate } from 'react-router-dom';
 
 import { MatchStatusBadge } from 'components/Common/Match/MatchStatusBadge';
 import { MatchStatus } from 'constants/tournament-fixtures';
+import { Match } from 'types/tournament-fixtures';
 
 import CustomSeedTeam from './CustomSeedTeam';
 
-export default function CustomSeedItem({ seed }: IRenderSeedProps) {
-  const navigate = useNavigate();
+type CustomSeedItemProps = IRenderSeedProps & {
+  onClick?: (match: Match) => void;
+};
 
+export default function CustomSeedItem({ seed, onClick }: CustomSeedItemProps) {
   const isNotShow = seed.status === MatchStatus.NO_SHOW;
 
   const handleClickSeed = useCallback(() => {
     if (!isNotShow) {
-      navigate(`matches/${seed.id}`);
+      const match = {
+        ...seed,
+        matchStartDate: seed.date || '',
+        teams: {
+          team1: seed.teams[0],
+          team2: seed.teams[1],
+        },
+      } as Match;
+
+      onClick?.(match);
     }
-  }, [isNotShow, navigate, seed.id]);
+  }, [isNotShow, onClick, seed]);
 
   return (
     <Seed style={{ fontSize: 16 }}>
