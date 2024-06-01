@@ -167,9 +167,9 @@ export const isGeneratedNewFixtureType = (fixture: FixtureResponse): fixture is 
 };
 
 export const isGeneratedNewRoundRobinFixture = (fixture: FixtureResponse): fixture is GeneratedNewRoundRobinFixture => {
-  return 'roundRobinGroups' in fixture;
+  return 'roundRobinGroups' in fixture && fixture.format === TournamentFormat.ROUND_ROBIN;
 };
 
 export const isGeneratedNewKnockoutFixture = (fixture: FixtureResponse): fixture is GeneratedNewKnockoutFixture => {
-  return 'knockoutGroup' in fixture;
+  return 'knockoutGroup' in fixture && fixture.format === TournamentFormat.KNOCKOUT;
 };

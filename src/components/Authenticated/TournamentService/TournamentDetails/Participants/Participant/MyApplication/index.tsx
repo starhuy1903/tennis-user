@@ -31,7 +31,7 @@ export default function MyApplication({ tournament }: { tournament: OpenTourname
     data: myApplication,
     isLoading: fetchingApplication,
     refetch: fetchMyApplication,
-  } = useGetMyApplicationQuery(tournament.id);
+  } = useGetMyApplicationQuery(tournament.id, { refetchOnMountOrArgChange: true });
   const [getInvitations, { isLoading: fetchingInvitations }] = useLazyGetInvitationsQuery();
 
   const isRegistered = myApplication && myApplication.status !== RegistrationStatus.CANCELED;
@@ -72,7 +72,7 @@ export default function MyApplication({ tournament }: { tournament: OpenTourname
         showModal(ModalKey.REGISTER_TOURNAMENT, {
           tournamentId: tournament.id,
           participantType: tournament.participantType,
-          fetchMyApplication,
+          onSuccess: fetchMyApplication,
         })
       );
     };
