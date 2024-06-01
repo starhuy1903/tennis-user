@@ -1,48 +1,51 @@
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
-import { Breadcrumbs, Typography } from '@mui/material';
+import { Box, Breadcrumbs as BreadcrumbsComp, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
+import useReactRouterBreadcrumbs from 'use-react-router-breadcrumbs';
 
-export default function BreadCrumb({
-  breadcrumbs,
-}: {
-  breadcrumbs: {
-    title: string;
-    to: string;
-    active: boolean;
-  }[];
-}) {
+export const Breadcrumbs = ({ customRoutes }: { customRoutes?: any[] }) => {
+  const breadcrumbs = useReactRouterBreadcrumbs(customRoutes);
+
   return (
-    <Breadcrumbs
-      separator={<NavigateNextIcon fontSize="small" />}
-      aria-label="breadcrumb"
-    >
-      {breadcrumbs.map((item, index) => {
-        if (item.active) {
-          return (
-            <Link
-              key={index}
-              to={item.to}
-              style={{
-                color: 'gray',
-                fontWeight: 500,
-              }}
-              className="breadcrumb-link"
-            >
-              {item.title}
-            </Link>
-          );
-        } else {
-          return (
-            <Typography
-              key={index}
-              color="text.primary"
-              fontWeight={500}
-            >
-              {item.title}
-            </Typography>
-          );
-        }
-      })}
-    </Breadcrumbs>
+    <>
+      <BreadcrumbsComp
+        separator={<NavigateNextIcon fontSize="small" />}
+        aria-label="breadcrumb"
+        sx={{
+          my: 2,
+        }}
+      >
+        {breadcrumbs.map(({ match, breadcrumb }, index) => {
+          if (index !== breadcrumbs.length - 1) {
+            return (
+              <Box
+                component={Link}
+                to={match.pathname}
+                key={index}
+                sx={{
+                  'color': 'text.secondary',
+                  'fontWeight': 500,
+                  '&:hover': {
+                    textDecoration: 'underline',
+                  },
+                }}
+              >
+                {breadcrumb}
+              </Box>
+            );
+          } else {
+            return (
+              <Typography
+                key={index}
+                color="primary.main"
+                fontWeight={500}
+              >
+                {breadcrumb}
+              </Typography>
+            );
+          }
+        })}
+      </BreadcrumbsComp>
+    </>
   );
-}
+};

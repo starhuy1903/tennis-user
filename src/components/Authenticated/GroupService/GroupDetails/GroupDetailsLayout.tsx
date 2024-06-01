@@ -5,6 +5,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { Outlet, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'store';
 
+import { Breadcrumbs } from 'components/Common/Breadcrumb';
 import CenterLoading from 'components/Common/CenterLoading';
 import { useLazyGetGroupDetailsQuery } from 'store/api/group/groupApiSlice';
 import { selectGroup } from 'store/slice/groupSlice';
@@ -77,6 +78,17 @@ export default function GroupDetailsLayout() {
     return <CenterLoading />;
   }
 
+  const customRoutes = [
+    {
+      path: '/groups/:groupId',
+      breadcrumb: groupData.name,
+    },
+    {
+      path: '/groups/:groupId/:tab',
+      breadcrumb: null,
+    },
+  ];
+
   return (
     <Container
       maxWidth="lg"
@@ -84,6 +96,8 @@ export default function GroupDetailsLayout() {
         minHeight: '120vh',
       }}
     >
+      <Breadcrumbs customRoutes={customRoutes} />
+
       <Paper sx={{ borderBottomLeftRadius: 16, borderBottomRightRadius: 16, border: '1px white solid', mb: 4 }}>
         <InfoSection data={groupData} />
 

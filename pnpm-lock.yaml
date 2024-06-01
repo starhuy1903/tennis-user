@@ -107,6 +107,9 @@ dependencies:
   tinymce:
     specifier: ^6.8.3
     version: 6.8.3
+  use-react-router-breadcrumbs:
+    specifier: ^4.0.1
+    version: 4.0.1(react-router-dom@6.22.1)(react@18.2.0)
   vite:
     specifier: ^5.1.4
     version: 5.1.4
@@ -3444,6 +3447,16 @@ packages:
       dequal: 2.0.3
       react: 18.2.0
     dev: true
+
+  /use-react-router-breadcrumbs@4.0.1(react-router-dom@6.22.1)(react@18.2.0):
+    resolution: {integrity: sha512-Zbcy0KvWt1JePFcUHJAnTr7Z+AeO9WxmPs6A5Q/xqOVoi8edPKzpqHF87WB2opXwie/QjCxrEyTB7kFg7fgXvQ==}
+    peerDependencies:
+      react: '>=16.8'
+      react-router-dom: '>=6.0.0'
+    dependencies:
+      react: 18.2.0
+      react-router-dom: 6.22.1(react-dom@18.2.0)(react@18.2.0)
+    dev: false
 
   /use-sync-external-store@1.2.0(react@18.2.0):
     resolution: {integrity: sha512-eEgnFxGQ1Ife9bzYs6VLi8/4X6CObHMw9Qr9tPY43iKwsPw8xE8+EFsf/2cFZ5S3esXgpWgtSCtLNS41F+sKPA==}

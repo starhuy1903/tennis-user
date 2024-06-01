@@ -5,8 +5,9 @@ import { useEffect, useState } from 'react';
 import { Outlet, useNavigate, useParams } from 'react-router-dom';
 import { useAppSelector } from 'store';
 
-import CenterLoading from 'components/Common/CenterLoading';
 // import { TournamentStatus } from 'constants/tournament';
+import { Breadcrumbs } from 'components/Common/Breadcrumb';
+import CenterLoading from 'components/Common/CenterLoading';
 import { useLazyGetGroupTournamentDetailsQuery } from 'store/api/group/groupTournamentApiSlice';
 import { selectGroup } from 'store/slice/groupSlice';
 import { displayDateRange } from 'utils/datetime';
@@ -83,6 +84,8 @@ export default function GroupTournamentDetailsLayout() {
 
   return (
     <Box>
+      <Breadcrumbs />
+
       <Paper sx={{ borderBottomLeftRadius: 16, borderBottomRightRadius: 16, border: '1px white solid' }}>
         <img
           style={{ width: '100%', height: 300, objectFit: 'cover' }}

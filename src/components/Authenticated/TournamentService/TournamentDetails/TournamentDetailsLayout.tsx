@@ -5,8 +5,9 @@ import { useCallback, useEffect, useState } from 'react';
 import { Outlet, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'store';
 
-import CenterLoading from 'components/Common/CenterLoading';
 // import { TournamentStatus } from 'constants/tournament';
+import { Breadcrumbs } from 'components/Common/Breadcrumb';
+import CenterLoading from 'components/Common/CenterLoading';
 import Steps from 'components/Common/Steps';
 import { TournamentPhaseOptions, defaultTournamentImage } from 'constants/tournament';
 import { useLazyGetOpenTournamentDetailsQuery } from 'store/api/tournament/shared/general';
@@ -103,12 +104,25 @@ export default function TournamentDetailsLayout() {
     };
   }, [dispatch]);
 
+  const customRoutes = [
+    {
+      path: `/tournaments/:id`,
+      breadcrumb: tournamentData.name,
+    },
+    {
+      path: '/tournaments/:id/:tab',
+      breadcrumb: null,
+    },
+  ];
+
   if (isLoading || tournamentData.id === 0) {
     return <CenterLoading />;
   }
 
   return (
     <Container maxWidth="lg">
+      <Breadcrumbs customRoutes={customRoutes} />
+
       <Paper sx={{ borderBottomLeftRadius: 16, borderBottomRightRadius: 16, border: '1px white solid' }}>
         <img
           style={{ width: '100%', height: 300, objectFit: 'cover' }}
