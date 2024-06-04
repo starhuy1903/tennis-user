@@ -11,15 +11,15 @@ import { useGetRefereesQuery } from 'store/api/tournament/creator/participant';
 import { showModal } from 'store/slice/modalSlice';
 import { selectTournamentData } from 'store/slice/tournamentSlice';
 import { EditMatchPayload } from 'types/match';
-import { Match, Round, Team, TournamentFixture } from 'types/tournament-fixtures';
+import { FixtureResponse, Match, Round, Team, isGeneratedNewRoundRobinFixture } from 'types/tournament-fixtures';
 import { checkGeneratedFixture } from 'utils/tournament';
 
 import NoData from '../../NoData';
 import { MatchItem } from './MatchItem';
 
 type RoundRobinFixtureProps = {
-  rounds?: Round[];
-  setFixtureData?: React.Dispatch<React.SetStateAction<TournamentFixture | null>>;
+  rounds: Round[];
+  setFixtureData?: React.Dispatch<React.SetStateAction<FixtureResponse | null>>;
 };
 
 export default function RoundRobinFixture({ rounds, setFixtureData }: RoundRobinFixtureProps) {
@@ -36,7 +36,7 @@ export default function RoundRobinFixture({ rounds, setFixtureData }: RoundRobin
   const handleUpdateFixture = useCallback(
     (match: EditMatchPayload) => {
       setFixtureData?.((prev) => {
-        if (prev) {
+        if (prev && isGeneratedNewRoundRobinFixture(prev)) {
           const updatedGroups = produce(prev.roundRobinGroups, (draftGroups) => {
             draftGroups?.[0].rounds.forEach((round) => {
               round.matches.forEach((m) => {

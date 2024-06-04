@@ -4,18 +4,13 @@ import { Box, Divider, Stack, Typography } from '@mui/material';
 import { useCallback, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
-import BreadCrumb from 'components/Common/Breadcrumb';
+import { Breadcrumbs } from 'components/Common/Breadcrumb';
 import CenterLoading from 'components/Common/CenterLoading';
 import NewsSwiper from 'components/Home/News';
 import { FormatDateTime } from 'constants/datetime';
 import { useLazyGetNewsByIdQuery } from 'store/api/unauthenticated/newsApiSlice';
 import { News } from 'types/news';
 import { displayDateTime } from 'utils/datetime';
-
-const breadcrumbs = [
-  { title: 'Home', to: '/', active: true },
-  { title: 'News', to: '/news', active: true },
-];
 
 export default function NewsDetail() {
   const navigate = useNavigate();
@@ -60,7 +55,7 @@ export default function NewsDetail() {
       pt={2}
       pb={10}
     >
-      <BreadCrumb breadcrumbs={breadcrumbs}></BreadCrumb>
+      <Breadcrumbs />
 
       <Typography variant="h4">{news.title}</Typography>
 

@@ -47,6 +47,7 @@ const initialState: TournamentSliceType = {
     tournamentRoles: [],
   },
   shouldRefreshData: true, // to call the API on the first render
+  showBackground: true,
 };
 
 export const tournamentSlice = createSlice({
@@ -62,13 +63,17 @@ export const tournamentSlice = createSlice({
     shouldRefreshTournamentData: (state, action: PayloadAction<boolean>) => {
       state.shouldRefreshData = action.payload;
     },
+    showTournamentBackground: (state, action: PayloadAction<boolean>) => {
+      state.showBackground = action.payload;
+    },
   },
 });
 
 export const selectTournament = (state: RootState) => state.tournament;
 export const selectTournamentData = (state: RootState) => state.tournament.data;
 
-export const { setTournamentDetails, resetTournamentDetails, shouldRefreshTournamentData } = tournamentSlice.actions;
+export const { setTournamentDetails, resetTournamentDetails, shouldRefreshTournamentData, showTournamentBackground } =
+  tournamentSlice.actions;
 
 export const checkTournamentRole = createSelector(
   (state: RootState) => selectTournamentData(state).tournamentRoles || [TournamentRole.PARTICIPANT],

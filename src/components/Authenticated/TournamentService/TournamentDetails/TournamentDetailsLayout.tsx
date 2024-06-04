@@ -1,16 +1,25 @@
+import KeyboardDoubleArrowDownIcon from '@mui/icons-material/KeyboardDoubleArrowDown';
+import KeyboardDoubleArrowUpIcon from '@mui/icons-material/KeyboardDoubleArrowUp';
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
-import { Box, Container, Divider, Paper, Stack, Tab, Typography } from '@mui/material';
+import { Box, Chip, Collapse, Container, Divider, IconButton, Paper, Stack, Tab, Typography } from '@mui/material';
 import { useCallback, useEffect, useState } from 'react';
 import { Outlet, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'store';
 
-import CenterLoading from 'components/Common/CenterLoading';
 // import { TournamentStatus } from 'constants/tournament';
+import { Breadcrumbs } from 'components/Common/Breadcrumb';
+import CenterLoading from 'components/Common/CenterLoading';
 import Steps from 'components/Common/Steps';
 import { TournamentPhaseOptions, defaultTournamentImage } from 'constants/tournament';
 import { useLazyGetOpenTournamentDetailsQuery } from 'store/api/tournament/shared/general';
-import { selectTournament, setTournamentDetails, shouldRefreshTournamentData } from 'store/slice/tournamentSlice';
+import {
+  checkTournamentRole,
+  selectTournament,
+  setTournamentDetails,
+  shouldRefreshTournamentData,
+  showTournamentBackground,
+} from 'store/slice/tournamentSlice';
 import { displayDateRange } from 'utils/datetime';
 import { getNextPhaseInString } from 'utils/tournament';
 
@@ -51,7 +60,8 @@ export default function TournamentDetailsLayout() {
   const dispatch = useAppDispatch();
   const { pathname } = useLocation();
   const [getTournamentDetails, { isLoading }] = useLazyGetOpenTournamentDetailsQuery();
-  const { data: tournamentData, shouldRefreshData } = useAppSelector(selectTournament);
+  const { data: tournamentData, shouldRefreshData, showBackground } = useAppSelector(selectTournament);
+  const { isCreator } = useAppSelector(checkTournamentRole);
 
   const getActiveTab = useCallback(() => {
     const pathParts = pathname.split('/');
@@ -97,6 +107,17 @@ export default function TournamentDetailsLayout() {
     };
   }, [dispatch]);
 
+  const customRoutes = [
+    {
+      path: `/tournaments/:id`,
+      breadcrumb: tournamentData.name,
+    },
+    {
+      path: '/tournaments/:id/:tab',
+      breadcrumb: null,
+    },
+  ];
+
   if (isLoading || tournamentData.id === 0) {
     return <CenterLoading />;
   }
@@ -108,30 +129,65 @@ export default function TournamentDetailsLayout() {
         minHeight: '120vh',
       }}
     >
+      <Breadcrumbs customRoutes={customRoutes} />
+
       <Paper sx={{ borderBottomLeftRadius: 16, borderBottomRightRadius: 16, border: '1px white solid' }}>
-        <img
-          style={{ width: '100%', height: 300, objectFit: 'cover' }}
-          src={tournamentData.image || defaultTournamentImage}
-          alt="tournament image"
-        />
+        <Box position="relative">
+          <Collapse in={showBackground}>
+            <img
+              style={{ width: '100%', height: 300, objectFit: 'cover' }}
+              src={tournamentData.image || defaultTournamentImage}
+              alt="tournament image"
+            />
+          </Collapse>
+          <IconButton
+            aria-label="collapse"
+            sx={{ position: 'absolute', left: '50%', bottom: 0, transform: 'translateX(-50%)' }}
+            onClick={() => dispatch(showTournamentBackground(false))}
+          >
+            <KeyboardDoubleArrowUpIcon />
+          </IconButton>
+        </Box>
+
+        <Collapse in={!showBackground}>
+          <Box
+            display="flex"
+            justifyContent="center"
+          >
+            <IconButton
+              aria-label="collapse"
+              onClick={() => dispatch(showTournamentBackground(true))}
+            >
+              <KeyboardDoubleArrowDownIcon />
+            </IconButton>
+          </Box>
+        </Collapse>
 
         <Box pt={1}>
           <Stack
             direction="row"
             justifyContent="space-between"
+            alignItems="center"
             px={2}
           >
-            <Stack>
+            <Stack
+              direction="row"
+              alignItems="center"
+              gap={1}
+            >
               <Typography variant="h6">{tournamentData.name}</Typography>
-              {/* <Chip
-                sx={{ width: 'fit-content' }}
-                component="span"
-                variant="outlined"
-                color={TournamentStatusChip[tournamentData.status].chipColor}
-                size="small"
-                label={TournamentStatusChip[tournamentData.status].displayText}
-              /> */}
+              {isCreator && (
+                <Chip
+                  sx={{ width: 'fit-content' }}
+                  component="span"
+                  variant="outlined"
+                  color="error"
+                  size="small"
+                  label="Creator"
+                />
+              )}
             </Stack>
+
             <Typography variant="subtitle1">
               {displayDateRange(tournamentData.startDate, tournamentData.endDate)}
             </Typography>

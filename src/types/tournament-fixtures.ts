@@ -75,7 +75,7 @@ export type Round = {
   matches: Match[];
 };
 
-export type FixturePayload = {
+export type CreateFixtureRequest = {
   format: TournamentFormat;
   fixtureStartDate: string;
   fixtureEndDate: string;
@@ -86,24 +86,48 @@ export type FixturePayload = {
   venue: string;
 };
 
-export type TournamentFixture = FixturePayload & {
-  // Can use both roundRobinRounds and knockoutRounds for "group_playoff" format
-  roundRobinGroups?: {
+export type EmptyFixture = {
+  status: FixtureStatus.NEW;
+};
+
+export type BaseGenerateFixture = {
+  id: string;
+  participantType: ParticipantType;
+  format: TournamentFormat;
+};
+
+export type TempFixture = BaseGenerateFixture & {
+  status: FixtureStatus.NEW;
+};
+
+export type DraftFixture = BaseGenerateFixture &
+  Omit<CreateFixtureRequest, 'format'> & {
+    status: FixtureStatus.DRAFT;
+  };
+
+export type GeneratedFixture = TempFixture | DraftFixture;
+
+export type GeneratedNewRoundRobinFixture = GeneratedFixture & {
+  roundRobinGroups: {
     id: string;
     title: string;
     isFinal: boolean;
     rounds: Round[];
   }[];
-  knockoutGroup?: {
+};
+
+export type GeneratedNewKnockoutFixture = GeneratedFixture & {
+  knockoutGroup: {
     id: string;
     title: string;
     isFinal: boolean;
     rounds: Round[];
   };
-  participantType: ParticipantType;
-  status: FixtureStatus;
-  id?: string;
 };
+
+export type GeneratedNewFixture = GeneratedNewRoundRobinFixture | GeneratedNewKnockoutFixture;
+
+export type FixtureResponse = EmptyFixture | GeneratedNewFixture;
 
 export type BaseSaveFixture = {
   id: string;
@@ -119,7 +143,7 @@ export type BaseSaveFixture = {
 };
 
 export type SaveRoundRobinFixtureRequest = BaseSaveFixture & {
-  roundRobinGroups?: {
+  roundRobinGroups: {
     id: string;
     title: string;
     isFinal: boolean;
@@ -127,6 +151,25 @@ export type SaveRoundRobinFixtureRequest = BaseSaveFixture & {
   }[];
 };
 
-// export type SaveKnockoutFixtureRequest = BaseSaveFixture & {
+export type SaveKnockoutFixtureRequest = BaseSaveFixture & {
+  knockoutGroup: {
+    id: string;
+    title: string;
+    isFinal: boolean;
+    rounds: Round[];
+  };
+};
 
-// }
+export type SaveFixture = SaveRoundRobinFixtureRequest | SaveKnockoutFixtureRequest;
+
+export const isGeneratedNewFixtureType = (fixture: FixtureResponse): fixture is GeneratedNewFixture => {
+  return 'id' in fixture;
+};
+
+export const isGeneratedNewRoundRobinFixture = (fixture: FixtureResponse): fixture is GeneratedNewRoundRobinFixture => {
+  return 'roundRobinGroups' in fixture && fixture.format === TournamentFormat.ROUND_ROBIN;
+};
+
+export const isGeneratedNewKnockoutFixture = (fixture: FixtureResponse): fixture is GeneratedNewKnockoutFixture => {
+  return 'knockoutGroup' in fixture && fixture.format === TournamentFormat.KNOCKOUT;
+};
