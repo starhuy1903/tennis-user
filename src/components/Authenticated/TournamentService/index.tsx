@@ -4,6 +4,7 @@ import TabPanel from '@mui/lab/TabPanel';
 import { Box, Tab } from '@mui/material';
 import { useState } from 'react';
 
+import { Breadcrumbs } from 'components/Common/Breadcrumb';
 import CenterLoading from 'components/Common/CenterLoading';
 import { useGetCreatedTournamentsQuery } from 'store/api/tournament/creator/general';
 
@@ -26,40 +27,44 @@ export default function TournamentService() {
   }
 
   return (
-    <TabContext value={currentTab}>
-      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <TabList
-          onChange={handleChangeTab}
-          aria-label="lab API tabs example"
-          variant="fullWidth"
-        >
-          <Tab
-            label="All Tournaments"
-            value="1"
-          />
-          <Tab
-            label="My Tournaments"
-            value="2"
-          />
-          {shouldShowManageTournamentTab && (
+    <>
+      <Breadcrumbs />
+
+      <TabContext value={currentTab}>
+        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+          <TabList
+            onChange={handleChangeTab}
+            aria-label="Tournament tabs"
+            variant="fullWidth"
+          >
             <Tab
-              label="Manage Tournaments"
-              value="3"
+              label="All Tournaments"
+              value="1"
             />
-          )}
-        </TabList>
-      </Box>
-      <TabPanel value="1">
-        <AllTournaments />
-      </TabPanel>
-      <TabPanel value="2">
-        <MyTournaments />
-      </TabPanel>
-      {shouldShowManageTournamentTab && (
-        <TabPanel value="3">
-          <ManageTournaments tournaments={tournaments} />
+            <Tab
+              label="My Tournaments"
+              value="2"
+            />
+            {shouldShowManageTournamentTab && (
+              <Tab
+                label="Manage Tournaments"
+                value="3"
+              />
+            )}
+          </TabList>
+        </Box>
+        <TabPanel value="1">
+          <AllTournaments />
         </TabPanel>
-      )}
-    </TabContext>
+        <TabPanel value="2">
+          <MyTournaments />
+        </TabPanel>
+        {shouldShowManageTournamentTab && (
+          <TabPanel value="3">
+            <ManageTournaments tournaments={tournaments} />
+          </TabPanel>
+        )}
+      </TabContext>
+    </>
   );
 }

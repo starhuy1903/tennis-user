@@ -16,6 +16,7 @@ import { Box, Tab, Tabs } from '@mui/material';
 import { ReactNode, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import { Breadcrumbs } from 'components/Common/Breadcrumb';
 import TabPanel from 'components/Common/TabPanel';
 import { a11yProps } from 'utils/ui';
 
@@ -75,8 +76,16 @@ export default function Profile({ activeTab = 'feeds' }: ProfileProps) {
     setCurrentTab(newValue);
   };
 
+  const customRoutes = [
+    {
+      path: '/profile',
+      breadcrumb: null,
+    },
+  ];
+
   return (
     <Box sx={{ width: '100%' }}>
+      <Breadcrumbs customRoutes={customRoutes} />
       <ProfileSection />
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs

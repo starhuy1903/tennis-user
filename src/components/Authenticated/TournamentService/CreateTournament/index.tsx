@@ -6,6 +6,7 @@ import Tab from '@mui/material/Tab';
 import { useMemo, useState } from 'react';
 
 import PackagePricing from 'components/Common/ PackagePricing';
+import { Breadcrumbs } from 'components/Common/Breadcrumb';
 import CenterLoading from 'components/Common/CenterLoading';
 import { useGetMyPackagesQuery } from 'store/api/packageApiSlice';
 import { PackageType, UserPackage } from 'types/package';
@@ -31,49 +32,60 @@ export default function CreateTournament() {
     setCurrentTab(newValue);
   };
 
+  const customRoutes = [
+    {
+      path: '/tournaments/create',
+      breadcrumb: 'Create tournament',
+    },
+  ];
+
   if (!fetchedMyPackages) {
     return <CenterLoading />;
   }
 
   return (
-    <Box sx={{ width: '100%', typography: 'body1', mt: 2 }}>
-      {selectedPackage ? (
-        <FormCreateTournament
-          selectedPackage={selectedPackage}
-          setSelectedPackage={setSelectedPackage}
-        />
-      ) : (
-        <TabContext value={currentTab}>
-          <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-            <TabList
-              onChange={handleChangeTab}
-              aria-label="lab API tabs example"
-              variant="fullWidth"
-            >
-              <Tab
-                label="My Packages"
-                value="1"
+    <>
+      <Breadcrumbs customRoutes={customRoutes} />
+
+      <Box sx={{ width: '100%', typography: 'body1', mt: 2 }}>
+        {selectedPackage ? (
+          <FormCreateTournament
+            selectedPackage={selectedPackage}
+            setSelectedPackage={setSelectedPackage}
+          />
+        ) : (
+          <TabContext value={currentTab}>
+            <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+              <TabList
+                onChange={handleChangeTab}
+                aria-label="lab API tabs example"
+                variant="fullWidth"
+              >
+                <Tab
+                  label="My Packages"
+                  value="1"
+                />
+                <Tab
+                  label="Buy Packages"
+                  value="2"
+                />
+              </TabList>
+            </Box>
+            <TabPanel value="1">
+              <MyPackages
+                packagesData={myTournamentPackages}
+                onChooseMyPackage={handleChooseMyPackage}
               />
-              <Tab
-                label="Buy Packages"
-                value="2"
+            </TabPanel>
+            <TabPanel value="2">
+              <PackagePricing
+                type={PackageType.TOURNAMENT}
+                title="Our tournament packages"
               />
-            </TabList>
-          </Box>
-          <TabPanel value="1">
-            <MyPackages
-              packagesData={myTournamentPackages}
-              onChooseMyPackage={handleChooseMyPackage}
-            />
-          </TabPanel>
-          <TabPanel value="2">
-            <PackagePricing
-              type={PackageType.TOURNAMENT}
-              title="Our tournament packages"
-            />
-          </TabPanel>
-        </TabContext>
-      )}
-    </Box>
+            </TabPanel>
+          </TabContext>
+        )}
+      </Box>
+    </>
   );
 }

@@ -12,6 +12,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAppDispatch } from 'store';
 import * as yup from 'yup';
 
+import { Breadcrumbs } from 'components/Common/Breadcrumb';
 import CenterLoading from 'components/Common/CenterLoading';
 import ControlledSelect from 'components/Common/Input/ControlledSelect';
 import ControlledTextField from 'components/Common/Input/ControlledTextField';
@@ -98,170 +99,181 @@ const GroupCreate = () => {
     });
   });
 
-  return (
-    <Box
-      component="form"
-      autoComplete="off"
-      onSubmit={handleCreateGroup}
-      sx={{ paddingBottom: '20px', marginY: 4 }}
-    >
-      <Typography
-        variant="h4"
-        noWrap
-        component="h4"
-        sx={{
-          display: 'flex',
-          fontWeight: 700,
-        }}
-      >
-        GROUP CREATION FORM
-      </Typography>
-      <Stack
-        spacing={2}
-        mt={2}
-      >
-        {isLoading ? (
-          <CenterLoading height="80vh" />
-        ) : (
-          <>
-            <Paper sx={{ padding: 2 }}>
-              <Typography
-                variant="h2"
-                fontWeight="bold"
-              >
-                Package
-              </Typography>
-              {validGroupPackages && validGroupPackages.length > 0 ? (
-                <Box sx={{ width: '50%', padding: '15px' }}>
-                  <PackageSelector
-                    selected={String(getValues('purchasedPackageId'))}
-                    handleSelect={() => {}}
-                    packages={validGroupPackages}
-                  />
-                </Box>
-              ) : (
-                <Box
-                  sx={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    gap: 4,
-                    height: 500,
-                  }}
-                >
-                  <NoData message="You haven't owned a package that support creating group." />
+  const customRoutes = [
+    {
+      path: '/groups/create',
+      breadcrumb: 'Create group',
+    },
+  ];
 
-                  <Button
-                    component={Link}
-                    to="/pricing"
-                    size="large"
-                    color="primary"
-                    variant="contained"
+  return (
+    <>
+      <Breadcrumbs customRoutes={customRoutes} />
+
+      <Box
+        component="form"
+        autoComplete="off"
+        onSubmit={handleCreateGroup}
+        sx={{ paddingBottom: '20px' }}
+      >
+        <Typography
+          variant="h4"
+          noWrap
+          component="h4"
+          sx={{
+            display: 'flex',
+            fontWeight: 700,
+          }}
+        >
+          GROUP CREATION FORM
+        </Typography>
+        <Stack
+          spacing={2}
+          mt={2}
+        >
+          {isLoading ? (
+            <CenterLoading height="80vh" />
+          ) : (
+            <>
+              <Paper sx={{ padding: 2 }}>
+                <Typography
+                  variant="h2"
+                  fontWeight="bold"
+                >
+                  Package
+                </Typography>
+                {validGroupPackages && validGroupPackages.length > 0 ? (
+                  <Box sx={{ width: '50%', padding: '15px' }}>
+                    <PackageSelector
+                      selected={String(getValues('purchasedPackageId'))}
+                      handleSelect={() => {}}
+                      packages={validGroupPackages}
+                    />
+                  </Box>
+                ) : (
+                  <Box
                     sx={{
-                      width: 200,
+                      display: 'flex',
+                      flexDirection: 'column',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      gap: 4,
+                      height: 500,
                     }}
                   >
-                    Buy package
-                  </Button>
-                </Box>
-              )}
-            </Paper>
+                    <NoData message="You haven't owned a package that support creating group." />
 
-            {validGroupPackages && validGroupPackages.length > 0 && (
-              <>
-                <Paper sx={{ padding: 2 }}>
-                  <Typography
-                    variant="h2"
-                    fontWeight="bold"
-                  >
-                    Information
-                  </Typography>
-                  <Grid
-                    container
-                    spacing="15px"
-                    padding="15px"
-                  >
-                    <Grid xs={6}>
-                      <ControlledTextField
-                        control={control}
-                        name="name"
-                        label="Group's name"
-                        placeholder="Give your group a name"
-                      />
-                    </Grid>
-                    <Grid xs={6} />
-                    <Grid xs={6}>
-                      <ControlledSelect
-                        control={control}
-                        name="language"
-                        label="Language"
-                        options={LANGUAGES}
-                      />
-                    </Grid>
-                    <Grid xs={6}>
-                      <ControlledTextField
-                        control={control}
-                        name="activityZone"
-                        label="Activity zone"
-                        placeholder="Where is the group active?"
-                      />
-                    </Grid>
-                    <Grid xs={12}>
-                      <ControlledTextField
-                        control={control}
-                        name="description"
-                        label="Description"
-                        placeholder="Describe your group"
-                        textfieldProps={{ multiline: true, rows: 3 }}
-                      />
-                    </Grid>
-                    <Grid xs={12}>
-                      <Controller
-                        name="image"
-                        control={control}
-                        defaultValue=""
-                        render={({ field: { onChange, value } }) => (
-                          <SingleImagePicker
-                            label="Upload a background image for your group"
-                            imageUrl={value}
-                            handleUpload={onChange}
-                            handleRemove={() => {
-                              onChange('');
-                            }}
-                          />
-                        )}
-                      />
-                    </Grid>
-                  </Grid>
-                </Paper>
-                <Paper sx={{ display: 'flex', columnGap: '20px', justifyContent: 'center', padding: '10px' }}>
-                  <Button
-                    type="button"
-                    variant="outlined"
-                    color="error"
-                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                    //@ts-ignore
-                    onClick={() => navigate(-1, { replace: true })}
-                  >
-                    Cancel
-                  </Button>
-                  <Box component="span">
                     <Button
-                      type="submit"
+                      component={Link}
+                      to="/pricing"
+                      size="large"
+                      color="primary"
                       variant="contained"
-                      disabled={disabledSubmitBtn}
+                      sx={{
+                        width: 200,
+                      }}
                     >
-                      Create group
+                      Buy package
                     </Button>
                   </Box>
-                </Paper>
-              </>
-            )}
-          </>
-        )}
-      </Stack>
-    </Box>
+                )}
+              </Paper>
+
+              {validGroupPackages && validGroupPackages.length > 0 && (
+                <>
+                  <Paper sx={{ padding: 2 }}>
+                    <Typography
+                      variant="h2"
+                      fontWeight="bold"
+                    >
+                      Information
+                    </Typography>
+                    <Grid
+                      container
+                      spacing="15px"
+                      padding="15px"
+                    >
+                      <Grid xs={6}>
+                        <ControlledTextField
+                          control={control}
+                          name="name"
+                          label="Group's name"
+                          placeholder="Give your group a name"
+                        />
+                      </Grid>
+                      <Grid xs={6} />
+                      <Grid xs={6}>
+                        <ControlledSelect
+                          control={control}
+                          name="language"
+                          label="Language"
+                          options={LANGUAGES}
+                        />
+                      </Grid>
+                      <Grid xs={6}>
+                        <ControlledTextField
+                          control={control}
+                          name="activityZone"
+                          label="Activity zone"
+                          placeholder="Where is the group active?"
+                        />
+                      </Grid>
+                      <Grid xs={12}>
+                        <ControlledTextField
+                          control={control}
+                          name="description"
+                          label="Description"
+                          placeholder="Describe your group"
+                          textfieldProps={{ multiline: true, rows: 3 }}
+                        />
+                      </Grid>
+                      <Grid xs={12}>
+                        <Controller
+                          name="image"
+                          control={control}
+                          defaultValue=""
+                          render={({ field: { onChange, value } }) => (
+                            <SingleImagePicker
+                              label="Upload a background image for your group"
+                              imageUrl={value}
+                              handleUpload={onChange}
+                              handleRemove={() => {
+                                onChange('');
+                              }}
+                            />
+                          )}
+                        />
+                      </Grid>
+                    </Grid>
+                  </Paper>
+                  <Paper sx={{ display: 'flex', columnGap: '20px', justifyContent: 'center', padding: '10px' }}>
+                    <Button
+                      type="button"
+                      variant="outlined"
+                      color="error"
+                      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                      //@ts-ignore
+                      onClick={() => navigate(-1, { replace: true })}
+                    >
+                      Cancel
+                    </Button>
+                    <Box component="span">
+                      <Button
+                        type="submit"
+                        variant="contained"
+                        disabled={disabledSubmitBtn}
+                      >
+                        Create group
+                      </Button>
+                    </Box>
+                  </Paper>
+                </>
+              )}
+            </>
+          )}
+        </Stack>
+      </Box>
+    </>
   );
 };
 

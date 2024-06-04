@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppSelector } from 'store';
 
+import { Breadcrumbs } from 'components/Common/Breadcrumb';
 import CenterLoading from 'components/Common/CenterLoading';
 import { TournamentStatus } from 'constants/tournament';
 import { useLazyGetGroupTournamentsQuery } from 'store/api/group/groupTournamentApiSlice';
@@ -52,15 +53,21 @@ export default function GroupTournaments() {
     navigate(`/groups/${groupData?.id}/tournaments/create`);
   };
 
+  const customRoutes = [
+    {
+      path: '/groups/:groupId',
+      breadcrumb: groupData.name,
+    },
+  ];
+
   if (isLoading) {
     return <CenterLoading height="10vh" />;
   }
 
   return (
-    <Stack
-      gap={4}
-      mt={4}
-    >
+    <Stack>
+      <Breadcrumbs customRoutes={customRoutes} />
+
       <Box>
         <Stack
           direction="row"
