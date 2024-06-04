@@ -1,17 +1,14 @@
-import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
-import ArrowRightIcon from '@mui/icons-material/ArrowRight';
-import { Avatar, Box, Container, Stack, Table, TableBody, TableCell, TableRow, Typography } from '@mui/material';
+import { Avatar, Box, Container, Stack, Typography } from '@mui/material';
 
 import { FormatDateTime } from 'constants/datetime';
+import { MatchState } from 'constants/match';
 // import ReactPlayer from 'react-player/youtube';
-import { MatchStatus } from 'constants/tournament-fixtures';
-import { FinalScore, Match, Player, Score, Team } from 'types/tournament-fixtures';
-import { displayDateTime, displayHour } from 'utils/datetime';
+import { MatchMetaData } from 'types/match';
+import { Player, Team } from 'types/tournament-fixtures';
+import { displayDateTime } from 'utils/datetime';
 
-import { Timer } from '../Timer';
-import { MatchStatusBadge } from './MatchStatusBadge';
-
-type TeamType = 1 | 2;
+import MainScore from './MainScore';
+import SetGamesScoreList from './SetGamesScoreList';
 
 const MatchHeader = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -98,186 +95,14 @@ const CustomTeam = ({ team }: { team: Team }) => {
   );
 };
 
-const MatchScore = ({ finalScore, team }: { finalScore: FinalScore; team: TeamType }) => {
+export default function MatchDetails({ match }: { match: MatchMetaData }) {
+  // console.log({ match });
+
   return (
-    <>
-      {finalScore.team1 > finalScore.team2 && team === 1 && (
-        <ArrowRightIcon
-          color="primary"
-          fontSize="large"
-          sx={{
-            position: 'absolute',
-            left: '-40px',
-          }}
-        />
-      )}
-
-      {finalScore && (
-        <Typography
-          variant="h3"
-          fontWeight={600}
-          lineHeight={1.5}
-        >
-          {finalScore[`team${team}`]}
-        </Typography>
-      )}
-
-      {finalScore.team1 < finalScore.team2 && team === 2 && (
-        <ArrowLeftIcon
-          color="primary"
-          fontSize="large"
-          sx={{
-            position: 'absolute',
-            right: '-40px',
-          }}
-        />
-      )}
-    </>
-  );
-};
-
-const TeamCell = ({ team }: { team: Team }) => {
-  return (
-    <TableCell sx={{ display: 'flex', flexDirection: 'column', gap: 2, align: 'center' }}>
-      <Typography
-        variant="body1"
-        align="center"
-      >
-        {team.user1.name}
-      </Typography>
-      {team?.user2 && (
-        <Typography
-          variant="body1"
-          align="center"
-        >
-          {team.user2.name}
-        </Typography>
-      )}
-    </TableCell>
-  );
-};
-
-const ScoreCell = ({ scores, team }: { scores: Score[]; team: TeamType }) => {
-  return (
-    <>
-      {scores.length !== 0 ? (
-        scores.map((score, scoreIndex) => (
-          <TableCell
-            key={scoreIndex}
-            align="center"
-          >
-            {score[`team${team}`]}
-            {score[`tiebreakTeam${team}`] && (
-              <sup
-                style={{
-                  fontSize: 10,
-                  marginLeft: 2,
-                }}
-              >
-                {score[`tiebreakTeam${team}`]}
-              </sup>
-            )}
-          </TableCell>
-        ))
-      ) : (
-        <TableCell align="center">-</TableCell>
-      )}
-    </>
-  );
-};
-
-const ScoreTable = ({ match }: { match: Match }) => {
-  return (
-    <Table sx={{ minWidth: 650, tableLayout: 'fixed' }}>
-      <TableBody>
-        <TableRow>
-          <TableCell
-            sx={{
-              align: 'center',
-              fontWeight: 'bold',
-            }}
-          >
-            Team 1
-          </TableCell>
-
-          <TeamCell team={match.teams.team1!} />
-
-          <ScoreCell
-            scores={match.scores}
-            team={1}
-          />
-
-          <TableCell
-            sx={{
-              textAlign: 'center',
-              fontWeight: 'bold',
-            }}
-          >
-            {match.finalScore.team1}
-          </TableCell>
-        </TableRow>
-
-        <TableRow>
-          <TableCell
-            sx={{
-              align: 'center',
-              fontWeight: 'bold',
-            }}
-          >
-            Team 2
-          </TableCell>
-
-          <TeamCell team={match.teams.team2!} />
-
-          <ScoreCell
-            scores={match.scores}
-            team={2}
-          />
-
-          <TableCell
-            sx={{
-              textAlign: 'center',
-              fontWeight: 'bold',
-            }}
-          >
-            {match.finalScore.team2}
-          </TableCell>
-        </TableRow>
-
-        <TableRow>
-          <TableCell
-            sx={{
-              align: 'center',
-              fontWeight: 'bold',
-            }}
-          >
-            Match Time
-          </TableCell>
-          <TableCell align="center" />
-
-          {match.scores.length !== 0 ? (
-            match.scores.map((score, scoreIndex) => (
-              <TableCell
-                key={scoreIndex}
-                align="center"
-              >
-                {displayHour(score.time)}
-              </TableCell>
-            ))
-          ) : (
-            <TableCell align="center">-</TableCell>
-          )}
-
-          <TableCell align="center" />
-        </TableRow>
-      </TableBody>
-    </Table>
-  );
-};
-
-export default function MatchDetails({ match }: { match: Match }) {
-  return (
-    <Container maxWidth="md">
+    <Container
+      maxWidth="md"
+      sx={{ mb: 4 }}
+    >
       <Box
         sx={{
           bgcolor: 'white',
@@ -289,9 +114,9 @@ export default function MatchDetails({ match }: { match: Match }) {
             color="white"
           >
             <strong>Date / Time:</strong>{' '}
-            {displayDateTime({ dateTime: match.date, targetFormat: FormatDateTime.DATE_2 })},{' '}
+            {displayDateTime({ dateTime: match.matchStartDate, targetFormat: FormatDateTime.DATE_2 })},{' '}
             {displayDateTime({
-              dateTime: match.date,
+              dateTime: match.matchStartDate,
               formatSpecification: FormatDateTime.FULL_TIME,
               targetFormat: FormatDateTime.MERIDIEM_HOUR,
             })}
@@ -314,9 +139,14 @@ export default function MatchDetails({ match }: { match: Match }) {
             py: 2,
           }}
         >
-          <CustomTeam team={match.teams.team1!} />
+          <CustomTeam team={match.team1!} />
 
-          <Stack alignItems="center">
+          <MainScore
+            match={match}
+            isLive={match.status === MatchState.WALK_OVER}
+          />
+
+          {/* <Stack alignItems="center">
             <Box
               sx={{
                 position: 'relative',
@@ -326,22 +156,22 @@ export default function MatchDetails({ match }: { match: Match }) {
               }}
             >
               <MatchScore
-                finalScore={match.finalScore}
+                finalScore={match.matchFinalScore}
                 team={1}
               />
 
               <MatchStatusBadge status={match.status} />
 
               <MatchScore
-                finalScore={match.finalScore}
+                finalScore={match.matchFinalScore}
                 team={2}
               />
             </Box>
 
-            {match.status === MatchStatus.WALK_OVER && <Timer date={match.date} />}
-          </Stack>
+            {match.status === MatchState.WALK_OVER && <Timer date={match.matchStartDate} />}
+          </Stack> */}
 
-          <CustomTeam team={match.teams.team2!} />
+          <CustomTeam team={match.team2} />
         </Box>
 
         {/* Livestream */}
@@ -372,17 +202,21 @@ export default function MatchDetails({ match }: { match: Match }) {
           </>
         )} */}
 
-        <MatchHeader>
-          <Typography
-            variant="body1"
-            color="white"
-            fontWeight="bold"
-          >
-            Scores
-          </Typography>
-        </MatchHeader>
-
-        <ScoreTable match={match} />
+        {/* {[MatchState.WALK_OVER, MatchState.SCORE_DONE, MatchState.DONE].includes(match.status) && (
+          <>
+            <MatchHeader>
+              <Typography
+                variant="body1"
+                color="white"
+                fontWeight="bold"
+              >
+                Scores
+              </Typography>
+            </MatchHeader>
+            <ScoreTable match={match} />
+          </>
+        )} */}
+        <SetGamesScoreList match={match} />
       </Box>
     </Container>
   );

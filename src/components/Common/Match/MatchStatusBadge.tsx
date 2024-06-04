@@ -2,16 +2,16 @@ import SensorsIcon from '@mui/icons-material/Sensors';
 import { Typography } from '@mui/material';
 
 import { FormatDateTime } from 'constants/datetime';
-import { MatchStatus } from 'constants/tournament-fixtures';
+import { MatchState } from 'constants/match';
 import { displayDateTime } from 'utils/datetime';
 
 const statusTextMap: { [key: string]: string } = {
-  [MatchStatus.SCHEDULED]: 'SCHEDULED',
-  [MatchStatus.NO_PARTY]: 'NO PARTY',
-  [MatchStatus.WALK_OVER]: 'LIVE',
-  [MatchStatus.DONE]: 'SCORING IN PROGRESS',
-  [MatchStatus.SCORE_DONE]: 'FINISHED',
-  [MatchStatus.NO_SHOW]: 'NO INFO',
+  [MatchState.SCHEDULED]: 'SCHEDULED',
+  [MatchState.NO_PARTY]: 'NO PARTY',
+  [MatchState.WALK_OVER]: 'LIVE',
+  [MatchState.DONE]: 'SCORING IN PROGRESS',
+  [MatchState.SCORE_DONE]: 'FINISHED',
+  [MatchState.NO_SHOW]: 'NO INFO',
 };
 
 export const MatchStatusBadge = ({
@@ -23,9 +23,9 @@ export const MatchStatusBadge = ({
   type?: 'default' | 'knockout';
   date?: string;
 }) => {
-  const isScheduledOrDone = status === MatchStatus.SCHEDULED || status === MatchStatus.DONE;
-  const isNoPartyOrScoreDone = status === MatchStatus.NO_PARTY || status === MatchStatus.SCORE_DONE;
-  const isWalkOver = status === MatchStatus.WALK_OVER;
+  const isScheduledOrDone = status === MatchState.SCHEDULED || status === MatchState.DONE;
+  const isNoPartyOrScoreDone = status === MatchState.NO_PARTY || status === MatchState.SCORE_DONE;
+  const isWalkOver = status === MatchState.WALK_OVER;
 
   if (type === 'knockout') {
     return (
@@ -49,9 +49,9 @@ export const MatchStatusBadge = ({
           gap: 0.5,
         }}
       >
-        {status === MatchStatus.SCHEDULED ? (
+        {status === MatchState.SCHEDULED ? (
           displayDateTime({ dateTime: date!, targetFormat: FormatDateTime.TIME_AND_DATE })
-        ) : status === MatchStatus.WALK_OVER ? (
+        ) : status === MatchState.WALK_OVER ? (
           <>
             <SensorsIcon fontSize="small" /> LIVE
           </>
