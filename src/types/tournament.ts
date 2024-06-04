@@ -55,3 +55,5 @@ export type OpenTournament = Omit<OpenTournamentPayload, 'purchasedPackageId'> &
   purchasedPackage: UserPackage;
   tournamentRoles: TournamentRole[];
 };
+
+export type UpdateTournamentPayload = Omit<OpenTournamentPayload, 'purchasedPackageId'>;

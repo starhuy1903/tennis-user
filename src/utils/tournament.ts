@@ -29,3 +29,8 @@ export const getNextPhaseInString = (tournamentPhase: TournamentPhase) => {
     TournamentPhase.COMPLETED
   );
 };
+
+export const checkFinalizedApplicants = (tournamentPhase: TournamentPhase) => {
+  const currentPhaseNumber = PhaseMappingNumber[tournamentPhase];
+  return currentPhaseNumber >= PhaseMappingNumber[TournamentPhase.FINALIZED_APPLICANTS];
+};

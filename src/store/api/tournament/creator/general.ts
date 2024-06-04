@@ -1,12 +1,14 @@
 import { apiWithToastSlice } from 'store/api/baseApiSlice';
 import { urlWithCorePrefix } from 'store/api/helper';
-import { OpenTournament, OpenTournamentPayload } from 'types/tournament';
+import { OpenTournament, OpenTournamentPayload, UpdateTournamentPayload } from 'types/tournament';
 
 export const {
   useGetCreatedTournamentsQuery,
   useLazyGetCreatedTournamentsQuery,
   useCreateOpenTournamentMutation,
   usePublishTournamentMutation,
+  useUnpublishTournamentMutation,
+  useUpdateTournamentMutation,
 } = apiWithToastSlice.injectEndpoints({
   endpoints: (build) => ({
     getCreatedTournaments: build.query<OpenTournament[], void>({
@@ -26,6 +28,19 @@ export const {
       query: (tournamentId) => ({
         url: urlWithCorePrefix(`tournaments/${tournamentId}/publish`),
         method: 'POST',
+      }),
+    }),
+    unpublishTournament: build.mutation<void, number>({
+      query: (tournamentId) => ({
+        url: urlWithCorePrefix(`tournaments/${tournamentId}/unpublish`),
+        method: 'POST',
+      }),
+    }),
+    updateTournament: build.mutation<OpenTournament, { tournamentId: number; payload: UpdateTournamentPayload }>({
+      query: ({ tournamentId, payload }) => ({
+        url: urlWithCorePrefix(`tournaments/${tournamentId}`),
+        method: 'PUT',
+        body: payload,
       }),
     }),
   }),

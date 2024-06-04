@@ -123,7 +123,12 @@ export default function TournamentDetailsLayout() {
   }
 
   return (
-    <Container maxWidth="lg">
+    <Container
+      maxWidth="lg"
+      sx={{
+        minHeight: '120vh',
+      }}
+    >
       <Breadcrumbs customRoutes={customRoutes} />
 
       <Paper sx={{ borderBottomLeftRadius: 16, borderBottomRightRadius: 16, border: '1px white solid' }}>
