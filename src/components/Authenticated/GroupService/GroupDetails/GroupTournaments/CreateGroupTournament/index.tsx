@@ -19,6 +19,7 @@ import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { useAppSelector } from 'store';
 
+import { Breadcrumbs } from 'components/Common/Breadcrumb';
 import SingleImagePicker from 'components/Common/Input/SingleImagePicker';
 import { useCreateGroupTournamentMutation } from 'store/api/group/groupTournamentApiSlice';
 import { selectGroup } from 'store/slice/groupSlice';
@@ -66,11 +67,24 @@ export default function CreateGroupTournament() {
     }
   };
 
+  const customRoutes = [
+    {
+      path: '/groups/:groupId',
+      breadcrumb: groupData.name,
+    },
+    {
+      path: '/groups/:groupId/tournaments/create',
+      breadcrumb: 'Create tournament',
+    },
+  ];
+
   return (
     <Container
       maxWidth="xl"
       sx={{ marginY: 8 }}
     >
+      <Breadcrumbs customRoutes={customRoutes} />
+
       <Typography
         variant="h4"
         noWrap

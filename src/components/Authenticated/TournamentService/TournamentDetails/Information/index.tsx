@@ -1,13 +1,16 @@
 import { Button, Divider, Grid, Typography } from '@mui/material';
+import { useConfirm } from 'material-ui-confirm';
+import { useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'store';
 
 import { FormatDateTime } from 'constants/datetime';
 import { GenderOptions, ParticipantTypeOptions, TournamentFormatOptions, TournamentPhase } from 'constants/tournament';
-import { usePublishTournamentMutation } from 'store/api/tournament/creator/general';
+import { usePublishTournamentMutation, useUnpublishTournamentMutation } from 'store/api/tournament/creator/general';
 import { checkTournamentRole, selectTournamentData, shouldRefreshTournamentData } from 'store/slice/tournamentSlice';
 import { displayDateTime } from 'utils/datetime';
 import { showSuccess } from 'utils/toast';
 
+import UpdateTournament from '../UpdateTournament';
 import InfoSection from './InfoSection';
 
 const displayDate = (date: string) => {
@@ -19,19 +22,44 @@ const displayDate = (date: string) => {
 
 export default function Information() {
   const dispatch = useAppDispatch();
+  const confirm = useConfirm();
+
   const [publishTournamentRequest, { isLoading: publishingTournament }] = usePublishTournamentMutation();
+  const [unpublishTournamentRequest, { isLoading: unpublishingTournament }] = useUnpublishTournamentMutation();
+
   const tournamentData = useAppSelector(selectTournamentData);
+  const [shouldOpenChangeSettings, setShouldOpenChangeSettings] = useState(false);
 
   const { isCreator } = useAppSelector(checkTournamentRole);
 
   const handlePublishTournament = async () => {
-    try {
-      await publishTournamentRequest(tournamentData.id).unwrap();
-      dispatch(shouldRefreshTournamentData(true));
-      showSuccess('Published tournament successfully.');
-    } catch (error) {
-      // handled error
-    }
+    confirm({
+      title: 'Publish Tournament',
+      description: `You can't change Tournament Settings after publishing. Are you sure you want to publish?`,
+    }).then(async () => {
+      try {
+        await publishTournamentRequest(tournamentData.id).unwrap();
+        dispatch(shouldRefreshTournamentData(true));
+        showSuccess('Published tournament successfully.');
+      } catch (error) {
+        // handled error
+      }
+    });
+  };
+
+  const handleUnpublishTournament = async () => {
+    confirm({
+      title: 'Unpublish Tournament',
+      description: `Unpublishing the tournament will make it invisible to the public. Are you sure you want to unpublish?`,
+    }).then(async () => {
+      try {
+        await unpublishTournamentRequest(tournamentData.id).unwrap();
+        dispatch(shouldRefreshTournamentData(true));
+        showSuccess('Unpublished tournament successfully.');
+      } catch (error) {
+        // handled error
+      }
+    });
   };
 
   const tournamentTimelineFields = [
@@ -55,6 +83,10 @@ export default function Information() {
     { label: 'EMAIL', value: tournamentData.contactEmail, variant: 'email' as const },
     { label: 'ADDRESS', value: tournamentData.address },
   ];
+
+  if (shouldOpenChangeSettings) {
+    return <UpdateTournament onCloseForm={() => setShouldOpenChangeSettings(false)} />;
+  }
 
   return (
     <Grid
@@ -104,6 +136,28 @@ export default function Information() {
             Publish tournament
           </Button>
         )}
+
+        {isCreator && tournamentData.phase === TournamentPhase.PUBLISHED && (
+          <Button
+            variant="contained"
+            size="medium"
+            onClick={handleUnpublishTournament}
+            disabled={unpublishingTournament}
+          >
+            Unpublish tournament
+          </Button>
+        )}
+
+        {isCreator && (
+          <Button
+            variant="outlined"
+            size="medium"
+            onClick={() => setShouldOpenChangeSettings(true)}
+          >
+            Change settings
+          </Button>
+        )}
+
         <InfoSection
           title="Tournament Time Line"
           fields={tournamentTimelineFields}
