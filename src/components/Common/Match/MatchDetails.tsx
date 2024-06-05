@@ -141,10 +141,7 @@ export default function MatchDetails({ match }: { match: MatchMetaData }) {
         >
           <CustomTeam team={match.team1!} />
 
-          <MainScore
-            match={match}
-            isLive={match.status === MatchState.WALK_OVER}
-          />
+          <MainScore match={match} />
 
           {/* <Stack alignItems="center">
             <Box

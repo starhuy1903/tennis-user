@@ -62,7 +62,6 @@ export type MatchMetaData = {
   status: MatchState;
   team1: Team;
   team2: Team;
-  // TODO: define type
   sets: SetGame[];
   venue: string;
   teamWinnerId: string | null;
