@@ -21,7 +21,12 @@ const getWinnerName = (team1: Team, team2: Team, winnerTeamId: string) => {
   return 'N/A';
 };
 
-export default function SetGamesScoreList({ match }: { match: MatchMetaData }) {
+type SetGamesScoreList = {
+  match: MatchMetaData;
+  isLive: boolean;
+};
+
+export default function SetGamesScoreList({ match, isLive }: SetGamesScoreList) {
   const { sets } = match;
 
   return (

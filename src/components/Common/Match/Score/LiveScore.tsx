@@ -19,9 +19,16 @@ type LiveScoreProps = {
 
 export default function LiveScore({ match }: LiveScoreProps) {
   const newestGameScore = useMemo(() => getNewestGameScore(match), [match]);
+  const currentSet = match.sets.length;
+  const currentGame = match.sets[match.sets.length - 1].games.length;
 
   return (
     <Stack alignItems="center">
+      <Box display="flex">
+        <Typography>
+          Set {currentSet} - Game {currentGame}
+        </Typography>
+      </Box>
       <Box
         sx={{
           position: 'relative',
@@ -45,7 +52,7 @@ export default function LiveScore({ match }: LiveScoreProps) {
           fontWeight={600}
           lineHeight={1.5}
         >
-          {}
+          {newestGameScore.scores[0].team2Score}
         </Typography>
       </Box>
 

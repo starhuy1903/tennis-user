@@ -96,7 +96,7 @@ const CustomTeam = ({ team }: { team: Team }) => {
 };
 
 export default function MatchDetails({ match }: { match: MatchMetaData }) {
-  // console.log({ match });
+  const isLive = match.status === MatchState.WALK_OVER;
 
   return (
     <Container
@@ -213,7 +213,12 @@ export default function MatchDetails({ match }: { match: MatchMetaData }) {
             <ScoreTable match={match} />
           </>
         )} */}
-        <SetGamesScoreList match={match} />
+        {[MatchState.WALK_OVER, MatchState.SCORE_DONE, MatchState.DONE].includes(match.status) && (
+          <SetGamesScoreList
+            match={match}
+            isLive={isLive}
+          />
+        )}
       </Box>
     </Container>
   );
