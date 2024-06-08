@@ -1,46 +1,6 @@
-export enum MatchParticipantStatus {
-  PLAYED = 'played',
-  NO_PARTY = 'no_party',
-  NO_SHOW = 'no_show',
-  WALK_OVER = 'walk_over',
-}
+import { MatchState } from 'constants/match';
 
-export enum MatchState {
-  SCHEDULED = 'scheduled',
-  NO_PARTY = 'no_party',
-  NO_SHOW = 'no_show',
-  WALK_OVER = 'walk_over',
-  DONE = 'done',
-  SCORE_DONE = 'score_done',
-}
-
-export type MatchParticipant = {
-  id: string;
-  resultText: string; // WON
-  name: string;
-  isWinner: boolean;
-  status: MatchParticipantStatus | null;
-};
-
-export type Match = {
-  id: string;
-  name: string;
-  startTime: string; // 09:00:00
-  startDate: string; // 2024-03-20
-  duration: number; // 60
-  state: MatchState;
-  nextMatchId: string | null; // Id for the next match in upper bracket, if it's final match it must be null
-  tournamentRoundText: string; // Text for Round Header
-  participants: MatchParticipant[];
-};
-
-export type MatchPayload = {
-  tournamentId: number;
-  name: string;
-  time: string; // 09:00:00
-  date: string; // 2024-03-20
-  duration: number; // 60
-};
+import { Team } from './tournament-fixtures';
 
 export type EditMatchPayload = {
   id: string;
@@ -51,3 +11,65 @@ export type EditMatchPayload = {
   team2Id: string;
   refereeId: string;
 };
+
+export type MatchFinalScore = {
+  team1: number;
+  team2: number;
+  teamWinnerId: string | null;
+};
+
+export enum SetGameStatus {
+  NOT_STARTED = 'not_started',
+  ON_GOING = 'on_going',
+  ENDED = 'ended',
+}
+
+export enum GameScoreType {
+  INIT = 'init',
+  WINNER = 'winner',
+  ACE = 'ace',
+}
+
+export type GameScore = {
+  id: number;
+  type: GameScoreType;
+  team1Score: string;
+  team2Score: string;
+  teamWinId: string | null;
+  time: string | null;
+};
+
+export type Game = {
+  id: number;
+  teamWinId: string;
+  scores: GameScore[];
+};
+
+export type SetGame = {
+  id: number;
+  isTieBreak: boolean;
+  status: SetGameStatus;
+  teamWinId: string;
+  setStartTime: string;
+  games: Game[];
+  setFinalScore: {
+    team1: number;
+    team2: number;
+    tieBreak: null;
+  };
+};
+
+export type MatchMetaData = {
+  id: string;
+  status: MatchState;
+  team1: Team;
+  team2: Team;
+  sets: SetGame[];
+  venue: string;
+  teamWinnerId: string | null;
+  matchStartDate: string;
+  matchEndDate: string | null;
+  matchFinalScore: MatchFinalScore;
+};
+
+export type TeamType = 1 | 2;

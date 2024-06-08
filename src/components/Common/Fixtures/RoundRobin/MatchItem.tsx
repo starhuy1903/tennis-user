@@ -3,8 +3,9 @@ import { ArrowLeftIcon, ArrowRightIcon } from '@mui/x-date-pickers';
 
 import { MatchStatusBadge } from 'components/Common/Match/MatchStatusBadge';
 import { FormatDateTime } from 'constants/datetime';
-import { MatchStatus } from 'constants/tournament-fixtures';
-import { FinalScore, Match, Player } from 'types/tournament-fixtures';
+import { MatchState } from 'constants/match';
+import { MatchFinalScore } from 'types/match';
+import { Match, Player } from 'types/tournament-fixtures';
 import { displayDateTime } from 'utils/datetime';
 
 const CustomPlayer = ({ player, direction }: { player: Player; direction: 'left' | 'right' }) => {
@@ -93,7 +94,7 @@ const CustomPlayer = ({ player, direction }: { player: Player; direction: 'left'
   );
 };
 
-const CustomScore = ({ finalScore, team }: { finalScore: FinalScore; team: 1 | 2 }) => {
+const CustomScore = ({ finalScore, team }: { finalScore: MatchFinalScore; team: 1 | 2 }) => {
   return (
     <>
       {finalScore.team1 > finalScore.team2 && team === 1 && (
@@ -137,7 +138,7 @@ type MathItemProps = {
 };
 
 export const MatchItem = ({ match, onClick }: MathItemProps) => {
-  const shouldShowScore = [MatchStatus.WALK_OVER, MatchStatus.DONE, MatchStatus.SCORE_DONE].includes(match.status);
+  const shouldShowScore = [MatchState.WALK_OVER, MatchState.DONE, MatchState.SCORE_DONE].includes(match.status);
 
   return (
     <Box

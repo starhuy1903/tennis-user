@@ -3,7 +3,7 @@ import { useCallback } from 'react';
 import { IRenderSeedProps, Seed, SeedItem } from 'react-brackets';
 
 import { MatchStatusBadge } from 'components/Common/Match/MatchStatusBadge';
-import { MatchStatus } from 'constants/tournament-fixtures';
+import { MatchState } from 'constants/match';
 import { Match } from 'types/tournament-fixtures';
 
 import CustomSeedTeam from './CustomSeedTeam';
@@ -13,7 +13,7 @@ type CustomSeedItemProps = IRenderSeedProps & {
 };
 
 export default function CustomSeedItem({ seed, onClick }: CustomSeedItemProps) {
-  const isNotShow = seed.status === MatchStatus.NO_SHOW;
+  const isNotShow = seed.status === MatchState.NO_SHOW;
 
   const handleClickSeed = useCallback(() => {
     if (!isNotShow) {
@@ -50,7 +50,7 @@ export default function CustomSeedItem({ seed, onClick }: CustomSeedItemProps) {
             teamNumber={1}
           />
 
-          {seed.status !== MatchStatus.SKIPPED && (
+          {seed.status !== MatchState.NO_SHOW && (
             <>
               <Divider>
                 <MatchStatusBadge

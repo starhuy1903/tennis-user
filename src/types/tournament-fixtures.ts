@@ -1,6 +1,8 @@
+import { MatchState } from 'constants/match';
 import { ParticipantType, TournamentFormat } from 'constants/tournament';
-import { FixtureStatus, MatchStatus } from 'constants/tournament-fixtures';
+import { FixtureStatus } from 'constants/tournament-fixtures';
 
+import { MatchFinalScore } from './match';
 import { UserProfile } from './user';
 
 export type Score = {
@@ -10,11 +12,6 @@ export type Score = {
   tiebreakTeam2?: number;
   time: number; // Minute when the set was finished
   teamWin: number; // 1 or 2
-};
-
-export type FinalScore = {
-  team1: number;
-  team2: number;
 };
 
 export type Player = UserProfile;
@@ -35,13 +32,13 @@ export type Match = {
   date: string;
   duration: number;
   venue: string;
-  status: MatchStatus;
+  status: MatchState;
   teams: {
-    team1?: Team;
-    team2?: Team;
+    team1: Team;
+    team2: Team;
   };
   scores: Score[];
-  finalScore: FinalScore;
+  finalScore: MatchFinalScore;
   refereeId: string | null;
   nextMatchId: string | null;
   title: string;
@@ -61,7 +58,7 @@ export type FixtureMatch = {
   title: string;
   matchStartDate: string;
   duration: number;
-  status: MatchStatus;
+  status: MatchState;
   teams: {
     team1?: Team;
     team2?: Team;
