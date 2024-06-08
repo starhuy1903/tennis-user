@@ -1,7 +1,7 @@
 import { Table, TableBody, TableCell, TableRow, Typography } from '@mui/material';
 
-import { MatchMetaData, TeamType } from 'types/match';
-import { Score, Team } from 'types/tournament-fixtures';
+import { MatchMetaData } from 'types/match';
+import { Team } from 'types/tournament-fixtures';
 
 const TeamCell = ({ team }: { team: Team }) => {
   return (
@@ -24,34 +24,34 @@ const TeamCell = ({ team }: { team: Team }) => {
   );
 };
 
-const ScoreCell = ({ scores, team }: { scores: Score[]; team: TeamType }) => {
-  return (
-    <>
-      {scores.length !== 0 ? (
-        scores.map((score, scoreIndex) => (
-          <TableCell
-            key={scoreIndex}
-            align="center"
-          >
-            {score[`team${team}`]}
-            {score[`tiebreakTeam${team}`] && (
-              <sup
-                style={{
-                  fontSize: 10,
-                  marginLeft: 2,
-                }}
-              >
-                {score[`tiebreakTeam${team}`]}
-              </sup>
-            )}
-          </TableCell>
-        ))
-      ) : (
-        <TableCell align="center">-</TableCell>
-      )}
-    </>
-  );
-};
+// const ScoreCell = ({ scores, team }: { scores: Score[]; team: TeamType }) => {
+//   return (
+//     <>
+//       {scores.length !== 0 ? (
+//         scores.map((score, scoreIndex) => (
+//           <TableCell
+//             key={scoreIndex}
+//             align="center"
+//           >
+//             {score[`team${team}`]}
+//             {score[`tiebreakTeam${team}`] && (
+//               <sup
+//                 style={{
+//                   fontSize: 10,
+//                   marginLeft: 2,
+//                 }}
+//               >
+//                 {score[`tiebreakTeam${team}`]}
+//               </sup>
+//             )}
+//           </TableCell>
+//         ))
+//       ) : (
+//         <TableCell align="center">-</TableCell>
+//       )}
+//     </>
+//   );
+// };
 
 export default function ScoreTable({ match }: { match: MatchMetaData }) {
   return (
