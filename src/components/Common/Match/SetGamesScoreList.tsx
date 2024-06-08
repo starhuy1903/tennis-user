@@ -1,5 +1,6 @@
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { Accordion, AccordionDetails, AccordionSummary, Box, Divider, Stack, Typography } from '@mui/material';
+import { useMemo } from 'react';
 
 import { MatchMetaData } from 'types/match';
 import { Team } from 'types/tournament-fixtures';
@@ -28,13 +29,14 @@ type SetGamesScoreList = {
 
 export default function SetGamesScoreList({ match, isLive }: SetGamesScoreList) {
   const { sets } = match;
+  const renderSets = useMemo(() => (isLive ? sets.slice().reverse() : sets), [isLive, sets]);
 
   return (
     <Stack spacing={2}>
-      {sets.map((set, setIndex) => {
+      {renderSets.map((set, setIndex) => {
         return (
           <Stack key={set.id}>
-            <Accordion>
+            <Accordion defaultExpanded={isLive}>
               <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}
                 aria-controls="panel1-content"
