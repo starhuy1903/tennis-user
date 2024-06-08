@@ -41,6 +41,7 @@ export default function LiveScore({ match }: LiveScoreProps) {
           variant="h3"
           fontWeight={600}
           lineHeight={1.5}
+          width={130}
         >
           {newestGameScore.scores[0].team1Score}
         </Typography>
@@ -51,6 +52,7 @@ export default function LiveScore({ match }: LiveScoreProps) {
           variant="h3"
           fontWeight={600}
           lineHeight={1.5}
+          width={130}
         >
           {newestGameScore.scores[0].team2Score}
         </Typography>

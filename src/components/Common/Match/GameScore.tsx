@@ -6,13 +6,15 @@ type GameScoreProps = {
   game: Game;
   title: string;
   winnerName: string;
+  isLatest: boolean;
 };
 
-export default function GameScore({ game, title, winnerName }: GameScoreProps) {
+export default function GameScore({ game, title, winnerName, isLatest }: GameScoreProps) {
+  const newestScoreId = game.scores[0].id;
+
   return (
     <Stack>
       <Typography variant="subtitle1">{title}</Typography>
-      <Typography>3 - 2</Typography>
       <Typography>Winner: {winnerName}</Typography>
       <Stack
         direction="row"
@@ -22,15 +24,14 @@ export default function GameScore({ game, title, winnerName }: GameScoreProps) {
           .slice()
           .reverse()
           .slice(1)
-          .map((score) => {
-            return (
-              <Chip
-                key={score.id}
-                size="small"
-                label={`${score.team1Score} - ${score.team2Score}`}
-              />
-            );
-          })}
+          .map((score) => (
+            <Chip
+              key={score.id}
+              size="small"
+              label={`${score.team1Score} - ${score.team2Score}`}
+              color={isLatest && newestScoreId === score.id ? 'primary' : 'default'}
+            />
+          ))}
       </Stack>
     </Stack>
   );

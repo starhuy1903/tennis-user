@@ -2,7 +2,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { Accordion, AccordionDetails, AccordionSummary, Box, Divider, Stack, Typography } from '@mui/material';
 import { useMemo } from 'react';
 
-import { MatchMetaData } from 'types/match';
+import { MatchMetaData, SetGameStatus } from 'types/match';
 import { Team } from 'types/tournament-fixtures';
 
 import GameScore from './GameScore';
@@ -31,9 +31,15 @@ export default function SetGamesScoreList({ match, isLive }: SetGamesScoreList) 
   const { sets } = match;
   const renderSets = useMemo(() => (isLive ? sets.slice().reverse() : sets), [isLive, sets]);
 
+  const currentSet = renderSets[renderSets.length - 1];
+  const currentSetId = currentSet.id;
+  const currentGame = currentSet.games[currentSet.games.length - 1];
+  const currentGameId = currentGame.id;
+
   return (
     <Stack spacing={2}>
       {renderSets.map((set, setIndex) => {
+        const isLiveSet = isLive && currentSetId === set.id;
         return (
           <Stack key={set.id}>
             <Accordion defaultExpanded={isLive}>
@@ -47,14 +53,21 @@ export default function SetGamesScoreList({ match, isLive }: SetGamesScoreList) 
                   flexDirection="row"
                   alignItems="center"
                 >
-                  <Typography variant="h5">Set {setIndex + 1}</Typography>
-                  <Box
-                    marginLeft={4}
-                    display="flex"
-                    flexDirection="row"
+                  <Typography
+                    variant="h5"
+                    color={isLiveSet ? 'primary' : 'initial'}
                   >
-                    {`${set.setFinalScore.team1} - ${set.setFinalScore.team2}`}
-                  </Box>
+                    Set {setIndex + 1}
+                  </Typography>
+                  {set.status === SetGameStatus.ENDED && (
+                    <Box
+                      marginLeft={4}
+                      display="flex"
+                      flexDirection="row"
+                    >
+                      {`${set.setFinalScore.team1} - ${set.setFinalScore.team2}`}
+                    </Box>
+                  )}
                 </Box>
                 <Divider />
               </AccordionSummary>
@@ -66,6 +79,7 @@ export default function SetGamesScoreList({ match, isLive }: SetGamesScoreList) 
                       game={game}
                       title={`Game ${gameIndex + 1}`}
                       winnerName={getWinnerName(match.team1, match.team2, game.teamWinId)}
+                      isLatest={isLiveSet && currentGameId === game.id}
                     />
                   );
                 })}

@@ -1,12 +1,15 @@
 import { Avatar, Box, Container, Stack, Typography } from '@mui/material';
+import { useCallback, useEffect, useState } from 'react';
 
 import { FormatDateTime } from 'constants/datetime';
 import { MatchState } from 'constants/match';
+import { useLazyGetMatchDetailsQuery } from 'store/api/tournament/creator/match';
 // import ReactPlayer from 'react-player/youtube';
 import { MatchMetaData } from 'types/match';
 import { Player, Team } from 'types/tournament-fixtures';
 import { displayDateTime } from 'utils/datetime';
 
+import CenterLoading from '../CenterLoading';
 import MainScore from './MainScore';
 import SetGamesScoreList from './SetGamesScoreList';
 
@@ -95,8 +98,33 @@ const CustomTeam = ({ team }: { team: Team }) => {
   );
 };
 
-export default function MatchDetails({ match }: { match: MatchMetaData }) {
-  const isLive = match.status === MatchState.WALK_OVER;
+export default function MatchDetails({ match: matchMetaData }: { match: MatchMetaData }) {
+  const [isLive, setIsLive] = useState(matchMetaData.status === MatchState.WALK_OVER);
+
+  const [getMatchDetailsRequest, { data: match }] = useLazyGetMatchDetailsQuery();
+
+  const handleGetMatchData = useCallback(async () => {
+    try {
+      const res = await getMatchDetailsRequest(matchMetaData.id).unwrap();
+      if (res.status !== MatchState.WALK_OVER) {
+        setIsLive(false);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  }, [getMatchDetailsRequest, matchMetaData.id]);
+
+  useEffect(() => {
+    if (isLive) {
+      const interval = setInterval(() => {
+        handleGetMatchData();
+      }, 5000);
+
+      return () => clearInterval(interval);
+    }
+  }, [handleGetMatchData, isLive]);
+
+  if (!match) return <CenterLoading />;
 
   return (
     <Container
