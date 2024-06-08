@@ -7,6 +7,7 @@ export type OpenTournamentParticipant = {
   user1: UserProfile;
   user2?: UserProfile;
   appliedDate: string;
+  seed: number | null;
 };
 
 export type OpenTournamentApplicant = OpenTournamentParticipant & {
