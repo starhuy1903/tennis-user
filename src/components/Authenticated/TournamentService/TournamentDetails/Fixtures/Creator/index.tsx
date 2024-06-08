@@ -35,6 +35,8 @@ export default function CreatorFixture() {
 
   const tournamentData = useAppSelector(selectTournamentData);
 
+  const isNewTournament = tournamentData.phase === TournamentPhase.NEW;
+
   const handleSaveFixture = useCallback(
     async (type: 'draft' | 'publish') => {
       try {
@@ -76,29 +78,31 @@ export default function CreatorFixture() {
 
   useEffect(() => {
     (async () => {
-      try {
-        const res = await getFixtureRequest(tournamentData.id).unwrap();
-        setFixture(res);
-        if (res.status === FixtureStatus.DRAFT) {
-          setFixtureConfig({
-            fixtureStartDate: res.fixtureStartDate,
-            fixtureEndDate: res.fixtureEndDate,
-            matchesStartTime: res.matchesStartTime,
-            matchesEndTime: res.matchesEndTime,
-            matchDuration: res.matchDuration,
-            breakDuration: res.breakDuration,
-            venue: res.venue,
-          } as CreateFixtureRequest);
+      if (!isNewTournament) {
+        try {
+          const res = await getFixtureRequest(tournamentData.id).unwrap();
+          setFixture(res);
+          if (res.status === FixtureStatus.DRAFT) {
+            setFixtureConfig({
+              fixtureStartDate: res.fixtureStartDate,
+              fixtureEndDate: res.fixtureEndDate,
+              matchesStartTime: res.matchesStartTime,
+              matchesEndTime: res.matchesEndTime,
+              matchDuration: res.matchDuration,
+              breakDuration: res.breakDuration,
+              venue: res.venue,
+            } as CreateFixtureRequest);
+          }
+        } catch (error) {
+          // handled error
         }
-      } catch (error) {
-        // handled error
       }
     })();
-  }, [getFixtureRequest, tournamentData, navigate]);
+  }, [getFixtureRequest, tournamentData, navigate, isNewTournament]);
 
   if (fetchingFixture) return <CenterLoading />;
 
-  if (tournamentData.phase === TournamentPhase.NEW) {
+  if (isNewTournament) {
     return (
       <Box mt={4}>
         <Alert severity="info">

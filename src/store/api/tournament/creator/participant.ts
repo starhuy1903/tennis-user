@@ -2,6 +2,7 @@ import { ParticipantType } from 'constants/tournament';
 import { RegistrationStatus } from 'constants/tournament-participants';
 import { GetListResult, GetPagingListOptions } from 'types/base';
 import { OpenTournamentApplicant, Referee } from 'types/open-tournament-participants';
+import { SelectSeedPayload } from 'types/tournament/participant';
 
 import { apiWithToastSlice } from '../../baseApiSlice';
 import { urlWithCorePrefix } from '../../helper';
@@ -14,6 +15,7 @@ export const {
   useGetRefereesQuery,
   useLazyGetRefereesQuery,
   useAddRefereeMutation,
+  useSeedingParticipantMutation,
   useFinalizeApplicantMutation,
 } = apiWithToastSlice.injectEndpoints({
   endpoints: (build) => ({
@@ -56,6 +58,13 @@ export const {
         url: urlWithCorePrefix(`tournaments/${tournamentId}/referees`),
         method: 'POST',
         body: { email },
+      }),
+    }),
+    seedingParticipant: build.mutation<any, SelectSeedPayload>({
+      query: ({ tournamentId, userId, seed }) => ({
+        url: urlWithCorePrefix(`tournaments/${tournamentId}/applicants/seeds`),
+        method: 'POST',
+        body: { userId, seed },
       }),
     }),
     finalizeApplicant: build.mutation<void, number>({
