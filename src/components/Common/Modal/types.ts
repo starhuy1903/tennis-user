@@ -1,6 +1,6 @@
 import { ParticipantType } from 'constants/tournament';
 import { EditMatchPayload } from 'types/match';
-import { Referee } from 'types/open-tournament-participants';
+import { OpenTournamentApplicant, Referee } from 'types/open-tournament-participants';
 import { UserPackage } from 'types/package';
 import { EditMatchTeam, Match } from 'types/tournament-fixtures';
 
@@ -62,6 +62,12 @@ export interface ShowPackageDetailsProps extends CommonModalProps {
 
 export type AddRefereeProps = CommonModalProps & {
   tournamentId: number;
+  onSubmit: () => void;
+};
+
+export type SelectSeedProps = CommonModalProps & {
+  tournamentId: number;
+  applicantData: OpenTournamentApplicant;
   onSubmit: () => void;
 };
 

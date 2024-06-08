@@ -1,7 +1,7 @@
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { Chip } from '@mui/material';
+import { Button, Chip } from '@mui/material';
 import Accordion from '@mui/material/Accordion';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
@@ -11,23 +11,25 @@ import Fab from '@mui/material/Fab';
 import Stack from '@mui/material/Stack';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
-import { useState } from 'react';
-import { useAppSelector } from 'store';
+import { useCallback, useState } from 'react';
+import { useAppDispatch, useAppSelector } from 'store';
 
 import { FormatDateTime } from 'constants/datetime';
+import { ModalKey } from 'constants/modal';
 import { GenderOptions } from 'constants/tournament';
 import { RegistrationStatus } from 'constants/tournament-participants';
 import {
   useApproveTournamentApplicantMutation,
   useRejectTournamentApplicantMutation,
 } from 'store/api/tournament/creator/participant';
+import { showModal } from 'store/slice/modalSlice';
 import { selectTournamentData } from 'store/slice/tournamentSlice';
 import { OpenTournamentApplicant } from 'types/open-tournament-participants';
 import { UserProfile } from 'types/user';
 import { displayDateTime } from 'utils/datetime';
 import { showSuccess } from 'utils/toast';
 
-const ApplicantTitle = ({ user }: { user: UserProfile }) => {
+export const ApplicantTitle = ({ user }: { user: UserProfile }) => {
   return (
     <>
       <Avatar
@@ -63,6 +65,7 @@ export default function ApplicantItem({
   data: OpenTournamentApplicant;
   refetchApplicantData: () => Promise<void>;
 }) {
+  const dispatch = useAppDispatch();
   const tournamentData = useAppSelector(selectTournamentData);
   const [expand, setExpand] = useState(false);
 
@@ -91,6 +94,16 @@ export default function ApplicantItem({
     }
   };
 
+  const handleSeedingParticipant = useCallback(() => {
+    dispatch(
+      showModal(ModalKey.SELECT_SEED, {
+        tournamentId: tournamentData.id,
+        applicantData: data,
+        onSubmit: refetchApplicantData,
+      })
+    );
+  }, [data, dispatch, tournamentData.id, refetchApplicantData]);
+
   const disabledBtn = isApproving || isRejecting;
 
   return (
@@ -104,12 +117,39 @@ export default function ApplicantItem({
             display: 'flex',
             flexDirection: 'column',
             gap: '10px',
+            width: '100%',
           }}
         >
-          <Box sx={{ display: 'flex', alignItems: 'center', columnGap: '20px' }}>
-            <ApplicantTitle user={data.user1} />
+          <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', columnGap: '20px' }}>
+              <ApplicantTitle user={data.user1} />
 
-            {data?.user2 && <ApplicantTitle user={data.user2} />}
+              {data.user2 && <ApplicantTitle user={data.user2} />}
+            </Box>
+            <Box
+              display="flex"
+              alignItems="center"
+              gap={2}
+            >
+              {data.seed ? (
+                <Chip
+                  sx={{ width: 'fit-content' }}
+                  component="span"
+                  variant="filled"
+                  color="primary"
+                  size="small"
+                  label={data.seed}
+                />
+              ) : null}
+              <Button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleSeedingParticipant();
+                }}
+              >
+                Seed
+              </Button>
+            </Box>
 
             {/* <Chip
               sx={{ width: 'fit-content' }}
@@ -142,7 +182,7 @@ export default function ApplicantItem({
               }}
             >
               <InfoItem
-                label={data?.user2 ? 'Applicant 1' : 'Email'}
+                label={data.user2 ? 'Applicant 1' : 'Email'}
                 value={data.user1.email}
               />
               <InfoItem
