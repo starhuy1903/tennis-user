@@ -1,4 +1,5 @@
 import {
+  Alert,
   Avatar,
   Box,
   Button,
@@ -120,91 +121,62 @@ export default function ApplicationForm({ data, fetchMyApplication }: Applicatio
   };
 
   return (
-    <Container
-      maxWidth="md"
-      sx={{ marginY: 8, borderRadius: 1, boxShadow: 1, padding: 4, backgroundColor: 'background.paper' }}
-    >
-      <Box
-        sx={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-        }}
+    <>
+      {data.status === RegistrationStatus.APPROVED && (
+        <Box mt={4}>
+          <Alert severity="info">
+            Your application has been approved. Please wait for the organizers to finalize the participant list.
+          </Alert>
+        </Box>
+      )}
+
+      <Container
+        maxWidth="md"
+        sx={{ marginY: 8, borderRadius: 1, boxShadow: 1, padding: 4, backgroundColor: 'background.paper' }}
       >
-        <Typography
-          variant="h4"
+        <Box
           sx={{
-            fontWeight: 700,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
           }}
         >
-          My Application
-        </Typography>
+          <Typography
+            variant="h4"
+            sx={{
+              fontWeight: 700,
+            }}
+          >
+            My Application
+          </Typography>
 
-        <Chip
-          sx={{ width: 'fit-content' }}
-          component="span"
-          variant="filled"
-          color={RegistrationStatusChip[data.status].chipColor}
-          size="medium"
-          label={RegistrationStatusChip[data.status].displayText}
-        />
-      </Box>
-
-      <Box
-        component="form"
-        autoComplete="off"
-        sx={{ display: 'flex', flexDirection: 'column', gap: 4, mt: 4 }}
-      >
-        <ApplicantInfo
-          title={data?.user2 ? 'Applicant 1' : 'Information'}
-          user={data.user1}
-        />
-
-        {data?.user2 && (
-          <ApplicantInfo
-            title="Applicant 2"
-            user={data.user2}
+          <Chip
+            sx={{ width: 'fit-content' }}
+            component="span"
+            variant="filled"
+            color={RegistrationStatusChip[data.status].chipColor}
+            size="medium"
+            label={RegistrationStatusChip[data.status].displayText}
           />
-        )}
+        </Box>
 
-        <Stack
-          direction="row"
-          justifyContent="space-between"
-          alignItems={'center'}
+        <Box
+          component="form"
+          autoComplete="off"
+          sx={{ display: 'flex', flexDirection: 'column', gap: 4, mt: 4 }}
         >
-          <Box sx={{ width: '50%' }}></Box>
+          <ApplicantInfo
+            title={data?.user2 ? 'Applicant 1' : 'Information'}
+            user={data.user1}
+          />
 
-          <Box sx={{ width: '100%' }}>
-            <Typography variant="h6">Other Information</Typography>
-            <Stack
-              sx={{ mt: 1 }}
-              spacing={2}
-            >
-              <FormControl fullWidth>
-                <FormLabel htmlFor="applied-date">Applied Date</FormLabel>
-                <TextField
-                  value={displayDateTime({
-                    dateTime: data.appliedDate,
-                    targetFormat: FormatDateTime.DATE_AND_FULL_TIME,
-                  })}
-                  disabled
-                />
-              </FormControl>
+          {data?.user2 && (
+            <ApplicantInfo
+              title="Applicant 2"
+              user={data.user2}
+            />
+          )}
 
-              <FormControl fullWidth>
-                <FormLabel htmlFor="message">Message</FormLabel>
-                <TextField
-                  value={data.message}
-                  multiline
-                  rows={4}
-                  disabled
-                />
-              </FormControl>
-            </Stack>
-          </Box>
-        </Stack>
-
-        {(data.status === RegistrationStatus.PENDING || data.status === RegistrationStatus.INVITING) && (
           <Stack
             direction="row"
             justifyContent="space-between"
@@ -212,20 +184,59 @@ export default function ApplicationForm({ data, fetchMyApplication }: Applicatio
           >
             <Box sx={{ width: '50%' }}></Box>
 
-            <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
-              <Button
-                size="medium"
-                variant="contained"
-                color="error"
-                onClick={handleCancelApplication}
-                disabled={isLoading}
+            <Box sx={{ width: '100%' }}>
+              <Typography variant="h6">Other Information</Typography>
+              <Stack
+                sx={{ mt: 1 }}
+                spacing={2}
               >
-                Cancel Application
-              </Button>
+                <FormControl fullWidth>
+                  <FormLabel htmlFor="applied-date">Applied Date</FormLabel>
+                  <TextField
+                    value={displayDateTime({
+                      dateTime: data.appliedDate,
+                      targetFormat: FormatDateTime.DATE_AND_FULL_TIME,
+                    })}
+                    disabled
+                  />
+                </FormControl>
+
+                <FormControl fullWidth>
+                  <FormLabel htmlFor="message">Message</FormLabel>
+                  <TextField
+                    value={data.message}
+                    multiline
+                    rows={4}
+                    disabled
+                  />
+                </FormControl>
+              </Stack>
             </Box>
           </Stack>
-        )}
-      </Box>
-    </Container>
+
+          {(data.status === RegistrationStatus.PENDING || data.status === RegistrationStatus.INVITING) && (
+            <Stack
+              direction="row"
+              justifyContent="space-between"
+              alignItems={'center'}
+            >
+              <Box sx={{ width: '50%' }}></Box>
+
+              <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+                <Button
+                  size="medium"
+                  variant="contained"
+                  color="error"
+                  onClick={handleCancelApplication}
+                  disabled={isLoading}
+                >
+                  Cancel Application
+                </Button>
+              </Box>
+            </Stack>
+          )}
+        </Box>
+      </Container>
+    </>
   );
 }
