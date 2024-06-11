@@ -69,16 +69,41 @@ export default function EditMatch({ match, referees, teamData, onUpdate, onModal
                           <Box
                             sx={{
                               display: 'flex',
-                              alignItems: 'center',
-                              gap: 2,
+                              flexDirection: 'column',
+                              gap: 1,
                             }}
                           >
-                            <Avatar
-                              alt={option.user1.name}
-                              src={option.user1.image}
-                            />
+                            <Box
+                              sx={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: 2,
+                              }}
+                            >
+                              <Avatar
+                                alt={option.user1.name}
+                                src={option.user1.image}
+                              />
 
-                            {option.user1.name}
+                              {option.user1.name}
+                            </Box>
+
+                            {option.user2 && (
+                              <Box
+                                sx={{
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  gap: 2,
+                                }}
+                              >
+                                <Avatar
+                                  alt={option.user2.name}
+                                  src={option.user2.image}
+                                />
+
+                                {option.user2.name}
+                              </Box>
+                            )}
                           </Box>
                         </MenuItem>
                       ))}
@@ -115,16 +140,41 @@ export default function EditMatch({ match, referees, teamData, onUpdate, onModal
                           <Box
                             sx={{
                               display: 'flex',
-                              alignItems: 'center',
-                              gap: 2,
+                              flexDirection: 'column',
+                              gap: 1,
                             }}
                           >
-                            <Avatar
-                              alt={option.user1.name}
-                              src={option.user1.image}
-                            />
+                            <Box
+                              sx={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: 2,
+                              }}
+                            >
+                              <Avatar
+                                alt={option.user1.name}
+                                src={option.user1.image}
+                              />
 
-                            {option.user1.name}
+                              {option.user1.name}
+                            </Box>
+
+                            {option.user2 && (
+                              <Box
+                                sx={{
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  gap: 2,
+                                }}
+                              >
+                                <Avatar
+                                  alt={option.user2.name}
+                                  src={option.user2.image}
+                                />
+
+                                {option.user2.name}
+                              </Box>
+                            )}
                           </Box>
                         </MenuItem>
                       ))}
