@@ -126,30 +126,32 @@ export default function ApplicantItem({
 
               {data.user2 && <ApplicantTitle user={data.user2} />}
             </Box>
-            <Box
-              display="flex"
-              alignItems="center"
-              gap={2}
-            >
-              {data.seed ? (
-                <Chip
-                  sx={{ width: 'fit-content' }}
-                  component="span"
-                  variant="filled"
-                  color="primary"
-                  size="small"
-                  label={data.seed}
-                />
-              ) : null}
-              <Button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleSeedingParticipant();
-                }}
+            {data.status === RegistrationStatus.APPROVED && (
+              <Box
+                display="flex"
+                alignItems="center"
+                gap={2}
               >
-                Seed
-              </Button>
-            </Box>
+                {data.seed ? (
+                  <Chip
+                    sx={{ width: 'fit-content' }}
+                    component="span"
+                    variant="filled"
+                    color="primary"
+                    size="small"
+                    label={data.seed}
+                  />
+                ) : null}
+                <Button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleSeedingParticipant();
+                  }}
+                >
+                  Seed
+                </Button>
+              </Box>
+            )}
 
             {/* <Chip
               sx={{ width: 'fit-content' }}
