@@ -102,14 +102,14 @@ export default function MyApplication({ tournament }: { tournament: OpenTourname
   }
 
   return (
-    <Box my={5}>
+    <Box>
       {isRegistered ? (
         <ApplicationForm
           data={myApplication}
           fetchMyApplication={fetchMyApplication}
         />
       ) : (
-        <Box>
+        <>
           <Box
             sx={{
               display: 'flex',
@@ -135,7 +135,7 @@ export default function MyApplication({ tournament }: { tournament: OpenTourname
             title="Canceled Invitations"
             invitations={invitations.canceled}
           />
-        </Box>
+        </>
       )}
     </Box>
   );

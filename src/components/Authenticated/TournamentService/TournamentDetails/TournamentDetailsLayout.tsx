@@ -140,13 +140,26 @@ export default function TournamentDetailsLayout() {
               alt="tournament image"
             />
           </Collapse>
-          <IconButton
-            aria-label="collapse"
-            sx={{ position: 'absolute', left: '50%', bottom: 0, transform: 'translateX(-50%)' }}
-            onClick={() => dispatch(showTournamentBackground(false))}
-          >
-            <KeyboardDoubleArrowUpIcon />
-          </IconButton>
+          {showBackground && (
+            <IconButton
+              aria-label="collapse"
+              sx={{
+                'position': 'absolute',
+                'left': '50%',
+                'bottom': 0,
+                'transform': 'translateX(-50%) translateY(-50%)',
+                'backgroundColor': 'rgba(0, 0, 0, 0.5)',
+                'color': 'white',
+
+                '&:hover': {
+                  backgroundColor: 'rgba(0, 0, 0, 0.7)',
+                },
+              }}
+              onClick={() => dispatch(showTournamentBackground(false))}
+            >
+              <KeyboardDoubleArrowUpIcon />
+            </IconButton>
+          )}
         </Box>
 
         <Collapse in={!showBackground}>
@@ -154,12 +167,22 @@ export default function TournamentDetailsLayout() {
             display="flex"
             justifyContent="center"
           >
-            <IconButton
-              aria-label="collapse"
-              onClick={() => dispatch(showTournamentBackground(true))}
-            >
-              <KeyboardDoubleArrowDownIcon />
-            </IconButton>
+            {!showBackground && (
+              <IconButton
+                aria-label="collapse"
+                onClick={() => dispatch(showTournamentBackground(true))}
+                sx={{
+                  'mt': 2,
+                  'backgroundColor': 'rgba(0, 0, 0, 0.5)',
+                  'color': 'white',
+                  '&:hover': {
+                    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+                  },
+                }}
+              >
+                <KeyboardDoubleArrowDownIcon />
+              </IconButton>
+            )}
           </Box>
         </Collapse>
 
