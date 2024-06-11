@@ -9,6 +9,7 @@ import LinkButton from 'components/Common/LinkButton';
 import Logo from 'components/Common/Logo';
 import { ScrollbarStyle } from 'utils/style';
 
+import Footer from '../Footer';
 import AvatarMenu from './AvatarMenu';
 import MessageMenu from './MessageMenu';
 import NotificationMenu from './NotificationMenu';
@@ -60,6 +61,8 @@ const AuthenticatedLayout = () => {
       >
         <Outlet />
       </Container>
+
+      <Footer />
     </Box>
   );
 };

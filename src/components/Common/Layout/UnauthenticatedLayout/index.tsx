@@ -10,6 +10,8 @@ import LinkButton from 'components/Common/LinkButton';
 import Logo from 'components/Common/Logo';
 import { ScrollbarStyle } from 'utils/style';
 
+import Footer from '../Footer';
+
 const UnauthenticatedLayout = () => {
   const theme = useTheme();
 
@@ -66,6 +68,8 @@ const UnauthenticatedLayout = () => {
       >
         <Outlet />
       </Container>
+
+      <Footer />
     </Box>
   );
 };
