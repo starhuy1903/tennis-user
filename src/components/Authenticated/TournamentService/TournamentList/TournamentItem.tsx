@@ -40,7 +40,6 @@ export default function TournamentItem({
       sx={{
         my: 2,
         position: 'relative',
-        width: '300px',
       }}
     >
       <CardActionArea onClick={handleView}>

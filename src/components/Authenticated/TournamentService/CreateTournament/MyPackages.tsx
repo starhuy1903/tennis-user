@@ -34,19 +34,16 @@ export default function MyPackages({ packagesData, onChooseMyPackage }: MyPackag
     <Box mt={2}>
       <Swiper
         spaceBetween={20}
-        slidesPerView={4}
+        slidesPerView={3}
         breakpoints={{
           0: {
             slidesPerView: 1,
           },
-          775: {
+          720: {
             slidesPerView: 2,
           },
-          1100: {
+          1020: {
             slidesPerView: 3,
-          },
-          1400: {
-            slidesPerView: 4,
           },
         }}
       >

@@ -21,12 +21,12 @@ const UnauthenticatedLayout = () => {
         position="static"
         sx={{
           height: theme.layout.headerHeight,
-          backgroundColor: theme.palette.background.paper,
+          backgroundColor: 'white',
         }}
       >
         <Toolbar disableGutters>
           <Container
-            maxWidth="xl"
+            maxWidth="lg"
             sx={{ height: '100%', display: 'flex', alignItems: 'center', columnGap: '10px' }}
           >
             <Logo sx={{ height: '100%' }} />
@@ -55,13 +55,13 @@ const UnauthenticatedLayout = () => {
           </Container>
         </Toolbar>
       </AppBar>
+
       <Container
-        maxWidth="xl"
+        maxWidth="lg"
         component="main"
         sx={{
-          height: `calc(100dvh - 10px - ${theme.layout.headerHeight})`,
-          marginTop: '10px',
-          overflow: 'auto',
+          minHeight: `calc(100dvh - 10px - ${theme.layout.headerHeight})`,
+          height: 'auto',
           scrollbarGutter: 'stable',
           ...ScrollbarStyle,
         }}

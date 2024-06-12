@@ -53,7 +53,7 @@ export default function AffiliateSponsor() {
 
   return (
     <Container
-      maxWidth="xl"
+      maxWidth="lg"
       sx={{ marginY: 8 }}
     >
       <Typography

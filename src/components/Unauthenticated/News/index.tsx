@@ -38,7 +38,6 @@ export default function News() {
     <Stack
       direction="column"
       gap={2}
-      mt={2}
     >
       <Breadcrumbs />
 

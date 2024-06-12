@@ -8,7 +8,7 @@ import { Outlet } from 'react-router-dom';
 import AvatarMenu from 'components/Common/Layout/AuthenticatedLayout/AvatarMenu';
 import MessageMenu from 'components/Common/Layout/AuthenticatedLayout/MessageMenu';
 import NotificationMenu from 'components/Common/Layout/AuthenticatedLayout/NotificationMenu';
-import LinkButton from 'components/Common/LinkButton';
+import Footer from 'components/Common/Layout/Footer';
 import Logo from 'components/Common/Logo';
 import { ScrollbarStyle } from 'utils/style';
 
@@ -21,23 +21,17 @@ const GroupLayout = () => {
         position="static"
         sx={{
           height: theme.layout.headerHeight,
-          backgroundColor: theme.palette.background.paper,
+          backgroundColor: 'white',
         }}
       >
         <Toolbar disableGutters>
           <Container
-            maxWidth="xl"
+            maxWidth="lg"
             sx={{ height: '100%', display: 'flex', alignItems: 'center', columnGap: '10px' }}
           >
             <Logo sx={{ height: '100%' }} />
             <Box sx={{ flex: 1 }} />
             <Box sx={{ display: 'flex', columnGap: '5px' }}>
-              <LinkButton
-                to="/groups"
-                buttonProps={{ type: 'button', variant: 'text' }}
-              >
-                My group
-              </LinkButton>
               <NotificationMenu />
               <MessageMenu />
             </Box>
@@ -47,19 +41,21 @@ const GroupLayout = () => {
           </Container>
         </Toolbar>
       </AppBar>
+
       <Container
-        maxWidth="xl"
+        maxWidth="lg"
         component="main"
         sx={{
-          height: `calc(100dvh - 10px - ${theme.layout.headerHeight})`,
-          marginTop: '10px',
-          overflow: 'auto',
+          minHeight: `calc(100dvh - 10px - ${theme.layout.headerHeight})`,
+          height: 'auto',
           scrollbarGutter: 'stable',
           ...ScrollbarStyle,
         }}
       >
         <Outlet />
       </Container>
+
+      <Footer />
     </Box>
   );
 };

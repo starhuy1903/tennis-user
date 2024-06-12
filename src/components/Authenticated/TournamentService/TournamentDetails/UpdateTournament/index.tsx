@@ -2,7 +2,6 @@ import { DevTool } from '@hookform/devtools';
 import {
   Box,
   Button,
-  Container,
   FormControl,
   FormHelperText,
   FormLabel,
@@ -82,10 +81,7 @@ export default function UpdateTournament({ onCloseForm }: { onCloseForm: () => v
   const disabledUpdateBtn = updatingData || isEqual(originalData, watch());
 
   return (
-    <Container
-      maxWidth="xl"
-      sx={{ marginY: 8 }}
-    >
+    <Box mt={4}>
       <Typography
         variant="h4"
         noWrap
@@ -100,7 +96,7 @@ export default function UpdateTournament({ onCloseForm }: { onCloseForm: () => v
       <Box
         component="form"
         autoComplete="off"
-        sx={{ display: 'flex', flexDirection: 'column', gap: 2, mt: 2 }}
+        sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}
       >
         <Stack
           direction="row"
@@ -110,10 +106,7 @@ export default function UpdateTournament({ onCloseForm }: { onCloseForm: () => v
           {/* Information */}
           <Box sx={{ width: '100%' }}>
             <Typography variant="h6">Information</Typography>
-            <Stack
-              spacing={2}
-              sx={{ mt: 1 }}
-            >
+            <Stack spacing={2}>
               <FormControl
                 fullWidth
                 error={!!formError.name}
@@ -607,6 +600,6 @@ export default function UpdateTournament({ onCloseForm }: { onCloseForm: () => v
         </Box>
       </Box>
       <DevTool control={control} /> {/* set up the dev tool */}
-    </Container>
+    </Box>
   );
 }

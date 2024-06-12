@@ -1,6 +1,6 @@
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
-import { Box, Container, Divider, Paper, Tab } from '@mui/material';
+import { Box, Divider, Paper, Tab } from '@mui/material';
 import { useEffect, useMemo, useState } from 'react';
 import { Outlet, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'store';
@@ -90,8 +90,7 @@ export default function GroupDetailsLayout() {
   ];
 
   return (
-    <Container
-      maxWidth="lg"
+    <Box
       sx={{
         minHeight: '120vh',
       }}
@@ -125,6 +124,6 @@ export default function GroupDetailsLayout() {
       </Paper>
 
       <Outlet />
-    </Container>
+    </Box>
   );
 }

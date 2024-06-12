@@ -37,7 +37,7 @@ export default function TournamentList({
             slidesPerView: 3,
           },
         }}
-        style={{ paddingLeft: '100px' }}
+        spaceBetween={40}
       >
         {tournaments.map((item) => (
           <SwiperSlide key={item.id}>
