@@ -1,4 +1,5 @@
 import { Alert, Box } from '@mui/material';
+import { Link } from 'react-router-dom';
 import { useAppSelector } from 'store';
 
 import { TournamentPhase } from 'constants/tournament';
@@ -14,7 +15,10 @@ export default function CreatorParticipant() {
     case TournamentPhase.NEW:
       return (
         <Box mt={4}>
-          <Alert severity="info">You need to publish the tournament first to see the participants.</Alert>
+          <Alert severity="info">
+            You need to publish the tournament first in the{' '}
+            <Link to={`/tournaments/${tournamentData.id}/info`}>Information</Link> tab.
+          </Alert>
         </Box>
       );
     case TournamentPhase.PUBLISHED:

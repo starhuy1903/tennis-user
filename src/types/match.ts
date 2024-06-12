@@ -7,6 +7,7 @@ export type EditMatchPayload = {
   name: string;
   dateTime: string;
   duration: number;
+  venue: string;
   team1Id: string;
   team2Id: string;
   refereeId: string;
