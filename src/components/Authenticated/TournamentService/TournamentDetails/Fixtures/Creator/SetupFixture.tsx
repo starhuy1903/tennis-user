@@ -65,7 +65,7 @@ export default function SetupFixture({ fixtureConfig, setFixtureData, setFixture
         ...data,
         matchDuration: Number(data.matchDuration),
         format: tournamentData.format,
-        venue: '86A, ap 5 xa Xuan Thoi Thuong, huyen Hoc Mon',
+        venue: tournamentData.address,
       };
       const res = await generateFixtureRequest({
         tournamentId: tournamentData.id,

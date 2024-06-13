@@ -1,4 +1,4 @@
-import { FormControl, FormHelperText, FormLabel, MenuItem, Select, Stack, TextField } from '@mui/material';
+import { Avatar, Box, FormControl, FormHelperText, FormLabel, MenuItem, Select, Stack, TextField } from '@mui/material';
 import { DateTimePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
@@ -17,6 +17,7 @@ export default function EditMatch({ match, referees, teamData, onUpdate, onModal
       name: match.title,
       dateTime: match.matchStartDate || '',
       duration: match.duration,
+      venue: match.venue || '',
       refereeId: match.refereeId || '',
       team1Id: match.teams.team1?.id,
       team2Id: match.teams.team2?.id,
@@ -51,6 +52,7 @@ export default function EditMatch({ match, referees, teamData, onUpdate, onModal
                   fullWidth
                   error={!!formError.team1Id}
                 >
+                  <FormLabel htmlFor="team1Id">Team 1</FormLabel>
                   <Select
                     value={value}
                     id="team1Id"
@@ -64,7 +66,45 @@ export default function EditMatch({ match, referees, teamData, onUpdate, onModal
                           key={option.id}
                           value={option.id}
                         >
-                          {option.user1.name}
+                          <Box
+                            sx={{
+                              display: 'flex',
+                              flexDirection: 'column',
+                              gap: 1,
+                            }}
+                          >
+                            <Box
+                              sx={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: 2,
+                              }}
+                            >
+                              <Avatar
+                                alt={option.user1.name}
+                                src={option.user1.image}
+                              />
+
+                              {option.user1.name}
+                            </Box>
+
+                            {option.user2 && (
+                              <Box
+                                sx={{
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  gap: 2,
+                                }}
+                              >
+                                <Avatar
+                                  alt={option.user2.name}
+                                  src={option.user2.image}
+                                />
+
+                                {option.user2.name}
+                              </Box>
+                            )}
+                          </Box>
                         </MenuItem>
                       ))}
                   </Select>
@@ -83,6 +123,7 @@ export default function EditMatch({ match, referees, teamData, onUpdate, onModal
                   fullWidth
                   error={!!formError.team2Id}
                 >
+                  <FormLabel htmlFor="team2Id">Team 2</FormLabel>
                   <Select
                     value={value}
                     id="team2Id"
@@ -96,7 +137,45 @@ export default function EditMatch({ match, referees, teamData, onUpdate, onModal
                           key={option.id}
                           value={option.id}
                         >
-                          {option.user1.name}
+                          <Box
+                            sx={{
+                              display: 'flex',
+                              flexDirection: 'column',
+                              gap: 1,
+                            }}
+                          >
+                            <Box
+                              sx={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: 2,
+                              }}
+                            >
+                              <Avatar
+                                alt={option.user1.name}
+                                src={option.user1.image}
+                              />
+
+                              {option.user1.name}
+                            </Box>
+
+                            {option.user2 && (
+                              <Box
+                                sx={{
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  gap: 2,
+                                }}
+                              >
+                                <Avatar
+                                  alt={option.user2.name}
+                                  src={option.user2.image}
+                                />
+
+                                {option.user2.name}
+                              </Box>
+                            )}
+                          </Box>
                         </MenuItem>
                       ))}
                   </Select>
@@ -115,7 +194,7 @@ export default function EditMatch({ match, referees, teamData, onUpdate, onModal
             fullWidth
             error={!!formError.name}
           >
-            <FormLabel htmlFor="name">Match Name</FormLabel>
+            <FormLabel htmlFor="name">Match name</FormLabel>
             <TextField
               {...register('name', {
                 required: 'The match name is required.',
@@ -132,6 +211,7 @@ export default function EditMatch({ match, referees, teamData, onUpdate, onModal
             />
             <FormHelperText id="name-helper-text">{formError.name?.message}</FormHelperText>
           </FormControl>
+
           {/* Date time */}
           <Controller
             control={control}
@@ -159,6 +239,29 @@ export default function EditMatch({ match, referees, teamData, onUpdate, onModal
               </FormControl>
             )}
           />
+
+          {/* Venue */}
+          <FormControl
+            fullWidth
+            error={!!formError.venue}
+          >
+            <FormLabel htmlFor="venue">Venue</FormLabel>
+            <TextField
+              {...register('venue', {
+                required: 'The venue is required.',
+                minLength: {
+                  value: 3,
+                  message: 'The venue must be at least 3 characters.',
+                },
+              })}
+              required
+              id="venue"
+              error={!!formError.venue}
+              aria-describedby="venue-helper-text"
+              placeholder="Venue"
+            />
+            <FormHelperText id="venue-helper-text">{formError.venue?.message}</FormHelperText>
+          </FormControl>
         </Stack>
         <Stack
           direction="row"
@@ -202,7 +305,24 @@ export default function EditMatch({ match, referees, teamData, onUpdate, onModal
                       key={option.id}
                       value={option.id}
                     >
-                      {option.name}
+                      <Box
+                        sx={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: 2,
+                        }}
+                      >
+                        <Avatar
+                          alt={option.name}
+                          src={option.image}
+                          sx={{
+                            width: 24,
+                            height: 24,
+                          }}
+                        />
+
+                        {option.name}
+                      </Box>
                     </MenuItem>
                   ))}
                 </Select>

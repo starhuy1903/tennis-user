@@ -101,11 +101,13 @@ const CustomTeam = ({ team }: { team: Team }) => {
 export default function MatchDetails({ match: matchMetaData }: { match: MatchMetaData }) {
   const [isLive, setIsLive] = useState(matchMetaData.status === MatchState.WALK_OVER);
 
-  const [getMatchDetailsRequest, { data: match }] = useLazyGetMatchDetailsQuery();
+  const [match, setMatch] = useState<MatchMetaData | null>(matchMetaData);
+  const [getMatchDetailsRequest] = useLazyGetMatchDetailsQuery();
 
   const handleGetMatchData = useCallback(async () => {
     try {
       const res = await getMatchDetailsRequest(matchMetaData.id).unwrap();
+      setMatch(res);
       if (res.status !== MatchState.WALK_OVER) {
         setIsLive(false);
       }

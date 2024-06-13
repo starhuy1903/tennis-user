@@ -44,6 +44,7 @@ export default function RoundRobinFixture({ rounds, setFixtureData }: RoundRobin
                   m.title = match.name;
                   m.matchStartDate = match.dateTime;
                   m.duration = match.duration;
+                  m.venue = match.venue;
                   m.refereeId = match.refereeId;
                   m.teams.team1 = teamData?.data.find((team) => team.id === match.team1Id) as Team;
                   m.teams.team2 = teamData?.data.find((team) => team.id === match.team2Id) as Team;
