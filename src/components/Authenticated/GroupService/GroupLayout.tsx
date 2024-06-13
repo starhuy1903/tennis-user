@@ -10,7 +10,6 @@ import MessageMenu from 'components/Common/Layout/AuthenticatedLayout/MessageMen
 import NotificationMenu from 'components/Common/Layout/AuthenticatedLayout/NotificationMenu';
 import Footer from 'components/Common/Layout/Footer';
 import Logo from 'components/Common/Logo';
-import { ScrollbarStyle } from 'utils/style';
 
 const GroupLayout = () => {
   const theme = useTheme();
@@ -18,7 +17,7 @@ const GroupLayout = () => {
   return (
     <Box>
       <AppBar
-        position="static"
+        position="sticky"
         sx={{
           height: theme.layout.headerHeight,
           backgroundColor: 'white',
@@ -48,8 +47,6 @@ const GroupLayout = () => {
         sx={{
           minHeight: `calc(100dvh - 10px - ${theme.layout.headerHeight})`,
           height: 'auto',
-          scrollbarGutter: 'stable',
-          ...ScrollbarStyle,
         }}
       >
         <Outlet />

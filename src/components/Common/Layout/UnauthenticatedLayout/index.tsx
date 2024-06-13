@@ -8,7 +8,6 @@ import { Link, Outlet } from 'react-router-dom';
 
 import LinkButton from 'components/Common/LinkButton';
 import Logo from 'components/Common/Logo';
-import { ScrollbarStyle } from 'utils/style';
 
 import Footer from '../Footer';
 
@@ -18,7 +17,7 @@ const UnauthenticatedLayout = () => {
   return (
     <Box>
       <AppBar
-        position="static"
+        position="sticky"
         sx={{
           height: theme.layout.headerHeight,
           backgroundColor: 'white',
@@ -62,8 +61,6 @@ const UnauthenticatedLayout = () => {
         sx={{
           minHeight: `calc(100dvh - 10px - ${theme.layout.headerHeight})`,
           height: 'auto',
-          scrollbarGutter: 'stable',
-          ...ScrollbarStyle,
         }}
       >
         <Outlet />
