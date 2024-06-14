@@ -7,7 +7,6 @@ import { Outlet } from 'react-router-dom';
 
 import LinkButton from 'components/Common/LinkButton';
 import Logo from 'components/Common/Logo';
-import { ScrollbarStyle } from 'utils/style';
 
 import Footer from '../Footer';
 import AvatarMenu from './AvatarMenu';
@@ -20,15 +19,15 @@ const AuthenticatedLayout = () => {
   return (
     <Box>
       <AppBar
-        position="static"
+        position="sticky"
         sx={{
           height: theme.layout.headerHeight,
-          backgroundColor: theme.palette.background.paper,
+          backgroundColor: 'white',
         }}
       >
         <Toolbar disableGutters>
           <Container
-            maxWidth="xl"
+            maxWidth="lg"
             sx={{ height: '100%', display: 'flex', alignItems: 'center', columnGap: '10px' }}
           >
             <Logo sx={{ height: '100%' }} />
@@ -49,14 +48,11 @@ const AuthenticatedLayout = () => {
         </Toolbar>
       </AppBar>
       <Container
-        maxWidth="xl"
+        maxWidth="lg"
         component="main"
         sx={{
-          height: `calc(100dvh - 10px - ${theme.layout.headerHeight})`,
-          marginTop: '10px',
-          overflow: 'auto',
-          scrollbarGutter: 'stable',
-          ...ScrollbarStyle,
+          minHeight: `calc(100dvh - 10px - ${theme.layout.headerHeight})`,
+          height: 'auto',
         }}
       >
         <Outlet />

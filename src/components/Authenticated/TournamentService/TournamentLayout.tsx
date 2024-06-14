@@ -8,8 +8,8 @@ import { Outlet } from 'react-router-dom';
 import AvatarMenu from 'components/Common/Layout/AuthenticatedLayout/AvatarMenu';
 import MessageMenu from 'components/Common/Layout/AuthenticatedLayout/MessageMenu';
 import NotificationMenu from 'components/Common/Layout/AuthenticatedLayout/NotificationMenu';
+import Footer from 'components/Common/Layout/Footer';
 import Logo from 'components/Common/Logo';
-import { ScrollbarStyle } from 'utils/style';
 
 const TournamentLayout = () => {
   const theme = useTheme();
@@ -17,15 +17,15 @@ const TournamentLayout = () => {
   return (
     <Box>
       <AppBar
-        position="static"
+        position="sticky"
         sx={{
           height: theme.layout.headerHeight,
-          backgroundColor: theme.palette.background.paper,
+          backgroundColor: 'white',
         }}
       >
         <Toolbar disableGutters>
           <Container
-            maxWidth="xl"
+            maxWidth="lg"
             sx={{ height: '100%', display: 'flex', alignItems: 'center', columnGap: '10px' }}
           >
             <Logo sx={{ height: '100%' }} />
@@ -40,19 +40,19 @@ const TournamentLayout = () => {
           </Container>
         </Toolbar>
       </AppBar>
+
       <Container
-        maxWidth="xl"
+        maxWidth="lg"
         component="main"
         sx={{
-          height: `calc(100dvh - 10px - ${theme.layout.headerHeight})`,
-          marginTop: '10px',
-          overflow: 'auto',
-          scrollbarGutter: 'stable',
-          ...ScrollbarStyle,
+          minHeight: `calc(100dvh - 10px - ${theme.layout.headerHeight})`,
+          height: 'auto',
         }}
       >
         <Outlet />
       </Container>
+
+      <Footer />
     </Box>
   );
 };

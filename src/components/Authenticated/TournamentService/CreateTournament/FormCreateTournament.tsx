@@ -6,7 +6,6 @@ import {
   CardContent,
   CardHeader,
   Chip,
-  Container,
   FormControl,
   FormHelperText,
   FormLabel,
@@ -109,10 +108,7 @@ export default function FormCreateTournament({ selectedPackage, setSelectedPacka
   };
 
   return (
-    <Container
-      maxWidth="xl"
-      sx={{ marginY: 8 }}
-    >
+    <Box>
       <Typography
         variant="h4"
         noWrap
@@ -652,6 +648,6 @@ export default function FormCreateTournament({ selectedPackage, setSelectedPacka
           </Button>
         </Box>
       </Box>
-    </Container>
+    </Box>
   );
 }

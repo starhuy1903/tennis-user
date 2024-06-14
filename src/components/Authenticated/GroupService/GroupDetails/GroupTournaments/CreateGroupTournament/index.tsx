@@ -1,7 +1,6 @@
 import {
   Box,
   Button,
-  Container,
   FormControl,
   FormHelperText,
   FormLabel,
@@ -79,10 +78,7 @@ export default function CreateGroupTournament() {
   ];
 
   return (
-    <Container
-      maxWidth="xl"
-      sx={{ marginY: 8 }}
-    >
+    <Box>
       <Breadcrumbs customRoutes={customRoutes} />
 
       <Typography
@@ -338,6 +334,6 @@ export default function CreateGroupTournament() {
           Create tournament
         </Button>
       </Box>
-    </Container>
+    </Box>
   );
 }
