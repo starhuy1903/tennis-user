@@ -1,3 +1,6 @@
+import { MatchState } from 'constants/match';
+import { GetListResult, GetPagingListOptions } from 'types/base';
+import { MatchMetaData } from 'types/match';
 import {
   AffiliatedSponsorPayload,
   ChangePasswordPayload,
@@ -108,6 +111,21 @@ const userApiToastSlice = apiWithToastSlice.injectEndpoints({
         body,
       }),
     }),
+    getRefereeMatches: build.query<
+      GetListResult<MatchMetaData>,
+      GetPagingListOptions & {
+        status?: MatchState;
+      }
+    >({
+      query: ({ page, take, status }) => ({
+        url: urlWithCorePrefix('users/referee/match'),
+        params: {
+          page,
+          take,
+          status,
+        },
+      }),
+    }),
   }),
 });
 
@@ -134,6 +152,8 @@ export const {
   useEditProfileMutation,
   useLazyGetProfileQuery,
   useAffiliateSponsorMutation,
+  useGetRefereeMatchesQuery,
+  useLazyGetRefereeMatchesQuery,
 } = userApiToastSlice;
 
 export const { useLogoutMutation } = userApiSlice;
