@@ -7,7 +7,12 @@ import { Match } from 'types/tournament-fixtures';
 import ScoreList from './ScoreList';
 import TeamPlayer from './TeamPlayer';
 
-export default function CustomSeedTeam({ match, teamNumber }: { match: Match | any; teamNumber: 1 | 2 }) {
+type CustomSeedTeamProps = {
+  match: Match | any;
+  teamNumber: 1 | 2;
+};
+
+export default function CustomSeedTeam({ match, teamNumber }: CustomSeedTeamProps) {
   if (
     !match ||
     !match.teams[teamNumber - 1] ||

@@ -258,6 +258,8 @@ export default function TournamentDetailsLayout() {
         </Box>
       </Paper>
 
+      {/* <InformationSection /> */}
+
       <Outlet />
     </Container>
   );

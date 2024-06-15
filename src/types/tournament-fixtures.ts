@@ -81,6 +81,12 @@ export type CreateFixtureRequest = {
   matchDuration: number;
   breakDuration: number; // in minutes
   venue: string;
+  groups?: {
+    id: string;
+    title: string;
+    numberOfProceeders: number;
+    teams: string[];
+  }[];
 };
 
 export type EmptyFixture = {
@@ -122,7 +128,27 @@ export type GeneratedNewKnockoutFixture = GeneratedFixture & {
   };
 };
 
-export type GeneratedNewFixture = GeneratedNewRoundRobinFixture | GeneratedNewKnockoutFixture;
+export type GeneratedNewGroupPlayoffFixture = GeneratedFixture & {
+  roundRobinGroups: {
+    id: string;
+    title: string;
+    isFinal: boolean;
+    rounds: Round[];
+    numberOfProceeders: number;
+  }[];
+  knockoutGroup: {
+    id: string;
+    title: string;
+    isFinal: boolean;
+    rounds: Round[];
+  };
+  groups: GeneratedGroup[];
+};
+
+export type GeneratedNewFixture =
+  | GeneratedNewRoundRobinFixture
+  | GeneratedNewKnockoutFixture
+  | GeneratedNewGroupPlayoffFixture;
 
 export type FixtureResponse = EmptyFixture | GeneratedNewFixture;
 
@@ -157,7 +183,22 @@ export type SaveKnockoutFixtureRequest = BaseSaveFixture & {
   };
 };
 
-export type SaveFixture = SaveRoundRobinFixtureRequest | SaveKnockoutFixtureRequest;
+export type SaveGroupPlayoffFixtureRequest = BaseSaveFixture & {
+  knockoutGroup: {
+    id: string;
+    title: string;
+    isFinal: boolean;
+    rounds: Round[];
+  };
+  roundRobinGroups: {
+    id: string;
+    title: string;
+    isFinal: boolean;
+    rounds: Round[];
+  }[];
+};
+
+export type SaveFixture = SaveRoundRobinFixtureRequest | SaveKnockoutFixtureRequest | SaveGroupPlayoffFixtureRequest;
 
 export const isGeneratedNewFixtureType = (fixture: FixtureResponse): fixture is GeneratedNewFixture => {
   return 'id' in fixture;
@@ -169,4 +210,34 @@ export const isGeneratedNewRoundRobinFixture = (fixture: FixtureResponse): fixtu
 
 export const isGeneratedNewKnockoutFixture = (fixture: FixtureResponse): fixture is GeneratedNewKnockoutFixture => {
   return 'knockoutGroup' in fixture && fixture.format === TournamentFormat.KNOCKOUT;
+};
+
+export const isGeneratedNewGroupPlayoffFixture = (
+  fixture: FixtureResponse
+): fixture is GeneratedNewGroupPlayoffFixture => {
+  return (
+    'knockoutGroup' in fixture && 'roundRobinGroups' in fixture && fixture.format === TournamentFormat.GROUP_PLAYOFF
+  );
+};
+
+export type GeneratedGroup = {
+  id: string;
+  title: string;
+  numberOfProceeders: number;
+  teams: {
+    id: string;
+    name: string;
+    totalElo: number;
+    point: number;
+    user1: {
+      id: string;
+      name: string;
+      image: string;
+    };
+    user2: {
+      id: string;
+      name: string;
+      image: string;
+    } | null;
+  }[];
 };

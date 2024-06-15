@@ -1,4 +1,4 @@
-import { Box, Divider } from '@mui/material';
+import { Box, Divider, Typography } from '@mui/material';
 import { useCallback } from 'react';
 import { IRenderSeedProps, Seed, SeedItem } from 'react-brackets';
 
@@ -14,6 +14,7 @@ type CustomSeedItemProps = IRenderSeedProps & {
 
 export default function CustomSeedItem({ seed, onClick }: CustomSeedItemProps) {
   const isNotShow = seed.status === MatchState.NO_SHOW;
+  const isArranging = !seed.teams[0].user1 && !seed.teams[1].user1;
 
   const handleClickSeed = useCallback(() => {
     if (!isNotShow) {
@@ -45,10 +46,16 @@ export default function CustomSeedItem({ seed, onClick }: CustomSeedItemProps) {
           }}
           onClick={handleClickSeed}
         >
-          <CustomSeedTeam
-            match={seed}
-            teamNumber={1}
-          />
+          {isArranging ? (
+            <Box p={2}>
+              <Typography textAlign="start">{seed.teams[0].name}</Typography>
+            </Box>
+          ) : (
+            <CustomSeedTeam
+              match={seed}
+              teamNumber={1}
+            />
+          )}
 
           {seed.status !== MatchState.NO_SHOW && (
             <>
@@ -60,10 +67,16 @@ export default function CustomSeedItem({ seed, onClick }: CustomSeedItemProps) {
                 />
               </Divider>
 
-              <CustomSeedTeam
-                match={seed}
-                teamNumber={2}
-              />
+              {isArranging ? (
+                <Box p={2}>
+                  <Typography textAlign="start">{seed.teams[1].name}</Typography>
+                </Box>
+              ) : (
+                <CustomSeedTeam
+                  match={seed}
+                  teamNumber={2}
+                />
+              )}
             </>
           )}
         </Box>

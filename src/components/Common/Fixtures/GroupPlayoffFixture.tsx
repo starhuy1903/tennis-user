@@ -1,17 +1,31 @@
 import { Box, Divider } from '@mui/material';
 
-import { FixtureResponse } from 'types/tournament-fixtures';
+import { FixtureResponse, isGeneratedNewGroupPlayoffFixture } from 'types/tournament-fixtures';
 
-export default function GroupPlayoffFixture({ fixture }: { fixture: FixtureResponse }) {
-  console.log({ fixture });
+import KnockoutFixtures from './KnockoutFixture';
+import RoundRobinFixture from './RoundRobin';
 
+type GroupPlayoffFixtureProps = {
+  fixture: FixtureResponse;
+  setFixtureData?: React.Dispatch<React.SetStateAction<FixtureResponse | null>>;
+};
+
+export default function GroupPlayoffFixture({ fixture, setFixtureData }: GroupPlayoffFixtureProps) {
   return (
     <Box>
-      {/* <KnockoutFixtures rounds={fixture.knockoutRounds!} /> */}
-
+      {isGeneratedNewGroupPlayoffFixture(fixture) && (
+        <RoundRobinFixture
+          rounds={fixture.roundRobinGroups[0].rounds}
+          setFixtureData={setFixtureData}
+        />
+      )}
       <Divider sx={{ my: 5 }} />
-
-      {/* <RoundRobinFixture rounds={fixture.roundRobinRounds!} /> */}
+      {isGeneratedNewGroupPlayoffFixture(fixture) && (
+        <KnockoutFixtures
+          rounds={fixture.knockoutGroup.rounds}
+          setFixtureData={setFixtureData}
+        />
+      )}
     </Box>
   );
 }
