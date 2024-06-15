@@ -1,9 +1,16 @@
 import { apiWithToastSlice } from 'store/api/baseApiSlice';
 import { urlWithCorePrefix } from 'store/api/helper';
 import { GetListResult } from 'types/base';
-import { CreateFixtureRequest, EditMatchTeam, FixtureResponse, SaveFixture } from 'types/tournament-fixtures';
+import {
+  CreateFixtureRequest,
+  EditMatchTeam,
+  FixtureResponse,
+  GeneratedGroup,
+  SaveFixture,
+} from 'types/tournament-fixtures';
 
 export const {
+  useGenerateGroupMutation,
   useGenerateFixtureMutation,
   useSaveFixtureMutation,
   useGetTeamQuery,
@@ -11,6 +18,13 @@ export const {
   useClearDraftFixtureMutation,
 } = apiWithToastSlice.injectEndpoints({
   endpoints: (build) => ({
+    generateGroup: build.mutation<GeneratedGroup[], { tournamentId: number; body: { numberOfGroups: number } }>({
+      query: ({ tournamentId, body }) => ({
+        url: urlWithCorePrefix(`tournaments/${tournamentId}/fixture-groups/generate`),
+        method: 'POST',
+        body,
+      }),
+    }),
     generateFixture: build.mutation<FixtureResponse, { tournamentId: number; body: CreateFixtureRequest }>({
       query: ({ tournamentId, body }) => ({
         url: urlWithCorePrefix(`tournaments/${tournamentId}/fixtures/generate`),

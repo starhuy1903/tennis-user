@@ -88,6 +88,10 @@ const protectedRoutes = createBrowserRouter([
             element: <Profile activeTab="settings" />,
           },
           {
+            path: 'referee',
+            element: <Profile activeTab="referee" />,
+          },
+          {
             path: 'edit',
             element: <EditProfile />,
           },

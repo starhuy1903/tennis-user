@@ -7,7 +7,7 @@ import CenterLoading from 'components/Common/CenterLoading';
 import GroupPlayoffFixture from 'components/Common/Fixtures/GroupPlayoffFixture';
 import KnockoutFixtures from 'components/Common/Fixtures/KnockoutFixture';
 import RoundRobinFixture from 'components/Common/Fixtures/RoundRobin';
-import { TournamentFormat, TournamentPhase } from 'constants/tournament';
+import { TournamentPhase } from 'constants/tournament';
 import { FixtureStatus } from 'constants/tournament-fixtures';
 import { useClearDraftFixtureMutation, useSaveFixtureMutation } from 'store/api/tournament/creator/fixture';
 import { useLazyGetTournamentFixtureQuery } from 'store/api/tournament/shared/fixture';
@@ -16,6 +16,7 @@ import {
   CreateFixtureRequest,
   FixtureResponse,
   isGeneratedNewFixtureType,
+  isGeneratedNewGroupPlayoffFixture,
   isGeneratedNewKnockoutFixture,
   isGeneratedNewRoundRobinFixture,
 } from 'types/tournament-fixtures';
@@ -152,7 +153,12 @@ export default function CreatorFixture() {
                 setFixtureData={setFixture}
               />
             )}
-            {fixture.format === TournamentFormat.GROUP_PLAYOFF && <GroupPlayoffFixture fixture={fixture} />}
+            {isGeneratedNewGroupPlayoffFixture(fixture) && (
+              <GroupPlayoffFixture
+                fixture={fixture}
+                setFixtureData={setFixture}
+              />
+            )}
           </Box>
           {tournamentData.phase === TournamentPhase.FINALIZED_APPLICANTS && (
             <Box

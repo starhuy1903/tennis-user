@@ -13,6 +13,7 @@ import {
 } from 'store/api/tournament/creator/participant';
 import { selectTournamentData, shouldRefreshTournamentData } from 'store/slice/tournamentSlice';
 import { OpenTournamentApplicant } from 'types/open-tournament-participants';
+import { showSuccess } from 'utils/toast';
 
 import ApplicantItem from './ApplicantItem';
 
@@ -63,6 +64,7 @@ export default function ApplicantList() {
       try {
         await finalizeApplicantRequest(tournamentData.id).unwrap();
         dispatch(shouldRefreshTournamentData(true));
+        showSuccess('Finalized participant successfully');
       } catch (e) {
         // handled error
       }

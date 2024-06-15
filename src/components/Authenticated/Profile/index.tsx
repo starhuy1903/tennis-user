@@ -1,20 +1,7 @@
-// import Box from '@mui/material/Box';
-// import PacksSection from './components/PacksSection';
-// import ProfileSection from './components/ProfileSection';
-// const Profile = () => {
-//   return (
-//     <>
-//       <ProfileSection />
-//       <Box sx={{ marginTop: '15px' }}>
-//         <PacksSection />
-//       </Box>
-//     </>
-//   );
-// };
-// export default Profile;
 import { Box, Tab, Tabs } from '@mui/material';
-import { ReactNode, useState } from 'react';
+import { ReactNode, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAppSelector } from 'store';
 
 import { Breadcrumbs } from 'components/Common/Breadcrumb';
 import TabPanel from 'components/Common/TabPanel';
@@ -25,8 +12,9 @@ import FeedSection from './FeedSection';
 import PacksSection from './PacksSection';
 import PaymentSection from './PaymentSection';
 import ProfileSection from './ProfileSection';
+import RefereeSection from './RefereeSection';
 
-type ProfileTabName = 'feeds' | 'packages' | 'payments' | 'settings';
+type ProfileTabName = 'feeds' | 'packages' | 'payments' | 'settings' | 'referee';
 
 const ProfileTabs: Array<{
   index: number;
@@ -65,14 +53,30 @@ interface ProfileProps {
 }
 
 export default function Profile({ activeTab = 'feeds' }: ProfileProps) {
+  const navigate = useNavigate();
+  const isReferee = useAppSelector((state) => state.user.userInfo?.isReferee);
+
+  const profileTabs = useMemo(() => {
+    if (!isReferee) {
+      return [
+        ...ProfileTabs,
+        {
+          index: 4,
+          label: 'Referee',
+          component: <RefereeSection />,
+          tabName: 'referee',
+        },
+      ];
+    }
+    return ProfileTabs;
+  }, [isReferee]);
+
   const [currentTab, setCurrentTab] = useState(
-    ProfileTabs.find((e) => e.tabName === activeTab)?.index || ProfileTabs[0].index
+    profileTabs.find((e) => e.tabName === activeTab)?.index || profileTabs[0].index
   );
 
-  const navigate = useNavigate();
-
   const handleChange = (_: React.SyntheticEvent, newValue: number) => {
-    navigate(`/profile/${ProfileTabs.find((e) => e.index === newValue)?.tabName || ProfileTabs[0].tabName}`);
+    navigate(`/profile/${profileTabs.find((e) => e.index === newValue)?.tabName || profileTabs[0].tabName}`);
     setCurrentTab(newValue);
   };
 
@@ -94,7 +98,7 @@ export default function Profile({ activeTab = 'feeds' }: ProfileProps) {
           aria-label="Profile tabs example"
           sx={{ borderRight: 1, borderColor: 'divider' }}
         >
-          {ProfileTabs.map((tab) => (
+          {profileTabs.map((tab) => (
             <Tab
               key={tab.index}
               label={tab.label}
@@ -103,7 +107,7 @@ export default function Profile({ activeTab = 'feeds' }: ProfileProps) {
           ))}
         </Tabs>
       </Box>
-      {ProfileTabs.map((tab) => (
+      {profileTabs.map((tab) => (
         <TabPanel
           key={tab.index}
           value={currentTab}

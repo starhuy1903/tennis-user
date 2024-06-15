@@ -102,7 +102,7 @@ export default function MyApplication({ tournament }: { tournament: OpenTourname
   }
 
   return (
-    <Box>
+    <Box mt={4}>
       {isRegistered ? (
         <ApplicationForm
           data={myApplication}
