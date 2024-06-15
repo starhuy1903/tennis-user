@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 
 import { useGenerateGroupMutation } from 'store/api/tournament/creator/fixture';
 import { GeneratedGroup } from 'types/tournament-fixtures';
+import { showSuccess } from 'utils/toast';
 
 type GenerateGroupProps = {
   tournamentId: number;
@@ -35,6 +36,7 @@ export default function GenerateGroup({ tournamentId, setGroupData }: GenerateGr
         },
       }).unwrap();
       setGroupData(res);
+      showSuccess('Generated group successfully');
     } catch (error) {
       // handled error
     }
