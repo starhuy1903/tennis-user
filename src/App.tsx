@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Navigate, RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { useAppSelector } from 'store';
 
+import AddMemberToGroup from 'components/Authenticated/AddMemberToGroup';
 import AffiliateSponsor from 'components/Authenticated/AffiliateSponsor';
 import GroupService from 'components/Authenticated/GroupService';
 import GroupCreate from 'components/Authenticated/GroupService/GroupCreate';
@@ -30,6 +31,7 @@ import Pricing from 'components/Unauthenticated/Pricing';
 import Signup from 'components/Unauthenticated/Signup';
 import { useGetAppConfigQuery } from 'store/api/commonApiSlice';
 import { useLazyGetProfileQuery } from 'store/api/userApiSlice';
+import { selectIsLoggedIn } from 'store/slice/userSlice';
 
 import './App.css';
 
@@ -58,6 +60,10 @@ const protectedRoutes = createBrowserRouter([
     element: <AuthenticatedLayout />,
     children: [
       ...sharedRoutes,
+      {
+        path: 'login',
+        element: <AddMemberToGroup />,
+      },
       {
         path: 'profile',
         children: [
@@ -178,7 +184,7 @@ const publicRoutes = createBrowserRouter([
 ]);
 
 function App() {
-  const isLoggedIn = useAppSelector((state) => state.user.isLoggedIn);
+  const isLoggedIn = useAppSelector(selectIsLoggedIn);
   const [getProfile, { isLoading }] = useLazyGetProfileQuery();
   const { isLoading: fetchingAppConfig } = useGetAppConfigQuery();
   const [initialized, setInitialized] = useState(false);

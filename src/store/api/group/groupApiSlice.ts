@@ -8,11 +8,25 @@ import { urlWithCorePrefix } from '../helper';
 
 const groupApiToastSlice = apiWithToastSlice.injectEndpoints({
   endpoints: (build) => ({
-    addMember: build.mutation<void, InvitationPayload>({
+    inviteMember: build.mutation<void, InvitationPayload>({
       query: (body) => ({
         url: urlWithCorePrefix('groups/invite'),
         method: 'POST',
         body,
+      }),
+    }),
+    addMember: build.mutation<
+      {
+        groupId: number;
+      },
+      string
+    >({
+      query: (token) => ({
+        url: urlWithCorePrefix('groups/user'),
+        method: 'POST',
+        params: {
+          token,
+        },
       }),
     }),
     removeMember: build.mutation<void, { groupId: number; userId: string }>({
@@ -84,6 +98,7 @@ const groupApiToastSlice = apiWithToastSlice.injectEndpoints({
 });
 
 export const {
+  useInviteMemberMutation,
   useAddMemberMutation,
   useRemoveMemberMutation,
   useGetMyGroupsQuery,

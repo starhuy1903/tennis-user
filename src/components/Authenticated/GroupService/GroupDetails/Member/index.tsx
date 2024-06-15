@@ -99,15 +99,17 @@ export default function Member() {
             />
           </FormControl>
         </Box>
-        <Tooltip title="Invite member">
-          <Fab
-            size="medium"
-            color="primary"
-            onClick={handleInvite}
-          >
-            <PersonAddIcon />
-          </Fab>
-        </Tooltip>
+        {groupData.isCreator && (
+          <Tooltip title="Invite member">
+            <Fab
+              size="medium"
+              color="primary"
+              onClick={handleInvite}
+            >
+              <PersonAddIcon />
+            </Fab>
+          </Tooltip>
+        )}
       </Box>
       <Box sx={{ height: 'calc(100% - 60px)', overflow: 'auto' }}>
         {isLoading || !memberData ? (
