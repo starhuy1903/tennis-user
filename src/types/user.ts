@@ -62,6 +62,7 @@ export type UserProfile = {
   gender: Gender;
   role: string;
   elo: number | null;
+  isReferee: boolean;
 };
 
 export type RefreshResponse = {

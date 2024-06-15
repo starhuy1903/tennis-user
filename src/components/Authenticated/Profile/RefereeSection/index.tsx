@@ -14,20 +14,15 @@ import {
   Typography,
 } from '@mui/material';
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useAppDispatch } from 'store';
 
 import CenterLoading from 'components/Common/CenterLoading';
 import NoData from 'components/Common/NoData';
 import { FormatDateTime } from 'constants/datetime';
-import { ModalKey } from 'constants/modal';
-import { OrderStatus, OrderStatusOptions } from 'constants/order';
-import { useGetOrdersQuery } from 'store/api/order/orderApiSlice';
-import { showModal } from 'store/slice/modalSlice';
+import { MatchState } from 'constants/match';
+import { useGetRefereeMatchesQuery } from 'store/api/userApiSlice';
 import { displayDateTime } from 'utils/datetime';
-import { displayCurrency } from 'utils/string';
 
-const titles = ['Order ID', 'Total Price', 'Status', 'Created At', 'Updated At'];
+const titles = ['Match ID', 'Name', 'Status', 'Start time', 'Venue'];
 
 const formatDateTime = (dateTime: string) => {
   return displayDateTime({
@@ -50,27 +45,27 @@ const Badge = ({ color, text }: { color: string; text: string }) => (
   </Typography>
 );
 
-const OrderStatusBadge = ({ status }: { status: OrderStatus }) => {
+const MatchStatusBadge = ({ status }: { status: MatchState }) => {
   switch (status) {
-    case OrderStatus.NEW:
+    case MatchState.SCHEDULED:
       return (
         <Badge
           color="#378CE7"
-          text={OrderStatusOptions[OrderStatus.NEW]}
+          text="Schedule"
         />
       );
-    case OrderStatus.COMPLETED:
+    case MatchState.WALK_OVER:
       return (
         <Badge
           color="#75A47F"
-          text={OrderStatusOptions[OrderStatus.COMPLETED]}
+          text="Going on"
         />
       );
-    case OrderStatus.CANCELLED:
+    case MatchState.DONE:
       return (
         <Badge
           color="#F7418F"
-          text={OrderStatusOptions[OrderStatus.CANCELLED]}
+          text="Finished"
         />
       );
     default:
@@ -78,14 +73,11 @@ const OrderStatusBadge = ({ status }: { status: OrderStatus }) => {
   }
 };
 
-export default function PaymentSection() {
-  const navigate = useNavigate();
-  const dispatch = useAppDispatch();
-
-  const [status, setStatus] = useState(OrderStatus.COMPLETED);
+export default function RefereeSection() {
   const [page, setPage] = useState(1);
+  const [status, setStatus] = useState(MatchState.SCHEDULED);
 
-  const { data, isLoading, refetch } = useGetOrdersQuery({
+  const { data, isLoading, refetch } = useGetRefereeMatchesQuery({
     page,
     take: 5,
     status,
@@ -93,7 +85,7 @@ export default function PaymentSection() {
 
   useEffect(() => {
     refetch();
-  }, [page, refetch]);
+  }, [refetch]);
 
   if (isLoading) {
     return <CenterLoading />;
@@ -117,14 +109,14 @@ export default function PaymentSection() {
       >
         <Select
           value={status}
-          onChange={(event) => setStatus(event.target.value as OrderStatus)}
+          onChange={(event) => setStatus(event.target.value as MatchState)}
           sx={{
             mb: 2,
           }}
           size="small"
         >
-          <MenuItem value={OrderStatus.COMPLETED}>{OrderStatusOptions[OrderStatus.COMPLETED]}</MenuItem>
-          <MenuItem value={OrderStatus.CANCELLED}>{OrderStatusOptions[OrderStatus.CANCELLED]}</MenuItem>
+          <MenuItem value={MatchState.SCHEDULED}>Up Coming</MenuItem>
+          <MenuItem value={MatchState.DONE}>Finished</MenuItem>
         </Select>
       </Stack>
 
@@ -148,26 +140,28 @@ export default function PaymentSection() {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {data.data.map((order) => (
+                {data.data.map((match) => (
                   <TableRow
-                    key={order.id}
-                    onClick={() => {
-                      dispatch(
-                        showModal(ModalKey.SHOW_ORDER_DETAIL, {
-                          orderId: order.id,
-                          onNavigate: () => navigate(`/pricing`),
-                        })
-                      );
-                    }}
+                    key={match.id}
+                    // onClick={() => {
+                    //   dispatch(
+                    //     showModal(ModalKey.SHOW_ORDER_DETAIL, {
+                    //       orderId: order.id,
+                    //       onNavigate: () => navigate(`/pricing`),
+                    //     })
+                    //   );
+                    // }}
                     sx={{ cursor: 'pointer' }}
                   >
-                    <TableCell align="center">{order.id}</TableCell>
-                    <TableCell align="center">{displayCurrency(order.price)}</TableCell>
+                    <TableCell align="center">{match.id}</TableCell>
                     <TableCell align="center">
-                      <OrderStatusBadge status={order.status} />
+                      {match.team1.user1.name} vs {match.team2.user1.name}
                     </TableCell>
-                    <TableCell align="center">{formatDateTime(order.createdAt)}</TableCell>
-                    <TableCell align="center">{formatDateTime(order.updatedAt)}</TableCell>
+                    <TableCell align="center">
+                      <MatchStatusBadge status={match.status} />
+                    </TableCell>
+                    <TableCell align="center">{formatDateTime(match.matchStartDate)}</TableCell>
+                    <TableCell align="center">{match.venue}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>
@@ -184,7 +178,7 @@ export default function PaymentSection() {
           />
         </>
       ) : (
-        <NoData message="You don't have any orders." />
+        <NoData message="You don't have any matches to record." />
       )}
     </Box>
   );
