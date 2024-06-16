@@ -2,6 +2,7 @@ import Fixtures from './Fixtures';
 import OpenMatchDetails from './Fixtures/OpenMatchDetails';
 import Information from './Information';
 import Participants from './Participants';
+import Standing from './Standing';
 import TournamentDetailsLayout from './TournamentDetailsLayout';
 
 export const tournamentDetailsRoutes = {
@@ -19,6 +20,10 @@ export const tournamentDetailsRoutes = {
     {
       path: 'fixtures',
       element: <Fixtures />,
+    },
+    {
+      path: 'standings',
+      element: <Standing />,
     },
     {
       path: 'info',

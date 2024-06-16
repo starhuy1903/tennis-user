@@ -48,6 +48,10 @@ const TournamentTabs = [
     value: 'fixtures',
   },
   {
+    label: 'Standings',
+    value: 'standings',
+  },
+  {
     label: 'Information',
     value: 'info',
   },

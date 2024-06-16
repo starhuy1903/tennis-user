@@ -1,0 +1,82 @@
+[
+    {
+        "id": "c760ad4e-20df-4cde-ad6f-54c75667422d",
+        "user1": {
+            "id": "94a0f849-d722-44d7-8f0f-50146c61c3dd",
+            "image": "https://i.pinimg.com/474x/06/12/23/0612238c2c3f67edec6b07f87a26e258.jpg",
+            "name": "Huy Nguyen 1"
+        },
+        "user2": null,
+        "score": {
+            "totalMatches": 0,
+            "played": 0,
+            "won": 0,
+            "lost": 0,
+            "matchPoints": 0
+        }
+    },
+    {
+        "id": "90e1cf9d-d4bf-4cda-ba75-96e7e58006f3",
+        "user1": {
+            "id": "83cc226b-1336-42af-8abc-4edac566d4c0",
+            "image": "https://imgv3.fotor.com/images/gallery/anime-male-avatar-with-a-pair-of-glasses-made-in-fotor-ai-anime-avatar-creator_2023-06-25-054224_ybzr.jpg",
+            "name": "Huy Nguyen 2"
+        },
+        "user2": null,
+        "score": {
+            "totalMatches": 0,
+            "played": 0,
+            "won": 0,
+            "lost": 0,
+            "matchPoints": 0
+        }
+    },
+    {
+        "id": "97f294b5-0c27-4c24-87ac-2ef3fdd45f0b",
+        "user1": {
+            "id": "5619b876-5c87-49cb-b9c2-a9c620feb103",
+            "image": "https://cdn4.vectorstock.com/i/1000x1000/22/23/simple-cartoon-avatar-vector-14132223.jpg",
+            "name": "Huy Nguyen 3"
+        },
+        "user2": null,
+        "score": {
+            "totalMatches": 0,
+            "played": 0,
+            "won": 0,
+            "lost": 0,
+            "matchPoints": 0
+        }
+    },
+    {
+        "id": "bc905d7e-cf0c-4509-a032-4e07bfd54206",
+        "user1": {
+            "id": "54df148f-5562-4b6c-b9f5-3551388acd54",
+            "image": "https://avatoon.me/wp-content/uploads/2021/09/Cartoon-Pic-Ideas-for-DP-Profile11.png",
+            "name": "Huy Nguyen 4"
+        },
+        "user2": null,
+        "score": {
+            "totalMatches": 0,
+            "played": 0,
+            "won": 0,
+            "lost": 0,
+            "matchPoints": 0
+        }
+    },
+    {
+        "id": "d151ad27-7571-421b-a35d-d5bcdb7a5d9e",
+        "user1": {
+            "id": "36fb6d69-4e03-4c14-9a33-e98ea9f4ed9d",
+            "image": "https://cdn.dribbble.com/users/8309782/screenshots/17981401/media/5772ee39311b670f8ffe00052b4e48e3.jpg?resize=400x300&vertical=center",
+            "name": "Huy Nguyen 5"
+        },
+        "user2": null,
+        "score": {
+            "totalMatches": 0,
+            "played": 0,
+            "won": 0,
+            "lost": 0,
+            "matchPoints": 0
+        }
+    }
+]
