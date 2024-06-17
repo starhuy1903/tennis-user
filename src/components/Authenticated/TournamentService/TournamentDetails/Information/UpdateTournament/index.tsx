@@ -80,6 +80,8 @@ export default function UpdateTournament({ onCloseForm }: { onCloseForm: () => v
 
   const disabledUpdateBtn = updatingData || isEqual(originalData, watch());
 
+  console.log({ formError });
+
   return (
     <Box mt={4}>
       <Typography
@@ -276,7 +278,7 @@ export default function UpdateTournament({ onCloseForm }: { onCloseForm: () => v
                           onChange={(date) => {
                             onChange(date?.toISOString());
                           }}
-                          disablePast
+                          minDate={dayjs(getValues('registrationDueDate'))}
                           defaultValue={dayjs(getValues('startDate'))}
                           format="DD/MM/YYYY"
                           disabled={updatingData || hasFinalizedApplicants}
@@ -312,7 +314,7 @@ export default function UpdateTournament({ onCloseForm }: { onCloseForm: () => v
                           onChange={(date) => {
                             onChange(date?.toISOString());
                           }}
-                          disablePast
+                          minDate={dayjs(getValues('startDate'))}
                           defaultValue={dayjs(getValues('endDate'))}
                           format="DD/MM/YYYY"
                           disabled={updatingData || hasFinalizedApplicants}
@@ -342,7 +344,7 @@ export default function UpdateTournament({ onCloseForm }: { onCloseForm: () => v
                       return true;
                     },
                   }}
-                  render={({ field: { onChange } }) => (
+                  render={({ field: { value, onChange } }) => (
                     <FormControl
                       fullWidth
                       error={!!formError.registrationDueDate}
@@ -353,8 +355,8 @@ export default function UpdateTournament({ onCloseForm }: { onCloseForm: () => v
                           onChange={(date) => {
                             onChange(date?.toISOString());
                           }}
-                          disablePast
-                          defaultValue={dayjs(getValues('registrationDueDate'))}
+                          minDate={dayjs()}
+                          defaultValue={dayjs(value)}
                           format="DD/MM/YYYY HH:mm"
                           disabled={updatingData || hasFinalizedApplicants}
                         />
