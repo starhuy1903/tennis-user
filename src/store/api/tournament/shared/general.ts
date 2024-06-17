@@ -7,8 +7,8 @@ import { urlWithCorePrefix } from '../../helper';
 export const {
   useGetOpenTournamentsQuery,
   useLazyGetOpenTournamentsQuery,
-  useGetMyTournamentsQuery,
-  useLazyGetMyTournamentsQuery,
+  useGetMyOpenTournamentsQuery,
+  useLazyGetMyOpenTournamentsQuery,
   useGetUnregisteredTournamentsQuery,
   useLazyGetUnregisteredTournamentsQuery,
   useGetOpenTournamentDetailsQuery,
@@ -22,7 +22,7 @@ export const {
       }),
       transformResponse: (response: { data: OpenTournament[] }) => response.data,
     }),
-    getMyTournaments: build.query<OpenTournament[], TournamentStatus | void>({
+    getMyOpenTournaments: build.query<OpenTournament[], TournamentStatus | void>({
       query: (status) => ({
         url: urlWithCorePrefix(`users/tournaments`),
         params: { status },
