@@ -5,9 +5,9 @@ import { Box } from '@mui/material';
 import Tab from '@mui/material/Tab';
 import { useMemo, useState } from 'react';
 
-import PackagePricing from 'components/Common/ PackagePricing';
 import { Breadcrumbs } from 'components/Common/Breadcrumb';
 import CenterLoading from 'components/Common/CenterLoading';
+import PackagePricing from 'components/Common/PackagePricing';
 import { useGetMyPackagesQuery } from 'store/api/packageApiSlice';
 import { PackageType, UserPackage } from 'types/package';
 import { getValidTournamentPackages } from 'utils/package';

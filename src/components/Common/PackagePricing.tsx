@@ -7,6 +7,7 @@ import CenterLoading from 'components/Common/CenterLoading';
 import { ModalKey } from 'constants/modal';
 import { useGetPackagesQuery } from 'store/api/packageApiSlice';
 import { showModal } from 'store/slice/modalSlice';
+import { selectIsLoggedIn } from 'store/slice/userSlice';
 import { PackageType } from 'types/package';
 import { displayCurrency } from 'utils/string';
 
@@ -24,7 +25,7 @@ export default function PackagePricing({
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const isLoggedIn = useAppSelector((state) => state.user.isLoggedIn);
+  const isLoggedIn = useAppSelector(selectIsLoggedIn);
   const userId = useAppSelector((state) => state.user.userInfo?.id);
 
   const { data: packages, isLoading } = useGetPackagesQuery(type);

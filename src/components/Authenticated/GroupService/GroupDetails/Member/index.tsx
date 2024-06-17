@@ -1,11 +1,12 @@
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
-import { Box, Fab, FormControl, TextField, Tooltip, Typography } from '@mui/material';
+import { Box, Fab, FormControl, TextField, Tooltip } from '@mui/material';
 import { useDebounce } from 'hooks';
 import { useConfirm } from 'material-ui-confirm';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'store';
 
 import CenterLoading from 'components/Common/CenterLoading';
+import NoData from 'components/Common/NoData';
 import { ModalKey } from 'constants/modal';
 import { useLazyGetGroupMembersQuery, useRemoveMemberMutation } from 'store/api/group/groupApiSlice';
 import { selectGroup } from 'store/slice/groupSlice';
@@ -21,7 +22,7 @@ export default function Member() {
   const confirm = useConfirm();
   const [expand, setExpand] = useState<string | null>(null);
   const [searchValue, setSearchValue] = useState('');
-  const debouncedSearchValue = useDebounce(searchValue, 2000);
+  const debouncedSearchValue = useDebounce(searchValue, 500);
   const groupData = useAppSelector(selectGroup);
 
   const [memberData, setMemberData] = useState<GetListResult<MemberDto> | null>();
@@ -29,9 +30,10 @@ export default function Member() {
 
   const [removeMember] = useRemoveMemberMutation();
 
-  // const members = useMemo(() => {
-  //   return data?.data.filter((e) => e.role !== 'group_admin') || [];
-  // }, [data?.data]);
+  const filteredItems = useMemo(
+    () => memberData?.data.filter((item) => item.user.name.toLowerCase().includes(debouncedSearchValue.toLowerCase())),
+    [memberData, debouncedSearchValue]
+  );
 
   const handleInvite = () => {
     dispatch(
@@ -67,16 +69,6 @@ export default function Member() {
   };
 
   useEffect(() => {
-    if (debouncedSearchValue.length >= 3) {
-      const fetchSearchResult = async () => {
-        //do fetching
-      };
-
-      fetchSearchResult();
-    }
-  }, [debouncedSearchValue]);
-
-  useEffect(() => {
     (async () => {
       try {
         const res = await getGroupMemberRequest({ page: 1, take: 10, id: groupData.id }).unwrap();
@@ -99,21 +91,23 @@ export default function Member() {
             />
           </FormControl>
         </Box>
-        <Tooltip title="Invite member">
-          <Fab
-            size="medium"
-            color="primary"
-            onClick={handleInvite}
-          >
-            <PersonAddIcon />
-          </Fab>
-        </Tooltip>
+        {groupData.isCreator && (
+          <Tooltip title="Invite member">
+            <Fab
+              size="medium"
+              color="primary"
+              onClick={handleInvite}
+            >
+              <PersonAddIcon />
+            </Fab>
+          </Tooltip>
+        )}
       </Box>
       <Box sx={{ height: 'calc(100% - 60px)', overflow: 'auto' }}>
-        {isLoading || !memberData ? (
+        {isLoading || !filteredItems ? (
           <CenterLoading height="10vh" />
-        ) : memberData.data.length > 0 ? (
-          memberData.data.map((e) => (
+        ) : filteredItems.length > 0 ? (
+          filteredItems.map((e) => (
             <MemberItems
               role={e.role}
               isCreator={groupData.isCreator}
@@ -125,7 +119,16 @@ export default function Member() {
             />
           ))
         ) : (
-          <Typography textAlign="center">No member found.</Typography>
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              height: '30vh',
+            }}
+          >
+            <NoData message="No member found." />
+          </Box>
         )}
       </Box>
     </Box>
