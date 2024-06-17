@@ -74,20 +74,23 @@ export default function GroupDetailsLayout() {
     })();
   }, [dispatch, getGroupDetails, groupId, navigate]);
 
+  const customRoutes = useMemo(
+    () => [
+      {
+        path: '/groups/:groupId',
+        breadcrumb: groupData.name,
+      },
+      {
+        path: '/groups/:groupId/:tab',
+        breadcrumb: null,
+      },
+    ],
+    [groupData.name]
+  );
+
   if (isLoading || groupData.id === 0) {
     return <CenterLoading />;
   }
-
-  const customRoutes = [
-    {
-      path: '/groups/:groupId',
-      breadcrumb: groupData.name,
-    },
-    {
-      path: '/groups/:groupId/:tab',
-      breadcrumb: null,
-    },
-  ];
 
   return (
     <Box

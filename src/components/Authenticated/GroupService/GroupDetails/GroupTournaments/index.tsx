@@ -1,13 +1,14 @@
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import WorkspacePremiumIcon from '@mui/icons-material/WorkspacePremium';
 import { Box, Button, Stack, Typography } from '@mui/material';
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useEffect, useMemo, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useAppSelector } from 'store';
 
 import { Breadcrumbs } from 'components/Common/Breadcrumb';
 import CenterLoading from 'components/Common/CenterLoading';
 import { TournamentStatus } from 'constants/tournament';
+import { useLazyGetGroupDetailsQuery } from 'store/api/group/groupApiSlice';
 import { useLazyGetGroupTournamentsQuery } from 'store/api/group/groupTournamentApiSlice';
 import { selectGroup } from 'store/slice/groupSlice';
 import { GroupTournament } from 'types/tournament';
@@ -16,6 +17,8 @@ import GroupTournamentList from './GroupTournamentList';
 
 export default function GroupTournaments() {
   const navigate = useNavigate();
+  const { groupId } = useParams();
+  const groupData = useAppSelector(selectGroup);
 
   const [tournaments, setTournaments] = useState<{
     upcoming: GroupTournament[];
@@ -28,10 +31,25 @@ export default function GroupTournaments() {
   });
 
   const [getTournaments, { isLoading }] = useLazyGetGroupTournamentsQuery();
-  const groupData = useAppSelector(selectGroup);
+  const [getGroupDetails, { isLoading: isLoadingGroup }] = useLazyGetGroupDetailsQuery();
 
   useEffect(() => {
     (async () => {
+      if (!groupId) {
+        navigate('/groups');
+        return;
+      }
+
+      if (groupData.id === 0) {
+        try {
+          await getGroupDetails(parseInt(groupId));
+          return;
+        } catch (error) {
+          navigate('/groups');
+          return;
+        }
+      }
+
       try {
         const responses = await Promise.all([
           getTournaments({ tournamentStatus: TournamentStatus.UPCOMING, groupId: groupData.id }).unwrap(),
@@ -47,21 +65,24 @@ export default function GroupTournaments() {
         // handled error
       }
     })();
-  }, [getTournaments, groupData?.id, navigate]);
+  }, [getGroupDetails, getTournaments, groupData.id, groupId, navigate]);
 
   const handleCreateTournament = () => {
     navigate(`/groups/${groupData?.id}/tournaments/create`);
   };
 
-  const customRoutes = [
-    {
-      path: '/groups/:groupId',
-      breadcrumb: groupData.name,
-    },
-  ];
+  const customRoutes = useMemo(
+    () => [
+      {
+        path: '/groups/:groupId',
+        breadcrumb: groupData.name,
+      },
+    ],
+    [groupData.name]
+  );
 
-  if (isLoading) {
-    return <CenterLoading height="10vh" />;
+  if (isLoading || isLoadingGroup || groupData.id === 0) {
+    return <CenterLoading />;
   }
 
   return (

@@ -14,6 +14,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import dayjs from 'dayjs';
+import { useMemo } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { useAppSelector } from 'store';
@@ -60,22 +61,25 @@ export default function CreateGroupTournament() {
 
       await requestCreateTournament(submitData).unwrap();
       showSuccess('Created group tournament successfully.');
-      navigate(`/groups/${groupData.id}`);
+      navigate(`/groups/${groupData.id}/tournaments`);
     } catch (error) {
       // handled error
     }
   };
 
-  const customRoutes = [
-    {
-      path: '/groups/:groupId',
-      breadcrumb: groupData.name,
-    },
-    {
-      path: '/groups/:groupId/tournaments/create',
-      breadcrumb: 'Create tournament',
-    },
-  ];
+  const customRoutes = useMemo(
+    () => [
+      {
+        path: '/groups/:groupId',
+        breadcrumb: groupData.name,
+      },
+      {
+        path: '/groups/:groupId/tournaments/create',
+        breadcrumb: 'Create tournament',
+      },
+    ],
+    [groupData]
+  );
 
   return (
     <Box>

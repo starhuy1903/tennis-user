@@ -3,7 +3,7 @@ import KeyboardDoubleArrowUpIcon from '@mui/icons-material/KeyboardDoubleArrowUp
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import { Box, Chip, Collapse, Container, Divider, IconButton, Paper, Stack, Tab, Typography } from '@mui/material';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Outlet, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'store';
 
@@ -107,16 +107,19 @@ export default function TournamentDetailsLayout() {
     };
   }, [dispatch]);
 
-  const customRoutes = [
-    {
-      path: `/tournaments/:id`,
-      breadcrumb: tournamentData.name,
-    },
-    {
-      path: '/tournaments/:id/:tab',
-      breadcrumb: null,
-    },
-  ];
+  const customRoutes = useMemo(
+    () => [
+      {
+        path: `/tournaments/:id`,
+        breadcrumb: tournamentData.name,
+      },
+      {
+        path: '/tournaments/:id/:tab',
+        breadcrumb: null,
+      },
+    ],
+    [tournamentData.name]
+  );
 
   if (isLoading || tournamentData.id === 0) {
     return <CenterLoading />;
