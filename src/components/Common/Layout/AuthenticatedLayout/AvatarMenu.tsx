@@ -11,13 +11,11 @@ import MenuList from '@mui/material/MenuList';
 import Typography from '@mui/material/Typography';
 import { useCallback, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from 'store';
+import { useAppSelector } from 'store';
 
 import { useLogoutMutation } from 'store/api/userApiSlice';
-import { logOut } from 'store/slice/userSlice';
 
 const AvatarMenu = () => {
-  const dispatch = useAppDispatch();
   const userInfo = useAppSelector((state) => state.user.userInfo);
   const navigate = useNavigate();
 
@@ -33,10 +31,9 @@ const AvatarMenu = () => {
   const [logoutRequest] = useLogoutMutation();
 
   const handleLogout = useCallback(async () => {
-    dispatch(logOut());
-    navigate('/');
     await logoutRequest();
-  }, [dispatch, logoutRequest, navigate]);
+    navigate('/');
+  }, [logoutRequest, navigate]);
 
   return (
     <>
