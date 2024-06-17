@@ -14,6 +14,25 @@ const groupTournamentApiToastSlice = apiWithToastSlice.injectEndpoints({
         params: { status: args?.tournamentStatus },
       }),
     }),
+    getMyGroupTournaments: build.query<GroupTournament[], { tournamentStatus?: TournamentStatus; groupId: number }>({
+      query: (args) => ({
+        url: urlWithCorePrefix(`users/groups/${args.groupId}/tournaments`),
+        params: { status: args?.tournamentStatus },
+      }),
+      transformResponse: (response: { data: GroupTournament[] }) => response.data,
+    }),
+    getCreatedGroupTournaments: build.query<GroupTournament[], number>({
+      query: (groupId) => ({
+        url: urlWithCorePrefix(`groups/${groupId}/tournaments/me`),
+      }),
+      transformResponse: (response: { data: GroupTournament[] }) => response.data,
+    }),
+    getUnregisteredGroupTournaments: build.query<GroupTournament[], number>({
+      query: (groupId) => ({
+        url: urlWithCorePrefix(`groups/${groupId}/tournaments/unregistered`),
+      }),
+      transformResponse: (response: { data: GroupTournament[] }) => response.data,
+    }),
     getGroupTournamentDetails: build.query<
       GroupTournament,
       {
@@ -69,6 +88,12 @@ const groupTournamentApiToastSlice = apiWithToastSlice.injectEndpoints({
 export const {
   useGetGroupTournamentsQuery,
   useLazyGetGroupTournamentsQuery,
+  useGetMyGroupTournamentsQuery,
+  useLazyGetMyGroupTournamentsQuery,
+  useGetCreatedGroupTournamentsQuery,
+  useLazyGetCreatedGroupTournamentsQuery,
+  useGetUnregisteredGroupTournamentsQuery,
+  useLazyGetUnregisteredGroupTournamentsQuery,
   useGetGroupTournamentDetailsQuery,
   useLazyGetGroupTournamentDetailsQuery,
   useCreateGroupTournamentMutation,

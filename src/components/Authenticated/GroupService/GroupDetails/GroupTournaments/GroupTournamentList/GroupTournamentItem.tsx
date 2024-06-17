@@ -1,35 +1,14 @@
-import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import PeopleIcon from '@mui/icons-material/People';
 import { Box, Button, Card, CardActionArea, CardContent, CardMedia, Tooltip, Typography } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
-import { useAppDispatch } from 'store';
 
-import { ModalKey } from 'constants/modal';
 import { TournamentStatus, defaultTournamentImage } from 'constants/tournament';
-import { showModal } from 'store/slice/modalSlice';
-import { OpenTournament } from 'types/tournament';
-import { checkExpiredDate, displayDateRange, displayDayLeft } from 'utils/datetime';
+import { GroupTournament } from 'types/tournament';
+import { displayDateRange } from 'utils/datetime';
 
-export default function TournamentItem({
-  tournament,
-  isRegisterable = false,
-}: {
-  tournament: OpenTournament;
-  isRegisterable?: boolean;
-}) {
-  const dispatch = useAppDispatch();
+export default function GroupTournamentItem({ tournament }: { tournament: GroupTournament }) {
   const navigate = useNavigate();
-
-  const handleRegister = (tournamentId: number) => {
-    dispatch(
-      showModal(ModalKey.REGISTER_TOURNAMENT, {
-        tournamentId,
-        participantType: tournament.participantType,
-        onSuccess: () => navigate(`/tournaments/${tournament.id}/participants`),
-      })
-    );
-  };
 
   const handleView = () => {
     navigate(`/tournaments/${tournament.id}`);
@@ -106,38 +85,7 @@ export default function TournamentItem({
               color: 'gray',
             }}
           />
-          <Typography variant="subtitle1">{`${tournament.participants}/${tournament.maxParticipants} participants`}</Typography>
-        </Box>
-
-        <Box>
-          {tournament.status === TournamentStatus.UPCOMING && (
-            <Box
-              display="flex"
-              gap={1}
-              color="red"
-            >
-              <AccessTimeIcon />
-              <Typography variant="subtitle1">
-                {checkExpiredDate(tournament.registrationDueDate)
-                  ? 'Registration has expired'
-                  : displayDayLeft(tournament.registrationDueDate)}
-              </Typography>
-            </Box>
-          )}
-
-          {isRegisterable && (
-            <Button
-              variant="contained"
-              color="primary"
-              fullWidth
-              sx={{
-                mt: 2,
-              }}
-              onClick={() => handleRegister(tournament.id)}
-            >
-              Register
-            </Button>
-          )}
+          <Typography variant="subtitle1">{`${tournament.participants}/${tournament.participants} participants`}</Typography>
         </Box>
 
         <Button
