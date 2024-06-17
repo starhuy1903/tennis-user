@@ -1,8 +1,10 @@
 import { Box, FormControl, FormHelperText, FormLabel, TextField } from '@mui/material';
 import EmailValidator from 'email-validator';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { useAppSelector } from 'store';
 
-import { useAddMemberMutation } from 'store/api/group/groupApiSlice';
+import { useInviteMemberMutation } from 'store/api/group/groupApiSlice';
+import { selectUser } from 'store/slice/userSlice';
 import { InvitationPayload } from 'types/group';
 import { showSuccess } from 'utils/toast';
 
@@ -10,12 +12,15 @@ import BaseModal from './BaseModal';
 import { InviteIntoGroupProps } from './types';
 
 export default function InviteIntoGroup({ groupId, onModalClose }: InviteIntoGroupProps) {
-  const [requestAddMember, { isLoading }] = useAddMemberMutation();
+  const user = useAppSelector(selectUser);
+
+  const [requestInviteMember, { isLoading }] = useInviteMemberMutation();
   const { handleSubmit, register, formState } = useForm<InvitationPayload>({
     mode: 'onTouched',
     defaultValues: {
       groupId,
       email: '',
+      hostName: user?.name,
     },
   });
 
@@ -23,7 +28,7 @@ export default function InviteIntoGroup({ groupId, onModalClose }: InviteIntoGro
 
   const onSubmit: SubmitHandler<InvitationPayload> = async (data) => {
     try {
-      await requestAddMember(data).unwrap();
+      await requestInviteMember(data).unwrap();
       showSuccess('Sent an invitation to join group via email successfully.');
       onModalClose();
     } catch (error) {
@@ -36,7 +41,8 @@ export default function InviteIntoGroup({ groupId, onModalClose }: InviteIntoGro
       <Box
         component="form"
         autoComplete="off"
-        sx={{ display: 'flex', flexDirection: 'column', gap: 2, mt: 2 }}
+        sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}
+        onSubmit={handleSubmit(onSubmit)}
       >
         <FormControl
           fullWidth
@@ -54,7 +60,7 @@ export default function InviteIntoGroup({ groupId, onModalClose }: InviteIntoGro
             aria-describedby="email-helper-text"
           />
           <FormHelperText id="email-helper-text">{formError.email?.message}</FormHelperText>
-        </FormControl>{' '}
+        </FormControl>
       </Box>
     );
   };
