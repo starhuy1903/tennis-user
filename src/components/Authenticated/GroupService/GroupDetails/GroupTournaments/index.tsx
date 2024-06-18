@@ -1,138 +1,104 @@
-import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
-import WorkspacePremiumIcon from '@mui/icons-material/WorkspacePremium';
-import { Box, Button, Stack, Typography } from '@mui/material';
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import TabContext from '@mui/lab/TabContext';
+import TabList from '@mui/lab/TabList';
+import TabPanel from '@mui/lab/TabPanel';
+import { Box, Stack, Tab } from '@mui/material';
+import { useEffect, useMemo, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useAppSelector } from 'store';
 
 import { Breadcrumbs } from 'components/Common/Breadcrumb';
 import CenterLoading from 'components/Common/CenterLoading';
-import { TournamentStatus } from 'constants/tournament';
-import { useLazyGetGroupTournamentsQuery } from 'store/api/group/groupTournamentApiSlice';
+import { useLazyGetGroupDetailsQuery } from 'store/api/group/groupApiSlice';
 import { selectGroup } from 'store/slice/groupSlice';
-import { GroupTournament } from 'types/tournament';
 
-import GroupTournamentList from './GroupTournamentList';
+import AllTournaments from './AllTournaments';
+import ManageTournaments from './ManageTournaments';
+import MyTournaments from './MyTournaments';
 
 export default function GroupTournaments() {
   const navigate = useNavigate();
-
-  const [tournaments, setTournaments] = useState<{
-    upcoming: GroupTournament[];
-    onGoing: GroupTournament[];
-    completed: GroupTournament[];
-  }>({
-    upcoming: [],
-    onGoing: [],
-    completed: [],
-  });
-
-  const [getTournaments, { isLoading }] = useLazyGetGroupTournamentsQuery();
+  const { groupId } = useParams();
   const groupData = useAppSelector(selectGroup);
+  const [currentTab, setCurrentTab] = useState('1');
+
+  const [getGroupDetails, { isLoading }] = useLazyGetGroupDetailsQuery();
 
   useEffect(() => {
     (async () => {
-      try {
-        const responses = await Promise.all([
-          getTournaments({ tournamentStatus: TournamentStatus.UPCOMING, groupId: groupData.id }).unwrap(),
-          getTournaments({ tournamentStatus: TournamentStatus.ON_GOING, groupId: groupData.id }).unwrap(),
-          getTournaments({ tournamentStatus: TournamentStatus.COMPLETED, groupId: groupData.id }).unwrap(),
-        ]);
-        setTournaments({
-          upcoming: responses[0],
-          onGoing: responses[1],
-          completed: responses[2],
-        });
-      } catch (error) {
-        // handled error
+      if (!groupId) {
+        navigate('/groups');
+        return;
+      }
+
+      if (groupData.id === 0) {
+        try {
+          await getGroupDetails(parseInt(groupId));
+          return;
+        } catch (error) {
+          navigate('/groups');
+          return;
+        }
       }
     })();
-  }, [getTournaments, groupData?.id, navigate]);
+  }, [getGroupDetails, groupData.id, groupId, navigate]);
 
-  const handleCreateTournament = () => {
-    navigate(`/groups/${groupData?.id}/tournaments/create`);
+  const handleChangeTab = (_: React.SyntheticEvent, newValue: string) => {
+    setCurrentTab(newValue);
   };
 
-  const customRoutes = [
-    {
-      path: '/groups/:groupId',
-      breadcrumb: groupData.name,
-    },
-  ];
+  const customRoutes = useMemo(
+    () => [
+      {
+        path: '/groups/:groupId',
+        breadcrumb: groupData.name,
+      },
+    ],
+    [groupData.name]
+  );
 
-  if (isLoading) {
-    return <CenterLoading height="10vh" />;
+  if (isLoading || groupData.id === 0) {
+    return <CenterLoading />;
   }
 
   return (
     <Stack>
       <Breadcrumbs customRoutes={customRoutes} />
 
-      <Box>
-        <Stack
-          direction="row"
-          justifyContent="space-between"
-        >
-          <Stack
-            direction="row"
-            alignItems="center"
-            gap={1}
+      <TabContext value={currentTab}>
+        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+          <TabList
+            onChange={handleChangeTab}
+            aria-label="Tournament tabs"
+            variant="fullWidth"
           >
-            <EmojiEventsIcon />
-            <Typography
-              variant="h5"
-              fontWeight={500}
-            >
-              Upcoming Tournaments
-            </Typography>
-          </Stack>
-          {groupData?.isCreator && (
-            <Button
-              variant="outlined"
-              onClick={handleCreateTournament}
-            >
-              Create tournament
-            </Button>
-          )}
-        </Stack>
-        <GroupTournamentList tournaments={tournaments.upcoming} />
-      </Box>
-
-      <Box>
-        <Stack
-          direction="row"
-          alignItems="center"
-          gap={1}
-        >
-          <EmojiEventsIcon />
-          <Typography
-            variant="h5"
-            fontWeight={500}
-          >
-            Ongoing Tournaments
-          </Typography>
-        </Stack>
-
-        <GroupTournamentList tournaments={tournaments.onGoing} />
-      </Box>
-
-      <Box>
-        <Stack
-          direction="row"
-          alignItems="center"
-          gap={1}
-        >
-          <WorkspacePremiumIcon />
-          <Typography
-            variant="h5"
-            fontWeight={500}
-          >
-            Completed Tournaments
-          </Typography>
-        </Stack>
-
-        <GroupTournamentList tournaments={tournaments.completed} />
-      </Box>
+            <Tab
+              label="All Tournaments"
+              value="1"
+            />
+            <Tab
+              label="My Tournaments"
+              value="2"
+            />
+            {groupData.isCreator && (
+              <Tab
+                label="Manage Tournaments"
+                value="3"
+              />
+            )}
+          </TabList>
+        </Box>
+        <TabPanel value="1">
+          <AllTournaments />
+        </TabPanel>
+        <TabPanel value="2">
+          <MyTournaments />
+        </TabPanel>
+        {groupData.isCreator && (
+          <TabPanel value="3">
+            <ManageTournaments />
+          </TabPanel>
+        )}
+      </TabContext>
     </Stack>
   );
 }

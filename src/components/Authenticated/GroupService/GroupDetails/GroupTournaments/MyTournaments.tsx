@@ -3,35 +3,39 @@ import LocalFireDepartmentIcon from '@mui/icons-material/LocalFireDepartment';
 import WorkspacePremiumIcon from '@mui/icons-material/WorkspacePremium';
 import { Box, Stack, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
+import { useAppSelector } from 'store';
 
 import CenterLoading from 'components/Common/CenterLoading';
 import NoData from 'components/Common/NoData';
 import { TournamentStatus } from 'constants/tournament';
-import { useLazyGetMyOpenTournamentsQuery } from 'store/api/tournament/shared/general';
-import { OpenTournament } from 'types/tournament';
+import { useLazyGetMyGroupTournamentsQuery } from 'store/api/group/groupTournamentApiSlice';
+import { selectGroup } from 'store/slice/groupSlice';
+import { GroupTournament } from 'types/tournament';
 
-import TournamentList from './TournamentList';
+import GroupTournamentList from './GroupTournamentList';
 
 export default function MyTournaments() {
+  const groupData = useAppSelector(selectGroup);
+
   const [tournaments, setTournaments] = useState<{
-    upcoming: OpenTournament[];
-    onGoing: OpenTournament[];
-    completed: OpenTournament[];
+    upcoming: GroupTournament[];
+    onGoing: GroupTournament[];
+    completed: GroupTournament[];
   }>({
     upcoming: [],
     onGoing: [],
     completed: [],
   });
 
-  const [getTournaments, { isLoading }] = useLazyGetMyOpenTournamentsQuery();
+  const [getTournaments, { isLoading }] = useLazyGetMyGroupTournamentsQuery();
 
   useEffect(() => {
     (async () => {
       try {
         const responses = await Promise.all([
-          getTournaments(TournamentStatus.UPCOMING, true).unwrap(), // Cache to avoid multiple requests
-          getTournaments(TournamentStatus.ON_GOING, true).unwrap(),
-          getTournaments(TournamentStatus.COMPLETED, true).unwrap(),
+          getTournaments({ tournamentStatus: TournamentStatus.UPCOMING, groupId: groupData.id }, true).unwrap(), // Cache to avoid multiple requests
+          getTournaments({ tournamentStatus: TournamentStatus.ON_GOING, groupId: groupData.id }, true).unwrap(),
+          getTournaments({ tournamentStatus: TournamentStatus.COMPLETED, groupId: groupData.id }, true).unwrap(),
         ]);
         setTournaments({
           upcoming: responses[0],
@@ -42,10 +46,10 @@ export default function MyTournaments() {
         console.log(error);
       }
     })();
-  }, [getTournaments]);
+  }, [getTournaments, groupData.id]);
 
   if (isLoading) {
-    return <CenterLoading height="10vh" />;
+    return <CenterLoading />;
   }
 
   return (
@@ -69,7 +73,7 @@ export default function MyTournaments() {
           </Typography>
         </Stack>
 
-        <TournamentList tournaments={tournaments.upcoming} />
+        <GroupTournamentList tournaments={tournaments.upcoming} />
       </Box>
 
       <Box>
@@ -91,7 +95,7 @@ export default function MyTournaments() {
           </Typography>
         </Stack>
 
-        <TournamentList tournaments={tournaments.onGoing} />
+        <GroupTournamentList tournaments={tournaments.onGoing} />
       </Box>
 
       <Box>
@@ -114,7 +118,7 @@ export default function MyTournaments() {
         </Stack>
 
         {tournaments.completed && tournaments.completed.length !== 0 ? (
-          <TournamentList tournaments={tournaments.completed} />
+          <GroupTournamentList tournaments={tournaments.completed} />
         ) : (
           <NoData message="You have not participated in any tournaments yet." />
         )}
