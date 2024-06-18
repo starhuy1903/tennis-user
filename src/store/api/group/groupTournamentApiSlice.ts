@@ -82,6 +82,30 @@ const groupTournamentApiToastSlice = apiWithToastSlice.injectEndpoints({
         method: 'DELETE',
       }),
     }),
+    publishGroupTournament: build.mutation<
+      void,
+      {
+        groupId: number;
+        tournamentId: number;
+      }
+    >({
+      query: (args) => ({
+        url: urlWithCorePrefix(`groups/${args.groupId}/tournaments/${args.tournamentId}/publish`),
+        method: 'POST',
+      }),
+    }),
+    unpublishGroupTournament: build.mutation<
+      void,
+      {
+        groupId: number;
+        tournamentId: number;
+      }
+    >({
+      query: (args) => ({
+        url: urlWithCorePrefix(`groups/${args.groupId}/tournaments/${args.tournamentId}/unpublish`),
+        method: 'POST',
+      }),
+    }),
   }),
 });
 
@@ -103,4 +127,6 @@ export const {
   useLazyGetGroupTournamentNonParticipantsQuery,
   useAddParticipantsMutation,
   useRemoveParticipantMutation,
+  usePublishGroupTournamentMutation,
+  useUnpublishGroupTournamentMutation,
 } = groupTournamentApiToastSlice;

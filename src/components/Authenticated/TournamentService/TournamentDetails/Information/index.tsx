@@ -3,6 +3,7 @@ import { useConfirm } from 'material-ui-confirm';
 import { useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'store';
 
+import InfoSection from 'components/Common/InfoSection';
 import { FormatDateTime } from 'constants/datetime';
 import { GenderOptions, ParticipantTypeOptions, TournamentFormatOptions, TournamentPhase } from 'constants/tournament';
 import { usePublishTournamentMutation, useUnpublishTournamentMutation } from 'store/api/tournament/creator/general';
@@ -11,7 +12,6 @@ import { displayDateTime } from 'utils/datetime';
 import { showSuccess } from 'utils/toast';
 
 import UpdateTournament from '../UpdateTournament';
-import InfoSection from './InfoSection';
 
 const displayDate = (date: string) => {
   return displayDateTime({
