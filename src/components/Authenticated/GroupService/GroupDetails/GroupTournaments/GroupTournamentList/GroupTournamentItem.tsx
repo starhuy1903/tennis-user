@@ -4,7 +4,8 @@ import { Box, Button, Card, CardActionArea, CardContent, CardMedia, Tooltip, Typ
 import { useNavigate } from 'react-router-dom';
 import { useAppSelector } from 'store';
 
-import { TournamentStatus, defaultTournamentImage } from 'constants/tournament';
+import { GroupTournamentStatus } from 'constants/group-tournament';
+import { defaultTournamentImage } from 'constants/tournament';
 import { selectGroup } from 'store/slice/groupSlice';
 import { GroupTournament } from 'types/tournament';
 import { displayDateRange } from 'utils/datetime';
@@ -35,19 +36,19 @@ export default function GroupTournamentItem({ tournament }: { tournament: GroupT
             image={tournament.image || defaultTournamentImage}
             alt="news-image"
             sx={{
-              filter: tournament.status === TournamentStatus.COMPLETED ? 'grayscale(100%)' : 'none',
+              filter: tournament.status === GroupTournamentStatus.COMPLETED ? 'grayscale(100%)' : 'none',
               transition: 'filter 0.3s',
               width: '100%',
               height: '100%',
               objectFit: 'content',
             }}
             onMouseEnter={(event) => {
-              if (tournament.status === TournamentStatus.COMPLETED) {
+              if (tournament.status === GroupTournamentStatus.COMPLETED) {
                 event.currentTarget.style.filter = 'grayscale(0%)';
               }
             }}
             onMouseLeave={(event) => {
-              if (tournament.status === TournamentStatus.COMPLETED) {
+              if (tournament.status === GroupTournamentStatus.COMPLETED) {
                 event.currentTarget.style.filter = 'grayscale(100%)';
               }
             }}
