@@ -1,17 +1,20 @@
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import PeopleIcon from '@mui/icons-material/People';
 import { Box, Button, Card, CardActionArea, CardContent, CardMedia, Tooltip, Typography } from '@mui/material';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { useAppSelector } from 'store';
 
 import { TournamentStatus, defaultTournamentImage } from 'constants/tournament';
+import { selectGroup } from 'store/slice/groupSlice';
 import { GroupTournament } from 'types/tournament';
 import { displayDateRange } from 'utils/datetime';
 
 export default function GroupTournamentItem({ tournament }: { tournament: GroupTournament }) {
   const navigate = useNavigate();
+  const groupData = useAppSelector(selectGroup);
 
   const handleView = () => {
-    navigate(`/tournaments/${tournament.id}`);
+    navigate(`/groups/${groupData.id}/tournaments/${tournament.id}`);
   };
 
   return (
@@ -89,13 +92,12 @@ export default function GroupTournamentItem({ tournament }: { tournament: GroupT
         </Box>
 
         <Button
-          component={Link}
-          to={`/tournaments/${tournament.id}`}
           fullWidth
           variant="outlined"
           sx={{
             mt: 2,
           }}
+          onClick={handleView}
         >
           View
         </Button>
