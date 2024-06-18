@@ -47,7 +47,7 @@ export const {
     }),
     approveInvitation: build.mutation<void, { tournamentId: number; inviterId: string }>({
       query: ({ tournamentId, inviterId }) => ({
-        url: urlWithCorePrefix(`tournaments/${tournamentId}/applicants/invitations/approve`),
+        url: urlWithCorePrefix(`tournaments/${tournamentId}/applicants/invitations/accept`),
         method: 'POST',
         body: { inviterId },
       }),
