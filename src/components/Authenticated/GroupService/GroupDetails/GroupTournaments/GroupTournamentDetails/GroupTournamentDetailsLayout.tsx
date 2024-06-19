@@ -2,7 +2,7 @@ import KeyboardDoubleArrowDownIcon from '@mui/icons-material/KeyboardDoubleArrow
 import KeyboardDoubleArrowUpIcon from '@mui/icons-material/KeyboardDoubleArrowUp';
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
-import { Box, Chip, Collapse, Container, Divider, IconButton, Paper, Stack, Tab, Typography } from '@mui/material';
+import { Box, Chip, Collapse, Divider, IconButton, Paper, Stack, Tab, Typography } from '@mui/material';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Outlet, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'store';
@@ -12,6 +12,7 @@ import CenterLoading from 'components/Common/CenterLoading';
 import Steps from 'components/Common/Steps';
 import { GroupTournamentPhaseOptions } from 'constants/group-tournament';
 import { defaultTournamentImage } from 'constants/tournament';
+import { useLazyGetGroupDetailsQuery } from 'store/api/group/groupApiSlice';
 import { useLazyGetGroupTournamentDetailsQuery } from 'store/api/group/groupTournamentApiSlice';
 import { selectGroup } from 'store/slice/groupSlice';
 import {
@@ -48,17 +49,18 @@ export default function GroupTournamentDetailsLayout() {
   const groupData = useAppSelector(selectGroup);
   const [getGroupTournamentDetails, { isLoading }] = useLazyGetGroupTournamentDetailsQuery();
   const { data: tournamentData, shouldRefreshData, showBackground } = useAppSelector(selectGroupTournament);
+  const [getGroupDetails, { isLoading: fetchingGroupDetails }] = useLazyGetGroupDetailsQuery();
 
   const getActiveTab = useCallback(() => {
     const pathParts = pathname.split('/');
-    const activeTabFromPath = pathParts[3];
+    const activeTabFromPath = pathParts[5];
     const activeTab = GroupTournamentTabs.find((tab) => tab.value === activeTabFromPath);
     return activeTab ? activeTab.value : GroupTournamentTabs[2].value;
   }, [pathname]);
 
   const [currentTab, setCurrentTab] = useState(getActiveTab);
 
-  const { tournamentId } = useParams();
+  const { groupId, tournamentId } = useParams();
 
   const handleChangeTab = (_: React.SyntheticEvent, newValue: string) => {
     setCurrentTab(newValue);
@@ -71,6 +73,21 @@ export default function GroupTournamentDetailsLayout() {
 
   useEffect(() => {
     (async () => {
+      if (!groupId) {
+        navigate('/groups');
+        return;
+      }
+
+      if (groupData.id === 0) {
+        try {
+          await getGroupDetails(parseInt(groupId));
+          return;
+        } catch (error) {
+          navigate('/groups');
+          return;
+        }
+      }
+
       if (tournamentId) {
         if (shouldRefreshData) {
           try {
@@ -88,7 +105,16 @@ export default function GroupTournamentDetailsLayout() {
         navigate(`/groups/${groupData.id}/tournaments`);
       }
     })();
-  }, [dispatch, getGroupTournamentDetails, groupData.id, navigate, shouldRefreshData, tournamentId]);
+  }, [
+    dispatch,
+    getGroupDetails,
+    getGroupTournamentDetails,
+    groupData.id,
+    groupId,
+    navigate,
+    shouldRefreshData,
+    tournamentId,
+  ]);
 
   useEffect(() => {
     return () => {
@@ -114,17 +140,12 @@ export default function GroupTournamentDetailsLayout() {
     [groupData.name, tournamentData.name]
   );
 
-  if (isLoading || tournamentData.id === 0) {
+  if (isLoading || fetchingGroupDetails || tournamentData.id === 0) {
     return <CenterLoading />;
   }
 
   return (
-    <Container
-      maxWidth="lg"
-      sx={{
-        minHeight: '120vh',
-      }}
-    >
+    <>
       <Breadcrumbs customRoutes={customRoutes} />
 
       <Paper sx={{ borderBottomLeftRadius: 16, borderBottomRightRadius: 16, border: '1px white solid' }}>
@@ -255,6 +276,6 @@ export default function GroupTournamentDetailsLayout() {
       </Paper>
 
       <Outlet />
-    </Container>
+    </>
   );
 }

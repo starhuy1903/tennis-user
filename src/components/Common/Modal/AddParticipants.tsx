@@ -1,9 +1,9 @@
 import { Avatar, Box, Checkbox, FormLabel, Stack, Typography } from '@mui/material';
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import {
   useAddParticipantsMutation,
-  useGetGroupTournamentNonParticipantsQuery,
+  useLazyGetGroupTournamentNonParticipantsQuery,
 } from 'store/api/group/groupTournamentApiSlice';
 import { showSuccess } from 'utils/toast';
 
@@ -11,17 +11,15 @@ import CenterLoading from '../CenterLoading';
 import BaseModal from './BaseModal';
 import { AddParticipantsProps } from './types';
 
-export default function AddParticipants({ groupId, tournamentId, onModalClose }: AddParticipantsProps) {
+export default function AddParticipants({
+  groupId,
+  tournamentId,
+  refetchParticipantsData,
+  onModalClose,
+}: AddParticipantsProps) {
   const [selectedParticipants, setSelectedParticipants] = useState<string[]>([]);
 
-  const { data, isLoading } = useGetGroupTournamentNonParticipantsQuery(
-    {
-      groupId,
-      tournamentId,
-    },
-    { refetchOnMountOrArgChange: true }
-  );
-
+  const [getNonParticipants, { isLoading, data: nonParticipants }] = useLazyGetGroupTournamentNonParticipantsQuery();
   const [addParticipants, { isLoading: isAddLoading }] = useAddParticipantsMutation();
 
   const handleCheckboxChange = (userId: string) => {
@@ -32,22 +30,30 @@ export default function AddParticipants({ groupId, tournamentId, onModalClose }:
     );
   };
 
-  const handleAddParticipants = async (userIds: string[]) => {
-    try {
-      await addParticipants({ groupId, tournamentId, userIds }).unwrap();
-      showSuccess('Added participants to the tournament successfully.');
-      onModalClose();
-    } catch (error) {
-      // handle error
-    }
-  };
+  useEffect(() => {
+    getNonParticipants({ groupId, tournamentId });
+  }, [getNonParticipants, groupId, tournamentId]);
+
+  const handleAddParticipants = useCallback(
+    async (userIds: string[]) => {
+      try {
+        await addParticipants({ groupId, tournamentId, userIds }).unwrap();
+        showSuccess('Added participants to the tournament successfully.');
+        onModalClose();
+        refetchParticipantsData();
+      } catch (error) {
+        // handle error
+      }
+    },
+    [addParticipants, groupId, onModalClose, refetchParticipantsData, tournamentId]
+  );
 
   const renderBody = () => {
     if (isLoading) {
-      return <CenterLoading />;
+      return <CenterLoading height="400px" />;
     }
 
-    if (!data || data.length === 0) {
+    if (!nonParticipants || nonParticipants.length === 0) {
       return (
         <Box
           sx={{
@@ -71,8 +77,8 @@ export default function AddParticipants({ groupId, tournamentId, onModalClose }:
           maxHeight: '400px',
         }}
       >
-        {data &&
-          data.map((user) => (
+        {nonParticipants &&
+          nonParticipants.map((user) => (
             <FormLabel key={user.id}>
               <Box
                 sx={{
