@@ -10,8 +10,8 @@ import { checkTournamentRole, selectTournamentData, shouldRefreshTournamentData 
 import { displayDateTime } from 'utils/datetime';
 import { showSuccess } from 'utils/toast';
 
-import UpdateTournament from '../UpdateTournament';
 import InfoSection from './InfoSection';
+import UpdateTournament from './UpdateTournament';
 
 const displayDate = (date: string) => {
   return displayDateTime({
