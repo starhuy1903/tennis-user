@@ -97,8 +97,6 @@ export default function UpdateTournament({ onCloseForm }: { onCloseForm: () => v
 
   const disabledUpdateBtn = updatingData || isEqual(originalData, watch());
 
-  console.log({ formError });
-
   return (
     <Box mt={4}>
       <Typography
@@ -295,7 +293,7 @@ export default function UpdateTournament({ onCloseForm }: { onCloseForm: () => v
                           onChange={(date) => {
                             onChange(date?.toISOString());
                           }}
-                          minDate={dayjs(getValues('registrationDueDate'))}
+                          disablePast
                           defaultValue={dayjs(getValues('startDate'))}
                           format="DD/MM/YYYY"
                           disabled={updatingData || hasFinalizedApplicants}
@@ -331,7 +329,7 @@ export default function UpdateTournament({ onCloseForm }: { onCloseForm: () => v
                           onChange={(date) => {
                             onChange(date?.toISOString());
                           }}
-                          minDate={dayjs(getValues('startDate'))}
+                          disablePast
                           defaultValue={dayjs(getValues('endDate'))}
                           format="DD/MM/YYYY"
                           disabled={updatingData || hasFinalizedApplicants}
@@ -372,7 +370,7 @@ export default function UpdateTournament({ onCloseForm }: { onCloseForm: () => v
                           onChange={(date) => {
                             onChange(date?.toISOString());
                           }}
-                          minDate={dayjs()}
+                          disablePast
                           defaultValue={dayjs(value)}
                           format="DD/MM/YYYY HH:mm"
                           disabled={updatingData || hasFinalizedApplicants}
