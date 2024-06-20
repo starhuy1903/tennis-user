@@ -80,7 +80,7 @@ export default function UpdateTournament({ onCloseForm }: { onCloseForm: () => v
         TournamentPhase.COMPLETED,
       ].includes(tournamentData.phase)
     ) {
-      const { startDate, endDate, registrationDueDate, address, restData } = updatedData;
+      const { startDate, endDate, registrationDueDate, address, ...restData } = updatedData;
       updatedData = restData;
     }
 
