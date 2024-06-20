@@ -1,3 +1,4 @@
+import { DevTool } from '@hookform/devtools';
 import {
   Box,
   Button,
@@ -74,11 +75,10 @@ export default function FormCreateTournament({ selectedPackage, setSelectedPacka
       contactPersonName: userInfo?.name,
       contactNumber: userInfo?.phoneNumber,
       contactEmail: userInfo?.email,
-      startDate: new Date(new Date().getTime() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0] + 'T00:00:00', // 1 week later
-      endDate: new Date(new Date().getTime() + 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0] + 'T23:59:59', // 1 month later
-      registrationDueDate:
-        new Date(new Date().getTime() + 6 * 24 * 60 * 60 * 1000).toISOString().split('T')[0] + 'T23:59:59',
-      playersBornAfterDate: '1990-01-01T00:00:00',
+      startDate: dayjs().add(1, 'week').add(1, 'day').startOf('day').toISOString(), // 1 week + 1 day later
+      endDate: dayjs().add(1, 'month').add(1, 'week').add(1, 'day').endOf('day').toISOString(), // 1 month + 1 week + 1 day later
+      registrationDueDate: dayjs().add(1, 'week').endOf('day').toISOString(), // 1 week later
+      playersBornAfterDate: dayjs('1990-01-01').startOf('day').toISOString(),
       address: '',
       maxParticipants: 20,
       image: '',
@@ -648,6 +648,7 @@ export default function FormCreateTournament({ selectedPackage, setSelectedPacka
           </Button>
         </Box>
       </Box>
+      <DevTool control={control} /> {/* set up the dev tool */}
     </Box>
   );
 }
