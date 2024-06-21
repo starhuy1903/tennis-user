@@ -11,7 +11,7 @@ import { checkTournamentRole, selectTournamentData, shouldRefreshTournamentData 
 import { displayDateTime } from 'utils/datetime';
 import { showSuccess } from 'utils/toast';
 
-import UpdateTournament from '../UpdateTournament';
+import UpdateTournament from './UpdateTournament';
 
 const displayDate = (date: string) => {
   return displayDateTime({

@@ -26,7 +26,13 @@ import { selectTournamentData } from 'store/slice/tournamentSlice';
 import { OpenTournamentApplicant } from 'types/open-tournament-participants';
 import { showSuccess } from 'utils/toast';
 
-export default function InvitationItem({ data }: { data: OpenTournamentApplicant }) {
+export default function InvitationItem({
+  data,
+  fetchMyApplication,
+}: {
+  data: OpenTournamentApplicant;
+  fetchMyApplication: () => void;
+}) {
   const navigate = useNavigate();
   const tournamentData = useAppSelector(selectTournamentData);
 
@@ -39,7 +45,7 @@ export default function InvitationItem({ data }: { data: OpenTournamentApplicant
     try {
       await approveInvitation({ tournamentId: tournamentData.id, inviterId: data.user1.id }).unwrap();
       showSuccess(`Approved ${data.user1.name}'s invitation successfully.`);
-      navigate(`/tournaments/${tournamentData.id}/participants`);
+      await fetchMyApplication();
     } catch (error) {
       // handle error
     }
@@ -49,7 +55,7 @@ export default function InvitationItem({ data }: { data: OpenTournamentApplicant
     try {
       await rejectInvitation({ tournamentId: tournamentData.id, inviterId: data.user1.id }).unwrap();
       showSuccess(`Rejected ${data.user1.name}'s invitation successfully.`);
-      navigate(`/tournaments/${tournamentData.id}/participants`);
+      await fetchMyApplication();
     } catch (error) {
       // handle error
     }

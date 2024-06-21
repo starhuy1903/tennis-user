@@ -20,7 +20,7 @@ import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { useAppDispatch, useAppSelector } from 'store';
 
 import SingleImagePicker from 'components/Common/Input/SingleImagePicker';
-import { GenderOptions, ParticipantTypeOptions } from 'constants/tournament';
+import { GenderOptions, ParticipantTypeOptions, TournamentPhase } from 'constants/tournament';
 import { useUpdateTournamentMutation } from 'store/api/tournament/creator/general';
 import { selectTournamentData, shouldRefreshTournamentData } from 'store/slice/tournamentSlice';
 import { UpdateTournamentPayload } from 'types/tournament';
@@ -67,8 +67,25 @@ export default function UpdateTournament({ onCloseForm }: { onCloseForm: () => v
   const { id, purchasedPackage, tournamentRoles, participants, phase, status, ...originalData } = tournamentData;
 
   const onSubmit: SubmitHandler<UpdateTournamentPayload> = async (data) => {
+    let updatedData: any = { ...data };
+    if (tournamentData.phase === TournamentPhase.PUBLISHED) {
+      const { format, maxParticipants, participantType, gender, playersBornAfterDate, ...restData } = updatedData;
+      updatedData = restData;
+    }
+    if (
+      [
+        TournamentPhase.FINALIZED_APPLICANTS,
+        TournamentPhase.GENERATED_FIXTURES,
+        TournamentPhase.SCORED_MATCHES,
+        TournamentPhase.COMPLETED,
+      ].includes(tournamentData.phase)
+    ) {
+      const { startDate, endDate, registrationDueDate, address, ...restData } = updatedData;
+      updatedData = restData;
+    }
+
     try {
-      await requestUpdateTournament({ tournamentId: tournamentData.id, payload: data }).unwrap();
+      await requestUpdateTournament({ tournamentId: tournamentData.id, payload: { ...updatedData } }).unwrap();
 
       showSuccess('Updated tournament successfully.');
       dispatch(shouldRefreshTournamentData(true));
@@ -342,7 +359,7 @@ export default function UpdateTournament({ onCloseForm }: { onCloseForm: () => v
                       return true;
                     },
                   }}
-                  render={({ field: { onChange } }) => (
+                  render={({ field: { value, onChange } }) => (
                     <FormControl
                       fullWidth
                       error={!!formError.registrationDueDate}
@@ -354,7 +371,7 @@ export default function UpdateTournament({ onCloseForm }: { onCloseForm: () => v
                             onChange(date?.toISOString());
                           }}
                           disablePast
-                          defaultValue={dayjs(getValues('registrationDueDate'))}
+                          defaultValue={dayjs(value)}
                           format="DD/MM/YYYY HH:mm"
                           disabled={updatingData || hasFinalizedApplicants}
                         />
