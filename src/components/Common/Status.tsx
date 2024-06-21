@@ -17,7 +17,7 @@ export default function Status({ status, title, description, children }: StatusP
       flexDirection="column"
       justifyContent="center"
       alignItems="center"
-      height="80%"
+      height="80vh"
     >
       {status === 'success' && <CheckCircleOutlineIcon sx={{ color: '#049669', fontSize: 120 }} />}
       {status === 'failed' && <ErrorOutlineIcon sx={{ color: '#F87171', fontSize: 120 }} />}
