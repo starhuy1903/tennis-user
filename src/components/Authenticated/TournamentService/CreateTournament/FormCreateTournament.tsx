@@ -95,9 +95,9 @@ export default function FormCreateTournament({ selectedPackage, setSelectedPacka
         purchasedPackageId: selectedPackage.id,
       };
 
-      await requestCreateTournament(submitData).unwrap();
+      const res = await requestCreateTournament(submitData).unwrap();
       showSuccess('Created tournament successfully.');
-      navigate('/tournaments');
+      navigate(`/tournaments/${res.id}/info`);
     } catch (error) {
       // handled error
     }
