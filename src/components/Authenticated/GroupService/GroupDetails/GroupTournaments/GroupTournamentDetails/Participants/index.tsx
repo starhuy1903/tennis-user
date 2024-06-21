@@ -79,7 +79,7 @@ export default function Participants() {
     confirm({ description: `This action will remove ${name} from this tournament.` })
       .then(async () => {
         try {
-          await removeParticipant({ groupId: groupData.id, tournamentId: parseInt(tournamentId!), userId });
+          await removeParticipant({ groupId: groupData.id, tournamentId: parseInt(tournamentId!), userId }).unwrap();
           await handleGetParticipantsData();
           showSuccess(`Removed ${name} from the tournament successfully.`);
         } catch (error) {
