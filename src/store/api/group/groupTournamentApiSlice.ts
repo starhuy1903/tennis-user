@@ -1,7 +1,7 @@
 import { TournamentStatus } from 'constants/tournament';
 import { GetListResult, GetPagingListOptions } from 'types/base';
 import { GroupTournamentParticipant, GroupTournamentUser } from 'types/group-tournament-participants';
-import { GroupTournament, GroupTournamentPayload } from 'types/tournament';
+import { GroupTournament, GroupTournamentPayload, UpdateGroupTournamentPayload } from 'types/tournament';
 
 import { apiWithToastSlice } from '../baseApiSlice';
 import { urlWithCorePrefix } from '../helper';
@@ -106,6 +106,20 @@ const groupTournamentApiToastSlice = apiWithToastSlice.injectEndpoints({
         method: 'POST',
       }),
     }),
+    updateGroupTournament: build.mutation<
+      GroupTournament,
+      {
+        groupId: number;
+        tournamentId: number;
+        payload: UpdateGroupTournamentPayload;
+      }
+    >({
+      query: (args) => ({
+        url: urlWithCorePrefix(`groups/${args.groupId}/tournaments/${args.tournamentId}`),
+        method: 'PUT',
+        body: args.payload,
+      }),
+    }),
   }),
 });
 
@@ -129,4 +143,5 @@ export const {
   useRemoveParticipantMutation,
   usePublishGroupTournamentMutation,
   useUnpublishGroupTournamentMutation,
+  useUpdateGroupTournamentMutation,
 } = groupTournamentApiToastSlice;

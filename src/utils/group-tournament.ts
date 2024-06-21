@@ -19,3 +19,13 @@ export const getNextPhaseInString = (groupTournamentPhase: GroupTournamentPhase)
     ) || GroupTournamentPhase.COMPLETED
   );
 };
+
+export const checkPublishedTournament = (tournamentPhase: GroupTournamentPhase) => {
+  const currentPhaseNumber = PhaseMappingNumber[tournamentPhase];
+  return currentPhaseNumber >= PhaseMappingNumber[GroupTournamentPhase.PUBLISHED];
+};
+
+export const checkGeneratedFixture = (tournamentPhase: GroupTournamentPhase) => {
+  const currentPhaseNumber = PhaseMappingNumber[tournamentPhase];
+  return currentPhaseNumber >= PhaseMappingNumber[GroupTournamentPhase.GENERATED_FIXTURES];
+};

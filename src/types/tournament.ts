@@ -58,3 +58,5 @@ export type OpenTournament = Omit<OpenTournamentPayload, 'purchasedPackageId'> &
 };
 
 export type UpdateTournamentPayload = Omit<OpenTournamentPayload, 'purchasedPackageId'>;
+
+export type UpdateGroupTournamentPayload = Omit<GroupTournamentPayload, 'groupId'>;

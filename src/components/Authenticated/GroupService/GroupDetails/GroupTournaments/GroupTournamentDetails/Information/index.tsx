@@ -1,4 +1,4 @@
-import { Box, Button, Divider, Grid, Typography } from '@mui/material';
+import { Button, Divider, Grid, Typography } from '@mui/material';
 import { useConfirm } from 'material-ui-confirm';
 import { useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'store';
@@ -15,6 +15,8 @@ import { selectGroup } from 'store/slice/groupSlice';
 import { selectGroupTournamentData, shouldRefreshGroupTournamentData } from 'store/slice/groupTournamentSlice';
 import { displayDateTime } from 'utils/datetime';
 import { showSuccess } from 'utils/toast';
+
+import UpdateGroupTournament from './UpdateTournament';
 
 const displayDate = (date: string) => {
   return displayDateTime({
@@ -84,8 +86,7 @@ export default function Information() {
   ];
 
   if (shouldOpenChangeSettings) {
-    // return <UpdateTournament onCloseForm={() => setShouldOpenChangeSettings(false)} />;
-    return <Box>UpdateTournament</Box>;
+    return <UpdateGroupTournament onCloseForm={() => setShouldOpenChangeSettings(false)} />;
   }
 
   return (
