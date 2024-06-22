@@ -24,6 +24,7 @@ import CenterLoading from 'components/Common/CenterLoading';
 import AuthenticatedLayout from 'components/Common/Layout/AuthenticatedLayout';
 import UnauthenticatedLayout from 'components/Common/Layout/UnauthenticatedLayout';
 import Home from 'components/Home';
+import ForgotPassword from 'components/Unauthenticated/ForgotPassword';
 import Login from 'components/Unauthenticated/Login';
 import News from 'components/Unauthenticated/News';
 import NewsDetail from 'components/Unauthenticated/News/NewsDetail';
@@ -178,6 +179,10 @@ const publicRoutes = createBrowserRouter([
       {
         path: 'login',
         element: <Login />,
+      },
+      {
+        path: 'forgot-password',
+        element: <ForgotPassword />,
       },
     ],
   },
