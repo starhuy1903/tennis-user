@@ -29,6 +29,7 @@ import Login from 'components/Unauthenticated/Login';
 import News from 'components/Unauthenticated/News';
 import NewsDetail from 'components/Unauthenticated/News/NewsDetail';
 import Pricing from 'components/Unauthenticated/Pricing';
+import ResetPassword from 'components/Unauthenticated/ResetPassword';
 import Signup from 'components/Unauthenticated/Signup';
 import { useGetAppConfigQuery } from 'store/api/commonApiSlice';
 import { useLazyGetProfileQuery } from 'store/api/userApiSlice';
@@ -183,6 +184,10 @@ const publicRoutes = createBrowserRouter([
       {
         path: 'forgot-password',
         element: <ForgotPassword />,
+      },
+      {
+        path: 'reset-password',
+        element: <ResetPassword />,
       },
     ],
   },
