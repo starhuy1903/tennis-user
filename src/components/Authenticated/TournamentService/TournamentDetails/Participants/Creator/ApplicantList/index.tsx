@@ -1,4 +1,4 @@
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Button, Chip, Stack, Typography } from '@mui/material';
 import { useConfirm } from 'material-ui-confirm';
 import { useCallback, useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'store';
@@ -88,12 +88,20 @@ export default function ApplicantList() {
 
   return (
     <Box my={5}>
-      <Typography
-        variant="h4"
+      <Stack
+        direction="row"
+        alignItems="center"
         mb={2}
+        gap={1}
       >
-        Applicants
-      </Typography>
+        <Typography variant="h4">Applicants</Typography>
+
+        <Chip
+          label={applicants.unapproved.length}
+          color="info"
+          size="small"
+        />
+      </Stack>
 
       <Box position="relative">
         {applicants && applicants.unapproved.length > 0 ? (
@@ -116,7 +124,18 @@ export default function ApplicantList() {
           justifyContent="space-between"
           mb={2}
         >
-          <Typography variant="h4">Approved Applicants</Typography>
+          <Stack
+            direction="row"
+            alignItems="center"
+            gap={1}
+          >
+            <Typography variant="h4">Approved Applicants</Typography>
+            <Chip
+              label={applicants.approved.length}
+              color="success"
+              size="small"
+            />
+          </Stack>
 
           <Button
             variant="contained"
@@ -143,27 +162,36 @@ export default function ApplicantList() {
         </Box>
       </Box>
 
-      <Typography
-        variant="h4"
-        mt={6}
-        mb={2}
-      >
-        Rejected Applicants
-      </Typography>
+      <Box mt={6}>
+        <Stack
+          direction="row"
+          alignItems="center"
+          mb={2}
+          gap={1}
+        >
+          <Typography variant="h4">Rejected Applicants</Typography>
 
-      <Box position="relative">
-        {applicants && applicants.rejected.length > 0 ? (
-          applicants.rejected.map((e) => (
-            <ApplicantItem
-              data={e}
-              refetchApplicantData={handleGetApplicantData}
-            />
-          ))
-        ) : (
-          <NoData message="No rejected applicants yet." />
-        )}
+          <Chip
+            label={applicants.rejected.length}
+            color="error"
+            size="small"
+          />
+        </Stack>
 
-        {fetchingApplicant && applicants && applicants.rejected.length > 0 && <OverlayCenterLoading />}
+        <Box position="relative">
+          {applicants && applicants.rejected.length > 0 ? (
+            applicants.rejected.map((e) => (
+              <ApplicantItem
+                data={e}
+                refetchApplicantData={handleGetApplicantData}
+              />
+            ))
+          ) : (
+            <NoData message="No rejected applicants yet." />
+          )}
+
+          {fetchingApplicant && applicants && applicants.rejected.length > 0 && <OverlayCenterLoading />}
+        </Box>
       </Box>
     </Box>
   );
