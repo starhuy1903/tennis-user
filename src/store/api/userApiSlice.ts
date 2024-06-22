@@ -4,9 +4,9 @@ import { MatchMetaData } from 'types/match';
 import {
   AffiliatedSponsorPayload,
   ChangePasswordPayload,
-  CredentialPayload,
   ForgotPasswordPayload,
   ForgotPasswordResponse,
+  LoginPayload,
   LoginResponse,
   MessageResponse,
   OAuthPayload,
@@ -24,7 +24,7 @@ import { urlWithAuthPrefix, urlWithCorePrefix } from './helper';
 
 const userApiToastSlice = apiWithToastSlice.injectEndpoints({
   endpoints: (build) => ({
-    login: build.mutation<LoginResponse, CredentialPayload>({
+    login: build.mutation<LoginResponse, LoginPayload>({
       query: (body) => ({
         url: urlWithAuthPrefix('auth/login'),
         method: 'POST',
