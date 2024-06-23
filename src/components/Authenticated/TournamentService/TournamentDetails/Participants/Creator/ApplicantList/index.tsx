@@ -131,7 +131,7 @@ export default function ApplicantList() {
           >
             <Typography variant="h4">Approved Applicants</Typography>
             <Chip
-              label={applicants.approved.length}
+              label={`${applicants.approved.length}/${tournamentData.maxParticipants}`}
               color="success"
               size="small"
             />
