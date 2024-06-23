@@ -1,4 +1,5 @@
-import { GroupService, Service, ServiceType, TournamentService, UserPackage } from 'types/package';
+import { ServiceType } from 'constants/service';
+import { GroupService, Service, TournamentService, UserPackage } from 'types/package';
 
 export const isTournamentServiceType = (service: Service): service is TournamentService => {
   return service.type === ServiceType.TOURNAMENT;

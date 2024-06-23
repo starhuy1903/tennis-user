@@ -64,11 +64,6 @@ export const TournamentPhaseOptions = {
   [TournamentPhase.COMPLETED]: 'Completed',
 };
 
-export enum TournamentLevel {
-  BASIC = 'basic',
-  ADVANCED = 'advanced',
-}
-
 export const defaultTournamentImage =
   'https://t3.ftcdn.net/jpg/03/11/61/86/360_F_311618663_ynyUAkKbB6qqiesNr86bLa0G8tg6zcGn.jpg';
 
