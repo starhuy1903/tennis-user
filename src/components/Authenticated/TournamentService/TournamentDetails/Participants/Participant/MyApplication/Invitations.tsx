@@ -4,7 +4,15 @@ import { OpenTournamentApplicant } from 'types/open-tournament-participants';
 
 import InvitationItem from './InvitationItem';
 
-export default function Invitations({ title, invitations }: { title: string; invitations: OpenTournamentApplicant[] }) {
+export default function Invitations({
+  title,
+  invitations,
+  fetchMyApplication,
+}: {
+  title: string;
+  invitations: OpenTournamentApplicant[];
+  fetchMyApplication: () => void;
+}) {
   if (!invitations || invitations.length === 0) {
     return null;
   }
@@ -20,8 +28,9 @@ export default function Invitations({ title, invitations }: { title: string; inv
 
       {invitations.map((item, index) => (
         <InvitationItem
-          data={item}
           key={index}
+          data={item}
+          fetchMyApplication={fetchMyApplication}
         />
       ))}
     </Box>

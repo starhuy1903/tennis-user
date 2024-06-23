@@ -129,11 +129,13 @@ export default function MyApplication({ tournament }: { tournament: OpenTourname
           <Invitations
             title="Invitations"
             invitations={invitations.inviting}
+            fetchMyApplication={fetchMyApplication}
           />
 
           <Invitations
             title="Canceled Invitations"
             invitations={invitations.canceled}
+            fetchMyApplication={fetchMyApplication}
           />
         </>
       )}
