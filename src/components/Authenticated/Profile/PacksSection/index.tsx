@@ -1,71 +1,123 @@
-import { Button } from '@mui/material';
+import { Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
-import Grid from '@mui/material/Unstable_Grid2';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAppDispatch } from 'store';
 
 import CenterLoading from 'components/Common/CenterLoading';
 import NoData from 'components/Common/NoData';
+import { FormatDateTime } from 'constants/datetime';
+import { ModalKey } from 'constants/modal';
 import { useGetMyPackagesQuery } from 'store/api/packageApiSlice';
+import { showModal } from 'store/slice/modalSlice';
+import { displayDateTime } from 'utils/datetime';
 
-import Pack from './Pack';
+const titles = ['Package', 'Activation Date', 'Valid Until', 'Expired'];
+
+const formatDateTime = (dateTime: string) => {
+  return displayDateTime({
+    dateTime,
+    targetFormat: FormatDateTime.DATE_AND_FULL_TIME,
+  });
+};
 
 const PacksSection = () => {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
+  const handleNavigate = (serviceName: string) => {
+    navigate(`/${serviceName}/create`);
+  };
+
   const { data: myPackagesData, isLoading } = useGetMyPackagesQuery();
 
   if (isLoading) {
     return <CenterLoading />;
   }
 
-  if (!myPackagesData || myPackagesData.length === 0) {
-    return (
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          alignItems: 'center',
-          gap: 4,
-          height: 500,
-        }}
-      >
-        <NoData message="You haven't owned a package yet." />
-
-        <Button
-          component={Link}
-          to="/pricing"
-          size="large"
-          color="primary"
-          variant="contained"
+  return (
+    <>
+      {myPackagesData && myPackagesData.length > 0 ? (
+        <TableContainer component={Paper}>
+          <Table
+            sx={{ minWidth: 650 }}
+            aria-label="packages table"
+          >
+            <TableHead>
+              <TableRow>
+                {titles.map((title) => (
+                  <TableCell
+                    align="center"
+                    key={title}
+                  >
+                    {title}
+                  </TableCell>
+                ))}
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {myPackagesData.map((pack) => (
+                <TableRow
+                  key={pack.id}
+                  onClick={() => {
+                    dispatch(
+                      showModal(ModalKey.SHOW_PACKAGE_DETAIL, {
+                        package: pack,
+                        onNavigate: handleNavigate,
+                      })
+                    );
+                  }}
+                  sx={{ cursor: 'pointer' }}
+                >
+                  <TableCell align="center">{pack.name}</TableCell>
+                  <TableCell align="center">{formatDateTime(pack.startDate)}</TableCell>
+                  <TableCell align="center">{formatDateTime(pack.endDate)}</TableCell>
+                  <TableCell align="center">
+                    <Typography
+                      sx={{
+                        color: 'white',
+                        fontWeight: 500,
+                        backgroundColor: pack.expired ? '#F7418F' : '#75A47F',
+                        borderRadius: '5px',
+                        padding: '5px',
+                      }}
+                    >
+                      {pack.expired ? 'Expired' : 'Active'}
+                    </Typography>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      ) : (
+        <Box
           sx={{
-            width: 200,
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
+            gap: 4,
+            height: 500,
           }}
         >
-          Buy package
-        </Button>
-      </Box>
-    );
-  }
+          <NoData message="You haven't owned a package yet." />
 
-  return (
-    <Paper sx={{ padding: '20px' }}>
-      <Grid
-        container
-        spacing={2}
-      >
-        {myPackagesData.map((e) => (
-          <Grid
-            key={e.id}
-            xs={12}
-            md={6}
-            lg={4}
-            xl={3}
+          <Button
+            component={Link}
+            to="/pricing"
+            size="large"
+            color="primary"
+            variant="contained"
+            sx={{
+              width: 200,
+            }}
           >
-            <Pack pack={e} />
-          </Grid>
-        ))}
-      </Grid>
-    </Paper>
+            Buy package
+          </Button>
+        </Box>
+      )}
+    </>
   );
 };
 

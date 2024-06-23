@@ -1,66 +1,96 @@
-import { Box } from '@mui/material';
-import { Swiper, SwiperSlide } from 'swiper/react';
+import { Box, Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
+import { useMemo } from 'react';
 
 import NoData from 'components/Common/NoData';
+import { FormatDateTime } from 'constants/datetime';
+import { ServiceLevel, ServiceType } from 'constants/service';
 import { UserPackage } from 'types/package';
-
-import Pack from './Pack';
+import { displayDateTime } from 'utils/datetime';
 
 interface MyPackagesProps {
   packagesData: UserPackage[];
   onChooseMyPackage: (id: string) => void;
 }
 
+const titles = ['Package', 'Activation Date', 'Valid Until', ''];
+
+const formatDateTime = (dateTime: string) => {
+  return displayDateTime({
+    dateTime,
+    targetFormat: FormatDateTime.DATE_AND_FULL_TIME,
+  });
+};
+
 export default function MyPackages({ packagesData, onChooseMyPackage }: MyPackagesProps) {
-  if (packagesData.length === 0) {
-    return (
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          height: 500,
-        }}
-      >
-        <NoData
-          message={`You haven't owned a package that support creating tournament.`}
-          gap={4}
-        />
-      </Box>
-    );
-  }
+  const packages = useMemo(
+    () =>
+      packagesData.filter(
+        (pack) =>
+          pack.services.some(
+            (service) =>
+              service.type === ServiceType.TOURNAMENT &&
+              service.level === ServiceLevel.ADVANCED &&
+              service.config.used < service.config.maxTournaments
+          ) && !pack.expired
+      ),
+    [packagesData]
+  );
 
   return (
-    <Box mt={2}>
-      <Swiper
-        spaceBetween={20}
-        slidesPerView={3}
-        breakpoints={{
-          0: {
-            slidesPerView: 1,
-          },
-          720: {
-            slidesPerView: 2,
-          },
-          1020: {
-            slidesPerView: 3,
-          },
-        }}
-      >
-        {packagesData.map((item) => (
-          <SwiperSlide
-            key={item.id}
-            style={{
-              padding: '2px',
-            }}
+    <>
+      {packages && packages.length > 0 ? (
+        <TableContainer component={Paper}>
+          <Table
+            sx={{ minWidth: 650 }}
+            aria-label="packages table"
           >
-            <Pack
-              packageData={item}
-              onChooseMyPackage={onChooseMyPackage}
-            />
-          </SwiperSlide>
-        ))}
-      </Swiper>
-    </Box>
+            <TableHead>
+              <TableRow>
+                {titles.map((title) => (
+                  <TableCell
+                    align="center"
+                    key={title}
+                  >
+                    {title}
+                  </TableCell>
+                ))}
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {packages.map((pack) => (
+                <TableRow key={pack.id}>
+                  <TableCell align="center">{pack.name}</TableCell>
+                  <TableCell align="center">{formatDateTime(pack.startDate)}</TableCell>
+                  <TableCell align="center">{formatDateTime(pack.endDate)}</TableCell>
+                  <TableCell align="center">
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={() => onChooseMyPackage(pack.id)}
+                    >
+                      Use
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      ) : (
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: 500,
+          }}
+        >
+          <NoData
+            message={`You haven't owned a package that support creating tournament.`}
+            gap={4}
+          />
+        </Box>
+      )}
+    </>
   );
 }

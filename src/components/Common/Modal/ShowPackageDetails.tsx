@@ -13,8 +13,9 @@ import {
 import { useAppDispatch } from 'store';
 
 import { ModalKey } from 'constants/modal';
+import { ServiceType } from 'constants/service';
 import { showModal } from 'store/slice/modalSlice';
-import { Service, ServiceType } from 'types/package';
+import { Service } from 'types/package';
 import { displayTimestamp } from 'utils/datetime';
 import { isValidService } from 'utils/package';
 

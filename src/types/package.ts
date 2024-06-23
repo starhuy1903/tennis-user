@@ -1,13 +1,9 @@
-import { TournamentLevel } from 'constants/tournament';
-
-export enum ServiceType {
-  GROUP = 'group',
-  TOURNAMENT = 'tournament',
-}
+import { ServiceLevel, ServiceType } from 'constants/service';
 
 type BaseService = {
   id: string;
   name: string;
+  level: ServiceLevel;
 };
 
 export type GroupService = BaseService & {
@@ -23,7 +19,6 @@ export type TournamentService = BaseService & {
   config: {
     maxTournaments: number;
     used: number;
-    level: TournamentLevel;
   };
 };
 
