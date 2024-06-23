@@ -1,4 +1,4 @@
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Button, Tooltip, Typography } from '@mui/material';
 import { useConfirm } from 'material-ui-confirm';
 import { useCallback, useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'store';
@@ -16,6 +16,8 @@ import { OpenTournamentApplicant } from 'types/open-tournament-participants';
 import { showSuccess } from 'utils/toast';
 
 import ApplicantItem from './ApplicantItem';
+
+const MIN_PARTICIPANT = 6;
 
 export default function ApplicantList() {
   const confirm = useConfirm();
@@ -118,13 +120,23 @@ export default function ApplicantList() {
         >
           <Typography variant="h4">Approved Applicants</Typography>
 
-          <Button
-            variant="contained"
-            onClick={handleFinalizeApplicant}
-            disabled={disabledFinalizeBtn}
+          <Tooltip
+            title={
+              applicants.approved.length < MIN_PARTICIPANT
+                ? `The tournament needs at least ${MIN_PARTICIPANT} applicants to finalize`
+                : null
+            }
           >
-            Finalize Applicant
-          </Button>
+            <span>
+              <Button
+                variant="contained"
+                onClick={handleFinalizeApplicant}
+                disabled={disabledFinalizeBtn || applicants.approved.length < MIN_PARTICIPANT}
+              >
+                Finalize Applicant
+              </Button>
+            </span>
+          </Tooltip>
         </Box>
 
         <Box position="relative">
