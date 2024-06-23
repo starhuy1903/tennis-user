@@ -130,6 +130,15 @@ export default function ApplicationForm({ data, fetchMyApplication }: Applicatio
         </Box>
       )}
 
+      {data.status === RegistrationStatus.REJECTED && (
+        <Box mt={4}>
+          <Alert severity="error">
+            Your application has not been approved. Please contact the organizers for more information. Thank you for
+            your interest.
+          </Alert>
+        </Box>
+      )}
+
       <Container
         maxWidth="md"
         sx={{ marginY: 8, borderRadius: 1, boxShadow: 1, padding: 4, backgroundColor: 'background.paper' }}
