@@ -6,6 +6,7 @@ import { useAppDispatch, useAppSelector } from 'store';
 import CenterLoading from 'components/Common/CenterLoading';
 import NoData from 'components/Common/NoData';
 import OverlayCenterLoading from 'components/Common/OverlayCenterLoading';
+import { ParticipantType } from 'constants/tournament';
 import { RegistrationStatus } from 'constants/tournament-participants';
 import {
   useFinalizeApplicantMutation,
@@ -97,7 +98,11 @@ export default function ApplicantList() {
         <Typography variant="h4">Applicants</Typography>
 
         <Chip
-          label={applicants.unapproved.length}
+          label={
+            tournamentData.participantType === ParticipantType.DOUBLES
+              ? applicants.unapproved.length * 2
+              : applicants.unapproved.length
+          }
           color="info"
           size="small"
         />
@@ -131,7 +136,11 @@ export default function ApplicantList() {
           >
             <Typography variant="h4">Approved Applicants</Typography>
             <Chip
-              label={`${applicants.approved.length}/${tournamentData.maxParticipants}`}
+              label={`${
+                tournamentData.participantType === ParticipantType.DOUBLES
+                  ? applicants.approved.length * 2
+                  : applicants.approved.length
+              }/${tournamentData.maxParticipants}`}
               color="success"
               size="small"
             />
@@ -172,7 +181,11 @@ export default function ApplicantList() {
           <Typography variant="h4">Rejected Applicants</Typography>
 
           <Chip
-            label={applicants.rejected.length}
+            label={
+              tournamentData.participantType === ParticipantType.DOUBLES
+                ? applicants.rejected.length * 2
+                : applicants.rejected.length
+            }
             color="error"
             size="small"
           />
