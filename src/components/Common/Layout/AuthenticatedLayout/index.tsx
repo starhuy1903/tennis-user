@@ -17,7 +17,11 @@ const AuthenticatedLayout = () => {
   const theme = useTheme();
 
   return (
-    <Box>
+    <Box
+      sx={{
+        overflowX: 'hidden',
+      }}
+    >
       <AppBar
         position="sticky"
         sx={{
