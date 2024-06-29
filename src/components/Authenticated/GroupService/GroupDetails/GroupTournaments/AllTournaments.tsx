@@ -81,13 +81,15 @@ export default function AllTournaments() {
               Upcoming Tournaments
             </Typography>
           </Stack>
-          <Button
-            variant="contained"
-            size="small"
-            onClick={handleCreateTournament}
-          >
-            Create tournament
-          </Button>
+          {groupData.isCreator && (
+            <Button
+              variant="contained"
+              size="small"
+              onClick={handleCreateTournament}
+            >
+              Create tournament
+            </Button>
+          )}
         </Stack>
 
         <GroupTournamentList tournaments={tournaments.upcoming} />
