@@ -1,7 +1,7 @@
 import { MemberRole } from 'constants/group';
 import { Gender } from 'constants/tournament';
 
-export type CredentialPayload = {
+export type LoginPayload = {
   email: string;
   password: string;
 };
@@ -10,7 +10,7 @@ export type OAuthPayload = {
   token: string;
 };
 
-export type SignupPayload = CredentialPayload & {
+export type SignupPayload = LoginPayload & {
   name: string;
   gender: Gender;
   dob: string;

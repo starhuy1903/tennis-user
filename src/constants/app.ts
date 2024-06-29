@@ -33,3 +33,6 @@ export const LanguageOptions: {
   [Language.EN]: 'English',
   [Language.VN]: 'Vietnamese',
 };
+
+export const APP_BACKGROUND_URL =
+  'https://firebasestorage.googleapis.com/v0/b/tennis-7aa7c.appspot.com/o/app%2Ftennis.jpg?alt=media';
