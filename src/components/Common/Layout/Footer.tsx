@@ -57,7 +57,6 @@ export default function Footer() {
         borderTop: `1px solid ${theme.palette.divider}`,
         pt: 4,
         pb: 2,
-        mt: 4,
         minWidth: 350,
       }}
     >
