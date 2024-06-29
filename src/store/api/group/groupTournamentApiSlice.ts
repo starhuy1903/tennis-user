@@ -27,12 +27,6 @@ const groupTournamentApiToastSlice = apiWithToastSlice.injectEndpoints({
       }),
       transformResponse: (response: { data: GroupTournament[] }) => response.data,
     }),
-    getUnregisteredGroupTournaments: build.query<GroupTournament[], number>({
-      query: (groupId) => ({
-        url: urlWithCorePrefix(`groups/${groupId}/tournaments/unregistered`),
-      }),
-      transformResponse: (response: { data: GroupTournament[] }) => response.data,
-    }),
     getGroupTournamentDetails: build.query<
       GroupTournament,
       {
@@ -130,8 +124,6 @@ export const {
   useLazyGetMyGroupTournamentsQuery,
   useGetCreatedGroupTournamentsQuery,
   useLazyGetCreatedGroupTournamentsQuery,
-  useGetUnregisteredGroupTournamentsQuery,
-  useLazyGetUnregisteredGroupTournamentsQuery,
   useGetGroupTournamentDetailsQuery,
   useLazyGetGroupTournamentDetailsQuery,
   useCreateGroupTournamentMutation,
