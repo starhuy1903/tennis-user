@@ -10,7 +10,7 @@ import { ParticipantType, ParticipantTypeOptions } from 'constants/tournament';
 import {
   usePublishGroupTournamentMutation,
   useUnpublishGroupTournamentMutation,
-} from 'store/api/group/groupTournamentApiSlice';
+} from 'store/api/group/group-tournaments/creator/general';
 import { selectGroup } from 'store/slice/groupSlice';
 import { selectGroupTournamentData, shouldRefreshGroupTournamentData } from 'store/slice/groupTournamentSlice';
 import { displayDateTime } from 'utils/datetime';

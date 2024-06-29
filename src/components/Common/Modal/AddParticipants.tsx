@@ -4,7 +4,7 @@ import { useCallback, useEffect, useState } from 'react';
 import {
   useAddParticipantsMutation,
   useLazyGetGroupTournamentNonParticipantsQuery,
-} from 'store/api/group/groupTournamentApiSlice';
+} from 'store/api/group/group-tournaments/creator/participant';
 import { showSuccess } from 'utils/toast';
 
 import CenterLoading from '../CenterLoading';

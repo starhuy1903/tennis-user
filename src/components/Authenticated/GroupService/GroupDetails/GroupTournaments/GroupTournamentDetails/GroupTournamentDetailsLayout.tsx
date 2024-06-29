@@ -12,8 +12,8 @@ import CenterLoading from 'components/Common/CenterLoading';
 import Steps from 'components/Common/Steps';
 import { GroupTournamentPhaseOptions } from 'constants/group-tournament';
 import { defaultTournamentImage } from 'constants/tournament';
+import { useLazyGetGroupTournamentDetailsQuery } from 'store/api/group/group-tournaments/shared/general';
 import { useLazyGetGroupDetailsQuery } from 'store/api/group/groupApiSlice';
-import { useLazyGetGroupTournamentDetailsQuery } from 'store/api/group/groupTournamentApiSlice';
 import { selectGroup } from 'store/slice/groupSlice';
 import {
   selectGroupTournament,

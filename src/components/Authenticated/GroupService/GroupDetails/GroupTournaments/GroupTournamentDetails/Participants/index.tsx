@@ -26,10 +26,8 @@ import { FormatDateTime } from 'constants/datetime';
 import { MemberRoleOptions } from 'constants/group';
 import { GroupTournamentPhase } from 'constants/group-tournament';
 import { ModalKey } from 'constants/modal';
-import {
-  useLazyGetGroupTournamentParticipantsQuery,
-  useRemoveParticipantMutation,
-} from 'store/api/group/groupTournamentApiSlice';
+import { useRemoveParticipantMutation } from 'store/api/group/group-tournaments/creator/participant';
+import { useLazyGetGroupTournamentParticipantsQuery } from 'store/api/group/group-tournaments/shared/participants';
 import { selectGroup } from 'store/slice/groupSlice';
 import { selectGroupTournament } from 'store/slice/groupTournamentSlice';
 import { showModal } from 'store/slice/modalSlice';

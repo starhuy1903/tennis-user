@@ -20,7 +20,7 @@ import { useAppDispatch, useAppSelector } from 'store';
 
 import SingleImagePicker from 'components/Common/Input/SingleImagePicker';
 import { GroupTournamentPhase } from 'constants/group-tournament';
-import { useUpdateGroupTournamentMutation } from 'store/api/group/groupTournamentApiSlice';
+import { useUpdateGroupTournamentMutation } from 'store/api/group/group-tournaments/creator/general';
 import { selectGroup } from 'store/slice/groupSlice';
 import { selectGroupTournamentData, shouldRefreshGroupTournamentData } from 'store/slice/groupTournamentSlice';
 import { UpdateGroupTournamentPayload } from 'types/tournament';
