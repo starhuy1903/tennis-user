@@ -1,7 +1,7 @@
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import LocalFireDepartmentIcon from '@mui/icons-material/LocalFireDepartment';
 import WorkspacePremiumIcon from '@mui/icons-material/WorkspacePremium';
-import { Box, Stack, Typography } from '@mui/material';
+import { Box, Button, Stack, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppSelector } from 'store';
@@ -62,21 +62,34 @@ export default function AllTournaments() {
       <Box>
         <Stack
           direction="row"
-          alignItems="center"
-          gap={1}
+          justifyContent="space-between"
         >
-          <EmojiEventsIcon
-            sx={{
-              color: '#FF8A08',
-            }}
-          />
-          <Typography
-            variant="h5"
-            fontWeight={500}
+          <Stack
+            direction="row"
+            alignItems="center"
+            gap={1}
           >
-            Upcoming Tournaments
-          </Typography>
+            <EmojiEventsIcon
+              sx={{
+                color: '#FF8A08',
+              }}
+            />
+            <Typography
+              variant="h5"
+              fontWeight={500}
+            >
+              Upcoming Tournaments
+            </Typography>
+          </Stack>
+          <Button
+            variant="contained"
+            size="small"
+            onClick={handleCreateTournament}
+          >
+            Create tournament
+          </Button>
         </Stack>
+
         <GroupTournamentList tournaments={tournaments.upcoming} />
       </Box>
 
