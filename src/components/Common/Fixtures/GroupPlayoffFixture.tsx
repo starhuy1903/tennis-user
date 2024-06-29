@@ -12,10 +12,15 @@ type GroupPlayoffFixtureProps = {
 
 export default function GroupPlayoffFixture({ fixture, setFixtureData }: GroupPlayoffFixtureProps) {
   return (
-    <Box>
+    <Box mt={4}>
       {isGeneratedNewGroupPlayoffFixture(fixture) && (
         <>
-          <Typography variant="h4">Group stage</Typography>
+          <Typography
+            variant="h5"
+            align="center"
+          >
+            Group stage
+          </Typography>
           {fixture.roundRobinGroups.map((roundRobinGroup, index) => (
             <RoundRobinFixture
               key={index}
@@ -28,7 +33,12 @@ export default function GroupPlayoffFixture({ fixture, setFixtureData }: GroupPl
       <Divider sx={{ my: 5 }} />
       {isGeneratedNewGroupPlayoffFixture(fixture) && (
         <>
-          <Typography variant="h4">Knockout stage</Typography>
+          <Typography
+            variant="h5"
+            align="center"
+          >
+            Knockout stage
+          </Typography>
           <KnockoutFixtures
             rounds={fixture.knockoutGroup.rounds}
             setFixtureData={setFixtureData}

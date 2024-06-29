@@ -11,7 +11,14 @@ import { useGetRefereesQuery } from 'store/api/tournament/creator/participant';
 import { showModal } from 'store/slice/modalSlice';
 import { selectTournamentData } from 'store/slice/tournamentSlice';
 import { EditMatchPayload } from 'types/match';
-import { FixtureResponse, Match, Round, Team, isGeneratedNewRoundRobinFixture } from 'types/tournament-fixtures';
+import {
+  FixtureResponse,
+  Match,
+  Round,
+  Team,
+  isGeneratedNewGroupPlayoffFixture,
+  isGeneratedNewRoundRobinFixture,
+} from 'types/tournament-fixtures';
 import { checkGeneratedFixture } from 'utils/tournament';
 
 import NoData from '../../NoData';
@@ -36,19 +43,21 @@ export default function RoundRobinFixture({ rounds, setFixtureData }: RoundRobin
   const handleUpdateFixture = useCallback(
     (match: EditMatchPayload) => {
       setFixtureData?.((prev) => {
-        if (prev && isGeneratedNewRoundRobinFixture(prev)) {
+        if (prev && (isGeneratedNewRoundRobinFixture(prev) || isGeneratedNewGroupPlayoffFixture(prev))) {
           const updatedGroups = produce(prev.roundRobinGroups, (draftGroups) => {
-            draftGroups?.[0].rounds.forEach((round) => {
-              round.matches.forEach((m) => {
-                if (m.id === match.id) {
-                  m.title = match.name;
-                  m.matchStartDate = match.dateTime;
-                  m.duration = match.duration;
-                  m.venue = match.venue;
-                  m.refereeId = match.refereeId;
-                  m.teams.team1 = teamData?.data.find((team) => team.id === match.team1Id) as Team;
-                  m.teams.team2 = teamData?.data.find((team) => team.id === match.team2Id) as Team;
-                }
+            draftGroups.forEach((groups) => {
+              groups.rounds.forEach((round) => {
+                round.matches.forEach((m) => {
+                  if (m.id === match.id) {
+                    m.title = match.name;
+                    m.matchStartDate = match.dateTime;
+                    m.duration = match.duration;
+                    m.venue = match.venue;
+                    m.refereeId = match.refereeId;
+                    m.teams.team1 = teamData?.data.find((team) => team.id === match.team1Id) as Team;
+                    m.teams.team2 = teamData?.data.find((team) => team.id === match.team2Id) as Team;
+                  }
+                });
               });
             });
           });

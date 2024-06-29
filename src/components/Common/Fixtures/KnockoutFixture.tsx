@@ -111,7 +111,10 @@ export default function KnockoutFixtures({ rounds, setFixtureData }: KnockoutFix
   }
 
   return (
-    <Box mt={5}>
+    <Box
+      mt={5}
+      sx={{ overflow: 'auto' }}
+    >
       <Bracket
         rounds={bracketRounds}
         roundTitleComponent={(title) => {
