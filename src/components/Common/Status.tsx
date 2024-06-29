@@ -7,17 +7,18 @@ export type StatusProps = {
   status: 'success' | 'failed';
   title: string;
   description?: string;
+  height?: string;
   children?: ReactNode;
 };
 
-export default function Status({ status, title, description, children }: StatusProps) {
+export default function Status({ status, title, description, height = '80vh', children }: StatusProps) {
   return (
     <Box
       display="flex"
       flexDirection="column"
       justifyContent="center"
       alignItems="center"
-      height="80%"
+      height={height}
     >
       {status === 'success' && <CheckCircleOutlineIcon sx={{ color: '#049669', fontSize: 120 }} />}
       {status === 'failed' && <ErrorOutlineIcon sx={{ color: '#F87171', fontSize: 120 }} />}
@@ -27,12 +28,14 @@ export default function Status({ status, title, description, children }: StatusP
         gutterBottom
         mt={2}
         color={status === 'success' ? '#049669' : '#F87171'}
+        textAlign="center"
       >
         {title}
       </Typography>
       <Typography
         variant="subtitle1"
         gutterBottom
+        textAlign="center"
       >
         {description}
       </Typography>

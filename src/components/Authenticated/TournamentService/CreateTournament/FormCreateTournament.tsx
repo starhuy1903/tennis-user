@@ -28,14 +28,8 @@ import { useNavigate } from 'react-router-dom';
 import { useAppSelector } from 'store';
 
 import SingleImagePicker from 'components/Common/Input/SingleImagePicker';
-import {
-  Gender,
-  GenderOptions,
-  ParticipantType,
-  ParticipantTypeOptions,
-  TournamentFormat,
-  TournamentLevel,
-} from 'constants/tournament';
+import { ServiceLevel, ServiceLevelOptions } from 'constants/service';
+import { Gender, GenderOptions, ParticipantType, ParticipantTypeOptions, TournamentFormat } from 'constants/tournament';
 import { useCreateOpenTournamentMutation } from 'store/api/tournament/creator/general';
 import { UserPackage } from 'types/package';
 import { OpenTournamentPayload } from 'types/tournament';
@@ -136,11 +130,11 @@ export default function FormCreateTournament({ selectedPackage, setSelectedPacka
                 Level:
               </Typography>
               <Typography display="inline">
-                {usedService.config.level === TournamentLevel.BASIC ? (
-                  <Chip label="Basic" />
+                {usedService.level === ServiceLevel.BASIC ? (
+                  <Chip label={ServiceLevelOptions[usedService.level]} />
                 ) : (
                   <Chip
-                    label="Advanced"
+                    label={ServiceLevelOptions[usedService.level]}
                     color="info"
                   />
                 )}

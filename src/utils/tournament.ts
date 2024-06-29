@@ -21,6 +21,11 @@ export const checkPublishedTournament = (tournamentPhase: TournamentPhase) => {
   return currentPhaseNumber >= PhaseMappingNumber[TournamentPhase.PUBLISHED];
 };
 
+export const checkGeneratedFixtureTournament = (tournamentPhase: TournamentPhase) => {
+  const currentPhaseNumber = PhaseMappingNumber[tournamentPhase];
+  return currentPhaseNumber >= PhaseMappingNumber[TournamentPhase.GENERATED_FIXTURES];
+};
+
 export const getNextPhaseInString = (tournamentPhase: TournamentPhase) => {
   const currentPhaseNumber = PhaseMappingNumber[tournamentPhase];
   const nextPhaseNumber = currentPhaseNumber + 1;
