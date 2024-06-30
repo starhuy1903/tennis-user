@@ -89,7 +89,7 @@ export default function GroupTournamentItem({ tournament }: { tournament: GroupT
               color: 'gray',
             }}
           />
-          <Typography variant="subtitle1">{`${tournament.participants}/${tournament.participants} participants`}</Typography>
+          <Typography variant="subtitle1">{`${tournament.participants}/${tournament.maxParticipants} participants`}</Typography>
         </Box>
 
         <Button
