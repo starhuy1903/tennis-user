@@ -1,4 +1,4 @@
-import { Box } from '@mui/material';
+import { Alert, Box } from '@mui/material';
 import { useCallback, useEffect, useState } from 'react';
 import { useAppSelector } from 'store';
 
@@ -6,9 +6,10 @@ import CenterLoading from 'components/Common/CenterLoading';
 import { useLazyGetPaymentInfoQuery } from 'store/api/tournament/shared/fund';
 import { selectTournamentData } from 'store/slice/tournamentSlice';
 import { PaymentInfoPayload } from 'types/tournament/fund';
+import { checkFinalizedApplicants } from 'utils/tournament';
 
+import PaymentInfo from '../Shared/PaymentInfo';
 import PaymentForm from './PaymentForm';
-import PaymentInfo from './PaymentInfo';
 import UserPaymentList from './UserPaymentList';
 
 export default function CreatorFund() {
@@ -47,7 +48,13 @@ export default function CreatorFund() {
   return (
     <Box my={2}>
       <PaymentInfo paymentInfo={paymentInfo} />
-      <UserPaymentList />
+      {checkFinalizedApplicants(tournamentData.phase) ? (
+        <UserPaymentList />
+      ) : (
+        <Box mt={4}>
+          <Alert severity="info">You need to finalize the list of applicants so you can manage the fund.</Alert>
+        </Box>
+      )}
     </Box>
   );
 }
