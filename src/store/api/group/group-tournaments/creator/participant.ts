@@ -11,7 +11,9 @@ export const {
   useRemoveParticipantMutation,
   useGetRefereesGroupTournamentQuery,
   useLazyGetRefereesGroupTournamentQuery,
-  useAddRefereeGroupTournamentMutation,
+  useAddRefereesGroupTournamentMutation,
+  useFinalizeApplicantGroupTournamentMutation,
+  useRemoveRefereeMutation,
 } = apiWithToastSlice.injectEndpoints({
   endpoints: (build) => ({
     getGroupTournamentNonParticipants: build.query<GroupTournamentUser[], { groupId: number; tournamentId: number }>({
@@ -32,6 +34,18 @@ export const {
         method: 'DELETE',
       }),
     }),
+    finalizeApplicantGroupTournament: build.mutation<
+      void,
+      {
+        groupId: number;
+        tournamentId: number;
+      }
+    >({
+      query: ({ groupId, tournamentId }) => ({
+        url: urlWithCorePrefix(`groups/${groupId}/tournaments/${tournamentId}/participants/finalize`),
+        method: 'POST',
+      }),
+    }),
     getRefereesGroupTournament: build.query<
       GetListResult<Referee>,
       {
@@ -41,11 +55,17 @@ export const {
     >({
       query: ({ groupId, tournamentId }) => urlWithCorePrefix(`groups/${groupId}/tournaments/${tournamentId}/referees`),
     }),
-    addRefereeGroupTournament: build.mutation<void, { groupId: number; tournamentId: number; email: string }>({
-      query: ({ groupId, tournamentId, email }) => ({
+    addRefereesGroupTournament: build.mutation<void, { groupId: number; tournamentId: number; userIds: string[] }>({
+      query: ({ groupId, tournamentId, userIds }) => ({
         url: urlWithCorePrefix(`groups/${groupId}/tournaments/${tournamentId}/referees`),
         method: 'POST',
-        body: { email },
+        body: { userIds },
+      }),
+    }),
+    removeReferee: build.mutation<void, { groupId: number; tournamentId: number; userId: string }>({
+      query: (args) => ({
+        url: urlWithCorePrefix(`groups/${args.groupId}/tournaments/${args.tournamentId}/referees/${args.userId}`),
+        method: 'DELETE',
       }),
     }),
   }),

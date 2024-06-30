@@ -5,9 +5,10 @@ export const PhaseMappingNumber: {
 } = {
   [GroupTournamentPhase.NEW]: 0,
   [GroupTournamentPhase.PUBLISHED]: 1,
-  [GroupTournamentPhase.GENERATED_FIXTURES]: 2,
-  [GroupTournamentPhase.SCORED_MATCHES]: 3,
-  [GroupTournamentPhase.COMPLETED]: 4,
+  [GroupTournamentPhase.FINALIZED_APPLICANTS]: 2,
+  [GroupTournamentPhase.GENERATED_FIXTURES]: 3,
+  [GroupTournamentPhase.SCORED_MATCHES]: 4,
+  [GroupTournamentPhase.COMPLETED]: 5,
 };
 
 export const getNextPhaseInString = (groupTournamentPhase: GroupTournamentPhase) => {
@@ -23,6 +24,11 @@ export const getNextPhaseInString = (groupTournamentPhase: GroupTournamentPhase)
 export const checkPublishedTournament = (tournamentPhase: GroupTournamentPhase) => {
   const currentPhaseNumber = PhaseMappingNumber[tournamentPhase];
   return currentPhaseNumber >= PhaseMappingNumber[GroupTournamentPhase.PUBLISHED];
+};
+
+export const checkFinalizedApplicants = (tournamentPhase: GroupTournamentPhase) => {
+  const currentPhaseNumber = PhaseMappingNumber[tournamentPhase];
+  return currentPhaseNumber >= PhaseMappingNumber[GroupTournamentPhase.FINALIZED_APPLICANTS];
 };
 
 export const checkGeneratedFixture = (tournamentPhase: GroupTournamentPhase) => {

@@ -45,6 +45,7 @@ export type GroupTournament = Omit<GroupTournamentPayload, 'groupId'> & {
   phase: GroupTournamentPhase;
   isCreator: boolean;
   group: Group;
+  maxParticipants: number;
 };
 
 export type OpenTournament = Omit<OpenTournamentPayload, 'purchasedPackageId'> & {

@@ -19,6 +19,7 @@ const initialState: GroupTournamentSliceType = {
     status: GroupTournamentStatus.UPCOMING,
     phase: GroupTournamentPhase.NEW,
     isCreator: false,
+    maxParticipants: 0,
   },
   shouldRefreshData: true,
   showBackground: true,
