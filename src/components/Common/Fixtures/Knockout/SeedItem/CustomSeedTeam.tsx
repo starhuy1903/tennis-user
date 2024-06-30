@@ -1,7 +1,6 @@
 import { Avatar, Box } from '@mui/material';
 import { SeedTeam } from 'react-brackets';
 
-import { MatchState } from 'constants/match';
 import { Match } from 'types/tournament-fixtures';
 
 import ScoreList from './ScoreList';
@@ -16,8 +15,8 @@ export default function CustomSeedTeam({ match, teamNumber }: CustomSeedTeamProp
   if (
     !match ||
     !match.teams[teamNumber - 1] ||
-    Object.keys(match.teams[teamNumber - 1]).length === 0 ||
-    match.status === MatchState.NO_SHOW
+    Object.keys(match.teams[teamNumber - 1]).length === 0
+    // match.status === MatchState.NO_SHOW
   )
     return (
       <SeedTeam

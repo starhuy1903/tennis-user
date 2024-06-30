@@ -17,17 +17,17 @@ export const {
       { groupId: number; tournamentId: number; body: CreateGroupFixtureRequest }
     >({
       query: ({ groupId, tournamentId, body }) => ({
-        url: urlWithCorePrefix(`groups/${groupId}tournaments/${tournamentId}/fixtures/generate`),
+        url: urlWithCorePrefix(`groups/${groupId}/tournaments/${tournamentId}/fixtures/generate`),
         method: 'POST',
         body,
       }),
     }),
     saveGroupFixture: build.mutation<
       GroupFixtureResponse,
-      { groupId: number; tournamentId: number; body: SaveGroupFixture }
+      { groupId: number; tournamentId: number; body: SaveGroupFixture; type: 'draft' | 'publish' }
     >({
-      query: ({ groupId, tournamentId, body }) => ({
-        url: urlWithCorePrefix(`groups/${groupId}/tournaments/${tournamentId}/fixtures/save`),
+      query: ({ groupId, tournamentId, body, type }) => ({
+        url: urlWithCorePrefix(`groups/${groupId}/tournaments/${tournamentId}/fixtures/save-${type}`),
         method: 'POST',
         body,
       }),
