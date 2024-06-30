@@ -16,7 +16,7 @@ export default function CreatorFund() {
   const tournamentData = useAppSelector(selectTournamentData);
 
   const [paymentInfo, setPaymentInfo] = useState<PaymentInfoPayload | null>(null);
-  const [getPaymentInfoRequest, { isLoading }] = useLazyGetPaymentInfoQuery();
+  const [getPaymentInfoRequest, { isLoading }] = useLazyGetPaymentInfoQuery({ refetchOnReconnect: true });
 
   const handleAddPaymentInfo = useCallback((data: PaymentInfoPayload) => {
     setPaymentInfo(data);

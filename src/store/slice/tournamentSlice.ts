@@ -82,6 +82,7 @@ export const checkTournamentRole = createSelector(
       isParticipant: roles.includes(TournamentRole.PARTICIPANT),
       isCreator: roles.includes(TournamentRole.CREATOR),
       isReferee: roles.includes(TournamentRole.REFEREE),
+      isViewer: roles.includes(TournamentRole.VIEWER),
     };
   }
 );
