@@ -119,7 +119,7 @@ export default function CreatorFixture() {
       <Box mt={4}>
         <Alert severity="info">
           You need to publish the tournament first in the{' '}
-          <Link to={`groups/${groupData.id}/tournaments/${tournamentData.id}/info`}>Information</Link> tab.
+          <Link to={`/groups/${groupData.id}/tournaments/${tournamentData.id}/info`}>Information</Link> tab.
         </Alert>
       </Box>
     );

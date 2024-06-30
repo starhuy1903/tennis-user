@@ -213,7 +213,9 @@ export default function Participants() {
                     size="medium"
                     color="success"
                     onClick={handleFinalizeParticipants}
-                    disabled={isRemoveLoading || fetchingParticipants || isFinalizing}
+                    disabled={
+                      isRemoveLoading || fetchingParticipants || isFinalizing || !tournamentParticipants.data.length
+                    }
                   >
                     <DoneIcon />
                   </Fab>
