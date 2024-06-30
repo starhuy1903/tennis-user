@@ -71,4 +71,5 @@ export enum TournamentRole {
   PARTICIPANT = 'participant',
   CREATOR = 'creator',
   REFEREE = 'referee',
+  VIEWER = 'viewer',
 }

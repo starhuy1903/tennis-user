@@ -55,6 +55,10 @@ const TournamentTabs = [
     label: 'Information',
     value: 'info',
   },
+  {
+    label: 'Fund',
+    value: 'fund',
+  },
 ];
 
 const steps = Object.values(TournamentPhaseOptions);
