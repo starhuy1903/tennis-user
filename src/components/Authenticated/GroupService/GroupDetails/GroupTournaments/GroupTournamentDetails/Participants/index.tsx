@@ -214,7 +214,7 @@ export default function Participants() {
                     color="success"
                     onClick={handleFinalizeParticipants}
                     disabled={
-                      isRemoveLoading || fetchingParticipants || isFinalizing || !tournamentParticipants.data.length
+                      isRemoveLoading || fetchingParticipants || isFinalizing || tournamentParticipants.data.length < 5
                     }
                   >
                     <DoneIcon />
