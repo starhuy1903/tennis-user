@@ -31,6 +31,12 @@ export interface AddParticipantsProps extends CommonModalProps {
   refetchParticipantsData: () => void;
 }
 
+export interface AddRefereesProps extends CommonModalProps {
+  groupId: number;
+  tournamentId: number;
+  refetchRefereesData: () => void;
+}
+
 export interface RegisterTournamentProps extends CommonModalProps {
   tournamentId: number;
   participantType: string;
