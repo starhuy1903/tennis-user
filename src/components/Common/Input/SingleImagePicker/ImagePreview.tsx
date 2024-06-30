@@ -1,13 +1,14 @@
 import CloseSharpIcon from '@mui/icons-material/CloseSharp';
-import { Box, IconButton } from '@mui/material';
+import { Box, IconButton, SxProps } from '@mui/material';
 
 interface ImagePreviewProps {
   imageUrl: string;
   onDeleteImage: () => void;
   disabled?: boolean;
+  sxStyle?: SxProps;
 }
 
-export default function ImagePreview({ imageUrl, onDeleteImage, disabled = false }: ImagePreviewProps) {
+export default function ImagePreview({ imageUrl, onDeleteImage, disabled = false, sxStyle }: ImagePreviewProps) {
   if (!imageUrl) {
     return null;
   }
@@ -20,7 +21,7 @@ export default function ImagePreview({ imageUrl, onDeleteImage, disabled = false
       overflow="hidden"
       border="1px solid #ccc"
       position="relative"
-      sx={{ opacity: disabled ? 0.5 : 1 }}
+      sx={{ opacity: disabled ? 0.5 : 1, ...sxStyle }}
     >
       <img
         src={imageUrl}

@@ -1,4 +1,4 @@
-import { DevTool } from '@hookform/devtools';
+// import { DevTool } from '@hookform/devtools';
 import {
   Box,
   Button,
@@ -641,8 +641,9 @@ export default function FormCreateTournament({ selectedPackage, setSelectedPacka
             Create tournament
           </Button>
         </Box>
+
+        {/* <DevTool control={control} /> */}
       </Box>
-      <DevTool control={control} /> {/* set up the dev tool */}
     </Box>
   );
 }
