@@ -47,7 +47,7 @@ export default function CreateTournament() {
     <>
       <Breadcrumbs customRoutes={customRoutes} />
 
-      <Box sx={{ width: '100%', typography: 'body1', mt: 2 }}>
+      <Box sx={{ width: '100%', typography: 'body1', my: 2 }}>
         {selectedPackage ? (
           <FormCreateTournament
             selectedPackage={selectedPackage}

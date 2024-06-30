@@ -1,5 +1,10 @@
+import AccountTreeIcon from '@mui/icons-material/AccountTree';
+import GroupsIcon from '@mui/icons-material/Groups';
+import InfoIcon from '@mui/icons-material/Info';
 import KeyboardDoubleArrowDownIcon from '@mui/icons-material/KeyboardDoubleArrowDown';
 import KeyboardDoubleArrowUpIcon from '@mui/icons-material/KeyboardDoubleArrowUp';
+import LeaderboardIcon from '@mui/icons-material/Leaderboard';
+import SavingsIcon from '@mui/icons-material/Savings';
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import { Box, Chip, Collapse, Container, Divider, IconButton, Paper, Stack, Tab, Typography } from '@mui/material';
@@ -42,22 +47,27 @@ const TournamentTabs = [
   {
     label: 'Participants',
     value: 'participants',
+    icon: <GroupsIcon />,
   },
   {
     label: 'Fixtures',
     value: 'fixtures',
+    icon: <AccountTreeIcon />,
   },
   {
     label: 'Standings',
     value: 'standings',
+    icon: <LeaderboardIcon />,
   },
   {
     label: 'Information',
     value: 'info',
+    icon: <InfoIcon />,
   },
   {
     label: 'Fund',
     value: 'fund',
+    icon: <SavingsIcon />,
   },
 ];
 
@@ -260,6 +270,8 @@ export default function TournamentDetailsLayout() {
                       key={tab.value}
                       label={tab.label}
                       value={tab.value}
+                      icon={tab.icon}
+                      iconPosition="start"
                     />
                   );
                 })}

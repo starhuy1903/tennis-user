@@ -109,18 +109,25 @@ export default function MyApplication({ tournament }: { tournament: OpenTourname
           fetchMyApplication={fetchMyApplication}
         />
       ) : (
-        <>
+        <Box>
           <Box
             sx={{
+              backgroundImage: `url('https://images.pexels.com/photos/5741299/pexels-photo-5741299.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1')`,
+              backgroundSize: 'cover',
+              backgroundRepeat: 'no-repeat',
+              backgroundPosition: 'start',
+              height: 500,
+              borderRadius: 10,
               display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
+              justifyContent: 'flex-end',
+              alignItems: 'flex-end',
             }}
           >
             <Button
               size="large"
               variant="contained"
               onClick={handleRegister}
+              sx={{ mb: 4, mr: 4 }}
             >
               Register To Join Tournament
             </Button>
@@ -137,7 +144,7 @@ export default function MyApplication({ tournament }: { tournament: OpenTourname
             invitations={invitations.canceled}
             fetchMyApplication={fetchMyApplication}
           />
-        </>
+        </Box>
       )}
     </Box>
   );

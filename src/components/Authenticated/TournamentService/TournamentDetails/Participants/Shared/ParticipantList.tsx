@@ -1,3 +1,4 @@
+import AddIcon from '@mui/icons-material/Add';
 import {
   Avatar,
   Box,
@@ -198,6 +199,7 @@ export default function ParticipantList() {
             <Button
               variant="contained"
               onClick={handleAddReferee}
+              startIcon={<AddIcon />}
             >
               Add Referee
             </Button>

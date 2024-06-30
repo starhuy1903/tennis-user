@@ -1,4 +1,5 @@
 import { DevTool } from '@hookform/devtools';
+import EditIcon from '@mui/icons-material/Edit';
 import {
   Box,
   Button,
@@ -43,7 +44,7 @@ export default function UpdateTournament({ onCloseForm }: { onCloseForm: () => v
   const hasFinalizedApplicants = checkFinalizedApplicants(tournamentData.phase);
 
   const { handleSubmit, register, control, formState, getValues, watch } = useForm<UpdateTournamentPayload>({
-    mode: 'onTouched',
+    mode: 'onChange',
     defaultValues: {
       name: tournamentData.name,
       description: tournamentData.description,
@@ -98,7 +99,7 @@ export default function UpdateTournament({ onCloseForm }: { onCloseForm: () => v
   const disabledUpdateBtn = updatingData || isEqual(originalData, watch());
 
   return (
-    <Box mt={4}>
+    <Box my={4}>
       <Typography
         variant="h4"
         noWrap
@@ -282,7 +283,7 @@ export default function UpdateTournament({ onCloseForm }: { onCloseForm: () => v
                       return true;
                     },
                   }}
-                  render={({ field: { onChange } }) => (
+                  render={({ field: { value, onChange } }) => (
                     <FormControl
                       fullWidth
                       error={!!formError.startDate}
@@ -290,10 +291,11 @@ export default function UpdateTournament({ onCloseForm }: { onCloseForm: () => v
                       <FormLabel htmlFor="startDate">Start date</FormLabel>
                       <LocalizationProvider dateAdapter={AdapterDayjs}>
                         <DatePicker
+                          value={dayjs(value)}
                           onChange={(date) => {
                             onChange(date?.toISOString());
                           }}
-                          disablePast
+                          disablePast={!!formError.startDate}
                           defaultValue={dayjs(getValues('startDate'))}
                           format="DD/MM/YYYY"
                           disabled={updatingData || hasFinalizedApplicants}
@@ -370,7 +372,7 @@ export default function UpdateTournament({ onCloseForm }: { onCloseForm: () => v
                           onChange={(date) => {
                             onChange(date?.toISOString());
                           }}
-                          disablePast
+                          disablePast={!!formError.registrationDueDate}
                           defaultValue={dayjs(value)}
                           format="DD/MM/YYYY HH:mm"
                           disabled={updatingData || hasFinalizedApplicants}
@@ -611,6 +613,7 @@ export default function UpdateTournament({ onCloseForm }: { onCloseForm: () => v
             disabled={disabledUpdateBtn}
             onClick={handleSubmit(onSubmit)}
             sx={{ mt: 4 }}
+            startIcon={<EditIcon />}
           >
             {updatingData ? 'Updating...' : 'Update'}
           </Button>

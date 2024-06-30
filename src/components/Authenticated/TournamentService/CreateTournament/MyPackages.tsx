@@ -1,4 +1,16 @@
-import { Box, Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
+import {
+  Alert,
+  Box,
+  Button,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Tooltip,
+} from '@mui/material';
 import { useMemo } from 'react';
 
 import NoData from 'components/Common/NoData';
@@ -39,43 +51,56 @@ export default function MyPackages({ packagesData, onChooseMyPackage }: MyPackag
   return (
     <>
       {packages && packages.length > 0 ? (
-        <TableContainer component={Paper}>
-          <Table
-            sx={{ minWidth: 650 }}
-            aria-label="packages table"
+        <Box>
+          <Alert
+            icon={false}
+            severity="info"
           >
-            <TableHead>
-              <TableRow>
-                {titles.map((title) => (
-                  <TableCell
-                    align="center"
-                    key={title}
-                  >
-                    {title}
-                  </TableCell>
-                ))}
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {packages.map((pack) => (
-                <TableRow key={pack.id}>
-                  <TableCell align="center">{pack.name}</TableCell>
-                  <TableCell align="center">{formatDateTime(pack.startDate)}</TableCell>
-                  <TableCell align="center">{formatDateTime(pack.endDate)}</TableCell>
-                  <TableCell align="center">
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      onClick={() => onChooseMyPackage(pack.id)}
+            Choose a package to create a tournament.
+          </Alert>
+          <TableContainer
+            component={Paper}
+            sx={{ mt: 2 }}
+          >
+            <Table
+              sx={{ minWidth: 650 }}
+              aria-label="packages table"
+            >
+              <TableHead>
+                <TableRow>
+                  {titles.map((title) => (
+                    <TableCell
+                      align="center"
+                      key={title}
                     >
-                      Use
-                    </Button>
-                  </TableCell>
+                      {title}
+                    </TableCell>
+                  ))}
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
+              </TableHead>
+              <TableBody>
+                {packages.map((pack) => (
+                  <TableRow key={pack.id}>
+                    <TableCell align="center">{pack.name}</TableCell>
+                    <TableCell align="center">{formatDateTime(pack.startDate)}</TableCell>
+                    <TableCell align="center">{formatDateTime(pack.endDate)}</TableCell>
+                    <TableCell align="center">
+                      <Tooltip title="Use this package to create">
+                        <Button
+                          variant="contained"
+                          color="primary"
+                          onClick={() => onChooseMyPackage(pack.id)}
+                        >
+                          Use
+                        </Button>
+                      </Tooltip>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </Box>
       ) : (
         <Box
           sx={{

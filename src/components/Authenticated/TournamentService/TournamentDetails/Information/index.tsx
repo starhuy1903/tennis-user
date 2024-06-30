@@ -1,3 +1,4 @@
+import SettingsIcon from '@mui/icons-material/Settings';
 import { Button, Divider, Grid, Typography } from '@mui/material';
 import { useConfirm } from 'material-ui-confirm';
 import { useState } from 'react';
@@ -153,6 +154,7 @@ export default function Information() {
             variant="outlined"
             size="medium"
             onClick={() => setShouldOpenChangeSettings(true)}
+            startIcon={<SettingsIcon />}
           >
             Change settings
           </Button>

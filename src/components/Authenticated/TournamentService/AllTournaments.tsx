@@ -1,3 +1,4 @@
+import AddIcon from '@mui/icons-material/Add';
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import LocalFireDepartmentIcon from '@mui/icons-material/LocalFireDepartment';
 import NewReleasesIcon from '@mui/icons-material/NewReleases';
@@ -90,6 +91,7 @@ export default function AllTournaments() {
             variant="contained"
             size="small"
             onClick={handleCreateTournament}
+            startIcon={<AddIcon />}
           >
             Create tournament
           </Button>
