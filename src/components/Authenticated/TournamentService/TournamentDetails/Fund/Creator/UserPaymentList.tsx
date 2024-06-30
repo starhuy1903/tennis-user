@@ -1,7 +1,9 @@
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
 import {
+  Avatar,
   Box,
+  Chip,
   IconButton,
   Paper,
   Skeleton,
@@ -13,15 +15,45 @@ import {
   TableRow,
   Typography,
 } from '@mui/material';
+import { useConfirm } from 'material-ui-confirm';
 import { useCallback } from 'react';
 import { useAppSelector } from 'store';
 
 import { useGetUserPaymentDataQuery, useUpdateUserPaymentDataMutation } from 'store/api/tournament/creator/fund';
 import { selectTournamentData } from 'store/slice/tournamentSlice';
+import { UserPaymentStatus } from 'types/tournament/fund';
 
 const titles = ['Participants', 'Status', 'Message', 'Action'] as const;
 
+const PaymentStatus = {
+  wait: (
+    <Chip
+      label="Unpaid"
+      color="warning"
+    />
+  ),
+  pending: (
+    <Chip
+      label="Wait for confirmation"
+      color="info"
+    />
+  ),
+  succeed: (
+    <Chip
+      label="Completed"
+      color="success"
+    />
+  ),
+  failed: (
+    <Chip
+      label="Failed"
+      color="error"
+    />
+  ),
+};
+
 export default function UserPaymentList() {
+  const confirm = useConfirm();
   const tournamentData = useAppSelector(selectTournamentData);
 
   const { data, refetch, isLoading } = useGetUserPaymentDataQuery(
@@ -37,7 +69,7 @@ export default function UserPaymentList() {
       try {
         await updateUserPaymentRequest({
           tournamentId: tournamentData.id,
-          body: { userId, status: 'succeed' },
+          body: { userId, status: UserPaymentStatus.SUCCEED },
         }).unwrap();
         await refetch();
       } catch (error) {
@@ -47,7 +79,22 @@ export default function UserPaymentList() {
     [refetch, tournamentData.id, updateUserPaymentRequest]
   );
 
-  const handleFail = useCallback((userId: string) => {}, []);
+  const handleFail = useCallback(
+    (userId: string) => {
+      confirm({ title: 'Confirm failed payment?' }).then(async () => {
+        try {
+          await updateUserPaymentRequest({
+            tournamentId: tournamentData.id,
+            body: { userId, status: UserPaymentStatus.FAILED },
+          }).unwrap();
+          await refetch();
+        } catch (error) {
+          // handled error
+        }
+      });
+    },
+    [confirm, refetch, tournamentData.id, updateUserPaymentRequest]
+  );
 
   return (
     <Box mt={2}>
@@ -88,8 +135,18 @@ export default function UserPaymentList() {
                   key={row.userId}
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                 >
-                  <TableCell align="center">{row.name}</TableCell>
-                  <TableCell align="center">{row.status}</TableCell>
+                  <TableCell align="center">
+                    <Box
+                      display="flex"
+                      alignItems="center"
+                      gap={2}
+                      justifyContent="center"
+                    >
+                      <Avatar src={row.image} />
+                      <Typography variant="caption">{row.name}</Typography>
+                    </Box>
+                  </TableCell>
+                  <TableCell align="center">{PaymentStatus[row.status]}</TableCell>
                   <TableCell align="center">{row.message}</TableCell>
                   <TableCell align="center">
                     {row.status === 'pending' && (
@@ -98,6 +155,7 @@ export default function UserPaymentList() {
                           color="success"
                           aria-label="check"
                           onClick={() => handleCheck(row.userId)}
+                          disabled={isUpdating || isLoading}
                         >
                           <CheckIcon />
                         </IconButton>
@@ -105,6 +163,7 @@ export default function UserPaymentList() {
                           color="warning"
                           aria-label="fail"
                           onClick={() => handleFail(row.userId)}
+                          disabled={isUpdating || isLoading}
                         >
                           <CloseIcon />
                         </IconButton>

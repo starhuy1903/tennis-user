@@ -4,7 +4,7 @@ import { FormatDateTime } from 'constants/datetime';
 import { PaymentInfoPayload } from 'types/tournament/fund';
 import { displayDateTime } from 'utils/datetime';
 
-import { units } from './PaymentForm';
+import { units } from '../Creator/PaymentForm';
 
 type PaymentInfoProps = {
   paymentInfo: PaymentInfoPayload;
@@ -29,6 +29,7 @@ export default function PaymentInfo({ paymentInfo }: PaymentInfoProps) {
           <Box
             display="flex"
             justifyContent="space-between"
+            gap={4}
           >
             <Box>
               <Box>

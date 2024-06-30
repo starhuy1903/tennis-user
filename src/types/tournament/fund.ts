@@ -14,16 +14,28 @@ export type PaymentInfoPayload = {
   dueDate: string;
 };
 
+export enum UserPaymentStatus {
+  WAIT = 'wait',
+  PENDING = 'pending',
+  SUCCEED = 'succeed',
+  FAILED = 'failed',
+}
+
 export type UserPaymentInfo = {
   userId: string;
   image: string;
   name: string;
-  status: 'wait' | 'pending' | 'succeed' | 'failed';
+  status: UserPaymentStatus;
   message: string;
 };
 
 export type UpdatedUserPaymentData = {
   userId: string;
-  status: 'succeed' | 'failed';
+  status: UserPaymentStatus.SUCCEED | UserPaymentStatus.FAILED;
+  errorMessage?: string;
+};
+
+export type UserPaymentInfoResponse = {
+  status: UserPaymentStatus;
   errorMessage?: string;
 };
