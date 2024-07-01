@@ -21,13 +21,15 @@ export default function Standing() {
 
   useEffect(() => {
     (async () => {
-      try {
-        await getStandingRequest(tournamentData.id).unwrap();
-      } catch (error) {
-        // handled error
+      if (checkGeneratedFixtureTournament(tournamentData.phase)) {
+        try {
+          await getStandingRequest(tournamentData.id).unwrap();
+        } catch (error) {
+          // handled error
+        }
       }
     })();
-  }, [getStandingRequest, tournamentData.id]);
+  }, [getStandingRequest, tournamentData.id, tournamentData.phase]);
 
   if (!checkGeneratedFixtureTournament(tournamentData.phase)) {
     if (isCreator) {
