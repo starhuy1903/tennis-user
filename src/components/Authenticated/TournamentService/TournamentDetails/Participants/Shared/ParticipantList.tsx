@@ -1,3 +1,4 @@
+import AddIcon from '@mui/icons-material/Add';
 import {
   Avatar,
   Box,
@@ -126,16 +127,18 @@ export default function ParticipantList() {
           </TableHead>
           <TableBody>
             {isLoading ? (
-              Array(3).map(() => (
-                <TableRow>
-                  <TableCell colSpan={titles.length}>
-                    <Skeleton
-                      variant="rectangular"
-                      height={30}
-                    />
-                  </TableCell>
-                </TableRow>
-              ))
+              Array(3)
+                .fill(null)
+                .map(() => (
+                  <TableRow>
+                    <TableCell colSpan={titles.length}>
+                      <Skeleton
+                        variant="rectangular"
+                        height={30}
+                      />
+                    </TableCell>
+                  </TableRow>
+                ))
             ) : (
               <>
                 {participants && participants.data.length > 0 ? (
@@ -196,6 +199,7 @@ export default function ParticipantList() {
             <Button
               variant="contained"
               onClick={handleAddReferee}
+              startIcon={<AddIcon />}
             >
               Add Referee
             </Button>
@@ -217,16 +221,18 @@ export default function ParticipantList() {
               </TableHead>
               <TableBody>
                 {fetchingRefereeData ? (
-                  Array(3).map(() => (
-                    <TableRow>
-                      <TableCell colSpan={refereeTableTitle.length}>
-                        <Skeleton
-                          variant="rectangular"
-                          height={30}
-                        />
-                      </TableCell>
-                    </TableRow>
-                  ))
+                  Array(3)
+                    .fill(null)
+                    .map(() => (
+                      <TableRow>
+                        <TableCell colSpan={refereeTableTitle.length}>
+                          <Skeleton
+                            variant="rectangular"
+                            height={30}
+                          />
+                        </TableCell>
+                      </TableRow>
+                    ))
                 ) : referees && referees.data.length > 0 ? (
                   referees.data.map((row) => (
                     <TableRow key={row.id}>

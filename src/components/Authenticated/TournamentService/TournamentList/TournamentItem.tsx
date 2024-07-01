@@ -1,6 +1,8 @@
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import PeopleIcon from '@mui/icons-material/People';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 import { Box, Button, Card, CardActionArea, CardContent, CardMedia, Tooltip, Typography } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAppDispatch } from 'store';
@@ -130,6 +132,7 @@ export default function TournamentItem({
               variant="contained"
               color="primary"
               fullWidth
+              startIcon={<AppRegistrationIcon />}
               sx={{
                 mt: 2,
               }}
@@ -145,6 +148,7 @@ export default function TournamentItem({
           to={`/tournaments/${tournament.id}`}
           fullWidth
           variant="outlined"
+          startIcon={<VisibilityIcon />}
           sx={{
             mt: 2,
           }}

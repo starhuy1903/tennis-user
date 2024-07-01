@@ -7,7 +7,7 @@ import { showSuccess } from 'utils/toast';
 
 type GenerateGroupProps = {
   tournamentId: number;
-  setGroupData: React.Dispatch<React.SetStateAction<GeneratedGroup[] | null>>;
+  setGroupData: (data: GeneratedGroup[] | null) => void;
 };
 
 type FormType = {

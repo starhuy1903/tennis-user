@@ -1,4 +1,5 @@
 import { DevTool } from '@hookform/devtools';
+import AddIcon from '@mui/icons-material/Add';
 import {
   Box,
   Button,
@@ -365,6 +366,7 @@ export default function PaymentForm({ onAddPaymentInfo }: { onAddPaymentInfo: (d
           disabled={isLoading}
           onClick={onSubmit}
           sx={{ mt: 4 }}
+          startIcon={<AddIcon />}
         >
           Add payment
         </Button>

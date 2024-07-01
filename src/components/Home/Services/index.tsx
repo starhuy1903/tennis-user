@@ -25,7 +25,7 @@ export default function Services() {
   }
 
   return (
-    <Box>
+    <Box mt={2}>
       <Grid
         container
         spacing={3}

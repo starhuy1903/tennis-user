@@ -89,9 +89,9 @@ export default function FormCreateTournament({ selectedPackage, setSelectedPacka
         purchasedPackageId: selectedPackage.id,
       };
 
-      await requestCreateTournament(submitData).unwrap();
+      const res = await requestCreateTournament(submitData).unwrap();
       showSuccess('Created tournament successfully.');
-      navigate('/tournaments');
+      navigate(`/tournaments/${res.id}/info`);
     } catch (error) {
       // handled error
     }
@@ -114,7 +114,15 @@ export default function FormCreateTournament({ selectedPackage, setSelectedPacka
       >
         TOURNAMENT CREATION FORM
       </Typography>
-      <Card sx={{ p: 2, mt: 2 }}>
+      <Card
+        sx={{
+          p: 2,
+          mt: 2,
+          backgroundImage: `url('https://cdn.shopify.com/s/files/1/0070/7032/files/package_f909e305-d702-4012-977f-9513452ed849.png?v=1708976749')`,
+          backgroundSize: 'cover',
+          backgroundRepeat: 'no-repeat',
+        }}
+      >
         <CardHeader
           title={selectedPackage.name}
           titleTypographyProps={{ variant: 'h2', fontWeight: 'bold' }}
@@ -154,7 +162,8 @@ export default function FormCreateTournament({ selectedPackage, setSelectedPacka
         </CardContent>
         <CardActions>
           <Button
-            variant="outlined"
+            variant="contained"
+            color="info"
             onClick={handleGoPreviousStep}
           >
             Change package

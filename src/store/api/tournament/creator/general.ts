@@ -23,6 +23,7 @@ export const {
         method: 'POST',
         body: payload,
       }),
+      transformResponse: (response: { data: OpenTournament }) => response.data,
     }),
     publishTournament: build.mutation<void, number>({
       query: (tournamentId) => ({

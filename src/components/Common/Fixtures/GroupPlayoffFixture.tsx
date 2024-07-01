@@ -1,4 +1,4 @@
-import { Box, Divider } from '@mui/material';
+import { Box, Divider, Typography } from '@mui/material';
 
 import { FixtureResponse, isGeneratedNewGroupPlayoffFixture } from 'types/tournament-fixtures';
 
@@ -12,19 +12,38 @@ type GroupPlayoffFixtureProps = {
 
 export default function GroupPlayoffFixture({ fixture, setFixtureData }: GroupPlayoffFixtureProps) {
   return (
-    <Box>
+    <Box mt={4}>
       {isGeneratedNewGroupPlayoffFixture(fixture) && (
-        <RoundRobinFixture
-          rounds={fixture.roundRobinGroups[0].rounds}
-          setFixtureData={setFixtureData}
-        />
+        <>
+          <Typography
+            variant="h5"
+            align="center"
+          >
+            Group stage
+          </Typography>
+          {fixture.roundRobinGroups.map((roundRobinGroup, index) => (
+            <RoundRobinFixture
+              key={index}
+              rounds={roundRobinGroup.rounds}
+              setFixtureData={setFixtureData}
+            />
+          ))}
+        </>
       )}
       <Divider sx={{ my: 5 }} />
       {isGeneratedNewGroupPlayoffFixture(fixture) && (
-        <KnockoutFixtures
-          rounds={fixture.knockoutGroup.rounds}
-          setFixtureData={setFixtureData}
-        />
+        <>
+          <Typography
+            variant="h5"
+            align="center"
+          >
+            Knockout stage
+          </Typography>
+          <KnockoutFixtures
+            rounds={fixture.knockoutGroup.rounds}
+            setFixtureData={setFixtureData}
+          />
+        </>
       )}
     </Box>
   );

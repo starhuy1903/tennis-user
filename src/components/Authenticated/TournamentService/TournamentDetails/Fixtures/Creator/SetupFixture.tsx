@@ -15,11 +15,12 @@ import {
 import { DatePicker, LocalizationProvider, TimePicker } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useAppSelector } from 'store';
 
 import { TournamentFormat } from 'constants/tournament';
+import { FixtureStatus } from 'constants/tournament-fixtures';
 import { useGenerateFixtureMutation } from 'store/api/tournament/creator/fixture';
 import { selectTournamentData } from 'store/slice/tournamentSlice';
 import { CreateFixtureRequest, FixtureResponse, GeneratedGroup } from 'types/tournament-fixtures';
@@ -27,7 +28,9 @@ import { CreateFixtureRequest, FixtureResponse, GeneratedGroup } from 'types/tou
 import GenerateGroup from './GenerateGroup';
 import GroupDataTable from './GroupDataTable';
 
-type FormType = CreateFixtureRequest;
+type FormType = CreateFixtureRequest & {
+  numberOfProceeders?: number;
+};
 
 const tournamentFormatOptions = [
   { id: 1, value: 'knockout', displayValue: 'Knockout', level: 'basic' },
@@ -60,16 +63,26 @@ export default function SetupFixture({ fixtureConfig, setFixtureData, setFixture
       matchesEndTime: fixtureConfig?.matchesEndTime || dayjs('2022-04-17T20:00').toISOString(),
       matchDuration: fixtureConfig?.matchDuration || 30,
       breakDuration: fixtureConfig?.breakDuration || 10,
+      numberOfProceeders: tournamentData.format === TournamentFormat.GROUP_PLAYOFF ? 1 : undefined,
     },
   });
 
   const { errors: formError } = formState;
+
+  const handleGenerateGroup = useCallback(
+    (data: GeneratedGroup[] | null) => {
+      setGroupPlayoff(data);
+      setFixtureData({ status: FixtureStatus.NEW });
+    },
+    [setFixtureData]
+  );
 
   const handleGenerateFixtures = handleSubmit(async (data) => {
     const groups =
       tournamentData.format === TournamentFormat.GROUP_PLAYOFF
         ? groupPlayoff?.map((group) => ({
             ...group,
+            numberOfProceeders: Number(data.numberOfProceeders),
             teams: group.teams.map((team) => team.id),
           }))
         : undefined;
@@ -127,7 +140,7 @@ export default function SetupFixture({ fixtureConfig, setFixtureData, setFixture
               <FormControl fullWidth>
                 <FormLabel>Number of participants</FormLabel>
                 <TextField
-                  value={tournamentData.maxParticipants}
+                  value={tournamentData.participants}
                   disabled
                 />
               </FormControl>
@@ -142,7 +155,7 @@ export default function SetupFixture({ fixtureConfig, setFixtureData, setFixture
           >
             <GenerateGroup
               tournamentId={tournamentData.id}
-              setGroupData={setGroupPlayoff}
+              setGroupData={handleGenerateGroup}
             />
             {groupPlayoff && <GroupDataTable groups={groupPlayoff} />}
           </Box>
@@ -153,11 +166,12 @@ export default function SetupFixture({ fixtureConfig, setFixtureData, setFixture
               <Stack
                 direction="row"
                 justifyItems="start"
-                justifyContent="start"
+                justifyContent="space-between"
                 width="100%"
                 mt={4}
+                gap={4}
               >
-                <Box>
+                <Box width="100%">
                   <Typography variant="h6">Date & Time Configuration</Typography>
                   <Stack spacing={2}>
                     <Stack
@@ -348,6 +362,31 @@ export default function SetupFixture({ fixtureConfig, setFixtureData, setFixture
                       </FormControl>
                     </Stack>
                   </Stack>
+                </Box>
+                <Box width="100%">
+                  {tournamentData.format == TournamentFormat.GROUP_PLAYOFF && (
+                    <>
+                      <Typography variant="h6">Group Configuration</Typography>
+                      <FormControl
+                        error={!!formError.numberOfProceeders}
+                        fullWidth
+                      >
+                        <FormLabel htmlFor="numberOfProceeders">Number of proceeders</FormLabel>
+                        <TextField
+                          {...register('numberOfProceeders')}
+                          required
+                          id="numberOfProceeders"
+                          type="number"
+                          error={!!formError.numberOfProceeders}
+                          aria-describedby="numberOfProceeders-helper-text"
+                          defaultValue={1}
+                        />
+                        <FormHelperText id="numberOfProceeders-helper-text">
+                          {formError.numberOfProceeders?.message}
+                        </FormHelperText>
+                      </FormControl>
+                    </>
+                  )}
                 </Box>
               </Stack>
               <Button

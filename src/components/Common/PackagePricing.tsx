@@ -1,4 +1,5 @@
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import { Box, Button, Card, CardContent, Grid, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'store';
@@ -157,6 +158,7 @@ export default function PackagePricing({
                       variant="contained"
                       fullWidth
                       onClick={() => handleBuyPackage(item.id)}
+                      startIcon={<ShoppingCartOutlinedIcon />}
                     >
                       Buy now
                     </Button>

@@ -139,8 +139,8 @@ export default function CreatorFixture() {
       )}
 
       {fixture && isGeneratedNewFixtureType(fixture) && (
-        <Box sx={{ overflowX: 'hidden', border: '1px solid', pY: 2 }}>
-          <Box sx={{ overflow: 'scroll' }}>
+        <Box>
+          <Box marginY={2}>
             {isGeneratedNewKnockoutFixture(fixture) && (
               <KnockoutFixtures
                 rounds={fixture.knockoutGroup.rounds}
@@ -165,6 +165,7 @@ export default function CreatorFixture() {
               display="flex"
               justifyContent="flex-end"
               gap={2}
+              mb={2}
             >
               {fixture.status === FixtureStatus.DRAFT && (
                 <Button
