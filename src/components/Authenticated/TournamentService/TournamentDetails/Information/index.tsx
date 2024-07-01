@@ -1,3 +1,4 @@
+import RocketLaunchIcon from '@mui/icons-material/RocketLaunch';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { Button, Divider, Grid, Typography } from '@mui/material';
 import { useConfirm } from 'material-ui-confirm';
@@ -133,6 +134,7 @@ export default function Information() {
             size="medium"
             onClick={handlePublishTournament}
             disabled={publishingTournament}
+            startIcon={<RocketLaunchIcon />}
           >
             Publish tournament
           </Button>
@@ -142,6 +144,7 @@ export default function Information() {
           <Button
             variant="contained"
             size="medium"
+            color="error"
             onClick={handleUnpublishTournament}
             disabled={unpublishingTournament}
           >

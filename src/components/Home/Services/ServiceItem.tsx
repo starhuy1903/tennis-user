@@ -1,6 +1,10 @@
-import { Button, Card, CardActions, CardContent, Typography } from '@mui/material';
+import ExploreIcon from '@mui/icons-material/Explore';
+import { Button, Card, CardActions, CardContent, CardMedia, Typography } from '@mui/material';
 
 import { Service } from 'types/app';
+
+import groupManagementImg from 'assets/images/home/group-management.jpg';
+import tournamentImg from 'assets/images/home/tournament.jpg';
 
 interface ServiceItemProps {
   service: Service;
@@ -8,10 +12,28 @@ interface ServiceItemProps {
 }
 
 export default function ServiceItem({ service, onGotoService }: ServiceItemProps) {
+  const getCardImage = () => {
+    if (service.path === 'groups') {
+      return groupManagementImg;
+    }
+    return tournamentImg;
+  };
+
   return (
     <Card
-      sx={{ maxWidth: 345, height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}
+      sx={{
+        maxWidth: 345,
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+      }}
     >
+      <CardMedia
+        sx={{ height: 140 }}
+        image={getCardImage()}
+        title="green iguana"
+      />
       <CardContent>
         <Typography
           gutterBottom
@@ -33,6 +55,7 @@ export default function ServiceItem({ service, onGotoService }: ServiceItemProps
           color="primary"
           onClick={() => onGotoService(service.path)}
           fullWidth
+          startIcon={<ExploreIcon />}
         >
           Explore
         </Button>

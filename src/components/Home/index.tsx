@@ -20,46 +20,43 @@ export default function Home() {
   // };
 
   return (
-    <>
-      <Breadcrumbs />
-
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '20px',
-        }}
-      >
-        <Box>
-          <Typography variant="h4">Services</Typography>
-          <Services />
-          {/* <Button onClick={handleGoToAffiliateSponsor}>Affiliate sponsorship</Button> */}
-        </Box>
-        <Box>
-          <Box
-            sx={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-            }}
+    <Box
+      my={2}
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '20px',
+      }}
+    >
+      <Box>
+        <Typography variant="h4">Services</Typography>
+        <Services />
+        {/* <Button onClick={handleGoToAffiliateSponsor}>Affiliate sponsorship</Button> */}
+      </Box>
+      <Box>
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+          }}
+        >
+          <Typography variant="h4">News</Typography>
+          <Button
+            component={Link}
+            to="/news"
           >
-            <Typography variant="h4">News</Typography>
-            <Button
-              component={Link}
-              to="/news"
-            >
-              More
-            </Button>
-          </Box>
-          <News />
+            More
+          </Button>
         </Box>
-        {/* {isLoggedIn && (
+        <News />
+      </Box>
+      {/* {isLoggedIn && (
         <Box>
           <Typography variant="h4">My Group</Typography>
           <MyGroup />
         </Box>
       )} */}
-      </Box>
-    </>
+    </Box>
   );
 }
