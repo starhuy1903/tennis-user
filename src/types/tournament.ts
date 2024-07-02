@@ -1,3 +1,4 @@
+import { GroupTournamentFormat, GroupTournamentPhase, GroupTournamentStatus } from 'constants/group-tournament';
 import {
   Gender,
   ParticipantType,
@@ -21,7 +22,7 @@ export type BaseTournamentPayload = {
 
 export type GroupTournamentPayload = BaseTournamentPayload & {
   groupId: number;
-  format: TournamentFormat.ROUND_ROBIN | TournamentFormat.KNOCKOUT;
+  format: GroupTournamentFormat;
 };
 
 export type OpenTournamentPayload = BaseTournamentPayload & {
@@ -40,10 +41,11 @@ export type OpenTournamentPayload = BaseTournamentPayload & {
 export type GroupTournament = Omit<GroupTournamentPayload, 'groupId'> & {
   id: number;
   participants: number;
-  status: TournamentStatus;
-  phase: TournamentPhase;
+  status: GroupTournamentStatus;
+  phase: GroupTournamentPhase;
   isCreator: boolean;
   group: Group;
+  maxParticipants: number;
 };
 
 export type OpenTournament = Omit<OpenTournamentPayload, 'purchasedPackageId'> & {
@@ -57,3 +59,5 @@ export type OpenTournament = Omit<OpenTournamentPayload, 'purchasedPackageId'> &
 };
 
 export type UpdateTournamentPayload = Omit<OpenTournamentPayload, 'purchasedPackageId'>;
+
+export type UpdateGroupTournamentPayload = Omit<GroupTournamentPayload, 'groupId'>;

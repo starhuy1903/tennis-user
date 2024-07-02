@@ -34,7 +34,7 @@ export default function News() {
   }, [getTopNews]);
 
   if (!hasFetchedData || isLoading) {
-    return <CenterLoading height="10vh" />;
+    return <CenterLoading />;
   }
 
   if (hasFetchedData && news.length === 0) {

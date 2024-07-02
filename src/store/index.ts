@@ -4,6 +4,7 @@ import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import { apiSlice, apiWithToastSlice } from './api/baseApiSlice';
 import { appSlice } from './slice/appSlice';
 import { groupSlice } from './slice/groupSlice';
+import { groupTournamentSlice } from './slice/groupTournamentSlice';
 import { modalSlice } from './slice/modalSlice';
 import { statusSlice } from './slice/statusSlice';
 import { tournamentSlice } from './slice/tournamentSlice';
@@ -16,6 +17,7 @@ const combinedReducer = combineReducers({
   group: groupSlice.reducer,
   tournament: tournamentSlice.reducer,
   status: statusSlice.reducer,
+  groupTournament: groupTournamentSlice.reducer,
   [apiSlice.reducerPath]: apiSlice.reducer,
   [apiWithToastSlice.reducerPath]: apiWithToastSlice.reducer,
 });

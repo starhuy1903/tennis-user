@@ -6,6 +6,7 @@ import { showModal } from 'store/slice/modalSlice';
 import AddParticipants from './AddParticipants';
 import CropImage from './CropImage';
 import EditMatch from './EditMatch';
+import AddRefereesGroupTournament from './GroupTournament/AddRefereeGroupTournament';
 import HelloWorld from './HelloWorld';
 import InviteIntoGroup from './InviteIntoGroup';
 import RegisterTournament from './RegisterTournament';
@@ -26,6 +27,7 @@ const ModalsMap: { [modalKey: string]: any } = {
   [ModalKey.EDIT_MATCH]: EditMatch,
   [ModalKey.SHOW_PACKAGE_DETAIL]: ShowPackageDetails,
   [ModalKey.ADD_REFEREE]: AddReferee,
+  [ModalKey.ADD_REFEREE_GROUP_TOURNAMENT]: AddRefereesGroupTournament,
   [ModalKey.SELECT_SEED]: SelectSeed,
 };
 

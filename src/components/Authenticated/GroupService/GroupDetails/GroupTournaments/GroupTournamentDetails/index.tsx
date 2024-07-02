@@ -1,4 +1,5 @@
 import Fixtures from './Fixtures';
+import GroupMatchDetails from './Fixtures/GroupMatchDetails';
 import GroupTournamentDetailsLayout from './GroupTournamentDetailsLayout';
 import Information from './Information';
 import Participants from './Participants';
@@ -22,6 +23,10 @@ export const groupTournamentDetailsRoutes = {
     {
       path: 'info',
       element: <Information />,
+    },
+    {
+      path: 'matches/:matchId',
+      element: <GroupMatchDetails />,
     },
   ],
 };

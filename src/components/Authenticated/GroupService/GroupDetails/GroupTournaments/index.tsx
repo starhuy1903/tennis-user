@@ -75,10 +75,12 @@ export default function GroupTournaments() {
               label="All Tournaments"
               value="1"
             />
-            <Tab
-              label="My Tournaments"
-              value="2"
-            />
+            {!groupData.isCreator && (
+              <Tab
+                label="My Tournaments"
+                value="2"
+              />
+            )}
             {groupData.isCreator && (
               <Tab
                 label="Manage Tournaments"
@@ -90,9 +92,11 @@ export default function GroupTournaments() {
         <TabPanel value="1">
           <AllTournaments />
         </TabPanel>
-        <TabPanel value="2">
-          <MyTournaments />
-        </TabPanel>
+        {!groupData.isCreator && (
+          <TabPanel value="2">
+            <MyTournaments />
+          </TabPanel>
+        )}
         {groupData.isCreator && (
           <TabPanel value="3">
             <ManageTournaments />

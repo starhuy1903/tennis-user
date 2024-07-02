@@ -10,7 +10,6 @@ import { groupDetailsRoutes } from 'components/Authenticated/GroupService/GroupD
 import GroupTournaments from 'components/Authenticated/GroupService/GroupDetails/GroupTournaments';
 import CreateGroupTournament from 'components/Authenticated/GroupService/GroupDetails/GroupTournaments/CreateGroupTournament';
 import { groupTournamentDetailsRoutes } from 'components/Authenticated/GroupService/GroupDetails/GroupTournaments/GroupTournamentDetails';
-import GroupMatchDetails from 'components/Authenticated/GroupService/GroupDetails/GroupTournaments/GroupTournamentDetails/Fixtures/GroupMatchDetails';
 import GroupLayout from 'components/Authenticated/GroupService/GroupLayout';
 import VNPReturn from 'components/Authenticated/PaymentReturn/VNPReturn';
 import Profile from 'components/Authenticated/Profile';
@@ -18,7 +17,6 @@ import EditProfile from 'components/Authenticated/Profile/EditProfile';
 import TournamentService from 'components/Authenticated/TournamentService';
 import CreateTournament from 'components/Authenticated/TournamentService/CreateTournament';
 import { tournamentDetailsRoutes } from 'components/Authenticated/TournamentService/TournamentDetails';
-import OpenMatchDetails from 'components/Authenticated/TournamentService/TournamentDetails/Fixtures/OpenMatchDetails';
 import TournamentLayout from 'components/Authenticated/TournamentService/TournamentLayout';
 import CenterLoading from 'components/Common/CenterLoading';
 import AuthenticatedLayout from 'components/Common/Layout/AuthenticatedLayout';
@@ -139,10 +137,6 @@ const protectedRoutes = createBrowserRouter([
             path: 'create',
             element: <CreateGroupTournament />,
           },
-          {
-            path: ':tournamentId/fixtures/matches/:matchId',
-            element: <GroupMatchDetails />,
-          },
         ],
       },
     ],
@@ -160,10 +154,6 @@ const protectedRoutes = createBrowserRouter([
         element: <CreateTournament />,
       },
       tournamentDetailsRoutes,
-      {
-        path: ':tournamentId/fixtures/matches/:matchId',
-        element: <OpenMatchDetails />,
-      },
     ],
   },
   {

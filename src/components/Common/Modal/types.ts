@@ -28,6 +28,13 @@ export interface InviteIntoGroupProps extends CommonModalProps {
 export interface AddParticipantsProps extends CommonModalProps {
   groupId: number;
   tournamentId: number;
+  refetchParticipantsData: () => void;
+}
+
+export interface AddRefereesProps extends CommonModalProps {
+  groupId: number;
+  tournamentId: number;
+  refetchRefereesData: () => void;
 }
 
 export interface RegisterTournamentProps extends CommonModalProps {

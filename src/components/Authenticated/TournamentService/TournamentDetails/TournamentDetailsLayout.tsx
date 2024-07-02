@@ -7,7 +7,7 @@ import LeaderboardIcon from '@mui/icons-material/Leaderboard';
 import SavingsIcon from '@mui/icons-material/Savings';
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
-import { Box, Chip, Collapse, Container, Divider, IconButton, Paper, Stack, Tab, Typography } from '@mui/material';
+import { Box, Chip, Collapse, Divider, IconButton, Paper, Stack, Tab, Typography } from '@mui/material';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Outlet, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'store';
@@ -144,12 +144,7 @@ export default function TournamentDetailsLayout() {
   }
 
   return (
-    <Container
-      maxWidth="lg"
-      sx={{
-        minHeight: '120vh',
-      }}
-    >
+    <>
       <Breadcrumbs customRoutes={customRoutes} />
 
       <Paper sx={{ borderBottomLeftRadius: 16, borderBottomRightRadius: 16, border: '1px white solid' }}>
@@ -284,6 +279,6 @@ export default function TournamentDetailsLayout() {
       {/* <InformationSection /> */}
 
       <Outlet />
-    </Container>
+    </>
   );
 }

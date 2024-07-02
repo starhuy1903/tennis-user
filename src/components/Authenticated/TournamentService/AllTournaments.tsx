@@ -63,7 +63,7 @@ export default function AllTournaments() {
   };
 
   if (fetchingUnregisteredTournaments || fetchingTournament) {
-    return <CenterLoading height="10vh" />;
+    return <CenterLoading />;
   }
 
   return (

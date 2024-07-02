@@ -4,7 +4,7 @@ import { useAppSelector } from 'store';
 
 import CenterLoading from 'components/Common/CenterLoading';
 import NoData from 'components/Common/NoData';
-import { useGetCreatedGroupTournamentsQuery } from 'store/api/group/groupTournamentApiSlice';
+import { useGetCreatedGroupTournamentsQuery } from 'store/api/group/group-tournaments/creator/general';
 import { selectGroup } from 'store/slice/groupSlice';
 
 import GroupTournamentList from './GroupTournamentList';

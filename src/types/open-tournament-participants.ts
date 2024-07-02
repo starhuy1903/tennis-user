@@ -21,4 +21,5 @@ export type Referee = {
   image: string;
   gender: Gender;
   dob: string;
+  email?: string;
 };
