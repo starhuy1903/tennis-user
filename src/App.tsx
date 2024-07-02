@@ -24,6 +24,7 @@ import CenterLoading from 'components/Common/CenterLoading';
 import AuthenticatedLayout from 'components/Common/Layout/AuthenticatedLayout';
 import UnauthenticatedLayout from 'components/Common/Layout/UnauthenticatedLayout';
 import Home from 'components/Home';
+import AboutUs from 'components/Unauthenticated/AboutUs';
 import ForgotPassword from 'components/Unauthenticated/ForgotPassword';
 import Login from 'components/Unauthenticated/Login';
 import News from 'components/Unauthenticated/News';
@@ -39,10 +40,6 @@ import './App.css';
 
 const sharedRoutes = [
   {
-    index: true,
-    element: <Home />,
-  },
-  {
     path: 'news',
     element: <News />,
   },
@@ -54,6 +51,10 @@ const sharedRoutes = [
     path: 'pricing',
     element: <Pricing />,
   },
+  {
+    path: 'about',
+    element: <AboutUs />,
+  },
 ];
 
 const protectedRoutes = createBrowserRouter([
@@ -62,6 +63,10 @@ const protectedRoutes = createBrowserRouter([
     element: <AuthenticatedLayout />,
     children: [
       ...sharedRoutes,
+      {
+        index: true,
+        element: <Home />,
+      },
       {
         path: 'login',
         element: <AddMemberToGroup />,
@@ -173,6 +178,10 @@ const publicRoutes = createBrowserRouter([
     element: <UnauthenticatedLayout />,
     children: [
       ...sharedRoutes,
+      {
+        index: true,
+        element: <AboutUs />,
+      },
       {
         path: 'signup',
         element: <Signup />,
