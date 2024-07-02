@@ -1,51 +1,51 @@
 import { Avatar, Box, Checkbox, FormLabel, Stack, Typography } from '@mui/material';
 import { useCallback, useEffect, useState } from 'react';
 
+import CenterLoading from 'components/Common/CenterLoading';
 import {
-  useAddParticipantsMutation,
+  useAddRefereesGroupTournamentMutation,
   useLazyGetGroupTournamentNonParticipantsQuery,
 } from 'store/api/group/group-tournaments/creator/participant';
 import { showSuccess } from 'utils/toast';
 
-import CenterLoading from '../CenterLoading';
-import BaseModal from './BaseModal';
-import { AddParticipantsProps } from './types';
+import BaseModal from '../BaseModal';
+import { AddRefereesProps } from '../types';
 
-export default function AddParticipants({
+export default function AddRefereesGroupTournament({
   groupId,
   tournamentId,
-  refetchParticipantsData,
+  refetchRefereesData,
   onModalClose,
-}: AddParticipantsProps) {
-  const [selectedParticipants, setSelectedParticipants] = useState<string[]>([]);
+}: AddRefereesProps) {
+  const [selectedReferees, setSelectedReferees] = useState<string[]>([]);
 
-  const [getNonParticipants, { isLoading, data: nonParticipants }] = useLazyGetGroupTournamentNonParticipantsQuery();
-  const [addParticipants, { isLoading: isAddLoading }] = useAddParticipantsMutation();
+  const [getAvailableMembers, { isLoading, data: availableMembers }] = useLazyGetGroupTournamentNonParticipantsQuery();
+  const [addReferees, { isLoading: isAddLoading }] = useAddRefereesGroupTournamentMutation();
 
   const handleCheckboxChange = (userId: string) => {
-    setSelectedParticipants((prevSelectedParticipants) =>
-      prevSelectedParticipants.includes(userId)
-        ? prevSelectedParticipants.filter((id) => id !== userId)
-        : [...prevSelectedParticipants, userId]
+    setSelectedReferees((prevSelectedReferees) =>
+      prevSelectedReferees.includes(userId)
+        ? prevSelectedReferees.filter((id) => id !== userId)
+        : [...prevSelectedReferees, userId]
     );
   };
 
   useEffect(() => {
-    getNonParticipants({ groupId, tournamentId });
-  }, [getNonParticipants, groupId, tournamentId]);
+    getAvailableMembers({ groupId, tournamentId });
+  }, [getAvailableMembers, groupId, tournamentId]);
 
-  const handleAddParticipants = useCallback(
+  const handleAddReferees = useCallback(
     async (userIds: string[]) => {
       try {
-        await addParticipants({ groupId, tournamentId, userIds }).unwrap();
-        showSuccess('Added participants to the tournament successfully.');
+        await addReferees({ groupId, tournamentId, userIds }).unwrap();
+        showSuccess('Added referees to the tournament successfully.');
         onModalClose();
-        refetchParticipantsData();
+        refetchRefereesData();
       } catch (error) {
         // handle error
       }
     },
-    [addParticipants, groupId, onModalClose, refetchParticipantsData, tournamentId]
+    [addReferees, groupId, onModalClose, refetchRefereesData, tournamentId]
   );
 
   const renderBody = () => {
@@ -53,7 +53,7 @@ export default function AddParticipants({
       return <CenterLoading height="400px" />;
     }
 
-    if (!nonParticipants || nonParticipants.length === 0) {
+    if (!availableMembers || availableMembers.length === 0) {
       return (
         <Box
           sx={{
@@ -63,7 +63,7 @@ export default function AddParticipants({
             height: '200px',
           }}
         >
-          <Typography>No more members to add to the tournament.</Typography>
+          <Typography>No available members to add as referees.</Typography>
         </Box>
       );
     }
@@ -77,8 +77,8 @@ export default function AddParticipants({
           maxHeight: '400px',
         }}
       >
-        {nonParticipants &&
-          nonParticipants.map((user) => (
+        {availableMembers &&
+          availableMembers.map((user) => (
             <FormLabel key={user.id}>
               <Box
                 sx={{
@@ -86,7 +86,7 @@ export default function AddParticipants({
                   alignItems: 'center',
                   justifyContent: 'space-between',
                   padding: '10px',
-                  border: `2px solid ${selectedParticipants.includes(user.id) ? '#7F56D9' : '#E0E0E0'}`,
+                  border: `2px solid ${selectedReferees.includes(user.id) ? '#7F56D9' : '#E0E0E0'}`,
                   borderRadius: '6px',
                   transition: 'border-color 0.2s ease',
                 }}
@@ -104,7 +104,7 @@ export default function AddParticipants({
                 </Box>
 
                 <Checkbox
-                  checked={selectedParticipants.includes(user.id)}
+                  checked={selectedReferees.includes(user.id)}
                   onChange={() => handleCheckboxChange(user.id)}
                 />
               </Box>
@@ -116,12 +116,12 @@ export default function AddParticipants({
 
   return (
     <BaseModal
-      headerText="Add Participants"
+      headerText="Add Referees"
       onModalClose={onModalClose}
       body={renderBody()}
       primaryButtonText="Add"
-      onClickPrimaryButton={() => handleAddParticipants(selectedParticipants)}
-      disabledPrimaryButton={isLoading || isAddLoading || selectedParticipants.length === 0}
+      onClickPrimaryButton={() => handleAddReferees(selectedReferees)}
+      disabledPrimaryButton={isLoading || isAddLoading || selectedReferees.length === 0}
     />
   );
 }

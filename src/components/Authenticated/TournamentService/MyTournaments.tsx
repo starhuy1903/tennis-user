@@ -45,7 +45,7 @@ export default function MyTournaments() {
   }, [getTournaments]);
 
   if (isLoading) {
-    return <CenterLoading height="10vh" />;
+    return <CenterLoading />;
   }
 
   return (

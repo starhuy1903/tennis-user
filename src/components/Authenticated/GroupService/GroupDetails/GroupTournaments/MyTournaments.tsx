@@ -8,7 +8,7 @@ import { useAppSelector } from 'store';
 import CenterLoading from 'components/Common/CenterLoading';
 import NoData from 'components/Common/NoData';
 import { TournamentStatus } from 'constants/tournament';
-import { useLazyGetMyGroupTournamentsQuery } from 'store/api/group/groupTournamentApiSlice';
+import { useLazyGetMyGroupTournamentsQuery } from 'store/api/group/group-tournaments/shared/general';
 import { selectGroup } from 'store/slice/groupSlice';
 import { GroupTournament } from 'types/tournament';
 

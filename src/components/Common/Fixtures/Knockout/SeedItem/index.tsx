@@ -13,11 +13,11 @@ type CustomSeedItemProps = IRenderSeedProps & {
 };
 
 export default function CustomSeedItem({ seed, onClick }: CustomSeedItemProps) {
-  const isNotShow = seed.status === MatchState.NO_SHOW;
+  const isNotClicked = seed.status === MatchState.NO_SHOW || seed.status === MatchState.SKIPPED;
   const isArranging = !seed.teams[0].user1 && !seed.teams[1].user1;
 
   const handleClickSeed = useCallback(() => {
-    if (!isNotShow) {
+    if (!isNotClicked) {
       const match = {
         ...seed,
         matchStartDate: seed.date || '',
@@ -29,7 +29,7 @@ export default function CustomSeedItem({ seed, onClick }: CustomSeedItemProps) {
 
       onClick?.(match);
     }
-  }, [isNotShow, onClick, seed]);
+  }, [isNotClicked, onClick, seed]);
 
   return (
     <Seed style={{ fontSize: 16 }}>
@@ -42,7 +42,7 @@ export default function CustomSeedItem({ seed, onClick }: CustomSeedItemProps) {
       >
         <Box
           sx={{
-            cursor: !isNotShow ? 'pointer' : 'default',
+            cursor: !isNotClicked ? 'pointer' : 'default',
           }}
           onClick={handleClickSeed}
         >
@@ -57,7 +57,7 @@ export default function CustomSeedItem({ seed, onClick }: CustomSeedItemProps) {
             />
           )}
 
-          {seed.status !== MatchState.NO_SHOW && (
+          {seed.status !== MatchState.SKIPPED && (
             <>
               <Divider>
                 <MatchStatusBadge

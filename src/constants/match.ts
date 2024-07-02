@@ -12,4 +12,5 @@ export enum MatchState {
   WALK_OVER = 'walk_over',
   DONE = 'done',
   SCORE_DONE = 'score_done',
+  SKIPPED = 'skipped',
 }

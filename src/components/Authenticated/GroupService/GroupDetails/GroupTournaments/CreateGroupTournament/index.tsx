@@ -21,7 +21,7 @@ import { useAppSelector } from 'store';
 
 import { Breadcrumbs } from 'components/Common/Breadcrumb';
 import SingleImagePicker from 'components/Common/Input/SingleImagePicker';
-import { useCreateGroupTournamentMutation } from 'store/api/group/groupTournamentApiSlice';
+import { useCreateGroupTournamentMutation } from 'store/api/group/group-tournaments/creator/general';
 import { selectGroup } from 'store/slice/groupSlice';
 import { GroupTournamentPayload } from 'types/tournament';
 import { showSuccess } from 'utils/toast';
