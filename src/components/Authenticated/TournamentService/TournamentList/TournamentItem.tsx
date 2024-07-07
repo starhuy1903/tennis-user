@@ -111,23 +111,23 @@ export default function TournamentItem({
           <Typography variant="subtitle1">{`${tournament.participants}/${tournament.maxParticipants} participants`}</Typography>
         </Box>
 
-        <Box>
-          {tournament.status === TournamentStatus.UPCOMING && (
-            <Box
-              display="flex"
-              gap={1}
-              color="red"
-            >
-              <AccessTimeIcon />
-              <Typography variant="subtitle1">
-                {checkExpiredDate(tournament.registrationDueDate)
-                  ? 'Registration has expired'
-                  : displayDayLeft(tournament.registrationDueDate)}
-              </Typography>
-            </Box>
-          )}
+        {isRegisterable && (
+          <Box>
+            {tournament.status === TournamentStatus.UPCOMING && (
+              <Box
+                display="flex"
+                gap={1}
+                color="red"
+              >
+                <AccessTimeIcon />
+                <Typography variant="subtitle1">
+                  {checkExpiredDate(tournament.registrationDueDate)
+                    ? 'Registration has expired'
+                    : displayDayLeft(tournament.registrationDueDate)}
+                </Typography>
+              </Box>
+            )}
 
-          {isRegisterable && (
             <Button
               variant="contained"
               color="primary"
@@ -140,8 +140,8 @@ export default function TournamentItem({
             >
               Register
             </Button>
-          )}
-        </Box>
+          </Box>
+        )}
 
         <Button
           fullWidth

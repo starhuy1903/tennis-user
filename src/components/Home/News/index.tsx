@@ -45,10 +45,21 @@ export default function News() {
     <Box>
       <Swiper
         spaceBetween={20}
-        slidesPerView={4}
+        slidesPerView={3}
         autoplay={{ delay: 5000, disableOnInteraction: false }}
         loop
         modules={[Autoplay, FreeMode]}
+        breakpoints={{
+          0: {
+            slidesPerView: 1,
+          },
+          750: {
+            slidesPerView: 2,
+          },
+          1080: {
+            slidesPerView: 3,
+          },
+        }}
       >
         {news.map((item) => (
           <SwiperSlide key={item.id}>

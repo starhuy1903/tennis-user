@@ -102,7 +102,7 @@ export default function FAQ() {
           If you have any questions or need assistance, you can reach out to our customer support team through our
           contact page or directly via email at{' '}
           <LinkMUI
-            href="mailto: support@tennis.com"
+            href="mailto: support@tenity.com"
             sx={{
               'color': 'primary.main',
               'fontWeight': 'bold',
@@ -112,7 +112,7 @@ export default function FAQ() {
               },
             }}
           >
-            support@tennis.com
+            support@tenity.com
           </LinkMUI>
           . We are here to help you with any inquiries you may have.
         </AccordionData>
