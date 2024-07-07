@@ -11,6 +11,7 @@ import {
   FormHelperText,
   FormLabel,
   MenuItem,
+  Paper,
   Select,
   Stack,
   TextField,
@@ -102,18 +103,25 @@ export default function FormCreateTournament({ selectedPackage, setSelectedPacka
   };
 
   return (
-    <Box>
+    <Paper
+      elevation={1}
+      sx={{
+        padding: 4,
+        borderRadius: 2,
+        backgroundColor: 'white',
+      }}
+    >
       <Typography
-        variant="h4"
-        noWrap
-        component="h4"
+        variant="h5"
+        gutterBottom
         sx={{
-          display: 'flex',
-          fontWeight: 700,
+          fontWeight: 500,
+          textAlign: 'center',
         }}
       >
-        TOURNAMENT CREATION FORM
+        Create Tournament
       </Typography>
+
       <Card
         sx={{
           p: 2,
@@ -183,10 +191,7 @@ export default function FormCreateTournament({ selectedPackage, setSelectedPacka
           {/* Information */}
           <Box sx={{ width: '100%' }}>
             <Typography variant="h6">Information</Typography>
-            <Stack
-              spacing={2}
-              sx={{ mt: 1 }}
-            >
+            <Stack spacing={2}>
               <FormControl
                 fullWidth
                 error={!!formError.name}
@@ -205,6 +210,7 @@ export default function FormCreateTournament({ selectedPackage, setSelectedPacka
                   error={!!formError.name}
                   aria-describedby="name-helper-text"
                   placeholder="Tournament name"
+                  size="small"
                 />
                 <FormHelperText id="name-helper-text">{formError.name?.message}</FormHelperText>
               </FormControl>
@@ -227,6 +233,7 @@ export default function FormCreateTournament({ selectedPackage, setSelectedPacka
                   multiline
                   rows={3}
                   placeholder="Say something about your tournament"
+                  size="small"
                 />
                 <FormHelperText id="description-helper-text">{formError.description?.message}</FormHelperText>
               </FormControl>
@@ -236,10 +243,7 @@ export default function FormCreateTournament({ selectedPackage, setSelectedPacka
           {/* Contact information */}
           <Box sx={{ width: '100%' }}>
             <Typography variant="h6">Contact Information</Typography>
-            <Stack
-              sx={{ mt: 1 }}
-              spacing={2}
-            >
+            <Stack spacing={2}>
               <FormControl
                 fullWidth
                 error={!!formError.contactPersonName}
@@ -254,6 +258,7 @@ export default function FormCreateTournament({ selectedPackage, setSelectedPacka
                   id="contactPersonName"
                   error={!!formError.contactPersonName}
                   aria-describedby="contactPersonName-helper-text"
+                  size="small"
                 />
                 <FormHelperText id="contactPersonName-helper-text">
                   {formError.contactPersonName?.message}
@@ -283,6 +288,7 @@ export default function FormCreateTournament({ selectedPackage, setSelectedPacka
                     id="contactNumber"
                     error={!!formError.contactNumber}
                     aria-describedby="contactNumber-helper-text"
+                    size="small"
                   />
                   <FormHelperText id="contactNumber-helper-text">{formError.contactNumber?.message}</FormHelperText>
                 </FormControl>
@@ -301,6 +307,7 @@ export default function FormCreateTournament({ selectedPackage, setSelectedPacka
                     id="contactEmail"
                     error={!!formError.contactEmail}
                     aria-describedby="contactEmail-helper-text"
+                    size="small"
                   />
                   <FormHelperText id="contactEmail-helper-text">{formError.contactEmail?.message}</FormHelperText>
                 </FormControl>
@@ -350,6 +357,14 @@ export default function FormCreateTournament({ selectedPackage, setSelectedPacka
                           disablePast
                           defaultValue={dayjs(getValues('startDate'))}
                           format="DD/MM/YYYY"
+                          slotProps={{
+                            textField: {
+                              size: 'small',
+                              sx: {
+                                backgroundColor: 'white',
+                              },
+                            },
+                          }}
                         />
                       </LocalizationProvider>
                       <FormHelperText id="startDate-helper-text">{formError.startDate?.message}</FormHelperText>
@@ -385,6 +400,14 @@ export default function FormCreateTournament({ selectedPackage, setSelectedPacka
                           disablePast
                           defaultValue={dayjs(getValues('endDate'))}
                           format="DD/MM/YYYY"
+                          slotProps={{
+                            textField: {
+                              size: 'small',
+                              sx: {
+                                backgroundColor: 'white',
+                              },
+                            },
+                          }}
                         />
                       </LocalizationProvider>
                       <FormHelperText id="endDate-helper-text">{formError.endDate?.message}</FormHelperText>
@@ -425,6 +448,14 @@ export default function FormCreateTournament({ selectedPackage, setSelectedPacka
                           disablePast
                           defaultValue={dayjs(getValues('registrationDueDate'))}
                           format="DD/MM/YYYY HH:mm"
+                          slotProps={{
+                            textField: {
+                              size: 'small',
+                              sx: {
+                                backgroundColor: 'white',
+                              },
+                            },
+                          }}
                         />
                       </LocalizationProvider>
                       <FormHelperText id="registrationDueDate-helper-text">
@@ -444,9 +475,9 @@ export default function FormCreateTournament({ selectedPackage, setSelectedPacka
               fullWidth
               error={!!formError.address}
             >
-              <FormLabel htmlFor="address">Address detail</FormLabel>
+              <FormLabel htmlFor="address">Address</FormLabel>
               <TextField
-                placeholder="Address detail"
+                placeholder="Address"
                 {...register('address', {
                   required: 'The address is required.',
                   minLength: {
@@ -458,171 +489,198 @@ export default function FormCreateTournament({ selectedPackage, setSelectedPacka
                 id="address"
                 error={!!formError.address}
                 aria-describedby="address-helper-text"
+                size="small"
               />
               <FormHelperText id="address-helper-text">{formError.address?.message}</FormHelperText>
             </FormControl>
             <Stack></Stack>
           </Box>
         </Stack>
+
         {/* Game Settings */}
-        <Stack spacing={2}>
+        <Stack marginTop={2}>
           <Typography variant="h6">Tournament Settings</Typography>
-          <Stack
-            direction="row"
-            spacing={2}
-          >
-            <Controller
-              control={control}
-              name="format"
-              defaultValue={tournamentFormatOptions[0].value as TournamentFormat}
-              render={({ field: { onChange, value } }) => (
-                <FormControl
-                  fullWidth
-                  error={!!formError.format}
-                >
-                  <FormLabel htmlFor="format">Choose format</FormLabel>
-                  <Select
-                    value={value}
-                    id="format"
-                    onChange={onChange}
-                    aria-describedby="format-helper-text"
-                  >
-                    {tournamentFormatOptions.map((tournamentOption) => (
-                      <MenuItem
-                        key={tournamentOption.id}
-                        value={tournamentOption.value}
-                      >
-                        {tournamentOption.displayValue}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                  <FormHelperText id="format-helper-text">{formError.format?.message}</FormHelperText>
-                </FormControl>
-              )}
-            />
-            <FormControl
-              fullWidth
-              error={!!formError.maxParticipants}
+          <Stack spacing={2}>
+            <Stack
+              direction="row"
+              spacing={2}
             >
-              <FormLabel htmlFor="maxParticipants">Max participants</FormLabel>
-              <TextField
-                {...register('maxParticipants', {
-                  required: 'The max participants is required.',
-                })}
-                required
-                type="number"
-                id="maxParticipants"
-                error={!!formError.maxParticipants}
-                aria-describedby="maxParticipants-helper-text"
+              <Controller
+                control={control}
+                name="format"
+                defaultValue={tournamentFormatOptions[0].value as TournamentFormat}
+                render={({ field: { onChange, value } }) => (
+                  <FormControl
+                    fullWidth
+                    error={!!formError.format}
+                  >
+                    <FormLabel htmlFor="format">Choose format</FormLabel>
+                    <Select
+                      value={value}
+                      id="format"
+                      onChange={onChange}
+                      aria-describedby="format-helper-text"
+                      size="small"
+                    >
+                      {tournamentFormatOptions.map((tournamentOption) => (
+                        <MenuItem
+                          key={tournamentOption.id}
+                          value={tournamentOption.value}
+                        >
+                          {tournamentOption.displayValue}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                    <FormHelperText id="format-helper-text">{formError.format?.message}</FormHelperText>
+                  </FormControl>
+                )}
               />
-              <FormHelperText id="maxParticipants-helper-text">{formError.maxParticipants?.message}</FormHelperText>
-            </FormControl>
-          </Stack>
-          <Stack
-            direction="row"
-            spacing={2}
-          >
-            <Controller
-              control={control}
-              name="gender"
-              defaultValue={Gender.ANY}
-              rules={{ required: 'Please select a gender.' }}
-              render={({ field: { onChange, value } }) => (
-                <FormControl
-                  fullWidth
-                  error={!!formError.gender}
-                >
-                  <FormLabel htmlFor="gender">Gender</FormLabel>
-                  <Select
-                    value={value}
-                    id="gender"
-                    onChange={onChange}
-                    aria-describedby="gender-helper-text"
+              <FormControl
+                fullWidth
+                error={!!formError.maxParticipants}
+              >
+                <FormLabel htmlFor="maxParticipants">Max participants</FormLabel>
+                <TextField
+                  {...register('maxParticipants', {
+                    required: 'The max participants is required.',
+                  })}
+                  required
+                  type="number"
+                  id="maxParticipants"
+                  error={!!formError.maxParticipants}
+                  aria-describedby="maxParticipants-helper-text"
+                  size="small"
+                />
+                <FormHelperText id="maxParticipants-helper-text">{formError.maxParticipants?.message}</FormHelperText>
+              </FormControl>
+            </Stack>
+
+            <Stack
+              direction="row"
+              spacing={2}
+            >
+              <Controller
+                control={control}
+                name="gender"
+                defaultValue={Gender.ANY}
+                rules={{ required: 'Please select a gender.' }}
+                render={({ field: { onChange, value } }) => (
+                  <FormControl
+                    fullWidth
+                    error={!!formError.gender}
                   >
-                    {Object.entries(GenderOptions).map(([genderKey, genderValue], index) => (
-                      <MenuItem
-                        key={index}
-                        value={genderKey}
-                      >
-                        {genderValue}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                  <FormHelperText id="gender-helper-text">{formError.gender?.message}</FormHelperText>
-                </FormControl>
-              )}
-            />
-            <Controller
-              control={control}
-              name="participantType"
-              defaultValue={ParticipantType.SINGLE}
-              render={({ field: { onChange, value } }) => (
-                <FormControl
-                  fullWidth
-                  error={!!formError.participantType}
-                >
-                  <FormLabel htmlFor="participantType">Participant type</FormLabel>
-                  <Select
-                    value={value}
-                    id="participantType"
-                    onChange={onChange}
-                    aria-describedby="participantType-helper-text"
+                    <FormLabel htmlFor="gender">Gender</FormLabel>
+                    <Select
+                      value={value}
+                      id="gender"
+                      onChange={onChange}
+                      aria-describedby="gender-helper-text"
+                      size="small"
+                    >
+                      {Object.entries(GenderOptions).map(([genderKey, genderValue], index) => (
+                        <MenuItem
+                          key={index}
+                          value={genderKey}
+                        >
+                          {genderValue}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                    <FormHelperText id="gender-helper-text">{formError.gender?.message}</FormHelperText>
+                  </FormControl>
+                )}
+              />
+              <Controller
+                control={control}
+                name="participantType"
+                defaultValue={ParticipantType.SINGLE}
+                render={({ field: { onChange, value } }) => (
+                  <FormControl
+                    fullWidth
+                    error={!!formError.participantType}
                   >
-                    {Object.entries(ParticipantTypeOptions).map(([participantTypeKey, participantTypeValue], index) => (
-                      <MenuItem
-                        key={index}
-                        value={participantTypeKey}
-                      >
-                        {participantTypeValue}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                  <FormHelperText id="participantType-helper-text">{formError.participantType?.message}</FormHelperText>
-                </FormControl>
-              )}
-            />
-            <Controller
-              control={control}
-              name="playersBornAfterDate"
-              render={({ field: { onChange } }) => (
-                <FormControl
-                  fullWidth
-                  error={!!formError.playersBornAfterDate}
-                >
-                  <FormLabel htmlFor="playersBornAfterDate">Player born after</FormLabel>
-                  <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DatePicker
-                      onChange={(date) => {
-                        onChange(date?.toISOString());
-                      }}
-                      defaultValue={dayjs(getValues('playersBornAfterDate'))}
-                      format="DD/MM/YYYY"
-                      disableFuture
-                    />
-                  </LocalizationProvider>
-                  <FormHelperText id="playersBornAfterDate-helper-text">
-                    {formError.playersBornAfterDate?.message}
-                  </FormHelperText>
-                </FormControl>
-              )}
-            />
+                    <FormLabel htmlFor="participantType">Participant type</FormLabel>
+                    <Select
+                      value={value}
+                      id="participantType"
+                      onChange={onChange}
+                      aria-describedby="participantType-helper-text"
+                      size="small"
+                    >
+                      {Object.entries(ParticipantTypeOptions).map(
+                        ([participantTypeKey, participantTypeValue], index) => (
+                          <MenuItem
+                            key={index}
+                            value={participantTypeKey}
+                          >
+                            {participantTypeValue}
+                          </MenuItem>
+                        )
+                      )}
+                    </Select>
+                    <FormHelperText id="participantType-helper-text">
+                      {formError.participantType?.message}
+                    </FormHelperText>
+                  </FormControl>
+                )}
+              />
+              <Controller
+                control={control}
+                name="playersBornAfterDate"
+                render={({ field: { onChange } }) => (
+                  <FormControl
+                    fullWidth
+                    error={!!formError.playersBornAfterDate}
+                  >
+                    <FormLabel htmlFor="playersBornAfterDate">Player born after</FormLabel>
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                      <DatePicker
+                        onChange={(date) => {
+                          onChange(date?.toISOString());
+                        }}
+                        defaultValue={dayjs(getValues('playersBornAfterDate'))}
+                        format="DD/MM/YYYY"
+                        disableFuture
+                        slotProps={{
+                          textField: {
+                            size: 'small',
+                            sx: {
+                              backgroundColor: 'white',
+                            },
+                          },
+                        }}
+                      />
+                    </LocalizationProvider>
+                    <FormHelperText id="playersBornAfterDate-helper-text">
+                      {formError.playersBornAfterDate?.message}
+                    </FormHelperText>
+                  </FormControl>
+                )}
+              />
+            </Stack>
           </Stack>
 
-          <Controller
-            name="image"
-            control={control}
-            defaultValue=""
-            render={({ field: { onChange, value } }) => (
-              <SingleImagePicker
-                label="Upload a background image for your tournament"
-                imageUrl={value}
-                handleUpload={onChange}
-                handleRemove={() => {
-                  onChange('');
-                }}
-              />
-            )}
-          />
+          <Box
+            sx={{
+              marginTop: 2,
+            }}
+          >
+            <Controller
+              name="image"
+              control={control}
+              defaultValue=""
+              render={({ field: { onChange, value } }) => (
+                <SingleImagePicker
+                  label="Upload a background image for your tournament"
+                  imageUrl={value}
+                  handleUpload={onChange}
+                  handleRemove={() => {
+                    onChange('');
+                  }}
+                />
+              )}
+            />
+          </Box>
         </Stack>
         <Box
           sx={{
@@ -636,7 +694,6 @@ export default function FormCreateTournament({ selectedPackage, setSelectedPacka
             color="secondary"
             disabled={isLoading}
             onClick={handleGoPreviousStep}
-            sx={{ mt: 4 }}
           >
             Cancel
           </Button>
@@ -645,7 +702,6 @@ export default function FormCreateTournament({ selectedPackage, setSelectedPacka
             color="primary"
             disabled={isLoading}
             onClick={handleSubmit(onSubmit)}
-            sx={{ mt: 4 }}
           >
             Create tournament
           </Button>
@@ -653,6 +709,6 @@ export default function FormCreateTournament({ selectedPackage, setSelectedPacka
 
         {/* <DevTool control={control} /> */}
       </Box>
-    </Box>
+    </Paper>
   );
 }
