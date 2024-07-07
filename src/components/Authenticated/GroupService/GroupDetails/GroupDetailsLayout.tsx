@@ -96,6 +96,7 @@ export default function GroupDetailsLayout() {
     <Box
       sx={{
         minHeight: '120vh',
+        paddingBottom: 8,
       }}
     >
       <Breadcrumbs customRoutes={customRoutes} />

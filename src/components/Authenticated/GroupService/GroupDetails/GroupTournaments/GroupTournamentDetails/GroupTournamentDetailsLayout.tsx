@@ -145,7 +145,11 @@ export default function GroupTournamentDetailsLayout() {
   }
 
   return (
-    <>
+    <Box
+      sx={{
+        paddingBottom: 8,
+      }}
+    >
       <Breadcrumbs customRoutes={customRoutes} />
 
       <Paper sx={{ borderBottomLeftRadius: 16, borderBottomRightRadius: 16, border: '1px white solid' }}>
@@ -276,6 +280,6 @@ export default function GroupTournamentDetailsLayout() {
       </Paper>
 
       <Outlet />
-    </>
+    </Box>
   );
 }
