@@ -1,10 +1,11 @@
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import PeopleIcon from '@mui/icons-material/People';
 import { Box, Button, Card, CardActionArea, CardContent, CardMedia, Tooltip, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useAppSelector } from 'store';
 
-import { GroupTournamentStatus } from 'constants/group-tournament';
+import { GroupTournamentFormatOptions, GroupTournamentStatus } from 'constants/group-tournament';
 import { defaultTournamentImage } from 'constants/tournament';
 import { selectGroup } from 'store/slice/groupSlice';
 import { GroupTournament } from 'types/tournament';
@@ -67,6 +68,18 @@ export default function GroupTournamentItem({ tournament }: { tournament: GroupT
             {tournament.name}
           </Typography>
         </Tooltip>
+
+        <Box
+          display="flex"
+          gap={1}
+        >
+          <EmojiEventsIcon
+            sx={{
+              color: 'gray',
+            }}
+          />
+          <Typography variant="subtitle1">{GroupTournamentFormatOptions[tournament.format]}</Typography>
+        </Box>
 
         <Box
           display="flex"

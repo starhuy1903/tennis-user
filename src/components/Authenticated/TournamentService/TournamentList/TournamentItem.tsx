@@ -1,6 +1,7 @@
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import PeopleIcon from '@mui/icons-material/People';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { Box, Button, Card, CardActionArea, CardContent, CardMedia, Tooltip, Typography } from '@mui/material';
@@ -8,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from 'store';
 
 import { ModalKey } from 'constants/modal';
-import { TournamentStatus, defaultTournamentImage } from 'constants/tournament';
+import { TournamentFormatOptions, TournamentStatus, defaultTournamentImage } from 'constants/tournament';
 import { showModal } from 'store/slice/modalSlice';
 import { OpenTournament } from 'types/tournament';
 import { checkExpiredDate, displayDateRange, displayDayLeft } from 'utils/datetime';
@@ -86,6 +87,18 @@ export default function TournamentItem({
             {tournament.name}
           </Typography>
         </Tooltip>
+
+        <Box
+          display="flex"
+          gap={1}
+        >
+          <EmojiEventsIcon
+            sx={{
+              color: 'gray',
+            }}
+          />
+          <Typography variant="subtitle1">{TournamentFormatOptions[tournament.format]}</Typography>
+        </Box>
 
         <Box
           display="flex"
