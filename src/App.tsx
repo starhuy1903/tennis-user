@@ -89,8 +89,8 @@ const protectedRoutes = createBrowserRouter([
             element: <Profile activeTab="payments" />,
           },
           {
-            path: 'settings',
-            element: <Profile activeTab="settings" />,
+            path: 'change-password',
+            element: <Profile activeTab="change-password" />,
           },
           {
             path: 'referee',
