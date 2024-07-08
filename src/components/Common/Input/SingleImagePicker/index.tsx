@@ -25,6 +25,7 @@ interface SingleImagePickerProps {
   disabled?: boolean;
   imageAspect?: number;
   imageSxStyle?: SxProps;
+  isCrop?: boolean;
 }
 
 const SingleImagePicker = memo(
@@ -36,6 +37,7 @@ const SingleImagePicker = memo(
     disabled,
     imageAspect = 16 / 9,
     imageSxStyle,
+    isCrop = true,
   }: SingleImagePickerProps) => {
     const dispatch = useAppDispatch();
 
@@ -70,15 +72,19 @@ const SingleImagePicker = memo(
           return;
         }
 
-        dispatch(
-          showModal(ModalKey.CROP_IMAGE, {
-            image: file,
-            aspect: imageAspect,
-            onSubmit: handleUploadImage,
-          })
-        );
+        if (isCrop) {
+          dispatch(
+            showModal(ModalKey.CROP_IMAGE, {
+              image: file,
+              aspect: imageAspect,
+              onSubmit: handleUploadImage,
+            })
+          );
+        } else {
+          handleUploadImage(file);
+        }
       },
-      [dispatch, handleUploadImage, imageAspect]
+      [dispatch, handleUploadImage, imageAspect, isCrop]
     );
 
     const renderUpdateImageContainer = ({
