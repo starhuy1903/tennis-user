@@ -9,7 +9,6 @@ import { ModalKey } from 'constants/modal';
 import { useGetPostsQuery } from 'store/api/group/postApiSlice';
 import { selectGroup } from 'store/slice/groupSlice';
 import { showModal } from 'store/slice/modalSlice';
-import { GroupPost } from 'types/group-post';
 
 import FeedItem from './FeedItem';
 
@@ -42,19 +41,6 @@ export default function Feeds() {
       })
     );
   }, [dispatch, groupData.id, refetch]);
-
-  const handleUpdatePost = useCallback(
-    (post: GroupPost) => {
-      dispatch(
-        showModal(ModalKey.UPDATE_POST, {
-          groupId: groupData.id,
-          post,
-          onSuccess: refetch,
-        })
-      );
-    },
-    [dispatch, groupData.id, refetch]
-  );
 
   if (isLoading) {
     return <CenterLoading />;
