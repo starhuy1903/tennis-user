@@ -6,4 +6,5 @@ export const baseConfigs: EnvConfig = {
   oauthClientID: '57473750552-tvjo39ammmn2phv18nfncdtj7kkansru.apps.googleusercontent.com',
   oauthClientSecret: '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',
   vnpUrl: `https://sandbox.vnpayment.vn/paymentv2/vpcpay.html?vnp_TmnCode=WE9EYUI9&vnp_HashSecret=TUMGNCDEDECBQNKBWGZMFFYJOAXMANXU`,
+  googleMapApiKey: 'AIzaSyCcBsnN6_V8Ma1x3oGAzM3godHO2t_6RFQ',
 };
