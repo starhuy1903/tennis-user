@@ -4,6 +4,7 @@ import { ModalKey } from 'constants/modal';
 import { showModal } from 'store/slice/modalSlice';
 
 import AddParticipants from './AddParticipants';
+import CreatePost from './CreatePost';
 import CropImage from './CropImage';
 import EditMatch from './EditMatch';
 import AddRefereesGroupTournament from './GroupTournament/AddRefereeGroupTournament';
@@ -15,6 +16,7 @@ import ShowOrderDetail from './ShowOrderDetails';
 import ShowPackageDetails from './ShowPackageDetails';
 import AddReferee from './Tournament/AddReferee';
 import SelectSeed from './Tournament/SelectSeed';
+import UpdatePost from './UpdatePost';
 
 const ModalsMap: { [modalKey: string]: any } = {
   [ModalKey.HELLO_WORLD]: HelloWorld,
@@ -29,6 +31,8 @@ const ModalsMap: { [modalKey: string]: any } = {
   [ModalKey.ADD_REFEREE]: AddReferee,
   [ModalKey.ADD_REFEREE_GROUP_TOURNAMENT]: AddRefereesGroupTournament,
   [ModalKey.SELECT_SEED]: SelectSeed,
+  [ModalKey.CREATE_POST]: CreatePost,
+  [ModalKey.UPDATE_POST]: UpdatePost,
 };
 
 export function ModalContainer() {
