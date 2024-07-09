@@ -112,6 +112,7 @@ export default function Information() {
         <Typography
           variant="body1"
           textAlign="justify"
+          whiteSpace="pre-line"
         >
           {tournamentData.description}
         </Typography>
