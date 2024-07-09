@@ -7,14 +7,13 @@ import { Breadcrumbs } from 'components/Common/Breadcrumb';
 import TabPanel from 'components/Common/TabPanel';
 import { a11yProps } from 'utils/ui';
 
-import AccountSettings from './AccountSettings';
-import FeedSection from './FeedSection';
+import ChangePassword from './ChangePassword';
 import PacksSection from './PacksSection';
 import PaymentSection from './PaymentSection';
 import ProfileSection from './ProfileSection';
 import RefereeSection from './RefereeSection';
 
-type ProfileTabName = 'feeds' | 'packages' | 'payments' | 'settings' | 'referee';
+type ProfileTabName = 'feeds' | 'packages' | 'payments' | 'change-password' | 'referee';
 
 const ProfileTabs: Array<{
   index: number;
@@ -22,29 +21,29 @@ const ProfileTabs: Array<{
   component: ReactNode;
   tabName: ProfileTabName;
 }> = [
+  // {
+  //   index: 0,
+  //   label: 'Feeds',
+  //   component: <FeedSection />,
+  //   tabName: 'feeds',
+  // },
   {
     index: 0,
-    label: 'Feeds',
-    component: <FeedSection />,
-    tabName: 'feeds',
-  },
-  {
-    index: 1,
     label: 'Packages',
     component: <PacksSection />,
     tabName: 'packages',
   },
   {
-    index: 2,
+    index: 1,
     label: 'Payments',
     component: <PaymentSection />,
     tabName: 'payments',
   },
   {
-    index: 3,
-    label: 'Account Settings',
-    component: <AccountSettings />,
-    tabName: 'settings',
+    index: 2,
+    label: 'Change Password',
+    component: <ChangePassword />,
+    tabName: 'change-password',
   },
 ];
 
@@ -61,7 +60,7 @@ export default function Profile({ activeTab = 'feeds' }: ProfileProps) {
       return [
         ...ProfileTabs,
         {
-          index: 4,
+          index: 3,
           label: 'Referee',
           component: <RefereeSection />,
           tabName: 'referee',

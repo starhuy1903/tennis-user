@@ -44,6 +44,13 @@ export default function NewsDetail() {
     fetchData();
   }, [getNews, handleInvalidRequest, id]);
 
+  const customRoutes = [
+    {
+      path: '/news/:id',
+      breadcrumb: 'News Detail',
+    },
+  ];
+
   if (isLoading || !news) {
     return <CenterLoading />;
   }
@@ -55,7 +62,7 @@ export default function NewsDetail() {
       pt={2}
       pb={10}
     >
-      <Breadcrumbs />
+      <Breadcrumbs customRoutes={customRoutes} />
 
       <Typography variant="h4">{news.title}</Typography>
 
@@ -91,8 +98,6 @@ export default function NewsDetail() {
       </Stack>
 
       <Divider />
-
-      <Typography variant="body1">{news.description}</Typography>
 
       <Box
         sx={{

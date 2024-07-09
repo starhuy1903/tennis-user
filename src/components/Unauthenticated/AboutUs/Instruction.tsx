@@ -1,10 +1,10 @@
-import { Box, Button, Grid, Link as LinkMUI, Typography } from '@mui/material';
+import DownloadIcon from '@mui/icons-material/Download';
+import { Box, Button, Grid, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { useAppSelector } from 'store';
 
 import { selectIsLoggedIn } from 'store/slice/userSlice';
 
-import GooglePlayText from 'assets/images/google-play-text.svg';
 import RefereeScreen from 'assets/images/referee-screen.png';
 
 export default function Instruction() {
@@ -84,25 +84,22 @@ export default function Instruction() {
           }}
         >
           <Button
-            component={LinkMUI}
-            href="https://play.google.com/store/apps"
-            target="_blank"
             size="large"
             variant="contained"
+            startIcon={<DownloadIcon />}
             sx={{
               'backgroundColor': '#12B76A',
               'borderRadius': '30px',
+              'paddingY': '10px',
               'height': '60px',
+              'width': '200px',
 
               '&:hover': {
                 backgroundColor: '#36C280',
               },
             }}
           >
-            <img
-              src={GooglePlayText}
-              alt="Google Play"
-            />
+            Download now!
           </Button>
 
           {!isLoggedIn && (

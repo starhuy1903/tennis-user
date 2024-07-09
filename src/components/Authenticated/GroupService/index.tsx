@@ -7,10 +7,12 @@ import MyGroup from './MyGroup';
 
 export default function GroupService() {
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+    <Box>
       <Breadcrumbs />
-      <MyGroup />
-      <JoinedGroup />
+      <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, paddingBottom: 8 }}>
+        <JoinedGroup />
+        <MyGroup />
+      </Box>
     </Box>
   );
 }

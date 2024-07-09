@@ -32,7 +32,7 @@ const UnauthenticatedLayout = () => {
             maxWidth="lg"
             sx={{ height: '100%', display: 'flex', alignItems: 'center', columnGap: '10px' }}
           >
-            <Logo sx={{ height: '100%' }} />
+            <Logo sx={{ height: '70%' }} />
             <Box sx={{ flex: 1 }} />
             <Box sx={{ display: 'flex', columnGap: '5px' }}>
               <LinkButton to="/">Home</LinkButton>

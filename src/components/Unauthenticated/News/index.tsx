@@ -9,7 +9,6 @@ import { FormatDateTime } from 'constants/datetime';
 import { useLazyGetNewsQuery } from 'store/api/unauthenticated/newsApiSlice';
 import { News as NewsType } from 'types/news';
 import { displayDateTime } from 'utils/datetime';
-import { limitString } from 'utils/string';
 
 export default function News() {
   const [news, setNews] = useState<NewsType[]>([]);
@@ -38,10 +37,10 @@ export default function News() {
     <Stack
       direction="column"
       gap={2}
+      pb={8}
     >
       <Breadcrumbs />
 
-      <Typography variant="h4">News</Typography>
       {hasFetchedData && news.length > 0 ? (
         <Grid
           container
@@ -59,30 +58,50 @@ export default function News() {
                 }}
               >
                 <CardActionArea>
-                  <Card sx={{ maxWidth: 350, minHeight: 460 }}>
+                  <Card sx={{ maxWidth: 350 }}>
                     <CardMedia
                       component="img"
                       height="250"
                       image={item.image}
                       alt="news-image"
                     />
-                    <CardContent>
+                    <CardContent
+                      sx={{
+                        minHeight: 230,
+                      }}
+                    >
                       <Typography variant="caption">
                         {displayDateTime({ dateTime: item.createdAt, targetFormat: FormatDateTime.DATE_AND_FULL_TIME })}
                       </Typography>
                       <Typography
-                        gutterBottom
                         variant="h6"
-                        component="div"
+                        sx={{
+                          color: 'text.primary',
+                          fontWeight: 'bold',
+                          overflow: 'hidden',
+                          textOverflow: 'ellipsis',
+                          display: '-webkit-box',
+                          WebkitLineClamp: 2,
+                          WebkitBoxOrient: 'vertical',
+                          minHeight: 44,
+                          cursor: 'pointer',
+                        }}
                       >
-                        {limitString(item.title, 12)}
+                        {item.title}
                       </Typography>
+                      {/* Limit description 5 rows */}
                       <Typography
                         variant="body2"
-                        color="text.secondary"
-                        textAlign="justify"
+                        sx={{
+                          color: 'text.secondary',
+                          overflow: 'hidden',
+                          textOverflow: 'ellipsis',
+                          display: '-webkit-box',
+                          WebkitLineClamp: 5,
+                          WebkitBoxOrient: 'vertical',
+                        }}
                       >
-                        {limitString(item.description, 40)}
+                        {item.description}
                       </Typography>
                     </CardContent>
                   </Card>
