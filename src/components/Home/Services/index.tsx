@@ -32,7 +32,10 @@ export default function Services() {
       >
         {services.map((service) => (
           <Grid
-            xs={3}
+            lg={3}
+            md={4}
+            sm={6}
+            xs={12}
             item
             key={service.id}
           >

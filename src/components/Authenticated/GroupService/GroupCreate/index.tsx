@@ -246,11 +246,12 @@ const GroupCreate = () => {
                       </Grid>
                     </Grid>
                   </Paper>
-                  <Paper sx={{ display: 'flex', columnGap: '20px', justifyContent: 'center', padding: '10px' }}>
+                  <Box sx={{ display: 'flex', columnGap: '20px', justifyContent: 'flex-end' }}>
                     <Button
                       type="button"
                       variant="outlined"
                       color="error"
+                      size="large"
                       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                       //@ts-ignore
                       onClick={() => navigate(-1, { replace: true })}
@@ -262,11 +263,12 @@ const GroupCreate = () => {
                         type="submit"
                         variant="contained"
                         disabled={disabledSubmitBtn}
+                        size="large"
                       >
                         Create group
                       </Button>
                     </Box>
-                  </Paper>
+                  </Box>
                 </>
               )}
             </>

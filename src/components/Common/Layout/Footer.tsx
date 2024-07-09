@@ -1,7 +1,8 @@
+import DownloadIcon from '@mui/icons-material/Download';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import TwitterIcon from '@mui/icons-material/Twitter';
-import { Divider, Grid, Typography } from '@mui/material';
+import { Button, Divider, Grid, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import LinkMUI from '@mui/material/Link';
@@ -9,7 +10,6 @@ import { useTheme } from '@mui/material/styles';
 import { Link } from 'react-router-dom';
 
 import logo from 'assets/images/app-logo.png';
-import GooglePlayIcon from 'assets/images/google-play.svg';
 
 const LinkTitle = ({ title, link }: { title: string; link: string }) => {
   return (
@@ -83,22 +83,23 @@ export default function Footer() {
                 alt="logo"
                 style={{ height: 40 }}
               />
-              <Typography
+              {/* <Typography
                 variant="h6"
                 color="textPrimary"
               >
-                Tennis
-              </Typography>
+                Tenity
+              </Typography> */}
             </Box>
             <Typography
               variant="body2"
               color="textSecondary"
+              mt={1}
             >
               The best integrated platform for recreational tennis players.
               <br />
               Email:{' '}
               <LinkMUI
-                href="mailto: support@tennis.com"
+                href="mailto: support@tenity.com"
                 sx={{
                   'color': 'primary.main',
                   'textDecoration': 'none',
@@ -107,7 +108,7 @@ export default function Footer() {
                   },
                 }}
               >
-                support@tennis.com
+                support@tenity.com
               </LinkMUI>
               <br />
               Hotline:{' '}
@@ -242,16 +243,13 @@ export default function Footer() {
             >
               Our mobile app is optimized for your phone. Download it for free!
             </Typography>
-            <LinkMUI
-              href="https://play.google.com/store/apps"
-              target="_blank"
+            <Button
+              variant="contained"
+              startIcon={<DownloadIcon />}
+              fullWidth
             >
-              <img
-                src={GooglePlayIcon}
-                alt="Google Play"
-                style={{ height: 40 }}
-              />
-            </LinkMUI>
+              Download
+            </Button>
           </Grid>
         </Grid>
         <Divider sx={{ my: 2 }} />
@@ -264,7 +262,7 @@ export default function Footer() {
             variant="body2"
             color="textSecondary"
           >
-            © {new Date().getFullYear()} Tennis. All rights reserved.
+            © {new Date().getFullYear()} Tenity. All rights reserved.
           </Typography>
         </Box>
       </Container>

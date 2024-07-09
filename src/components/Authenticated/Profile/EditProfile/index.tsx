@@ -1,7 +1,6 @@
 import {
   Box,
   Button,
-  Container,
   FormControl,
   FormHelperText,
   FormLabel,
@@ -19,6 +18,7 @@ import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { useAppSelector } from 'store';
 
+import { Breadcrumbs } from 'components/Common/Breadcrumb';
 import SingleImagePicker from 'components/Common/Input/SingleImagePicker';
 import { GenderOptions } from 'constants/tournament';
 import { useEditProfileMutation } from 'store/api/userApiSlice';
@@ -71,166 +71,195 @@ export default function EditProfile() {
   };
 
   return (
-    <Container
-      maxWidth="md"
+    <Box
       sx={{
-        minWidth: '500px',
-        my: 2,
+        mb: 8,
       }}
     >
-      <Paper sx={{ padding: 4 }}>
-        <Typography
-          variant="h4"
+      <Breadcrumbs />
+
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
+        <Paper
           sx={{
-            fontWeight: 700,
+            padding: 4,
+            borderRadius: 2,
+            backgroundColor: 'white',
+            minWidth: 600,
           }}
         >
-          Edit Profile
-        </Typography>
-
-        <Box
-          component="form"
-          autoComplete="off"
-          sx={{ display: 'flex', flexDirection: 'column', gap: 2, mt: 2 }}
-        >
-          <FormControl
-            fullWidth
-            error={!!formError.name}
+          <Typography
+            variant="h5"
+            gutterBottom
+            sx={{
+              fontWeight: 500,
+              textAlign: 'center',
+            }}
           >
-            <FormLabel htmlFor="name">Name</FormLabel>
-            <TextField
-              {...register('name', {
-                required: 'The company name is required.',
-                minLength: {
-                  value: 3,
-                  message: 'The name must be at least 3 characters.',
-                },
-              })}
-              required
-              id="name"
+            Edit profile
+          </Typography>
+
+          <Box
+            component="form"
+            autoComplete="off"
+            sx={{ display: 'flex', flexDirection: 'column', gap: 2, mt: 2 }}
+          >
+            <FormControl
+              fullWidth
               error={!!formError.name}
-              aria-describedby="name-helper-text"
-              placeholder="Tournament name"
-            />
-            <FormHelperText id="name-helper-text">{formError.name?.message}</FormHelperText>
-          </FormControl>
+            >
+              <FormLabel htmlFor="name">Name</FormLabel>
+              <TextField
+                {...register('name', {
+                  required: 'The company name is required.',
+                  minLength: {
+                    value: 3,
+                    message: 'The name must be at least 3 characters.',
+                  },
+                })}
+                required
+                id="name"
+                error={!!formError.name}
+                aria-describedby="name-helper-text"
+                placeholder="Tournament name"
+                size="small"
+              />
+              <FormHelperText id="name-helper-text">{formError.name?.message}</FormHelperText>
+            </FormControl>
 
-          <Stack
-            direction="row"
-            spacing={4}
-          >
-            <Controller
-              control={control}
-              name="dob"
-              rules={{
-                required: 'The date of birth is required.',
-              }}
-              render={({ field: { onChange } }) => (
-                <FormControl
-                  fullWidth
-                  error={!!formError.dob}
-                >
-                  <FormLabel htmlFor="dob">Date of birth</FormLabel>
-                  <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DatePicker
-                      onChange={(date) => {
-                        onChange(date?.toISOString());
-                      }}
-                      defaultValue={dayjs(formValue.dob)}
-                      format="DD/MM/YYYY"
-                    />
-                  </LocalizationProvider>
-                  <FormHelperText id="dob-helper-text">{formError.dob?.message}</FormHelperText>
-                </FormControl>
-              )}
-            />
-
-            <Controller
-              control={control}
-              name="gender"
-              rules={{ required: 'Please select a gender.' }}
-              render={({ field: { onChange, value } }) => (
-                <FormControl
-                  fullWidth
-                  error={!!formError.gender}
-                >
-                  <FormLabel htmlFor="gender">Gender</FormLabel>
-                  <Select
-                    value={value}
-                    id="gender"
-                    onChange={onChange}
-                    aria-describedby="gender-helper-text"
+            <Stack
+              direction="row"
+              spacing={2}
+            >
+              <Controller
+                control={control}
+                name="dob"
+                rules={{
+                  required: 'The date of birth is required.',
+                }}
+                render={({ field: { onChange } }) => (
+                  <FormControl
+                    fullWidth
+                    error={!!formError.dob}
                   >
-                    {Object.entries(GenderOptions).map(([genderKey, genderValue], index) => (
-                      <MenuItem
-                        key={index}
-                        value={genderKey}
-                      >
-                        {genderValue}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                  <FormHelperText id="gender-helper-text">{formError.gender?.message}</FormHelperText>
-                </FormControl>
-              )}
-            />
-          </Stack>
+                    <FormLabel htmlFor="dob">Date of birth</FormLabel>
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                      <DatePicker
+                        onChange={(date) => {
+                          onChange(date?.toISOString());
+                        }}
+                        defaultValue={dayjs(formValue.dob)}
+                        format="DD/MM/YYYY"
+                        slotProps={{
+                          textField: {
+                            size: 'small',
+                            sx: {
+                              backgroundColor: 'white',
+                            },
+                          },
+                        }}
+                      />
+                    </LocalizationProvider>
+                    <FormHelperText id="dob-helper-text">{formError.dob?.message}</FormHelperText>
+                  </FormControl>
+                )}
+              />
 
-          <FormControl fullWidth>
-            <FormLabel htmlFor="email">Contact email</FormLabel>
-            <TextField
-              value={userInfo?.email}
-              disabled
-              id="email"
-              aria-describedby="email-helper-text"
-            />
-          </FormControl>
+              <Controller
+                control={control}
+                name="gender"
+                rules={{ required: 'Please select a gender.' }}
+                render={({ field: { onChange, value } }) => (
+                  <FormControl
+                    fullWidth
+                    error={!!formError.gender}
+                  >
+                    <FormLabel htmlFor="gender">Gender</FormLabel>
+                    <Select
+                      value={value}
+                      id="gender"
+                      onChange={onChange}
+                      aria-describedby="gender-helper-text"
+                      size="small"
+                    >
+                      {Object.entries(GenderOptions).map(([genderKey, genderValue], index) => (
+                        <MenuItem
+                          key={index}
+                          value={genderKey}
+                        >
+                          {genderValue}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                    <FormHelperText id="gender-helper-text">{formError.gender?.message}</FormHelperText>
+                  </FormControl>
+                )}
+              />
+            </Stack>
 
-          <FormControl
-            fullWidth
-            error={!!formError.phoneNumber}
-          >
-            <FormLabel htmlFor="phoneNumber">Phone Number</FormLabel>
-            <TextField
-              {...register('phoneNumber', {
-                required: 'The phone number is required.',
-                minLength: {
-                  value: 8,
-                  message: 'The phone number must be at least 8 characters.',
-                },
-                validate: (value) => !isNaN(Number(value)) || 'The phone number must be a number.',
-              })}
-              placeholder="0987654321"
-              required
-              id="phoneNumber"
+            <FormControl fullWidth>
+              <FormLabel htmlFor="email">Contact email</FormLabel>
+              <TextField
+                value={userInfo?.email}
+                disabled
+                id="email"
+                aria-describedby="email-helper-text"
+                size="small"
+              />
+            </FormControl>
+
+            <FormControl
+              fullWidth
               error={!!formError.phoneNumber}
-              aria-describedby="phoneNumber-helper-text"
+            >
+              <FormLabel htmlFor="phoneNumber">Phone Number</FormLabel>
+              <TextField
+                {...register('phoneNumber', {
+                  required: 'The phone number is required.',
+                  minLength: {
+                    value: 8,
+                    message: 'The phone number must be at least 8 characters.',
+                  },
+                  validate: (value) => !isNaN(Number(value)) || 'The phone number must be a number.',
+                })}
+                placeholder="0987654321"
+                required
+                id="phoneNumber"
+                error={!!formError.phoneNumber}
+                aria-describedby="phoneNumber-helper-text"
+                size="small"
+              />
+              <FormHelperText id="phoneNumber-helper-text">{formError.phoneNumber?.message}</FormHelperText>
+            </FormControl>
+
+            <SingleImagePicker
+              label="Avatar"
+              imageUrl={formValue.image}
+              handleUpload={(value) => {
+                setValue('image', value);
+              }}
+              handleRemove={() => {
+                setValue('image', '');
+              }}
             />
-            <FormHelperText id="phoneNumber-helper-text">{formError.phoneNumber?.message}</FormHelperText>
-          </FormControl>
 
-          <SingleImagePicker
-            label="Avatar"
-            imageUrl={formValue.image}
-            handleUpload={(value) => {
-              setValue('image', value);
-            }}
-            handleRemove={() => {
-              setValue('image', '');
-            }}
-          />
-
-          <Button
-            variant="contained"
-            color="primary"
-            disabled={isLoading}
-            onClick={handleSubmit(onSubmit)}
-            sx={{ mt: 4 }}
-          >
-            Save
-          </Button>
-        </Box>
-      </Paper>
-    </Container>
+            <Button
+              variant="contained"
+              color="primary"
+              disabled={isLoading}
+              onClick={handleSubmit(onSubmit)}
+              sx={{ mt: 4 }}
+            >
+              Save
+            </Button>
+          </Box>
+        </Paper>
+      </Box>
+    </Box>
   );
 }

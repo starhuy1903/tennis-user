@@ -172,6 +172,7 @@ export default function RefereeSection() {
             count={data?.totalPages}
             page={page}
             onChange={(_, value) => setPage(value)}
+            color="primary"
             sx={{
               mt: 2,
             }}

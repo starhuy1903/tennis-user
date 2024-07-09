@@ -8,7 +8,7 @@ export default function AboutUs() {
   return (
     <Box
       sx={{
-        mb: 8,
+        pb: 8,
       }}
     >
       <Instruction />

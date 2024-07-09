@@ -8,6 +8,7 @@ import Grid from '@mui/material/Unstable_Grid2';
 import { useNavigate } from 'react-router-dom';
 
 import CenterLoading from 'components/Common/CenterLoading';
+import NoData from 'components/Common/NoData';
 import { useGetMyGroupsQuery } from 'store/api/group/groupApiSlice';
 
 import GroupCard from '../Common/GroupCard';
@@ -21,8 +22,8 @@ export default function MyGroup() {
   );
 
   return (
-    <Paper sx={{ padding: '15px' }}>
-      <Box sx={{ display: 'flex', marginBottom: '20px' }}>
+    <Paper sx={{ padding: 4, backgroundColor: 'white' }}>
+      <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
         <Typography
           variant="h4"
           sx={{ flex: 1 }}
@@ -44,7 +45,7 @@ export default function MyGroup() {
       </Box>
       <Box>
         {isLoading ? (
-          <CenterLoading height="30vh" />
+          <CenterLoading />
         ) : groupsData?.data && groupsData.data.length > 0 ? (
           <Grid
             container
@@ -64,7 +65,7 @@ export default function MyGroup() {
           </Grid>
         ) : (
           <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-            <Typography>You haven't created any group yet.</Typography>
+            <NoData message={`You haven't created any group yet.`} />
           </Box>
         )}
       </Box>

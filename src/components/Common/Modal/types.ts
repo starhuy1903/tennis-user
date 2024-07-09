@@ -1,4 +1,5 @@
 import { ParticipantType } from 'constants/tournament';
+import { GroupPost } from 'types/group-post';
 import { EditMatchPayload } from 'types/match';
 import { OpenTournamentApplicant, Referee } from 'types/open-tournament-participants';
 import { UserPackage } from 'types/package';
@@ -77,6 +78,15 @@ export type SelectSeedProps = CommonModalProps & {
   applicantData: OpenTournamentApplicant;
   onSubmit: () => void;
 };
+
+export interface CreatePostProps extends CommonModalProps {
+  groupId: number;
+  onSuccess?: () => void;
+}
+
+export interface UpdatePostProps extends CreatePostProps {
+  post: GroupPost;
+}
 
 /** External modal props: useModal */
 // type FilteredModalProps<T extends CommonModalProps> = Omit<T, 'onModalClose'> & {

@@ -8,6 +8,7 @@ import {
   FormHelperText,
   FormLabel,
   MenuItem,
+  Paper,
   Select,
   Stack,
   TextField,
@@ -111,18 +112,27 @@ export default function UpdateTournament({ onCloseForm }: { onCloseForm: () => v
   const disabledUpdateBtn = updatingData || isEqual(originalData, watch());
 
   return (
-    <Box my={4}>
+    <Paper
+      elevation={1}
+      sx={{
+        padding: 4,
+        borderRadius: 2,
+        backgroundColor: 'white',
+        marginTop: 4,
+        marginBottom: 8,
+      }}
+    >
       <Typography
-        variant="h4"
-        noWrap
-        component="h4"
+        variant="h5"
+        gutterBottom
         sx={{
-          display: 'flex',
-          fontWeight: 700,
+          fontWeight: 500,
+          textAlign: 'center',
         }}
       >
-        TOURNAMENT UPDATE FORM
+        Update Tournament
       </Typography>
+
       <Box
         component="form"
         autoComplete="off"
@@ -156,6 +166,7 @@ export default function UpdateTournament({ onCloseForm }: { onCloseForm: () => v
                   aria-describedby="name-helper-text"
                   placeholder="Tournament name"
                   disabled={updatingData}
+                  size="small"
                 />
                 <FormHelperText id="name-helper-text">{formError.name?.message}</FormHelperText>
               </FormControl>
@@ -188,10 +199,7 @@ export default function UpdateTournament({ onCloseForm }: { onCloseForm: () => v
           {/* Contact information */}
           <Box sx={{ width: '100%' }}>
             <Typography variant="h6">Contact Information</Typography>
-            <Stack
-              sx={{ mt: 1 }}
-              spacing={2}
-            >
+            <Stack spacing={2}>
               <FormControl
                 fullWidth
                 error={!!formError.contactPersonName}
@@ -207,6 +215,7 @@ export default function UpdateTournament({ onCloseForm }: { onCloseForm: () => v
                   error={!!formError.contactPersonName}
                   aria-describedby="contactPersonName-helper-text"
                   disabled={updatingData}
+                  size="small"
                 />
                 <FormHelperText id="contactPersonName-helper-text">
                   {formError.contactPersonName?.message}
@@ -237,6 +246,7 @@ export default function UpdateTournament({ onCloseForm }: { onCloseForm: () => v
                     error={!!formError.contactNumber}
                     aria-describedby="contactNumber-helper-text"
                     disabled={updatingData}
+                    size="small"
                   />
                   <FormHelperText id="contactNumber-helper-text">{formError.contactNumber?.message}</FormHelperText>
                 </FormControl>
@@ -257,6 +267,7 @@ export default function UpdateTournament({ onCloseForm }: { onCloseForm: () => v
                     error={!!formError.contactEmail}
                     aria-describedby="contactEmail-helper-text"
                     disabled={updatingData}
+                    size="small"
                   />
                   <FormHelperText id="contactEmail-helper-text">{formError.contactEmail?.message}</FormHelperText>
                 </FormControl>
@@ -274,10 +285,7 @@ export default function UpdateTournament({ onCloseForm }: { onCloseForm: () => v
           {/* Timeline */}
           <Box sx={{ width: '100%' }}>
             <Typography variant="h6">Timeline</Typography>
-            <Stack
-              spacing={2}
-              sx={{ mt: 1 }}
-            >
+            <Stack spacing={2}>
               <Stack
                 spacing={2}
                 direction="row"
@@ -311,6 +319,14 @@ export default function UpdateTournament({ onCloseForm }: { onCloseForm: () => v
                           defaultValue={dayjs(getValues('startDate'))}
                           format="DD/MM/YYYY"
                           disabled={updatingData || hasFinalizedApplicants}
+                          slotProps={{
+                            textField: {
+                              size: 'small',
+                              sx: {
+                                backgroundColor: 'white',
+                              },
+                            },
+                          }}
                         />
                       </LocalizationProvider>
                       <FormHelperText id="startDate-helper-text">{formError.startDate?.message}</FormHelperText>
@@ -347,6 +363,14 @@ export default function UpdateTournament({ onCloseForm }: { onCloseForm: () => v
                           defaultValue={dayjs(getValues('endDate'))}
                           format="DD/MM/YYYY"
                           disabled={updatingData || hasFinalizedApplicants}
+                          slotProps={{
+                            textField: {
+                              size: 'small',
+                              sx: {
+                                backgroundColor: 'white',
+                              },
+                            },
+                          }}
                         />
                       </LocalizationProvider>
                       <FormHelperText id="endDate-helper-text">{formError.endDate?.message}</FormHelperText>
@@ -388,6 +412,14 @@ export default function UpdateTournament({ onCloseForm }: { onCloseForm: () => v
                           defaultValue={dayjs(value)}
                           format="DD/MM/YYYY HH:mm"
                           disabled={updatingData || hasFinalizedApplicants}
+                          slotProps={{
+                            textField: {
+                              size: 'small',
+                              sx: {
+                                backgroundColor: 'white',
+                              },
+                            },
+                          }}
                         />
                       </LocalizationProvider>
                       <FormHelperText id="registrationDueDate-helper-text">
@@ -406,11 +438,10 @@ export default function UpdateTournament({ onCloseForm }: { onCloseForm: () => v
             <FormControl
               fullWidth
               error={!!formError.address}
-              sx={{ mt: 1 }}
             >
-              <FormLabel htmlFor="address">Address detail</FormLabel>
+              <FormLabel htmlFor="address">Address</FormLabel>
               <TextField
-                placeholder="Address detail"
+                placeholder="Address"
                 {...register('address', {
                   required: 'The address is required.',
                   minLength: {
@@ -423,6 +454,7 @@ export default function UpdateTournament({ onCloseForm }: { onCloseForm: () => v
                 error={!!formError.address}
                 aria-describedby="address-helper-text"
                 disabled={updatingData || hasFinalizedApplicants}
+                size="small"
               />
               <FormHelperText id="address-helper-text">{formError.address?.message}</FormHelperText>
             </FormControl>
@@ -430,12 +462,12 @@ export default function UpdateTournament({ onCloseForm }: { onCloseForm: () => v
         </Stack>
 
         {/* Game Settings */}
-        <Stack spacing={2}>
-          <>
-            <Typography variant="h6">Tournament Settings</Typography>
+        <Box sx={{ marginTop: 2 }}>
+          <Typography variant="h6">Tournament Settings</Typography>
+          <Stack spacing={2}>
             <Stack
               direction="row"
-              spacing={2}
+              spacing={4}
             >
               <Controller
                 control={control}
@@ -452,6 +484,7 @@ export default function UpdateTournament({ onCloseForm }: { onCloseForm: () => v
                       onChange={onChange}
                       aria-describedby="format-helper-text"
                       disabled={updatingData || hasPublishedTournament}
+                      size="small"
                     >
                       {tournamentFormatOptions.map((tournamentOption) => (
                         <MenuItem
@@ -466,6 +499,7 @@ export default function UpdateTournament({ onCloseForm }: { onCloseForm: () => v
                   </FormControl>
                 )}
               />
+
               <FormControl
                 fullWidth
                 error={!!formError.maxParticipants}
@@ -484,13 +518,15 @@ export default function UpdateTournament({ onCloseForm }: { onCloseForm: () => v
                   error={!!formError.maxParticipants}
                   aria-describedby="maxParticipants-helper-text"
                   disabled={updatingData || hasPublishedTournament}
+                  size="small"
                 />
                 <FormHelperText id="maxParticipants-helper-text">{formError.maxParticipants?.message}</FormHelperText>
               </FormControl>
             </Stack>
+
             <Stack
               direction="row"
-              spacing={2}
+              spacing={4}
             >
               <Controller
                 control={control}
@@ -508,6 +544,7 @@ export default function UpdateTournament({ onCloseForm }: { onCloseForm: () => v
                       onChange={onChange}
                       aria-describedby="gender-helper-text"
                       disabled={updatingData || hasPublishedTournament}
+                      size="small"
                     >
                       {Object.entries(GenderOptions).map(([genderKey, genderValue], index) => (
                         <MenuItem
@@ -539,6 +576,7 @@ export default function UpdateTournament({ onCloseForm }: { onCloseForm: () => v
                       onBlur={onBlur}
                       aria-describedby="participantType-helper-text"
                       disabled={updatingData || hasPublishedTournament}
+                      size="small"
                     >
                       {Object.entries(ParticipantTypeOptions).map(
                         ([participantTypeKey, participantTypeValue], index) => (
@@ -575,6 +613,14 @@ export default function UpdateTournament({ onCloseForm }: { onCloseForm: () => v
                         format="DD/MM/YYYY"
                         disableFuture
                         disabled={updatingData || hasPublishedTournament}
+                        slotProps={{
+                          textField: {
+                            size: 'small',
+                            sx: {
+                              backgroundColor: 'white',
+                            },
+                          },
+                        }}
                       />
                     </LocalizationProvider>
                     <FormHelperText id="playersBornAfterDate-helper-text">
@@ -584,24 +630,24 @@ export default function UpdateTournament({ onCloseForm }: { onCloseForm: () => v
                 )}
               />
             </Stack>
-          </>
+          </Stack>
+        </Box>
 
-          <Controller
-            name="image"
-            control={control}
-            render={({ field: { onChange, value } }) => (
-              <SingleImagePicker
-                label="Upload a background image for your tournament"
-                imageUrl={value}
-                handleUpload={onChange}
-                handleRemove={() => {
-                  onChange('');
-                }}
-                disabled={updatingData}
-              />
-            )}
-          />
-        </Stack>
+        <Controller
+          name="image"
+          control={control}
+          render={({ field: { onChange, value } }) => (
+            <SingleImagePicker
+              label="Upload a background image for your tournament"
+              imageUrl={value}
+              handleUpload={onChange}
+              handleRemove={() => {
+                onChange('');
+              }}
+              disabled={updatingData}
+            />
+          )}
+        />
 
         <Box
           sx={{
@@ -632,7 +678,7 @@ export default function UpdateTournament({ onCloseForm }: { onCloseForm: () => v
           </LoadingButton>
         </Box>
       </Box>
-      {/* <DevTool control={control} /> */}
-    </Box>
+      {/* <DevTool control={control} />  */}
+    </Paper>
   );
 }

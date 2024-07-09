@@ -1,4 +1,3 @@
-import { DevTool } from '@hookform/devtools';
 import {
   Box,
   Button,
@@ -6,6 +5,7 @@ import {
   FormHelperText,
   FormLabel,
   MenuItem,
+  Paper,
   Select,
   Stack,
   TextField,
@@ -95,17 +95,24 @@ export default function UpdateGroupTournament({ onCloseForm }: { onCloseForm: ()
   const disabledUpdateBtn = updatingData || isEqual(originalData, watch());
 
   return (
-    <Box mt={4}>
+    <Paper
+      elevation={1}
+      sx={{
+        padding: 4,
+        borderRadius: 2,
+        backgroundColor: 'white',
+        marginTop: 4,
+      }}
+    >
       <Typography
-        variant="h4"
-        noWrap
-        component="h4"
+        variant="h5"
+        gutterBottom
         sx={{
-          display: 'flex',
-          fontWeight: 700,
+          fontWeight: 500,
+          textAlign: 'center',
         }}
       >
-        GROUP TOURNAMENT UPDATE FORM
+        Update Tournament
       </Typography>
       <Box
         component="form"
@@ -135,6 +142,7 @@ export default function UpdateGroupTournament({ onCloseForm }: { onCloseForm: ()
                 aria-describedby="name-helper-text"
                 placeholder="Tournament name"
                 disabled={updatingData}
+                size="small"
               />
               <FormHelperText id="name-helper-text">{formError.name?.message}</FormHelperText>
             </FormControl>
@@ -156,167 +164,180 @@ export default function UpdateGroupTournament({ onCloseForm }: { onCloseForm: ()
                 error={!!formError.description}
                 aria-describedby="description-helper-text"
                 multiline
-                rows={3}
+                rows={5}
                 placeholder="Say something about your tournament"
                 disabled={updatingData}
+                size="small"
               />
               <FormHelperText id="description-helper-text">{formError.description?.message}</FormHelperText>
             </FormControl>
           </Stack>
         </Box>
 
-        <Stack
-          direction="row"
-          justifyContent="space-between"
-          spacing={4}
-        >
-          {/* Timeline */}
-          <Box sx={{ width: '50%' }}>
-            <Typography variant="h6">Timeline</Typography>
-            <Stack spacing={2}>
-              <Stack
-                spacing={2}
-                direction="row"
-              >
-                <Controller
-                  control={control}
-                  name="startDate"
-                  rules={{
-                    required: 'The start date is required.',
-                    validate: (value) => {
-                      const startDate = dayjs(value);
-                      if (value !== originalData.startDate && startDate.isBefore(dayjs(), 'day')) {
-                        return 'The start date cannot be in the past.';
-                      }
-                      return true;
-                    },
-                  }}
-                  render={({ field: { onChange } }) => (
-                    <FormControl
-                      fullWidth
-                      error={!!formError.startDate}
-                    >
-                      <FormLabel htmlFor="startDate">Start date</FormLabel>
-                      <LocalizationProvider dateAdapter={AdapterDayjs}>
-                        <DatePicker
-                          onChange={(date) => {
-                            onChange(date?.toISOString());
-                          }}
-                          disablePast
-                          defaultValue={dayjs(getValues('startDate'))}
-                          format="DD/MM/YYYY"
-                          disabled={updatingData || hasGeneratedFixture}
-                        />
-                      </LocalizationProvider>
-                      <FormHelperText id="startDate-helper-text">{formError.startDate?.message}</FormHelperText>
-                    </FormControl>
-                  )}
-                />
-                <Controller
-                  control={control}
-                  name="endDate"
-                  rules={{
-                    required: 'The end date is required.',
-                    validate: (value) => {
-                      const startDate = dayjs(getValues('startDate'));
-                      const endDate = dayjs(value);
-
-                      if (!endDate.isAfter(startDate, 'day')) {
-                        return 'The end date must be after the start date.';
-                      }
-                      return true;
-                    },
-                  }}
-                  render={({ field: { onChange } }) => (
-                    <FormControl
-                      fullWidth
-                      error={!!formError.endDate}
-                    >
-                      <FormLabel htmlFor="endDate">End date</FormLabel>
-                      <LocalizationProvider dateAdapter={AdapterDayjs}>
-                        <DatePicker
-                          onChange={(date) => {
-                            onChange(date?.toISOString());
-                          }}
-                          disablePast
-                          defaultValue={dayjs(getValues('endDate'))}
-                          format="DD/MM/YYYY"
-                          disabled={updatingData || hasGeneratedFixture}
-                        />
-                      </LocalizationProvider>
-                      <FormHelperText id="endDate-helper-text">{formError.endDate?.message}</FormHelperText>
-                    </FormControl>
-                  )}
-                />
-              </Stack>
-            </Stack>
-          </Box>
-
-          {/* Location address */}
-          <Box sx={{ width: '25%' }}>
-            <Typography variant="h6">Location Address</Typography>
-            <FormControl
-              fullWidth
-              error={!!formError.address}
-            >
-              <FormLabel htmlFor="address">Address detail</FormLabel>
-              <TextField
-                placeholder="Address detail"
-                {...register('address', {
-                  required: 'The address is required.',
-                  minLength: {
-                    value: 20,
-                    message: 'The address must be at least 20 characters.',
-                  },
-                })}
-                required
-                id="address"
-                error={!!formError.address}
-                aria-describedby="address-helper-text"
-                disabled={updatingData || hasGeneratedFixture}
-              />
-              <FormHelperText id="address-helper-text">{formError.address?.message}</FormHelperText>
-            </FormControl>
-          </Box>
-
-          <Box sx={{ width: '25%' }}>
-            <Typography variant="h6">Tournament Settings</Typography>
+        {/* Timeline */}
+        <Box>
+          <Typography variant="h6">Timeline</Typography>
+          <Stack spacing={2}>
             <Stack
-              direction="row"
               spacing={2}
+              direction="row"
             >
               <Controller
                 control={control}
-                name="format"
-                render={({ field: { onChange, value } }) => (
+                name="startDate"
+                rules={{
+                  required: 'The start date is required.',
+                  validate: (value) => {
+                    const startDate = dayjs(value);
+                    if (value !== originalData.startDate && startDate.isBefore(dayjs(), 'day')) {
+                      return 'The start date cannot be in the past.';
+                    }
+                    return true;
+                  },
+                }}
+                render={({ field: { onChange } }) => (
                   <FormControl
                     fullWidth
-                    error={!!formError.format}
+                    error={!!formError.startDate}
                   >
-                    <FormLabel htmlFor="format">Choose format</FormLabel>
-                    <Select
-                      value={value}
-                      id="format"
-                      onChange={onChange}
-                      aria-describedby="format-helper-text"
-                      disabled={updatingData || hasPublishedTournament}
-                    >
-                      {tournamentFormatOptions.map((tournamentOption) => (
-                        <MenuItem
-                          key={tournamentOption.id}
-                          value={tournamentOption.value}
-                        >
-                          {tournamentOption.displayValue}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                    <FormHelperText id="format-helper-text">{formError.format?.message}</FormHelperText>
+                    <FormLabel htmlFor="startDate">Start date</FormLabel>
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                      <DatePicker
+                        onChange={(date) => {
+                          onChange(date?.toISOString());
+                        }}
+                        disablePast
+                        defaultValue={dayjs(getValues('startDate'))}
+                        format="DD/MM/YYYY"
+                        disabled={updatingData || hasGeneratedFixture}
+                        slotProps={{
+                          textField: {
+                            size: 'small',
+                            sx: {
+                              backgroundColor: 'white',
+                            },
+                          },
+                        }}
+                      />
+                    </LocalizationProvider>
+                    <FormHelperText id="startDate-helper-text">{formError.startDate?.message}</FormHelperText>
+                  </FormControl>
+                )}
+              />
+              <Controller
+                control={control}
+                name="endDate"
+                rules={{
+                  required: 'The end date is required.',
+                  validate: (value) => {
+                    const startDate = dayjs(getValues('startDate'));
+                    const endDate = dayjs(value);
+
+                    if (!endDate.isAfter(startDate, 'day')) {
+                      return 'The end date must be after the start date.';
+                    }
+                    return true;
+                  },
+                }}
+                render={({ field: { onChange } }) => (
+                  <FormControl
+                    fullWidth
+                    error={!!formError.endDate}
+                  >
+                    <FormLabel htmlFor="endDate">End date</FormLabel>
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                      <DatePicker
+                        onChange={(date) => {
+                          onChange(date?.toISOString());
+                        }}
+                        disablePast
+                        defaultValue={dayjs(getValues('endDate'))}
+                        format="DD/MM/YYYY"
+                        disabled={updatingData || hasGeneratedFixture}
+                        slotProps={{
+                          textField: {
+                            size: 'small',
+                            sx: {
+                              backgroundColor: 'white',
+                            },
+                          },
+                        }}
+                      />
+                    </LocalizationProvider>
+                    <FormHelperText id="endDate-helper-text">{formError.endDate?.message}</FormHelperText>
                   </FormControl>
                 )}
               />
             </Stack>
-          </Box>
-        </Stack>
+          </Stack>
+        </Box>
+
+        {/* Location address */}
+        <Box>
+          <Typography variant="h6">Location Address</Typography>
+          <FormControl
+            fullWidth
+            error={!!formError.address}
+          >
+            <FormLabel htmlFor="address">Address</FormLabel>
+            <TextField
+              placeholder="Address"
+              {...register('address', {
+                required: 'The address is required.',
+                minLength: {
+                  value: 20,
+                  message: 'The address must be at least 20 characters.',
+                },
+              })}
+              required
+              id="address"
+              error={!!formError.address}
+              aria-describedby="address-helper-text"
+              disabled={updatingData || hasGeneratedFixture}
+              size="small"
+            />
+            <FormHelperText id="address-helper-text">{formError.address?.message}</FormHelperText>
+          </FormControl>
+        </Box>
+
+        <Box>
+          <Typography variant="h6">Tournament Settings</Typography>
+          <Stack
+            direction="row"
+            spacing={2}
+          >
+            <Controller
+              control={control}
+              name="format"
+              render={({ field: { onChange, value } }) => (
+                <FormControl
+                  fullWidth
+                  error={!!formError.format}
+                >
+                  <FormLabel htmlFor="format">Choose format</FormLabel>
+                  <Select
+                    value={value}
+                    id="format"
+                    onChange={onChange}
+                    aria-describedby="format-helper-text"
+                    disabled={updatingData || hasPublishedTournament}
+                    size="small"
+                  >
+                    {tournamentFormatOptions.map((tournamentOption) => (
+                      <MenuItem
+                        key={tournamentOption.id}
+                        value={tournamentOption.value}
+                      >
+                        {tournamentOption.displayValue}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                  <FormHelperText id="format-helper-text">{formError.format?.message}</FormHelperText>
+                </FormControl>
+              )}
+            />
+          </Stack>
+        </Box>
 
         <Controller
           name="image"
@@ -346,7 +367,6 @@ export default function UpdateGroupTournament({ onCloseForm }: { onCloseForm: ()
             color="secondary"
             disabled={updatingData}
             onClick={onCloseForm}
-            sx={{ mt: 4 }}
           >
             Cancel
           </Button>
@@ -355,13 +375,12 @@ export default function UpdateGroupTournament({ onCloseForm }: { onCloseForm: ()
             color="primary"
             disabled={disabledUpdateBtn}
             onClick={handleSubmit(onSubmit)}
-            sx={{ mt: 4 }}
           >
             {updatingData ? 'Updating...' : 'Update'}
           </Button>
         </Box>
       </Box>
-      <DevTool control={control} /> {/* set up the dev tool */}
-    </Box>
+      {/* <DevTool control={control} /> */}
+    </Paper>
   );
 }

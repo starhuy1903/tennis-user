@@ -44,10 +44,14 @@ export default function CreateTournament() {
   }
 
   return (
-    <>
+    <Box
+      sx={{
+        paddingBottom: 8,
+      }}
+    >
       <Breadcrumbs customRoutes={customRoutes} />
 
-      <Box sx={{ width: '100%', typography: 'body1', my: 2 }}>
+      <Box sx={{ width: '100%', typography: 'body1' }}>
         {selectedPackage ? (
           <FormCreateTournament
             selectedPackage={selectedPackage}
@@ -86,6 +90,6 @@ export default function CreateTournament() {
           </TabContext>
         )}
       </Box>
-    </>
+    </Box>
   );
 }
