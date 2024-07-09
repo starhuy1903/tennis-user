@@ -1,4 +1,5 @@
 import { Button, Divider, Grid, Typography } from '@mui/material';
+import { configs } from 'configurations';
 import { useConfirm } from 'material-ui-confirm';
 import { useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'store';
@@ -116,6 +117,22 @@ export default function Information() {
         >
           {tournamentData.description}
         </Typography>
+
+        <Divider
+          sx={{
+            my: 2,
+          }}
+        />
+
+        <iframe
+          width="100%"
+          height="450"
+          style={{ border: 0 }}
+          loading="lazy"
+          allowFullScreen
+          referrerPolicy="no-referrer-when-downgrade"
+          src={`https://www.google.com/maps/embed/v1/place?key=${configs.googleMapApiKey}&q=${tournamentData.address}`}
+        ></iframe>
       </Grid>
 
       <Grid
