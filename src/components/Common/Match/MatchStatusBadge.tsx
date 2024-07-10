@@ -64,7 +64,7 @@ export const MatchStatusBadge = ({
 
   return (
     <Typography
-      variant="h6"
+      variant="subtitle1"
       sx={{
         color: isScheduledOrDone
           ? 'green'

@@ -1,4 +1,8 @@
+import DeleteIcon from '@mui/icons-material/Delete';
+import DraftsIcon from '@mui/icons-material/Drafts';
+import RocketLaunchIcon from '@mui/icons-material/RocketLaunch';
 import { Alert, Box, Button } from '@mui/material';
+import { useConfirm } from 'material-ui-confirm';
 import { useCallback, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'store';
@@ -9,7 +13,11 @@ import KnockoutFixtures from 'components/Common/Fixtures/KnockoutFixture';
 import RoundRobinFixture from 'components/Common/Fixtures/RoundRobin';
 import { TournamentPhase } from 'constants/tournament';
 import { FixtureStatus } from 'constants/tournament-fixtures';
-import { useClearDraftFixtureMutation, useSaveFixtureMutation } from 'store/api/tournament/creator/fixture';
+import {
+  useClearDraftFixtureMutation,
+  useSaveDraftFixtureMutation,
+  useSavePublishFixtureMutation,
+} from 'store/api/tournament/creator/fixture';
 import { useLazyGetTournamentFixtureQuery } from 'store/api/tournament/shared/fixture';
 import { selectTournamentData, shouldRefreshTournamentData } from 'store/slice/tournamentSlice';
 import {
@@ -27,45 +35,69 @@ import SetupFixture from './SetupFixture';
 export default function CreatorFixture() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const confirm = useConfirm();
 
   const [fixture, setFixture] = useState<FixtureResponse | null>(null);
   const [fixtureConfig, setFixtureConfig] = useState<CreateFixtureRequest | null>(null);
   const [getFixtureRequest, { isLoading: fetchingFixture }] = useLazyGetTournamentFixtureQuery();
-  const [saveFixtureRequest, { isLoading: savingFixture }] = useSaveFixtureMutation();
+  const [savePublishFixtureRequest, { isLoading: savingPublishFixture }] = useSavePublishFixtureMutation();
+  const [saveDraftFixtureRequest, { isLoading: savingDraftFixture }] = useSaveDraftFixtureMutation();
+
   const [clearDraftFixtureRequest, { isLoading: clearingDraft }] = useClearDraftFixtureMutation();
 
   const tournamentData = useAppSelector(selectTournamentData);
 
   const isNewTournament = tournamentData.phase === TournamentPhase.NEW;
 
-  const handleSaveFixture = useCallback(
-    async (type: 'draft' | 'publish') => {
+  const handleSaveDraftFixture = useCallback(async () => {
+    try {
+      if (!fixture || !fixtureConfig || !isGeneratedNewFixtureType(fixture)) return;
+      const { participantType, ...restFixture } = fixture;
+      const submitData = {
+        ...restFixture,
+        ...fixtureConfig,
+        status: FixtureStatus.DRAFT,
+      };
+
+      const res = await saveDraftFixtureRequest({
+        tournamentId: tournamentData.id,
+        body: { ...submitData, id: String(submitData.id) },
+      }).unwrap();
+      setFixture(res);
+
+      showSuccess('Saved draft fixture successfully.');
+    } catch (error) {
+      // handled error
+    }
+  }, [fixture, fixtureConfig, saveDraftFixtureRequest, tournamentData.id]);
+
+  const handleSavePublishFixture = useCallback(() => {
+    confirm({
+      title: 'Are you sure you want to publish this fixture?',
+      description: 'This action cannot be undone.',
+    }).then(async () => {
       try {
         if (!fixture || !fixtureConfig || !isGeneratedNewFixtureType(fixture)) return;
-        const { participantType, ...submittedFixture } = fixture;
+        const { participantType, ...restFixture } = fixture;
         const submitData = {
-          ...submittedFixture,
+          ...restFixture,
           ...fixtureConfig,
-          status: type === 'draft' ? FixtureStatus.DRAFT : FixtureStatus.PUBLISHED,
+          status: FixtureStatus.PUBLISHED,
         };
 
-        const res = await saveFixtureRequest({
+        const res = await savePublishFixtureRequest({
           tournamentId: tournamentData.id,
           body: { ...submitData, id: String(submitData.id) },
         }).unwrap();
         setFixture(res);
-        if (type === 'publish') {
-          dispatch(shouldRefreshTournamentData(true));
-          showSuccess('Saved and published fixture successfully.');
-        } else {
-          showSuccess('Saved draft fixture successfully.');
-        }
+
+        dispatch(shouldRefreshTournamentData(true));
+        showSuccess('Saved and published fixture successfully.');
       } catch (error) {
         // handled error
       }
-    },
-    [dispatch, fixture, fixtureConfig, saveFixtureRequest, tournamentData.id]
-  );
+    });
+  }, [confirm, dispatch, fixture, fixtureConfig, savePublishFixtureRequest, tournamentData.id]);
 
   const handleClearDraft = useCallback(async () => {
     try {
@@ -76,6 +108,8 @@ export default function CreatorFixture() {
       // handled error
     }
   }, [clearDraftFixtureRequest, tournamentData.id]);
+
+  const disabledButtons = savingPublishFixture || savingDraftFixture || clearingDraft;
 
   useEffect(() => {
     (async () => {
@@ -170,23 +204,27 @@ export default function CreatorFixture() {
               {fixture.status === FixtureStatus.DRAFT && (
                 <Button
                   variant="outlined"
+                  color="error"
                   onClick={handleClearDraft}
-                  disabled={savingFixture || clearingDraft}
+                  disabled={disabledButtons}
+                  startIcon={<DeleteIcon />}
                 >
                   Clear draft
                 </Button>
               )}
               <Button
                 variant="outlined"
-                onClick={() => handleSaveFixture('draft')}
-                disabled={savingFixture || clearingDraft}
+                onClick={handleSaveDraftFixture}
+                disabled={disabledButtons}
+                startIcon={<DraftsIcon />}
               >
                 Save as a draft
               </Button>
               <Button
                 variant="contained"
-                onClick={() => handleSaveFixture('publish')}
-                disabled={savingFixture || clearingDraft}
+                onClick={handleSavePublishFixture}
+                disabled={disabledButtons}
+                startIcon={<RocketLaunchIcon />}
               >
                 Save & Publish
               </Button>

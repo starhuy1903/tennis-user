@@ -1,8 +1,8 @@
-import { Box, Divider, Typography } from '@mui/material';
+import { Box, Divider, Paper, Typography } from '@mui/material';
 
 import { FixtureResponse, isGeneratedNewGroupPlayoffFixture } from 'types/tournament-fixtures';
 
-import KnockoutFixtures from './KnockoutFixture';
+// import KnockoutFixtures from './KnockoutFixture';
 import RoundRobinFixture from './RoundRobin';
 
 type GroupPlayoffFixtureProps = {
@@ -22,16 +22,35 @@ export default function GroupPlayoffFixture({ fixture, setFixtureData }: GroupPl
             Group stage
           </Typography>
           {fixture.roundRobinGroups.map((roundRobinGroup, index) => (
-            <RoundRobinFixture
-              key={index}
-              rounds={roundRobinGroup.rounds}
-              setFixtureData={setFixtureData}
-            />
+            <Paper
+              elevation={1}
+              sx={{
+                padding: 4,
+                borderRadius: 2,
+                backgroundColor: 'white',
+                marginTop: 4,
+              }}
+            >
+              <Typography
+                variant="h5"
+                align="center"
+                sx={{
+                  fontWeight: 500,
+                }}
+              >
+                {roundRobinGroup.title}
+              </Typography>
+              <RoundRobinFixture
+                key={index}
+                rounds={roundRobinGroup.rounds}
+                setFixtureData={setFixtureData}
+              />
+            </Paper>
           ))}
         </>
       )}
       <Divider sx={{ my: 5 }} />
-      {isGeneratedNewGroupPlayoffFixture(fixture) && (
+      {/* {isGeneratedNewGroupPlayoffFixture(fixture) && (
         <>
           <Typography
             variant="h5"
@@ -44,7 +63,7 @@ export default function GroupPlayoffFixture({ fixture, setFixtureData }: GroupPl
             setFixtureData={setFixtureData}
           />
         </>
-      )}
+      )} */}
     </Box>
   );
 }
