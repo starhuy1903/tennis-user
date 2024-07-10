@@ -1,3 +1,6 @@
+import AccountTreeIcon from '@mui/icons-material/AccountTree';
+import GroupsIcon from '@mui/icons-material/Groups';
+import InfoIcon from '@mui/icons-material/Info';
 import KeyboardDoubleArrowDownIcon from '@mui/icons-material/KeyboardDoubleArrowDown';
 import KeyboardDoubleArrowUpIcon from '@mui/icons-material/KeyboardDoubleArrowUp';
 import TabContext from '@mui/lab/TabContext';
@@ -26,16 +29,19 @@ import { getNextPhaseInString } from 'utils/group-tournament';
 
 const GroupTournamentTabs = [
   {
+    label: 'Information',
+    value: 'info',
+    icon: <InfoIcon />,
+  },
+  {
     label: 'Participants',
     value: 'participants',
+    icon: <GroupsIcon />,
   },
   {
     label: 'Fixtures',
     value: 'fixtures',
-  },
-  {
-    label: 'Information',
-    value: 'info',
+    icon: <AccountTreeIcon />,
   },
 ];
 
@@ -270,6 +276,8 @@ export default function GroupTournamentDetailsLayout() {
                       key={tab.value}
                       label={tab.label}
                       value={tab.value}
+                      icon={tab.icon}
+                      iconPosition="start"
                     />
                   );
                 })}

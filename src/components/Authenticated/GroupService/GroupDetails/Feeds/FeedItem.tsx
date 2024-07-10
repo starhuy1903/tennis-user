@@ -172,6 +172,7 @@ export default function FeedItem({ post, refetch }: { post: GroupPost; refetch: 
         <Typography
           variant="body2"
           color="text.secondary"
+          whiteSpace="pre-line"
         >
           {post.content}
         </Typography>
