@@ -3,6 +3,7 @@ import { Button, Card, CardActions, CardContent, CardMedia, Typography } from '@
 
 import { Service } from 'types/app';
 
+import advertisementImg from 'assets/images/home/advertisement.jpg';
 import groupManagementImg from 'assets/images/home/group-management.jpg';
 import tournamentImg from 'assets/images/home/tournament.jpg';
 
@@ -15,8 +16,10 @@ export default function ServiceItem({ service, onGotoService }: ServiceItemProps
   const getCardImage = () => {
     if (service.path === 'groups') {
       return groupManagementImg;
+    } else if (service.path === 'tournaments') {
+      return tournamentImg;
     }
-    return tournamentImg;
+    return advertisementImg;
   };
 
   return (

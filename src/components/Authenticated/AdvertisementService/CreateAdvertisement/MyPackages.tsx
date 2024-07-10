@@ -15,7 +15,7 @@ import { useMemo } from 'react';
 
 import NoData from 'components/Common/NoData';
 import { FormatDateTime } from 'constants/datetime';
-import { ServiceLevel, ServiceType } from 'constants/service';
+import { ServiceType } from 'constants/service';
 import { UserPackage } from 'types/package';
 import { displayDateTime } from 'utils/datetime';
 
@@ -40,9 +40,7 @@ export default function MyPackages({ packagesData, onChooseMyPackage }: MyPackag
         (pack) =>
           pack.services.some(
             (service) =>
-              service.type === ServiceType.TOURNAMENT &&
-              service.level === ServiceLevel.ADVANCED &&
-              service.config.used < service.config.maxTournaments
+              service.type === ServiceType.ADVERTISEMENT && service.config.used < service.config.maxAdvertisements
           ) && !pack.expired
       ),
     [packagesData]
@@ -56,7 +54,7 @@ export default function MyPackages({ packagesData, onChooseMyPackage }: MyPackag
             icon={false}
             severity="info"
           >
-            Choose a package to create a tournament.
+            Choose a package to create an advertisement.
           </Alert>
           <TableContainer
             component={Paper}
@@ -111,7 +109,7 @@ export default function MyPackages({ packagesData, onChooseMyPackage }: MyPackag
           }}
         >
           <NoData
-            message={`You haven't owned a package that supports creating a tournament.`}
+            message={`You haven't owned a package that supports creating an advertisement.`}
             gap={4}
           />
         </Box>

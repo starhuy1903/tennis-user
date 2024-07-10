@@ -3,6 +3,7 @@ import { Navigate, RouterProvider, createBrowserRouter } from 'react-router-dom'
 import { useAppSelector } from 'store';
 
 import AddMemberToGroup from 'components/Authenticated/AddMemberToGroup';
+import CreateAdvertisement from 'components/Authenticated/AdvertisementService/CreateAdvertisement';
 import AffiliateSponsor from 'components/Authenticated/AffiliateSponsor';
 import GroupService from 'components/Authenticated/GroupService';
 import GroupCreate from 'components/Authenticated/GroupService/GroupCreate';
@@ -154,6 +155,20 @@ const protectedRoutes = createBrowserRouter([
         element: <CreateTournament />,
       },
       tournamentDetailsRoutes,
+    ],
+  },
+  {
+    path: 'affiliate',
+    element: <AuthenticatedLayout />,
+    children: [
+      {
+        index: true,
+        element: <div>Advertisements</div>,
+      },
+      {
+        path: 'create',
+        element: <CreateAdvertisement />,
+      },
     ],
   },
   {
