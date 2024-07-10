@@ -6,11 +6,12 @@ import { useTheme } from '@mui/material/styles';
 import { Outlet } from 'react-router-dom';
 
 import AvatarMenu from 'components/Common/Layout/AuthenticatedLayout/AvatarMenu';
+import MessageMenu from 'components/Common/Layout/AuthenticatedLayout/MessageMenu';
+import NotificationMenu from 'components/Common/Layout/AuthenticatedLayout/NotificationMenu';
 import Footer from 'components/Common/Layout/Footer';
-import LinkButton from 'components/Common/LinkButton';
 import Logo from 'components/Common/Logo';
 
-const AdvertisementLayout = () => {
+const TournamentLayout = () => {
   const theme = useTheme();
 
   return (
@@ -30,7 +31,8 @@ const AdvertisementLayout = () => {
             <Logo sx={{ height: '70%' }} />
             <Box sx={{ flex: 1 }} />
             <Box sx={{ display: 'flex', columnGap: '5px' }}>
-              <LinkButton to="/affiliates/manage-advertisements">Manage Advertisements</LinkButton>
+              <NotificationMenu />
+              <MessageMenu />
             </Box>
             <Box>
               <AvatarMenu />
@@ -55,4 +57,4 @@ const AdvertisementLayout = () => {
   );
 };
 
-export default AdvertisementLayout;
+export default TournamentLayout;
