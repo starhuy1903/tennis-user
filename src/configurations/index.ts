@@ -8,6 +8,7 @@ export interface EnvConfig {
   oauthClientID: string;
   oauthClientSecret: string;
   vnpUrl: string;
+  googleMapApiKey: string;
 }
 
 let currentConfigs = mockConfigs;

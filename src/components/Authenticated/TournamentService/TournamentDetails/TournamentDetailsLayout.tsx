@@ -45,9 +45,19 @@ import { getNextPhaseInString } from 'utils/tournament';
 
 const TournamentTabs = [
   {
+    label: 'Information',
+    value: 'info',
+    icon: <InfoIcon />,
+  },
+  {
     label: 'Participants',
     value: 'participants',
     icon: <GroupsIcon />,
+  },
+  {
+    label: 'Fund',
+    value: 'fund',
+    icon: <SavingsIcon />,
   },
   {
     label: 'Fixtures',
@@ -58,16 +68,6 @@ const TournamentTabs = [
     label: 'Standings',
     value: 'standings',
     icon: <LeaderboardIcon />,
-  },
-  {
-    label: 'Information',
-    value: 'info',
-    icon: <InfoIcon />,
-  },
-  {
-    label: 'Fund',
-    value: 'fund',
-    icon: <SavingsIcon />,
   },
 ];
 

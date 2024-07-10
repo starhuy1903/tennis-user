@@ -114,7 +114,12 @@ export default function NewsDetail() {
         />
       </Box>
 
-      <Typography variant="body1">{news.content}</Typography>
+      <Typography
+        variant="body1"
+        whiteSpace="pre-line"
+      >
+        {news.content}
+      </Typography>
 
       <Divider
         sx={{
