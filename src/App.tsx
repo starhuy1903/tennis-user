@@ -3,6 +3,7 @@ import { Navigate, RouterProvider, createBrowserRouter } from 'react-router-dom'
 import { useAppSelector } from 'store';
 
 import AddMemberToGroup from 'components/Authenticated/AddMemberToGroup';
+import AdvertisementList from 'components/Authenticated/AdvertisementService/AdvertisementList';
 import CreateAdvertisement from 'components/Authenticated/AdvertisementService/CreateAdvertisement';
 import AffiliateSponsor from 'components/Authenticated/AffiliateSponsor';
 import GroupService from 'components/Authenticated/GroupService';
@@ -19,6 +20,7 @@ import TournamentService from 'components/Authenticated/TournamentService';
 import CreateTournament from 'components/Authenticated/TournamentService/CreateTournament';
 import { tournamentDetailsRoutes } from 'components/Authenticated/TournamentService/TournamentDetails';
 import TournamentLayout from 'components/Authenticated/TournamentService/TournamentLayout';
+import AdvertisementLayout from 'components/Authenticated/TournamentService/TournamentLayout';
 import CenterLoading from 'components/Common/CenterLoading';
 import AuthenticatedLayout from 'components/Common/Layout/AuthenticatedLayout';
 import UnauthenticatedLayout from 'components/Common/Layout/UnauthenticatedLayout';
@@ -158,12 +160,12 @@ const protectedRoutes = createBrowserRouter([
     ],
   },
   {
-    path: 'affiliate',
-    element: <AuthenticatedLayout />,
+    path: 'affiliates',
+    element: <AdvertisementLayout />,
     children: [
       {
         index: true,
-        element: <div>Advertisements</div>,
+        element: <AdvertisementList />,
       },
       {
         path: 'create',
