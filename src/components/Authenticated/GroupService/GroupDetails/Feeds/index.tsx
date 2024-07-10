@@ -95,7 +95,7 @@ export default function Feeds() {
             ))}
 
             <Pagination
-              count={data?.totalPages}
+              count={data?.totalPages || 1}
               page={page}
               onChange={(_, value) => setPage(value)}
               color="primary"
