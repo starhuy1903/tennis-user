@@ -165,7 +165,7 @@ export default function SetupFixture({ fixtureConfig, setFixtureData, setFixture
               severity="info"
               sx={{ mb: 1 }}
             >
-              Click "Generate" to create groups based on the current participants. This will organize teams into
+              Click "Generate group" to create groups based on the current participants. This will organize teams into
               preliminary groups for the tournament.
             </Alert>
             <GenerateGroup
