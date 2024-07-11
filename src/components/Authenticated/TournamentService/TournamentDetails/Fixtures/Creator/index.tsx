@@ -92,7 +92,7 @@ export default function CreatorFixture() {
         setFixture(res);
 
         dispatch(shouldRefreshTournamentData(true));
-        showSuccess('Saved and published fixture successfully.');
+        showSuccess('Saved and published fixture successfully');
       } catch (error) {
         // handled error
       }
