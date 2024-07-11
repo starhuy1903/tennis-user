@@ -23,8 +23,23 @@ const advertisementApiToastSlice = apiWithToastSlice.injectEndpoints({
         },
       }),
     }),
+    getMyAdvertisements: build.query<GetListResult<Advertisement>, GetPagingListOptions>({
+      query: (body) => ({
+        url: urlWithCorePrefix(`advertisements/me`),
+        params: {
+          page: body.page,
+          take: body.take,
+          order: body.order,
+        },
+      }),
+    }),
   }),
 });
 
-export const { useCreateAdvertisementMutation, useGetAdvertisementsQuery, useLazyGetAdvertisementsQuery } =
-  advertisementApiToastSlice;
+export const {
+  useCreateAdvertisementMutation,
+  useGetAdvertisementsQuery,
+  useLazyGetAdvertisementsQuery,
+  useGetMyAdvertisementsQuery,
+  useLazyGetMyAdvertisementsQuery,
+} = advertisementApiToastSlice;

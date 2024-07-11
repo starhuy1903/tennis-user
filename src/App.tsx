@@ -3,8 +3,10 @@ import { Navigate, RouterProvider, createBrowserRouter } from 'react-router-dom'
 import { useAppSelector } from 'store';
 
 import AddMemberToGroup from 'components/Authenticated/AddMemberToGroup';
+import AdvertisementLayout from 'components/Authenticated/AdvertisementService/AdvertisementLayout';
 import AdvertisementList from 'components/Authenticated/AdvertisementService/AdvertisementList';
 import CreateAdvertisement from 'components/Authenticated/AdvertisementService/CreateAdvertisement';
+import MyAdvertisement from 'components/Authenticated/AdvertisementService/MyAdvertisements';
 import AffiliateSponsor from 'components/Authenticated/AffiliateSponsor';
 import GroupService from 'components/Authenticated/GroupService';
 import GroupCreate from 'components/Authenticated/GroupService/GroupCreate';
@@ -160,7 +162,7 @@ const protectedRoutes = createBrowserRouter([
   },
   {
     path: 'affiliates',
-    element: <AuthenticatedLayout />,
+    element: <AdvertisementLayout />,
     children: [
       {
         index: true,
@@ -169,6 +171,10 @@ const protectedRoutes = createBrowserRouter([
       {
         path: 'create',
         element: <CreateAdvertisement />,
+      },
+      {
+        path: 'my-ads',
+        element: <MyAdvertisement />,
       },
     ],
   },

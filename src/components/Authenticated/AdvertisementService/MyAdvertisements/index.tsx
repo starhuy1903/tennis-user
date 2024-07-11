@@ -4,14 +4,14 @@ import { useEffect, useState } from 'react';
 import { Breadcrumbs } from 'components/Common/Breadcrumb';
 import CenterLoading from 'components/Common/CenterLoading';
 import NoData from 'components/Common/NoData';
-import { useGetAdvertisementsQuery } from 'store/api/advertisement/advertisementApiSlice';
+import { useGetMyAdvertisementsQuery } from 'store/api/advertisement/advertisementApiSlice';
 
 import AdvertisementItem from './AdvertisementItem';
 
-export default function AdvertisementList() {
+export default function MyAdvertisements() {
   const [page, setPage] = useState(1);
 
-  const { data, isLoading, refetch } = useGetAdvertisementsQuery({
+  const { data, isLoading, refetch } = useGetMyAdvertisementsQuery({
     page,
     take: 9,
   });
@@ -20,13 +20,20 @@ export default function AdvertisementList() {
     refetch();
   }, [page, refetch]);
 
+  const customRoutes = [
+    {
+      path: '/affiliates/my-ads',
+      breadcrumb: 'My Advertisements',
+    },
+  ];
+
   if (isLoading) {
     return <CenterLoading />;
   }
 
   return (
     <Box paddingBottom={8}>
-      <Breadcrumbs />
+      <Breadcrumbs customRoutes={customRoutes} />
 
       {data && data.data.length > 0 ? (
         <Stack
