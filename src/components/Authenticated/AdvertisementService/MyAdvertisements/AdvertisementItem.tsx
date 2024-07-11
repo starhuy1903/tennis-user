@@ -12,7 +12,7 @@ import { displayDateTime } from 'utils/datetime';
 export default function AdvertisementItem({ item }: { item: Advertisement }) {
   return (
     <Link
-      to={`/affiliates/advertisements/${item.id}`}
+      to={`/affiliates/my-ads/${item.id}`}
       style={{
         textDecoration: 'none',
       }}
