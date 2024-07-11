@@ -216,7 +216,6 @@ export default function SetupFixture({ fixtureConfig, setFixtureData, setFixture
                               onChange={(date) => {
                                 onChange(date?.toISOString());
                               }}
-                              disablePast
                               defaultValue={dayjs(getValues('fixtureStartDate'))}
                               format="DD/MM/YYYY"
                               disabled={generatingFixture}
@@ -254,7 +253,6 @@ export default function SetupFixture({ fixtureConfig, setFixtureData, setFixture
                               onChange={(date) => {
                                 onChange(date?.toISOString());
                               }}
-                              disablePast
                               defaultValue={dayjs(getValues('fixtureEndDate'))}
                               format="DD/MM/YYYY"
                               disabled={generatingFixture}
