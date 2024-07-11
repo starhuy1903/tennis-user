@@ -1,14 +1,10 @@
 export type PaymentInfoPayload = {
-  image: string;
   amount: number;
   unit: string;
   payment: {
     method: string;
-    bank: {
-      name: string;
-      account: string;
-      owner: string;
-    };
+    information: string;
+    image?: string;
   };
   reminderDate: string;
   dueDate: string;
