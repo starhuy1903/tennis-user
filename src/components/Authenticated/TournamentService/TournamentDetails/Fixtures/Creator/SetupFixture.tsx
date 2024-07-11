@@ -3,6 +3,7 @@ import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import PeopleIcon from '@mui/icons-material/People';
 import PolylineIcon from '@mui/icons-material/Polyline';
 import {
+  Alert,
   Box,
   Button,
   Chip,
@@ -32,7 +33,9 @@ import { CreateFixtureRequest, FixtureResponse, GeneratedGroup } from 'types/tou
 import GenerateGroup from './GenerateGroup';
 import GroupDataTable from './GroupDataTable';
 
-type FormType = CreateFixtureRequest;
+type FormType = CreateFixtureRequest & {
+  numberOfProceeders?: number;
+};
 
 // const tournamentFormatOptions = [
 //   { id: 1, value: 'knockout', displayValue: 'Knockout', level: 'basic' },
@@ -65,6 +68,7 @@ export default function SetupFixture({ fixtureConfig, setFixtureData, setFixture
       matchesEndTime: fixtureConfig?.matchesEndTime || dayjs('2022-04-17T20:00').toISOString(),
       matchDuration: fixtureConfig?.matchDuration || 30,
       breakDuration: fixtureConfig?.breakDuration || 10,
+      numberOfProceeders: tournamentData.format === TournamentFormat.GROUP_PLAYOFF ? 1 : undefined,
     },
   });
 
@@ -153,17 +157,23 @@ export default function SetupFixture({ fixtureConfig, setFixtureData, setFixture
         component="form"
       >
         {tournamentData.format === TournamentFormat.GROUP_PLAYOFF && (
-          <Box
-            mt={2}
-            alignSelf="start"
-            width="100%"
+          <Paper
+            variant="outlined"
+            sx={{ padding: 2, width: '100%', mt: 2, backgroundColor: 'white' }}
           >
+            <Alert
+              severity="info"
+              sx={{ mb: 1 }}
+            >
+              Click "Generate" to create groups based on the current participants. This will organize teams into
+              preliminary groups for the tournament.
+            </Alert>
             <GenerateGroup
               tournamentId={tournamentData.id}
               setGroupData={handleGenerateGroup}
             />
             {groupPlayoff && <GroupDataTable groups={groupPlayoff} />}
-          </Box>
+          </Paper>
         )}
         {shouldRenderDateTimeConfig && (
           <>
@@ -364,6 +374,35 @@ export default function SetupFixture({ fixtureConfig, setFixtureData, setFixture
                 </Stack>
               </Box>
             </Stack>
+
+            {tournamentData.format === TournamentFormat.GROUP_PLAYOFF && (
+              <Box
+                width="100%"
+                mt={2}
+              >
+                <Alert severity="info">The number of teams that can advance to the knockout stage</Alert>
+                <FormControl
+                  error={!!formError.numberOfProceeders}
+                  fullWidth
+                  sx={{ mt: 1 }}
+                >
+                  <FormLabel htmlFor="numberOfProceeders">Number of teams</FormLabel>
+                  <TextField
+                    {...register('numberOfProceeders')}
+                    required
+                    id="numberOfProceeders"
+                    type="number"
+                    error={!!formError.numberOfProceeders}
+                    aria-describedby="numberOfProceeders-helper-text"
+                    defaultValue={1}
+                  />
+                  <FormHelperText id="numberOfProceeders-helper-text">
+                    {formError.numberOfProceeders?.message}
+                  </FormHelperText>
+                </FormControl>
+              </Box>
+            )}
+
             <Box
               display="flex"
               justifyContent="flex-end"

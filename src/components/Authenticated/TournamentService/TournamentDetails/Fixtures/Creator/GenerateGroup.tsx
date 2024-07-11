@@ -1,9 +1,12 @@
+import GroupIcon from '@mui/icons-material/Group';
 import { Button, FormControl, FormHelperText, FormLabel, Stack, TextField } from '@mui/material';
 import { useForm } from 'react-hook-form';
 
 import { useGenerateGroupMutation } from 'store/api/tournament/creator/fixture';
 import { GeneratedGroup } from 'types/tournament-fixtures';
 import { showSuccess } from 'utils/toast';
+
+import groupImage from 'assets/images/open-tournament/setup-fixture-group.jpg';
 
 type GenerateGroupProps = {
   tournamentId: number;
@@ -45,34 +48,43 @@ export default function GenerateGroup({ tournamentId, setGroupData }: GenerateGr
   return (
     <Stack
       direction="row"
-      alignItems="flex-end"
       gap={2}
       component="form"
     >
-      <FormControl
-        error={!!formError.numberOfGroups}
-        fullWidth
-      >
-        <FormLabel htmlFor="email">Number of group</FormLabel>
-        <TextField
-          {...register('numberOfGroups')}
-          required
-          id="numberOfGroups"
-          type="number"
+      <img
+        src={groupImage}
+        alt=""
+        style={{ height: 300 }}
+      />
+      <Stack width="100%">
+        <FormControl
           error={!!formError.numberOfGroups}
-          aria-describedby="numberOfGroups-helper-text"
-        />
-        <FormHelperText id="numberOfGroups-helper-text">{formError.numberOfGroups?.message}</FormHelperText>
-      </FormControl>
-      <Button
-        fullWidth
-        variant="contained"
-        onClick={handleGenerateGroup}
-        disabled={generating}
-        sx={{ mb: '2px', height: '56px' }}
-      >
-        Generate group
-      </Button>
+          fullWidth
+        >
+          <FormLabel htmlFor="numberOfGroups">Number of groups</FormLabel>
+          <TextField
+            {...register('numberOfGroups', {
+              validate: (value) => Number(value) >= 2 || 'Number of groups must be at least 2',
+            })}
+            required
+            id="numberOfGroups"
+            type="number"
+            error={!!formError.numberOfGroups}
+            aria-describedby="numberOfGroups-helper-text"
+          />
+          <FormHelperText id="numberOfGroups-helper-text">{formError.numberOfGroups?.message}</FormHelperText>
+        </FormControl>
+        <Button
+          fullWidth
+          variant="contained"
+          onClick={handleGenerateGroup}
+          disabled={generating}
+          sx={{ mt: 2 }}
+          startIcon={<GroupIcon />}
+        >
+          Generate group
+        </Button>
+      </Stack>
     </Stack>
   );
 }
