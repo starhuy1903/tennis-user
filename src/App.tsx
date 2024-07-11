@@ -10,7 +10,6 @@ import CreateAdvertisement from 'components/Authenticated/AdvertisementService/C
 import EditAdvertisement from 'components/Authenticated/AdvertisementService/EditAdvertisement';
 import MyAdvertisementDetails from 'components/Authenticated/AdvertisementService/MyAdvertisementDetails';
 import MyAdvertisement from 'components/Authenticated/AdvertisementService/MyAdvertisements';
-import AffiliateSponsor from 'components/Authenticated/AffiliateSponsor';
 import GroupService from 'components/Authenticated/GroupService';
 import GroupCreate from 'components/Authenticated/GroupService/GroupCreate';
 import { groupDetailsRoutes } from 'components/Authenticated/GroupService/GroupDetails';
@@ -108,10 +107,6 @@ const protectedRoutes = createBrowserRouter([
             element: <EditProfile />,
           },
         ],
-      },
-      {
-        path: 'affiliate-sponsor',
-        element: <AffiliateSponsor />,
       },
       {
         path: 'payment/status',
