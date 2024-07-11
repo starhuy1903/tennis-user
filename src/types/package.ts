@@ -22,11 +22,20 @@ export type TournamentService = BaseService & {
   };
 };
 
-export type Service = GroupService | TournamentService;
+export type AdvertisementService = BaseService & {
+  type: ServiceType.ADVERTISEMENT;
+  config: {
+    maxAdvertisements: number;
+    used: number;
+  };
+};
+
+export type Service = GroupService | TournamentService | AdvertisementService;
 
 export enum PackageType {
   TOURNAMENT = 'tournament',
   GROUP = 'group',
+  ADVERTISEMENT = 'advertisement',
   MIXED = 'mixed',
 }
 

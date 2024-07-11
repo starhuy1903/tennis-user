@@ -3,21 +3,17 @@ import { Button, Card, CardActions, CardContent, CardMedia, Typography } from '@
 
 import { Service } from 'types/app';
 
-import affiliateImg from 'assets/images/home/affiliate-sponsor.jpg';
+import advertisementImg from 'assets/images/home/advertisement.jpg';
 import groupManagementImg from 'assets/images/home/group-management.jpg';
 import tournamentImg from 'assets/images/home/tournament.jpg';
 
 const getCardImage = (serviceName: string) => {
   if (serviceName === 'groups') {
     return groupManagementImg;
-  }
-  if (serviceName === 'tournaments') {
+  } else if (serviceName === 'tournaments') {
     return tournamentImg;
   }
-  if (serviceName === 'affiliates') {
-    return affiliateImg;
-  }
-  return affiliateImg;
+  return advertisementImg;
 };
 
 interface ServiceItemProps {

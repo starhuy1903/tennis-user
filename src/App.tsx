@@ -3,7 +3,13 @@ import { Navigate, RouterProvider, createBrowserRouter } from 'react-router-dom'
 import { useAppSelector } from 'store';
 
 import AddMemberToGroup from 'components/Authenticated/AddMemberToGroup';
-import AffiliateSponsor from 'components/Authenticated/AffiliateSponsor';
+import AdvertisementDetails from 'components/Authenticated/AdvertisementService/AdvertisementDetails';
+import AdvertisementLayout from 'components/Authenticated/AdvertisementService/AdvertisementLayout';
+import AdvertisementList from 'components/Authenticated/AdvertisementService/AdvertisementList';
+import CreateAdvertisement from 'components/Authenticated/AdvertisementService/CreateAdvertisement';
+import EditAdvertisement from 'components/Authenticated/AdvertisementService/EditAdvertisement';
+import MyAdvertisementDetails from 'components/Authenticated/AdvertisementService/MyAdvertisementDetails';
+import MyAdvertisement from 'components/Authenticated/AdvertisementService/MyAdvertisements';
 import GroupService from 'components/Authenticated/GroupService';
 import GroupCreate from 'components/Authenticated/GroupService/GroupCreate';
 import { groupDetailsRoutes } from 'components/Authenticated/GroupService/GroupDetails';
@@ -103,10 +109,6 @@ const protectedRoutes = createBrowserRouter([
         ],
       },
       {
-        path: 'affiliate-sponsor',
-        element: <AffiliateSponsor />,
-      },
-      {
         path: 'payment/status',
         element: <VNPReturn />,
       },
@@ -157,9 +159,44 @@ const protectedRoutes = createBrowserRouter([
     ],
   },
   {
-    path: '*',
-    element: <Navigate to={`/`} />,
+    path: 'affiliates',
+    element: <AdvertisementLayout />,
+    children: [
+      {
+        index: true,
+        element: <AdvertisementList />,
+      },
+      {
+        path: 'create',
+        element: <CreateAdvertisement />,
+      },
+      {
+        path: 'my-ads',
+        children: [
+          {
+            index: true,
+            element: <MyAdvertisement />,
+          },
+          {
+            path: ':id',
+            element: <MyAdvertisementDetails />,
+          },
+          {
+            path: ':id/edit',
+            element: <EditAdvertisement />,
+          },
+        ],
+      },
+      {
+        path: 'advertisements/:id',
+        element: <AdvertisementDetails />,
+      },
+    ],
   },
+  // {
+  //   path: '*',
+  //   element: <Navigate to={`/`} />,
+  // },
 ]);
 
 const publicRoutes = createBrowserRouter([
