@@ -62,9 +62,9 @@ export default function FormCreateAdvertisement({ selectedPackage, setSelectedPa
         purchasedPackageId: selectedPackage.id,
       };
 
-      const res = await requestCreateAdvertisement(submitData).unwrap();
+      await requestCreateAdvertisement(submitData).unwrap();
       showSuccess('Created advertisement successfully');
-      navigate(`/advertisements/${res.id}`);
+      navigate(`/affiliates/my-ads`);
     } catch (error) {
       // handled error
     }

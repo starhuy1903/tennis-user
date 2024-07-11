@@ -3,6 +3,7 @@ import { Navigate, RouterProvider, createBrowserRouter } from 'react-router-dom'
 import { useAppSelector } from 'store';
 
 import AddMemberToGroup from 'components/Authenticated/AddMemberToGroup';
+import AdvertisementDetails from 'components/Authenticated/AdvertisementService/AdvertisementDetails';
 import AdvertisementLayout from 'components/Authenticated/AdvertisementService/AdvertisementLayout';
 import AdvertisementList from 'components/Authenticated/AdvertisementService/AdvertisementList';
 import CreateAdvertisement from 'components/Authenticated/AdvertisementService/CreateAdvertisement';
@@ -175,6 +176,10 @@ const protectedRoutes = createBrowserRouter([
       {
         path: 'my-ads',
         element: <MyAdvertisement />,
+      },
+      {
+        path: 'advertisements/:id',
+        element: <AdvertisementDetails />,
       },
     ],
   },

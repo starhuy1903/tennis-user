@@ -33,6 +33,9 @@ const advertisementApiToastSlice = apiWithToastSlice.injectEndpoints({
         },
       }),
     }),
+    getAdvertisementById: build.query<Advertisement, string>({
+      query: (id) => urlWithCorePrefix(`advertisements/${id}`),
+    }),
   }),
 });
 
@@ -42,4 +45,6 @@ export const {
   useLazyGetAdvertisementsQuery,
   useGetMyAdvertisementsQuery,
   useLazyGetMyAdvertisementsQuery,
+  useGetAdvertisementByIdQuery,
+  useLazyGetAdvertisementByIdQuery,
 } = advertisementApiToastSlice;
