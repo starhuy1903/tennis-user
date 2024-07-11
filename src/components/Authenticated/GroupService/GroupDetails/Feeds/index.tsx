@@ -10,6 +10,7 @@ import { useGetPostsQuery } from 'store/api/group/postApiSlice';
 import { selectGroup } from 'store/slice/groupSlice';
 import { showModal } from 'store/slice/modalSlice';
 
+import Advertisements from './Advertisements';
 import FeedItem from './FeedItem';
 
 export default function Feeds() {
@@ -52,6 +53,7 @@ export default function Feeds() {
       sx={{
         paddingBottom: 8,
       }}
+      justifyContent="space-between"
     >
       <Grid
         item
@@ -108,8 +110,10 @@ export default function Feeds() {
       <Grid
         item
         xs={0}
-        md={4}
-      ></Grid>
+        md={3.5}
+      >
+        <Advertisements />
+      </Grid>
     </Grid>
   );
 }
