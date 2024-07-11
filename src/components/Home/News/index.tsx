@@ -42,7 +42,7 @@ export default function News() {
   }
 
   return (
-    <Box>
+    <Box marginTop={1}>
       <Swiper
         spaceBetween={20}
         slidesPerView={3}

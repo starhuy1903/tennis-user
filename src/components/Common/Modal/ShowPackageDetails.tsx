@@ -39,6 +39,10 @@ const ServiceConfig: ServiceConfigProps = {
     color: 'warning',
     value: 'tournaments',
   },
+  [ServiceType.ADVERTISEMENT]: {
+    color: 'success',
+    value: 'advertisements',
+  },
 };
 
 const ServiceCell = ({

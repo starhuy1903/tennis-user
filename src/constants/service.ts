@@ -1,6 +1,7 @@
 export enum ServiceType {
   GROUP = 'group',
   TOURNAMENT = 'tournament',
+  ADVERTISEMENT = 'advertisement',
 }
 
 export enum ServiceLevel {
