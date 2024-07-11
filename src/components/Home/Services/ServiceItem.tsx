@@ -3,8 +3,22 @@ import { Button, Card, CardActions, CardContent, CardMedia, Typography } from '@
 
 import { Service } from 'types/app';
 
+import affiliateImg from 'assets/images/home/affiliate-sponsor.jpg';
 import groupManagementImg from 'assets/images/home/group-management.jpg';
 import tournamentImg from 'assets/images/home/tournament.jpg';
+
+const getCardImage = (serviceName: string) => {
+  if (serviceName === 'groups') {
+    return groupManagementImg;
+  }
+  if (serviceName === 'tournaments') {
+    return tournamentImg;
+  }
+  if (serviceName === 'affiliates') {
+    return affiliateImg;
+  }
+  return affiliateImg;
+};
 
 interface ServiceItemProps {
   service: Service;
@@ -12,13 +26,6 @@ interface ServiceItemProps {
 }
 
 export default function ServiceItem({ service, onGotoService }: ServiceItemProps) {
-  const getCardImage = () => {
-    if (service.path === 'groups') {
-      return groupManagementImg;
-    }
-    return tournamentImg;
-  };
-
   return (
     <Card
       sx={{
@@ -31,7 +38,7 @@ export default function ServiceItem({ service, onGotoService }: ServiceItemProps
     >
       <CardMedia
         sx={{ height: 140 }}
-        image={getCardImage()}
+        image={getCardImage(service.path)}
         title="green iguana"
       />
       <CardContent>

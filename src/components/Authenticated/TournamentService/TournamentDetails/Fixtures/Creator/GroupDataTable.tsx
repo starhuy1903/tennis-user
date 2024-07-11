@@ -1,4 +1,5 @@
-import { Box, Card, CardContent, CardHeader, Stack } from '@mui/material';
+import { Box, Card, CardContent, CardHeader, Divider, Stack, Typography } from '@mui/material';
+import { deepPurple } from '@mui/material/colors';
 import { useAppSelector } from 'store';
 
 import {
@@ -33,27 +34,44 @@ export default function GroupDataTable({ groups }: GroupDataTableProps) {
         >
           <CardHeader
             title={group.title}
-            titleTypographyProps={{ sx: { textAlign: 'center' } }}
+            titleTypographyProps={{ sx: { textAlign: 'center', fontSize: '18px' } }}
+            sx={{ backgroundColor: deepPurple[100] }}
           />
-          <CardContent>
+          <Divider />
+          <CardContent sx={{ backgroundColor: 'white' }}>
             <Stack spacing={1}>
-              {group.teams.map((team) =>
-                isSingleParticipant ? (
-                  <SingleParticipantInfo
-                    key={team.id}
-                    name={team.user1.name}
-                    image={team.user1.image}
-                  />
-                ) : (
-                  <DoubleParticipantInfo
-                    key={team.id}
-                    name1={team.user1.name}
-                    image1={team.user1.image}
-                    name2={team.user2?.name}
-                    image2={team.user2?.image}
-                  />
-                )
-              )}
+              {group.teams.map((team, index) => (
+                <Box>
+                  {index !== 0 && <Divider sx={{ mb: 1 }} />}
+                  <Box
+                    display="flex"
+                    alignItems="center"
+                    gap={2}
+                  >
+                    <Typography
+                      variant="subtitle2"
+                      fontWeight={400}
+                    >
+                      {index + 1}.
+                    </Typography>
+                    {isSingleParticipant ? (
+                      <SingleParticipantInfo
+                        key={team.id}
+                        name={team.user1.name}
+                        image={team.user1.image}
+                      />
+                    ) : (
+                      <DoubleParticipantInfo
+                        key={team.id}
+                        name1={team.user1.name}
+                        image1={team.user1.image}
+                        name2={team.user2?.name}
+                        image2={team.user2?.image}
+                      />
+                    )}
+                  </Box>
+                </Box>
+              ))}
             </Stack>
           </CardContent>
         </Card>
