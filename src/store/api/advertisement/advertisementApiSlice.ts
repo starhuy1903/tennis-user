@@ -36,6 +36,18 @@ const advertisementApiToastSlice = apiWithToastSlice.injectEndpoints({
     getAdvertisementById: build.query<Advertisement, string>({
       query: (id) => urlWithCorePrefix(`advertisements/${id}`),
     }),
+    editAdvertisement: build.mutation<
+      Advertisement,
+      Omit<AdvertisementPayload, 'purchasedPackageId'> & {
+        id: string;
+      }
+    >({
+      query: ({ id, ...body }) => ({
+        url: urlWithCorePrefix(`advertisements/${id}/me`),
+        method: 'PATCH',
+        body: body,
+      }),
+    }),
   }),
 });
 
@@ -47,4 +59,5 @@ export const {
   useLazyGetMyAdvertisementsQuery,
   useGetAdvertisementByIdQuery,
   useLazyGetAdvertisementByIdQuery,
+  useEditAdvertisementMutation,
 } = advertisementApiToastSlice;

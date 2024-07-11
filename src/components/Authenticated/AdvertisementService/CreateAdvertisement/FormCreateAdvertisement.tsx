@@ -205,6 +205,7 @@ export default function FormCreateAdvertisement({ selectedPackage, setSelectedPa
         >
           <FormLabel htmlFor="website">Website</FormLabel>
           <TextField
+            {...register('website')}
             placeholder="Website"
             id="website"
             error={!!formError.website}

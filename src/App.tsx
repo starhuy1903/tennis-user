@@ -7,6 +7,7 @@ import AdvertisementDetails from 'components/Authenticated/AdvertisementService/
 import AdvertisementLayout from 'components/Authenticated/AdvertisementService/AdvertisementLayout';
 import AdvertisementList from 'components/Authenticated/AdvertisementService/AdvertisementList';
 import CreateAdvertisement from 'components/Authenticated/AdvertisementService/CreateAdvertisement';
+import EditAdvertisement from 'components/Authenticated/AdvertisementService/EditAdvertisement';
 import MyAdvertisementDetails from 'components/Authenticated/AdvertisementService/MyAdvertisementDetails';
 import MyAdvertisement from 'components/Authenticated/AdvertisementService/MyAdvertisements';
 import AffiliateSponsor from 'components/Authenticated/AffiliateSponsor';
@@ -185,6 +186,10 @@ const protectedRoutes = createBrowserRouter([
             path: ':id',
             element: <MyAdvertisementDetails />,
           },
+          {
+            path: ':id/edit',
+            element: <EditAdvertisement />,
+          },
         ],
       },
       {
@@ -193,10 +198,10 @@ const protectedRoutes = createBrowserRouter([
       },
     ],
   },
-  {
-    path: '*',
-    element: <Navigate to={`/`} />,
-  },
+  // {
+  //   path: '*',
+  //   element: <Navigate to={`/`} />,
+  // },
 ]);
 
 const publicRoutes = createBrowserRouter([

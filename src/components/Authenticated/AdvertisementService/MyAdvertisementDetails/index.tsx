@@ -156,15 +156,16 @@ export default function MyAdvertisementDetails() {
             color={AdvertisementStatusChip[advertisement.status].color}
           />
         </Stack>
-
-        <Fab
-          size="small"
-          aria-label="edit-advertisement"
-          color="primary"
-          onClick={() => navigate(`/affiliates/my-ads/${advertisement.id}/edit`)}
-        >
-          <EditIcon fontSize="small" />
-        </Fab>
+        {advertisement.status !== AdvertisementStatus.REJECTED && (
+          <Fab
+            size="small"
+            aria-label="edit-advertisement"
+            color="primary"
+            onClick={() => navigate(`/affiliates/my-ads/${advertisement.id}/edit`)}
+          >
+            <EditIcon fontSize="small" />
+          </Fab>
+        )}
       </Stack>
 
       <Divider />
