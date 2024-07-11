@@ -2,6 +2,7 @@ import { Box, Button, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
 
 // import { useAppSelector } from 'store';
+import Advertisements from './Advertisements';
 import News from './News';
 import Services from './Services';
 
@@ -19,11 +20,12 @@ export default function Home() {
 
   return (
     <Box
-      my={2}
       sx={{
         display: 'flex',
         flexDirection: 'column',
-        gap: '20px',
+        gap: 4,
+        marginTop: 2,
+        marginBottom: 8,
       }}
     >
       <Box>
@@ -48,6 +50,24 @@ export default function Home() {
           </Button>
         </Box>
         <News />
+      </Box>
+      <Box>
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+          }}
+        >
+          <Typography variant="h4">Advertisements</Typography>
+          <Button
+            component={Link}
+            to="/affiliates"
+          >
+            More
+          </Button>
+        </Box>
+        <Advertisements />
       </Box>
       {/* {isLoggedIn && (
         <Box>
