@@ -1,4 +1,6 @@
+// import { DevTool } from '@hookform/devtools';
 import EditIcon from '@mui/icons-material/Edit';
+import LoadingButton from '@mui/lab/LoadingButton';
 import {
   Box,
   Button,
@@ -652,6 +654,7 @@ export default function UpdateTournament({ onCloseForm }: { onCloseForm: () => v
             display: 'flex',
             justifyContent: 'right',
             gap: 2,
+            mt: 4,
           }}
         >
           <Button
@@ -662,15 +665,17 @@ export default function UpdateTournament({ onCloseForm }: { onCloseForm: () => v
           >
             Cancel
           </Button>
-          <Button
+          <LoadingButton
             variant="contained"
             color="primary"
-            disabled={disabledUpdateBtn}
             onClick={handleSubmit(onSubmit)}
+            loading={updatingData}
+            loadingPosition="start"
+            disabled={disabledUpdateBtn}
             startIcon={<EditIcon />}
           >
-            {updatingData ? 'Updating...' : 'Update'}
-          </Button>
+            <span>Update</span>
+          </LoadingButton>
         </Box>
       </Box>
       {/* <DevTool control={control} />  */}

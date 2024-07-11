@@ -1,7 +1,6 @@
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
 import {
-  Avatar,
   Box,
   Chip,
   IconButton,
@@ -19,6 +18,7 @@ import { useConfirm } from 'material-ui-confirm';
 import { useCallback } from 'react';
 import { useAppSelector } from 'store';
 
+import { SingleParticipantInfo } from 'components/Authenticated/TournamentService/Common/ParticipantInfo';
 import { useGetUserPaymentDataQuery, useUpdateUserPaymentDataMutation } from 'store/api/tournament/creator/fund';
 import { selectTournamentData } from 'store/slice/tournamentSlice';
 import { UserPaymentStatus } from 'types/tournament/fund';
@@ -136,15 +136,10 @@ export default function UserPaymentList() {
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                 >
                   <TableCell align="center">
-                    <Box
-                      display="flex"
-                      alignItems="center"
-                      gap={2}
-                      justifyContent="center"
-                    >
-                      <Avatar src={row.image} />
-                      <Typography variant="caption">{row.name}</Typography>
-                    </Box>
+                    <SingleParticipantInfo
+                      image={row.image}
+                      name={row.name}
+                    />
                   </TableCell>
                   <TableCell align="center">{PaymentStatus[row.status]}</TableCell>
                   <TableCell align="center">{row.message}</TableCell>

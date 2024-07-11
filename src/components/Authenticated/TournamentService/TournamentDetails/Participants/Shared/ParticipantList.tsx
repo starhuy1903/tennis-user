@@ -3,6 +3,7 @@ import {
   Avatar,
   Box,
   Button,
+  Grid,
   Paper,
   Skeleton,
   Stack,
@@ -17,6 +18,10 @@ import {
 import { useCallback, useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from 'store';
 
+import {
+  DoubleParticipantInfo,
+  SingleParticipantInfo,
+} from 'components/Authenticated/TournamentService/Common/ParticipantInfo';
 import NoData from 'components/Common/NoData';
 import { FormatDateTime } from 'constants/datetime';
 import { ModalKey } from 'constants/modal';
@@ -28,8 +33,9 @@ import { checkTournamentRole, selectTournamentData } from 'store/slice/tournamen
 import { UserProfile } from 'types/user';
 import { displayDateTime } from 'utils/datetime';
 
+import RefereeCard from './RefereeCard';
+
 const titles = ['Name', 'ELO', 'Email address', 'Gender', 'Applied date'];
-const refereeTableTitle = ['', 'Name', 'Phone number', 'Gender'];
 
 const ParticipantName = ({ user }: { user: UserProfile }) => {
   return (
@@ -95,6 +101,46 @@ export default function ParticipantList() {
     }
   }, [handleGetRefereeData, isCreator]);
 
+  const renderRefereeData = () => {
+    if (fetchingRefereeData) {
+      return Array(3)
+        .fill(null)
+        .map((_, index) => (
+          <Grid item>
+            <Skeleton
+              key={index}
+              variant="rounded"
+              width={300}
+              height={140}
+            />
+          </Grid>
+        ));
+    }
+
+    if (referees && referees.data.length > 0) {
+      return referees.data.map((item) => (
+        <Grid
+          item
+          key={item.id}
+        >
+          <RefereeCard
+            name={item.name}
+            image={item.image}
+          />
+        </Grid>
+      ));
+    }
+
+    return (
+      <Grid
+        item
+        xs={12}
+      >
+        <NoData />
+      </Grid>
+    );
+  };
+
   return (
     <Box my={4}>
       <Typography
@@ -152,7 +198,20 @@ export default function ParticipantList() {
                         scope="row"
                       >
                         <Box sx={{ display: 'flex', flexDirection: 'column', rowGap: '10px' }}>
-                          <ParticipantName user={row.user1} />
+                          {participants.participantType === 'single' ? (
+                            <SingleParticipantInfo
+                              image={row.user1.image}
+                              name={row.user1.name}
+                            />
+                          ) : (
+                            <DoubleParticipantInfo
+                              name1={row.user1.name}
+                              image1={row.user1.image}
+                              name2={row.user2?.name}
+                              image2={row.user2?.image}
+                            />
+                          )}
+
                           {row?.user2 && <ParticipantName user={row.user2} />}
                         </Box>
                       </TableCell>
@@ -204,81 +263,13 @@ export default function ParticipantList() {
               Add Referee
             </Button>
           </Box>
-          <TableContainer
-            component={Paper}
+          <Grid
+            container
+            spacing={2}
             sx={{ mt: 2 }}
           >
-            <Table
-              sx={{ minWidth: 650 }}
-              aria-label="referee table"
-            >
-              <TableHead>
-                <TableRow>
-                  {refereeTableTitle.map((title) => (
-                    <TableCell key={title}>{title}</TableCell>
-                  ))}
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {fetchingRefereeData ? (
-                  Array(3)
-                    .fill(null)
-                    .map(() => (
-                      <TableRow>
-                        <TableCell colSpan={refereeTableTitle.length}>
-                          <Skeleton
-                            variant="rectangular"
-                            height={30}
-                          />
-                        </TableCell>
-                      </TableRow>
-                    ))
-                ) : referees && referees.data.length > 0 ? (
-                  referees.data.map((row) => (
-                    <TableRow key={row.id}>
-                      <TableCell
-                        component="th"
-                        scope="row"
-                      >
-                        <Avatar
-                          src={row.image}
-                          alt={row.name}
-                          sx={{ width: '50px', height: '50px' }}
-                        />
-                      </TableCell>
-                      <TableCell
-                        component="th"
-                        scope="row"
-                        align="left"
-                      >
-                        {row.name}
-                      </TableCell>
-                      <TableCell
-                        component="th"
-                        scope="row"
-                        align="left"
-                      >
-                        {row.phoneNumber}
-                      </TableCell>
-                      <TableCell
-                        component="th"
-                        scope="row"
-                        align="left"
-                      >
-                        {GenderOptions[row.gender]}
-                      </TableCell>
-                    </TableRow>
-                  ))
-                ) : (
-                  <TableRow>
-                    <TableCell colSpan={refereeTableTitle.length}>
-                      <NoData />
-                    </TableCell>
-                  </TableRow>
-                )}
-              </TableBody>
-            </Table>
-          </TableContainer>
+            {renderRefereeData()}
+          </Grid>
         </Stack>
       )}
     </Box>

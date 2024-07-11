@@ -12,7 +12,8 @@ import {
 export const {
   useGenerateGroupMutation,
   useGenerateFixtureMutation,
-  useSaveFixtureMutation,
+  useSavePublishFixtureMutation,
+  useSaveDraftFixtureMutation,
   useGetTeamQuery,
   useLazyGetTeamQuery,
   useClearDraftFixtureMutation,
@@ -32,9 +33,16 @@ export const {
         body,
       }),
     }),
-    saveFixture: build.mutation<FixtureResponse, { tournamentId: number; body: SaveFixture }>({
+    savePublishFixture: build.mutation<FixtureResponse, { tournamentId: number; body: SaveFixture }>({
       query: ({ tournamentId, body }) => ({
-        url: urlWithCorePrefix(`tournaments/${tournamentId}/fixtures/save`),
+        url: urlWithCorePrefix(`tournaments/${tournamentId}/fixtures/save-publish`),
+        method: 'POST',
+        body,
+      }),
+    }),
+    saveDraftFixture: build.mutation<FixtureResponse, { tournamentId: number; body: SaveFixture }>({
+      query: ({ tournamentId, body }) => ({
+        url: urlWithCorePrefix(`tournaments/${tournamentId}/fixtures/save-draft`),
         method: 'POST',
         body,
       }),

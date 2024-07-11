@@ -85,7 +85,7 @@ export default function TournamentDetailsLayout() {
     const pathParts = pathname.split('/');
     const activeTabFromPath = pathParts[3]; // /tournaments/:tournamentId/:activeTab
     const activeTab = TournamentTabs.find((tab) => tab.value === activeTabFromPath);
-    return activeTab ? activeTab.value : TournamentTabs[3].value; // default to info tab
+    return activeTab ? activeTab.value : TournamentTabs[0].value; // default to info tab
   }, [pathname]);
 
   const [currentTab, setCurrentTab] = useState(getActiveTab);
