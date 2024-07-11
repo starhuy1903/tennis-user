@@ -1,4 +1,4 @@
-import { Box, Container, Stack } from '@mui/material';
+import { Box, Container, Divider, Stack } from '@mui/material';
 import produce from 'immer';
 import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -107,28 +107,28 @@ export default function RoundRobinFixture({ rounds, setFixtureData }: RoundRobin
 
   return (
     <Container maxWidth="lg">
-      <Stack
-        direction="column"
-        my={5}
-      >
-        {rounds.map((round, roundIndex) => (
-          <Box
-            key={roundIndex}
+      <Stack my={1}>
+        {rounds.map((round) => (
+          <Stack
+            key={round.id}
+            gap={1}
             sx={{
               width: '100%',
-              display: 'flex',
-              flexDirection: 'column',
-              gap: 2,
             }}
           >
-            {round.matches.map((match, matchIndex) => (
-              <MatchItem
-                key={matchIndex}
-                match={match}
-                onClick={() => handleClickMatchItem(match)}
-              />
+            {round.matches.map((match) => (
+              <Box key={match.id}>
+                <Divider
+                  orientation="horizontal"
+                  flexItem
+                />
+                <MatchItem
+                  match={match}
+                  onClick={() => handleClickMatchItem(match)}
+                />
+              </Box>
             ))}
-          </Box>
+          </Stack>
         ))}
       </Stack>
     </Container>

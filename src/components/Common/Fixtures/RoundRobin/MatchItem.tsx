@@ -1,4 +1,6 @@
-import { Avatar, Box, Stack, Typography } from '@mui/material';
+import AccessAlarmIcon from '@mui/icons-material/AccessAlarm';
+import PlaceIcon from '@mui/icons-material/Place';
+import { Avatar, Box, Chip, Stack, Tooltip, Typography } from '@mui/material';
 import { ArrowLeftIcon, ArrowRightIcon } from '@mui/x-date-pickers';
 
 import { MatchStatusBadge } from 'components/Common/Match/MatchStatusBadge';
@@ -15,20 +17,14 @@ const CustomPlayer = ({ player, direction }: { player: Player; direction: 'left'
         sx={{
           display: 'flex',
           alignItems: 'center',
-          gap: 4,
+          gap: 1,
         }}
       >
-        <Box
-          sx={{
-            borderLeft: '1px solid #E0E0E0',
-            borderRight: '1px solid #E0E0E0',
-            padding: 1,
-          }}
-        >
+        <Box>
           <Avatar
             src={player.image}
             alt={player.name}
-            sx={{ width: '80px', height: '80px' }}
+            sx={{ width: '50px', height: '50px' }}
           />
         </Box>
 
@@ -39,14 +35,9 @@ const CustomPlayer = ({ player, direction }: { player: Player; direction: 'left'
             alignItems: 'flex-start',
           }}
         >
-          <Typography
-            variant="h6"
-            fontWeight={600}
-          >
-            {player.name}
-          </Typography>
+          <Typography>{player.name}</Typography>
 
-          <Typography variant="body2">{player.elo} ELO</Typography>
+          {player.elo && <Typography variant="body2">{player.elo} ELO</Typography>}
         </Box>
       </Box>
     );
@@ -57,37 +48,24 @@ const CustomPlayer = ({ player, direction }: { player: Player; direction: 'left'
       sx={{
         display: 'flex',
         alignItems: 'center',
-        gap: 4,
+        gap: 1,
       }}
     >
-      <Box
+      <Stack
         sx={{
-          display: 'flex',
-          flexDirection: 'column',
           alignItems: 'flex-end',
         }}
       >
-        <Typography
-          variant="h6"
-          fontWeight={600}
-        >
-          {player.name}
-        </Typography>
+        <Typography>{player.name}</Typography>
 
-        <Typography variant="body2">{player.elo} ELO</Typography>
-      </Box>
+        {player.elo && <Typography variant="body2">{player.elo} ELO</Typography>}
+      </Stack>
 
-      <Box
-        sx={{
-          borderLeft: '1px solid #E0E0E0',
-          borderRight: '1px solid #E0E0E0',
-          padding: 1,
-        }}
-      >
+      <Box>
         <Avatar
           src={player.image}
           alt={player.name}
-          sx={{ width: '80px', height: '80px' }}
+          sx={{ width: '50px', height: '50px' }}
         />
       </Box>
     </Box>
@@ -142,41 +120,22 @@ export const MatchItem = ({ match, onClick }: MathItemProps) => {
 
   return (
     <Box
+      display="flex"
+      justifyContent="space-between"
       sx={{
-        border: '1px solid #E0E0E0',
         cursor: 'pointer',
       }}
       onClick={onClick}
+      gap={4}
+      py={2}
     >
-      <Box
-        sx={{
-          borderBottom: '1px solid #E0E0E0',
-          display: 'flex',
-          justifyContent: 'center',
-          gap: 2,
-        }}
-      >
-        <Typography
-          variant="caption"
-          color="gray"
-        >
-          <strong>Date / Time:</strong>{' '}
-          {displayDateTime({ dateTime: match.matchStartDate || '', targetFormat: FormatDateTime.DATE_AND_FULL_TIME })}
-        </Typography>
-
-        <Typography
-          variant="caption"
-          color="gray"
-        >
-          <strong>Venue:</strong> {match.venue}
-        </Typography>
-      </Box>
-
       <Box
         sx={{
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
+          gap: 2,
+          flex: 1,
         }}
       >
         <Box
@@ -242,7 +201,7 @@ export const MatchItem = ({ match, onClick }: MathItemProps) => {
             <Box />
           )}
 
-          <Stack>
+          <Stack gap={1}>
             {match.teams.team2 && (
               <>
                 <CustomPlayer
@@ -262,51 +221,25 @@ export const MatchItem = ({ match, onClick }: MathItemProps) => {
         </Box>
       </Box>
 
-      {match.teams.team1?.user2 && (
-        <Box
-          sx={{
-            borderTop: '1px solid #E0E0E0',
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            px: 18,
-          }}
-        >
-          <Box>
-            {match.teams.team1?.user2 && (
-              <Typography
-                variant="h6"
-                color="green"
-              >
-                {match.teams.team1.totalElo} ELO
-              </Typography>
-            )}
-          </Box>
-
-          {/* <Button
-            component={Link}
-            to={`matches/${match.id}`}
-            variant="contained"
-            color="info"
-            sx={{
-              borderRadius: 0,
-            }}
-          >
-            Details
-          </Button> */}
-
-          <Box>
-            {match.teams.team2?.user2 && (
-              <Typography
-                variant="h6"
-                color="green"
-              >
-                {match.teams.team2.totalElo} ELO
-              </Typography>
-            )}
-          </Box>
-        </Box>
-      )}
+      <Stack
+        sx={{
+          justifyContent: 'center',
+          gap: 2,
+        }}
+      >
+        <Chip
+          variant="outlined"
+          // color="info"
+          icon={<AccessAlarmIcon fontSize="small" />}
+          label={displayDateTime({
+            dateTime: match.matchStartDate || '',
+            targetFormat: FormatDateTime.DATE_AND_FULL_TIME,
+          })}
+        />
+        <Tooltip title={match.venue}>
+          <PlaceIcon fontSize="small" />
+        </Tooltip>
+      </Stack>
     </Box>
   );
 };

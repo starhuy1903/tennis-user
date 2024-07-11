@@ -135,6 +135,7 @@ export type GeneratedNewGroupPlayoffFixture = GeneratedFixture & {
     isFinal: boolean;
     rounds: Round[];
     numberOfProceeders: number;
+    status: 'scheduled' | 'walk_over' | 'done';
   }[];
   knockoutGroup: {
     id: string;
