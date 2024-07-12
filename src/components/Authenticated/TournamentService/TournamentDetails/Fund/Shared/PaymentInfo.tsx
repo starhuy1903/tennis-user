@@ -24,7 +24,7 @@ export default function PaymentInfo({ paymentInfo }: PaymentInfoProps) {
         <CardHeader
           title="Payment information"
           subheader
-        ></CardHeader>
+        />
         <CardContent>
           <Box
             display="flex"
@@ -38,30 +38,25 @@ export default function PaymentInfo({ paymentInfo }: PaymentInfoProps) {
                   fontWeight="bold"
                   marginRight="10px"
                 >
-                  Bank
+                  Method
                 </Typography>
-                <Typography display="inline">{paymentInfo.payment.bank.name}</Typography>
-              </Box>
-              <Box>
-                <Typography
-                  display="inline"
-                  fontWeight="bold"
-                  marginRight="10px"
-                >
-                  Account
+                <Typography display="inline">
+                  {paymentInfo.payment.method.charAt(0).toUpperCase()}
+                  {paymentInfo.payment.method.slice(1)}
                 </Typography>
-                <Typography display="inline">{paymentInfo.payment.bank.account}</Typography>
               </Box>
-              <Box>
-                <Typography
-                  display="inline"
-                  fontWeight="bold"
-                  marginRight="10px"
-                >
-                  Owner
-                </Typography>
-                <Typography display="inline">{paymentInfo.payment.bank.owner}</Typography>
-              </Box>
+              {paymentInfo.payment.information && (
+                <Box>
+                  <Typography
+                    display="inline"
+                    fontWeight="bold"
+                    marginRight="10px"
+                  >
+                    Payment description
+                  </Typography>
+                  <Typography display="inline">{paymentInfo.payment.information}</Typography>
+                </Box>
+              )}
               <Box>
                 <Typography
                   display="inline"
@@ -96,13 +91,15 @@ export default function PaymentInfo({ paymentInfo }: PaymentInfoProps) {
                 <Typography display="inline">{displayDate(paymentInfo.dueDate)}</Typography>
               </Box>
             </Box>
-            <Box>
-              <img
-                src={paymentInfo.image}
-                alt=""
-                style={{ width: '140px', height: '140px', objectFit: 'cover' }}
-              />
-            </Box>
+            {paymentInfo.payment.image && (
+              <Box>
+                <img
+                  src={paymentInfo.payment.image}
+                  alt=""
+                  style={{ width: '140px', height: '140px', objectFit: 'cover' }}
+                />
+              </Box>
+            )}
           </Box>
         </CardContent>
       </Card>
