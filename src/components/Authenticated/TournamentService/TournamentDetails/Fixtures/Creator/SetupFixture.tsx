@@ -34,12 +34,13 @@ import { FixtureStatus } from 'constants/tournament-fixtures';
 import { useGenerateFixtureMutation } from 'store/api/tournament/creator/fixture';
 import { selectTournamentData } from 'store/slice/tournamentSlice';
 import { CreateFixtureRequest, FixtureResponse, GeneratedGroup } from 'types/tournament-fixtures';
+import { getSubmittedGroupData } from 'utils/tournament';
 
 import GenerateGroup from './GenerateGroup';
 import GroupDataTable from './GroupDataTable';
 
 type FormType = CreateFixtureRequest & {
-  numberOfProceeders?: number;
+  numberOfKnockoutTeams?: number;
 };
 
 // const tournamentFormatOptions = [
@@ -73,7 +74,7 @@ export default function SetupFixture({ fixtureConfig, setFixtureData, setFixture
       matchesEndTime: fixtureConfig?.matchesEndTime || dayjs('2022-04-17T20:00').toISOString(),
       matchDuration: fixtureConfig?.matchDuration || 30,
       breakDuration: fixtureConfig?.breakDuration || 10,
-      numberOfProceeders: tournamentData.format === TournamentFormat.GROUP_PLAYOFF ? 1 : undefined,
+      numberOfKnockoutTeams: tournamentData.format === TournamentFormat.GROUP_PLAYOFF ? 2 : undefined,
     },
   });
 
@@ -89,11 +90,8 @@ export default function SetupFixture({ fixtureConfig, setFixtureData, setFixture
 
   const handleGenerateFixtures = handleSubmit(async (data) => {
     const groups =
-      tournamentData.format === TournamentFormat.GROUP_PLAYOFF
-        ? groupPlayoff?.map((group) => ({
-            ...group,
-            teams: group.teams.map((team) => team.id),
-          }))
+      tournamentData.format === TournamentFormat.GROUP_PLAYOFF && groupPlayoff
+        ? getSubmittedGroupData(groupPlayoff)
         : undefined;
 
     try {
@@ -103,6 +101,8 @@ export default function SetupFixture({ fixtureConfig, setFixtureData, setFixture
         format: tournamentData.format,
         venue: tournamentData.address,
         groups,
+        numberOfKnockoutTeams:
+          tournamentData.format === TournamentFormat.GROUP_PLAYOFF ? Number(data.numberOfKnockoutTeams) : undefined,
       };
       const res = await generateFixtureRequest({
         tournamentId: tournamentData.id,
@@ -394,22 +394,24 @@ export default function SetupFixture({ fixtureConfig, setFixtureData, setFixture
                 >
                   <Alert severity="info">The number of teams that can advance to the knockout stage</Alert>
                   <FormControl
-                    error={!!formError.numberOfProceeders}
+                    error={!!formError.numberOfKnockoutTeams}
                     fullWidth
                     sx={{ mt: 1 }}
                   >
-                    <FormLabel htmlFor="numberOfProceeders">Number of teams</FormLabel>
+                    <FormLabel htmlFor="numberOfKnockoutTeams">Number of teams</FormLabel>
                     <TextField
-                      {...register('numberOfProceeders')}
+                      {...register('numberOfKnockoutTeams', {
+                        validate: (value) => Number(value) >= 2 || 'The number of teams must be at least 2.',
+                      })}
                       required
-                      id="numberOfProceeders"
+                      id="numberOfKnockoutTeams"
                       type="number"
-                      error={!!formError.numberOfProceeders}
-                      aria-describedby="numberOfProceeders-helper-text"
-                      defaultValue={1}
+                      error={!!formError.numberOfKnockoutTeams}
+                      aria-describedby="numberOfKnockoutTeams-helper-text"
+                      defaultValue={2}
                     />
-                    <FormHelperText id="numberOfProceeders-helper-text">
-                      {formError.numberOfProceeders?.message}
+                    <FormHelperText id="numberOfKnockoutTeams-helper-text">
+                      {formError.numberOfKnockoutTeams?.message}
                     </FormHelperText>
                   </FormControl>
                 </Box>

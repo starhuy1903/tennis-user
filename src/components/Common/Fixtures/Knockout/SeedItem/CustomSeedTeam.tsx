@@ -1,10 +1,13 @@
-import { Avatar, Box } from '@mui/material';
+import { Avatar, Stack } from '@mui/material';
 import { SeedTeam } from 'react-brackets';
 
+import {
+  DoubleParticipantInfo,
+  SingleParticipantInfo,
+} from 'components/Authenticated/TournamentService/Common/ParticipantInfo';
 import { Match } from 'types/tournament-fixtures';
 
 import ScoreList from './ScoreList';
-import TeamPlayer from './TeamPlayer';
 
 type CustomSeedTeamProps = {
   match: Match | any;
@@ -17,7 +20,7 @@ export default function CustomSeedTeam({ match, teamNumber }: CustomSeedTeamProp
     !match.teams[teamNumber - 1] ||
     Object.keys(match.teams[teamNumber - 1]).length === 0
     // match.status === MatchState.NO_SHOW
-  )
+  ) {
     return (
       <SeedTeam
         style={{
@@ -32,6 +35,10 @@ export default function CustomSeedTeam({ match, teamNumber }: CustomSeedTeamProp
         />
       </SeedTeam>
     );
+  }
+
+  const player1 = match.teams[teamNumber - 1].user1;
+  const player2 = match.teams[teamNumber - 1].user2;
 
   return (
     <SeedTeam
@@ -41,17 +48,21 @@ export default function CustomSeedTeam({ match, teamNumber }: CustomSeedTeamProp
         padding: 15,
       }}
     >
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: 2,
-        }}
-      >
-        <TeamPlayer player={match.teams[teamNumber - 1].user1} />
-
-        {match.teams[teamNumber - 1].user2 && <TeamPlayer player={match.teams[teamNumber - 1].user2} />}
-      </Box>
+      <Stack gap={2}>
+        {!player2 ? (
+          <DoubleParticipantInfo
+            name1={player1.name}
+            image1={player1.image}
+            name2={player1.name}
+            image2={player1.image}
+          />
+        ) : (
+          <SingleParticipantInfo
+            name={player1.name}
+            image={player1.image}
+          />
+        )}
+      </Stack>
 
       <ScoreList
         match={match}

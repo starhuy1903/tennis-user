@@ -9,18 +9,16 @@ type SingleParticipantInfoProps = {
 
 export function SingleParticipantInfo({ image, name, imageSx, renderInfo }: SingleParticipantInfoProps) {
   return (
-    <Box>
-      <Box
-        display="flex"
-        alignItems="center"
-        gap={2}
-      >
-        <Avatar
-          sx={imageSx}
-          src={image}
-        />
-        {renderInfo ? renderInfo() : <Typography variant="caption">{name}</Typography>}
-      </Box>
+    <Box
+      display="flex"
+      alignItems="center"
+      gap={2}
+    >
+      <Avatar
+        sx={imageSx}
+        src={image}
+      />
+      {renderInfo ? renderInfo() : <Typography variant="caption">{name}</Typography>}
     </Box>
   );
 }

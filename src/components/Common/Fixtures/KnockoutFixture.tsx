@@ -11,7 +11,14 @@ import { useGetRefereesQuery } from 'store/api/tournament/creator/participant';
 import { showModal } from 'store/slice/modalSlice';
 import { selectTournamentData } from 'store/slice/tournamentSlice';
 import { EditMatchPayload } from 'types/match';
-import { FixtureResponse, Match, Round, Team, isGeneratedNewKnockoutFixture } from 'types/tournament-fixtures';
+import {
+  FixtureResponse,
+  Match,
+  Round,
+  Team,
+  isGeneratedNewGroupPlayoffFixture,
+  isGeneratedNewKnockoutFixture,
+} from 'types/tournament-fixtures';
 import { checkGeneratedFixture } from 'utils/tournament';
 
 import CenterLoading from '../CenterLoading';
@@ -23,10 +30,25 @@ type KnockoutFixturesProps = {
   setFixtureData?: React.Dispatch<React.SetStateAction<FixtureResponse | null>>;
 };
 
+function getKnockoutRoundName(rounds: string[]): string[] {
+  const knockoutRounds = {
+    2: 'Finals',
+    3: 'Semifinals',
+    4: 'Quarterfinals',
+  };
+
+  const numRounds = rounds.length;
+  return rounds.map((_, index) => {
+    const roundPosition = numRounds - index;
+    return knockoutRounds[roundPosition as keyof typeof knockoutRounds] || `Round ${roundPosition}`;
+  });
+}
+
 export default function KnockoutFixtures({ rounds, setFixtureData }: KnockoutFixturesProps) {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const tournamentData = useAppSelector(selectTournamentData);
+  const roundNames = useMemo(() => getKnockoutRoundName(rounds.map((round) => round.title)).reverse(), [rounds]);
 
   const { data: teamData, isLoading: fetchingTeamData } = useGetTeamQuery(tournamentData.id, {
     refetchOnMountOrArgChange: true,
@@ -36,21 +58,21 @@ export default function KnockoutFixtures({ rounds, setFixtureData }: KnockoutFix
 
   const bracketRounds = useMemo<IRoundProps[]>(
     () =>
-      rounds.map((round) => ({
-        title: round.title,
+      rounds.map((round, roundIndex) => ({
+        title: roundNames[roundIndex],
         seeds: round.matches.map((match) => ({
           ...match,
           date: match.matchStartDate || '',
           teams: [match.teams.team1 || {}, match.teams.team2 || {}],
         })),
       })),
-    [rounds]
+    [roundNames, rounds]
   );
 
   const handleUpdateFixture = useCallback(
     (match: EditMatchPayload) => {
       setFixtureData?.((prev) => {
-        if (prev && isGeneratedNewKnockoutFixture(prev)) {
+        if (prev && (isGeneratedNewKnockoutFixture(prev) || isGeneratedNewGroupPlayoffFixture(prev))) {
           const updatedKnockoutGroup = produce(prev.knockoutGroup, (draftGroups) => {
             draftGroups.rounds.forEach((round) => {
               round.matches.forEach((m) => {

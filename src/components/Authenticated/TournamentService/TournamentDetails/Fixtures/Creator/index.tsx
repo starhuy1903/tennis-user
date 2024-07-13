@@ -29,6 +29,7 @@ import {
   isGeneratedNewRoundRobinFixture,
 } from 'types/tournament-fixtures';
 import { showSuccess } from 'utils/toast';
+import { getSubmittedGroupData } from 'utils/tournament';
 
 import SetupFixture from './SetupFixture';
 
@@ -126,6 +127,7 @@ export default function CreatorFixture() {
               matchDuration: res.matchDuration,
               breakDuration: res.breakDuration,
               venue: res.venue,
+              groups: res.groups ? getSubmittedGroupData(res.groups as any) : undefined,
             } as CreateFixtureRequest);
           }
         } catch (error) {
