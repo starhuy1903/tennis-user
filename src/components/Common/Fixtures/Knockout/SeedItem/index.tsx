@@ -14,7 +14,7 @@ import CustomSeedTeam from './CustomSeedTeam';
 type CustomSeedItemProps = IRenderSeedProps & {
   onEdit: (match: Match) => void;
   onViewDetails: (match: Match) => void;
-  isCreator?: boolean;
+  isCreator: boolean;
 };
 
 export default function CustomSeedItem({ seed, isCreator, onEdit, onViewDetails }: CustomSeedItemProps) {

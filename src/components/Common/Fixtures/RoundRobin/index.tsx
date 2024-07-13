@@ -9,7 +9,7 @@ import { ModalKey } from 'constants/modal';
 import { useGetTeamQuery } from 'store/api/tournament/creator/fixture';
 import { useGetRefereesQuery } from 'store/api/tournament/creator/participant';
 import { showModal } from 'store/slice/modalSlice';
-import { selectTournamentData } from 'store/slice/tournamentSlice';
+import { checkTournamentRole, selectTournamentData } from 'store/slice/tournamentSlice';
 import { EditMatchPayload } from 'types/match';
 import {
   FixtureResponse,
@@ -33,6 +33,7 @@ export default function RoundRobinFixture({ rounds, setFixtureData }: RoundRobin
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const tournamentData = useAppSelector(selectTournamentData);
+  const { isCreator } = useAppSelector(checkTournamentRole);
 
   const { data: teamData, isLoading: fetchingTeamData } = useGetTeamQuery(tournamentData.id, {
     refetchOnMountOrArgChange: true,
@@ -130,6 +131,7 @@ export default function RoundRobinFixture({ rounds, setFixtureData }: RoundRobin
                 sx={{ borderRadius: 2, border: '1px solid', borderColor: 'divider' }}
               >
                 <MatchItem
+                  isCreator={isCreator}
                   match={match}
                   onEdit={handleEditMatch}
                   onViewDetails={handleViewMatchDetails}

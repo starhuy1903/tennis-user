@@ -14,12 +14,6 @@ export default function GroupPlayoffFixture({ fixture, setFixtureData }: GroupPl
   return (
     <Box mt={4}>
       <>
-        {/* <Typography
-            variant="h5"
-            align="center"
-          >
-            Group stage
-          </Typography> */}
         {fixture.roundRobinGroups.map((roundRobinGroup, index) => (
           <Paper
             key={roundRobinGroup.id}

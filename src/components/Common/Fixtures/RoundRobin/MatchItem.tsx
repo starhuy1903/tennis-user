@@ -5,12 +5,10 @@ import PlaceIcon from '@mui/icons-material/Place';
 import { Avatar, Box, Button, Chip, IconButton, Stack, Tooltip, Typography } from '@mui/material';
 import { amber, green } from '@mui/material/colors';
 import { ArrowLeftIcon, ArrowRightIcon } from '@mui/x-date-pickers';
-import { useAppSelector } from 'store';
 
 import { MatchStatusBadge } from 'components/Common/Match/MatchStatusBadge';
 import { FormatDateTime } from 'constants/datetime';
 import { MatchState } from 'constants/match';
-import { checkTournamentRole } from 'store/slice/tournamentSlice';
 import { MatchFinalScore } from 'types/match';
 import { Match, Player } from 'types/tournament-fixtures';
 import { displayDateTime } from 'utils/datetime';
@@ -120,10 +118,16 @@ type MathItemProps = {
   onViewDetails: (match: Match) => void;
   onEdit: (match: Match) => void;
   shouldShowViewMatchDetailsBtn?: boolean;
+  isCreator: boolean;
 };
 
-export const MatchItem = ({ match, onViewDetails, onEdit, shouldShowViewMatchDetailsBtn }: MathItemProps) => {
-  const { isCreator } = useAppSelector(checkTournamentRole);
+export const MatchItem = ({
+  isCreator,
+  match,
+  onViewDetails,
+  onEdit,
+  shouldShowViewMatchDetailsBtn,
+}: MathItemProps) => {
   const shouldShowScore = [MatchState.WALK_OVER, MatchState.DONE, MatchState.SCORE_DONE].includes(match.status);
 
   return (
