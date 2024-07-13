@@ -1,4 +1,4 @@
-import { Avatar, Card, CardActionArea, CardContent, CardHeader, CardMedia, Typography } from '@mui/material';
+import { Avatar, Card, CardActionArea, CardContent, CardHeader, CardMedia, Tooltip, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
 
 import { FormatDateTime } from 'constants/datetime';
@@ -36,22 +36,16 @@ export default function AdvertisementItem({ item }: { item: Advertisement }) {
             })}
           />
 
-          <CardContent sx={{ paddingTop: 0, minHeight: 80 }}>
-            <Typography
-              variant="subtitle1"
-              sx={{
-                color: 'text.primary',
-                fontWeight: 'bold',
-                overflow: 'hidden',
-                textOverflow: 'ellipsis',
-                display: '-webkit-box',
-                WebkitLineClamp: 2,
-                WebkitBoxOrient: 'vertical',
-                minHeight: 44,
-              }}
-            >
-              {item.title}
-            </Typography>
+          <CardContent sx={{ paddingTop: 0 }}>
+            <Tooltip title={item.title}>
+              <Typography
+                variant="subtitle1"
+                fontWeight="bold"
+                noWrap
+              >
+                {item.title}
+              </Typography>
+            </Tooltip>
           </CardContent>
         </Card>
       </CardActionArea>
