@@ -1,6 +1,7 @@
 import AccessAlarmIcon from '@mui/icons-material/AccessAlarm';
 import PlaceIcon from '@mui/icons-material/Place';
 import { Avatar, Box, Chip, Stack, Tooltip, Typography } from '@mui/material';
+import { purple } from '@mui/material/colors';
 import { ArrowLeftIcon, ArrowRightIcon } from '@mui/x-date-pickers';
 
 import { MatchStatusBadge } from 'components/Common/Match/MatchStatusBadge';
@@ -123,7 +124,10 @@ export const MatchItem = ({ match, onClick }: MathItemProps) => {
       display="flex"
       justifyContent="space-between"
       sx={{
-        cursor: 'pointer',
+        'cursor': 'pointer',
+        '&:hover': {
+          backgroundColor: purple[50],
+        },
       }}
       onClick={onClick}
       gap={4}

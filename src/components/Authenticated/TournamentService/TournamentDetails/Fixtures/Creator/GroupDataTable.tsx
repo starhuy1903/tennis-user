@@ -41,7 +41,7 @@ export default function GroupDataTable({ groups }: GroupDataTableProps) {
           <CardContent sx={{ backgroundColor: 'white' }}>
             <Stack spacing={1}>
               {group.teams.map((team, index) => (
-                <Box>
+                <Box key={team.id}>
                   {index !== 0 && <Divider sx={{ mb: 1 }} />}
                   <Box
                     display="flex"
@@ -56,13 +56,11 @@ export default function GroupDataTable({ groups }: GroupDataTableProps) {
                     </Typography>
                     {isSingleParticipant ? (
                       <SingleParticipantInfo
-                        key={team.id}
                         name={team.user1.name}
                         image={team.user1.image}
                       />
                     ) : (
                       <DoubleParticipantInfo
-                        key={team.id}
                         name1={team.user1.name}
                         image1={team.user1.image}
                         name2={team.user2?.name}

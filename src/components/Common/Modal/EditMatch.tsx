@@ -4,7 +4,13 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 
+import {
+  DoubleParticipantInfo,
+  SingleParticipantInfo,
+  SingleParticipantSkeleton,
+} from 'components/Authenticated/TournamentService/Common/ParticipantInfo';
 import { EditMatchPayload } from 'types/match';
+import { EditMatchTeam } from 'types/tournament-fixtures';
 
 import BaseModal from './BaseModal';
 import { EditMatchProps } from './types';
@@ -12,6 +18,7 @@ import { EditMatchProps } from './types';
 type FormType = Omit<EditMatchPayload, 'id'>;
 
 export default function EditMatch({ match, referees, teamData, onUpdate, onModalClose }: EditMatchProps) {
+  const teamDataOptions = [...teamData, { id: '' }] as EditMatchTeam[];
   const { handleSubmit, control, formState, register, getValues, watch } = useForm<FormType>({
     defaultValues: {
       name: match.title,
@@ -31,6 +38,33 @@ export default function EditMatch({ match, referees, teamData, onUpdate, onModal
     onUpdate(updatedData);
     onModalClose();
   };
+
+  const renderParticipantOption = (option: any) => (
+    <MenuItem
+      key={option.id}
+      value={option.id}
+    >
+      {option.id ? (
+        <>
+          {option.user2 ? (
+            <DoubleParticipantInfo
+              name1={option.user1.name}
+              image1={option.user1.image}
+              name2={option.user2.name}
+              image2={option.user2.image}
+            />
+          ) : (
+            <SingleParticipantInfo
+              name={option.user1.name}
+              image={option.user1.image}
+            />
+          )}
+        </>
+      ) : (
+        <SingleParticipantSkeleton />
+      )}
+    </MenuItem>
+  );
 
   const renderBody = () => {
     return (
@@ -58,55 +92,11 @@ export default function EditMatch({ match, referees, teamData, onUpdate, onModal
                     id="team1Id"
                     onChange={onChange}
                     aria-describedby="team1Id-helper-text"
+                    sx={{ height: 73 }}
                   >
-                    {teamData
-                      .filter((option) => option.id !== watch('team2Id'))
-                      .map((option) => (
-                        <MenuItem
-                          key={option.id}
-                          value={option.id}
-                        >
-                          <Box
-                            sx={{
-                              display: 'flex',
-                              flexDirection: 'column',
-                              gap: 1,
-                            }}
-                          >
-                            <Box
-                              sx={{
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: 2,
-                              }}
-                            >
-                              <Avatar
-                                alt={option.user1.name}
-                                src={option.user1.image}
-                              />
-
-                              {option.user1.name}
-                            </Box>
-
-                            {option.user2 && (
-                              <Box
-                                sx={{
-                                  display: 'flex',
-                                  alignItems: 'center',
-                                  gap: 2,
-                                }}
-                              >
-                                <Avatar
-                                  alt={option.user2.name}
-                                  src={option.user2.image}
-                                />
-
-                                {option.user2.name}
-                              </Box>
-                            )}
-                          </Box>
-                        </MenuItem>
-                      ))}
+                    {teamDataOptions
+                      .filter((option) => !option.id || option.id !== watch('team2Id'))
+                      .map(renderParticipantOption)}
                   </Select>
                   <FormHelperText id="team1Id-helper-text">{formError.team1Id?.message}</FormHelperText>
                 </FormControl>
@@ -129,55 +119,11 @@ export default function EditMatch({ match, referees, teamData, onUpdate, onModal
                     id="team2Id"
                     onChange={onChange}
                     aria-describedby="team2Id-helper-text"
+                    sx={{ height: 73 }}
                   >
-                    {teamData
-                      .filter((option) => option.id !== watch('team1Id'))
-                      .map((option) => (
-                        <MenuItem
-                          key={option.id}
-                          value={option.id}
-                        >
-                          <Box
-                            sx={{
-                              display: 'flex',
-                              flexDirection: 'column',
-                              gap: 1,
-                            }}
-                          >
-                            <Box
-                              sx={{
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: 2,
-                              }}
-                            >
-                              <Avatar
-                                alt={option.user1.name}
-                                src={option.user1.image}
-                              />
-
-                              {option.user1.name}
-                            </Box>
-
-                            {option.user2 && (
-                              <Box
-                                sx={{
-                                  display: 'flex',
-                                  alignItems: 'center',
-                                  gap: 2,
-                                }}
-                              >
-                                <Avatar
-                                  alt={option.user2.name}
-                                  src={option.user2.image}
-                                />
-
-                                {option.user2.name}
-                              </Box>
-                            )}
-                          </Box>
-                        </MenuItem>
-                      ))}
+                    {teamDataOptions
+                      .filter((option) => !option.id || option.id !== watch('team1Id'))
+                      .map(renderParticipantOption)}
                   </Select>
                   <FormHelperText id="team2Id-helper-text">{formError.team2Id?.message}</FormHelperText>
                 </FormControl>

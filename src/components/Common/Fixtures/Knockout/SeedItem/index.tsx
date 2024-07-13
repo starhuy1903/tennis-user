@@ -13,7 +13,7 @@ type CustomSeedItemProps = IRenderSeedProps & {
 };
 
 export default function CustomSeedItem({ seed, onClick }: CustomSeedItemProps) {
-  const isNotClicked = seed.status === MatchState.NO_SHOW || seed.status === MatchState.SKIPPED;
+  const isNotClicked = seed.status === MatchState.SKIPPED;
   const isArranging = !seed.teams[0].user1 && !seed.teams[1].user1;
 
   const handleClickSeed = useCallback(() => {

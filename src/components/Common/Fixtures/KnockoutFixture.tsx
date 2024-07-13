@@ -30,25 +30,24 @@ type KnockoutFixturesProps = {
   setFixtureData?: React.Dispatch<React.SetStateAction<FixtureResponse | null>>;
 };
 
-function getKnockoutRoundName(rounds: string[]): string[] {
-  const knockoutRounds = {
-    2: 'Finals',
-    3: 'Semifinals',
-    4: 'Quarterfinals',
-  };
+const getKnockoutRoundName = (rounds: number): string[] => {
+  const knockoutStages = ['Finals', 'Semifinals', 'Quarterfinals'];
+  const stagesNeeded = rounds - knockoutStages.length;
 
-  const numRounds = rounds.length;
-  return rounds.map((_, index) => {
-    const roundPosition = numRounds - index;
-    return knockoutRounds[roundPosition as keyof typeof knockoutRounds] || `Round ${roundPosition}`;
-  });
-}
+  let result = [];
+  for (let i = 0; i < stagesNeeded; i++) {
+    result.push(`Round ${i + 1}`);
+  }
+  result = [...result, ...knockoutStages.slice(-rounds)];
+
+  return result.reverse().slice(1);
+};
 
 export default function KnockoutFixtures({ rounds, setFixtureData }: KnockoutFixturesProps) {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const tournamentData = useAppSelector(selectTournamentData);
-  const roundNames = useMemo(() => getKnockoutRoundName(rounds.map((round) => round.title)).reverse(), [rounds]);
+  const roundNames = useMemo(() => getKnockoutRoundName(rounds.length + 1), [rounds]);
 
   const { data: teamData, isLoading: fetchingTeamData } = useGetTeamQuery(tournamentData.id, {
     refetchOnMountOrArgChange: true,
@@ -151,7 +150,7 @@ export default function KnockoutFixtures({ rounds, setFixtureData }: KnockoutFix
                 borderRadius: 1,
                 mx: 1,
                 mb: 1,
-                width: 400,
+                width: 300,
               }}
             >
               {title}
