@@ -5,6 +5,7 @@ import { Bracket, IRoundProps } from 'react-brackets';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'store';
 
+import { GroupTournamentPhase } from 'constants/group-tournament';
 import { ModalKey } from 'constants/modal';
 import { useGetTeamGroupTournamentQuery } from 'store/api/group/group-tournaments/creator/fixture';
 import { useGetRefereesGroupTournamentQuery } from 'store/api/group/group-tournaments/creator/participant';
@@ -92,10 +93,11 @@ export default function KnockoutGroupFixture({ rounds, setFixtureData }: Knockou
           teamData: teamData?.data || [],
           match: match,
           onUpdate: handleUpdateFixture,
+          shouldUpdateToBE: tournamentData.phase === GroupTournamentPhase.GENERATED_FIXTURES,
         })
       );
     },
-    [dispatch, tournamentData.id, referees?.data, teamData?.data, handleUpdateFixture]
+    [dispatch, tournamentData.id, tournamentData.phase, referees?.data, teamData?.data, handleUpdateFixture]
   );
 
   const handleClickSeedItem = useCallback(

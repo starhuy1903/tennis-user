@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'store';
 
 import { ModalKey } from 'constants/modal';
+import { TournamentPhase } from 'constants/tournament';
 import { useGetTeamQuery } from 'store/api/tournament/creator/fixture';
 import { useGetRefereesQuery } from 'store/api/tournament/creator/participant';
 import { showModal } from 'store/slice/modalSlice';
@@ -109,10 +110,11 @@ export default function KnockoutFixtures({ rounds, setFixtureData }: KnockoutFix
           teamData: teamData?.data || [],
           match: match,
           onUpdate: handleUpdateFixture,
+          shouldUpdateToBE: tournamentData.phase === TournamentPhase.GENERATED_FIXTURES,
         })
       );
     },
-    [dispatch, tournamentData.id, referees?.data, teamData?.data, handleUpdateFixture]
+    [dispatch, tournamentData.id, tournamentData.phase, referees?.data, teamData?.data, handleUpdateFixture]
   );
 
   const handleClickSeedItem = useCallback(
