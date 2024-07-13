@@ -9,7 +9,7 @@ import { ModalKey } from 'constants/modal';
 import { useGetTeamQuery } from 'store/api/tournament/creator/fixture';
 import { useGetRefereesQuery } from 'store/api/tournament/creator/participant';
 import { showModal } from 'store/slice/modalSlice';
-import { selectTournamentData } from 'store/slice/tournamentSlice';
+import { checkTournamentRole, selectTournamentData } from 'store/slice/tournamentSlice';
 import { EditMatchPayload } from 'types/match';
 import {
   FixtureResponse,
@@ -50,6 +50,7 @@ export default function KnockoutFixtures({ rounds, setFixtureData }: KnockoutFix
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const tournamentData = useAppSelector(selectTournamentData);
+  const { isCreator } = useAppSelector(checkTournamentRole);
   const roundNames = useMemo(() => getKnockoutRoundName(rounds.length), [rounds]);
 
   const { data: teamData, isLoading: fetchingTeamData } = useGetTeamQuery(tournamentData.id, {
@@ -116,13 +117,21 @@ export default function KnockoutFixtures({ rounds, setFixtureData }: KnockoutFix
 
   const handleClickSeedItem = useCallback(
     (match: Match) => {
-      if (checkGeneratedFixture(tournamentData.phase)) {
+      const canGotToMatchDetails =
+        checkGeneratedFixture(tournamentData.phase) && match.teams.team1.id && match.teams.team2.id;
+
+      if (canGotToMatchDetails) {
         navigate(`/tournaments/${tournamentData.id}/matches/${match.id}`);
-      } else {
-        showModalToUpdate(match);
       }
     },
-    [navigate, showModalToUpdate, tournamentData.id, tournamentData.phase]
+    [navigate, tournamentData.id, tournamentData.phase]
+  );
+
+  const handleEditMatch = useCallback(
+    (match: Match) => {
+      showModalToUpdate(match);
+    },
+    [showModalToUpdate]
   );
 
   const isLoading = fetchingRefereeData || fetchingTeamData;
@@ -164,7 +173,9 @@ export default function KnockoutFixtures({ rounds, setFixtureData }: KnockoutFix
         renderSeedComponent={(props) => (
           <CustomSeedItem
             {...props}
-            onClick={handleClickSeedItem}
+            isCreator={isCreator}
+            onViewDetails={handleClickSeedItem}
+            onEdit={handleEditMatch}
           />
         )}
       />
