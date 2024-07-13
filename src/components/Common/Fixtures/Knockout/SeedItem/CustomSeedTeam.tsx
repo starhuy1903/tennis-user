@@ -49,7 +49,7 @@ export default function CustomSeedTeam({ match, teamNumber }: CustomSeedTeamProp
       }}
     >
       <Stack gap={2}>
-        {!player2 ? (
+        {player2 ? (
           <DoubleParticipantInfo
             name1={player1.name}
             image1={player1.image}

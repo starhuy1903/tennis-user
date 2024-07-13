@@ -233,7 +233,6 @@ export const MatchItem = ({ match, onClick }: MathItemProps) => {
       >
         <Chip
           variant="outlined"
-          // color="info"
           icon={<AccessAlarmIcon fontSize="small" />}
           label={displayDateTime({
             dateTime: match.matchStartDate || '',
