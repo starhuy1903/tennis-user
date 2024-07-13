@@ -32,6 +32,7 @@ export default function GroupPlayoffFixture({ fixture, setFixtureData }: GroupPl
           </Typography> */}
         {fixture.roundRobinGroups.map((roundRobinGroup, index) => (
           <Paper
+            key={roundRobinGroup.id}
             elevation={1}
             sx={{
               padding: 4,
