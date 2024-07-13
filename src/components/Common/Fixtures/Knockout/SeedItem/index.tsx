@@ -1,4 +1,6 @@
-import { Box, Divider, Typography } from '@mui/material';
+import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
+import { Box, Divider, Stack, Typography } from '@mui/material';
+import { yellow } from '@mui/material/colors';
 import { useCallback } from 'react';
 import { IRenderSeedProps, Seed, SeedItem } from 'react-brackets';
 
@@ -60,11 +62,25 @@ export default function CustomSeedItem({ seed, onClick }: CustomSeedItemProps) {
           {seed.status !== MatchState.SKIPPED && (
             <>
               <Divider>
-                <MatchStatusBadge
-                  status={seed.status}
-                  type="knockout"
-                  date={seed.date}
-                />
+                <Stack
+                  direction="row"
+                  alignItems="center"
+                  gap={1}
+                >
+                  <MatchStatusBadge
+                    status={seed.status}
+                    type="knockout"
+                    date={seed.date}
+                  />
+                  {seed.isFinalMatch && (
+                    <EmojiEventsIcon
+                      fontSize="large"
+                      sx={{
+                        color: yellow[700],
+                      }}
+                    />
+                  )}
+                </Stack>
               </Divider>
 
               {isArranging ? (

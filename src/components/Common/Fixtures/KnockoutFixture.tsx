@@ -30,24 +30,27 @@ type KnockoutFixturesProps = {
   setFixtureData?: React.Dispatch<React.SetStateAction<FixtureResponse | null>>;
 };
 
-const getKnockoutRoundName = (rounds: number): string[] => {
-  const knockoutStages = ['Finals', 'Semifinals', 'Quarterfinals'];
-  const stagesNeeded = rounds - knockoutStages.length;
+const getKnockoutRoundName = (numRounds: number) => {
+  const roundNames = [];
 
-  let result = [];
-  for (let i = 0; i < stagesNeeded; i++) {
-    result.push(`Round ${i + 1}`);
+  // Generate generic round names
+  for (let i = 1; i <= numRounds - 3; i++) {
+    roundNames.push(`Round ${i}`);
   }
-  result = [...result, ...knockoutStages.slice(-rounds)];
 
-  return result.reverse().slice(1);
+  // Add specific round names for the last three rounds
+  if (numRounds >= 3) roundNames.push('Quarterfinals');
+  if (numRounds >= 2) roundNames.push('Semifinals');
+  if (numRounds >= 1) roundNames.push('Finals');
+
+  return roundNames.slice(-numRounds);
 };
 
 export default function KnockoutFixtures({ rounds, setFixtureData }: KnockoutFixturesProps) {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const tournamentData = useAppSelector(selectTournamentData);
-  const roundNames = useMemo(() => getKnockoutRoundName(rounds.length + 1), [rounds]);
+  const roundNames = useMemo(() => getKnockoutRoundName(rounds.length), [rounds]);
 
   const { data: teamData, isLoading: fetchingTeamData } = useGetTeamQuery(tournamentData.id, {
     refetchOnMountOrArgChange: true,
@@ -63,6 +66,7 @@ export default function KnockoutFixtures({ rounds, setFixtureData }: KnockoutFix
           ...match,
           date: match.matchStartDate || '',
           teams: [match.teams.team1 || {}, match.teams.team2 || {}],
+          isFinalMatch: roundIndex === rounds.length - 1,
         })),
       })),
     [roundNames, rounds]
