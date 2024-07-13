@@ -176,7 +176,6 @@ export default function EditMatch({ match, referees, teamData, onUpdate, onModal
                     onChange={(date) => {
                       onChange(date?.toISOString());
                     }}
-                    disablePast
                     defaultValue={dayjs(getValues('dateTime'))}
                     format="DD/MM/YYYY HH:mm"
                   />
@@ -276,26 +275,6 @@ export default function EditMatch({ match, referees, teamData, onUpdate, onModal
               </FormControl>
             )}
           />
-          {/* Start time */}
-          {/* <Controller
-            control={control}
-            name="time"
-            render={({ field: { onChange } }) => (
-              <FormControl
-                fullWidth
-                error={!!formError.time}
-              >
-                <FormLabel htmlFor="time">Time</FormLabel>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <TimePicker
-                    onChange={onChange}
-                    defaultValue={dayjs(getValues('time'))}
-                  />
-                </LocalizationProvider>
-                <FormHelperText id="time-helper-text">{formError.time?.message}</FormHelperText>
-              </FormControl>
-            )}
-          /> */}
         </Stack>
       </Stack>
     );
