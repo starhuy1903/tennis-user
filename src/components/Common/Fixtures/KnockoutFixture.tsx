@@ -9,9 +9,16 @@ import { ModalKey } from 'constants/modal';
 import { useGetTeamQuery } from 'store/api/tournament/creator/fixture';
 import { useGetRefereesQuery } from 'store/api/tournament/creator/participant';
 import { showModal } from 'store/slice/modalSlice';
-import { selectTournamentData } from 'store/slice/tournamentSlice';
+import { checkTournamentRole, selectTournamentData } from 'store/slice/tournamentSlice';
 import { EditMatchPayload } from 'types/match';
-import { FixtureResponse, Match, Round, Team, isGeneratedNewKnockoutFixture } from 'types/tournament-fixtures';
+import {
+  FixtureResponse,
+  Match,
+  Round,
+  Team,
+  isGeneratedNewGroupPlayoffFixture,
+  isGeneratedNewKnockoutFixture,
+} from 'types/tournament-fixtures';
 import { checkGeneratedFixture } from 'utils/tournament';
 
 import CenterLoading from '../CenterLoading';
@@ -23,10 +30,28 @@ type KnockoutFixturesProps = {
   setFixtureData?: React.Dispatch<React.SetStateAction<FixtureResponse | null>>;
 };
 
+const getKnockoutRoundName = (numRounds: number) => {
+  const roundNames = [];
+
+  // Generate generic round names
+  for (let i = 1; i <= numRounds - 3; i++) {
+    roundNames.push(`Round ${i}`);
+  }
+
+  // Add specific round names for the last three rounds
+  if (numRounds >= 3) roundNames.push('Quarterfinals');
+  if (numRounds >= 2) roundNames.push('Semifinals');
+  if (numRounds >= 1) roundNames.push('Finals');
+
+  return roundNames.slice(-numRounds);
+};
+
 export default function KnockoutFixtures({ rounds, setFixtureData }: KnockoutFixturesProps) {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const tournamentData = useAppSelector(selectTournamentData);
+  const { isCreator } = useAppSelector(checkTournamentRole);
+  const roundNames = useMemo(() => getKnockoutRoundName(rounds.length), [rounds]);
 
   const { data: teamData, isLoading: fetchingTeamData } = useGetTeamQuery(tournamentData.id, {
     refetchOnMountOrArgChange: true,
@@ -36,21 +61,22 @@ export default function KnockoutFixtures({ rounds, setFixtureData }: KnockoutFix
 
   const bracketRounds = useMemo<IRoundProps[]>(
     () =>
-      rounds.map((round) => ({
-        title: round.title,
+      rounds.map((round, roundIndex) => ({
+        title: roundNames[roundIndex],
         seeds: round.matches.map((match) => ({
           ...match,
           date: match.matchStartDate || '',
           teams: [match.teams.team1 || {}, match.teams.team2 || {}],
+          isFinalMatch: roundIndex === rounds.length - 1,
         })),
       })),
-    [rounds]
+    [roundNames, rounds]
   );
 
   const handleUpdateFixture = useCallback(
     (match: EditMatchPayload) => {
       setFixtureData?.((prev) => {
-        if (prev && isGeneratedNewKnockoutFixture(prev)) {
+        if (prev && (isGeneratedNewKnockoutFixture(prev) || isGeneratedNewGroupPlayoffFixture(prev))) {
           const updatedKnockoutGroup = produce(prev.knockoutGroup, (draftGroups) => {
             draftGroups.rounds.forEach((round) => {
               round.matches.forEach((m) => {
@@ -59,9 +85,9 @@ export default function KnockoutFixtures({ rounds, setFixtureData }: KnockoutFix
                   m.matchStartDate = match.dateTime;
                   m.duration = match.duration;
                   m.venue = match.venue;
-                  m.refereeId = match.refereeId;
-                  m.teams.team1 = teamData?.data.find((team) => team.id === match.team1Id) as Team;
-                  m.teams.team2 = teamData?.data.find((team) => team.id === match.team2Id) as Team;
+                  m.refereeId = match.refereeId || null;
+                  m.teams.team1 = (teamData?.data.find((team) => team.id === match.team1Id) as Team) || null;
+                  m.teams.team2 = (teamData?.data.find((team) => team.id === match.team2Id) as Team) || null;
                 }
               });
             });
@@ -91,13 +117,21 @@ export default function KnockoutFixtures({ rounds, setFixtureData }: KnockoutFix
 
   const handleClickSeedItem = useCallback(
     (match: Match) => {
-      if (checkGeneratedFixture(tournamentData.phase)) {
+      const canGotToMatchDetails =
+        checkGeneratedFixture(tournamentData.phase) && match.teams.team1.id && match.teams.team2.id;
+
+      if (canGotToMatchDetails) {
         navigate(`/tournaments/${tournamentData.id}/matches/${match.id}`);
-      } else {
-        showModalToUpdate(match);
       }
     },
-    [navigate, showModalToUpdate, tournamentData.id, tournamentData.phase]
+    [navigate, tournamentData.id, tournamentData.phase]
+  );
+
+  const handleEditMatch = useCallback(
+    (match: Match) => {
+      showModalToUpdate(match);
+    },
+    [showModalToUpdate]
   );
 
   const isLoading = fetchingRefereeData || fetchingTeamData;
@@ -129,7 +163,7 @@ export default function KnockoutFixtures({ rounds, setFixtureData }: KnockoutFix
                 borderRadius: 1,
                 mx: 1,
                 mb: 1,
-                width: 400,
+                width: 300,
               }}
             >
               {title}
@@ -139,7 +173,9 @@ export default function KnockoutFixtures({ rounds, setFixtureData }: KnockoutFix
         renderSeedComponent={(props) => (
           <CustomSeedItem
             {...props}
-            onClick={handleClickSeedItem}
+            isCreator={isCreator}
+            onViewDetails={handleClickSeedItem}
+            onEdit={handleEditMatch}
           />
         )}
       />

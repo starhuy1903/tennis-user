@@ -7,21 +7,21 @@ import advertisementImg from 'assets/images/home/advertisement.jpg';
 import groupManagementImg from 'assets/images/home/group-management.jpg';
 import tournamentImg from 'assets/images/home/tournament.jpg';
 
+const getCardImage = (serviceName: string) => {
+  if (serviceName === 'groups') {
+    return groupManagementImg;
+  } else if (serviceName === 'tournaments') {
+    return tournamentImg;
+  }
+  return advertisementImg;
+};
+
 interface ServiceItemProps {
   service: Service;
   onGotoService: (servicePath: string) => void;
 }
 
 export default function ServiceItem({ service, onGotoService }: ServiceItemProps) {
-  const getCardImage = () => {
-    if (service.path === 'groups') {
-      return groupManagementImg;
-    } else if (service.path === 'tournaments') {
-      return tournamentImg;
-    }
-    return advertisementImg;
-  };
-
   return (
     <Card
       sx={{
@@ -34,7 +34,7 @@ export default function ServiceItem({ service, onGotoService }: ServiceItemProps
     >
       <CardMedia
         sx={{ height: 140 }}
-        image={getCardImage()}
+        image={getCardImage(service.path)}
         title="green iguana"
       />
       <CardContent>

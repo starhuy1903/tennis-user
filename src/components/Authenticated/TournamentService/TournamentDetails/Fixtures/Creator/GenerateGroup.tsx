@@ -1,5 +1,6 @@
 import GroupIcon from '@mui/icons-material/Group';
-import { Button, FormControl, FormHelperText, FormLabel, Stack, TextField } from '@mui/material';
+import LoadingButton from '@mui/lab/LoadingButton';
+import { Box, FormControl, FormHelperText, FormLabel, Stack, TextField } from '@mui/material';
 import { useForm } from 'react-hook-form';
 
 import { useGenerateGroupMutation } from 'store/api/tournament/creator/fixture';
@@ -74,16 +75,21 @@ export default function GenerateGroup({ tournamentId, setGroupData }: GenerateGr
           />
           <FormHelperText id="numberOfGroups-helper-text">{formError.numberOfGroups?.message}</FormHelperText>
         </FormControl>
-        <Button
-          fullWidth
-          variant="contained"
-          onClick={handleGenerateGroup}
-          disabled={generating}
-          sx={{ mt: 2 }}
-          startIcon={<GroupIcon />}
+        <Box
+          display="flex"
+          justifyContent="flex-start"
         >
-          Generate group
-        </Button>
+          <LoadingButton
+            loadingPosition="start"
+            loading={generating}
+            variant="contained"
+            onClick={handleGenerateGroup}
+            sx={{ mt: 2 }}
+            startIcon={<GroupIcon />}
+          >
+            <span>Generate group</span>
+          </LoadingButton>
+        </Box>
       </Stack>
     </Stack>
   );

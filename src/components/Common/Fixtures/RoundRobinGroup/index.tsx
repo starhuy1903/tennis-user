@@ -54,9 +54,9 @@ export default function RoundRobinGroupFixture({ rounds, setFixtureData }: Round
                   m.matchStartDate = match.dateTime;
                   m.duration = match.duration;
                   m.venue = match.venue;
-                  m.refereeId = match.refereeId;
-                  m.teams.team1 = teamData?.data.find((team) => team.id === match.team1Id) as Team;
-                  m.teams.team2 = teamData?.data.find((team) => team.id === match.team2Id) as Team;
+                  m.refereeId = match.refereeId || null;
+                  m.teams.team1 = (teamData?.data.find((team) => team.id === match.team1Id) as Team) || null;
+                  m.teams.team2 = (teamData?.data.find((team) => team.id === match.team2Id) as Team) || null;
                 }
               });
             });
@@ -84,15 +84,20 @@ export default function RoundRobinGroupFixture({ rounds, setFixtureData }: Round
     [dispatch, tournamentData.id, referees?.data, teamData?.data, handleUpdateFixture]
   );
 
-  const handleClickMatchItem = useCallback(
+  const handleEditMatch = useCallback(
+    (match: Match) => {
+      showModalToUpdate(match);
+    },
+    [showModalToUpdate]
+  );
+
+  const handleViewMatchDetails = useCallback(
     (match: Match) => {
       if (checkGeneratedFixture(tournamentData.phase)) {
         navigate(`/groups/${groupData.id}/tournaments/${tournamentData.id}/matches/${match.id}`);
-      } else {
-        showModalToUpdate(match);
       }
     },
-    [groupData.id, navigate, showModalToUpdate, tournamentData.id, tournamentData.phase]
+    [groupData.id, navigate, tournamentData.id, tournamentData.phase]
   );
 
   const isLoading = fetchingRefereeData || fetchingTeamData;
@@ -124,8 +129,11 @@ export default function RoundRobinGroupFixture({ rounds, setFixtureData }: Round
             {round.matches.map((match, matchIndex) => (
               <MatchItem
                 key={matchIndex}
+                // TODO: check role
+                isCreator
                 match={match}
-                onClick={() => handleClickMatchItem(match)}
+                onViewDetails={handleViewMatchDetails}
+                onEdit={handleEditMatch}
               />
             ))}
           </Box>

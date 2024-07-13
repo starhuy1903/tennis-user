@@ -49,7 +49,7 @@ export const MatchStatusBadge = ({
           gap: 0.5,
         }}
       >
-        {status === MatchState.SCHEDULED ? (
+        {status === MatchState.SCHEDULED || status === MatchState.NO_SHOW ? (
           displayDateTime({ dateTime: date!, targetFormat: FormatDateTime.TIME_AND_DATE })
         ) : status === MatchState.WALK_OVER ? (
           <>
