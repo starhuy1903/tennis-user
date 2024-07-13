@@ -18,7 +18,9 @@ export default function GameScore({ game, title, winnerName, isLatest }: GameSco
       <Typography>Winner: {winnerName}</Typography>
       <Stack
         direction="row"
-        spacing={1}
+        gap={1}
+        flexWrap="wrap"
+        mt={1}
       >
         {game.scores
           .slice()
