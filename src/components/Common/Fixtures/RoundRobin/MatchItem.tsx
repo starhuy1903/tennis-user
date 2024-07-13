@@ -1,6 +1,9 @@
 import AccessAlarmIcon from '@mui/icons-material/AccessAlarm';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import EditIcon from '@mui/icons-material/Edit';
 import PlaceIcon from '@mui/icons-material/Place';
-import { Avatar, Box, Chip, Stack, Tooltip, Typography } from '@mui/material';
+import { Avatar, Box, Button, Chip, IconButton, Stack, Tooltip, Typography } from '@mui/material';
+import { amber, green } from '@mui/material/colors';
 import { ArrowLeftIcon, ArrowRightIcon } from '@mui/x-date-pickers';
 
 import { MatchStatusBadge } from 'components/Common/Match/MatchStatusBadge';
@@ -112,23 +115,86 @@ const CustomScore = ({ finalScore, team }: { finalScore: MatchFinalScore; team: 
 
 type MathItemProps = {
   match: Match;
-  onClick: () => void;
+  onViewDetails: (match: Match) => void;
+  onEdit: (match: Match) => void;
+  shouldShowViewMatchDetailsBtn?: boolean;
+  isCreator: boolean;
 };
 
-export const MatchItem = ({ match, onClick }: MathItemProps) => {
+export const MatchItem = ({
+  isCreator,
+  match,
+  onViewDetails,
+  onEdit,
+  shouldShowViewMatchDetailsBtn,
+}: MathItemProps) => {
   const shouldShowScore = [MatchState.WALK_OVER, MatchState.DONE, MatchState.SCORE_DONE].includes(match.status);
 
   return (
-    <Box
-      display="flex"
+    <Stack
       justifyContent="space-between"
-      sx={{
-        cursor: 'pointer',
-      }}
-      onClick={onClick}
-      gap={4}
+      onClick={() => onViewDetails(match)}
+      gap={2}
+      px={4}
       py={2}
+      position="relative"
     >
+      {isCreator && (
+        <Tooltip
+          title="Edit"
+          placement="right"
+        >
+          <IconButton
+            sx={{
+              'position': 'absolute',
+              'top': 0,
+              'right': 0,
+              'transform': 'translate(50%, -50%)',
+              'border': '1px solid',
+              'borderColor': 'divider',
+              'backgroundColor': 'background.paper',
+              '&:hover': {
+                backgroundColor: 'background.default',
+              },
+            }}
+            size="small"
+            onClick={() => onEdit(match)}
+          >
+            <EditIcon />
+          </IconButton>
+        </Tooltip>
+      )}
+      <Box
+        pl={2}
+        display="flex"
+        gap={1}
+      >
+        <Chip
+          variant="outlined"
+          icon={
+            <AccessAlarmIcon
+              fontSize="small"
+              color="success"
+              sx={{ color: amber[700] }}
+            />
+          }
+          label={displayDateTime({
+            dateTime: match.matchStartDate || '',
+            targetFormat: FormatDateTime.DATE_AND_FULL_TIME,
+          })}
+        />
+        <Chip
+          variant="outlined"
+          icon={
+            <PlaceIcon
+              fontSize="small"
+              color="success"
+              sx={{ color: green[700] }}
+            />
+          }
+          label={match.venue}
+        />
+      </Box>
       <Box
         sx={{
           display: 'flex',
@@ -220,26 +286,22 @@ export const MatchItem = ({ match, onClick }: MathItemProps) => {
           </Stack>
         </Box>
       </Box>
-
-      <Stack
-        sx={{
-          justifyContent: 'center',
-          gap: 2,
-        }}
-      >
-        <Chip
-          variant="outlined"
-          // color="info"
-          icon={<AccessAlarmIcon fontSize="small" />}
-          label={displayDateTime({
-            dateTime: match.matchStartDate || '',
-            targetFormat: FormatDateTime.DATE_AND_FULL_TIME,
-          })}
-        />
-        <Tooltip title={match.venue}>
-          <PlaceIcon fontSize="small" />
-        </Tooltip>
-      </Stack>
-    </Box>
+      {shouldShowViewMatchDetailsBtn && (
+        <Box
+          display="flex"
+          justifyContent="flex-end"
+        >
+          <Button
+            variant="outlined"
+            startIcon={<ArrowForwardIcon />}
+            onClick={() => onViewDetails(match)}
+            size="small"
+            sx={{ borderRadius: 100 }}
+          >
+            View details
+          </Button>
+        </Box>
+      )}
+    </Stack>
   );
 };

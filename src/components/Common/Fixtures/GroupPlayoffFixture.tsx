@@ -11,27 +11,12 @@ type GroupPlayoffFixtureProps = {
 };
 
 export default function GroupPlayoffFixture({ fixture, setFixtureData }: GroupPlayoffFixtureProps) {
-  // const tournamentData = useAppSelector(selectTournamentData);
-  // const { isCreator } = useAppSelector(checkTournamentRole);
-
-  // const allRoundsDone = useMemo(
-  //   () => fixture.roundRobinGroups.every((round) => round.status === 'done'),
-  //   [fixture.roundRobinGroups]
-  // );
-  // const shouldShowKnockoutConfig = allRoundsDone && isCreator;
-  // const shouldShowKnockoutFixture = allRoundsDone && fixture.knockoutGroup;
-
   return (
     <Box mt={4}>
       <>
-        {/* <Typography
-            variant="h5"
-            align="center"
-          >
-            Group stage
-          </Typography> */}
         {fixture.roundRobinGroups.map((roundRobinGroup, index) => (
           <Paper
+            key={roundRobinGroup.id}
             elevation={1}
             sx={{
               padding: 4,
@@ -59,18 +44,10 @@ export default function GroupPlayoffFixture({ fixture, setFixtureData }: GroupPl
       </>
       <Divider sx={{ my: 5 }} />
       {fixture.knockoutGroup && (
-        <>
-          <Typography
-            variant="h5"
-            align="center"
-          >
-            Knockout stage
-          </Typography>
-          <KnockoutFixtures
-            rounds={fixture.knockoutGroup.rounds}
-            setFixtureData={setFixtureData}
-          />
-        </>
+        <KnockoutFixtures
+          rounds={fixture.knockoutGroup.rounds}
+          setFixtureData={setFixtureData}
+        />
       )}
     </Box>
   );

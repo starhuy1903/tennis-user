@@ -1,4 +1,5 @@
 import { TournamentPhase } from 'constants/tournament';
+import { GeneratedGroup } from 'types/tournament-fixtures';
 
 export const PhaseMappingNumber: {
   [key in TournamentPhase]: number;
@@ -38,4 +39,11 @@ export const getNextPhaseInString = (tournamentPhase: TournamentPhase) => {
 export const checkFinalizedApplicants = (tournamentPhase: TournamentPhase) => {
   const currentPhaseNumber = PhaseMappingNumber[tournamentPhase];
   return currentPhaseNumber >= PhaseMappingNumber[TournamentPhase.FINALIZED_APPLICANTS];
+};
+
+export const getSubmittedGroupData = (groupPlayoff: GeneratedGroup[]) => {
+  return groupPlayoff.map((group) => ({
+    ...group,
+    teams: group.teams.map((team) => team.id),
+  }));
 };

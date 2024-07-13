@@ -1,4 +1,4 @@
-import { Box, Container, Divider, Stack } from '@mui/material';
+import { Box, Container, Stack } from '@mui/material';
 import produce from 'immer';
 import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -9,7 +9,7 @@ import { ModalKey } from 'constants/modal';
 import { useGetTeamQuery } from 'store/api/tournament/creator/fixture';
 import { useGetRefereesQuery } from 'store/api/tournament/creator/participant';
 import { showModal } from 'store/slice/modalSlice';
-import { selectTournamentData } from 'store/slice/tournamentSlice';
+import { checkTournamentRole, selectTournamentData } from 'store/slice/tournamentSlice';
 import { EditMatchPayload } from 'types/match';
 import {
   FixtureResponse,
@@ -33,6 +33,7 @@ export default function RoundRobinFixture({ rounds, setFixtureData }: RoundRobin
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const tournamentData = useAppSelector(selectTournamentData);
+  const { isCreator } = useAppSelector(checkTournamentRole);
 
   const { data: teamData, isLoading: fetchingTeamData } = useGetTeamQuery(tournamentData.id, {
     refetchOnMountOrArgChange: true,
@@ -53,9 +54,9 @@ export default function RoundRobinFixture({ rounds, setFixtureData }: RoundRobin
                     m.matchStartDate = match.dateTime;
                     m.duration = match.duration;
                     m.venue = match.venue;
-                    m.refereeId = match.refereeId;
-                    m.teams.team1 = teamData?.data.find((team) => team.id === match.team1Id) as Team;
-                    m.teams.team2 = teamData?.data.find((team) => team.id === match.team2Id) as Team;
+                    m.refereeId = match.refereeId || null;
+                    m.teams.team1 = (teamData?.data.find((team) => team.id === match.team1Id) as Team) || null;
+                    m.teams.team2 = (teamData?.data.find((team) => team.id === match.team2Id) as Team) || null;
                   }
                 });
               });
@@ -84,15 +85,20 @@ export default function RoundRobinFixture({ rounds, setFixtureData }: RoundRobin
     [dispatch, tournamentData.id, referees?.data, teamData?.data, handleUpdateFixture]
   );
 
-  const handleClickMatchItem = useCallback(
+  const handleEditMatch = useCallback(
+    (match: Match) => {
+      showModalToUpdate(match);
+    },
+    [showModalToUpdate]
+  );
+
+  const handleViewMatchDetails = useCallback(
     (match: Match) => {
       if (checkGeneratedFixture(tournamentData.phase)) {
         navigate(`/tournaments/${tournamentData.id}/matches/${match.id}`);
-      } else {
-        showModalToUpdate(match);
       }
     },
-    [navigate, showModalToUpdate, tournamentData.id, tournamentData.phase]
+    [navigate, tournamentData.id, tournamentData.phase]
   );
 
   const isLoading = fetchingRefereeData || fetchingTeamData;
@@ -107,7 +113,10 @@ export default function RoundRobinFixture({ rounds, setFixtureData }: RoundRobin
 
   return (
     <Container maxWidth="lg">
-      <Stack my={1}>
+      <Stack
+        my={1}
+        gap={4}
+      >
         {rounds.map((round) => (
           <Stack
             key={round.id}
@@ -117,14 +126,16 @@ export default function RoundRobinFixture({ rounds, setFixtureData }: RoundRobin
             }}
           >
             {round.matches.map((match) => (
-              <Box key={match.id}>
-                <Divider
-                  orientation="horizontal"
-                  flexItem
-                />
+              <Box
+                key={match.id}
+                sx={{ borderRadius: 2, border: '1px solid', borderColor: 'divider' }}
+              >
                 <MatchItem
+                  isCreator={isCreator}
                   match={match}
-                  onClick={() => handleClickMatchItem(match)}
+                  onEdit={handleEditMatch}
+                  onViewDetails={handleViewMatchDetails}
+                  shouldShowViewMatchDetailsBtn={checkGeneratedFixture(tournamentData.phase)}
                 />
               </Box>
             ))}

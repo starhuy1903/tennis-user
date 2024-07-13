@@ -100,13 +100,20 @@ export default function KnockoutGroupFixture({ rounds, setFixtureData }: Knockou
 
   const handleClickSeedItem = useCallback(
     (match: Match) => {
-      if (checkGeneratedFixture(tournamentData.phase)) {
+      const canGotToMatchDetails =
+        checkGeneratedFixture(tournamentData.phase) && match.teams.team1.id && match.teams.team2.id;
+      if (canGotToMatchDetails) {
         navigate(`/groups/${groupData.id}/tournaments/${tournamentData.id}/matches/${match.id}`);
-      } else {
-        showModalToUpdate(match);
       }
     },
-    [groupData.id, navigate, showModalToUpdate, tournamentData.id, tournamentData.phase]
+    [groupData.id, navigate, tournamentData.id, tournamentData.phase]
+  );
+
+  const handleEditMatch = useCallback(
+    (match: Match) => {
+      showModalToUpdate(match);
+    },
+    [showModalToUpdate]
   );
 
   const isLoading = fetchingRefereeData || fetchingTeamData;
@@ -145,7 +152,10 @@ export default function KnockoutGroupFixture({ rounds, setFixtureData }: Knockou
         renderSeedComponent={(props) => (
           <CustomSeedItem
             {...props}
-            onClick={handleClickSeedItem}
+            // TODO: check role
+            isCreator
+            onEdit={handleEditMatch}
+            onViewDetails={handleClickSeedItem}
           />
         )}
       />

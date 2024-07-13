@@ -199,6 +199,7 @@ export default function EditAdvertisement() {
             >
               <FormLabel htmlFor="website">Website</FormLabel>
               <TextField
+                {...register('website')}
                 placeholder="Website"
                 id="website"
                 error={!!formError.website}
