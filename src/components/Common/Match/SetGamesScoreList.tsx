@@ -32,9 +32,9 @@ export default function SetGamesScoreList({ match, isLive }: SetGamesScoreList) 
   const renderSets = useMemo(() => (isLive ? sets.slice().reverse() : sets), [isLive, sets]);
 
   const currentSet = renderSets[renderSets.length - 1];
-  const currentSetId = currentSet.id;
-  const currentGame = currentSet.games[currentSet.games.length - 1];
-  const currentGameId = currentGame.id;
+  const currentSetId = currentSet?.id;
+  const currentGame = currentSet?.games[currentSet.games.length - 1];
+  const currentGameId = currentGame?.id;
 
   return (
     <Stack spacing={2}>
@@ -72,17 +72,18 @@ export default function SetGamesScoreList({ match, isLive }: SetGamesScoreList) 
                 <Divider />
               </AccordionSummary>
               <AccordionDetails>
-                {set.games.map((game, gameIndex) => {
-                  return (
-                    <GameScore
-                      key={game.id}
-                      game={game}
-                      title={`Game ${gameIndex + 1}`}
-                      winnerName={getWinnerName(match.team1, match.team2, game.teamWinId)}
-                      isLatest={isLiveSet && currentGameId === game.id}
-                    />
-                  );
-                })}
+                {set.games &&
+                  set.games.map((game, gameIndex) => {
+                    return (
+                      <GameScore
+                        key={game.id}
+                        game={game}
+                        title={`Game ${gameIndex + 1}`}
+                        winnerName={getWinnerName(match.team1, match.team2, game.teamWinId)}
+                        isLatest={isLiveSet && currentGameId === game.id}
+                      />
+                    );
+                  })}
               </AccordionDetails>
             </Accordion>
           </Stack>
