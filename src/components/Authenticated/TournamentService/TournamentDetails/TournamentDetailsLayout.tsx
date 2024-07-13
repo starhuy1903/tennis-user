@@ -135,6 +135,10 @@ export default function TournamentDetailsLayout() {
         path: '/tournaments/:id/:tab',
         breadcrumb: null,
       },
+      {
+        path: '/tournaments/:id/matches/:matchId',
+        breadcrumb: null,
+      },
     ],
     [tournamentData.name]
   );
