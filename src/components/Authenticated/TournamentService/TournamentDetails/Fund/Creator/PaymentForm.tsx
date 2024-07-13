@@ -1,5 +1,6 @@
 import AddIcon from '@mui/icons-material/Add';
 import {
+  Alert,
   Box,
   Button,
   FormControl,
@@ -35,21 +36,12 @@ export const units = [
   },
 ];
 
-const methods = [
-  {
-    label: 'Bank',
-    value: 'bank',
-  },
-];
-
 type FormType = {
   amount: string;
   unit: string;
   image: string;
   method: string;
-  bankName: string;
-  account: string;
-  owner: string;
+  paymentDescription: string;
   reminderDate: string;
   dueDate: string;
 };
@@ -64,10 +56,8 @@ export default function PaymentForm({ onAddPaymentInfo }: { onAddPaymentInfo: (d
       amount: '0',
       unit: units[0].value,
       image: '',
-      method: methods[0].value,
-      bankName: '',
-      account: '',
-      owner: '',
+      method: '',
+      paymentDescription: '',
       reminderDate: dayjs().add(1, 'day').startOf('day').toISOString(),
       dueDate: dayjs().add(4, 'day').endOf('day').toISOString(),
     },
@@ -78,16 +68,12 @@ export default function PaymentForm({ onAddPaymentInfo }: { onAddPaymentInfo: (d
   const onSubmit = handleSubmit(async (data) => {
     try {
       const submittedData: PaymentInfoPayload = {
-        image: data.image,
         amount: Number(data.amount),
         unit: data.unit,
         payment: {
           method: data.method,
-          bank: {
-            name: data.bankName,
-            account: data.account,
-            owner: data.owner,
-          },
+          information: data.paymentDescription,
+          image: data.image,
         },
         reminderDate: data.reminderDate,
         dueDate: data.dueDate,
@@ -122,6 +108,14 @@ export default function PaymentForm({ onAddPaymentInfo }: { onAddPaymentInfo: (d
       >
         Add payment information
       </Typography>
+
+      <Alert
+        severity="info"
+        sx={{ mb: 1 }}
+      >
+        Use this payment information to prompt participants for fee payment and monitor their payment statuses. If you
+        collect the fee in person, you may bypass this form.
+      </Alert>
 
       <Box
         component="form"
@@ -179,101 +173,6 @@ export default function PaymentForm({ onAddPaymentInfo }: { onAddPaymentInfo: (d
               </FormControl>
             )}
           />
-        </Stack>
-        <Stack
-          direction="row"
-          justifyContent="space-between"
-          spacing={2}
-        >
-          <Controller
-            control={control}
-            name="method"
-            render={({ field: { onChange, value } }) => (
-              <FormControl
-                fullWidth
-                error={!!formError.unit}
-              >
-                <FormLabel htmlFor="method">Method</FormLabel>
-                <Select
-                  value={value}
-                  id="method"
-                  onChange={onChange}
-                  aria-describedby="method-helper-text"
-                  size="small"
-                >
-                  {methods.map((method) => (
-                    <MenuItem
-                      key={method.value}
-                      value={method.value}
-                    >
-                      {method.label}
-                    </MenuItem>
-                  ))}
-                </Select>
-                <FormHelperText id="method-helper-text">{formError.method?.message}</FormHelperText>
-              </FormControl>
-            )}
-          />
-          <FormControl
-            fullWidth
-            error={!!formError.bankName}
-          >
-            <FormLabel htmlFor="bankName">Bank name</FormLabel>
-            <TextField
-              {...register('bankName', {
-                required: 'The bank name is required.',
-              })}
-              required
-              id="bankName"
-              error={!!formError.bankName}
-              aria-describedby="bankName-helper-text"
-              placeholder="e.g. Vietcombank"
-              size="small"
-            />
-            <FormHelperText id="bankName-helper-text">{formError.bankName?.message}</FormHelperText>
-          </FormControl>
-        </Stack>
-        <Stack
-          direction="row"
-          justifyContent="space-between"
-          spacing={2}
-        >
-          <FormControl
-            fullWidth
-            error={!!formError.account}
-          >
-            <FormLabel htmlFor="account">Account</FormLabel>
-            <TextField
-              {...register('account', {
-                required: 'The account is required.',
-              })}
-              required
-              id="account"
-              error={!!formError.account}
-              aria-describedby="account-helper-text"
-              placeholder="e.g. 123456"
-              size="small"
-            />
-            <FormHelperText id="account-helper-text">{formError.account?.message}</FormHelperText>
-          </FormControl>
-          <FormControl
-            fullWidth
-            error={!!formError.owner}
-          >
-            <FormLabel htmlFor="owner">Owner</FormLabel>
-            <TextField
-              {...register('owner', {
-                required: 'The owner name is required.',
-              })}
-              required
-              id="owner"
-              error={!!formError.owner}
-              aria-describedby="owner-helper-text"
-              placeholder="e.g. Nguyen Van A"
-              size="small"
-            />
-            <FormHelperText id="owner-helper-text">{formError.owner?.message}</FormHelperText>
-          </FormControl>
         </Stack>
         <Stack
           direction="row"
@@ -362,29 +261,79 @@ export default function PaymentForm({ onAddPaymentInfo }: { onAddPaymentInfo: (d
             )}
           />
         </Stack>
-        <Controller
-          name="image"
-          control={control}
-          defaultValue=""
-          render={({ field: { onChange, value } }) => (
-            <FormControl
-              fullWidth
-              error={!!formError.dueDate}
-            >
-              <SingleImagePicker
-                label="QR Code"
-                imageUrl={value}
-                handleUpload={onChange}
-                handleRemove={() => {
-                  onChange('');
-                }}
-                imageAspect={1}
-                imageSxStyle={{ width: '200px', height: '200px' }}
-              />
-              <FormHelperText>{formError.image?.message}</FormHelperText>
-            </FormControl>
-          )}
-        />
+        <Stack
+          direction="row"
+          justifyContent="space-between"
+          spacing={2}
+        >
+          <FormControl
+            fullWidth
+            error={!!formError.unit}
+          >
+            <FormLabel htmlFor="method">Method</FormLabel>
+            <TextField
+              {...register('method', {
+                required: 'The method is required.',
+              })}
+              required
+              id="method"
+              error={!!formError.method}
+              aria-describedby="method-helper-text"
+              placeholder="e.g. Bank"
+              size="small"
+            />
+            <FormHelperText id="method-helper-text">{formError.method?.message}</FormHelperText>
+          </FormControl>
+        </Stack>
+
+        <Stack
+          direction="row"
+          justifyContent="space-between"
+          spacing={2}
+        >
+          <FormControl
+            fullWidth
+            error={!!formError.paymentDescription}
+          >
+            <FormLabel>Payment description</FormLabel>
+            <TextField
+              {...register('paymentDescription', {
+                required: 'The description is required.',
+              })}
+              id="paymentDescription"
+              error={!!formError.paymentDescription}
+              aria-describedby="paymentDescription-helper-text"
+              multiline
+              rows={7}
+              placeholder="Describe the payment method here."
+            />
+            <FormHelperText id="description-helper-text">{formError.paymentDescription?.message}</FormHelperText>
+          </FormControl>
+          <Controller
+            name="image"
+            control={control}
+            defaultValue=""
+            render={({ field: { onChange, value } }) => (
+              <FormControl
+                fullWidth
+                error={!!formError.dueDate}
+              >
+                <SingleImagePicker
+                  label="QR Code (optional)"
+                  imageUrl={value}
+                  handleUpload={onChange}
+                  handleRemove={() => {
+                    onChange('');
+                  }}
+                  imageAspect={1}
+                  imageSxStyle={{ width: '200px', height: '200px' }}
+                />
+                <FormHelperText>{formError.image?.message}</FormHelperText>
+              </FormControl>
+            )}
+          />
+        </Stack>
+
         <Box
           sx={{
             display: 'flex',

@@ -9,15 +9,25 @@ import {
   SingleParticipantInfo,
   SingleParticipantSkeleton,
 } from 'components/Authenticated/TournamentService/Common/ParticipantInfo';
+import { useUpdateMatchDetailsMutation } from 'store/api/tournament/creator/match';
 import { EditMatchPayload } from 'types/match';
-import { EditMatchTeam } from 'types/tournament-fixtures';
+import { EditMatchTeam, Match } from 'types/tournament-fixtures';
 
 import BaseModal from './BaseModal';
 import { EditMatchProps } from './types';
 
 type FormType = Omit<EditMatchPayload, 'id'>;
 
-export default function EditMatch({ match, referees, teamData, onUpdate, onModalClose }: EditMatchProps) {
+export default function EditMatch({
+  match,
+  referees,
+  teamData,
+  onUpdate,
+  shouldUpdateToBE,
+  onModalClose,
+}: EditMatchProps) {
+  const [updateMatchRequest, { isLoading: updatingMatch }] = useUpdateMatchDetailsMutation();
+
   const teamDataOptions = [...teamData, { id: '' }] as EditMatchTeam[];
   const { handleSubmit, control, formState, register, getValues, watch } = useForm<FormType>({
     defaultValues: {
@@ -33,7 +43,23 @@ export default function EditMatch({ match, referees, teamData, onUpdate, onModal
 
   const { errors: formError } = formState;
 
-  const onSubmit: SubmitHandler<FormType> = (data) => {
+  const onSubmit: SubmitHandler<FormType> = async (data) => {
+    if (shouldUpdateToBE) {
+      try {
+        await updateMatchRequest({
+          ...match,
+          ...data,
+          title: data.name,
+          matchStartDate: data.dateTime,
+          teamId1: data.team1Id || null,
+          teamId2: data.team2Id || null,
+        } as Match).unwrap();
+      } catch (e) {
+        // handled error
+        return;
+      }
+    }
+
     const updatedData = { ...data, id: match.id, duration: Number(data.duration) };
     onUpdate(updatedData);
     onModalClose();
@@ -288,6 +314,7 @@ export default function EditMatch({ match, referees, teamData, onUpdate, onModal
       body={renderBody()}
       primaryButtonText="Update"
       onClickPrimaryButton={handleSubmit(onSubmit)}
+      disabledPrimaryButton={updatingMatch}
     />
   );
 }

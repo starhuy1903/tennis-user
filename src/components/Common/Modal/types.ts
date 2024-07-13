@@ -61,6 +61,7 @@ export interface EditMatchProps extends CommonModalProps {
   participantType: ParticipantType;
   match: Match;
   onUpdate: (data: EditMatchPayload) => void;
+  shouldUpdateToBE: boolean;
 }
 
 export interface ShowPackageDetailsProps extends CommonModalProps {

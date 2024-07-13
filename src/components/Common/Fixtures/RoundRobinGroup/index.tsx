@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'store';
 
 import CenterLoading from 'components/Common/CenterLoading';
+import { GroupTournamentPhase } from 'constants/group-tournament';
 import { ModalKey } from 'constants/modal';
 import { useGetTeamGroupTournamentQuery } from 'store/api/group/group-tournaments/creator/fixture';
 import { useGetRefereesGroupTournamentQuery } from 'store/api/group/group-tournaments/creator/participant';
@@ -78,10 +79,11 @@ export default function RoundRobinGroupFixture({ rounds, setFixtureData }: Round
           teamData: teamData?.data || [],
           match: match,
           onUpdate: handleUpdateFixture,
+          shouldUpdateToBE: tournamentData.phase === GroupTournamentPhase.GENERATED_FIXTURES,
         })
       );
     },
-    [dispatch, tournamentData.id, referees?.data, teamData?.data, handleUpdateFixture]
+    [dispatch, tournamentData.id, tournamentData.phase, referees?.data, teamData?.data, handleUpdateFixture]
   );
 
   const handleEditMatch = useCallback(
