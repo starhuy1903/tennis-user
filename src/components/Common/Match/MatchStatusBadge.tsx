@@ -50,7 +50,7 @@ export const MatchStatusBadge = ({
         }}
       >
         {status === MatchState.SCHEDULED || status === MatchState.NO_SHOW ? (
-          displayDateTime({ dateTime: date!, targetFormat: FormatDateTime.TIME_AND_DATE })
+          displayDateTime({ dateTime: date, targetFormat: FormatDateTime.TIME_AND_DATE })
         ) : status === MatchState.WALK_OVER ? (
           <>
             <SensorsIcon fontSize="small" /> LIVE

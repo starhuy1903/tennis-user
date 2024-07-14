@@ -180,7 +180,7 @@ export const MatchItem = ({
           }
           label={displayDateTime({
             dateTime: match.matchStartDate || '',
-            targetFormat: FormatDateTime.DATE_AND_FULL_TIME,
+            targetFormat: FormatDateTime.TIME_AND_DATE,
           })}
         />
         <Chip
