@@ -104,6 +104,9 @@ const userApiToastSlice = apiWithToastSlice.injectEndpoints({
         dispatch(setProfile(data));
       },
     }),
+    getUserProfile: build.query<UserProfile, string>({
+      query: (id) => urlWithCorePrefix(`users/${id}`),
+    }),
     affiliateSponsor: build.mutation<void, AffiliatedSponsorPayload>({
       query: (body) => ({
         url: 'users/affiliate-sponsor',
@@ -154,7 +157,10 @@ export const {
   useResetPasswordMutation,
   useChangePasswordMutation,
   useEditProfileMutation,
+  useGetProfileQuery,
   useLazyGetProfileQuery,
+  useGetUserProfileQuery,
+  useLazyGetUserProfileQuery,
   useAffiliateSponsorMutation,
   useGetRefereeMatchesQuery,
   useLazyGetRefereeMatchesQuery,

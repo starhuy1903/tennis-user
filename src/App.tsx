@@ -6,6 +6,7 @@ import AddMemberToGroup from 'components/Authenticated/AddMemberToGroup';
 import AdvertisementDetails from 'components/Authenticated/AdvertisementService/AdvertisementDetails';
 import AdvertisementLayout from 'components/Authenticated/AdvertisementService/AdvertisementLayout';
 import AdvertisementList from 'components/Authenticated/AdvertisementService/AdvertisementList';
+import AffiliateProfile from 'components/Authenticated/AdvertisementService/AffiliateProfile';
 import CreateAdvertisement from 'components/Authenticated/AdvertisementService/CreateAdvertisement';
 import EditAdvertisement from 'components/Authenticated/AdvertisementService/EditAdvertisement';
 import MyAdvertisementDetails from 'components/Authenticated/AdvertisementService/MyAdvertisementDetails';
@@ -171,6 +172,10 @@ const protectedRoutes = createBrowserRouter([
         element: <CreateAdvertisement />,
       },
       {
+        path: ':id',
+        element: <AffiliateProfile />,
+      },
+      {
         path: 'my-ads',
         children: [
           {
@@ -193,10 +198,10 @@ const protectedRoutes = createBrowserRouter([
       },
     ],
   },
-  // {
-  //   path: '*',
-  //   element: <Navigate to={`/`} />,
-  // },
+  {
+    path: '*',
+    element: <Navigate to={`/`} />,
+  },
 ]);
 
 const publicRoutes = createBrowserRouter([

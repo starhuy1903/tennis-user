@@ -41,7 +41,7 @@ const ServiceConfig: ServiceConfigProps = {
   },
   [ServiceType.ADVERTISEMENT]: {
     color: 'success',
-    value: 'advertisements',
+    value: 'affiliates',
   },
 };
 
