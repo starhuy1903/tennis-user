@@ -4,7 +4,7 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import PeopleIcon from '@mui/icons-material/People';
 import VisibilityIcon from '@mui/icons-material/Visibility';
-import { Box, Button, Card, CardActionArea, CardContent, CardMedia, Tooltip, Typography } from '@mui/material';
+import { Box, Button, Card, CardContent, CardMedia, Tooltip, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from 'store';
 
@@ -13,6 +13,7 @@ import { TournamentFormatOptions, TournamentStatus, defaultTournamentImage } fro
 import { showModal } from 'store/slice/modalSlice';
 import { OpenTournament } from 'types/tournament';
 import { checkExpiredDate, displayDateRange, displayDayLeft } from 'utils/datetime';
+import { checkFinalizedApplicants } from 'utils/tournament';
 
 export default function TournamentItem({
   tournament,
@@ -23,6 +24,7 @@ export default function TournamentItem({
 }) {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const isFinalizedApplicants = checkFinalizedApplicants(tournament.phase);
 
   const handleRegister = (tournamentId: number) => {
     dispatch(
@@ -45,36 +47,34 @@ export default function TournamentItem({
         position: 'relative',
       }}
     >
-      <CardActionArea onClick={handleView}>
-        <Box
+      <Box
+        sx={{
+          height: '200px',
+        }}
+      >
+        <CardMedia
+          component="img"
+          image={tournament.image || defaultTournamentImage}
+          alt="news-image"
           sx={{
-            height: '200px',
+            filter: tournament.status === TournamentStatus.COMPLETED ? 'grayscale(100%)' : 'none',
+            transition: 'filter 0.3s',
+            width: '100%',
+            height: '100%',
+            objectFit: 'content',
           }}
-        >
-          <CardMedia
-            component="img"
-            image={tournament.image || defaultTournamentImage}
-            alt="news-image"
-            sx={{
-              filter: tournament.status === TournamentStatus.COMPLETED ? 'grayscale(100%)' : 'none',
-              transition: 'filter 0.3s',
-              width: '100%',
-              height: '100%',
-              objectFit: 'content',
-            }}
-            onMouseEnter={(event) => {
-              if (tournament.status === TournamentStatus.COMPLETED) {
-                event.currentTarget.style.filter = 'grayscale(0%)';
-              }
-            }}
-            onMouseLeave={(event) => {
-              if (tournament.status === TournamentStatus.COMPLETED) {
-                event.currentTarget.style.filter = 'grayscale(100%)';
-              }
-            }}
-          />
-        </Box>
-      </CardActionArea>
+          onMouseEnter={(event) => {
+            if (tournament.status === TournamentStatus.COMPLETED) {
+              event.currentTarget.style.filter = 'grayscale(0%)';
+            }
+          }}
+          onMouseLeave={(event) => {
+            if (tournament.status === TournamentStatus.COMPLETED) {
+              event.currentTarget.style.filter = 'grayscale(100%)';
+            }
+          }}
+        />
+      </Box>
 
       <CardContent>
         <Tooltip title={tournament.name}>
@@ -87,7 +87,6 @@ export default function TournamentItem({
             {tournament.name}
           </Typography>
         </Tooltip>
-
         <Box
           display="flex"
           gap={1}
@@ -99,7 +98,6 @@ export default function TournamentItem({
           />
           <Typography variant="subtitle1">{TournamentFormatOptions[tournament.format]}</Typography>
         </Box>
-
         <Box
           display="flex"
           gap={1}
@@ -111,7 +109,6 @@ export default function TournamentItem({
           />
           <Typography variant="subtitle1">{displayDateRange(tournament.startDate, tournament.endDate)}</Typography>
         </Box>
-
         <Box
           display="flex"
           gap={1}
@@ -121,9 +118,12 @@ export default function TournamentItem({
               color: 'gray',
             }}
           />
-          <Typography variant="subtitle1">{`${tournament.participants}/${tournament.maxParticipants} participants`}</Typography>
+          {isFinalizedApplicants ? (
+            <Typography variant="subtitle1">{tournament.participants} participants</Typography>
+          ) : (
+            <Typography variant="subtitle1">{`${tournament.participants}/${tournament.maxParticipants} participants`}</Typography>
+          )}
         </Box>
-
         {isRegisterable && (
           <Box>
             {tournament.status === TournamentStatus.UPCOMING && (
@@ -155,7 +155,6 @@ export default function TournamentItem({
             </Button>
           </Box>
         )}
-
         <Button
           fullWidth
           variant="outlined"

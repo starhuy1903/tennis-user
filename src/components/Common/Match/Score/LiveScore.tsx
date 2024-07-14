@@ -8,9 +8,9 @@ import { MatchStatusBadge } from '../MatchStatusBadge';
 
 const getNewestGameScore = (match: MatchMetaData) => {
   const { sets } = match;
-  const lastSet = sets[sets.length - 1];
+  const lastSet = sets[0];
 
-  return lastSet.games[lastSet.games.length - 1];
+  return lastSet.games[0];
 };
 
 type LiveScoreProps = {
@@ -20,13 +20,13 @@ type LiveScoreProps = {
 export default function LiveScore({ match }: LiveScoreProps) {
   const newestGameScore = useMemo(() => getNewestGameScore(match), [match]);
   const currentSet = match.sets.length;
-  const currentGame = match.sets[match.sets.length - 1].games.length;
+  const currentGame = match.sets[0].games.length;
 
   return (
     <Stack alignItems="center">
       <Box display="flex">
         <Typography>
-          Set {currentSet} - Game {currentGame}
+          Set {currentSet} {currentGame !== 0 ? `- Game ${currentGame}` : ''}
         </Typography>
       </Box>
       <Box
@@ -43,7 +43,7 @@ export default function LiveScore({ match }: LiveScoreProps) {
           lineHeight={1.5}
           width={130}
         >
-          {newestGameScore.scores[0].team1Score}
+          {newestGameScore?.scores[0].team1Score || 0}
         </Typography>
 
         <MatchStatusBadge status={match.status} />
@@ -54,7 +54,7 @@ export default function LiveScore({ match }: LiveScoreProps) {
           lineHeight={1.5}
           width={130}
         >
-          {newestGameScore.scores[0].team2Score}
+          {newestGameScore?.scores[0].team2Score || 0}
         </Typography>
       </Box>
 

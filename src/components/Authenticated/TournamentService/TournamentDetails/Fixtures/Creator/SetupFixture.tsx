@@ -151,7 +151,7 @@ export default function SetupFixture({ fixtureConfig, setFixtureData, setFixture
         />
         <Chip
           icon={<PeopleIcon />}
-          label={`${tournamentData.participants}/${tournamentData.maxParticipants} participants`}
+          label={`${tournamentData.participants} participants`}
           color="warning"
           variant="outlined"
         />

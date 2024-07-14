@@ -211,7 +211,7 @@ export default function CreatorFixture() {
                   disabled={disabledButtons}
                   startIcon={<DeleteIcon />}
                 >
-                  Clear draft
+                  Reset
                 </Button>
               )}
               <Button
@@ -220,7 +220,7 @@ export default function CreatorFixture() {
                 disabled={disabledButtons}
                 startIcon={<DraftsIcon />}
               >
-                Save as a draft
+                Save as draft
               </Button>
               <Button
                 variant="contained"

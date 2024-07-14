@@ -78,7 +78,7 @@ const CustomPlayer = ({ player, direction }: { player: Player; direction: 'left'
 const CustomScore = ({ finalScore, team }: { finalScore: MatchFinalScore; team: 1 | 2 }) => {
   return (
     <>
-      {finalScore.team1 > finalScore.team2 && team === 1 && (
+      {finalScore?.team1 > finalScore?.team2 && team === 1 && (
         <ArrowRightIcon
           color="primary"
           fontSize="large"
@@ -99,7 +99,7 @@ const CustomScore = ({ finalScore, team }: { finalScore: MatchFinalScore; team: 
         </Typography>
       )}
 
-      {finalScore.team1 < finalScore.team2 && team === 2 && (
+      {finalScore?.team1 < finalScore?.team2 && team === 2 && (
         <ArrowLeftIcon
           color="primary"
           fontSize="large"
@@ -133,7 +133,6 @@ export const MatchItem = ({
   return (
     <Stack
       justifyContent="space-between"
-      onClick={() => onViewDetails(match)}
       gap={2}
       px={4}
       py={2}
@@ -233,7 +232,7 @@ export const MatchItem = ({
 
           {shouldShowScore ? (
             <CustomScore
-              finalScore={match.finalScore}
+              finalScore={match?.finalScore}
               team={1}
             />
           ) : (
@@ -260,7 +259,7 @@ export const MatchItem = ({
         >
           {shouldShowScore ? (
             <CustomScore
-              finalScore={match.finalScore}
+              finalScore={match?.finalScore}
               team={1}
             />
           ) : (

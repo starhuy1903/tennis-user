@@ -177,7 +177,7 @@ export default function CreatorFixture() {
                   onClick={handleClearDraft}
                   disabled={savingFixture || clearingDraft}
                 >
-                  Clear draft
+                  Reset
                 </Button>
               )}
               <Button
@@ -185,7 +185,7 @@ export default function CreatorFixture() {
                 onClick={() => handleSaveFixture('draft')}
                 disabled={savingFixture || clearingDraft}
               >
-                Save as a draft
+                Save as draft
               </Button>
               <Button
                 variant="contained"

@@ -10,8 +10,13 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material';
+import { useAppSelector } from 'store';
 
+import { ParticipantType } from 'constants/tournament';
+import { selectTournamentData } from 'store/slice/tournamentSlice';
 import { RoundRobinStanding } from 'types/tournament/standing';
+
+import { DoubleParticipantInfo, SingleParticipantInfo } from '../../Common/ParticipantInfo';
 
 const titles = ['Participants', 'TM', 'PL', 'WO', 'LO', 'MP'] as const;
 
@@ -29,9 +34,16 @@ type RoundRobinStandingProps = {
 };
 
 export default function RoundRobinStandingTable({ standingData }: RoundRobinStandingProps) {
+  const tournamentData = useAppSelector(selectTournamentData);
+
+  const isSingleType = tournamentData.participantType === ParticipantType.SINGLE;
+
   return (
-    <Box mt={4}>
-      <TableContainer component={Paper}>
+    <Box my={4}>
+      <TableContainer
+        component={Paper}
+        sx={{ backgroundColor: 'white' }}
+      >
         <Table
           sx={{ minWidth: 650 }}
           aria-label="locations"
@@ -53,7 +65,22 @@ export default function RoundRobinStandingTable({ standingData }: RoundRobinStan
           <TableBody>
             {standingData.standings.map((participant) => (
               <TableRow key={participant.id}>
-                <TableCell align="center">{participant.user1.name}</TableCell>
+                <TableCell align="center">
+                  {isSingleType ? (
+                    <SingleParticipantInfo
+                      containerSx={{ justifyContent: 'center' }}
+                      name={participant.user1.name}
+                      image={participant.user1.image}
+                    />
+                  ) : (
+                    <DoubleParticipantInfo
+                      name1={participant.user1.name}
+                      image1={participant.user1.image}
+                      name2={participant.user1.name}
+                      image2={participant.user1.image}
+                    />
+                  )}
+                </TableCell>
                 <TableCell align="center">{participant.score.totalMatches}</TableCell>
                 <TableCell align="center">{participant.score.played}</TableCell>
                 <TableCell align="center">{participant.score.won}</TableCell>

@@ -1,18 +1,20 @@
 import { Avatar, AvatarGroup, Box, Skeleton, Stack, SxProps, Typography } from '@mui/material';
 
 type SingleParticipantInfoProps = {
+  containerSx?: SxProps;
   image?: string;
   name?: string;
   imageSx?: SxProps;
   renderInfo?: () => React.ReactNode;
 };
 
-export function SingleParticipantInfo({ image, name, imageSx, renderInfo }: SingleParticipantInfoProps) {
+export function SingleParticipantInfo({ containerSx, image, name, imageSx, renderInfo }: SingleParticipantInfoProps) {
   return (
     <Box
       display="flex"
       alignItems="center"
       gap={2}
+      sx={containerSx}
     >
       <Avatar
         sx={imageSx}
@@ -41,13 +43,14 @@ export function SingleParticipantSkeleton() {
 }
 
 type DoubleParticipantInfoProps = {
+  containerSx?: SxProps;
   image1?: string;
   name1?: string;
   image2?: string;
   name2?: string;
 };
 
-export function DoubleParticipantInfo({ image1, name1, image2, name2 }: DoubleParticipantInfoProps) {
+export function DoubleParticipantInfo({ containerSx, image1, name1, image2, name2 }: DoubleParticipantInfoProps) {
   return (
     <Box>
       <Box
@@ -55,6 +58,7 @@ export function DoubleParticipantInfo({ image1, name1, image2, name2 }: DoublePa
         alignItems="center"
         justifyContent="center"
         gap={2}
+        sx={containerSx}
       >
         <AvatarGroup max={2}>
           <Avatar src={image1} />
