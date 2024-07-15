@@ -6,7 +6,7 @@ import PendingActionsIcon from '@mui/icons-material/PendingActions';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import { Avatar, Box, Chip, Divider, Fab, Link, Stack, Typography } from '@mui/material';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link as RouterLink, useNavigate, useParams } from 'react-router-dom';
 import { useAppSelector } from 'store';
 
 import { Breadcrumbs } from 'components/Common/Breadcrumb';
@@ -99,6 +99,9 @@ export default function MyAdvertisementDetails() {
             direction="row"
             alignItems="center"
             gap={1}
+            component={RouterLink}
+            to={`/affiliates/${advertisement.user.id}`}
+            color="black"
           >
             <Avatar
               src={advertisement.user.image}
@@ -109,7 +112,7 @@ export default function MyAdvertisementDetails() {
 
           {advertisement.website && (
             <Link
-              href={`//${advertisement.website}`}
+              href={advertisement.website.includes('http') ? advertisement.website : `//${advertisement.website}`}
               target="_blank"
               rel="noreferrer"
               sx={{

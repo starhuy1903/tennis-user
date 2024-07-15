@@ -2,7 +2,7 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import LinkIcon from '@mui/icons-material/Link';
 import { Avatar, Box, Divider, Link, Stack, Typography } from '@mui/material';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link as RouterLink, useNavigate, useParams } from 'react-router-dom';
 
 import { Breadcrumbs } from 'components/Common/Breadcrumb';
 import CenterLoading from 'components/Common/CenterLoading';
@@ -86,6 +86,9 @@ export default function AdvertisementDetails() {
           direction="row"
           alignItems="center"
           gap={1}
+          component={RouterLink}
+          to={`/affiliates/${advertisement.user.id}`}
+          color="black"
         >
           <Avatar
             src={advertisement.user.image}
@@ -96,7 +99,7 @@ export default function AdvertisementDetails() {
 
         {advertisement.website && (
           <Link
-            href={`//${advertisement.website}`}
+            href={advertisement.website.includes('http') ? advertisement.website : `//${advertisement.website}`}
             target="_blank"
             rel="noreferrer"
             sx={{

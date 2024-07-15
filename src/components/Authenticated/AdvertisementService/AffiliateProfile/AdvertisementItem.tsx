@@ -1,4 +1,4 @@
-import { Avatar, Card, CardActionArea, CardContent, CardHeader, CardMedia, Tooltip, Typography } from '@mui/material';
+import { Card, CardActionArea, CardContent, CardHeader, CardMedia, Tooltip, Typography } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { FormatDateTime } from 'constants/datetime';
@@ -22,27 +22,17 @@ export default function AdvertisementItem({ item }: { item: Advertisement }) {
       </CardActionArea>
 
       <CardHeader
-        avatar={
-          <Link to={`/affiliates/${item.user.id}`}>
-            <Avatar
-              src={item.user.image}
-              alt={item.user.name}
-            />
-          </Link>
-        }
-        title={
+        subheader={
           <Typography
-            color="black"
-            component={Link}
-            to={`/affiliates/${item.user.id}`}
+            variant="body2"
+            color="textSecondary"
           >
-            {item.user.name}
+            {displayDateTime({
+              dateTime: item.createdAt,
+              targetFormat: FormatDateTime.DATE_AND_FULL_TIME,
+            })}
           </Typography>
         }
-        subheader={displayDateTime({
-          dateTime: item.createdAt,
-          targetFormat: FormatDateTime.DATE_AND_FULL_TIME,
-        })}
       />
 
       <CardContent sx={{ paddingTop: 0 }}>
