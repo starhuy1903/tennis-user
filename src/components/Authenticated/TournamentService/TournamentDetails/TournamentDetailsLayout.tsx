@@ -55,12 +55,12 @@ const TournamentTabs = [
     icon: <GroupsIcon />,
   },
   {
-    label: 'Fund',
+    label: 'Finances',
     value: 'fund',
     icon: <SavingsIcon />,
   },
   {
-    label: 'Fixtures',
+    label: 'Schedule',
     value: 'fixtures',
     icon: <AccountTreeIcon />,
   },

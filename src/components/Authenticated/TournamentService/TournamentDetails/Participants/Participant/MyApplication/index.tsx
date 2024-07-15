@@ -70,8 +70,7 @@ export default function MyApplication({ tournament }: { tournament: OpenTourname
     const showRegisterModal = () => {
       dispatch(
         showModal(ModalKey.REGISTER_TOURNAMENT, {
-          tournamentId: tournament.id,
-          participantType: tournament.participantType,
+          tournament,
           onSuccess: fetchMyApplication,
         })
       );
