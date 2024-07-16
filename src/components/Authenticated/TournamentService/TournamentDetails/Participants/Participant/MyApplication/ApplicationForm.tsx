@@ -124,7 +124,7 @@ export default function ApplicationForm({ data, fetchMyApplication }: Applicatio
     <>
       {data.status === RegistrationStatus.APPROVED && (
         <Box mt={4}>
-          <Alert severity="info">
+          <Alert severity="success">
             Your application has been approved. Please wait for the organizers to finalize the participant list.
           </Alert>
         </Box>

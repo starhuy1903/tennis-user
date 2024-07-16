@@ -4,6 +4,7 @@ import { FixtureStatus } from 'constants/tournament-fixtures';
 
 import { MatchFinalScore } from './match';
 import { UserProfile } from './user';
+import { Referee } from './open-tournament-participants';
 
 export type Score = {
   team1: number;
@@ -40,6 +41,7 @@ export type Match = {
   scores: Score[];
   finalScore: MatchFinalScore;
   refereeId: string | null;
+  referee?:  Pick<Referee, 'id' | 'name' | 'image'>;
   nextMatchId: string | null;
   title: string;
   matchStartDate: string | null;

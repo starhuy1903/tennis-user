@@ -25,7 +25,7 @@ import {
 import NoData from 'components/Common/NoData';
 import { FormatDateTime } from 'constants/datetime';
 import { ModalKey } from 'constants/modal';
-import { GenderOptions } from 'constants/tournament';
+import { ParticipantType } from 'constants/tournament';
 import { useLazyGetRefereesQuery } from 'store/api/tournament/creator/participant';
 import { useGetOpenTournamentParticipantsQuery } from 'store/api/tournament/shared/participant';
 import { showModal } from 'store/slice/modalSlice';
@@ -35,7 +35,7 @@ import { displayDateTime } from 'utils/datetime';
 
 import RefereeCard from './RefereeCard';
 
-const titles = ['Name', 'ELO', 'Email address', 'Gender', 'Applied date'];
+const titles = ['Name', 'ELO', 'Email address', 'Applied date'];
 
 const ParticipantName = ({ user }: { user: UserProfile }) => {
   return (
@@ -158,8 +158,8 @@ export default function ParticipantList() {
             <TableRow>
               {titles.map((title) => (
                 <TableCell
-                  align="center"
                   key={title}
+                  align="center"
                 >
                   <Typography
                     variant="body1"
@@ -198,7 +198,7 @@ export default function ParticipantList() {
                         scope="row"
                       >
                         <Box sx={{ display: 'flex', flexDirection: 'column', rowGap: '10px' }}>
-                          {participants.participantType === 'single' ? (
+                          {participants.participantType === ParticipantType.SINGLE ? (
                             <SingleParticipantInfo
                               image={row.user1.image}
                               name={row.user1.name}
@@ -222,10 +222,6 @@ export default function ParticipantList() {
                       <Cell>
                         <Box>{row.user1.email}</Box>
                         {row.user2 && <Box>{row.user2.email}</Box>}
-                      </Cell>
-                      <Cell>
-                        <Box>{GenderOptions[row.user1.gender]}</Box>
-                        {row.user2 && <Box>{GenderOptions[row.user1.gender]}</Box>}
                       </Cell>
                       <TableCell align="center">
                         {displayDateTime({

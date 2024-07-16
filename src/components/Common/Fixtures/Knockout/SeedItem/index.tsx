@@ -1,6 +1,6 @@
 import EditIcon from '@mui/icons-material/Edit';
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
-import { Box, Divider, IconButton, Stack, Tooltip, Typography } from '@mui/material';
+import { Box, Chip, Divider, IconButton, Stack, Tooltip, Typography } from '@mui/material';
 import { yellow } from '@mui/material/colors';
 import { useCallback, useMemo } from 'react';
 import { IRenderSeedProps, Seed, SeedItem } from 'react-brackets';
@@ -100,18 +100,28 @@ export default function CustomSeedItem({ seed, isCreator, onEdit, onViewDetails 
                   alignItems="center"
                   gap={1}
                 >
-                  <MatchStatusBadge
-                    status={seed.status}
-                    type="knockout"
-                    date={seed.date}
-                  />
-                  {seed.isFinalMatch && (
-                    <EmojiEventsIcon
-                      fontSize="large"
-                      sx={{
-                        color: yellow[700],
-                      }}
+                  {seed.status === MatchState.SCORE_DONE ? (
+                    <Chip
+                      color="primary"
+                      variant="outlined"
+                      label={`${seed.team1MatchScore} - ${seed.team2MatchScore}`}
                     />
+                  ) : (
+                    <>
+                      <MatchStatusBadge
+                        status={seed.status}
+                        type="knockout"
+                        date={seed.date}
+                      />
+                      {seed.isFinalMatch && (
+                        <EmojiEventsIcon
+                          fontSize="large"
+                          sx={{
+                            color: yellow[700],
+                          }}
+                        />
+                      )}
+                    </>
                   )}
                 </Stack>
               </Divider>
