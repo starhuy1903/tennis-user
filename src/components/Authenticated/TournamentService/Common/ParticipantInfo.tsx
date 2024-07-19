@@ -1,4 +1,4 @@
-import { Avatar, AvatarGroup, Box, Skeleton, Stack, SxProps, Typography } from '@mui/material';
+import { Avatar, AvatarGroup, Box, Chip, Skeleton, Stack, SxProps, Typography, TypographyProps } from '@mui/material';
 
 type SingleParticipantInfoProps = {
   containerSx?: SxProps;
@@ -6,9 +6,21 @@ type SingleParticipantInfoProps = {
   name?: string;
   imageSx?: SxProps;
   renderInfo?: () => React.ReactNode;
+  shouldShowElo?: boolean;
+  elo?: number | null;
+  nameTypographyProps?: TypographyProps;
 };
 
-export function SingleParticipantInfo({ containerSx, image, name, imageSx, renderInfo }: SingleParticipantInfoProps) {
+export function SingleParticipantInfo({
+  containerSx,
+  image,
+  name,
+  imageSx,
+  renderInfo,
+  shouldShowElo,
+  elo,
+  nameTypographyProps,
+}: SingleParticipantInfoProps) {
   return (
     <Box
       display="flex"
@@ -20,7 +32,27 @@ export function SingleParticipantInfo({ containerSx, image, name, imageSx, rende
         sx={imageSx}
         src={image}
       />
-      {renderInfo ? renderInfo() : <Typography variant="caption">{name}</Typography>}
+      {renderInfo ? (
+        renderInfo()
+      ) : (
+        <Stack gap={1}>
+          <Typography
+            variant="caption"
+            {...nameTypographyProps}
+          >
+            {name}
+          </Typography>
+          {shouldShowElo && (
+            <Chip
+              label={`${elo || 'No'} ELO`}
+              size="small"
+              variant={elo ? 'filled' : 'outlined'}
+              color="primary"
+              sx={{ fontSize: 10 }}
+            />
+          )}
+        </Stack>
+      )}
     </Box>
   );
 }

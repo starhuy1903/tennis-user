@@ -10,7 +10,7 @@ type GameScoreProps = {
 };
 
 export default function GameScore({ game, title, winnerName, isLatest }: GameScoreProps) {
-  const newestScoreId = game.scores[0].id;
+  const newestScoreId = game.scores[0]?.id;
 
   return (
     <Stack>

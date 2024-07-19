@@ -1,4 +1,5 @@
 import AccountTreeIcon from '@mui/icons-material/AccountTree';
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import GroupsIcon from '@mui/icons-material/Groups';
 import InfoIcon from '@mui/icons-material/Info';
 import KeyboardDoubleArrowDownIcon from '@mui/icons-material/KeyboardDoubleArrowDown';
@@ -63,6 +64,11 @@ const TournamentTabs = [
     label: 'Schedule',
     value: 'fixtures',
     icon: <AccountTreeIcon />,
+  },
+  {
+    label: 'Matches',
+    value: 'matches',
+    icon: <CalendarMonthIcon />,
   },
   {
     label: 'Standings',
