@@ -37,6 +37,7 @@ export type GameScore = {
   team1Score: string;
   team2Score: string;
   teamWinId: string | null;
+  teamServeId: string | null;
   time: string | null;
 };
 
