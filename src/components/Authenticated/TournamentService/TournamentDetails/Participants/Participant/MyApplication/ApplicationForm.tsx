@@ -124,7 +124,7 @@ export default function ApplicationForm({ data, fetchMyApplication }: Applicatio
     <>
       {data.status === RegistrationStatus.APPROVED && (
         <Box mt={4}>
-          <Alert severity="info">
+          <Alert severity="success">
             Your application has been approved. Please wait for the organizers to finalize the participant list.
           </Alert>
         </Box>
@@ -141,7 +141,7 @@ export default function ApplicationForm({ data, fetchMyApplication }: Applicatio
 
       <Container
         maxWidth="md"
-        sx={{ marginY: 8, borderRadius: 1, boxShadow: 1, padding: 4, backgroundColor: 'background.paper' }}
+        sx={{ marginY: 4, borderRadius: 1, boxShadow: 1, padding: 4, backgroundColor: 'background.paper' }}
       >
         <Box
           sx={{

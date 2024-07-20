@@ -151,7 +151,9 @@ export default function ApplicantList() {
           <Tooltip
             title={
               applicants.approved.length < MIN_PARTICIPANT
-                ? `The tournament needs at least ${MIN_PARTICIPANT} applicants to finalize`
+                ? `The tournament needs at least ${MIN_PARTICIPANT} ${
+                    tournamentData.participantType === ParticipantType.SINGLE ? 'applicants' : 'teams'
+                  } to finalize`
                 : null
             }
           >
