@@ -8,7 +8,6 @@ import CreatePost from './CreatePost';
 import CropImage from './CropImage';
 import EditMatch from './EditMatch';
 import AddRefereesGroupTournament from './GroupTournament/AddRefereeGroupTournament';
-import HelloWorld from './HelloWorld';
 import InviteIntoGroup from './InviteIntoGroup';
 import RegisterTournament from './RegisterTournament';
 import SelectPaymentMethod from './SelectPaymentMethod';
@@ -19,7 +18,6 @@ import SelectSeed from './Tournament/SelectSeed';
 import UpdatePost from './UpdatePost';
 
 const ModalsMap: { [modalKey: string]: any } = {
-  [ModalKey.HELLO_WORLD]: HelloWorld,
   [ModalKey.INVITE_INTO_GROUP]: InviteIntoGroup,
   [ModalKey.CROP_IMAGE]: CropImage,
   [ModalKey.SELECT_PAYMENT_METHOD]: SelectPaymentMethod,

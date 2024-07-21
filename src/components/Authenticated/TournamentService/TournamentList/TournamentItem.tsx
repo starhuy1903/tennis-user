@@ -26,11 +26,10 @@ export default function TournamentItem({
   const navigate = useNavigate();
   const isFinalizedApplicants = checkFinalizedApplicants(tournament.phase);
 
-  const handleRegister = (tournamentId: number) => {
+  const handleRegister = () => {
     dispatch(
       showModal(ModalKey.REGISTER_TOURNAMENT, {
-        tournamentId,
-        participantType: tournament.participantType,
+        tournament,
         onSuccess: () => navigate(`/tournaments/${tournament.id}/participants`),
       })
     );
@@ -149,7 +148,7 @@ export default function TournamentItem({
               sx={{
                 mt: 2,
               }}
-              onClick={() => handleRegister(tournament.id)}
+              onClick={handleRegister}
             >
               Register
             </Button>

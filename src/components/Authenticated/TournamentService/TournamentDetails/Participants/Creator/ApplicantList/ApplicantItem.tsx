@@ -14,6 +14,7 @@ import Typography from '@mui/material/Typography';
 import { useCallback, useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'store';
 
+import { SingleParticipantInfo } from 'components/Authenticated/TournamentService/Common/ParticipantInfo';
 import { FormatDateTime } from 'constants/datetime';
 import { ModalKey } from 'constants/modal';
 import { GenderOptions } from 'constants/tournament';
@@ -112,17 +113,22 @@ export default function ApplicantItem({
       onChange={() => setExpand(!expand)}
     >
       <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-        <Box
+        <Stack
           sx={{
-            display: 'flex',
-            flexDirection: 'column',
             gap: '10px',
             width: '100%',
           }}
         >
           <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
             <Box sx={{ display: 'flex', alignItems: 'center', columnGap: '20px' }}>
-              <ApplicantTitle user={data.user1} />
+              <SingleParticipantInfo
+                name={data.user1.name}
+                nameTypographyProps={{ variant: 'h2' }}
+                image={data.user1.image}
+                imageSx={{ width: '50px', height: '50px' }}
+                shouldShowElo
+                elo={data.user1.elo}
+              />
 
               {data.user2 && <ApplicantTitle user={data.user2} />}
             </Box>
@@ -171,7 +177,7 @@ export default function ApplicantItem({
               label={RegistrationStatusChip[data.status].displayText}
             /> */}
           </Box>
-        </Box>
+        </Stack>
       </AccordionSummary>
 
       <AccordionDetails>

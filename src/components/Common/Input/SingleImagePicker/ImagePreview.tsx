@@ -1,5 +1,5 @@
 import CloseSharpIcon from '@mui/icons-material/CloseSharp';
-import { Box, IconButton, SxProps } from '@mui/material';
+import { Box, IconButton, SxProps, Tooltip } from '@mui/material';
 
 interface ImagePreviewProps {
   imageUrl: string;
@@ -28,21 +28,26 @@ export default function ImagePreview({ imageUrl, onDeleteImage, disabled = false
         alt="preview-upload-image"
         style={{ objectFit: 'cover', width: '100%', height: '100%' }}
       />
-      <IconButton
-        aria-label="close"
-        sx={{
-          position: 'absolute',
-          top: 8,
-          right: 8,
-        }}
-        onClick={onDeleteImage}
-        disabled={disabled}
+      <Tooltip
+        title="Reset"
+        placement="right"
       >
-        <CloseSharpIcon
-          color="action"
-          fontSize="small"
-        />
-      </IconButton>
+        <IconButton
+          aria-label="close"
+          sx={{
+            position: 'absolute',
+            top: 8,
+            right: 8,
+          }}
+          onClick={onDeleteImage}
+          disabled={disabled}
+        >
+          <CloseSharpIcon
+            color="action"
+            fontSize="small"
+          />
+        </IconButton>
+      </Tooltip>
     </Box>
   );
 }

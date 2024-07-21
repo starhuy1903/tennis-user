@@ -1,3 +1,4 @@
+import CheckIcon from '@mui/icons-material/Check';
 import { Box, Button, Chip, Stack, Tooltip, Typography } from '@mui/material';
 import { useConfirm } from 'material-ui-confirm';
 import { useCallback, useEffect, useState } from 'react';
@@ -151,7 +152,9 @@ export default function ApplicantList() {
           <Tooltip
             title={
               applicants.approved.length < MIN_PARTICIPANT
-                ? `The tournament needs at least ${MIN_PARTICIPANT} applicants to finalize`
+                ? `The tournament needs at least ${MIN_PARTICIPANT} ${
+                    tournamentData.participantType === ParticipantType.SINGLE ? 'applicants' : 'teams'
+                  } to finalize`
                 : null
             }
           >
@@ -160,6 +163,7 @@ export default function ApplicantList() {
                 variant="contained"
                 onClick={handleFinalizeApplicant}
                 disabled={disabledFinalizeBtn || applicants.approved.length < MIN_PARTICIPANT}
+                startIcon={<CheckIcon />}
               >
                 Finalize Applicant
               </Button>
