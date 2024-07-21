@@ -1,6 +1,5 @@
 import AddIcon from '@mui/icons-material/Add';
 import {
-  Avatar,
   Box,
   Button,
   Grid,
@@ -30,41 +29,11 @@ import { useLazyGetRefereesQuery } from 'store/api/tournament/creator/participan
 import { useGetOpenTournamentParticipantsQuery } from 'store/api/tournament/shared/participant';
 import { showModal } from 'store/slice/modalSlice';
 import { checkTournamentRole, selectTournamentData } from 'store/slice/tournamentSlice';
-import { UserProfile } from 'types/user';
 import { displayDateTime } from 'utils/datetime';
 
 import RefereeCard from './RefereeCard';
 
-const titles = ['Name', 'ELO', 'Email address', 'Applied date'];
-
-const ParticipantName = ({ user }: { user: UserProfile }) => {
-  return (
-    <Box sx={{ display: 'flex', alignItems: 'center', columnGap: '20px' }}>
-      <Avatar
-        src={user.image}
-        alt={user.name}
-        sx={{ width: '50px', height: '50px' }}
-      />
-      <Typography variant="body1">{user.name}</Typography>
-    </Box>
-  );
-};
-
-const Cell = ({ children }: { children: React.ReactNode }) => {
-  return (
-    <TableCell align="center">
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          rowGap: '40px',
-        }}
-      >
-        {children}
-      </Box>
-    </TableCell>
-  );
-};
+const titles = ['Name', 'Email address', 'Applied date'];
 
 export default function ParticipantList() {
   const tournamentData = useAppSelector(selectTournamentData);
@@ -106,9 +75,11 @@ export default function ParticipantList() {
       return Array(3)
         .fill(null)
         .map((_, index) => (
-          <Grid item>
+          <Grid
+            item
+            key={index}
+          >
             <Skeleton
-              key={index}
               variant="rounded"
               width={300}
               height={140}
@@ -156,27 +127,38 @@ export default function ParticipantList() {
         >
           <TableHead>
             <TableRow>
-              {titles.map((title) => (
-                <TableCell
-                  key={title}
-                  align="center"
+              <TableCell align="left">
+                <Typography
+                  variant="body1"
+                  fontWeight={500}
                 >
-                  <Typography
-                    variant="body1"
-                    fontWeight={500}
-                  >
-                    {title}
-                  </Typography>
-                </TableCell>
-              ))}
+                  Team
+                </Typography>
+              </TableCell>
+              <TableCell align="left">
+                <Typography
+                  variant="body1"
+                  fontWeight={500}
+                >
+                  Contact info
+                </Typography>
+              </TableCell>
+              <TableCell align="center">
+                <Typography
+                  variant="body1"
+                  fontWeight={500}
+                >
+                  Applied date
+                </Typography>
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {isLoading ? (
               Array(3)
                 .fill(null)
-                .map(() => (
-                  <TableRow>
+                .map((_, index) => (
+                  <TableRow key={index}>
                     <TableCell colSpan={titles.length}>
                       <Skeleton
                         variant="rectangular"
@@ -202,6 +184,8 @@ export default function ParticipantList() {
                             <SingleParticipantInfo
                               image={row.user1.image}
                               name={row.user1.name}
+                              shouldShowElo
+                              elo={row.user1.elo}
                             />
                           ) : (
                             <DoubleParticipantInfo
@@ -209,20 +193,19 @@ export default function ParticipantList() {
                               image1={row.user1.image}
                               name2={row.user2?.name}
                               image2={row.user2?.image}
+                              shouldShowElo
+                              elo1={row.user1.elo}
+                              elo2={row.user2?.elo}
                             />
                           )}
-
-                          {row?.user2 && <ParticipantName user={row.user2} />}
                         </Box>
                       </TableCell>
-                      <Cell>
-                        <Box>{row.user1.elo || '--'}</Box>
-                        {row.user2 && <Box>{row.user2.elo || '--'}</Box>}
-                      </Cell>
-                      <Cell>
-                        <Box>{row.user1.email}</Box>
-                        {row.user2 && <Box>{row.user2.email}</Box>}
-                      </Cell>
+                      <TableCell align="left">
+                        <Stack gap={1}>
+                          <Box>{row.user1.email}</Box>
+                          {row.user2 && <Box>{row.user2.email}</Box>}
+                        </Stack>
+                      </TableCell>
                       <TableCell align="center">
                         {displayDateTime({
                           dateTime: row.appliedDate,

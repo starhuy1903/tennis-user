@@ -2,13 +2,15 @@ import { Box, Stack, Tab, Tabs, tabsClasses } from '@mui/material';
 import { deepPurple } from '@mui/material/colors';
 import dayjs from 'dayjs';
 import { groupBy } from 'lodash-es';
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAppSelector } from 'store';
 
 import CenterLoading from 'components/Common/CenterLoading';
 import { FormatDateTime } from 'constants/datetime';
 import { useLazyGetMatchesQuery } from 'store/api/tournament/shared/match';
-import { checkTournamentRole, selectTournamentData } from 'store/slice/tournamentSlice';
+import { selectTournamentData } from 'store/slice/tournamentSlice';
+import { Match } from 'types/tournament-fixtures';
 import { displayDateTime } from 'utils/datetime';
 import { checkGeneratedFixture } from 'utils/tournament';
 
@@ -25,8 +27,8 @@ const compareDate = (dateA: string, dateB: string) => {
 };
 
 export default function Matches() {
+  const navigate = useNavigate();
   const tournamentData = useAppSelector(selectTournamentData);
-  const { isCreator } = useAppSelector(checkTournamentRole);
   const [getMatchesReq, { isLoading, data: matchData }] = useLazyGetMatchesQuery();
 
   const groupedMatchesByDate = useMemo(() => {
@@ -41,18 +43,24 @@ export default function Matches() {
     return Object.keys(groupedMatchesByDate).sort(compareDate);
   }, [groupedMatchesByDate]);
 
-  //   console.log({ renderedDateRange });
-
   const [selectedDate, setSelectedDate] = useState(dayjs().format('YYYY-MM-DD'));
   const filterMatches = useMemo(() => {
     const matches = groupedMatchesByDate[selectedDate] || [];
     return matches.sort((a, b) => compareDate(a.matchStartDate || '', b.matchStartDate || ''));
   }, [groupedMatchesByDate, selectedDate]);
-  //   console.log('filterMatches', filterMatches);
 
   const handleSelectDate = (_: React.SyntheticEvent, filteredDate: string) => {
     setSelectedDate(filteredDate);
   };
+
+  const handleViewMatchDetails = useCallback(
+    (match: Match) => {
+      if (checkGeneratedFixture(tournamentData.phase)) {
+        navigate(`/tournaments/${tournamentData.id}/matches/${match.id}`);
+      }
+    },
+    [navigate, tournamentData.id, tournamentData.phase]
+  );
 
   useEffect(() => {
     (async () => {
@@ -73,12 +81,18 @@ export default function Matches() {
 
     return filterMatches.map((match) => {
       return (
-        <MatchItem
-          isCreator={isCreator}
-          match={match}
-          onViewDetails={() => ({})}
-          onEdit={() => ({})}
-        />
+        <Box
+          width="100%"
+          display="flex"
+          justifyContent="center"
+        >
+          <MatchItem
+            match={match}
+            onViewDetails={handleViewMatchDetails}
+            isGeneratedFixture
+            type="matches"
+          />
+        </Box>
       );
     });
   };
@@ -97,7 +111,7 @@ export default function Matches() {
         <Box
           sx={{
             flexGrow: 1,
-            maxWidth: { xs: 320, sm: 480 },
+            maxWidth: { xs: 320, sm: 500 },
             bgcolor: deepPurple[100],
             borderRadius: 4,
           }}
@@ -131,7 +145,13 @@ export default function Matches() {
         </Box>
       </Box>
 
-      <Stack>{renderMatchList()}</Stack>
+      <Stack
+        my={2}
+        alignItems="center"
+        gap={2}
+      >
+        {renderMatchList()}
+      </Stack>
     </Stack>
   );
 }

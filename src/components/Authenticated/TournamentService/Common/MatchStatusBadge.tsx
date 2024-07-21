@@ -54,13 +54,22 @@ export default function MatchStatusBadge({ status, startDateTime }: MatchStatusB
 
   if (status === MatchState.SCORE_DONE) {
     return (
-      <Stack alignItems="center">
+      <Stack
+        alignItems="center"
+        gap={1}
+      >
         <Typography
           fontSize={14}
           variant="body2"
           fontWeight={600}
         >
           Finished
+        </Typography>
+        <Typography
+          fontSize={12}
+          color={grey[600]}
+        >
+          {displayDateTime({ dateTime: startDateTime, targetFormat: FormatDateTime.DATE_2 })}
         </Typography>
       </Stack>
     );

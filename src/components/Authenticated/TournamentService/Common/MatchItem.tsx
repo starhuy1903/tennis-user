@@ -1,219 +1,235 @@
-import WhatshotIcon from '@mui/icons-material/Whatshot';
-import { Avatar, Box, Skeleton, Stack, Tooltip, Typography } from '@mui/material';
-import { grey } from '@mui/material/colors';
+import EditIcon from '@mui/icons-material/Edit';
+import PlaceIcon from '@mui/icons-material/Place';
+import { Avatar, Box, Chip, Divider, IconButton, Stack, SxProps, Tooltip, Typography } from '@mui/material';
+import { green, grey } from '@mui/material/colors';
 
 import { MatchState } from 'constants/match';
-import { Match, Player } from 'types/tournament-fixtures';
+import { Match } from 'types/tournament-fixtures';
 
 import MatchStatusBadge from './MatchStatusBadge';
-
-const CustomPlayer = ({ player }: { player: Player }) => {
-  return (
-    <Box
-      sx={{
-        display: 'flex',
-        alignItems: 'center',
-        gap: 1,
-      }}
-    >
-      <Box>
-        <Avatar
-          src={player.image}
-          alt={player.name}
-          sx={{ width: '40px', height: '40px' }}
-        />
-      </Box>
-
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'flex-start',
-        }}
-      >
-        <Typography fontSize={14}>{player.name}</Typography>
-
-        <Tooltip title="elo">
-          <Box
-            display="flex"
-            alignItems="center"
-            gap={0.5}
-          >
-            <WhatshotIcon
-              color="warning"
-              sx={{ fontSize: 16 }}
-            />
-            <Typography
-              fontSize={10}
-              fontWeight={400}
-            >
-              {player.elo ? player.elo : '--'}
-            </Typography>
-          </Box>
-        </Tooltip>
-      </Box>
-    </Box>
-  );
-};
-
-const SinglePlayerSkeleton = () => {
-  return (
-    <Box
-      display="flex"
-      alignItems="center"
-      gap={1}
-    >
-      <Skeleton
-        variant="circular"
-        width={40}
-        height={40}
-        animation={false}
-      />
-      <Typography
-        fontSize={14}
-        color={grey[500]}
-      >
-        Undefined
-      </Typography>
-    </Box>
-  );
-};
+import { DoubleParticipantInfo, SingleParticipantInfo, UndefinedSinglePlayer } from './ParticipantInfo';
 
 type MathItemProps = {
   match: Match;
   onViewDetails: (match: Match) => void;
-  onEdit: (match: Match) => void;
-  shouldShowViewMatchDetailsBtn?: boolean;
-  isCreator: boolean;
+  onEdit?: (match: Match) => void;
+  isGeneratedFixture?: boolean;
+  isCreator?: boolean;
+  wrapperSx?: SxProps;
+  type: 'schedule' | 'matches';
 };
 
-export const MatchItem = ({ match }: MathItemProps) => {
+export const MatchItem = ({
+  match,
+  onEdit,
+  onViewDetails,
+  isCreator,
+  isGeneratedFixture,
+  wrapperSx,
+  type,
+}: MathItemProps) => {
   const shouldShowScore = [MatchState.WALK_OVER, MatchState.DONE, MatchState.SCORE_DONE].includes(match.status);
 
+  const isSinglePlayerMatch = match.teams.team1?.user1 && !match.teams.team1?.user2;
+  const hasBothTeamData = !!match.teams.team1 && !!match.teams.team2;
+  const canGoToDetailMatch = !!isGeneratedFixture && hasBothTeamData;
+
+  const isScheduleTab = type === 'schedule';
+  const isMatchesTab = type === 'matches';
+
   return (
-    <Stack
-      justifyContent="space-between"
-      gap={2}
-      px={4}
-      py={2}
-      position="relative"
+    <Box
+      sx={{
+        'display': 'flex',
+        'justifyContent': 'space-between',
+        'gap': 2,
+        'flex': 1,
+        'border': '1px solid',
+        'borderColor': 'divider',
+        'borderRadius': 4,
+        'maxWidth': 500,
+
+        '&:hover': {
+          bgcolor: isMatchesTab && canGoToDetailMatch ? grey[200] : '#F7F7F7',
+          cursor: isMatchesTab && canGoToDetailMatch ? 'pointer' : 'default',
+        },
+        ...wrapperSx,
+      }}
+      onClick={() => isMatchesTab && canGoToDetailMatch && onViewDetails(match)}
     >
-      {/* {isCreator && (
-        <Tooltip
-          title="Edit"
-          placement="right"
-        >
-          <IconButton
-            sx={{
-              'position': 'absolute',
-              'top': 0,
-              'right': 0,
-              'transform': 'translate(50%, -50%)',
-              'border': '1px solid',
-              'borderColor': 'divider',
-              'backgroundColor': 'background.paper',
-              '&:hover': {
-                backgroundColor: 'background.default',
-              },
-            }}
-            size="small"
-            onClick={() => onEdit(match)}
-          >
-            <EditIcon />
-          </IconButton>
-        </Tooltip>
-      )} */}
-      {/* <Box
-        pl={2}
-        display="flex"
+      <Stack
+        direction="row"
+        alignItems="center"
         gap={1}
       >
-        <Chip
-          variant="outlined"
-          icon={
-            <PlaceIcon
-              fontSize="small"
-              color="success"
-              sx={{ color: green[700] }}
-            />
-          }
-          label={match.venue}
-        />
-        {match.referee && (
-          <Tooltip title="Referee">
-            <Chip
-              avatar={
-                <Avatar
-                  alt="Referee"
-                  src={match.referee.image}
-                />
-              }
-              label={match.referee.name}
-              variant="outlined"
-            />
-          </Tooltip>
-        )}
-      </Box> */}
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          gap: 2,
-          flex: 1,
-          border: '1px solid',
-          borderColor: 'divider',
-          borderRadius: 4,
-          maxWidth: 500,
-        }}
-      >
+        {/* Match status */}
+        <Stack
+          width={140}
+          alignItems="center"
+          py={1}
+        >
+          <MatchStatusBadge
+            status={match.status}
+            startDateTime={match.matchStartDate || ''}
+          />
+        </Stack>
+
+        {/* Match teams */}
         <Stack
           direction="row"
-          alignItems="center"
           gap={1}
-          flex={1}
+          flexGrow={1}
+          py={1}
         >
-          <Stack
-            width={140}
-            alignItems="center"
-            py={1}
-          >
-            <MatchStatusBadge
-              status={match.status}
-              startDateTime={match.matchStartDate || ''}
-            />
-          </Stack>
-
-          <Stack
-            direction="row"
-            gap={1}
-            flexGrow={1}
-            py={1}
-          >
-            <Stack gap={1}>
-              {match.teams.team1 ? <CustomPlayer player={match.teams.team1.user1} /> : <SinglePlayerSkeleton />}
-              {match.teams.team2 ? <CustomPlayer player={match.teams.team2.user1} /> : <SinglePlayerSkeleton />}
-            </Stack>
-
-            {shouldShowScore && (
-              <Stack
-                alignItems="center"
-                justifyContent="center"
-                ml={2}
-                gap={1}
+          <Stack gap={1}>
+            {match.teams.team1 ? (
+              isSinglePlayerMatch ? (
+                <SingleParticipantInfo
+                  name={match.teams.team1.user1.name}
+                  image={match.teams.team1.user1.image}
+                  shouldShowElo
+                  elo={match.teams.team1.user1.elo}
+                />
+              ) : (
+                <DoubleParticipantInfo
+                  name1={match.teams.team1.user1.name}
+                  image1={match.teams.team1.user1.image}
+                  name2={match.teams.team1.user2?.name}
+                  image2={match.teams.team1.user2?.image}
+                  shouldShowTotalElo
+                  totalElo={match.teams.team1.totalElo}
+                />
+              )
+            ) : (
+              <UndefinedSinglePlayer />
+            )}
+            <Divider>
+              <Typography
+                fontSize={12}
+                color={grey[600]}
               >
-                <Typography fontWeight={match.teamWinnerId === match.teamId1 ? 600 : 400}>
-                  {match.team1MatchScore}
-                </Typography>
-                <Typography fontWeight={match.teamWinnerId === match.teamId2 ? 600 : 400}>
-                  {match.team2MatchScore}
-                </Typography>
-              </Stack>
+                vs
+              </Typography>
+            </Divider>
+            {match.teams.team2 ? (
+              isSinglePlayerMatch ? (
+                <SingleParticipantInfo
+                  name={match.teams.team2.user1.name}
+                  image={match.teams.team2.user1.image}
+                  shouldShowElo
+                  elo={match.teams.team2.user1.elo}
+                />
+              ) : (
+                <DoubleParticipantInfo
+                  name1={match.teams.team2.user1.name}
+                  image1={match.teams.team2.user1.image}
+                  name2={match.teams.team2.user2?.name}
+                  image2={match.teams.team2.user2?.image}
+                  shouldShowTotalElo
+                  totalElo={match.teams.team2.totalElo}
+                />
+              )
+            ) : (
+              <UndefinedSinglePlayer />
             )}
           </Stack>
+
+          {shouldShowScore && (
+            <Stack
+              alignItems="center"
+              justifyContent="center"
+              ml={2}
+              gap={1}
+            >
+              <Typography fontWeight={match.teamWinnerId === match.teamId1 ? 600 : 400}>
+                {match.team1MatchScore}
+              </Typography>
+              <Typography fontWeight={match.teamWinnerId === match.teamId2 ? 600 : 400}>
+                {match.team2MatchScore}
+              </Typography>
+            </Stack>
+          )}
         </Stack>
-      </Box>
-      {/* {shouldShowViewMatchDetailsBtn && (
+      </Stack>
+      {/* Match Action */}
+      {isScheduleTab && isCreator && (
+        <>
+          <Box
+            display="flex"
+            height="100%"
+          >
+            <Divider
+              orientation="vertical"
+              flexItem
+            />
+            <Stack
+              gap={2}
+              height="100%"
+              p={2}
+              flex={1}
+            >
+              <Stack gap={1}>
+                <Box>
+                  <Chip
+                    variant="outlined"
+                    icon={
+                      <PlaceIcon
+                        fontSize="small"
+                        color="success"
+                        sx={{ color: green[700] }}
+                      />
+                    }
+                    label={match.venue}
+                  />
+                </Box>
+                {match.referee && (
+                  <Box>
+                    <Tooltip title="Referee">
+                      <Chip
+                        avatar={
+                          <Avatar
+                            alt="Referee"
+                            src={match.referee.image}
+                          />
+                        }
+                        label={match.referee.name}
+                        variant="outlined"
+                      />
+                    </Tooltip>
+                  </Box>
+                )}
+              </Stack>
+              <Stack>
+                <Box>
+                  <Tooltip
+                    title="Edit match information"
+                    placement="right"
+                  >
+                    <IconButton
+                      size="small"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onEdit?.(match);
+                      }}
+                    >
+                      <EditIcon
+                        fontSize="small"
+                        color="warning"
+                      />
+                    </IconButton>
+                  </Tooltip>
+                </Box>
+              </Stack>
+            </Stack>
+          </Box>
+        </>
+      )}
+    </Box>
+  );
+};
+
+{
+  /* {shouldShowViewMatchDetailsBtn && (
         <Box
           display="flex"
           justifyContent="flex-end"
@@ -228,7 +244,5 @@ export const MatchItem = ({ match }: MathItemProps) => {
             View details
           </Button>
         </Box>
-      )} */}
-    </Stack>
-  );
-};
+      )} */
+}
