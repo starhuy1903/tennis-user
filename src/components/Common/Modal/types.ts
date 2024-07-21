@@ -3,6 +3,7 @@ import { GroupPost } from 'types/group-post';
 import { EditMatchPayload } from 'types/match';
 import { OpenTournamentApplicant, Referee } from 'types/open-tournament-participants';
 import { UserPackage } from 'types/package';
+import { OpenTournament } from 'types/tournament';
 import { EditMatchTeam, Match } from 'types/tournament-fixtures';
 
 import { BaseModalProps } from './BaseModal';
@@ -39,8 +40,7 @@ export interface AddRefereesProps extends CommonModalProps {
 }
 
 export interface RegisterTournamentProps extends CommonModalProps {
-  tournamentId: number;
-  participantType: string;
+  tournament: OpenTournament;
   onSuccess?: () => void;
 }
 
@@ -99,7 +99,6 @@ export interface UpdatePostProps extends CreatePostProps {
 // };
 
 // type _ModalPropsMap = {
-//   [ModalKey.HELLO_WORLD]: HelloWorldProps;
 //   [ModalKey.CROP_IMAGE]: CropImageProps;
 //   [ModalKey.SELECT_PAYMENT_METHOD]: SelectPaymentMethodProps;
 //   [ModalKey.ADD_PARTICIPANTS]: AddParticipantsProps;

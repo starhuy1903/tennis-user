@@ -45,7 +45,7 @@ export default function UpdateTournament({ onCloseForm }: { onCloseForm: () => v
   const hasPublishedTournament = checkPublishedTournament(tournamentData.phase);
   const hasFinalizedApplicants = checkFinalizedApplicants(tournamentData.phase);
 
-  const { handleSubmit, register, control, formState, getValues, watch } = useForm<UpdateTournamentPayload>({
+  const { handleSubmit, register, control, formState, getValues, watch, trigger } = useForm<UpdateTournamentPayload>({
     mode: 'onChange',
     defaultValues: {
       name: tournamentData.name,
@@ -295,8 +295,10 @@ export default function UpdateTournament({ onCloseForm }: { onCloseForm: () => v
                   name="startDate"
                   rules={{
                     required: 'The start date is required.',
-                    validate: (value) => {
+                    validate: async (value) => {
                       const startDate = dayjs(value);
+                      await trigger('endDate');
+                      await trigger('registrationDueDate');
                       if (value !== originalData.startDate && startDate.isBefore(dayjs(), 'day')) {
                         return 'The start date cannot be in the past.';
                       }

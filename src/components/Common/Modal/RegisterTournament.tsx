@@ -1,9 +1,13 @@
-import { Box, FormControl, FormHelperText, FormLabel, TextField } from '@mui/material';
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
+import PeopleIcon from '@mui/icons-material/People';
+import { Box, FormControl, FormHelperText, FormLabel, Stack, TextField, Tooltip, Typography } from '@mui/material';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useAppSelector } from 'store';
 
-import { ParticipantType } from 'constants/tournament';
+import { ParticipantType, TournamentFormatOptions, TournamentStatus } from 'constants/tournament';
 import { useApplyTournamentMutation } from 'store/api/tournament/participant/participant';
+import { checkExpiredDate, displayDayLeft } from 'utils/datetime';
 import { showSuccess } from 'utils/toast';
 
 import BaseModal from './BaseModal';
@@ -15,14 +19,9 @@ type FormType = {
   user2Email?: string;
 };
 
-export default function RegisterTournament({
-  tournamentId,
-  participantType,
-  onSuccess,
-  onModalClose,
-}: RegisterTournamentProps) {
+export default function RegisterTournament({ tournament, onSuccess, onModalClose }: RegisterTournamentProps) {
   const name = useAppSelector((state) => state.user.userInfo?.name);
-  const isSingleType = participantType === ParticipantType.SINGLE;
+  const isSingleType = tournament.participantType === ParticipantType.SINGLE;
 
   const [createTournamentRegistration, { isLoading }] = useApplyTournamentMutation();
 
@@ -39,7 +38,7 @@ export default function RegisterTournament({
   const onSubmit: SubmitHandler<FormType> = async (data) => {
     try {
       await createTournamentRegistration({
-        tournamentId,
+        tournamentId: tournament.id,
         message: data.message,
         user2Email: !isSingleType ? data.user2Email : undefined,
       }).unwrap();
@@ -52,32 +51,89 @@ export default function RegisterTournament({
     }
   };
 
+  const renderTournamentInfo = () => {
+    return (
+      <Box>
+        <Stack
+          direction="row"
+          gap={2}
+        >
+          <img
+            src={tournament.image}
+            alt="tournament image"
+            style={{ height: 130, borderRadius: 8 }}
+          />
+          <Stack>
+            <Tooltip title={tournament.name}>
+              <Typography
+                variant="h6"
+                fontWeight="bold"
+                noWrap
+                gutterBottom
+              >
+                {tournament.name}
+              </Typography>
+            </Tooltip>
+            <Box
+              display="flex"
+              alignItems="center"
+              gap={1}
+            >
+              <Tooltip
+                title="Format"
+                placement="left"
+              >
+                <EmojiEventsIcon
+                  sx={{
+                    color: 'gray',
+                  }}
+                />
+              </Tooltip>
+              <Typography variant="subtitle1">{TournamentFormatOptions[tournament.format]}</Typography>
+            </Box>
+            <Box
+              display="flex"
+              alignItems="center"
+              gap={1}
+            >
+              <PeopleIcon
+                sx={{
+                  color: 'gray',
+                }}
+              />
+              <Typography variant="subtitle1">{`${tournament.participants}/${tournament.maxParticipants} participants`}</Typography>
+            </Box>
+
+            {tournament.status === TournamentStatus.UPCOMING && (
+              <Box
+                display="flex"
+                alignItems="center"
+                gap={1}
+                color="red"
+              >
+                <AccessTimeIcon />
+                <Typography variant="subtitle1">
+                  {checkExpiredDate(tournament.registrationDueDate)
+                    ? 'Registration has expired'
+                    : displayDayLeft(tournament.registrationDueDate)}
+                </Typography>
+              </Box>
+            )}
+          </Stack>
+        </Stack>
+      </Box>
+    );
+  };
+
   const renderBody = () => {
     if (isSingleType) {
       return (
-        <Box
+        <Stack
           component="form"
           autoComplete="off"
-          sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}
+          gap={2}
         >
-          <FormControl
-            fullWidth
-            error={!!formError.name}
-          >
-            <FormLabel htmlFor="name">Your name</FormLabel>
-            <TextField
-              {...register('name', {
-                required: 'Your name is required.',
-              })}
-              required
-              id="name"
-              error={!!formError.name}
-              aria-describedby="name-helper-text"
-              placeholder="Enter your name here"
-            />
-            <FormHelperText id="name-helper-text">{formError.name?.message}</FormHelperText>
-          </FormControl>
-
+          {renderTournamentInfo()}
           <FormControl
             fullWidth
             error={!!formError.message}
@@ -97,7 +153,7 @@ export default function RegisterTournament({
             />
             <FormHelperText id="message-helper-text">{formError.message?.message}</FormHelperText>
           </FormControl>
-        </Box>
+        </Stack>
       );
     }
 
@@ -107,23 +163,7 @@ export default function RegisterTournament({
         autoComplete="off"
         sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}
       >
-        <FormControl
-          fullWidth
-          error={!!formError.name}
-        >
-          <FormLabel htmlFor="name">Your name</FormLabel>
-          <TextField
-            {...register('name', {
-              required: 'Your name is required.',
-            })}
-            required
-            id="name"
-            error={!!formError.name}
-            aria-describedby="name-helper-text"
-            placeholder="Enter your name here"
-          />
-          <FormHelperText id="name-helper-text">{formError.name?.message}</FormHelperText>
-        </FormControl>
+        {renderTournamentInfo()}
 
         <FormControl
           fullWidth

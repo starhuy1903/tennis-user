@@ -1,9 +1,10 @@
-import { Box, Container, Stack } from '@mui/material';
+import { Container, Stack } from '@mui/material';
 import produce from 'immer';
 import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'store';
 
+import { MatchItem } from 'components/Authenticated/TournamentService/Common/MatchItem';
 import CenterLoading from 'components/Common/CenterLoading';
 import { ModalKey } from 'constants/modal';
 import { TournamentPhase } from 'constants/tournament';
@@ -23,7 +24,6 @@ import {
 import { checkGeneratedFixture } from 'utils/tournament';
 
 import NoData from '../../NoData';
-import { MatchItem } from './MatchItem';
 
 type RoundRobinFixtureProps = {
   rounds: Round[];
@@ -128,18 +128,16 @@ export default function RoundRobinFixture({ rounds, setFixtureData }: RoundRobin
             }}
           >
             {round.matches.map((match) => (
-              <Box
+              <MatchItem
                 key={match.id}
-                sx={{ borderRadius: 2, border: '1px solid', borderColor: 'divider' }}
-              >
-                <MatchItem
-                  isCreator={isCreator}
-                  match={match}
-                  onEdit={handleEditMatch}
-                  onViewDetails={handleViewMatchDetails}
-                  shouldShowViewMatchDetailsBtn={checkGeneratedFixture(tournamentData.phase)}
-                />
-              </Box>
+                isCreator={isCreator}
+                match={match}
+                onEdit={handleEditMatch}
+                onViewDetails={handleViewMatchDetails}
+                isGeneratedFixture={checkGeneratedFixture(tournamentData.phase)}
+                type="schedule"
+                wrapperSx={{ maxWidth: 800 }}
+              />
             ))}
           </Stack>
         ))}

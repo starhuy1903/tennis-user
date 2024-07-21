@@ -193,6 +193,20 @@ export const MatchItem = ({
           }
           label={match.venue}
         />
+        {match.referee && (
+          <Tooltip title="Referee">
+            <Chip
+              avatar={
+                <Avatar
+                  alt="Referee"
+                  src={match.referee.image}
+                />
+              }
+              label={match.referee.name}
+              variant="outlined"
+            />
+          </Tooltip>
+        )}
       </Box>
       <Box
         sx={{
