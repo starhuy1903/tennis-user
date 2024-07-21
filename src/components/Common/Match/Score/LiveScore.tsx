@@ -53,6 +53,7 @@ export default function LiveScore({ match }: LiveScoreProps) {
           fontWeight={600}
           lineHeight={1.5}
           width={130}
+          textAlign="right"
         >
           {newestGameScore?.scores[0].team2Score || 0}
         </Typography>
