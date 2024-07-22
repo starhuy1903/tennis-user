@@ -144,12 +144,7 @@ export default function MatchDetails({ match: matchMetaData }: { match: MatchMet
             color="white"
           >
             <strong>Date / Time:</strong>{' '}
-            {displayDateTime({ dateTime: match.matchStartDate, targetFormat: FormatDateTime.DATE_2 })},{' '}
-            {displayDateTime({
-              dateTime: match.matchStartDate,
-              formatSpecification: FormatDateTime.FULL_TIME,
-              targetFormat: FormatDateTime.MERIDIEM_HOUR,
-            })}
+            {displayDateTime({ dateTime: match.matchStartDate, targetFormat: FormatDateTime.TIME_AND_DATE })}
           </Typography>
 
           <Typography
