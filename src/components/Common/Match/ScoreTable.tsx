@@ -1,4 +1,15 @@
-import { Avatar, Box, Table, TableBody, TableCell, TableHead, TableRow, Typography } from '@mui/material';
+import {
+  Avatar,
+  Box,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Typography,
+} from '@mui/material';
 import { deepPurple } from '@mui/material/colors';
 import { useMemo } from 'react';
 
@@ -43,7 +54,10 @@ const renderTeamRecord = ({
 }) => {
   return (
     <TableRow>
-      <TableCell align="center">
+      <TableCell
+        align="center"
+        // sx={{ bgcolor: !isLive && isTeamWinner ? green[200] : 'initial' }}
+      >
         <Box
           display="flex"
           gap={1}
@@ -150,8 +164,6 @@ export default function ScoreTable({ match, isSingleTeam, isLive }: ScoreTablePr
   const currentGame = currentSet?.games[0];
   const currentScore = currentGame?.scores[0];
 
-  console.log({ currentScore });
-
   const team1SetScores = useMemo<TeamSetScore[]>(() => {
     return setListData.map((set) => {
       return {
@@ -179,64 +191,70 @@ export default function ScoreTable({ match, isSingleTeam, isLive }: ScoreTablePr
   }, [setListData, match.team2.id]);
 
   return (
-    <Table sx={{ minWidth: 650, tableLayout: 'fixed' }}>
-      <TableHead>
-        <TableRow>
-          <TableCell />
-          <TableCell align="center">
-            <Typography
-              variant="body1"
-              fontWeight={500}
-            >
-              Sets
-            </Typography>
-          </TableCell>
-          {[1, 2, 3].map((set, index) => (
-            <TableCell
-              align="center"
-              key={index}
-            >
+    <TableContainer
+      component={Paper}
+      variant="outlined"
+      sx={{ bgcolor: 'white', borderRadius: 4 }}
+    >
+      <Table sx={{ minWidth: 650, tableLayout: 'fixed' }}>
+        <TableHead>
+          <TableRow>
+            <TableCell />
+            <TableCell align="center">
               <Typography
                 variant="body1"
                 fontWeight={500}
               >
-                {set}
+                Sets
               </Typography>
             </TableCell>
-          ))}
-          <TableCell />
-        </TableRow>
-      </TableHead>
-      <TableBody>
-        {renderTeamRecord({
-          isTeamWinner: match.teamWinnerId === match.team1.id,
-          isSingleTeam: isSingleTeam,
-          image1: match.team1.user1.image,
-          image2: match.team1.user2?.image,
-          mainScore: match.team1MatchScore,
-          setScores: team1SetScores,
-          isLive: isLive,
-          currentScoreData: {
-            isTeamServe: currentScore?.teamServeId === match.team1.id,
-            score: currentScore?.team1Score,
-            isTeamWinner: currentScore?.teamWinId === match.team1.id,
-          },
-        })}
-        {renderTeamRecord({
-          isTeamWinner: match.teamWinnerId === match.team2.id,
-          isSingleTeam: isSingleTeam,
-          image1: match.team2.user1.image,
-          image2: match.team2.user2?.image,
-          mainScore: match.team2MatchScore,
-          setScores: team2SetScores,
-          isLive: isLive,
-          currentScoreData: {
-            isTeamServe: currentScore?.teamServeId === match.team2.id,
-            score: currentScore?.team2Score,
-            isTeamWinner: currentScore?.teamWinId === match.team2.id,
-          },
-        })}
-      </TableBody>
-    </Table>
+            {[1, 2, 3].map((set, index) => (
+              <TableCell
+                align="center"
+                key={index}
+              >
+                <Typography
+                  variant="body1"
+                  fontWeight={500}
+                >
+                  {set}
+                </Typography>
+              </TableCell>
+            ))}
+            <TableCell />
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {renderTeamRecord({
+            isTeamWinner: match.teamWinnerId === match.team1.id,
+            isSingleTeam: isSingleTeam,
+            image1: match.team1.user1.image,
+            image2: match.team1.user2?.image,
+            mainScore: match.team1MatchScore,
+            setScores: team1SetScores,
+            isLive: isLive,
+            currentScoreData: {
+              isTeamServe: currentScore?.teamServeId === match.team1.id,
+              score: currentScore?.team1Score,
+              isTeamWinner: currentScore?.teamWinId === match.team1.id,
+            },
+          })}
+          {renderTeamRecord({
+            isTeamWinner: match.teamWinnerId === match.team2.id,
+            isSingleTeam: isSingleTeam,
+            image1: match.team2.user1.image,
+            image2: match.team2.user2?.image,
+            mainScore: match.team2MatchScore,
+            setScores: team2SetScores,
+            isLive: isLive,
+            currentScoreData: {
+              isTeamServe: currentScore?.teamServeId === match.team2.id,
+              score: currentScore?.team2Score,
+              isTeamWinner: currentScore?.teamWinId === match.team2.id,
+            },
+          })}
+        </TableBody>
+      </Table>
+    </TableContainer>
   );
 }

@@ -13,9 +13,9 @@ const MatchScore = ({ finalScore, team }: { finalScore: MatchFinalScore; team: T
     <>
       {finalScore.team1 > finalScore.team2 && team === 1 && (
         <ArrowRightIcon
-          color="primary"
-          fontSize="large"
+          color="success"
           sx={{
+            fontSize: '60px',
             position: 'absolute',
             left: '-40px',
           }}
@@ -34,11 +34,11 @@ const MatchScore = ({ finalScore, team }: { finalScore: MatchFinalScore; team: T
 
       {finalScore.team1 < finalScore.team2 && team === 2 && (
         <ArrowLeftIcon
-          color="primary"
-          fontSize="large"
+          color="success"
           sx={{
+            fontSize: '60px',
             position: 'absolute',
-            right: '-40px',
+            right: '-50px',
           }}
         />
       )}

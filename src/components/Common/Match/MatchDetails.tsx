@@ -218,14 +218,16 @@ export default function MatchDetails({ match: matchMetaData }: { match: MatchMet
             <ScoreTable match={match} />
           </>
         )} */}
-        {[MatchState.WALK_OVER, MatchState.SCORE_DONE, MatchState.DONE].includes(match.status) && (
+      </Box>
+      {[MatchState.WALK_OVER, MatchState.SCORE_DONE, MatchState.DONE].includes(match.status) && (
+        <Box mt={2}>
           <ScoreTable
             match={match}
             isSingleTeam={!match.team1.user2}
             isLive={isLive}
           />
-        )}
-      </Box>
+        </Box>
+      )}
     </Container>
   );
 }
