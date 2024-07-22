@@ -1,4 +1,5 @@
 import CheckIcon from '@mui/icons-material/Check';
+import RefreshIcon from '@mui/icons-material/Refresh';
 import { Box, Button, Chip, Stack, Tooltip, Typography } from '@mui/material';
 import { useConfirm } from 'material-ui-confirm';
 import { useCallback, useEffect, useState } from 'react';
@@ -27,6 +28,7 @@ export default function ApplicantList() {
   const dispatch = useAppDispatch();
 
   const [fetchingApplicant, setFetchingApplicant] = useState(false);
+  const [fetchingPendingApplicants, setFetchingPendingApplicants] = useState(false);
   const [getApplicantsRequest] = useLazyGetOpenTournamentApplicantsQuery();
   const [finalizeApplicantRequest, { isLoading: finalizing }] = useFinalizeApplicantMutation();
 
@@ -57,6 +59,20 @@ export default function ApplicantList() {
       console.log(error);
     } finally {
       setFetchingApplicant(false);
+    }
+  }, [getApplicantsRequest, tournamentData.id]);
+
+  const handleGetPendingApplicants = useCallback(async () => {
+    try {
+      setFetchingPendingApplicants(true);
+      const res = await getApplicantsRequest({
+        tournamentId: tournamentData.id,
+        status: RegistrationStatus.PENDING,
+      }).unwrap();
+      setApplicants((prev) => ({ ...prev, unapproved: res.data }));
+      setFetchingPendingApplicants(false);
+    } catch (err) {
+      // handled error
     }
   }, [getApplicantsRequest, tournamentData.id]);
 
@@ -94,21 +110,33 @@ export default function ApplicantList() {
     <Box my={5}>
       <Stack
         direction="row"
-        alignItems="center"
-        mb={2}
-        gap={1}
+        justifyContent="space-between"
       >
-        <Typography variant="h4">Applicants</Typography>
+        <Stack
+          direction="row"
+          alignItems="center"
+          mb={2}
+          gap={1}
+        >
+          <Typography variant="h4">Applicants</Typography>
 
-        <Chip
-          label={
-            tournamentData.participantType === ParticipantType.DOUBLES
-              ? applicants.unapproved.length * 2
-              : applicants.unapproved.length
-          }
-          color="info"
-          size="small"
-        />
+          <Chip
+            label={
+              tournamentData.participantType === ParticipantType.DOUBLES
+                ? applicants.unapproved.length * 2
+                : applicants.unapproved.length
+            }
+            color="info"
+            size="small"
+          />
+        </Stack>
+        <Button
+          startIcon={<RefreshIcon />}
+          disabled={fetchingPendingApplicants}
+          onClick={handleGetPendingApplicants}
+        >
+          Refresh
+        </Button>
       </Stack>
 
       <Box position="relative">
