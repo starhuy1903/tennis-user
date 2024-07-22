@@ -17,7 +17,7 @@ const MatchScore = ({ finalScore, team }: { finalScore: MatchFinalScore; team: T
           sx={{
             fontSize: '60px',
             position: 'absolute',
-            left: '-40px',
+            left: '-50px',
           }}
         />
       )}
