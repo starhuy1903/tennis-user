@@ -57,7 +57,10 @@ export type SetGame = {
   setFinalScore: {
     team1: number;
     team2: number;
-    tieBreak: null;
+    tieBreak: {
+      team1: string;
+      team2: string;
+    } | null;
   };
 };
 
@@ -72,6 +75,8 @@ export type MatchMetaData = {
   matchStartDate: string;
   matchEndDate: string | null;
   matchFinalScore: MatchFinalScore;
+  team1MatchScore: number;
+  team2MatchScore: number;
 };
 
 export type TeamType = 1 | 2;

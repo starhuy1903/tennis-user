@@ -11,7 +11,7 @@ import { displayDateTime } from 'utils/datetime';
 
 import CenterLoading from '../CenterLoading';
 import MainScore from './MainScore';
-import SetGamesScoreList from './SetGamesScoreList';
+import ScoreTable from './ScoreTable';
 
 const MatchHeader = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -112,7 +112,7 @@ export default function MatchDetails({ match: matchMetaData }: { match: MatchMet
         setIsLive(false);
       }
     } catch (err) {
-      console.error(err);
+      // handled error
     }
   }, [getMatchDetailsRequest, matchMetaData.id]);
 
@@ -144,12 +144,7 @@ export default function MatchDetails({ match: matchMetaData }: { match: MatchMet
             color="white"
           >
             <strong>Date / Time:</strong>{' '}
-            {displayDateTime({ dateTime: match.matchStartDate, targetFormat: FormatDateTime.DATE_2 })},{' '}
-            {displayDateTime({
-              dateTime: match.matchStartDate,
-              formatSpecification: FormatDateTime.FULL_TIME,
-              targetFormat: FormatDateTime.MERIDIEM_HOUR,
-            })}
+            {displayDateTime({ dateTime: match.matchStartDate, targetFormat: FormatDateTime.TIME_AND_DATE })}
           </Typography>
 
           <Typography
@@ -172,31 +167,6 @@ export default function MatchDetails({ match: matchMetaData }: { match: MatchMet
           <CustomTeam team={match.team1!} />
 
           <MainScore match={match} />
-
-          {/* <Stack alignItems="center">
-            <Box
-              sx={{
-                position: 'relative',
-                display: 'flex',
-                alignItems: 'center',
-                gap: 6,
-              }}
-            >
-              <MatchScore
-                finalScore={match.matchFinalScore}
-                team={1}
-              />
-
-              <MatchStatusBadge status={match.status} />
-
-              <MatchScore
-                finalScore={match.matchFinalScore}
-                team={2}
-              />
-            </Box>
-
-            {match.status === MatchState.WALK_OVER && <Timer date={match.matchStartDate} />}
-          </Stack> */}
 
           <CustomTeam team={match.team2} />
         </Box>
@@ -243,13 +213,16 @@ export default function MatchDetails({ match: matchMetaData }: { match: MatchMet
             <ScoreTable match={match} />
           </>
         )} */}
-        {[MatchState.WALK_OVER, MatchState.SCORE_DONE, MatchState.DONE].includes(match.status) && (
-          <SetGamesScoreList
+      </Box>
+      {[MatchState.WALK_OVER, MatchState.SCORE_DONE, MatchState.DONE].includes(match.status) && (
+        <Box mt={2}>
+          <ScoreTable
             match={match}
+            isSingleTeam={!match.team1.user2}
             isLive={isLive}
           />
-        )}
-      </Box>
+        </Box>
+      )}
     </Container>
   );
 }

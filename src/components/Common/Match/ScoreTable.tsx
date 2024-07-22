@@ -1,141 +1,260 @@
-import { Table, TableBody, TableCell, TableRow, Typography } from '@mui/material';
+import {
+  Avatar,
+  Box,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Typography,
+} from '@mui/material';
+import { deepPurple } from '@mui/material/colors';
+import { useMemo } from 'react';
 
-import { MatchMetaData } from 'types/match';
-import { Team } from 'types/tournament-fixtures';
+import { MatchState } from 'constants/match';
+import { MatchMetaData, SetGameStatus } from 'types/match';
 
-const TeamCell = ({ team }: { team: Team }) => {
+import TennisBallIcon from 'assets/images/tennis-ball.jpg';
+
+type TeamSetScore = {
+  setId: number;
+  hasDone: boolean;
+  score: number;
+  isWinner: boolean;
+  isTieBreak: boolean;
+  tieBreakScore?: string;
+};
+
+type CurrentGameScore = {
+  score: string;
+  isTeamServe: boolean;
+  isTeamWinner: boolean;
+};
+
+const renderTeamRecord = ({
+  isLive,
+  isTeamWinner,
+  isSingleTeam,
+  image1,
+  image2,
+  mainScore,
+  setScores,
+  currentScoreData,
+}: {
+  isLive: boolean;
+  isTeamWinner: boolean;
+  isSingleTeam: boolean;
+  image1: string;
+  image2?: string;
+  mainScore: number;
+  setScores: TeamSetScore[];
+  currentScoreData: CurrentGameScore;
+}) => {
   return (
-    <TableCell sx={{ display: 'flex', flexDirection: 'column', gap: 2, align: 'center' }}>
-      <Typography
-        variant="body1"
+    <TableRow>
+      <TableCell
         align="center"
+        // sx={{ bgcolor: !isLive && isTeamWinner ? green[200] : 'initial' }}
       >
-        {team.user1.name}
-      </Typography>
-      {team.user2 && (
+        <Box
+          display="flex"
+          gap={1}
+        >
+          <Avatar
+            sx={{}}
+            src={image1}
+          />
+          {!isSingleTeam && (
+            <Avatar
+              sx={{}}
+              src={image2}
+            />
+          )}
+        </Box>
+      </TableCell>
+      <TableCell align="center">
         <Typography
           variant="body1"
-          align="center"
+          fontWeight={isTeamWinner ? 700 : 400}
         >
-          {team.user2.name}
+          {mainScore || 0}
         </Typography>
-      )}
-    </TableCell>
+      </TableCell>
+      {setScores.map((setScore, index) => (
+        <TableCell
+          align="center"
+          key={setScore.setId}
+        >
+          <Typography
+            variant="body1"
+            fontWeight={setScore.hasDone && setScore.isWinner ? 700 : 400}
+            color={index === setScores.length - 1 && isLive ? 'primary' : 'initial'}
+          >
+            {setScore.score}
+            {setScore.isTieBreak && (
+              <sup
+                style={{
+                  fontSize: 10,
+                  marginLeft: 2,
+                }}
+              >
+                {setScore.tieBreakScore}
+              </sup>
+            )}
+          </Typography>
+        </TableCell>
+      ))}
+      {Array(3 - setScores.length)
+        .fill(null)
+        .map((_, index) => (
+          <TableCell key={index} />
+        ))}
+      <TableCell align="center">
+        {isLive && (
+          <Box
+            display="flex"
+            alignItems="center"
+            gap={1}
+          >
+            <Box
+              display="flex"
+              justifyContent="center"
+              alignItems="center"
+              width={50}
+              height={50}
+              bgcolor={currentScoreData.isTeamWinner ? deepPurple[100] : 'initial'}
+              borderRadius={4}
+            >
+              <Typography
+                variant="body1"
+                fontSize={currentScoreData.score === 'Game' ? 14 : 22}
+              >
+                {currentScoreData.score}
+              </Typography>
+            </Box>
+            {currentScoreData.isTeamServe && (
+              <img
+                src={TennisBallIcon}
+                alt=""
+                style={{ width: 30 }}
+              />
+            )}
+          </Box>
+        )}
+      </TableCell>
+    </TableRow>
   );
 };
 
-// const ScoreCell = ({ scores, team }: { scores: Score[]; team: TeamType }) => {
-//   return (
-//     <>
-//       {scores.length !== 0 ? (
-//         scores.map((score, scoreIndex) => (
-//           <TableCell
-//             key={scoreIndex}
-//             align="center"
-//           >
-//             {score[`team${team}`]}
-//             {score[`tiebreakTeam${team}`] && (
-//               <sup
-//                 style={{
-//                   fontSize: 10,
-//                   marginLeft: 2,
-//                 }}
-//               >
-//                 {score[`tiebreakTeam${team}`]}
-//               </sup>
-//             )}
-//           </TableCell>
-//         ))
-//       ) : (
-//         <TableCell align="center">-</TableCell>
-//       )}
-//     </>
-//   );
-// };
+type ScoreTableProps = {
+  match: MatchMetaData;
+  isSingleTeam: boolean;
+  isLive: boolean;
+};
 
-export default function ScoreTable({ match }: { match: MatchMetaData }) {
+export default function ScoreTable({ match, isSingleTeam, isLive }: ScoreTableProps) {
+  const isEndedMatch = match.status === MatchState.SCORE_DONE;
+  const setListData = useMemo(
+    () => (isEndedMatch ? match.sets.slice().reverse() : match.sets),
+    [isEndedMatch, match.sets]
+  );
+  const currentSet = setListData[setListData.length - 1];
+  const currentGame = currentSet?.games[0];
+  const currentScore = currentGame?.scores[0];
+
+  const team1SetScores = useMemo<TeamSetScore[]>(() => {
+    return setListData.map((set) => {
+      return {
+        setId: set.id,
+        hasDone: set.status === SetGameStatus.ENDED,
+        score: set.setFinalScore.team1,
+        isWinner: set.teamWinId === match.team1.id,
+        isTieBreak: set.isTieBreak,
+        tieBreakScore: set.setFinalScore.tieBreak?.team1,
+      };
+    });
+  }, [setListData, match.team1.id]);
+
+  const team2SetScores = useMemo<TeamSetScore[]>(() => {
+    return setListData.map((set) => {
+      return {
+        setId: set.id,
+        hasDone: set.status === SetGameStatus.ENDED,
+        score: set.setFinalScore.team2,
+        isWinner: set.teamWinId === match.team2.id,
+        isTieBreak: set.isTieBreak,
+        tieBreakScore: set.setFinalScore.tieBreak?.team2,
+      };
+    });
+  }, [setListData, match.team2.id]);
+
   return (
-    <Table sx={{ minWidth: 650, tableLayout: 'fixed' }}>
-      <TableBody>
-        {/* Team 1 */}
-        <TableRow>
-          <TableCell
-            sx={{
-              align: 'center',
-              fontWeight: 'bold',
-            }}
-          >
-            Team 1
-          </TableCell>
-          <TeamCell team={match.team1} />
-          {/* <ScoreCell
-            scores={match.scores}
-            team={1}
-          /> */}
-          <TableCell
-            sx={{
-              textAlign: 'center',
-              fontWeight: 'bold',
-            }}
-          >
-            {match.matchFinalScore.team1}
-          </TableCell>
-        </TableRow>
-
-        <TableRow>
-          <TableCell
-            sx={{
-              align: 'center',
-              fontWeight: 'bold',
-            }}
-          >
-            Team 2
-          </TableCell>
-
-          {/* <TeamCell team={match.team2} /> */}
-
-          {/* <ScoreCell
-            scores={match.scores}
-            team={2}
-          /> */}
-
-          <TableCell
-            sx={{
-              textAlign: 'center',
-              fontWeight: 'bold',
-            }}
-          >
-            {match.matchFinalScore.team2}
-          </TableCell>
-        </TableRow>
-
-        <TableRow>
-          <TableCell
-            sx={{
-              align: 'center',
-              fontWeight: 'bold',
-            }}
-          >
-            Match Time
-          </TableCell>
-          <TableCell align="center" />
-
-          {/* {match.scores?.length !== 0 ? (
-            match.scores?.map((score, scoreIndex) => (
-              <TableCell
-                key={scoreIndex}
-                align="center"
+    <TableContainer
+      component={Paper}
+      variant="outlined"
+      sx={{ bgcolor: 'white', borderRadius: 4 }}
+    >
+      <Table sx={{ minWidth: 650, tableLayout: 'fixed' }}>
+        <TableHead>
+          <TableRow>
+            <TableCell />
+            <TableCell align="center">
+              <Typography
+                variant="body1"
+                fontWeight={500}
               >
-                {displayHour(score.time)}
+                Sets
+              </Typography>
+            </TableCell>
+            {[1, 2, 3].map((set, index) => (
+              <TableCell
+                align="center"
+                key={index}
+              >
+                <Typography
+                  variant="body1"
+                  fontWeight={500}
+                >
+                  {set}
+                </Typography>
               </TableCell>
-            ))
-          ) : (
-            <TableCell align="center">-</TableCell>
-          )} */}
-
-          <TableCell align="center" />
-        </TableRow>
-      </TableBody>
-    </Table>
+            ))}
+            <TableCell />
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {renderTeamRecord({
+            isTeamWinner: match.teamWinnerId === match.team1.id,
+            isSingleTeam: isSingleTeam,
+            image1: match.team1.user1.image,
+            image2: match.team1.user2?.image,
+            mainScore: match.team1MatchScore,
+            setScores: team1SetScores,
+            isLive: isLive,
+            currentScoreData: {
+              isTeamServe: currentScore?.teamServeId === match.team1.id,
+              score: currentScore?.team1Score,
+              isTeamWinner: currentScore?.teamWinId === match.team1.id,
+            },
+          })}
+          {renderTeamRecord({
+            isTeamWinner: match.teamWinnerId === match.team2.id,
+            isSingleTeam: isSingleTeam,
+            image1: match.team2.user1.image,
+            image2: match.team2.user2?.image,
+            mainScore: match.team2MatchScore,
+            setScores: team2SetScores,
+            isLive: isLive,
+            currentScoreData: {
+              isTeamServe: currentScore?.teamServeId === match.team2.id,
+              score: currentScore?.team2Score,
+              isTeamWinner: currentScore?.teamWinId === match.team2.id,
+            },
+          })}
+        </TableBody>
+      </Table>
+    </TableContainer>
   );
 }
