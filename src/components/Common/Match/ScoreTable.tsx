@@ -10,7 +10,7 @@ import {
   TableRow,
   Typography,
 } from '@mui/material';
-import { deepPurple } from '@mui/material/colors';
+import { blueGrey, deepPurple } from '@mui/material/colors';
 import { useMemo } from 'react';
 
 import { MatchState } from 'constants/match';
@@ -198,7 +198,7 @@ export default function ScoreTable({ match, isSingleTeam, isLive }: ScoreTablePr
     >
       <Table sx={{ minWidth: 650, tableLayout: 'fixed' }}>
         <TableHead>
-          <TableRow>
+          <TableRow sx={{ bgcolor: blueGrey[50] }}>
             <TableCell />
             <TableCell align="center">
               <Typography
@@ -208,7 +208,7 @@ export default function ScoreTable({ match, isSingleTeam, isLive }: ScoreTablePr
                 Sets
               </Typography>
             </TableCell>
-            {[1, 2, 3].map((set, index) => (
+            {['1st', '2nd', '3rd'].map((set, index) => (
               <TableCell
                 align="center"
                 key={index}

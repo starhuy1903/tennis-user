@@ -1,4 +1,9 @@
-import { Avatar, Box, Container, Stack, Typography } from '@mui/material';
+import AccessAlarmIcon from '@mui/icons-material/AccessAlarm';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import PlaceIcon from '@mui/icons-material/Place';
+import WhatshotIcon from '@mui/icons-material/Whatshot';
+import { Avatar, Box, Container, IconButton, Stack, Tooltip, Typography } from '@mui/material';
+import { deepPurple } from '@mui/material/colors';
 import { useCallback, useEffect, useState } from 'react';
 
 import { FormatDateTime } from 'constants/datetime';
@@ -18,8 +23,7 @@ const MatchHeader = ({ children }: { children: React.ReactNode }) => {
     <Box
       sx={{
         display: 'flex',
-        justifyContent: 'center',
-        bgcolor: (theme) => theme.palette.primary.main,
+        bgcolor: deepPurple[300],
         px: 2,
         py: 1,
         gap: 2,
@@ -32,10 +36,8 @@ const MatchHeader = ({ children }: { children: React.ReactNode }) => {
 
 const CustomPlayer = ({ player, isWinner }: { player: Player; isWinner: boolean }) => {
   return (
-    <Box
+    <Stack
       sx={{
-        display: 'flex',
-        flexDirection: 'column',
         alignItems: 'center',
       }}
     >
@@ -62,9 +64,25 @@ const CustomPlayer = ({ player, isWinner }: { player: Player; isWinner: boolean 
       >
         {player.name}
       </Typography>
-
-      <Typography variant="caption">{player.elo} ELO</Typography>
-    </Box>
+      <Tooltip title="elo">
+        <Box
+          display="flex"
+          alignItems="center"
+          gap={0.5}
+        >
+          <WhatshotIcon
+            color="warning"
+            sx={{ fontSize: 16 }}
+          />
+          <Typography
+            fontSize={10}
+            fontWeight={400}
+          >
+            {player.elo ? player.elo : '--'}
+          </Typography>
+        </Box>
+      </Tooltip>
+    </Stack>
   );
 };
 
@@ -79,7 +97,7 @@ const CustomTeam = ({ team }: { team: Team }) => {
         isWinner={!!team.isWinner}
       />
 
-      {team?.user2 && (
+      {team.user2 && (
         <>
           <CustomPlayer
             player={team.user2}
@@ -98,7 +116,13 @@ const CustomTeam = ({ team }: { team: Team }) => {
   );
 };
 
-export default function MatchDetails({ match: matchMetaData }: { match: MatchMetaData }) {
+export default function MatchDetails({
+  match: matchMetaData,
+  onBackToMatchList,
+}: {
+  match: MatchMetaData;
+  onBackToMatchList?: () => void;
+}) {
   const [isLive, setIsLive] = useState(matchMetaData.status === MatchState.WALK_OVER);
 
   const [match, setMatch] = useState<MatchMetaData | null>(matchMetaData);
@@ -139,20 +163,47 @@ export default function MatchDetails({ match: matchMetaData }: { match: MatchMet
         }}
       >
         <MatchHeader>
-          <Typography
-            variant="caption"
-            color="white"
+          <Tooltip title="Back">
+            <IconButton
+              size="small"
+              onClick={onBackToMatchList}
+            >
+              <ArrowBackIcon sx={{ color: 'white' }} />
+            </IconButton>
+          </Tooltip>
+          <Box
+            display="flex"
+            alignItems="center"
+            gap={0.5}
           >
-            <strong>Date / Time:</strong>{' '}
-            {displayDateTime({ dateTime: match.matchStartDate, targetFormat: FormatDateTime.TIME_AND_DATE })}
-          </Typography>
+            <AccessAlarmIcon
+              fontSize="small"
+              sx={{ color: 'white' }}
+            />
+            <Typography
+              variant="caption"
+              color="white"
+            >
+              {displayDateTime({ dateTime: match.matchStartDate, targetFormat: FormatDateTime.TIME_AND_DATE })}
+            </Typography>
+          </Box>
 
-          <Typography
-            variant="caption"
-            color="white"
+          <Box
+            display="flex"
+            alignItems="center"
+            gap={0.5}
           >
-            <strong>Venue:</strong> {match.venue}
-          </Typography>
+            <PlaceIcon
+              fontSize="small"
+              sx={{ color: 'white' }}
+            />
+            <Typography
+              variant="caption"
+              color="white"
+            >
+              {match.venue}
+            </Typography>
+          </Box>
         </MatchHeader>
 
         <Box
@@ -164,7 +215,7 @@ export default function MatchDetails({ match: matchMetaData }: { match: MatchMet
             py: 2,
           }}
         >
-          <CustomTeam team={match.team1!} />
+          <CustomTeam team={match.team1} />
 
           <MainScore match={match} />
 

@@ -25,10 +25,10 @@ export default function OpenMatchDetails() {
           dispatch(showTournamentBackground(false));
         } catch (err) {
           // handled error
-          navigate(`/tournaments/${tournamentData.id}/fixtures`);
+          navigate(`/tournaments/${tournamentData.id}/matches`);
         }
       } else {
-        navigate(`/tournaments/${tournamentData.id}/fixtures`);
+        navigate(`/tournaments/${tournamentData.id}/matches`);
       }
     })();
   }, [getMatchDetailsRequest, matchId, navigate, tournamentData, dispatch]);
@@ -37,7 +37,10 @@ export default function OpenMatchDetails() {
 
   return (
     <Box mt={4}>
-      <MatchDetails match={match} />
+      <MatchDetails
+        match={match}
+        onBackToMatchList={() => navigate(`/tournaments/${tournamentData.id}/matches`)}
+      />
     </Box>
   );
 }
