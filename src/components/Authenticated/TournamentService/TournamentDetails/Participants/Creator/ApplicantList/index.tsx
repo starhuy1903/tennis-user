@@ -132,7 +132,7 @@ export default function ApplicantList() {
         </Stack>
         <Button
           startIcon={<RefreshIcon />}
-          disabled={fetchingPendingApplicants}
+          disabled={fetchingPendingApplicants || fetchingApplicant}
           onClick={handleGetPendingApplicants}
         >
           Refresh

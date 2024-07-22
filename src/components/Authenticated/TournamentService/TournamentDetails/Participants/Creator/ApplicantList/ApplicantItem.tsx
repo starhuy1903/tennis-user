@@ -5,7 +5,6 @@ import { Button, Chip } from '@mui/material';
 import Accordion from '@mui/material/Accordion';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
-import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Fab from '@mui/material/Fab';
 import Stack from '@mui/material/Stack';
@@ -17,7 +16,7 @@ import { useAppDispatch, useAppSelector } from 'store';
 import { SingleParticipantInfo } from 'components/Authenticated/TournamentService/Common/ParticipantInfo';
 import { FormatDateTime } from 'constants/datetime';
 import { ModalKey } from 'constants/modal';
-import { GenderOptions } from 'constants/tournament';
+import { GenderOptions, TournamentFormat } from 'constants/tournament';
 import { RegistrationStatus } from 'constants/tournament-participants';
 import {
   useApproveTournamentApplicantMutation,
@@ -26,30 +25,8 @@ import {
 import { showModal } from 'store/slice/modalSlice';
 import { selectTournamentData } from 'store/slice/tournamentSlice';
 import { OpenTournamentApplicant } from 'types/open-tournament-participants';
-import { UserProfile } from 'types/user';
 import { displayDateTime } from 'utils/datetime';
 import { showSuccess } from 'utils/toast';
-
-export const ApplicantTitle = ({ user }: { user: UserProfile }) => {
-  return (
-    <>
-      <Avatar
-        src={user.image}
-        alt={user.name}
-        sx={{ width: '50px', height: '50px' }}
-      />
-
-      <Typography variant="h2">{user.name}</Typography>
-
-      <Chip
-        label={`${user.elo || 'No'} ELO`}
-        size="small"
-        variant={user.elo ? 'filled' : 'outlined'}
-        color="primary"
-      />
-    </>
-  );
-};
 
 const InfoItem = ({ label, value }: { label: string; value: string }) => {
   return (
@@ -130,7 +107,16 @@ export default function ApplicantItem({
                 elo={data.user1.elo}
               />
 
-              {data.user2 && <ApplicantTitle user={data.user2} />}
+              {data.user2 && (
+                <SingleParticipantInfo
+                  name={data.user2.name}
+                  nameTypographyProps={{ variant: 'h2' }}
+                  image={data.user2.image}
+                  imageSx={{ width: '50px', height: '50px' }}
+                  shouldShowElo
+                  elo={data.user2.elo}
+                />
+              )}
             </Box>
             {data.status === RegistrationStatus.APPROVED && (
               <Box
@@ -148,14 +134,16 @@ export default function ApplicantItem({
                     label={data.seed}
                   />
                 ) : null}
-                <Button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleSeedingParticipant();
-                  }}
-                >
-                  Seed
-                </Button>
+                {tournamentData.format !== TournamentFormat.ROUND_ROBIN && (
+                  <Button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleSeedingParticipant();
+                    }}
+                  >
+                    Seed
+                  </Button>
+                )}
               </Box>
             )}
 
