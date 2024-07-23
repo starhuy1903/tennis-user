@@ -1,7 +1,9 @@
+import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
 import EditIcon from '@mui/icons-material/Edit';
 import PlaceIcon from '@mui/icons-material/Place';
 import { Avatar, Box, Chip, Divider, IconButton, Stack, SxProps, Tooltip, Typography } from '@mui/material';
 import { green, grey } from '@mui/material/colors';
+import { useMemo } from 'react';
 
 import { MatchState } from 'constants/match';
 import { Match } from 'types/tournament-fixtures';
@@ -36,6 +38,32 @@ export const MatchItem = ({
 
   const isScheduleTab = type === 'schedule';
   const isMatchesTab = type === 'matches';
+  const isEndedMatch = match.status === MatchState.DONE || match.status === MatchState.SCORE_DONE;
+
+  const setScores = useMemo(
+    () =>
+      isEndedMatch
+        ? match.sets
+            ?.slice()
+            .reverse()
+            .map((set) => {
+              return {
+                id: set.id,
+                team1Score: set.setFinalScore.team1,
+                team2Score: set.setFinalScore.team2,
+                isTieBreak: set.isTieBreak,
+                tieBreakTeam1Score: set.setFinalScore.tieBreak?.team1,
+                tieBreakTeam2Score: set.setFinalScore.tieBreak?.team2,
+                isTeam1Winner: set.teamWinId === match.teamId1,
+                isTeam2Winner: set.teamWinId === match.teamId2,
+              };
+            })
+        : [],
+    [isEndedMatch, match.sets, match.teamId1, match.teamId2]
+  );
+
+  const isTeam1Winner = match.teamWinnerId === match.teamId1;
+  const isTeam2Winner = match.teamWinnerId === match.teamId2;
 
   return (
     <Box
@@ -81,7 +109,11 @@ export const MatchItem = ({
           flexGrow={1}
           py={1}
         >
-          <Stack gap={1}>
+          <Stack
+            gap={1}
+            flex={1}
+            width={180}
+          >
             {match.teams.team1 ? (
               isSinglePlayerMatch ? (
                 <SingleParticipantInfo
@@ -135,19 +167,91 @@ export const MatchItem = ({
           </Stack>
 
           {shouldShowScore && (
-            <Stack
+            <Box
+              display="flex"
               alignItems="center"
-              justifyContent="center"
-              ml={2}
-              gap={1}
+              gap={4}
             >
-              <Typography fontWeight={match.teamWinnerId === match.teamId1 ? 600 : 400}>
-                {match.team1MatchScore}
-              </Typography>
-              <Typography fontWeight={match.teamWinnerId === match.teamId2 ? 600 : 400}>
-                {match.team2MatchScore}
-              </Typography>
-            </Stack>
+              <Stack
+                alignItems="center"
+                justifyContent="center"
+                gap={3}
+              >
+                <Box
+                  display="flex"
+                  alignItems="center"
+                  gap={0.5}
+                >
+                  {isTeam1Winner ? (
+                    <ArrowLeftIcon />
+                  ) : (
+                    <Box
+                      width={24}
+                      height={24}
+                    />
+                  )}
+                  <Typography fontWeight={isTeam1Winner ? 600 : 400}>{match.team1MatchScore}</Typography>
+                </Box>
+
+                <Box
+                  display="flex"
+                  alignItems="center"
+                  gap={0.5}
+                >
+                  {isTeam2Winner ? (
+                    <ArrowLeftIcon />
+                  ) : (
+                    <Box
+                      width={24}
+                      height={24}
+                    />
+                  )}
+                  <Typography fontWeight={isTeam2Winner ? 600 : 400}>{match.team2MatchScore}</Typography>
+                </Box>
+              </Stack>
+
+              <Box
+                display="flex"
+                alignItems="center"
+                gap={2}
+              >
+                {setScores?.map((set) => {
+                  return (
+                    <Stack
+                      key={set.id}
+                      gap={3}
+                    >
+                      <Typography>
+                        {set.team1Score}
+                        {set.isTieBreak && (
+                          <sup
+                            style={{
+                              fontSize: 10,
+                              marginLeft: 2,
+                            }}
+                          >
+                            {set.tieBreakTeam1Score}
+                          </sup>
+                        )}
+                      </Typography>
+                      <Typography>
+                        {set.team2Score}
+                        {set.isTieBreak && (
+                          <sup
+                            style={{
+                              fontSize: 10,
+                              marginLeft: 2,
+                            }}
+                          >
+                            {set.tieBreakTeam2Score}
+                          </sup>
+                        )}
+                      </Typography>
+                    </Stack>
+                  );
+                })}
+              </Box>
+            </Box>
           )}
         </Stack>
       </Stack>
@@ -227,22 +331,3 @@ export const MatchItem = ({
     </Box>
   );
 };
-
-{
-  /* {shouldShowViewMatchDetailsBtn && (
-        <Box
-          display="flex"
-          justifyContent="flex-end"
-        >
-          <Button
-            variant="outlined"
-            startIcon={<ArrowForwardIcon />}
-            onClick={() => onViewDetails(match)}
-            size="small"
-            sx={{ borderRadius: 100 }}
-          >
-            View details
-          </Button>
-        </Box>
-      )} */
-}
