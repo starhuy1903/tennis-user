@@ -7,7 +7,6 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  Tooltip,
   Typography,
 } from '@mui/material';
 import { useAppSelector } from 'store';
@@ -18,16 +17,7 @@ import { RoundRobinStanding } from 'types/tournament/standing';
 
 import { DoubleParticipantInfo, SingleParticipantInfo } from '../../Common/ParticipantInfo';
 
-const titles = ['Participants', 'TM', 'PL', 'WO', 'LO', 'MP'] as const;
-
-const titleStringMapping = {
-  Participants: 'Participants',
-  TM: 'Total Matches',
-  PL: 'Played',
-  WO: 'Won',
-  LO: 'Lost',
-  MP: 'Match Points',
-};
+const titles = ['', 'Team', 'Total Matches', 'Played', 'Won', 'Lost', 'Match Points'] as const;
 
 type RoundRobinStandingProps = {
   standingData: RoundRobinStanding;
@@ -55,9 +45,7 @@ export default function RoundRobinStandingTable({ standingData }: RoundRobinStan
                   align="center"
                   key={title}
                 >
-                  <Tooltip title={titleStringMapping[title]}>
-                    <Typography>{title}</Typography>
-                  </Tooltip>
+                  <Typography>{title}</Typography>
                 </TableCell>
               ))}
             </TableRow>
@@ -65,6 +53,7 @@ export default function RoundRobinStandingTable({ standingData }: RoundRobinStan
           <TableBody>
             {standingData.standings.map((participant) => (
               <TableRow key={participant.id}>
+                <TableCell align="center">{participant.score.rank}</TableCell>
                 <TableCell align="center">
                   {isSingleType ? (
                     <SingleParticipantInfo

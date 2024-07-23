@@ -21,6 +21,7 @@ export type RoundRobinStanding = {
       won: number;
       lost: number;
       matchPoints: number;
+      rank: number;
     };
   }[];
 };

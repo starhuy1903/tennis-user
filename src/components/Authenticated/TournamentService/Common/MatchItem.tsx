@@ -42,7 +42,7 @@ export const MatchItem = ({
 
   const setScores = useMemo(
     () =>
-      isEndedMatch
+      isEndedMatch && isMatchesTab
         ? match.sets
             ?.slice()
             .reverse()
@@ -59,7 +59,7 @@ export const MatchItem = ({
               };
             })
         : [],
-    [isEndedMatch, match.sets, match.teamId1, match.teamId2]
+    [isEndedMatch, isMatchesTab, match.sets, match.teamId1, match.teamId2]
   );
 
   const isTeam1Winner = match.teamWinnerId === match.teamId1;
