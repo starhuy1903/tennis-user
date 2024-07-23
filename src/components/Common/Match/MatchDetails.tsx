@@ -8,7 +8,7 @@ import { useCallback, useEffect, useState } from 'react';
 
 import { FormatDateTime } from 'constants/datetime';
 import { MatchState } from 'constants/match';
-import { useLazyGetMatchDetailsQuery } from 'store/api/tournament/creator/match';
+import { useLazyGetMatchDetailsQuery } from 'store/api/tournament/shared/match';
 // import ReactPlayer from 'react-player/youtube';
 import { MatchMetaData } from 'types/match';
 import { Player, Team } from 'types/tournament-fixtures';
