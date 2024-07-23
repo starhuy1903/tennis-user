@@ -13,6 +13,7 @@ import { useAppSelector } from 'store';
 import CenterLoading from 'components/Common/CenterLoading';
 import { FormatDateTime } from 'constants/datetime';
 import { MatchState } from 'constants/match';
+import { ParticipantType } from 'constants/tournament';
 import { useLazyGetMatchesQuery } from 'store/api/tournament/shared/match';
 import { selectTournamentData } from 'store/slice/tournamentSlice';
 import { Match } from 'types/tournament-fixtures';
@@ -23,8 +24,7 @@ import TennisCourtIcon from 'assets/icons/tennis-court.svg';
 
 import { MatchItem } from '../../Common/MatchItem';
 import LiveMatch from './LiveMatch';
-
-// import RecentMatch from './RecentMatch';
+import RecentMatch from './RecentMatch';
 
 const compareDate = (dateA: string, dateB: string) => {
   if (dayjs(dateA).isBefore(dayjs(dateB))) {
@@ -41,6 +41,10 @@ export default function Matches() {
   const tournamentData = useAppSelector(selectTournamentData);
   const [getMatchesReq, { isLoading, data: matchData }] = useLazyGetMatchesQuery();
 
+  const isSinglePlayer = tournamentData.participantType === ParticipantType.SINGLE;
+
+  const [hasValidFilterDate, setHasValidFilterDate] = useState(false);
+
   const isAllMatchesScored = useMemo(
     () => matchData?.matches.every((match) => match.status === MatchState.SCORE_DONE),
     [matchData]
@@ -49,6 +53,16 @@ export default function Matches() {
   const liveMatches = useMemo(() => {
     return matchData?.matches.filter((match) => match.status === MatchState.WALK_OVER);
   }, [matchData?.matches]);
+
+  const recentMatches = useMemo(() => {
+    return matchData
+      ? matchData.matches
+          .filter((match) => match.status === MatchState.SCORE_DONE)
+          .sort((a, b) => compareDate(a.matchEndDate || '', b.matchEndDate || ''))
+          .slice()
+          .reverse()
+      : [];
+  }, [matchData]);
 
   const groupedMatchesByDate = useMemo(() => {
     if (!matchData) return {};
@@ -93,6 +107,14 @@ export default function Matches() {
     })();
   }, [getMatchesReq, tournamentData.id, tournamentData.phase]);
 
+  useEffect(() => {
+    const today = dayjs().format('YYYY-MM-DD');
+    if (!renderedDateRange.includes(today)) {
+      setSelectedDate(renderedDateRange[renderedDateRange.length - 1]);
+    }
+    setHasValidFilterDate(true);
+  }, [renderedDateRange]);
+
   const renderMatchList = () => {
     if (filterMatches.length === 0) {
       return (
@@ -119,6 +141,7 @@ export default function Matches() {
     return filterMatches.map((match) => {
       return (
         <Box
+          key={match.id}
           width="100%"
           display="flex"
         >
@@ -134,7 +157,7 @@ export default function Matches() {
     });
   };
 
-  if (isLoading || !matchData) {
+  if (isLoading || !matchData || !hasValidFilterDate || renderedDateRange.length === 0) {
     return <CenterLoading />;
   }
 
@@ -268,6 +291,7 @@ export default function Matches() {
               {liveMatches?.map((match) => {
                 return (
                   <LiveMatch
+                    key={match.id}
                     match={match}
                     onClick={() => handleViewMatchDetails(match)}
                   />
@@ -291,7 +315,22 @@ export default function Matches() {
               </Typography>
             </Box>
 
-            <Stack gap={1}>{/* <RecentMatch  /> */}</Stack>
+            <Stack gap={1}>
+              {recentMatches.length > 0 ? (
+                recentMatches.slice(0, 3).map((match) => {
+                  return (
+                    <RecentMatch
+                      key={match.id}
+                      match={match}
+                      isSinglePlayer={isSinglePlayer}
+                      onClick={() => handleViewMatchDetails(match)}
+                    />
+                  );
+                })
+              ) : (
+                <Box>No data</Box>
+              )}
+            </Stack>
           </Stack>
         </Stack>
       </Box>

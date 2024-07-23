@@ -45,6 +45,7 @@ export type Match = {
   nextMatchId: string | null;
   title: string;
   matchStartDate: string | null;
+  matchEndDate: string | null;
   teamWinnerId?: string | null;
   teamId1?: string | null;
   teamId2?: string | null;
