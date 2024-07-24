@@ -1,7 +1,7 @@
 import { Box, FormControl, FormHelperText, FormLabel, TextField } from '@mui/material';
 import { useForm } from 'react-hook-form';
 
-import { ApplicantTitle } from 'components/Authenticated/TournamentService/TournamentDetails/Participants/Creator/ApplicantList/ApplicantItem';
+import { SingleParticipantInfo } from 'components/Authenticated/TournamentService/Common/ParticipantInfo';
 import { useSeedingParticipantMutation } from 'store/api/tournament/creator/participant';
 import { showSuccess } from 'utils/toast';
 
@@ -48,8 +48,24 @@ export default function SelectSeed({ tournamentId, applicantData, onSubmit, onMo
         sx={{ display: 'flex', flexDirection: 'column', gap: 2, mt: 2 }}
       >
         <Box sx={{ display: 'flex', alignItems: 'center', columnGap: '20px' }}>
-          <ApplicantTitle user={applicantData.user1} />
-          {applicantData.user2 && <ApplicantTitle user={applicantData.user2} />}
+          <SingleParticipantInfo
+            name={applicantData.user1.name}
+            nameTypographyProps={{ variant: 'h2' }}
+            image={applicantData.user1.image}
+            imageSx={{ width: '50px', height: '50px' }}
+            shouldShowElo
+            elo={applicantData.user1.elo}
+          />
+          {applicantData.user2 && (
+            <SingleParticipantInfo
+              name={applicantData.user2.name}
+              nameTypographyProps={{ variant: 'h2' }}
+              image={applicantData.user2.image}
+              imageSx={{ width: '50px', height: '50px' }}
+              shouldShowElo
+              elo={applicantData.user2.elo}
+            />
+          )}
         </Box>
         <FormControl
           fullWidth

@@ -10,10 +10,9 @@ import {
   TableRow,
   Typography,
 } from '@mui/material';
-import { deepPurple } from '@mui/material/colors';
+import { blueGrey, deepPurple, grey } from '@mui/material/colors';
 import { useMemo } from 'react';
 
-import { MatchState } from 'constants/match';
 import { MatchMetaData, SetGameStatus } from 'types/match';
 
 import TennisBallIcon from 'assets/images/tennis-ball.jpg';
@@ -54,10 +53,7 @@ const renderTeamRecord = ({
 }) => {
   return (
     <TableRow>
-      <TableCell
-        align="center"
-        // sx={{ bgcolor: !isLive && isTeamWinner ? green[200] : 'initial' }}
-      >
+      <TableCell align="center">
         <Box
           display="flex"
           gap={1}
@@ -90,7 +86,13 @@ const renderTeamRecord = ({
           <Typography
             variant="body1"
             fontWeight={setScore.hasDone && setScore.isWinner ? 700 : 400}
-            color={index === setScores.length - 1 && isLive ? 'primary' : 'initial'}
+            color={
+              index === setScores.length - 1 && isLive
+                ? 'primary'
+                : setScore.hasDone && setScore.isWinner
+                  ? 'black'
+                  : grey[600]
+            }
           >
             {setScore.score}
             {setScore.isTieBreak && (
@@ -155,11 +157,8 @@ type ScoreTableProps = {
 };
 
 export default function ScoreTable({ match, isSingleTeam, isLive }: ScoreTableProps) {
-  const isEndedMatch = match.status === MatchState.SCORE_DONE;
-  const setListData = useMemo(
-    () => (isEndedMatch ? match.sets.slice().reverse() : match.sets),
-    [isEndedMatch, match.sets]
-  );
+  const setListData = useMemo(() => match.sets.slice().reverse(), [match.sets]);
+
   const currentSet = setListData[setListData.length - 1];
   const currentGame = currentSet?.games[0];
   const currentScore = currentGame?.scores[0];
@@ -198,7 +197,7 @@ export default function ScoreTable({ match, isSingleTeam, isLive }: ScoreTablePr
     >
       <Table sx={{ minWidth: 650, tableLayout: 'fixed' }}>
         <TableHead>
-          <TableRow>
+          <TableRow sx={{ bgcolor: blueGrey[50] }}>
             <TableCell />
             <TableCell align="center">
               <Typography
@@ -208,7 +207,7 @@ export default function ScoreTable({ match, isSingleTeam, isLive }: ScoreTablePr
                 Sets
               </Typography>
             </TableCell>
-            {[1, 2, 3].map((set, index) => (
+            {['1st', '2nd', '3rd'].map((set, index) => (
               <TableCell
                 align="center"
                 key={index}

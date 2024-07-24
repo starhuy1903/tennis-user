@@ -59,7 +59,7 @@ export default function LiveScore({ match }: LiveScoreProps) {
         </Typography>
       </Box>
 
-      <Timer date={match.matchStartDate} />
+      {match.refereeMatchStartDate && <Timer date={match.refereeMatchStartDate} />}
     </Stack>
   );
 }

@@ -77,6 +77,7 @@ export type MatchMetaData = {
   matchFinalScore: MatchFinalScore;
   team1MatchScore: number;
   team2MatchScore: number;
+  refereeMatchStartDate: string | null;
 };
 
 export type TeamType = 1 | 2;

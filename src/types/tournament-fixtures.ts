@@ -2,7 +2,7 @@ import { MatchState } from 'constants/match';
 import { ParticipantType, TournamentFormat } from 'constants/tournament';
 import { FixtureStatus } from 'constants/tournament-fixtures';
 
-import { MatchFinalScore } from './match';
+import { MatchFinalScore, SetGame } from './match';
 import { Referee } from './open-tournament-participants';
 import { UserProfile } from './user';
 
@@ -45,11 +45,13 @@ export type Match = {
   nextMatchId: string | null;
   title: string;
   matchStartDate: string | null;
+  matchEndDate: string | null;
   teamWinnerId?: string | null;
   teamId1?: string | null;
   teamId2?: string | null;
   team1MatchScore?: number;
   team2MatchScore?: number;
+  sets?: SetGame[];
   // videoUrl?: string;
 };
 

@@ -5,4 +5,5 @@ export enum FormatDateTime {
   TIME_AND_DATE = 'HH:mm DD/MM/YYYY',
   FULL_TIME = 'HH:mm:ss',
   MERIDIEM_HOUR = 'hh:mm A',
+  DATE_MONTH = 'DD MMM',
 }

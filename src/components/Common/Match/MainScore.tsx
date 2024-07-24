@@ -1,6 +1,7 @@
 import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import { Box, Stack, Typography } from '@mui/material';
+import { grey } from '@mui/material/colors';
 
 import { MatchState } from 'constants/match';
 import { MatchFinalScore, MatchMetaData, TeamType } from 'types/match';
@@ -9,9 +10,11 @@ import { MatchStatusBadge } from './MatchStatusBadge';
 import LiveScore from './Score/LiveScore';
 
 const MatchScore = ({ finalScore, team }: { finalScore: MatchFinalScore; team: TeamType }) => {
+  const teamWinner = finalScore.team1 > finalScore.team2 ? 1 : 2;
+
   return (
     <>
-      {finalScore.team1 > finalScore.team2 && team === 1 && (
+      {teamWinner === 1 && (
         <ArrowRightIcon
           color="success"
           sx={{
@@ -25,14 +28,15 @@ const MatchScore = ({ finalScore, team }: { finalScore: MatchFinalScore; team: T
       {finalScore && (
         <Typography
           variant="h3"
-          fontWeight={600}
+          fontWeight={team === teamWinner ? 'bold' : 'normal'}
+          color={team === teamWinner ? grey[900] : grey[500]}
           lineHeight={1.5}
         >
           {finalScore[`team${team}`]}
         </Typography>
       )}
 
-      {finalScore.team1 < finalScore.team2 && team === 2 && (
+      {teamWinner === 2 && (
         <ArrowLeftIcon
           color="success"
           sx={{
