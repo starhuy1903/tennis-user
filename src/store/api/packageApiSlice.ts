@@ -6,7 +6,12 @@ import { urlWithCorePrefix } from './helper';
 const packageApiToastSlice = apiWithToastSlice.injectEndpoints({
   endpoints: (build) => ({
     getPackages: build.query<Package[], PackageType | undefined>({
-      query: (type) => ({ url: urlWithCorePrefix('packages'), params: { type } }),
+      query: (type) => ({
+        url: urlWithCorePrefix('packages'),
+        params: {
+          type,
+        },
+      }),
     }),
     getMyPackages: build.query<UserPackage[], void>({
       query: () => urlWithCorePrefix('my-packages'),

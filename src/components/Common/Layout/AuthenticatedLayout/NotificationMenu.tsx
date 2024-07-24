@@ -1,14 +1,17 @@
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import IconButton from '@mui/material/IconButton';
-import ListItemText from '@mui/material/ListItemText';
 import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
 import MenuList from '@mui/material/MenuList';
-import Typography from '@mui/material/Typography';
 import { useState } from 'react';
 
+import { useGetSystemNotificationQuery } from 'store/api/commonApiSlice';
+
+import NotificationItem from './Notification/NotificationItem';
+
 const NotificationMenu = () => {
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
+
+  const { data: notiData } = useGetSystemNotificationQuery();
 
   const handleOpenMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -16,6 +19,7 @@ const NotificationMenu = () => {
   const handleCloseMenu = () => {
     setAnchorEl(null);
   };
+
   return (
     <>
       <IconButton
@@ -40,18 +44,17 @@ const NotificationMenu = () => {
       >
         <MenuList
           disablePadding
-          sx={{ minWidth: '150px' }}
+          sx={{ minWidth: '300px', maxHeight: '400px', overflowY: 'auto' }}
         >
-          <MenuItem>
-            <ListItemText>
-              <Typography>Notification 1</Typography>
-            </ListItemText>
-          </MenuItem>
-          <MenuItem>
-            <ListItemText>
-              <Typography>Notification 2</Typography>
-            </ListItemText>
-          </MenuItem>
+          {notiData?.notiList.map((noti) => {
+            return (
+              <NotificationItem
+                key={noti.id}
+                notification={noti}
+                onCloseMenu={handleCloseMenu}
+              />
+            );
+          })}
         </MenuList>
       </Menu>
     </>
