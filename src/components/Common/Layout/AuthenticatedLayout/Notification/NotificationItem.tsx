@@ -1,8 +1,52 @@
-import { Box, ListItemText, MenuItem, Stack, Typography } from '@mui/material';
+import { MenuItem, Stack, Typography } from '@mui/material';
 import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import { FormatDateTime } from 'constants/datetime';
 import { NotificationType, TennisAppNotification } from 'types/notification';
+import { displayDateTime } from 'utils/datetime';
+
+type NotificationStyledProps = {
+  title: string;
+  message: string;
+  onClick: () => void;
+  isRead: boolean;
+  timestamp: string;
+};
+
+function NotificationStyled({ title, message, onClick, isRead, timestamp }: NotificationStyledProps) {
+  return (
+    <MenuItem
+      onClick={onClick}
+      sx={{
+        borderBottom: '1px solid',
+        borderColor: 'divider',
+        bgcolor: isRead ? 'rgba(0, 0, 0, 0.04)' : 'transparent',
+      }}
+    >
+      <Stack
+        maxWidth={300}
+        width="100%"
+      >
+        <Typography fontWeight={500}>{title}</Typography>
+        <Typography
+          fontSize={12}
+          sx={{ textWrap: 'wrap' }}
+        >
+          {message}
+        </Typography>
+        <Stack
+          alignItems="flex-end"
+          mt={0.5}
+        >
+          <Typography fontSize={10}>
+            {displayDateTime({ dateTime: timestamp, targetFormat: FormatDateTime.DATE_AND_FULL_TIME })}
+          </Typography>
+        </Stack>
+      </Stack>
+    </MenuItem>
+  );
+}
 
 type NotificationItemProps = {
   notification: TennisAppNotification;
@@ -23,32 +67,37 @@ export default function NotificationItem({ notification, onCloseMenu }: Notifica
   switch (notification.type) {
     case NotificationType.TOURNAMENT_PARTICIPANT: {
       return (
-        <MenuItem onClick={() => handleNavigateToTournament(notification.data.tournamentId, 'participants')}>
-          <Stack>
-            <Typography>{notification.data.title}</Typography>
-            <Typography>{notification.data.message}</Typography>
-          </Stack>
-        </MenuItem>
+        <NotificationStyled
+          title={notification.data.title}
+          message={notification.data.message}
+          onClick={() => handleNavigateToTournament(notification.data.tournamentId, 'participants')}
+          isRead={notification.isRead}
+          timestamp={notification.timestamp}
+        />
       );
     }
 
     case NotificationType.TOURNAMENT_SCHEDULE: {
       return (
-        <MenuItem onClick={() => handleNavigateToTournament(notification.data.tournamentId, 'fixtures')}>
-          <ListItemText>
-            <Typography>Tournament schedule</Typography>
-          </ListItemText>
-        </MenuItem>
+        <NotificationStyled
+          title={notification.data.title}
+          message={notification.data.message}
+          onClick={() => handleNavigateToTournament(notification.data.tournamentId, 'fixtures')}
+          isRead={notification.isRead}
+          timestamp={notification.timestamp}
+        />
       );
     }
 
     case NotificationType.TOURNAMENT_MATCHES: {
       return (
-        <MenuItem onClick={() => handleNavigateToTournament(notification.data.tournamentId, 'matches')}>
-          <ListItemText>
-            <Typography>Tournament matches</Typography>
-          </ListItemText>
-        </MenuItem>
+        <NotificationStyled
+          title={notification.data.title}
+          message={notification.data.message}
+          onClick={() => handleNavigateToTournament(notification.data.tournamentId, 'matches')}
+          isRead={notification.isRead}
+          timestamp={notification.timestamp}
+        />
       );
     }
 

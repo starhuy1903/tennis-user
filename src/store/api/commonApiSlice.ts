@@ -1,5 +1,6 @@
 import { setAppConfig } from 'store/slice/appSlice';
 import { AppConfigType } from 'types/app';
+import { GetPagingListOptions } from 'types/base';
 import { SystemNotificationResponse } from 'types/notification';
 
 import { apiWithToastSlice } from './baseApiSlice';
@@ -14,12 +15,12 @@ const groupApiToastSlice = apiWithToastSlice.injectEndpoints({
         dispatch(setAppConfig(data));
       },
     }),
-    getSystemNotification: build.query<SystemNotificationResponse, void>({
-      query: () => ({
+    getSystemNotification: build.query<SystemNotificationResponse, GetPagingListOptions>({
+      query: (data) => ({
         url: urlWithCorePrefix('users/system-noti'),
-        // params: {
-        //   take,
-        // },
+        params: {
+          take: data.take,
+        },
       }),
     }),
   }),
