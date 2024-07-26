@@ -23,6 +23,15 @@ const groupApiToastSlice = apiWithToastSlice.injectEndpoints({
         },
       }),
     }),
+    readNotifications: build.mutation<void, string[]>({
+      query: (notiListId) => ({
+        url: urlWithCorePrefix('users/system-noti'),
+        method: 'PATCH',
+        body: {
+          notiListId,
+        },
+      }),
+    }),
   }),
 });
 
@@ -31,4 +40,5 @@ export const {
   useLazyGetAppConfigQuery,
   useGetSystemNotificationQuery,
   useLazyGetSystemNotificationQuery,
+  useReadNotificationsMutation,
 } = groupApiToastSlice;

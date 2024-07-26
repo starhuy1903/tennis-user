@@ -6,7 +6,7 @@ import MenuList from '@mui/material/MenuList';
 import { grey } from '@mui/material/colors';
 import { useCallback, useState } from 'react';
 
-import { useGetSystemNotificationQuery } from 'store/api/commonApiSlice';
+import { useGetSystemNotificationQuery, useReadNotificationsMutation } from 'store/api/commonApiSlice';
 
 import NotificationItem from './Notification/NotificationItem';
 
@@ -14,7 +14,9 @@ const NotificationMenu = () => {
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
 
   const [notiItemNumber, setNotiItemNumber] = useState(5);
-  const { data: notiData } = useGetSystemNotificationQuery({ take: notiItemNumber }, { pollingInterval: 10000 });
+  const { data: notiData } = useGetSystemNotificationQuery({ take: notiItemNumber }, { pollingInterval: 5000 });
+
+  const [readNotiRequest] = useReadNotificationsMutation();
 
   const [disableLoadMore, setDisableLoadMore] = useState(false);
 
@@ -32,6 +34,17 @@ const NotificationMenu = () => {
       setDisableLoadMore(false);
     }, 5000);
   }, []);
+
+  const handleReadNoti = useCallback(
+    async (notiListId: string[]) => {
+      try {
+        await readNotiRequest(notiListId).unwrap();
+      } catch (error) {
+        // handled error
+      }
+    },
+    [readNotiRequest]
+  );
 
   return (
     <>
@@ -72,6 +85,7 @@ const NotificationMenu = () => {
                     key={noti.id}
                     notification={noti}
                     onCloseMenu={handleCloseMenu}
+                    onReadNoti={() => handleReadNoti([noti.id])}
                   />
                 );
               })}

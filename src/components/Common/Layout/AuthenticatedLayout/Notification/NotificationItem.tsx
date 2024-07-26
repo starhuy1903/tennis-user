@@ -51,17 +51,19 @@ function NotificationStyled({ title, message, onClick, isRead, timestamp }: Noti
 type NotificationItemProps = {
   notification: TennisAppNotification;
   onCloseMenu: () => void;
+  onReadNoti: () => void;
 };
 
-export default function NotificationItem({ notification, onCloseMenu }: NotificationItemProps) {
+export default function NotificationItem({ notification, onCloseMenu, onReadNoti }: NotificationItemProps) {
   const navigate = useNavigate();
 
   const handleNavigateToTournament = useCallback(
     (tournamentId: number, tabName: string) => {
       navigate(`/tournaments/${tournamentId}/${tabName}`);
       onCloseMenu();
+      onReadNoti();
     },
-    [navigate, onCloseMenu]
+    [navigate, onCloseMenu, onReadNoti]
   );
 
   switch (notification.type) {
