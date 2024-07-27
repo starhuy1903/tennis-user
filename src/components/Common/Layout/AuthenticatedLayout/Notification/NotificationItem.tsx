@@ -91,12 +91,17 @@ export default function NotificationItem({ notification, onCloseMenu, onReadNoti
       );
     }
 
-    case NotificationType.TOURNAMENT_MATCHES: {
+    case NotificationType.TOURNAMENT_MATCHES_SCHEDULE:
+    case NotificationType.TOURNAMENT_MATCHES_ON_GOING: {
+      const routeToMatch =
+        notification.type === NotificationType.TOURNAMENT_MATCHES_ON_GOING
+          ? `matches/${notification.data.matchId}`
+          : 'matches';
       return (
         <NotificationStyled
           title={notification.data.title}
           message={notification.data.message}
-          onClick={() => handleNavigateToTournament(notification.data.tournamentId, 'matches')}
+          onClick={() => handleNavigateToTournament(notification.data.tournamentId, routeToMatch)}
           isRead={notification.isRead}
           timestamp={notification.timestamp}
         />
