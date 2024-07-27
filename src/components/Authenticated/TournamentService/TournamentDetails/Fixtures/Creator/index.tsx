@@ -31,6 +31,7 @@ import {
 import { showSuccess } from 'utils/toast';
 import { getSubmittedGroupData } from 'utils/tournament';
 
+import { WrapperContainer } from '../../Common/StyledComponent';
 import SetupFixture from './SetupFixture';
 
 export default function CreatorFixture() {
@@ -137,27 +138,32 @@ export default function CreatorFixture() {
     })();
   }, [getFixtureRequest, tournamentData, navigate, isNewTournament]);
 
-  if (fetchingFixture) return <CenterLoading />;
+  if (fetchingFixture)
+    return (
+      <WrapperContainer>
+        <CenterLoading height="100%" />
+      </WrapperContainer>
+    );
 
   if (isNewTournament) {
     return (
-      <Box mt={4}>
+      <WrapperContainer>
         <Alert severity="info">
           You need to publish the tournament first in the{' '}
           <Link to={`/tournaments/${tournamentData.id}/info`}>Information</Link> tab.
         </Alert>
-      </Box>
+      </WrapperContainer>
     );
   }
 
   if (tournamentData.phase === TournamentPhase.PUBLISHED) {
     return (
-      <Box mt={4}>
+      <WrapperContainer>
         <Alert severity="info">
           You need to finalize applicant list in the{' '}
           <Link to={`/tournaments/${tournamentData.id}/participants`}>Participants</Link> tab.
         </Alert>
-      </Box>
+      </WrapperContainer>
     );
   }
 
@@ -165,7 +171,7 @@ export default function CreatorFixture() {
     tournamentData.phase === TournamentPhase.FINALIZED_APPLICANTS && fixture?.status === FixtureStatus.NEW;
 
   return (
-    <Box mt={4}>
+    <WrapperContainer>
       {shouldRenderSetupForm && (
         <SetupFixture
           fixtureConfig={fixtureConfig}
@@ -234,6 +240,6 @@ export default function CreatorFixture() {
           )}
         </Box>
       )}
-    </Box>
+    </WrapperContainer>
   );
 }

@@ -23,6 +23,7 @@ import { checkGeneratedFixture } from 'utils/tournament';
 import TennisCourtIcon from 'assets/icons/tennis-court.svg';
 
 import { MatchItem } from '../../Common/MatchItem';
+import { WrapperContainer } from '../Common/StyledComponent';
 import LiveMatch from './LiveMatch';
 import RecentMatch from './RecentMatch';
 
@@ -157,15 +158,24 @@ export default function Matches() {
     });
   };
 
+  if (!checkGeneratedFixture(tournamentData.phase)) {
+    return (
+      <WrapperContainer>
+        <Alert severity="info">No information available. Please go to the Fixtures tab to generate fixtures.</Alert>
+      </WrapperContainer>
+    );
+  }
+
   if (isLoading || !matchData || !hasValidFilterDate || renderedDateRange.length === 0) {
-    return <CenterLoading />;
+    return (
+      <WrapperContainer>
+        <CenterLoading />
+      </WrapperContainer>
+    );
   }
 
   return (
-    <Box
-      my={4}
-      minHeight={500}
-    >
+    <WrapperContainer>
       {isAllMatchesScored && (
         <Alert
           severity="success"
@@ -334,6 +344,6 @@ export default function Matches() {
           </Stack>
         </Stack>
       </Box>
-    </Box>
+    </WrapperContainer>
   );
 }

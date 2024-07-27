@@ -1,4 +1,5 @@
 import { MenuItem, Stack, Typography } from '@mui/material';
+import { deepPurple, grey } from '@mui/material/colors';
 import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -19,9 +20,13 @@ function NotificationStyled({ title, message, onClick, isRead, timestamp }: Noti
     <MenuItem
       onClick={onClick}
       sx={{
-        borderBottom: '1px solid',
-        borderColor: 'divider',
-        bgcolor: isRead ? 'rgba(0, 0, 0, 0.04)' : 'transparent',
+        'borderBottom': '1px solid',
+        'borderColor': 'divider',
+        'bgcolor': isRead ? grey[300] : 'transparent',
+
+        '&:hover': {
+          bgcolor: deepPurple[50],
+        },
       }}
     >
       <Stack

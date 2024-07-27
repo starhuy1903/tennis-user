@@ -8,6 +8,7 @@ import { selectTournamentData } from 'store/slice/tournamentSlice';
 import { PaymentInfoPayload } from 'types/tournament/fund';
 import { checkFinalizedApplicants } from 'utils/tournament';
 
+import { WrapperContainer } from '../../Common/StyledComponent';
 import PaymentInfo from '../Shared/PaymentInfo';
 import PaymentForm from './PaymentForm';
 import UserPaymentList from './UserPaymentList';
@@ -34,19 +35,23 @@ export default function CreatorFund() {
   }, [getPaymentInfoRequest, tournamentData.id]);
 
   if (isLoading) {
-    return <CenterLoading />;
+    return (
+      <WrapperContainer>
+        <CenterLoading />
+      </WrapperContainer>
+    );
   }
 
   if (!paymentInfo) {
     return (
-      <Box my={2}>
+      <WrapperContainer>
         <PaymentForm onAddPaymentInfo={handleAddPaymentInfo} />
-      </Box>
+      </WrapperContainer>
     );
   }
 
   return (
-    <Box my={2}>
+    <WrapperContainer>
       <PaymentInfo paymentInfo={paymentInfo} />
       {checkFinalizedApplicants(tournamentData.phase) ? (
         <UserPaymentList />
@@ -55,6 +60,6 @@ export default function CreatorFund() {
           <Alert severity="info">You need to finalize the list of applicants so you can manage the fund.</Alert>
         </Box>
       )}
-    </Box>
+    </WrapperContainer>
   );
 }

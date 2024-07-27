@@ -75,7 +75,7 @@ const NotificationMenu = () => {
       >
         <MenuList
           disablePadding
-          sx={{ minWidth: '300px', maxHeight: '400px', overflowY: 'auto' }}
+          sx={{ minWidth: '300px', maxHeight: '400px', overflowY: 'auto', bgcolor: 'white' }}
         >
           {notiData?.notiList && notiData.notiList.length > 0 ? (
             <>

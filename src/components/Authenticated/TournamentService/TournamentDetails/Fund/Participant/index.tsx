@@ -12,6 +12,7 @@ import { selectUser } from 'store/slice/userSlice';
 import { UserPaymentInfoResponse, UserPaymentStatus } from 'types/tournament/fund';
 import { displayDateTime } from 'utils/datetime';
 
+import { WrapperContainer } from '../../Common/StyledComponent';
 import PaymentInfo from '../Shared/PaymentInfo';
 
 export default function ParticipantFund() {
@@ -58,19 +59,23 @@ export default function ParticipantFund() {
   }, [getTeamPaymentInfoRequest, paymentData, tournamentData.id]);
 
   if (isFetchingPaymentData) {
-    return <CenterLoading />;
+    return (
+      <WrapperContainer>
+        <CenterLoading />
+      </WrapperContainer>
+    );
   }
 
   if (!paymentData) {
     return (
-      <Box mt={4}>
+      <WrapperContainer>
         <Alert severity="info">Payment information is not available.</Alert>
-      </Box>
+      </WrapperContainer>
     );
   }
 
   return (
-    <Box my={2}>
+    <WrapperContainer>
       {userPaymentInfo && (
         <Box mb={2}>
           {userPaymentInfo.status === UserPaymentStatus.WAIT && (
@@ -124,6 +129,6 @@ export default function ParticipantFund() {
           </Stack>
         )}
       </Stack>
-    </Box>
+    </WrapperContainer>
   );
 }

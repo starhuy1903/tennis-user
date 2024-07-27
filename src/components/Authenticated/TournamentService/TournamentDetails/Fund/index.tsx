@@ -1,8 +1,9 @@
-import { Alert, Box } from '@mui/material';
+import { Alert } from '@mui/material';
 import { useAppSelector } from 'store';
 
 import { checkTournamentRole } from 'store/slice/tournamentSlice';
 
+import { WrapperContainer } from '../Common/StyledComponent';
 import CreatorFund from './Creator';
 import ParticipantFund from './Participant';
 
@@ -11,9 +12,9 @@ export default function Fund() {
 
   if (isViewer) {
     return (
-      <Box mt={4}>
+      <WrapperContainer>
         <Alert severity="info">No information to show!</Alert>
-      </Box>
+      </WrapperContainer>
     );
   }
 

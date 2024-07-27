@@ -40,11 +40,16 @@ export default function ParticipantList() {
   const { isCreator } = useAppSelector(checkTournamentRole);
   const dispatch = useAppDispatch();
 
-  const { data: participants, isLoading } = useGetOpenTournamentParticipantsQuery({
-    page: 1,
-    take: 10,
-    tournamentId: tournamentData.id,
-  });
+  const { data: participants, isLoading } = useGetOpenTournamentParticipantsQuery(
+    {
+      page: 1,
+      take: 10,
+      tournamentId: tournamentData.id,
+    },
+    {
+      refetchOnMountOrArgChange: true,
+    }
+  );
   const [getReferees, { isLoading: fetchingRefereeData, data: referees }] = useLazyGetRefereesQuery();
 
   const handleGetRefereeData = useCallback(async () => {

@@ -1,4 +1,4 @@
-import { Alert, Box } from '@mui/material';
+import { Alert } from '@mui/material';
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAppSelector } from 'store';
@@ -9,6 +9,7 @@ import { checkTournamentRole, selectTournamentData } from 'store/slice/tournamen
 import { isGroupPlayoffStanding, isKnockoutStanding, isRoundRobinStanding } from 'types/tournament/standing';
 import { checkGeneratedFixtureTournament } from 'utils/tournament';
 
+import { WrapperContainer } from '../Common/StyledComponent';
 import GroupPlayoffStandingUI from './GroupPlayoff';
 import KnockoutStandingBracket from './Knockout';
 import RoundRobinStandingTable from './RoundRobin';
@@ -34,35 +35,35 @@ export default function Standing() {
   if (!checkGeneratedFixtureTournament(tournamentData.phase)) {
     if (isCreator) {
       return (
-        <Box mt={4}>
+        <WrapperContainer>
           <Alert severity="info">
             You need to finish the generating fixtures first in the{' '}
             <Link to={`/tournaments/${tournamentData.id}/fixtures`}>Fixtures</Link> tab.
           </Alert>
-        </Box>
+        </WrapperContainer>
       );
     } else {
       return (
-        <Box mt={4}>
+        <WrapperContainer>
           <Alert severity="info">No information to show!</Alert>
-        </Box>
+        </WrapperContainer>
       );
     }
   }
 
   if (isLoading) {
     return (
-      <Box mt={4}>
+      <WrapperContainer>
         <CenterLoading />
-      </Box>
+      </WrapperContainer>
     );
   }
 
   if (!standingData) {
     return (
-      <Box mt={4}>
+      <WrapperContainer>
         <Alert severity="info">No standing data available.</Alert>
-      </Box>
+      </WrapperContainer>
     );
   }
 
