@@ -108,6 +108,18 @@ export default function NotificationItem({ notification, onCloseMenu, onReadNoti
       );
     }
 
+    case NotificationType.TOURNAMENT_FINANCES: {
+      return (
+        <NotificationStyled
+          title={notification.data.title}
+          message={notification.data.message}
+          onClick={() => handleNavigateToTournament(notification.data.tournamentId, 'fund')}
+          isRead={notification.isRead}
+          timestamp={notification.timestamp}
+        />
+      );
+    }
+
     default:
       throw new Error('Invalid notification type');
   }
