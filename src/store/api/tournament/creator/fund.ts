@@ -1,13 +1,13 @@
 import { apiWithToastSlice } from 'store/api/baseApiSlice';
 import { urlWithCorePrefix } from 'store/api/helper';
 import { GetListResult, GetPagingListOptions } from 'types/base';
-import { PaymentInfoPayload, UpdatedUserPaymentData, UserPaymentInfo } from 'types/tournament/fund';
+import { PaymentInfoPayload, TeamPaymentInfo, UpdatedTeamPaymentData } from 'types/tournament/fund';
 
 export const {
   useCreatePaymentInfoMutation,
-  useGetUserPaymentDataQuery,
-  useLazyGetUserPaymentDataQuery,
-  useUpdateUserPaymentDataMutation,
+  useGetTeamPaymentDataQuery,
+  useLazyGetTeamPaymentDataQuery,
+  useUpdateTeamPaymentDataMutation,
 } = apiWithToastSlice.injectEndpoints({
   endpoints: (build) => ({
     createPaymentInfo: build.mutation<PaymentInfoPayload, { tournamentId: number; submitData: PaymentInfoPayload }>({
@@ -17,18 +17,18 @@ export const {
         body: submitData,
       }),
     }),
-    getUserPaymentData: build.query<GetListResult<UserPaymentInfo>, GetPagingListOptions & { tournamentId: number }>({
+    getTeamPaymentData: build.query<GetListResult<TeamPaymentInfo>, GetPagingListOptions & { tournamentId: number }>({
       query: (args) => ({
-        url: urlWithCorePrefix(`tournaments/${args.tournamentId}/fund/users`),
+        url: urlWithCorePrefix(`tournaments/${args.tournamentId}/fund/teams`),
         params: {
           page: args.page,
           take: args.take,
         },
       }),
     }),
-    updateUserPaymentData: build.mutation<any, { tournamentId: number; body: UpdatedUserPaymentData }>({
+    updateTeamPaymentData: build.mutation<any, { tournamentId: number; body: UpdatedTeamPaymentData }>({
       query: ({ tournamentId, body }) => ({
-        url: urlWithCorePrefix(`tournaments/${tournamentId}/fund/users`),
+        url: urlWithCorePrefix(`tournaments/${tournamentId}/fund/teams`),
         method: 'PATCH',
         body,
       }),

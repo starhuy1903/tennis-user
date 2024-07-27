@@ -20,10 +20,12 @@ export default function ParticipantFund() {
   const tournamentData = useAppSelector(selectTournamentData);
   const user = useAppSelector(selectUser);
 
-  const { data: paymentData, isLoading: isFetchingPaymentData } = useGetPaymentInfoQuery(tournamentData.id);
+  const { data: paymentData, isLoading: isFetchingPaymentData } = useGetPaymentInfoQuery(tournamentData.id, {
+    refetchOnMountOrArgChange: true,
+  });
 
   const [userPaymentInfo, setUserPaymentInfo] = useState<UserPaymentInfoResponse | null>(null);
-  const [getUserPaymentInfoRequest] = useLazyGetUserPaymentInfoQuery();
+  const [getTeamPaymentInfoRequest] = useLazyGetUserPaymentInfoQuery();
   const [confirmMakingPaymentRequest, { isLoading: isConfirming }] = useConfirmMakingPaymentMutation();
 
   const handleConfirmPayment = useCallback(() => {
@@ -46,14 +48,14 @@ export default function ParticipantFund() {
     (async () => {
       if (paymentData) {
         try {
-          const res = await getUserPaymentInfoRequest(tournamentData.id).unwrap();
+          const res = await getTeamPaymentInfoRequest(tournamentData.id).unwrap();
           setUserPaymentInfo(res);
         } catch (error) {
           // handled error
         }
       }
     })();
-  }, [getUserPaymentInfoRequest, paymentData, tournamentData.id]);
+  }, [getTeamPaymentInfoRequest, paymentData, tournamentData.id]);
 
   if (isFetchingPaymentData) {
     return <CenterLoading />;

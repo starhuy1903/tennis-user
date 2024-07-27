@@ -5,7 +5,9 @@
 export enum NotificationType {
   TOURNAMENT_PARTICIPANT = 'tournament_participant',
   TOURNAMENT_SCHEDULE = 'tournament_schedule',
-  TOURNAMENT_MATCHES = 'tournament_matches',
+  TOURNAMENT_MATCHES_SCHEDULE = 'tournament_matches_schedule',
+  TOURNAMENT_MATCHES_ON_GOING = 'tournament_matches_on_going',
+  TOURNAMENT_FINANCES = 'tournament_finances',
 }
 
 type BaseNotification = {
@@ -33,7 +35,7 @@ type TournamentScheduleNoti = BaseNotification & {
 };
 
 type TournamentMatchesNoti = BaseNotification & {
-  type: NotificationType.TOURNAMENT_MATCHES;
+  type: NotificationType.TOURNAMENT_MATCHES_SCHEDULE | NotificationType.TOURNAMENT_MATCHES_ON_GOING;
   data: {
     tournamentId: number;
     matchId: string;
@@ -42,7 +44,20 @@ type TournamentMatchesNoti = BaseNotification & {
   };
 };
 
-type TournamentNotification = TournamentParticipantNoti | TournamentScheduleNoti | TournamentMatchesNoti;
+type TournamentFinancesNoti = BaseNotification & {
+  type: NotificationType.TOURNAMENT_FINANCES;
+  data: {
+    tournamentId: number;
+    title: string;
+    message: string;
+  };
+};
+
+type TournamentNotification =
+  | TournamentParticipantNoti
+  | TournamentScheduleNoti
+  | TournamentMatchesNoti
+  | TournamentFinancesNoti;
 
 export type TennisAppNotification = TournamentNotification;
 

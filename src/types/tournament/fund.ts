@@ -17,16 +17,27 @@ export enum UserPaymentStatus {
   FAILED = 'failed',
 }
 
-export type UserPaymentInfo = {
-  userId: string;
-  image: string;
-  name: string;
+export type TeamPaymentInfo = {
+  id: string;
   status: UserPaymentStatus;
   message: string;
+  team: {
+    id: string;
+    user1: {
+      id: string;
+      image: string;
+      name: string;
+    };
+    user2: {
+      id: string;
+      image: string;
+      name: string;
+    } | null;
+  };
 };
 
-export type UpdatedUserPaymentData = {
-  userId: string;
+export type UpdatedTeamPaymentData = {
+  teamId: string;
   status: UserPaymentStatus.SUCCEED | UserPaymentStatus.FAILED;
   errorMessage?: string;
 };

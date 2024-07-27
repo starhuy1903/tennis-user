@@ -77,7 +77,7 @@ const TournamentTabs = [
   },
 ];
 
-const steps = Object.values(TournamentPhaseOptions);
+const steps = Object.values(TournamentPhaseOptions).slice(1);
 
 export default function TournamentDetailsLayout() {
   const navigate = useNavigate();

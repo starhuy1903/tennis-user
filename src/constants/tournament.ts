@@ -57,11 +57,11 @@ export enum TournamentPhase {
 
 export const TournamentPhaseOptions = {
   [TournamentPhase.NEW]: 'New',
-  [TournamentPhase.PUBLISHED]: 'Published',
-  [TournamentPhase.FINALIZED_APPLICANTS]: 'Finalized Applicants',
-  [TournamentPhase.GENERATED_FIXTURES]: 'Generated Fixtures',
-  [TournamentPhase.SCORED_MATCHES]: 'Scored Matches',
-  [TournamentPhase.COMPLETED]: 'Completed',
+  [TournamentPhase.PUBLISHED]: 'Publish',
+  [TournamentPhase.FINALIZED_APPLICANTS]: 'Finalize Applicants',
+  [TournamentPhase.GENERATED_FIXTURES]: 'Generate Fixtures',
+  [TournamentPhase.SCORED_MATCHES]: 'Score Matches',
+  [TournamentPhase.COMPLETED]: 'Complete',
 };
 
 export const defaultTournamentImage =
