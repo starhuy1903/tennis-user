@@ -2,6 +2,7 @@ import {
   Avatar,
   Box,
   Paper,
+  Stack,
   Table,
   TableBody,
   TableCell,
@@ -119,6 +120,16 @@ const renderTeamRecord = ({
             display="flex"
             alignItems="center"
             gap={1}
+            sx={{
+              '@keyframes scale-animation': {
+                '0%': {
+                  transform: 'scale(1)',
+                },
+                '100%': {
+                  transform: 'scale(1.1)',
+                },
+              },
+            }}
           >
             <Box
               display="flex"
@@ -140,7 +151,11 @@ const renderTeamRecord = ({
               <img
                 src={TennisBallIcon}
                 alt=""
-                style={{ width: 30 }}
+                style={{
+                  width: 30,
+                  transition: 'transform 0.5s ease',
+                  animation: 'scale-animation 0.5s infinite alternate ease-in-out',
+                }}
               />
             )}
           </Box>
@@ -220,7 +235,56 @@ export default function ScoreTable({ match, isSingleTeam, isLive }: ScoreTablePr
                 </Typography>
               </TableCell>
             ))}
-            <TableCell />
+            <TableCell>
+              <Stack
+                direction="row"
+                alignItems="center"
+                sx={{
+                  '@keyframes dot-flashing': {
+                    '0%': {
+                      content: `'.'`,
+                      width: '0.5rem',
+                      opacity: 1,
+                    },
+                    '25%': {
+                      content: `'..'`,
+                      width: `1rem`,
+                      opacity: 0.75,
+                    },
+                    '50%': {
+                      content: `'..'`,
+                      width: '1.5rem',
+                      opacity: 0.75,
+                    },
+                    '75%': {
+                      content: `''`,
+                      width: '0rem',
+                      opacity: 0.25,
+                    },
+                    '100%': {
+                      content: `''`,
+                      width: '0rem',
+                      opacity: 0,
+                    },
+                  },
+                }}
+                fontStyle="italic"
+                color={grey[800]}
+              >
+                <Typography>Playing</Typography>
+                <Typography
+                  component="span"
+                  sx={{
+                    width: '1.5rem',
+                    overflow: 'hidden',
+                    whiteSpace: 'nowrap',
+                    animation: 'dot-flashing 1.5s infinite',
+                  }}
+                >
+                  ...
+                </Typography>
+              </Stack>
+            </TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
