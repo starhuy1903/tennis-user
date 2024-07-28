@@ -15,7 +15,7 @@ import { FormatDateTime } from 'constants/datetime';
 import { MatchState } from 'constants/match';
 import { ParticipantType } from 'constants/tournament';
 import { useLazyGetMatchesQuery } from 'store/api/tournament/shared/match';
-import { selectTournamentData } from 'store/slice/tournamentSlice';
+import { checkTournamentRole, selectTournamentData } from 'store/slice/tournamentSlice';
 import { Match } from 'types/tournament-fixtures';
 import { displayDateRange, displayDateTime } from 'utils/datetime';
 import { checkGeneratedFixture } from 'utils/tournament';
@@ -40,6 +40,7 @@ const compareDate = (dateA: string, dateB: string) => {
 export default function Matches() {
   const navigate = useNavigate();
   const tournamentData = useAppSelector(selectTournamentData);
+  const { isCreator } = useAppSelector(checkTournamentRole);
   const [getMatchesReq, { isLoading, data: matchData }] = useLazyGetMatchesQuery();
 
   const isSinglePlayer = tournamentData.participantType === ParticipantType.SINGLE;
@@ -161,7 +162,11 @@ export default function Matches() {
   if (!checkGeneratedFixture(tournamentData.phase)) {
     return (
       <WrapperContainer>
-        <Alert severity="info">No information available. Please go to the Fixtures tab to generate fixtures.</Alert>
+        {isCreator ? (
+          <Alert severity="info">No information available. Please go to the Fixtures tab to generate fixtures.</Alert>
+        ) : (
+          <Alert severity="info">No information to show!</Alert>
+        )}
       </WrapperContainer>
     );
   }

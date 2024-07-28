@@ -17,6 +17,8 @@ import {
 } from 'types/tournament-fixtures';
 import { checkGeneratedFixture } from 'utils/tournament';
 
+import { WrapperContainer } from '../../Common/StyledComponent';
+
 export default function ParticipantFixture() {
   const navigate = useNavigate();
 
@@ -37,22 +39,27 @@ export default function ParticipantFixture() {
     })();
   }, [getFixtureRequest, tournamentData, navigate, isCreator]);
 
-  if (fetchingFixture) return <CenterLoading />;
+  if (fetchingFixture)
+    return (
+      <WrapperContainer>
+        <CenterLoading />
+      </WrapperContainer>
+    );
 
   if (!fixture || [FixtureStatus.NEW, FixtureStatus.DRAFT].includes(fixture.status))
     return (
-      <Box mt={4}>
+      <WrapperContainer>
         <Alert severity="info">In the process of generating fixtures. Please wait for the organizers to publish.</Alert>
-      </Box>
+      </WrapperContainer>
     );
 
   return (
-    <Box mt={4}>
+    <WrapperContainer>
       {isGeneratedNewKnockoutFixture(fixture) && <KnockoutFixtures rounds={fixture.knockoutGroup.rounds} />}
 
       {isGeneratedNewRoundRobinFixture(fixture) && <RoundRobinFixture rounds={fixture.roundRobinGroups[0].rounds} />}
 
       {isGeneratedNewGroupPlayoffFixture(fixture) && <GroupPlayoffFixture fixture={fixture} />}
-    </Box>
+    </WrapperContainer>
   );
 }

@@ -1,8 +1,9 @@
-import { Alert, Box } from '@mui/material';
+import { Alert } from '@mui/material';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppSelector } from 'store';
 
+import { WrapperContainer } from 'components/Authenticated/TournamentService/TournamentDetails/Common/StyledComponent';
 import CenterLoading from 'components/Common/CenterLoading';
 import KnockoutGroupFixture from 'components/Common/Fixtures/KnockoutGroup';
 import RoundRobinGroupFixture from 'components/Common/Fixtures/RoundRobinGroup';
@@ -43,18 +44,18 @@ export default function ParticipantFixture() {
 
   if (!fixture || [FixtureStatus.NEW, FixtureStatus.DRAFT].includes(fixture.status))
     return (
-      <Box mt={4}>
+      <WrapperContainer>
         <Alert severity="info">In the process of generating fixtures. Please wait for the organizers to publish.</Alert>
-      </Box>
+      </WrapperContainer>
     );
 
   return (
-    <Box mt={4}>
+    <WrapperContainer>
       {isGeneratedNewKnockoutGroupFixture(fixture) && <KnockoutGroupFixture rounds={fixture.knockoutGroup.rounds} />}
 
       {isGeneratedNewRoundRobinGroupFixture(fixture) && (
         <RoundRobinGroupFixture rounds={fixture.roundRobinGroups[0].rounds} />
       )}
-    </Box>
+    </WrapperContainer>
   );
 }
