@@ -37,6 +37,29 @@ const compareDate = (dateA: string, dateB: string) => {
   return 0; // a and b are equal
 };
 
+const NoMatchFound = () => {
+  return (
+    <Stack
+      justifyContent="center"
+      alignItems="center"
+      mt={2}
+    >
+      <img
+        src={TennisCourtIcon}
+        alt=""
+        style={{ height: 70 }}
+      />
+      <Typography
+        mt={1}
+        color={grey[600]}
+        fontSize={14}
+      >
+        No matches found
+      </Typography>
+    </Stack>
+  );
+};
+
 export default function Matches() {
   const navigate = useNavigate();
   const tournamentData = useAppSelector(selectTournamentData);
@@ -53,8 +76,8 @@ export default function Matches() {
   );
 
   const liveMatches = useMemo(() => {
-    return matchData?.matches.filter((match) => match.status === MatchState.WALK_OVER);
-  }, [matchData?.matches]);
+    return matchData ? matchData.matches.filter((match) => match.status === MatchState.WALK_OVER) : [];
+  }, [matchData]);
 
   const recentMatches = useMemo(() => {
     return matchData
@@ -119,25 +142,7 @@ export default function Matches() {
 
   const renderMatchList = () => {
     if (filterMatches.length === 0) {
-      return (
-        <Stack
-          justifyContent="center"
-          mt={2}
-        >
-          <img
-            src={TennisCourtIcon}
-            alt=""
-            style={{ height: 70 }}
-          />
-          <Typography
-            mt={1}
-            color={grey[600]}
-            fontSize={14}
-          >
-            No matches found
-          </Typography>
-        </Stack>
-      );
+      return <NoMatchFound />;
     }
 
     return filterMatches.map((match) => {
@@ -303,15 +308,19 @@ export default function Matches() {
               </Typography>
             </Box>
             <Stack gap={1}>
-              {liveMatches?.map((match) => {
-                return (
-                  <LiveMatch
-                    key={match.id}
-                    match={match}
-                    onClick={() => handleViewMatchDetails(match)}
-                  />
-                );
-              })}
+              {liveMatches.length > 0 ? (
+                liveMatches?.map((match) => {
+                  return (
+                    <LiveMatch
+                      key={match.id}
+                      match={match}
+                      onClick={() => handleViewMatchDetails(match)}
+                    />
+                  );
+                })
+              ) : (
+                <NoMatchFound />
+              )}
             </Stack>
           </Stack>
           <Stack gap={2}>
@@ -343,7 +352,7 @@ export default function Matches() {
                   );
                 })
               ) : (
-                <Box>No data</Box>
+                <NoMatchFound />
               )}
             </Stack>
           </Stack>

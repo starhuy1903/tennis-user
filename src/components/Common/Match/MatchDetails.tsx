@@ -104,12 +104,12 @@ const CustomTeam = ({ team }: { team: Team }) => {
             isWinner={!!team.isWinner}
           />
 
-          <Typography
+          {/* <Typography
             variant="h6"
             color="green"
           >
             {team.totalElo} ELO
-          </Typography>
+          </Typography> */}
         </>
       )}
     </Stack>

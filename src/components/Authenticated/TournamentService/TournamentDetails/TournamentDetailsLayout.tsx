@@ -129,7 +129,7 @@ export default function TournamentDetailsLayout() {
     return () => {
       dispatch(shouldRefreshTournamentData(true));
     };
-  }, [dispatch]);
+  }, [dispatch, tournamentId]);
 
   const customRoutes = useMemo(
     () => [
