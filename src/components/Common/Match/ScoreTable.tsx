@@ -236,54 +236,56 @@ export default function ScoreTable({ match, isSingleTeam, isLive }: ScoreTablePr
               </TableCell>
             ))}
             <TableCell>
-              <Stack
-                direction="row"
-                alignItems="center"
-                sx={{
-                  '@keyframes dot-flashing': {
-                    '0%': {
-                      content: `'.'`,
-                      width: '0.5rem',
-                      opacity: 1,
-                    },
-                    '25%': {
-                      content: `'..'`,
-                      width: `1rem`,
-                      opacity: 0.75,
-                    },
-                    '50%': {
-                      content: `'..'`,
-                      width: '1.5rem',
-                      opacity: 0.75,
-                    },
-                    '75%': {
-                      content: `''`,
-                      width: '0rem',
-                      opacity: 0.25,
-                    },
-                    '100%': {
-                      content: `''`,
-                      width: '0rem',
-                      opacity: 0,
-                    },
-                  },
-                }}
-                fontStyle="italic"
-                color={grey[800]}
-              >
-                <Typography>Playing</Typography>
-                <Typography
-                  component="span"
+              {isLive && (
+                <Stack
+                  direction="row"
+                  alignItems="center"
                   sx={{
-                    width: '1.5rem',
-                    overflow: 'hidden',
-                    whiteSpace: 'nowrap',
-                    animation: 'dot-flashing 1.5s infinite',
+                    '@keyframes dot-flashing': {
+                      '0%': {
+                        content: `'.'`,
+                        width: '0.5rem',
+                        opacity: 1,
+                      },
+                      '25%': {
+                        content: `'..'`,
+                        width: `1rem`,
+                        opacity: 0.75,
+                      },
+                      '50%': {
+                        content: `'..'`,
+                        width: '1.5rem',
+                        opacity: 0.75,
+                      },
+                      '75%': {
+                        content: `''`,
+                        width: '0rem',
+                        opacity: 0.25,
+                      },
+                      '100%': {
+                        content: `''`,
+                        width: '0rem',
+                        opacity: 0,
+                      },
+                    },
                   }}
+                  fontStyle="italic"
+                  color={grey[800]}
                 >
-                  ...
-                </Typography>
-              </Stack>
+                  <Typography>Playing</Typography>
+                  <Typography
+                    component="span"
+                    sx={{
+                      width: '1.5rem',
+                      overflow: 'hidden',
+                      whiteSpace: 'nowrap',
+                      animation: 'dot-flashing 1.5s infinite',
+                    }}
+                  >
+                    ...
+                  </Typography>
+                </Stack>
+              )}
             </TableCell>
           </TableRow>
         </TableHead>
