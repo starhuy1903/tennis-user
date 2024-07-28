@@ -1,21 +1,23 @@
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import HistoryIcon from '@mui/icons-material/History';
 import SensorsIcon from '@mui/icons-material/Sensors';
-import { Alert, Box, Stack, Tab, Tabs, Tooltip, Typography, tabsClasses } from '@mui/material';
+import { Alert, Box, Button, Stack, Tab, Tabs, Tooltip, Typography, tabsClasses } from '@mui/material';
 import { grey, lightGreen, red } from '@mui/material/colors';
 import dayjs from 'dayjs';
 import { groupBy } from 'lodash-es';
+import { useConfirm } from 'material-ui-confirm';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { IoIosTennisball } from 'react-icons/io';
 import { useNavigate } from 'react-router-dom';
-import { useAppSelector } from 'store';
+import { useAppDispatch, useAppSelector } from 'store';
 
 import CenterLoading from 'components/Common/CenterLoading';
 import { FormatDateTime } from 'constants/datetime';
 import { MatchState } from 'constants/match';
-import { ParticipantType } from 'constants/tournament';
+import { ParticipantType, TournamentPhase } from 'constants/tournament';
+import { useEndTournamentMutation } from 'store/api/tournament/creator/general';
 import { useLazyGetMatchesQuery } from 'store/api/tournament/shared/match';
-import { selectTournamentData } from 'store/slice/tournamentSlice';
+import { checkTournamentRole, selectTournamentData, setTournamentDetails } from 'store/slice/tournamentSlice';
 import { Match } from 'types/tournament-fixtures';
 import { displayDateRange, displayDateTime } from 'utils/datetime';
 import { checkGeneratedFixture } from 'utils/tournament';
@@ -62,7 +64,10 @@ const NoMatchFound = () => {
 
 export default function Matches() {
   const navigate = useNavigate();
+  const confirm = useConfirm();
+  const dispatch = useAppDispatch();
   const tournamentData = useAppSelector(selectTournamentData);
+  const { isCreator } = useAppSelector(checkTournamentRole);
   const [getMatchesReq, { isLoading, data: matchData }] = useLazyGetMatchesQuery();
 
   const isSinglePlayer = tournamentData.participantType === ParticipantType.SINGLE;
@@ -118,6 +123,23 @@ export default function Matches() {
     },
     [navigate, tournamentData.id, tournamentData.phase]
   );
+
+  const [endTournamentRequest, { isLoading: endingTournament }] = useEndTournamentMutation();
+
+  const handleCompleteTournament = useCallback(() => {
+    confirm({
+      title: `Complete the tournament`,
+      description: `Are you sure you want to complete the tournament?`,
+    }).then(async () => {
+      try {
+        const res = await endTournamentRequest(tournamentData.id).unwrap();
+        console.log({ res });
+        dispatch(setTournamentDetails(res));
+      } catch (error) {
+        // handled error
+      }
+    });
+  }, [confirm, dispatch, endTournamentRequest, tournamentData.id]);
 
   useEffect(() => {
     (async () => {
@@ -182,12 +204,26 @@ export default function Matches() {
   return (
     <WrapperContainer>
       {isAllMatchesScored && (
-        <Alert
-          severity="success"
-          sx={{ mb: 2 }}
+        <Box
+          display="flex"
+          alignItems="center"
+          justifyContent="space-between"
+          gap={2}
+          sx={{ mb: 4 }}
         >
-          All the matches has been scored. You can go to the Standings tab to see the results.
-        </Alert>
+          <Alert severity="success">
+            All the matches has been scored. You can go to the Standings tab to see the results.
+          </Alert>
+          {isCreator && tournamentData.phase !== TournamentPhase.COMPLETED && (
+            <Button
+              variant="contained"
+              onClick={handleCompleteTournament}
+              disabled={endingTournament}
+            >
+              Complete the tournament
+            </Button>
+          )}
+        </Box>
       )}
       <Box
         display="flex"
