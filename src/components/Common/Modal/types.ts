@@ -91,6 +91,7 @@ export interface UpdatePostProps extends CreatePostProps {
 
 export interface AddExpenseProps extends CommonModalProps {
   groupId: number;
+  onSuccess: () => Promise<void>;
 }
 
 /** External modal props: useModal */

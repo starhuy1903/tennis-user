@@ -12,19 +12,45 @@ import {
   Typography,
 } from '@mui/material';
 import { grey, teal } from '@mui/material/colors';
-import { useCallback } from 'react';
-import { useAppDispatch } from 'store';
+import { useCallback, useState } from 'react';
+import { useAppDispatch, useAppSelector } from 'store';
 
+import { FormatDateTime } from 'constants/datetime';
 import { ModalKey } from 'constants/modal';
+import { useGetExpensesQuery } from 'store/api/group/financeApiSlice';
+import { selectGroup } from 'store/slice/groupSlice';
 import { showModal } from 'store/slice/modalSlice';
+import { displayDateTime } from 'utils/datetime';
 
-export default function ExpenseTable() {
+type ExpenseTableProps = {
+  fetchGeneralInfo: () => void;
+};
+
+export default function ExpenseTable({ fetchGeneralInfo }: ExpenseTableProps) {
   const dispatch = useAppDispatch();
-  const handleChangePage = useCallback(() => {}, []);
+  const groupData = useAppSelector(selectGroup);
+  const [currentPage, setCurrentPage] = useState(0);
+
+  const { data: expenseData, refetch: fetchExpenses } = useGetExpensesQuery(
+    { groupId: groupData.id, page: currentPage + 1, take: 10 },
+    { refetchOnMountOrArgChange: true }
+  );
+  const handleChangePage = useCallback((_: any, pageNumber: number) => {
+    setCurrentPage(pageNumber);
+  }, []);
 
   const handleAddExpense = useCallback(() => {
-    dispatch(showModal(ModalKey.ADD_EXPENSE, {}));
-  }, [dispatch]);
+    dispatch(
+      showModal(ModalKey.ADD_EXPENSE, {
+        groupId: groupData.id,
+        onSuccess: () => {
+          setCurrentPage(0);
+          fetchExpenses();
+          fetchGeneralInfo();
+        },
+      })
+    );
+  }, [dispatch, fetchExpenses, fetchGeneralInfo, groupData.id]);
 
   return (
     <Paper
@@ -49,13 +75,15 @@ export default function ExpenseTable() {
                 </Typography>
               </TableCell>
               <TableCell align="right">
-                <Button
-                  color="info"
-                  startIcon={<AddIcon />}
-                  onClick={handleAddExpense}
-                >
-                  Add expenses
-                </Button>
+                {groupData.isCreator && (
+                  <Button
+                    color="info"
+                    startIcon={<AddIcon />}
+                    onClick={handleAddExpense}
+                  >
+                    Add expenses
+                  </Button>
+                )}
               </TableCell>
             </TableRow>
             <TableRow>
@@ -66,42 +94,34 @@ export default function ExpenseTable() {
             </TableRow>
           </TableHead>
           <TableBody>
-            <TableRow
-              //   key={row.name}
-              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-            >
-              <TableCell
-                component="th"
-                scope="row"
-              >
-                Court
-              </TableCell>
-              <TableCell align="right">1.500.000 vnd</TableCell>
-              <TableCell align="right"></TableCell>
-              <TableCell align="right">28/07/2024 22:15:22</TableCell>
-            </TableRow>
-            {/* {rows.map((row) => (
-            <TableRow
-              key={row.name}
-              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-            >
-              <TableCell component="th" scope="row">
-                {row.name}
-              </TableCell>
-              <TableCell align="right">{row.calories}</TableCell>
-              <TableCell align="right">{row.fat}</TableCell>
-              <TableCell align="right">{row.carbs}</TableCell>
-              <TableCell align="right">{row.protein}</TableCell>
-            </TableRow>
-          ))} */}
+            {expenseData &&
+              expenseData.data.length > 0 &&
+              expenseData.data.map((row) => (
+                <TableRow
+                  key={row.id}
+                  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                >
+                  <TableCell
+                    component="th"
+                    scope="row"
+                  >
+                    {row.categories.join(', ')}
+                  </TableCell>
+                  <TableCell align="right">{row.amount}</TableCell>
+                  <TableCell align="right">{row.description}</TableCell>
+                  <TableCell align="right">
+                    {displayDateTime({ dateTime: row.createdAt, targetFormat: FormatDateTime.DATE_AND_FULL_TIME })}
+                  </TableCell>
+                </TableRow>
+              ))}
           </TableBody>
         </Table>
       </TableContainer>
       <TablePagination
         component="div"
-        count={100}
+        count={expenseData?.totalCount || 0}
         rowsPerPage={10}
-        page={0}
+        page={currentPage}
         onPageChange={handleChangePage}
         rowsPerPageOptions={[10]}
       />

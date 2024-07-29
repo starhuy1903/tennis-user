@@ -1,6 +1,6 @@
 // import { DevTool } from '@hookform/devtools';
 import { Autocomplete, Chip, FormControl, FormHelperText, FormLabel, Stack, TextField } from '@mui/material';
-import { useConfirm } from 'material-ui-confirm';
+// import { useConfirm } from 'material-ui-confirm';
 import { Controller, useForm } from 'react-hook-form';
 
 import { useCreateExpenseMutation } from 'store/api/group/financeApiSlice';
@@ -31,8 +31,8 @@ type FormType = {
   description: string;
 };
 
-export default function AddExpense({ groupId, onModalClose }: AddExpenseProps) {
-  const confirm = useConfirm();
+export default function AddExpense({ groupId, onSuccess, onModalClose }: AddExpenseProps) {
+  // const confirm = useConfirm();
   const [createExpenseRequest, { isLoading: creatingExpense }] = useCreateExpenseMutation();
   const {
     handleSubmit,
@@ -48,16 +48,22 @@ export default function AddExpense({ groupId, onModalClose }: AddExpenseProps) {
     },
   });
 
-  const handleAddExpense = handleSubmit((data) => {
-    confirm({ title: 'Are you sure you want to add this expense?' }).then(async () => {
-      try {
-        await createExpenseRequest({ groupId, ...data }).unwrap();
-        showSuccess('Added expense successfully.');
-        onModalClose();
-      } catch (error) {
-        // handle error
-      }
-    });
+  const handleAddExpense = handleSubmit(async (data) => {
+    // confirm({ title: 'Are you sure you want to add this expense?' }).then(async () => {
+    try {
+      await createExpenseRequest({
+        ...data,
+        type: 'expense',
+        groupId,
+        amount: Number(data.amount),
+      }).unwrap();
+      showSuccess('Added expense successfully.');
+      await onSuccess();
+      onModalClose();
+    } catch (error) {
+      // handle error
+    }
+    // });
   });
 
   const renderBody = () => {
