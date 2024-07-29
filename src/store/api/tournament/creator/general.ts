@@ -9,6 +9,7 @@ export const {
   usePublishTournamentMutation,
   useUnpublishTournamentMutation,
   useUpdateTournamentMutation,
+  useEndTournamentMutation,
 } = apiWithToastSlice.injectEndpoints({
   endpoints: (build) => ({
     getCreatedTournaments: build.query<OpenTournament[], void>({
@@ -42,6 +43,12 @@ export const {
         url: urlWithCorePrefix(`tournaments/${tournamentId}`),
         method: 'PUT',
         body: payload,
+      }),
+    }),
+    endTournament: build.mutation<OpenTournament, number>({
+      query: (tournamentId) => ({
+        url: urlWithCorePrefix(`tournaments/${tournamentId}/end`),
+        method: 'PUT',
       }),
     }),
   }),
