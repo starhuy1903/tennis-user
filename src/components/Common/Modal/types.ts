@@ -89,6 +89,10 @@ export interface UpdatePostProps extends CreatePostProps {
   post: GroupPost;
 }
 
+export interface AddExpenseProps extends CommonModalProps {
+  groupId: number;
+}
+
 /** External modal props: useModal */
 // type FilteredModalProps<T extends CommonModalProps> = Omit<T, 'onModalClose'> & {
 //   onModalClose?: () => void;

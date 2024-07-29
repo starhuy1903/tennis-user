@@ -1,6 +1,6 @@
-import SensorsIcon from '@mui/icons-material/Sensors';
 import { Typography } from '@mui/material';
 
+import LiveBadge from 'components/Authenticated/TournamentService/Common/LiveBadge';
 import { FormatDateTime } from 'constants/datetime';
 import { MatchState } from 'constants/match';
 import { displayDateTime } from 'utils/datetime';
@@ -52,9 +52,7 @@ export const MatchStatusBadge = ({
         {status === MatchState.SCHEDULED || status === MatchState.NO_SHOW ? (
           displayDateTime({ dateTime: date, targetFormat: FormatDateTime.TIME_AND_DATE })
         ) : status === MatchState.WALK_OVER ? (
-          <>
-            <SensorsIcon fontSize="small" /> LIVE
-          </>
+          <LiveBadge />
         ) : (
           statusTextMap[status]
         )}

@@ -25,6 +25,10 @@ const SharedTabs = [
     label: 'Group Tournaments',
     value: 'tournaments',
   },
+  {
+    label: 'Finances',
+    value: 'finances',
+  },
 ];
 
 const GroupAdminTabs = [
