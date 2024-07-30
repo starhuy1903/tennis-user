@@ -11,6 +11,7 @@ import { selectGroup } from 'store/slice/groupSlice';
 
 import ExpenseTable from '../Shared/ExpenseTable';
 import Statistic from '../Shared/Statistic';
+import IncomeTab from './IncomeTab';
 
 const tabs = [
   {
@@ -109,7 +110,9 @@ export default function FinanceCreator() {
         <CustomTabPanel
           value={currentTab}
           index={1}
-        ></CustomTabPanel>
+        >
+          <IncomeTab />
+        </CustomTabPanel>
       </Stack>
     </Box>
   );
