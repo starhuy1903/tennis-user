@@ -21,6 +21,7 @@ import { TournamentPhaseOptions, defaultTournamentImage } from 'constants/tourna
 import { useLazyGetOpenTournamentDetailsQuery } from 'store/api/tournament/shared/general';
 import {
   checkTournamentRole,
+  resetTournamentDetails,
   selectTournament,
   setTournamentDetails,
   shouldRefreshTournamentData,
@@ -127,6 +128,7 @@ export default function TournamentDetailsLayout() {
 
   useEffect(() => {
     return () => {
+      dispatch(resetTournamentDetails());
       dispatch(shouldRefreshTournamentData(true));
     };
   }, [dispatch, tournamentId]);
