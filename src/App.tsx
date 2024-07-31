@@ -2,6 +2,16 @@ import { useEffect, useState } from 'react';
 import { Navigate, RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { useAppSelector } from 'store';
 
+import AdminNews from 'components/Admin/AdminNews';
+import Advertisements from 'components/Admin/Advertisements';
+import Dashboard from 'components/Admin/Dashboard';
+import Orders from 'components/Admin/Orders';
+import Packages from 'components/Admin/Packages';
+import PendingAds from 'components/Admin/PendingAds';
+import Services from 'components/Admin/Services';
+import Statistics from 'components/Admin/Statistics';
+import Usages from 'components/Admin/Usages';
+import Users from 'components/Admin/Users';
 import AddMemberToGroup from 'components/Authenticated/AddMemberToGroup';
 import AdvertisementDetails from 'components/Authenticated/AdvertisementService/AdvertisementDetails';
 import AdvertisementLayout from 'components/Authenticated/AdvertisementService/AdvertisementLayout';
@@ -26,6 +36,7 @@ import CreateTournament from 'components/Authenticated/TournamentService/CreateT
 import { tournamentDetailsRoutes } from 'components/Authenticated/TournamentService/TournamentDetails';
 import TournamentLayout from 'components/Authenticated/TournamentService/TournamentLayout';
 import CenterLoading from 'components/Common/CenterLoading';
+import AdminLayout from 'components/Common/Layout/AdminLayout';
 import AuthenticatedLayout from 'components/Common/Layout/AuthenticatedLayout';
 import UnauthenticatedLayout from 'components/Common/Layout/UnauthenticatedLayout';
 import Home from 'components/Home';
@@ -39,7 +50,7 @@ import ResetPassword from 'components/Unauthenticated/ResetPassword';
 import Signup from 'components/Unauthenticated/Signup';
 import { useGetAppConfigQuery } from 'store/api/commonApiSlice';
 import { useLazyGetProfileQuery } from 'store/api/userApiSlice';
-import { selectIsLoggedIn } from 'store/slice/userSlice';
+import { checkUserRole, selectIsLoggedIn } from 'store/slice/userSlice';
 
 import './App.css';
 
@@ -204,6 +215,59 @@ const protectedRoutes = createBrowserRouter([
   },
 ]);
 
+const adminRoutes = createBrowserRouter([
+  {
+    path: '/',
+    element: <AdminLayout />,
+    children: [
+      {
+        index: true,
+        element: <Dashboard />,
+      },
+      {
+        path: 'revenue-statistics',
+        element: <Statistics />,
+      },
+      {
+        path: 'orders',
+        element: <Orders />,
+      },
+      {
+        path: 'service-usages',
+        element: <Usages />,
+      },
+      {
+        path: 'pending-advertisements',
+        element: <PendingAds />,
+      },
+      {
+        path: 'advertisements',
+        element: <Advertisements />,
+      },
+      {
+        path: 'services',
+        element: <Services />,
+      },
+      {
+        path: 'packages',
+        element: <Packages />,
+      },
+      {
+        path: 'news',
+        element: <AdminNews />,
+      },
+      {
+        path: 'users',
+        element: <Users />,
+      },
+    ],
+  },
+  {
+    path: '*',
+    element: <Navigate to={`/`} />,
+  },
+]);
+
 const publicRoutes = createBrowserRouter([
   {
     path: '/',
@@ -244,6 +308,8 @@ function App() {
   const { isLoading: fetchingAppConfig } = useGetAppConfigQuery();
   const [initialized, setInitialized] = useState(false);
 
+  const { isAdmin } = useAppSelector(checkUserRole);
+
   useEffect(() => {
     (async () => {
       if (isLoggedIn) {
@@ -257,7 +323,9 @@ function App() {
     return <CenterLoading />;
   }
 
-  return isLoggedIn ? <RouterProvider router={protectedRoutes} /> : <RouterProvider router={publicRoutes} />;
+  const router = isLoggedIn ? (isAdmin ? adminRoutes : protectedRoutes) : publicRoutes;
+
+  return <RouterProvider router={router} />;
 }
 
 export default App;
