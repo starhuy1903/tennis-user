@@ -1,3 +1,4 @@
+// import { DevTool } from '@hookform/devtools';
 import { yupResolver } from '@hookform/resolvers/yup';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -60,7 +61,6 @@ const GroupCreate = () => {
     control,
     handleSubmit,
     formState: { isLoading, errors },
-    getValues,
     watch,
   } = useForm<FormType>({
     resolver: yupResolver(schema),
@@ -144,10 +144,16 @@ const GroupCreate = () => {
                 </Typography>
                 {validGroupPackages && validGroupPackages.length > 0 ? (
                   <Box sx={{ width: '50%', padding: '15px' }}>
-                    <PackageSelector
-                      selected={String(getValues('purchasedPackageId'))}
-                      handleSelect={() => {}}
-                      packages={validGroupPackages}
+                    <Controller
+                      control={control}
+                      name="purchasedPackageId"
+                      render={({ field: { value, onChange } }) => (
+                        <PackageSelector
+                          selected={String(value)}
+                          handleSelect={onChange}
+                          packages={validGroupPackages}
+                        />
+                      )}
                     />
                   </Box>
                 ) : (
@@ -274,6 +280,7 @@ const GroupCreate = () => {
             </>
           )}
         </Stack>
+        {/* <DevTool control={control} /> */}
       </Box>
     </>
   );

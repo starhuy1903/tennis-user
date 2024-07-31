@@ -22,9 +22,8 @@ interface PackageSelectorProps {
   packages: Array<UserPackage>;
 }
 
-const PackageSelector = ({ selected, packages }: PackageSelectorProps) => {
+const PackageSelector = ({ selected, packages, handleSelect }: PackageSelectorProps) => {
   const [open, setOpen] = useState(false);
-  const [selectedItem, setSelectedItem] = useState(selected);
 
   return (
     <>
@@ -38,7 +37,7 @@ const PackageSelector = ({ selected, packages }: PackageSelectorProps) => {
         </FormLabel>
         <Package
           selected
-          data={packages.find((e) => selectedItem === String(e.id))!}
+          data={packages.find((e) => selected === String(e.id))!}
         />
         <Button
           variant="outlined"
@@ -74,8 +73,8 @@ const PackageSelector = ({ selected, packages }: PackageSelectorProps) => {
                 xl={4}
               >
                 <Package
-                  selected={selectedItem === e.id}
-                  handleSelect={() => setSelectedItem(e.id)}
+                  selected={selected === e.id}
+                  handleSelect={() => handleSelect(e.id)}
                   data={e}
                 />
               </Grid>
