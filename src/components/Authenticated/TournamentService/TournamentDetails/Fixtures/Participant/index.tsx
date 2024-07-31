@@ -1,4 +1,4 @@
-import { Alert, Box } from '@mui/material';
+import { Alert } from '@mui/material';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppSelector } from 'store';
