@@ -3,6 +3,7 @@ import { useAppDispatch, useAppSelector } from 'store';
 import { ModalKey } from 'constants/modal';
 import { showModal } from 'store/slice/modalSlice';
 
+import AddExpense from './AddExpense';
 import AddParticipants from './AddParticipants';
 import CreatePost from './CreatePost';
 import CropImage from './CropImage';
@@ -31,6 +32,7 @@ const ModalsMap: { [modalKey: string]: any } = {
   [ModalKey.SELECT_SEED]: SelectSeed,
   [ModalKey.CREATE_POST]: CreatePost,
   [ModalKey.UPDATE_POST]: UpdatePost,
+  [ModalKey.ADD_EXPENSE]: AddExpense,
 };
 
 export function ModalContainer() {
