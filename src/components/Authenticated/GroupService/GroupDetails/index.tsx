@@ -1,5 +1,6 @@
 import CreatorGuardRoute from './CreatorGuardRoute';
 import Feeds from './Feeds';
+import Finances from './Finances';
 import GroupDetailsLayout from './GroupDetailsLayout';
 import Member from './Member';
 import UpdateGroupInformation from './UpdateGroupInformation';
@@ -20,10 +21,10 @@ export const groupDetailsRoutes = {
       path: 'members',
       element: <Member />,
     },
-    // {
-    //   path: 'tournaments',
-    //   element: <GroupTournaments />,
-    // },
+    {
+      path: 'finances',
+      element: <Finances />,
+    },
     {
       path: 'information',
       element: <CreatorGuardRoute />,

@@ -188,7 +188,11 @@ export default function Matches() {
   if (!checkGeneratedFixture(tournamentData.phase)) {
     return (
       <WrapperContainer>
-        <Alert severity="info">No information available. Please go to the Fixtures tab to generate fixtures.</Alert>
+        {isCreator ? (
+          <Alert severity="info">No information available. Please go to the Fixtures tab to generate fixtures.</Alert>
+        ) : (
+          <Alert severity="info">No information to show!</Alert>
+        )}
       </WrapperContainer>
     );
   }

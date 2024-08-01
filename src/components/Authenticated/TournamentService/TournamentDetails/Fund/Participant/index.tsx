@@ -22,7 +22,7 @@ export default function ParticipantFund() {
   const user = useAppSelector(selectUser);
 
   const { data: paymentData, isLoading: isFetchingPaymentData } = useGetPaymentInfoQuery(tournamentData.id, {
-    refetchOnMountOrArgChange: true,
+    skip: true,
   });
 
   const [userPaymentInfo, setUserPaymentInfo] = useState<UserPaymentInfoResponse | null>(null);
@@ -61,7 +61,7 @@ export default function ParticipantFund() {
   if (isFetchingPaymentData) {
     return (
       <WrapperContainer>
-        <CenterLoading />
+        <CenterLoading height="100%" />
       </WrapperContainer>
     );
   }
