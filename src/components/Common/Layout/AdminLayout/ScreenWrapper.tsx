@@ -1,59 +1,6 @@
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import { Box, Button, Typography } from '@mui/material';
-import { Link, useNavigate } from 'react-router-dom';
-
-export function ListWrapper({
-  label = '',
-  btnLabel = '',
-  btnLink = '',
-  children,
-}: {
-  label: string;
-  btnLabel?: string;
-  btnLink?: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <Box>
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-        }}
-      >
-        <Typography
-          variant="h4"
-          sx={{ mb: 2 }}
-        >
-          {label}
-        </Typography>
-        {btnLabel && btnLink && (
-          <Button
-            component={Link}
-            to={btnLink}
-            variant="contained"
-            sx={{
-              color: 'white',
-            }}
-          >
-            {btnLabel}
-          </Button>
-        )}
-      </Box>
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-        }}
-      >
-        {children}
-      </Box>
-    </Box>
-  );
-}
+import { useNavigate } from 'react-router-dom';
 
 export const BackButton = () => {
   const navigate = useNavigate();

@@ -19,7 +19,6 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import CenterLoading from 'components/Common/CenterLoading';
-import { ListWrapper } from 'components/Common/Layout/AdminLayout/ScreenWrapper';
 import { SortBy } from 'constants/app';
 import { FormatDateTime } from 'constants/datetime';
 import { useGetNewsQuery } from 'store/api/admin/newsApiSlice';
@@ -53,24 +52,30 @@ export default function AdminNews() {
   }
 
   return (
-    <ListWrapper label="Packages">
-      <Box
+    <Box
+      sx={{
+        width: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 2,
+      }}
+    >
+      <Stack
+        direction="row"
         sx={{
-          width: '100%',
           display: 'flex',
-          flexDirection: 'column',
-          gap: 2,
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          mt: 2,
         }}
       >
+        <Typography variant="h4">News</Typography>
+
         <Stack
           direction="row"
-          sx={{
-            display: 'flex',
-            justifyContent: 'flex-end',
-            gap: 2,
-          }}
+          gap={2}
         >
-          <FormControl sx={{ minWidth: 180, backgroundColor: 'white' }}>
+          <FormControl sx={{ minWidth: 120, backgroundColor: 'white' }}>
             <InputLabel id="sort-by">Sort by</InputLabel>
             <Select
               labelId="sort-by"
@@ -108,92 +113,92 @@ export default function AdminNews() {
             </Select>
           </FormControl>
         </Stack>
+      </Stack>
 
-        <TableContainer component={Paper}>
-          <Table
-            sx={{ minWidth: 650, backgroundColor: 'white' }}
-            aria-label="packages table"
-          >
-            <TableHead>
-              <TableRow>
-                {titles.map((title) => (
-                  <TableCell
-                    align="left"
-                    key={title}
-                  >
-                    {title}
+      <TableContainer component={Paper}>
+        <Table
+          sx={{ minWidth: 650, backgroundColor: 'white' }}
+          aria-label="packages table"
+        >
+          <TableHead>
+            <TableRow>
+              {titles.map((title) => (
+                <TableCell
+                  align="left"
+                  key={title}
+                >
+                  {title}
+                </TableCell>
+              ))}
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {data && data.data.length > 0 ? (
+              data.data.map((item: News) => (
+                <TableRow key={item.id}>
+                  <TableCell>{item.id}</TableCell>
+                  <TableCell>
+                    <img
+                      src={item.image}
+                      alt={item.title}
+                      style={{
+                        width: 80,
+                        height: 80,
+                        objectFit: 'cover',
+                        borderRadius: 4,
+                      }}
+                    />
                   </TableCell>
-                ))}
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {data && data.data.length > 0 ? (
-                data.data.map((item: News) => (
-                  <TableRow key={item.id}>
-                    <TableCell>{item.id}</TableCell>
-                    <TableCell>
-                      <img
-                        src={item.image}
-                        alt={item.title}
-                        style={{
-                          width: 80,
-                          height: 80,
-                          objectFit: 'cover',
-                          borderRadius: 4,
-                        }}
-                      />
-                    </TableCell>
-                    <TableCell width="30%">
-                      <Link to={`/news/${item.id}`}>
-                        <Typography
-                          variant="subtitle2"
-                          color="primary"
-                        >
-                          {item.title}
-                        </Typography>
-                      </Link>
-                    </TableCell>
-                    <TableCell>{item.author}</TableCell>
-                    <TableCell>
-                      {displayDateTime({
-                        dateTime: item.createdAt,
-                        targetFormat: FormatDateTime.DATE_AND_FULL_TIME,
-                      })}
-                    </TableCell>
-                    <TableCell>
-                      {displayDateTime({
-                        dateTime: item.createdAt,
-                        targetFormat: FormatDateTime.DATE_AND_FULL_TIME,
-                      })}
-                    </TableCell>
-                  </TableRow>
-                ))
-              ) : (
-                <TableRow>
-                  <TableCell
-                    align="center"
-                    colSpan={9}
-                  >
-                    No results
+                  <TableCell width="30%">
+                    <Link to={`/news/${item.id}`}>
+                      <Typography
+                        variant="subtitle2"
+                        color="primary"
+                      >
+                        {item.title}
+                      </Typography>
+                    </Link>
+                  </TableCell>
+                  <TableCell>{item.author}</TableCell>
+                  <TableCell>
+                    {displayDateTime({
+                      dateTime: item.createdAt,
+                      targetFormat: FormatDateTime.DATE_AND_FULL_TIME,
+                    })}
+                  </TableCell>
+                  <TableCell>
+                    {displayDateTime({
+                      dateTime: item.createdAt,
+                      targetFormat: FormatDateTime.DATE_AND_FULL_TIME,
+                    })}
                   </TableCell>
                 </TableRow>
-              )}
-            </TableBody>
-          </Table>
-        </TableContainer>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell
+                  align="center"
+                  colSpan={9}
+                >
+                  No results
+                </TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+      </TableContainer>
 
-        <Pagination
-          count={data?.totalPages || 1}
-          page={page}
-          onChange={(_, value) => setPage(value)}
-          color="primary"
-          sx={{
-            display: 'flex',
-            justifyContent: 'center',
-            gap: 2,
-          }}
-        />
-      </Box>
-    </ListWrapper>
+      <Pagination
+        count={data?.totalPages || 1}
+        page={page}
+        onChange={(_, value) => setPage(value)}
+        color="primary"
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          gap: 2,
+        }}
+      />
+    </Box>
   );
 }

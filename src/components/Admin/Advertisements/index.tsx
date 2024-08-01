@@ -21,7 +21,6 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import CenterLoading from 'components/Common/CenterLoading';
-import { ListWrapper } from 'components/Common/Layout/AdminLayout/ScreenWrapper';
 import { AdvertisementStatus, AdvertisementStatusChip } from 'constants/advertisement';
 import { SortBy } from 'constants/app';
 import { FormatDateTime } from 'constants/datetime';
@@ -58,22 +57,28 @@ export default function Advertisements() {
   }
 
   return (
-    <ListWrapper label="Advertisements">
-      <Box
+    <Box
+      sx={{
+        width: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 2,
+      }}
+    >
+      <Stack
+        direction="row"
         sx={{
-          width: '100%',
           display: 'flex',
-          flexDirection: 'column',
-          gap: 2,
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          mt: 2,
         }}
       >
+        <Typography variant="h4">Advertisements</Typography>
+
         <Stack
           direction="row"
-          sx={{
-            display: 'flex',
-            justifyContent: 'flex-end',
-            gap: 2,
-          }}
+          gap={2}
         >
           <FormControl sx={{ minWidth: 120, backgroundColor: 'white' }}>
             <InputLabel id="status">Status</InputLabel>
@@ -133,100 +138,100 @@ export default function Advertisements() {
             </Select>
           </FormControl>
         </Stack>
+      </Stack>
 
-        <TableContainer component={Paper}>
-          <Table
-            sx={{ minWidth: 650, backgroundColor: 'white' }}
-            aria-label="packages table"
-          >
-            <TableHead>
-              <TableRow>
-                {titles.map((title) => (
-                  <TableCell
-                    align="left"
-                    key={title}
-                  >
-                    {title}
-                  </TableCell>
-                ))}
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {data && data.data.length > 0 ? (
-                data.data.map((item: Advertisement) => (
-                  <TableRow key={item.id}>
-                    <TableCell width="30%">
-                      <Link to={`/advertisements/${item.id}`}>
-                        <Typography
-                          variant="subtitle2"
-                          color="primary"
-                        >
-                          {item.title}
-                        </Typography>
-                      </Link>
-                    </TableCell>
-                    <TableCell>
-                      <Stack
-                        direction="row"
-                        gap={2}
+      <TableContainer component={Paper}>
+        <Table
+          sx={{ minWidth: 650, backgroundColor: 'white' }}
+          aria-label="packages table"
+        >
+          <TableHead>
+            <TableRow>
+              {titles.map((title) => (
+                <TableCell
+                  align="left"
+                  key={title}
+                >
+                  {title}
+                </TableCell>
+              ))}
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {data && data.data.length > 0 ? (
+              data.data.map((item: Advertisement) => (
+                <TableRow key={item.id}>
+                  <TableCell width="30%">
+                    <Link to={`/advertisements/${item.id}`}>
+                      <Typography
+                        variant="subtitle2"
+                        color="primary"
                       >
-                        <Avatar
-                          alt={item.user.name}
-                          src={item.user.image}
-                          sx={{ width: 24, height: 24 }}
-                        />
-                        {item.user.name}
-                      </Stack>
-                    </TableCell>
-                    <TableCell>
-                      <Chip
-                        label={AdvertisementStatusChip[item.status].label}
-                        color={AdvertisementStatusChip[item.status].color}
-                        sx={{
-                          color: 'white',
-                        }}
+                        {item.title}
+                      </Typography>
+                    </Link>
+                  </TableCell>
+                  <TableCell>
+                    <Stack
+                      direction="row"
+                      gap={2}
+                    >
+                      <Avatar
+                        alt={item.user.name}
+                        src={item.user.image}
+                        sx={{ width: 24, height: 24 }}
                       />
-                    </TableCell>
-                    <TableCell>
-                      {displayDateTime({
-                        dateTime: item.createdAt,
-                        targetFormat: FormatDateTime.DATE_AND_FULL_TIME,
-                      })}
-                    </TableCell>
-                    <TableCell>
-                      {displayDateTime({
-                        dateTime: item.createdAt,
-                        targetFormat: FormatDateTime.DATE_AND_FULL_TIME,
-                      })}
-                    </TableCell>
-                  </TableRow>
-                ))
-              ) : (
-                <TableRow>
-                  <TableCell
-                    align="center"
-                    colSpan={9}
-                  >
-                    No results
+                      {item.user.name}
+                    </Stack>
+                  </TableCell>
+                  <TableCell>
+                    <Chip
+                      label={AdvertisementStatusChip[item.status].label}
+                      color={AdvertisementStatusChip[item.status].color}
+                      sx={{
+                        color: 'white',
+                      }}
+                    />
+                  </TableCell>
+                  <TableCell>
+                    {displayDateTime({
+                      dateTime: item.createdAt,
+                      targetFormat: FormatDateTime.DATE_AND_FULL_TIME,
+                    })}
+                  </TableCell>
+                  <TableCell>
+                    {displayDateTime({
+                      dateTime: item.createdAt,
+                      targetFormat: FormatDateTime.DATE_AND_FULL_TIME,
+                    })}
                   </TableCell>
                 </TableRow>
-              )}
-            </TableBody>
-          </Table>
-        </TableContainer>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell
+                  align="center"
+                  colSpan={9}
+                >
+                  No results
+                </TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+      </TableContainer>
 
-        <Pagination
-          count={data?.totalPages || 1}
-          page={page}
-          onChange={(_, value) => setPage(value)}
-          color="primary"
-          sx={{
-            display: 'flex',
-            justifyContent: 'center',
-            gap: 2,
-          }}
-        />
-      </Box>
-    </ListWrapper>
+      <Pagination
+        count={data?.totalPages || 1}
+        page={page}
+        onChange={(_, value) => setPage(value)}
+        color="primary"
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          gap: 2,
+        }}
+      />
+    </Box>
   );
 }
