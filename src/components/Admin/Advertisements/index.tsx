@@ -17,6 +17,7 @@ import {
   TableRow,
 } from '@mui/material';
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 import CenterLoading from 'components/Common/CenterLoading';
 import { ListWrapper } from 'components/Common/Layout/AdminLayout/ScreenWrapper';
@@ -27,7 +28,7 @@ import { useGetAdvertisementsQuery } from 'store/api/admin/advertisementApiSlice
 import { Advertisement } from 'types/advertisement';
 import { displayDateTime } from 'utils/datetime';
 
-const titles = ['Title', 'Affiliate', 'Status', 'Created At', 'Updated At', 'Actions'];
+const titles = ['Title', 'Affiliate', 'Status', 'Created At', 'Updated At'];
 
 export default function Advertisements() {
   const [page, setPage] = useState<number>(1);
@@ -153,7 +154,9 @@ export default function Advertisements() {
               {data && data.data.length > 0 ? (
                 data.data.map((item: Advertisement) => (
                   <TableRow key={item.id}>
-                    <TableCell width="30%">{item.title}</TableCell>
+                    <TableCell width="30%">
+                      <Link to={`/advertisements/${item.id}`}>{item.title}</Link>
+                    </TableCell>
                     <TableCell>
                       <Stack
                         direction="row"
@@ -169,15 +172,6 @@ export default function Advertisements() {
                     </TableCell>
                     <TableCell>
                       <Chip
-                        // icon={
-                        //   item.status === AdvertisementStatus.PENDING ? (
-                        //     <PendingActionsIcon />
-                        //   ) : item.status === AdvertisementStatus.APPROVED ? (
-                        //     <CheckCircleOutlineIcon />
-                        //   ) : (
-                        //     <RemoveCircleOutlineIcon />
-                        //   )
-                        // }
                         label={AdvertisementStatusChip[item.status].label}
                         color={AdvertisementStatusChip[item.status].color}
                         sx={{
@@ -196,17 +190,6 @@ export default function Advertisements() {
                         dateTime: item.createdAt,
                         targetFormat: FormatDateTime.DATE_AND_FULL_TIME,
                       })}
-                    </TableCell>
-                    <TableCell>
-                      <Box
-                        sx={{
-                          display: 'flex',
-                          gap: 2,
-                        }}
-                      >
-                        {/* <Info link={`/locations/${location?.id}`} />
-                       <Edit link={`/locations/${location?.id}/edit`} /> */}
-                      </Box>
                     </TableCell>
                   </TableRow>
                 ))

@@ -3,6 +3,7 @@ import { Navigate, RouterProvider, createBrowserRouter } from 'react-router-dom'
 import { useAppSelector } from 'store';
 
 import AdminNews from 'components/Admin/AdminNews';
+import AdminAdvertisementDetails from 'components/Admin/AdvertisementDetails';
 import Advertisements from 'components/Admin/Advertisements';
 import Dashboard from 'components/Admin/Dashboard';
 import Orders from 'components/Admin/Orders';
@@ -242,7 +243,16 @@ const adminRoutes = createBrowserRouter([
       },
       {
         path: 'advertisements',
-        element: <Advertisements />,
+        children: [
+          {
+            index: true,
+            element: <Advertisements />,
+          },
+          {
+            path: ':adsId',
+            element: <AdminAdvertisementDetails />,
+          },
+        ],
       },
       {
         path: 'services',
