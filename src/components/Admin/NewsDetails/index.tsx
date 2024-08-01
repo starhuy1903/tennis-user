@@ -49,9 +49,12 @@ export default function AdminNewsDetails() {
   const [deleteNews] = useDeleteNewsMutation();
 
   const handleDeleteNews = useCallback(() => {
+    if (!news) {
+      return;
+    }
     confirm({
       title: 'Confirm delete news',
-      description: `Are you sure you want to delete "${news?.title}" news? This action cannot be undone.`,
+      description: `Are you sure you want to delete "${news.title}" news? This action cannot be undone.`,
       confirmationText: 'Delete',
       confirmationButtonProps: {
         color: 'error',

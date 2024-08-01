@@ -1,5 +1,13 @@
 import { BaseType } from './base';
 
+export type News = BaseType & {
+  title: string;
+  image: string;
+  description: string;
+  content: string;
+  author: string;
+};
+
 export type UpdateNewsDto = {
   title?: string;
   image?: string;
@@ -7,5 +15,3 @@ export type UpdateNewsDto = {
   content?: string;
   author?: string;
 };
-
-export type News = BaseType & UpdateNewsDto;
