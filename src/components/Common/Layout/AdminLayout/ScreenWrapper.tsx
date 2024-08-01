@@ -77,8 +77,11 @@ export function DetailWrapper({ label = '', children }: { label?: string; childr
     <Box>
       <BackButton />
       <Typography
-        variant="h4"
+        variant="h5"
+        color="green"
+        fontWeight={500}
         sx={{ my: 2 }}
+        noWrap
       >
         {label}
       </Typography>

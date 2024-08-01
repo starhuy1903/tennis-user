@@ -15,6 +15,7 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  Typography,
 } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -155,7 +156,14 @@ export default function Advertisements() {
                 data.data.map((item: Advertisement) => (
                   <TableRow key={item.id}>
                     <TableCell width="30%">
-                      <Link to={`/advertisements/${item.id}`}>{item.title}</Link>
+                      <Link to={`/advertisements/${item.id}`}>
+                        <Typography
+                          variant="subtitle2"
+                          color="primary"
+                        >
+                          {item.title}
+                        </Typography>
+                      </Link>
                     </TableCell>
                     <TableCell>
                       <Stack

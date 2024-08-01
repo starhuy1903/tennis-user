@@ -19,6 +19,7 @@ import {
   TableHead,
   TableRow,
   Tooltip,
+  Typography,
 } from '@mui/material';
 import { useCallback, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -156,7 +157,14 @@ export default function PendingAds() {
                 data.data.map((item: Advertisement) => (
                   <TableRow key={item.id}>
                     <TableCell width="30%">
-                      <Link to={`/advertisements/${item.id}`}>{item.title}</Link>
+                      <Link to={`/advertisements/${item.id}`}>
+                        <Typography
+                          variant="subtitle2"
+                          color="primary"
+                        >
+                          {item.title}
+                        </Typography>
+                      </Link>
                     </TableCell>
                     <TableCell>
                       <Stack

@@ -2,10 +2,11 @@ import { useEffect, useState } from 'react';
 import { Navigate, RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { useAppSelector } from 'store';
 
-import AdminNews from 'components/Admin/AdminNews';
 import AdminAdvertisementDetails from 'components/Admin/AdvertisementDetails';
 import Advertisements from 'components/Admin/Advertisements';
 import Dashboard from 'components/Admin/Dashboard';
+import AdminNews from 'components/Admin/News';
+import AdminNewsDetails from 'components/Admin/NewsDetails';
 import Orders from 'components/Admin/Orders';
 import Packages from 'components/Admin/Packages';
 import PendingAds from 'components/Admin/PendingAds';
@@ -45,7 +46,7 @@ import AboutUs from 'components/Unauthenticated/AboutUs';
 import ForgotPassword from 'components/Unauthenticated/ForgotPassword';
 import Login from 'components/Unauthenticated/Login';
 import News from 'components/Unauthenticated/News';
-import NewsDetail from 'components/Unauthenticated/News/NewsDetail';
+import NewsDetails from 'components/Unauthenticated/News/NewsDetails';
 import Pricing from 'components/Unauthenticated/Pricing';
 import ResetPassword from 'components/Unauthenticated/ResetPassword';
 import Signup from 'components/Unauthenticated/Signup';
@@ -62,7 +63,7 @@ const sharedRoutes = [
   },
   {
     path: 'news/:id',
-    element: <NewsDetail />,
+    element: <NewsDetails />,
   },
   {
     path: 'pricing',
@@ -249,7 +250,7 @@ const adminRoutes = createBrowserRouter([
             element: <Advertisements />,
           },
           {
-            path: ':adsId',
+            path: ':id',
             element: <AdminAdvertisementDetails />,
           },
         ],
@@ -264,7 +265,16 @@ const adminRoutes = createBrowserRouter([
       },
       {
         path: 'news',
-        element: <AdminNews />,
+        children: [
+          {
+            index: true,
+            element: <AdminNews />,
+          },
+          {
+            path: ':id',
+            element: <AdminNewsDetails />,
+          },
+        ],
       },
       {
         path: 'users',

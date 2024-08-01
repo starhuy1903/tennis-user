@@ -13,8 +13,10 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  Typography,
 } from '@mui/material';
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 import CenterLoading from 'components/Common/CenterLoading';
 import { ListWrapper } from 'components/Common/Layout/AdminLayout/ScreenWrapper';
@@ -129,7 +131,16 @@ export default function AdminNews() {
                 data.data.map((item: News) => (
                   <TableRow key={item.id}>
                     <TableCell>{item.id}</TableCell>
-                    <TableCell width="30%">{item.title}</TableCell>
+                    <TableCell width="30%">
+                      <Link to={`/news/${item.id}`}>
+                        <Typography
+                          variant="subtitle2"
+                          color="primary"
+                        >
+                          {item.title}
+                        </Typography>
+                      </Link>
+                    </TableCell>
                     <TableCell>{item.author}</TableCell>
                     <TableCell>
                       {displayDateTime({

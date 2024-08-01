@@ -12,7 +12,7 @@ import { useLazyGetNewsByIdQuery } from 'store/api/unauthenticated/newsApiSlice'
 import { News } from 'types/news';
 import { displayDateTime } from 'utils/datetime';
 
-export default function NewsDetail() {
+export default function NewsDetails() {
   const navigate = useNavigate();
 
   const [news, setNews] = useState<News | null>(null);

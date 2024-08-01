@@ -23,7 +23,7 @@ export default function AdminAdvertisementDetails() {
   const navigate = useNavigate();
 
   const [advertisement, setAdvertisement] = useState<Advertisement | null>(null);
-  const { adsId } = useParams<{ adsId: string }>();
+  const { id } = useParams<{ id: string }>();
 
   const [getAdvertisement, { isLoading }] = useLazyGetAdvertisementByIdQuery();
 
@@ -33,35 +33,35 @@ export default function AdminAdvertisementDetails() {
   }, [navigate]);
 
   useEffect(() => {
-    if (!adsId) {
+    if (!id) {
       handleInvalidRequest();
       return;
     }
 
     (async () => {
       try {
-        const res = await getAdvertisement(adsId!).unwrap();
+        const res = await getAdvertisement(id!).unwrap();
         setAdvertisement(res);
       } catch (error) {
         console.log(error);
         handleInvalidRequest();
       }
     })();
-  }, [getAdvertisement, handleInvalidRequest, adsId]);
+  }, [getAdvertisement, handleInvalidRequest, id]);
 
   const [updateAdvertisement, { isLoading: isUpdateLoading }] = useUpdateAdvertisementMutation();
 
   const handleApprove = useCallback(
-    async (id: string) => {
-      const res = await updateAdvertisement({ id, status: AdvertisementStatus.APPROVED }).unwrap();
+    async (adsId: string) => {
+      const res = await updateAdvertisement({ id: adsId, status: AdvertisementStatus.APPROVED }).unwrap();
       setAdvertisement(res);
     },
     [updateAdvertisement]
   );
 
   const handleReject = useCallback(
-    async (id: string) => {
-      const res = await updateAdvertisement({ id, status: AdvertisementStatus.REJECTED }).unwrap();
+    async (adsId: string) => {
+      const res = await updateAdvertisement({ id: adsId, status: AdvertisementStatus.REJECTED }).unwrap();
       setAdvertisement(res);
     },
     [updateAdvertisement]
@@ -81,7 +81,7 @@ export default function AdminAdvertisementDetails() {
           justifyContent: 'space-between',
         }}
       >
-        Advertisement
+        Advertisement Details
         <Box
           sx={{
             display: 'flex',
@@ -144,7 +144,7 @@ export default function AdminAdvertisementDetails() {
       >
         <ReadOnlyTextField
           label="ID"
-          value={advertisement?.id}
+          value={advertisement.id}
         />
 
         <ReadOnlyTextField
@@ -173,18 +173,18 @@ export default function AdminAdvertisementDetails() {
       >
         <ReadOnlyTextField
           label="Title"
-          value={advertisement?.title}
+          value={advertisement.title}
         />
 
         <ReadOnlyTextField
           label="Website"
-          value={advertisement?.website || 'N/A'}
+          value={advertisement.website || 'N/A'}
         />
       </Stack>
 
       <TextField
         label="Content"
-        value={advertisement?.content}
+        value={advertisement.content}
         multiline
         rows={4}
         fullWidth
@@ -208,17 +208,17 @@ export default function AdminAdvertisementDetails() {
       >
         <ReadOnlyTextField
           label="Name"
-          value={advertisement?.user?.name}
+          value={advertisement.user.name}
         />
 
         <ReadOnlyTextField
           label="Email"
-          value={advertisement?.user?.email}
+          value={advertisement.user.email}
         />
 
         <ReadOnlyTextField
           label="Website"
-          value={advertisement?.user?.phoneNumber}
+          value={advertisement.user.phoneNumber}
         />
       </Stack>
     </DetailWrapper>
