@@ -26,7 +26,7 @@ import { useGetNewsQuery } from 'store/api/admin/newsApiSlice';
 import { News } from 'types/news';
 import { displayDateTime } from 'utils/datetime';
 
-const titles = ['ID', 'Title', 'Author', 'Created At', 'Updated At', 'Actions'];
+const titles = ['ID', 'Image', 'Title', 'Author', 'Created At', 'Updated At'];
 
 export default function AdminNews() {
   const [page, setPage] = useState<number>(1);
@@ -118,7 +118,7 @@ export default function AdminNews() {
               <TableRow>
                 {titles.map((title) => (
                   <TableCell
-                    align="center"
+                    align="left"
                     key={title}
                   >
                     {title}
@@ -131,6 +131,18 @@ export default function AdminNews() {
                 data.data.map((item: News) => (
                   <TableRow key={item.id}>
                     <TableCell>{item.id}</TableCell>
+                    <TableCell>
+                      <img
+                        src={item.image}
+                        alt={item.title}
+                        style={{
+                          width: 80,
+                          height: 80,
+                          objectFit: 'cover',
+                          borderRadius: 4,
+                        }}
+                      />
+                    </TableCell>
                     <TableCell width="30%">
                       <Link to={`/news/${item.id}`}>
                         <Typography
@@ -153,17 +165,6 @@ export default function AdminNews() {
                         dateTime: item.createdAt,
                         targetFormat: FormatDateTime.DATE_AND_FULL_TIME,
                       })}
-                    </TableCell>
-                    <TableCell>
-                      <Box
-                        sx={{
-                          display: 'flex',
-                          gap: 2,
-                        }}
-                      >
-                        {/* <Info link={`/locations/${location?.id}`} />
-                       <Edit link={`/locations/${location?.id}/edit`} /> */}
-                      </Box>
                     </TableCell>
                   </TableRow>
                 ))

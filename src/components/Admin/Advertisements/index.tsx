@@ -143,7 +143,7 @@ export default function Advertisements() {
               <TableRow>
                 {titles.map((title) => (
                   <TableCell
-                    align="center"
+                    align="left"
                     key={title}
                   >
                     {title}

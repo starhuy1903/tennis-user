@@ -1,6 +1,7 @@
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import { Box, Fab, Stack, TextField, Tooltip, Typography } from '@mui/material';
+import { useConfirm } from 'material-ui-confirm';
 import { useCallback, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
@@ -8,12 +9,15 @@ import CenterLoading from 'components/Common/CenterLoading';
 import { ImageListField, ReadOnlyTextField } from 'components/Common/FormComponents';
 import { DetailWrapper } from 'components/Common/Layout/AdminLayout/ScreenWrapper';
 import { FormatDateTime } from 'constants/datetime';
+import { useDeleteNewsMutation } from 'store/api/admin/newsApiSlice';
 import { useLazyGetNewsByIdQuery } from 'store/api/unauthenticated/newsApiSlice';
 import { News } from 'types/news';
 import { displayDateTime } from 'utils/datetime';
+import { showSuccess } from 'utils/toast';
 
 export default function AdminNewsDetails() {
   const navigate = useNavigate();
+  const confirm = useConfirm();
 
   const [news, setNews] = useState<News | null>(null);
   const { id } = useParams<{ id: string }>();
@@ -41,6 +45,29 @@ export default function AdminNewsDetails() {
       }
     })();
   }, [getNews, handleInvalidRequest, id]);
+
+  const [deleteNews] = useDeleteNewsMutation();
+
+  const handleDeleteNews = useCallback(() => {
+    confirm({
+      title: 'Confirm delete news',
+      description: `Are you sure you want to delete "${news?.title}" news? This action cannot be undone.`,
+      confirmationText: 'Delete',
+      confirmationButtonProps: {
+        color: 'error',
+      },
+    }).then(async () => {
+      try {
+        await deleteNews(news!.id).unwrap();
+
+        showSuccess('Deleted post successfully.');
+
+        navigate('/news', { replace: true });
+      } catch (error) {
+        // handled error
+      }
+    });
+  }, [confirm, deleteNews, navigate, news]);
 
   if (isLoading || !news) {
     return <CenterLoading />;
@@ -75,6 +102,7 @@ export default function AdminNewsDetails() {
               color="error"
               aria-label="delete"
               size="small"
+              onClick={handleDeleteNews}
             >
               <DeleteIcon />
             </Fab>
