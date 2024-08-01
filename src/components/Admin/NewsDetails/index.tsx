@@ -1,4 +1,6 @@
-import { Stack, TextField, Typography } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
+import { Box, Fab, Stack, TextField, Tooltip, Typography } from '@mui/material';
 import { useCallback, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
@@ -55,6 +57,29 @@ export default function AdminNewsDetails() {
         }}
       >
         News Details
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+          <Tooltip title="Edit">
+            <Fab
+              color="primary"
+              aria-label="edit"
+              size="small"
+              onClick={() => {
+                navigate(`/news/${news.id}/edit`);
+              }}
+            >
+              <EditIcon />
+            </Fab>
+          </Tooltip>
+          <Tooltip title="Delete">
+            <Fab
+              color="error"
+              aria-label="delete"
+              size="small"
+            >
+              <DeleteIcon />
+            </Fab>
+          </Tooltip>
+        </Box>
       </Typography>
 
       <Stack
@@ -140,7 +165,7 @@ export default function AdminNewsDetails() {
 
       <ImageListField
         label="Image"
-        images={[news?.image]}
+        images={[news?.image ?? '']}
       />
     </DetailWrapper>
   );
