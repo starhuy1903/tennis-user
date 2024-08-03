@@ -39,7 +39,7 @@ const titles = ['Title', 'Affiliate', 'Status', 'Created At', 'Updated At', 'Act
 
 export default function PendingAds() {
   const [page, setPage] = useState<number>(1);
-  const [take, setTake] = useState<number>(5);
+  const [take, setTake] = useState<number>(10);
   const [sortBy, setSortBy] = useState<SortBy>(SortBy.DESC);
 
   const { data, isLoading, refetch } = useGetAdvertisementsAdminQuery(

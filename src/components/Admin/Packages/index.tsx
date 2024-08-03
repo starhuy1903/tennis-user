@@ -31,7 +31,7 @@ const titles = ['ID', 'Name', 'Type', 'Duration', 'Price', 'Created At', 'Update
 
 export default function Packages() {
   const [page, setPage] = useState<number>(1);
-  const [take, setTake] = useState<number>(5);
+  const [take, setTake] = useState<number>(10);
   const [sortBy, setSortBy] = useState<SortBy>(SortBy.DESC);
   const [type, setType] = useState<PackageType | 'All'>('All');
 

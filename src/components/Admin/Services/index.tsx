@@ -30,7 +30,7 @@ const titles = ['ID', 'Name', 'Type', 'Level', 'Created At', 'Updated At'];
 
 export default function Services() {
   const [page, setPage] = useState<number>(1);
-  const [take, setTake] = useState<number>(5);
+  const [take, setTake] = useState<number>(10);
   const [sortBy, setSortBy] = useState<SortBy>(SortBy.DESC);
   const [type, setType] = useState<ServiceType | 'All'>('All');
   const [level, setLevel] = useState<ServiceLevel | 'All'>('All');

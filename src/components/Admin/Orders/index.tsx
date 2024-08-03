@@ -33,7 +33,7 @@ const titles = ['ID', 'User', 'Total Price', 'Status', 'Created at', 'Updated at
 
 export default function Orders() {
   const [page, setPage] = useState<number>(1);
-  const [take, setTake] = useState<number>(5);
+  const [take, setTake] = useState<number>(10);
   const [sortBy, setSortBy] = useState<SortBy>(SortBy.DESC);
   const [status, setStatus] = useState<OrderStatus | 'All'>('All');
 
