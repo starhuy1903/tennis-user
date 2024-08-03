@@ -11,7 +11,7 @@ export const OrderStatusChip: {
   };
 } = {
   [OrderStatus.NEW]: {
-    label: 'New',
+    label: 'Waiting for payment',
     color: 'info',
   },
   [OrderStatus.COMPLETED]: {
@@ -22,6 +22,18 @@ export const OrderStatusChip: {
     label: 'Cancelled',
     color: 'error',
   },
+};
+
+export enum OrderType {
+  CREATE = 'create',
+  RENEW = 'renew',
+  UPGRADE = 'upgrade',
+}
+
+export const OrderTypeOptions = {
+  [OrderType.CREATE]: 'Buy New Package',
+  [OrderType.RENEW]: 'Renew Package',
+  [OrderType.UPGRADE]: 'Upgrade Package',
 };
 
 export const OrderStatusOptions = {

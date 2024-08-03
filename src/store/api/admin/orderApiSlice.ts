@@ -26,7 +26,7 @@ const orderAdminApiToastSlice = apiWithToastSlice.injectEndpoints({
       }),
     }),
     getOrderByIdAdmin: build.query<Order, string>({
-      query: (orderId) => urlWithCorePrefix(`orders/admin/${orderId}`),
+      query: (orderId) => urlWithCorePrefix(`orders/${orderId}`),
     }),
   }),
 });

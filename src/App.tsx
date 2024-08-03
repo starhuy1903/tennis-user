@@ -8,6 +8,7 @@ import Dashboard from 'components/Admin/Dashboard';
 import AdminNews from 'components/Admin/News';
 import AdminNewsDetails from 'components/Admin/NewsDetails';
 import NewsEditing from 'components/Admin/NewsEditing';
+import AdminOrderDetails from 'components/Admin/OrderDetails';
 import Orders from 'components/Admin/Orders';
 import Packages from 'components/Admin/Packages';
 import PendingAds from 'components/Admin/PendingAds';
@@ -233,7 +234,16 @@ const adminRoutes = createBrowserRouter([
       },
       {
         path: 'orders',
-        element: <Orders />,
+        children: [
+          {
+            index: true,
+            element: <Orders />,
+          },
+          {
+            path: ':id',
+            element: <AdminOrderDetails />,
+          },
+        ],
       },
       {
         path: 'service-usages',

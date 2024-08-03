@@ -217,7 +217,7 @@ export default function AdminAdvertisementDetails() {
         />
 
         <ReadOnlyTextField
-          label="Website"
+          label="Phone Number"
           value={advertisement.user.phoneNumber}
         />
       </Stack>
