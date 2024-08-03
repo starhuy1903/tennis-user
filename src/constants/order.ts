@@ -4,6 +4,26 @@ export enum OrderStatus {
   CANCELLED = 'cancelled',
 }
 
+export const OrderStatusChip: {
+  [key in OrderStatus]: {
+    label: string;
+    color: 'default' | 'primary' | 'secondary' | 'info' | 'success' | 'warning' | 'error';
+  };
+} = {
+  [OrderStatus.NEW]: {
+    label: 'New',
+    color: 'info',
+  },
+  [OrderStatus.COMPLETED]: {
+    label: 'Completed',
+    color: 'success',
+  },
+  [OrderStatus.CANCELLED]: {
+    label: 'Cancelled',
+    color: 'error',
+  },
+};
+
 export const OrderStatusOptions = {
   [OrderStatus.NEW]: 'New',
   [OrderStatus.COMPLETED]: 'Completed',
