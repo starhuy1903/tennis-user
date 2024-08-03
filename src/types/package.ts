@@ -12,6 +12,7 @@ export type GroupService = BaseService & {
   config: {
     maxGroups: number;
     used: number;
+    maxMembers: number;
   };
 };
 

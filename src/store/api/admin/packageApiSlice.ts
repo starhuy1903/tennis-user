@@ -22,7 +22,17 @@ const packageAdminApiToastSlice = apiWithToastSlice.injectEndpoints({
         },
       }),
     }),
+    getPackageByIdAdmin: build.query<Package, string>({
+      query: (id) => ({
+        url: urlWithCorePrefix(`packages/${id}`),
+      }),
+    }),
   }),
 });
 
-export const { useGetPackagesAdminQuery, useLazyGetPackagesAdminQuery } = packageAdminApiToastSlice;
+export const {
+  useGetPackagesAdminQuery,
+  useLazyGetPackagesAdminQuery,
+  useGetPackageByIdAdminQuery,
+  useLazyGetPackageByIdAdminQuery,
+} = packageAdminApiToastSlice;
