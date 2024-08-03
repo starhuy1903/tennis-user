@@ -43,6 +43,8 @@ export type Package = {
   features: string[];
   services: Service[];
   type: PackageType;
+  createdAt: string;
+  updatedAt: string;
 };
 
 export type UserPackage = {
