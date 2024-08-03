@@ -156,7 +156,7 @@ export default function PendingAds() {
               {data && data.data.length > 0 ? (
                 data.data.map((item: Advertisement) => (
                   <TableRow key={item.id}>
-                    <TableCell width="30%">
+                    <TableCell width="20%">
                       <Link to={`/advertisements/${item.id}`}>
                         <Typography
                           variant="subtitle2"
@@ -167,17 +167,25 @@ export default function PendingAds() {
                       </Link>
                     </TableCell>
                     <TableCell>
-                      <Stack
-                        direction="row"
-                        gap={2}
-                      >
-                        <Avatar
-                          alt={item.user.name}
-                          src={item.user.image}
-                          sx={{ width: 24, height: 24 }}
-                        />
-                        {item.user.name}
-                      </Stack>
+                      <Link to={`/users/${item?.user?.id}`}>
+                        <Stack
+                          direction="row"
+                          alignItems="center"
+                          gap={2}
+                        >
+                          <Avatar
+                            alt={item?.user?.name}
+                            src={item?.user?.image}
+                            sx={{ width: 30, height: 30 }}
+                          />
+                          <Typography
+                            variant="subtitle2"
+                            color="primary"
+                          >
+                            {item?.user?.name}
+                          </Typography>
+                        </Stack>
+                      </Link>
                     </TableCell>
                     <TableCell>
                       <Chip

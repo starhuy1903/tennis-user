@@ -1,5 +1,6 @@
 import {
   Box,
+  Chip,
   MenuItem,
   Pagination,
   Paper,
@@ -11,7 +12,6 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  Typography,
 } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -21,7 +21,7 @@ import CenterLoading from 'components/Common/CenterLoading';
 import NoData from 'components/Common/NoData';
 import { FormatDateTime } from 'constants/datetime';
 import { ModalKey } from 'constants/modal';
-import { OrderStatus, OrderStatusOptions } from 'constants/order';
+import { OrderStatus, OrderStatusChip, OrderStatusOptions } from 'constants/order';
 import { useGetOrdersQuery } from 'store/api/order/orderApiSlice';
 import { showModal } from 'store/slice/modalSlice';
 import { displayDateTime } from 'utils/datetime';
@@ -34,48 +34,6 @@ const formatDateTime = (dateTime: string) => {
     dateTime,
     targetFormat: FormatDateTime.DATE_AND_FULL_TIME,
   });
-};
-
-const Badge = ({ color, text }: { color: string; text: string }) => (
-  <Typography
-    sx={{
-      color: 'white',
-      fontWeight: 500,
-      backgroundColor: color,
-      borderRadius: '5px',
-      padding: '5px',
-    }}
-  >
-    {text}
-  </Typography>
-);
-
-const OrderStatusBadge = ({ status }: { status: OrderStatus }) => {
-  switch (status) {
-    case OrderStatus.NEW:
-      return (
-        <Badge
-          color="#378CE7"
-          text={OrderStatusOptions[OrderStatus.NEW]}
-        />
-      );
-    case OrderStatus.COMPLETED:
-      return (
-        <Badge
-          color="#75A47F"
-          text={OrderStatusOptions[OrderStatus.COMPLETED]}
-        />
-      );
-    case OrderStatus.CANCELLED:
-      return (
-        <Badge
-          color="#F7418F"
-          text={OrderStatusOptions[OrderStatus.CANCELLED]}
-        />
-      );
-    default:
-      return null;
-  }
 };
 
 export default function PaymentSection() {
@@ -164,7 +122,13 @@ export default function PaymentSection() {
                     <TableCell align="center">{order.id}</TableCell>
                     <TableCell align="center">{displayCurrency(order.price)}</TableCell>
                     <TableCell align="center">
-                      <OrderStatusBadge status={order.status} />
+                      <Chip
+                        label={OrderStatusChip[order.status].label}
+                        color={OrderStatusChip[order.status].color}
+                        sx={{
+                          color: 'white',
+                        }}
+                      />
                     </TableCell>
                     <TableCell align="center">{formatDateTime(order.createdAt)}</TableCell>
                     <TableCell align="center">{formatDateTime(order.updatedAt)}</TableCell>
