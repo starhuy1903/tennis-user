@@ -1,3 +1,4 @@
+import { PackageType } from 'constants/package';
 import { ServiceLevel, ServiceType } from 'constants/service';
 
 type BaseService = {
@@ -32,13 +33,6 @@ export type AdvertisementService = BaseService & {
 
 export type Service = GroupService | TournamentService | AdvertisementService;
 
-export enum PackageType {
-  TOURNAMENT = 'tournament',
-  GROUP = 'group',
-  ADVERTISEMENT = 'advertisement',
-  MIXED = 'mixed',
-}
-
 export type Package = {
   id: number;
   name: string;
@@ -48,6 +42,7 @@ export type Package = {
   description: string;
   features: string[];
   services: Service[];
+  type: PackageType;
 };
 
 export type UserPackage = {

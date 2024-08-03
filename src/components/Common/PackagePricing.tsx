@@ -6,10 +6,10 @@ import { useAppDispatch, useAppSelector } from 'store';
 
 import CenterLoading from 'components/Common/CenterLoading';
 import { ModalKey } from 'constants/modal';
+import { PackageType } from 'constants/package';
 import { useGetPackagesQuery } from 'store/api/packageApiSlice';
 import { showModal } from 'store/slice/modalSlice';
 import { selectIsLoggedIn } from 'store/slice/userSlice';
-import { PackageType } from 'types/package';
 import { displayCurrency } from 'utils/string';
 
 interface PackagePricingProps {
