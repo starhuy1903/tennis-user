@@ -9,8 +9,7 @@ import CenterLoading from 'components/Common/CenterLoading';
 import { ImageListField, ReadOnlyTextField } from 'components/Common/FormComponents';
 import { DetailWrapper } from 'components/Common/Layout/AdminLayout/ScreenWrapper';
 import { FormatDateTime } from 'constants/datetime';
-import { useDeleteNewsMutation } from 'store/api/admin/newsApiSlice';
-import { useLazyGetNewsByIdQuery } from 'store/api/unauthenticated/newsApiSlice';
+import { useDeleteNewsAdminMutation, useLazyGetNewsByIdAdminQuery } from 'store/api/admin/newsApiSlice';
 import { News } from 'types/news';
 import { displayDateTime } from 'utils/datetime';
 import { showSuccess } from 'utils/toast';
@@ -22,7 +21,7 @@ export default function AdminNewsDetails() {
   const [news, setNews] = useState<News | null>(null);
   const { id } = useParams<{ id: string }>();
 
-  const [getNews, { isLoading }] = useLazyGetNewsByIdQuery();
+  const [getNews, { isLoading }] = useLazyGetNewsByIdAdminQuery();
 
   const handleInvalidRequest = useCallback(() => {
     setNews(null);
@@ -46,7 +45,7 @@ export default function AdminNewsDetails() {
     })();
   }, [getNews, handleInvalidRequest, id]);
 
-  const [deleteNews] = useDeleteNewsMutation();
+  const [deleteNews] = useDeleteNewsAdminMutation();
 
   const handleDeleteNews = useCallback(() => {
     if (!news) {
