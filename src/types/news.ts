@@ -7,3 +7,11 @@ export type News = BaseType & {
   content: string;
   author: string;
 };
+
+export type UpdateNewsDto = {
+  title?: string;
+  image?: string;
+  description?: string;
+  content?: string;
+  author?: string;
+};
