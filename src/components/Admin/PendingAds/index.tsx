@@ -29,7 +29,10 @@ import { ListWrapper } from 'components/Common/Layout/AdminLayout/ScreenWrapper'
 import { AdvertisementStatus, AdvertisementStatusChip } from 'constants/advertisement';
 import { SortBy } from 'constants/app';
 import { FormatDateTime } from 'constants/datetime';
-import { useGetAdvertisementsQuery, useUpdateAdvertisementMutation } from 'store/api/admin/advertisementApiSlice';
+import {
+  useGetAdvertisementsAdminQuery,
+  useUpdateAdvertisementAdminMutation,
+} from 'store/api/admin/advertisementApiSlice';
 import { Advertisement } from 'types/advertisement';
 import { displayDateTime } from 'utils/datetime';
 
@@ -40,7 +43,7 @@ export default function PendingAds() {
   const [take, setTake] = useState<number>(5);
   const [sortBy, setSortBy] = useState<SortBy>(SortBy.DESC);
 
-  const { data, isLoading, refetch } = useGetAdvertisementsQuery(
+  const { data, isLoading, refetch } = useGetAdvertisementsAdminQuery(
     {
       page,
       take,
@@ -56,7 +59,7 @@ export default function PendingAds() {
     refetch();
   }, [page, refetch]);
 
-  const [updateAdvertisement, { isLoading: isUpdateLoading }] = useUpdateAdvertisementMutation();
+  const [updateAdvertisement, { isLoading: isUpdateLoading }] = useUpdateAdvertisementAdminMutation();
 
   const handleApprove = useCallback(
     async (id: string) => {

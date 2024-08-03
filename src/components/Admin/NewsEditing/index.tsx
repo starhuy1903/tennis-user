@@ -9,7 +9,7 @@ import { ReadOnlyTextField } from 'components/Common/FormComponents';
 import SingleImagePicker from 'components/Common/Input/SingleImagePicker';
 import { DetailWrapper } from 'components/Common/Layout/AdminLayout/ScreenWrapper';
 import { FormatDateTime } from 'constants/datetime';
-import { useLazyGetNewsByIdQuery, useUpdateNewsMutation } from 'store/api/admin/newsApiSlice';
+import { useLazyGetNewsByIdAdminQuery, useUpdateNewsAdminMutation } from 'store/api/admin/newsApiSlice';
 import { News, UpdateNewsDto } from 'types/news';
 import { displayDateTime } from 'utils/datetime';
 import { showError, showSuccess } from 'utils/toast';
@@ -21,7 +21,7 @@ export default function NewsEditing() {
 
   const [news, setNews] = useState<News | null>(null);
 
-  const [getNews, { isLoading }] = useLazyGetNewsByIdQuery();
+  const [getNews, { isLoading }] = useLazyGetNewsByIdAdminQuery();
 
   const { handleSubmit, register, formState, setValue, watch, reset } = useForm<UpdateNewsDto>({
     mode: 'onChange',
@@ -60,7 +60,7 @@ export default function NewsEditing() {
   const { errors: formError } = formState;
   const formValue = watch();
 
-  const [updateNews, { isLoading: isSubmitting }] = useUpdateNewsMutation();
+  const [updateNews, { isLoading: isSubmitting }] = useUpdateNewsAdminMutation();
 
   const onSubmit = async (data: UpdateNewsDto) => {
     try {

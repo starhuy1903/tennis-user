@@ -7,7 +7,7 @@ import { urlWithCorePrefix } from '../helper';
 
 const advertisementAdminApiToastSlice = apiWithToastSlice.injectEndpoints({
   endpoints: (build) => ({
-    getAdvertisements: build.query<
+    getAdvertisementsAdmin: build.query<
       GetListResult<Advertisement>,
       GetPagingListOptions & {
         status?: AdvertisementStatus;
@@ -23,10 +23,10 @@ const advertisementAdminApiToastSlice = apiWithToastSlice.injectEndpoints({
         },
       }),
     }),
-    getAdvertisementById: build.query<Advertisement, string>({
+    getAdvertisementByIdAdmin: build.query<Advertisement, string>({
       query: (id) => urlWithCorePrefix(`advertisements/${id}`),
     }),
-    updateAdvertisement: build.mutation<Advertisement, { id: string; status: AdvertisementStatus }>({
+    updateAdvertisementAdmin: build.mutation<Advertisement, { id: string; status: AdvertisementStatus }>({
       query: (body) => ({
         url: urlWithCorePrefix(`advertisements/${body.id}/admin`),
         method: 'PATCH',
@@ -39,9 +39,9 @@ const advertisementAdminApiToastSlice = apiWithToastSlice.injectEndpoints({
 });
 
 export const {
-  useGetAdvertisementsQuery,
-  useLazyGetAdvertisementsQuery,
-  useGetAdvertisementByIdQuery,
-  useLazyGetAdvertisementByIdQuery,
-  useUpdateAdvertisementMutation,
+  useGetAdvertisementsAdminQuery,
+  useLazyGetAdvertisementsAdminQuery,
+  useGetAdvertisementByIdAdminQuery,
+  useLazyGetAdvertisementByIdAdminQuery,
+  useUpdateAdvertisementAdminMutation,
 } = advertisementAdminApiToastSlice;
