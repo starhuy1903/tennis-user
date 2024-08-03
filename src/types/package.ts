@@ -5,6 +5,8 @@ type BaseService = {
   id: string;
   name: string;
   level: ServiceLevel;
+  createdAt: string;
+  updatedAt: string;
 };
 
 export type GroupService = BaseService & {

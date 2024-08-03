@@ -13,9 +13,10 @@ const packageAdminApiToastSlice = apiWithToastSlice.injectEndpoints({
         type?: PackageType;
       }
     >({
-      query: ({ page, take, type }) => ({
+      query: ({ order, page, take, type }) => ({
         url: urlWithCorePrefix('packages/admin'),
         params: {
+          order,
           page,
           take,
           type,
