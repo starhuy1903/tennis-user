@@ -6,7 +6,7 @@ import { urlWithCorePrefix } from '../helper';
 
 const newsAdminApiSlice = apiSlice.injectEndpoints({
   endpoints: (build) => ({
-    getNews: build.query<GetListResult<News>, GetPagingListOptions>({
+    getNewsAdmin: build.query<GetListResult<News>, GetPagingListOptions>({
       query: ({ page, take, order }) => ({
         url: urlWithCorePrefix(`news`),
         params: {
@@ -16,11 +16,11 @@ const newsAdminApiSlice = apiSlice.injectEndpoints({
         },
       }),
     }),
-    getNewsById: build.query<News, string>({
+    getNewsByIdAdmin: build.query<News, string>({
       query: (id) => urlWithCorePrefix(`news/${id}`),
       transformResponse: (response: { data: News }) => response.data,
     }),
-    updateNews: build.mutation<
+    updateNewsAdmin: build.mutation<
       News,
       UpdateNewsDto & {
         id: number;
@@ -32,7 +32,7 @@ const newsAdminApiSlice = apiSlice.injectEndpoints({
         body,
       }),
     }),
-    deleteNews: build.mutation<void, number>({
+    deleteNewsAdmin: build.mutation<void, number>({
       query: (id) => ({
         url: urlWithCorePrefix(`news/${id}`),
         method: 'DELETE',
@@ -42,10 +42,10 @@ const newsAdminApiSlice = apiSlice.injectEndpoints({
 });
 
 export const {
-  useGetNewsQuery,
-  useGetNewsByIdQuery,
-  useLazyGetNewsQuery,
-  useLazyGetNewsByIdQuery,
-  useUpdateNewsMutation,
-  useDeleteNewsMutation,
+  useGetNewsAdminQuery,
+  useGetNewsByIdAdminQuery,
+  useLazyGetNewsAdminQuery,
+  useLazyGetNewsByIdAdminQuery,
+  useUpdateNewsAdminMutation,
+  useDeleteNewsAdminMutation,
 } = newsAdminApiSlice;

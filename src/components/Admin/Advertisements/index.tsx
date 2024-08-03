@@ -24,7 +24,7 @@ import CenterLoading from 'components/Common/CenterLoading';
 import { AdvertisementStatus, AdvertisementStatusChip } from 'constants/advertisement';
 import { SortBy } from 'constants/app';
 import { FormatDateTime } from 'constants/datetime';
-import { useGetAdvertisementsQuery } from 'store/api/admin/advertisementApiSlice';
+import { useGetAdvertisementsAdminQuery } from 'store/api/admin/advertisementApiSlice';
 import { Advertisement } from 'types/advertisement';
 import { displayDateTime } from 'utils/datetime';
 
@@ -36,7 +36,7 @@ export default function Advertisements() {
   const [sortBy, setSortBy] = useState<SortBy>(SortBy.DESC);
   const [status, setStatus] = useState<AdvertisementStatus | 'All'>('All');
 
-  const { data, isLoading, refetch } = useGetAdvertisementsQuery(
+  const { data, isLoading, refetch } = useGetAdvertisementsAdminQuery(
     {
       page,
       take,
