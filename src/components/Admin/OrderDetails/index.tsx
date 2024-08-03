@@ -183,6 +183,13 @@ export default function AdminOrderDetails() {
           label="Price"
           value={displayCurrency(order.price)}
         />
+
+        <Button
+          variant="contained"
+          onClick={() => navigate(`/packages/${order.package.id}`)}
+        >
+          <ArrowForwardIcon />
+        </Button>
       </Stack>
 
       <Typography variant="h6">Customer</Typography>
@@ -212,6 +219,13 @@ export default function AdminOrderDetails() {
           label="Phone"
           value={order.user.phoneNumber || 'N/A'}
         />
+
+        <Button
+          variant="contained"
+          onClick={() => navigate(`/users/${order.user.id}`)}
+        >
+          <ArrowForwardIcon />
+        </Button>
       </Stack>
     </DetailWrapper>
   );

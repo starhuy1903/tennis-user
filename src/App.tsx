@@ -15,6 +15,7 @@ import PendingAds from 'components/Admin/PendingAds';
 import Services from 'components/Admin/Services';
 import Statistics from 'components/Admin/Statistics';
 import Usages from 'components/Admin/Usages';
+import AdminUserDetails from 'components/Admin/UserDetails';
 import Users from 'components/Admin/Users';
 import AddMemberToGroup from 'components/Authenticated/AddMemberToGroup';
 import AdvertisementDetails from 'components/Authenticated/AdvertisementService/AdvertisementDetails';
@@ -293,7 +294,16 @@ const adminRoutes = createBrowserRouter([
       },
       {
         path: 'users',
-        element: <Users />,
+        children: [
+          {
+            index: true,
+            element: <Users />,
+          },
+          {
+            path: ':id',
+            element: <AdminUserDetails />,
+          },
+        ],
       },
     ],
   },

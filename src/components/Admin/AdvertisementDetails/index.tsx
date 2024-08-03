@@ -195,7 +195,7 @@ export default function AdminAdvertisementDetails() {
 
       <ImageListField
         label="Image"
-        images={[advertisement?.image]}
+        images={advertisement?.image ? [advertisement.image] : undefined}
       />
 
       <Typography variant="h6">Affiliate</Typography>

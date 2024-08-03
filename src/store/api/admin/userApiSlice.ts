@@ -15,7 +15,15 @@ const userAdminApiToastSlice = apiWithToastSlice.injectEndpoints({
         },
       }),
     }),
+    getUserByIdAdmin: build.query<UserProfile, string>({
+      query: (orderId) => urlWithCorePrefix(`users/admin/${orderId}`),
+    }),
   }),
 });
 
-export const { useGetUsersAdminQuery, useLazyGetUsersAdminQuery } = userAdminApiToastSlice;
+export const {
+  useGetUsersAdminQuery,
+  useLazyGetUsersAdminQuery,
+  useGetUserByIdAdminQuery,
+  useLazyGetUserByIdAdminQuery,
+} = userAdminApiToastSlice;
