@@ -8,8 +8,9 @@ import { useMemo, useState } from 'react';
 import { Breadcrumbs } from 'components/Common/Breadcrumb';
 import CenterLoading from 'components/Common/CenterLoading';
 import PackagePricing from 'components/Common/PackagePricing';
+import { PackageType } from 'constants/package';
 import { useGetMyPackagesQuery } from 'store/api/packageApiSlice';
-import { PackageType, UserPackage } from 'types/package';
+import { UserPackage } from 'types/package';
 import { getValidAdvertisementPackages } from 'utils/package';
 
 import FormCreateAdvertisement from './FormCreateAdvertisement';
@@ -83,7 +84,7 @@ export default function CreateAdvertisement() {
             </TabPanel>
             <TabPanel value="2">
               <PackagePricing
-                type={PackageType.ADVERTISEMENT}
+                type={PackageType.AFFILIATE}
                 title="Our advertisement packages"
               />
             </TabPanel>

@@ -1,7 +1,8 @@
-import { OrderStatus, PaymentPartner } from 'constants/order';
+import { OrderStatus, OrderType, PaymentPartner } from 'constants/order';
 
 import { BaseType } from './base';
 import { Package } from './package';
+import { UserProfile } from './user';
 
 export type Order = BaseType & {
   id: string;
@@ -12,6 +13,10 @@ export type Order = BaseType & {
   package: Package;
   createdAt: string;
   updatedAt: string;
+  type: OrderType;
+  user: UserProfile;
+  partner: PaymentPartner;
+  referenceId?: string;
 };
 
 export type PaymentResponse = {

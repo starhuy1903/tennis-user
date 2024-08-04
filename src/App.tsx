@@ -8,12 +8,16 @@ import Dashboard from 'components/Admin/Dashboard';
 import AdminNews from 'components/Admin/News';
 import AdminNewsDetails from 'components/Admin/NewsDetails';
 import NewsEditing from 'components/Admin/NewsEditing';
+import AdminOrderDetails from 'components/Admin/OrderDetails';
 import Orders from 'components/Admin/Orders';
+import PackageDetails from 'components/Admin/PackageDetails';
 import Packages from 'components/Admin/Packages';
 import PendingAds from 'components/Admin/PendingAds';
+import ServiceDetails from 'components/Admin/ServiceDetails';
 import Services from 'components/Admin/Services';
 import Statistics from 'components/Admin/Statistics';
 import Usages from 'components/Admin/Usages';
+import AdminUserDetails from 'components/Admin/UserDetails';
 import Users from 'components/Admin/Users';
 import AddMemberToGroup from 'components/Authenticated/AddMemberToGroup';
 import AdvertisementDetails from 'components/Authenticated/AdvertisementService/AdvertisementDetails';
@@ -233,7 +237,16 @@ const adminRoutes = createBrowserRouter([
       },
       {
         path: 'orders',
-        element: <Orders />,
+        children: [
+          {
+            index: true,
+            element: <Orders />,
+          },
+          {
+            path: ':id',
+            element: <AdminOrderDetails />,
+          },
+        ],
       },
       {
         path: 'service-usages',
@@ -258,11 +271,29 @@ const adminRoutes = createBrowserRouter([
       },
       {
         path: 'services',
-        element: <Services />,
+        children: [
+          {
+            index: true,
+            element: <Services />,
+          },
+          {
+            path: ':id',
+            element: <ServiceDetails />,
+          },
+        ],
       },
       {
         path: 'packages',
-        element: <Packages />,
+        children: [
+          {
+            index: true,
+            element: <Packages />,
+          },
+          {
+            path: ':id',
+            element: <PackageDetails />,
+          },
+        ],
       },
       {
         path: 'news',
@@ -283,7 +314,16 @@ const adminRoutes = createBrowserRouter([
       },
       {
         path: 'users',
-        element: <Users />,
+        children: [
+          {
+            index: true,
+            element: <Users />,
+          },
+          {
+            path: ':id',
+            element: <AdminUserDetails />,
+          },
+        ],
       },
     ],
   },

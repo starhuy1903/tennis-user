@@ -195,7 +195,7 @@ export default function AdminNewsDetails() {
 
       <ImageListField
         label="Image"
-        images={[news?.image ?? '']}
+        images={news?.image ? [news.image] : undefined}
       />
     </DetailWrapper>
   );

@@ -4,6 +4,12 @@ export enum ServiceType {
   ADVERTISEMENT = 'advertisement',
 }
 
+export const ServiceTypeOptions = {
+  [ServiceType.GROUP]: 'Group',
+  [ServiceType.TOURNAMENT]: 'Tournament',
+  [ServiceType.ADVERTISEMENT]: 'Advertisement',
+};
+
 export enum ServiceLevel {
   BASIC = 'basic',
   ADVANCED = 'advanced',
