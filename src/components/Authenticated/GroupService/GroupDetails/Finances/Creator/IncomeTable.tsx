@@ -28,6 +28,7 @@ import { useConfirm } from 'material-ui-confirm';
 import { useCallback, useEffect, useState } from 'react';
 import { useAppSelector } from 'store';
 
+import { SingleParticipantInfo } from 'components/Authenticated/TournamentService/Common/ParticipantInfo';
 import { WrapperContainer } from 'components/Authenticated/TournamentService/TournamentDetails/Common/StyledComponent';
 import CenterLoading from 'components/Common/CenterLoading';
 import {
@@ -259,7 +260,7 @@ export default function IncomeTable({ onGoToCreateFundForm }: IncomeTableProps) 
                       component="th"
                       scope="row"
                     >
-                      {row.name}
+                      <SingleParticipantInfo name={row.name} />
                     </TableCell>
                     <TableCell align="right">{PaymentStatus[row.status]}</TableCell>
                     <TableCell align="right">{row.description}</TableCell>

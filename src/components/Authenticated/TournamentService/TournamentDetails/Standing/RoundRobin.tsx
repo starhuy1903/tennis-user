@@ -11,13 +11,43 @@ import {
 } from '@mui/material';
 import { useAppSelector } from 'store';
 
-import { ParticipantType } from 'constants/tournament';
+import { ParticipantType, TournamentPhase } from 'constants/tournament';
 import { selectTournamentData } from 'store/slice/tournamentSlice';
 import { RoundRobinStanding } from 'types/tournament/standing';
 
 import { DoubleParticipantInfo, SingleParticipantInfo } from '../../Common/ParticipantInfo';
+import WinnerTeam from './WinnerTeam';
 
-const titles = ['', 'Team', 'Total Matches', 'Played', 'Won', 'Lost', 'Match Points'] as const;
+const titleObjects = [
+  {
+    title: '',
+    align: 'center',
+  },
+  {
+    title: 'Team',
+    align: 'left',
+  },
+  {
+    title: 'Total Matches',
+    align: 'center',
+  },
+  {
+    title: 'Played',
+    align: 'center',
+  },
+  {
+    title: 'Won',
+    align: 'center',
+  },
+  {
+    title: 'Lost',
+    align: 'center',
+  },
+  {
+    title: 'Match Points',
+    align: 'center',
+  },
+] as const;
 
 type RoundRobinStandingProps = {
   standingData: RoundRobinStanding;
@@ -28,8 +58,19 @@ export default function RoundRobinStandingTable({ standingData }: RoundRobinStan
 
   const isSingleType = tournamentData.participantType === ParticipantType.SINGLE;
 
+  const winnerTeam = standingData.standings.find((participant) => participant.score.rank === 1);
+
   return (
     <Box my={4}>
+      {tournamentData.phase === TournamentPhase.COMPLETED && (
+        <WinnerTeam
+          name1={winnerTeam?.user1.name}
+          image1={winnerTeam?.user1.image}
+          name2={winnerTeam?.user2?.name}
+          image2={winnerTeam?.user2?.image}
+        />
+      )}
+
       <TableContainer
         component={Paper}
         sx={{ backgroundColor: 'white' }}
@@ -40,12 +81,12 @@ export default function RoundRobinStandingTable({ standingData }: RoundRobinStan
         >
           <TableHead>
             <TableRow>
-              {titles.map((title) => (
+              {titleObjects.map((titleData) => (
                 <TableCell
-                  align="center"
-                  key={title}
+                  align={titleData.align}
+                  key={titleData.title}
                 >
-                  <Typography>{title}</Typography>
+                  <Typography>{titleData.title}</Typography>
                 </TableCell>
               ))}
             </TableRow>
@@ -54,10 +95,9 @@ export default function RoundRobinStandingTable({ standingData }: RoundRobinStan
             {standingData.standings.map((participant) => (
               <TableRow key={participant.id}>
                 <TableCell align="center">{participant.score.rank}</TableCell>
-                <TableCell align="center">
+                <TableCell>
                   {isSingleType ? (
                     <SingleParticipantInfo
-                      containerSx={{ justifyContent: 'center' }}
                       name={participant.user1.name}
                       image={participant.user1.image}
                     />
@@ -65,8 +105,8 @@ export default function RoundRobinStandingTable({ standingData }: RoundRobinStan
                     <DoubleParticipantInfo
                       name1={participant.user1.name}
                       image1={participant.user1.image}
-                      name2={participant.user1.name}
-                      image2={participant.user1.image}
+                      name2={participant.user2?.name}
+                      image2={participant.user2?.image}
                     />
                   )}
                 </TableCell>

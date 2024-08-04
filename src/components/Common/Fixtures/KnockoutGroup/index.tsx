@@ -155,7 +155,6 @@ export default function KnockoutGroupFixture({ rounds, setFixtureData }: Knockou
           <CustomSeedItem
             {...props}
             // TODO: check role
-            isCreator
             onEdit={handleEditMatch}
             onViewDetails={handleClickSeedItem}
           />

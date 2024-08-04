@@ -21,6 +21,7 @@ export default function LottieAnimation({ animationData, height = 100, width = 1
       options={defaultOptions}
       height={height}
       width={width}
+      style={{ margin: 0 }}
     />
   );
 }

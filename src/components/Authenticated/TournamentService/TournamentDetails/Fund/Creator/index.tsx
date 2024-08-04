@@ -1,5 +1,6 @@
 import { Alert, Box } from '@mui/material';
 import { useCallback, useEffect, useState } from 'react';
+import { useMountedState } from 'react-use';
 import { useAppSelector } from 'store';
 
 import CenterLoading from 'components/Common/CenterLoading';
@@ -14,10 +15,11 @@ import PaymentForm from './PaymentForm';
 import UserPaymentList from './UserPaymentList';
 
 export default function CreatorFund() {
+  const isMounted = useMountedState();
   const tournamentData = useAppSelector(selectTournamentData);
 
   const [paymentInfo, setPaymentInfo] = useState<PaymentInfoPayload | null>(null);
-  const [getPaymentInfoRequest, { isLoading }] = useLazyGetPaymentInfoQuery({ refetchOnReconnect: true });
+  const [getPaymentInfoRequest, { isLoading, isFetching }] = useLazyGetPaymentInfoQuery();
 
   const handleAddPaymentInfo = useCallback((data: PaymentInfoPayload) => {
     setPaymentInfo(data);
@@ -34,7 +36,7 @@ export default function CreatorFund() {
     })();
   }, [getPaymentInfoRequest, tournamentData.id]);
 
-  if (isLoading) {
+  if (isLoading || isFetching || !isMounted()) {
     return (
       <WrapperContainer>
         <CenterLoading />

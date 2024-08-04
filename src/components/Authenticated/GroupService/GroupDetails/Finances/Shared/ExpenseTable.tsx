@@ -1,5 +1,6 @@
 import AddIcon from '@mui/icons-material/Add';
 import {
+  Box,
   Button,
   Paper,
   Table,
@@ -11,7 +12,7 @@ import {
   TableRow,
   Typography,
 } from '@mui/material';
-import { grey, teal } from '@mui/material/colors';
+import { grey, red, teal } from '@mui/material/colors';
 import { useCallback, useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'store';
 
@@ -64,32 +65,35 @@ export default function ExpenseTable({ fetchGeneralInfo }: ExpenseTableProps) {
         >
           <TableHead>
             <TableRow sx={{ bgcolor: teal[100] }}>
-              <TableCell colSpan={3}>
-                <Typography
-                  variant="h2"
-                  fontWeight={700}
-                  fontSize={24}
-                  color={grey[800]}
+              <TableCell colSpan={4}>
+                <Box
+                  display="flex"
+                  justifyContent="space-between"
                 >
-                  Expenses
-                </Typography>
-              </TableCell>
-              <TableCell align="right">
-                {groupData.isCreator && (
-                  <Button
-                    color="info"
-                    startIcon={<AddIcon />}
-                    onClick={handleAddExpense}
+                  <Typography
+                    variant="h2"
+                    fontWeight={700}
+                    fontSize={24}
+                    color={grey[800]}
                   >
-                    Add expenses
-                  </Button>
-                )}
+                    Expenses
+                  </Typography>
+                  {groupData.isCreator && (
+                    <Button
+                      color="info"
+                      startIcon={<AddIcon />}
+                      onClick={handleAddExpense}
+                    >
+                      Add expenses
+                    </Button>
+                  )}
+                </Box>
               </TableCell>
             </TableRow>
-            <TableRow>
+            <TableRow sx={{ bgcolor: grey[200] }}>
               <TableCell>Category</TableCell>
               <TableCell align="right">Amount</TableCell>
-              <TableCell align="right">Description</TableCell>
+              <TableCell>Description</TableCell>
               <TableCell align="right">Date</TableCell>
             </TableRow>
           </TableHead>
@@ -107,8 +111,17 @@ export default function ExpenseTable({ fetchGeneralInfo }: ExpenseTableProps) {
                   >
                     {row.categories.join(', ')}
                   </TableCell>
-                  <TableCell align="right">{row.amount}</TableCell>
-                  <TableCell align="right">{row.description}</TableCell>
+                  <TableCell
+                    align="right"
+                    sx={{ color: red[500] }}
+                  >
+                    -
+                    {new Intl.NumberFormat('vi-VN', {
+                      style: 'currency',
+                      currency: 'VND',
+                    }).format(row.amount)}
+                  </TableCell>
+                  <TableCell>{row.description}</TableCell>
                   <TableCell align="right">
                     {displayDateTime({ dateTime: row.createdAt, targetFormat: FormatDateTime.DATE_AND_FULL_TIME })}
                   </TableCell>

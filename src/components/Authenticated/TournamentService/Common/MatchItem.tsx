@@ -19,6 +19,7 @@ type MathItemProps = {
   isCreator?: boolean;
   wrapperSx?: SxProps;
   type: 'schedule' | 'matches';
+  shouldShowMatchStatus?: boolean;
 };
 
 export const MatchItem = ({
@@ -29,6 +30,7 @@ export const MatchItem = ({
   isGeneratedFixture,
   wrapperSx,
   type,
+  shouldShowMatchStatus = true,
 }: MathItemProps) => {
   const shouldShowScore = [MatchState.WALK_OVER, MatchState.DONE, MatchState.SCORE_DONE].includes(match.status);
 
@@ -91,16 +93,18 @@ export const MatchItem = ({
         gap={1}
       >
         {/* Match status */}
-        <Stack
-          width={140}
-          alignItems="center"
-          py={1}
-        >
-          <MatchStatusBadge
-            status={match.status}
-            startDateTime={match.matchStartDate || ''}
-          />
-        </Stack>
+        {shouldShowMatchStatus && (
+          <Stack
+            width={140}
+            alignItems="center"
+            py={1}
+          >
+            <MatchStatusBadge
+              status={match.status}
+              startDateTime={match.matchStartDate || ''}
+            />
+          </Stack>
+        )}
 
         {/* Match teams */}
         <Stack
@@ -108,6 +112,7 @@ export const MatchItem = ({
           gap={1}
           flexGrow={1}
           py={1}
+          ml={shouldShowMatchStatus ? 0 : 2}
         >
           <Stack
             gap={1}

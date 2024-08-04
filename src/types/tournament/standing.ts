@@ -58,6 +58,7 @@ export type GroupPlayoffStanding = {
           won: number;
           lost: number;
           matchPoints: number;
+          rank: number;
         };
       }[];
     }[];
