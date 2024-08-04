@@ -1,9 +1,12 @@
+import { PackageType } from 'constants/package';
 import { ServiceLevel, ServiceType } from 'constants/service';
 
 type BaseService = {
   id: string;
   name: string;
   level: ServiceLevel;
+  createdAt: string;
+  updatedAt: string;
 };
 
 export type GroupService = BaseService & {
@@ -11,6 +14,7 @@ export type GroupService = BaseService & {
   config: {
     maxGroups: number;
     used: number;
+    maxMembers: number;
   };
 };
 
@@ -32,13 +36,6 @@ export type AdvertisementService = BaseService & {
 
 export type Service = GroupService | TournamentService | AdvertisementService;
 
-export enum PackageType {
-  TOURNAMENT = 'tournament',
-  GROUP = 'group',
-  ADVERTISEMENT = 'advertisement',
-  MIXED = 'mixed',
-}
-
 export type Package = {
   id: number;
   name: string;
@@ -48,6 +45,9 @@ export type Package = {
   description: string;
   features: string[];
   services: Service[];
+  type: PackageType;
+  createdAt: string;
+  updatedAt: string;
 };
 
 export type UserPackage = {

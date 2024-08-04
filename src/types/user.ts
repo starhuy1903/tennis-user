@@ -1,5 +1,6 @@
 import { MemberRole } from 'constants/group';
 import { Gender } from 'constants/tournament';
+import { UserRole } from 'constants/user';
 
 export type LoginPayload = {
   email: string;
@@ -60,7 +61,7 @@ export type UserProfile = {
   dob: string;
   phoneNumber: string;
   gender: Gender;
-  role: string;
+  role: UserRole;
   elo: number | null;
   isReferee: boolean;
 };

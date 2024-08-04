@@ -1,5 +1,7 @@
-import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { PayloadAction, createSelector, createSlice } from '@reduxjs/toolkit';
+import { RootState } from 'store';
 
+import { UserRole } from 'constants/user';
 import { UserSliceType } from 'types/store/user';
 import { UserProfile } from 'types/user';
 import auth from 'utils/auth';
@@ -35,3 +37,13 @@ export const selectUser = (state: { user: UserSliceType }) => state.user.userInf
 export const selectIsLoggedIn = (state: { user: UserSliceType }) => state.user.isLoggedIn;
 
 export const { setIsLoggedIn, setProfile, logOut } = userSlice.actions;
+
+export const checkUserRole = createSelector(
+  (state: RootState) => state.user.userInfo?.role || UserRole.USER,
+  (role) => {
+    return {
+      isAdmin: role === UserRole.ADMIN,
+      isUser: role === UserRole.USER,
+    };
+  }
+);

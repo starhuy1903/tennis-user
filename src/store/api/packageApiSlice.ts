@@ -1,4 +1,5 @@
-import { Package, PackageType, UserPackage } from 'types/package';
+import { PackageType } from 'constants/package';
+import { Package, UserPackage } from 'types/package';
 
 import { apiWithToastSlice } from './baseApiSlice';
 import { urlWithCorePrefix } from './helper';
