@@ -1,4 +1,4 @@
-import { Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
+import { Button, Chip, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import { Link, useNavigate } from 'react-router-dom';
@@ -73,17 +73,13 @@ const PacksSection = () => {
                   <TableCell align="center">{formatDateTime(pack.startDate)}</TableCell>
                   <TableCell align="center">{formatDateTime(pack.endDate)}</TableCell>
                   <TableCell align="center">
-                    <Typography
+                    <Chip
+                      label={pack.expired ? 'Expired' : 'Active'}
+                      color={pack.expired ? 'error' : 'success'}
                       sx={{
                         color: 'white',
-                        fontWeight: 500,
-                        backgroundColor: pack.expired ? '#F7418F' : '#75A47F',
-                        borderRadius: '5px',
-                        padding: '5px',
                       }}
-                    >
-                      {pack.expired ? 'Expired' : 'Active'}
-                    </Typography>
+                    />
                   </TableCell>
                 </TableRow>
               ))}

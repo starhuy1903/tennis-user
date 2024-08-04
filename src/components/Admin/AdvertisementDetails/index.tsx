@@ -13,8 +13,8 @@ import { DetailWrapper } from 'components/Common/Layout/AdminLayout/ScreenWrappe
 import { AdvertisementStatus, AdvertisementStatusChip } from 'constants/advertisement';
 import { FormatDateTime } from 'constants/datetime';
 import {
-  useLazyGetAdvertisementByIdQuery,
-  useUpdateAdvertisementMutation,
+  useLazyGetAdvertisementByIdAdminQuery,
+  useUpdateAdvertisementAdminMutation,
 } from 'store/api/admin/advertisementApiSlice';
 import { Advertisement } from 'types/advertisement';
 import { displayDateTime } from 'utils/datetime';
@@ -25,7 +25,7 @@ export default function AdminAdvertisementDetails() {
   const [advertisement, setAdvertisement] = useState<Advertisement | null>(null);
   const { id } = useParams<{ id: string }>();
 
-  const [getAdvertisement, { isLoading }] = useLazyGetAdvertisementByIdQuery();
+  const [getAdvertisement, { isLoading }] = useLazyGetAdvertisementByIdAdminQuery();
 
   const handleInvalidRequest = useCallback(() => {
     setAdvertisement(null);
@@ -49,7 +49,7 @@ export default function AdminAdvertisementDetails() {
     })();
   }, [getAdvertisement, handleInvalidRequest, id]);
 
-  const [updateAdvertisement, { isLoading: isUpdateLoading }] = useUpdateAdvertisementMutation();
+  const [updateAdvertisement, { isLoading: isUpdateLoading }] = useUpdateAdvertisementAdminMutation();
 
   const handleApprove = useCallback(
     async (adsId: string) => {
@@ -195,7 +195,7 @@ export default function AdminAdvertisementDetails() {
 
       <ImageListField
         label="Image"
-        images={[advertisement?.image]}
+        images={advertisement?.image ? [advertisement.image] : undefined}
       />
 
       <Typography variant="h6">Affiliate</Typography>
@@ -217,7 +217,7 @@ export default function AdminAdvertisementDetails() {
         />
 
         <ReadOnlyTextField
-          label="Website"
+          label="Phone Number"
           value={advertisement.user.phoneNumber}
         />
       </Stack>

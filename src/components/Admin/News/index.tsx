@@ -21,7 +21,7 @@ import { Link } from 'react-router-dom';
 import CenterLoading from 'components/Common/CenterLoading';
 import { SortBy } from 'constants/app';
 import { FormatDateTime } from 'constants/datetime';
-import { useGetNewsQuery } from 'store/api/admin/newsApiSlice';
+import { useGetNewsAdminQuery } from 'store/api/admin/newsApiSlice';
 import { News } from 'types/news';
 import { displayDateTime } from 'utils/datetime';
 
@@ -29,10 +29,10 @@ const titles = ['ID', 'Image', 'Title', 'Author', 'Created At', 'Updated At'];
 
 export default function AdminNews() {
   const [page, setPage] = useState<number>(1);
-  const [take, setTake] = useState<number>(5);
+  const [take, setTake] = useState<number>(10);
   const [sortBy, setSortBy] = useState<SortBy>(SortBy.DESC);
 
-  const { data, isLoading, refetch } = useGetNewsQuery(
+  const { data, isLoading, refetch } = useGetNewsAdminQuery(
     {
       page,
       take,
