@@ -65,8 +65,8 @@ export default function RoundRobinStandingTable({ standingData }: RoundRobinStan
                     <DoubleParticipantInfo
                       name1={participant.user1.name}
                       image1={participant.user1.image}
-                      name2={participant.user1.name}
-                      image2={participant.user1.image}
+                      name2={participant.user2?.name}
+                      image2={participant.user2?.image}
                     />
                   )}
                 </TableCell>
