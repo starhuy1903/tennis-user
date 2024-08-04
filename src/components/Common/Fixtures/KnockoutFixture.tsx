@@ -29,6 +29,7 @@ import CustomSeedItem from './Knockout/SeedItem';
 type KnockoutFixturesProps = {
   rounds: Round[];
   setFixtureData?: React.Dispatch<React.SetStateAction<FixtureResponse | null>>;
+  isStandingTabs?: boolean;
 };
 
 const getKnockoutRoundName = (numRounds: number) => {
@@ -47,7 +48,7 @@ const getKnockoutRoundName = (numRounds: number) => {
   return roundNames.slice(-numRounds);
 };
 
-export default function KnockoutFixtures({ rounds, setFixtureData }: KnockoutFixturesProps) {
+export default function KnockoutFixtures({ rounds, setFixtureData, isStandingTabs }: KnockoutFixturesProps) {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const tournamentData = useAppSelector(selectTournamentData);
@@ -178,6 +179,7 @@ export default function KnockoutFixtures({ rounds, setFixtureData }: KnockoutFix
             isCreator={isCreator}
             onViewDetails={handleClickSeedItem}
             onEdit={handleEditMatch}
+            isStandingTabs={isStandingTabs}
           />
         )}
       />
