@@ -69,7 +69,7 @@ export default function Users() {
           mt: 2,
         }}
       >
-        <Typography variant="h4">Orders</Typography>
+        <Typography variant="h4">Users</Typography>
 
         <Stack
           direction="row"

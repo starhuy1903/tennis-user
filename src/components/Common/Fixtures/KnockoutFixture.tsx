@@ -176,10 +176,10 @@ export default function KnockoutFixtures({ rounds, setFixtureData, isStandingTab
         renderSeedComponent={(props) => (
           <CustomSeedItem
             {...props}
-            isCreator={isCreator}
             onViewDetails={handleClickSeedItem}
             onEdit={handleEditMatch}
-            isStandingTabs={isStandingTabs}
+            canEditMatch={isCreator && !isStandingTabs}
+            canViewDetails={!isStandingTabs}
           />
         )}
       />

@@ -14,16 +14,16 @@ import CustomSeedTeam from './CustomSeedTeam';
 type CustomSeedItemProps = IRenderSeedProps & {
   onEdit: (match: Match) => void;
   onViewDetails: (match: Match) => void;
-  isCreator: boolean;
-  isStandingTabs?: boolean;
+  canEditMatch?: boolean;
+  canViewDetails?: boolean;
 };
 
 export default function CustomSeedItem({
   seed,
-  isCreator,
   onEdit,
   onViewDetails,
-  isStandingTabs,
+  canEditMatch,
+  canViewDetails,
 }: CustomSeedItemProps) {
   const isNotClicked = seed.status === MatchState.SKIPPED;
   const isArranging = !seed.teams[0].user1 && !seed.teams[1].user1;
@@ -42,10 +42,10 @@ export default function CustomSeedItem({
   );
 
   const handleClickSeed = useCallback(() => {
-    if (!isNotClicked && !isStandingTabs) {
+    if (!isNotClicked && canViewDetails) {
       onViewDetails(convertedMatchData);
     }
-  }, [convertedMatchData, isNotClicked, isStandingTabs, onViewDetails]);
+  }, [canViewDetails, convertedMatchData, isNotClicked, onViewDetails]);
 
   return (
     <Seed style={{ fontSize: 16 }}>
@@ -57,7 +57,7 @@ export default function CustomSeedItem({
           position: 'relative',
         }}
       >
-        {isCreator && !isStandingTabs && (
+        {canEditMatch && (
           <Tooltip
             title="Edit"
             placement="right"
@@ -84,7 +84,7 @@ export default function CustomSeedItem({
         )}
         <Box
           sx={{
-            cursor: !isNotClicked && !isStandingTabs ? 'pointer' : 'default',
+            cursor: !isNotClicked && canViewDetails ? 'pointer' : 'default',
           }}
           onClick={handleClickSeed}
         >

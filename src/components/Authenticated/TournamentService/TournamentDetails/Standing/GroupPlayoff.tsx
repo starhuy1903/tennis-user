@@ -7,29 +7,57 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  Tooltip,
   Typography,
 } from '@mui/material';
+import { useAppSelector } from 'store';
 
 import KnockoutFixtures from 'components/Common/Fixtures/KnockoutFixture';
+import { ParticipantType } from 'constants/tournament';
+import { selectTournamentData } from 'store/slice/tournamentSlice';
 import { GroupPlayoffStanding } from 'types/tournament/standing';
+
+import { DoubleParticipantInfo, SingleParticipantInfo } from '../../Common/ParticipantInfo';
 
 type Props = {
   standingData: GroupPlayoffStanding;
 };
 
-const titles = ['Participants', 'TM', 'PL', 'WO', 'LO', 'MP'] as const;
-
-const titleStringMapping = {
-  Participants: 'Participants',
-  TM: 'Total Matches',
-  PL: 'Played',
-  WO: 'Won',
-  LO: 'Lost',
-  MP: 'Match Points',
-};
+const titleObjects = [
+  {
+    title: '',
+    align: 'center',
+  },
+  {
+    title: 'Team',
+    align: 'left',
+  },
+  {
+    title: 'Total Matches',
+    align: 'center',
+  },
+  {
+    title: 'Played',
+    align: 'center',
+  },
+  {
+    title: 'Won',
+    align: 'center',
+  },
+  {
+    title: 'Lost',
+    align: 'center',
+  },
+  {
+    title: 'Match Points',
+    align: 'center',
+  },
+] as const;
 
 export default function GroupPlayoffStandingUI({ standingData }: Props) {
+  const tournamentData = useAppSelector(selectTournamentData);
+
+  const isSingleType = tournamentData.participantType === ParticipantType.SINGLE;
+
   return (
     <Box mt={4}>
       {/* Group stage */}
@@ -47,21 +75,19 @@ export default function GroupPlayoffStandingUI({ standingData }: Props) {
               <TableHead>
                 <TableRow>
                   <TableCell
-                    colSpan={titles.length}
+                    colSpan={titleObjects.length}
                     align="center"
                   >
-                    <Typography variant="h5">Group {groupData.title}</Typography>
+                    <Typography variant="h5">{groupData.title}</Typography>
                   </TableCell>
                 </TableRow>
                 <TableRow>
-                  {titles.map((title) => (
+                  {titleObjects.map((titleData) => (
                     <TableCell
-                      align="center"
-                      key={title}
+                      align={titleData.align}
+                      key={titleData.title}
                     >
-                      <Tooltip title={titleStringMapping[title]}>
-                        <Typography>{title}</Typography>
-                      </Tooltip>
+                      <Typography>{titleData.title}</Typography>
                     </TableCell>
                   ))}
                 </TableRow>
@@ -69,7 +95,22 @@ export default function GroupPlayoffStandingUI({ standingData }: Props) {
               <TableBody>
                 {groupData.teams.map((participant) => (
                   <TableRow key={participant.id}>
-                    <TableCell align="center">{participant.user1.name}</TableCell>
+                    <TableCell align="center">{participant.score.rank}</TableCell>
+                    <TableCell align="left">
+                      {isSingleType ? (
+                        <SingleParticipantInfo
+                          name={participant.user1.name}
+                          image={participant.user1.image}
+                        />
+                      ) : (
+                        <DoubleParticipantInfo
+                          name1={participant.user1.name}
+                          image1={participant.user1.image}
+                          name2={participant.user2?.name}
+                          image2={participant.user2?.image}
+                        />
+                      )}
+                    </TableCell>
                     <TableCell align="center">{participant.score.totalMatches}</TableCell>
                     <TableCell align="center">{participant.score.played}</TableCell>
                     <TableCell align="center">{participant.score.won}</TableCell>
@@ -85,7 +126,10 @@ export default function GroupPlayoffStandingUI({ standingData }: Props) {
 
       {/* Knockout stage */}
       {standingData.standings.knockoutStage && (
-        <KnockoutFixtures rounds={standingData.standings.knockoutStage.rounds} />
+        <KnockoutFixtures
+          rounds={standingData.standings.knockoutStage.rounds}
+          isStandingTabs
+        />
       )}
     </Box>
   );

@@ -14,7 +14,7 @@ import { useAppDispatch, useAppSelector } from 'store';
 import CenterLoading from 'components/Common/CenterLoading';
 import { FormatDateTime } from 'constants/datetime';
 import { MatchState } from 'constants/match';
-import { ParticipantType, TournamentPhase } from 'constants/tournament';
+import { TournamentPhase } from 'constants/tournament';
 import { useEndTournamentMutation } from 'store/api/tournament/creator/general';
 import { useLazyGetMatchesQuery } from 'store/api/tournament/shared/match';
 import { checkTournamentRole, selectTournamentData, setTournamentDetails } from 'store/slice/tournamentSlice';
@@ -27,7 +27,6 @@ import TennisCourtIcon from 'assets/icons/tennis-court.svg';
 import { MatchItem } from '../../Common/MatchItem';
 import { WrapperContainer } from '../Common/StyledComponent';
 import LiveMatch from './LiveMatch';
-import RecentMatch from './RecentMatch';
 
 const compareDate = (dateA: string, dateB: string) => {
   if (dayjs(dateA).isBefore(dayjs(dateB))) {
@@ -69,8 +68,6 @@ export default function Matches() {
   const tournamentData = useAppSelector(selectTournamentData);
   const { isCreator } = useAppSelector(checkTournamentRole);
   const [getMatchesReq, { isLoading, data: matchData }] = useLazyGetMatchesQuery();
-
-  const isSinglePlayer = tournamentData.participantType === ParticipantType.SINGLE;
 
   const [hasValidFilterDate, setHasValidFilterDate] = useState(false);
 
@@ -378,11 +375,12 @@ export default function Matches() {
               {recentMatches.length > 0 ? (
                 recentMatches.slice(0, 3).map((match) => {
                   return (
-                    <RecentMatch
-                      key={match.id}
+                    <MatchItem
                       match={match}
-                      isSinglePlayer={isSinglePlayer}
-                      onClick={() => handleViewMatchDetails(match)}
+                      onViewDetails={() => handleViewMatchDetails(match)}
+                      type="matches"
+                      shouldShowMatchStatus={false}
+                      isGeneratedFixture
                     />
                   );
                 })
