@@ -51,7 +51,10 @@ export type FundMember = {
   image: string;
 };
 
-export type CreateFundPayload = Omit<GroupFund, 'id' | 'createdAt'>;
+export type CreateFundPayload = Omit<GroupFund, 'id' | 'createdAt'> & {
+  memberListId: string[];
+  isFullMember: boolean;
+};
 
 export type FundRequestForMember = {
   id: number;

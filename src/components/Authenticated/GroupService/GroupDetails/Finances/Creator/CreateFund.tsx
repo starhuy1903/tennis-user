@@ -1,9 +1,12 @@
+// import { DevTool } from '@hookform/devtools';
 import AddIcon from '@mui/icons-material/Add';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import {
   Box,
   Button,
+  Checkbox,
   FormControl,
+  FormControlLabel,
   FormHelperText,
   FormLabel,
   Paper,
@@ -14,30 +17,42 @@ import {
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
+import { useMemo } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useAppSelector } from 'store';
 
 import SingleImagePicker from 'components/Common/Input/SingleImagePicker';
+import { MemberRole } from 'constants/group';
 import { useCreateFundMutation } from 'store/api/group/financeApiSlice';
 import { selectGroup } from 'store/slice/groupSlice';
 import { CreateFundPayload } from 'types/expense';
+import { MemberDto } from 'types/user';
 import { showSuccess } from 'utils/toast';
+
+import MemberList from './MemberList';
 
 type FormType = CreateFundPayload;
 
 type CreateFundProps = {
   onGoToIncomeTable: () => void;
+  memberData: MemberDto[];
 };
 
-export default function CreateFund({ onGoToIncomeTable }: CreateFundProps) {
+export default function CreateFund({ memberData, onGoToIncomeTable }: CreateFundProps) {
   const groupData = useAppSelector(selectGroup);
   const [createFundRequest, { isLoading }] = useCreateFundMutation();
+
+  const renderMemberList = useMemo(
+    () => memberData.filter((member) => member.role === MemberRole.MEMBER),
+    [memberData]
+  );
 
   const {
     control,
     register,
     formState: { errors: formError },
     getValues,
+    watch,
     handleSubmit,
   } = useForm<FormType>({
     mode: 'onChange',
@@ -46,6 +61,8 @@ export default function CreateFund({ onGoToIncomeTable }: CreateFundProps) {
       qrImage: '',
       paymentInfo: '',
       dueDate: dayjs().add(7, 'day').endOf('day').toISOString(),
+      isFullMember: false,
+      memberListId: [],
     },
   });
 
@@ -54,6 +71,7 @@ export default function CreateFund({ onGoToIncomeTable }: CreateFundProps) {
       const submittedData: CreateFundPayload = {
         ...data,
         amount: Number(data.amount),
+        memberListId: data.isFullMember ? [] : data.memberListId,
       };
 
       await createFundRequest({ groupId: groupData.id, ...submittedData }).unwrap();
@@ -214,7 +232,7 @@ export default function CreateFund({ onGoToIncomeTable }: CreateFundProps) {
                 error={!!formError.description}
                 aria-describedby="description-helper-text"
                 multiline
-                rows={7}
+                rows={3}
                 placeholder="Describe the fund here."
               />
               <FormHelperText id="description-helper-text">{formError.description?.message}</FormHelperText>
@@ -232,36 +250,75 @@ export default function CreateFund({ onGoToIncomeTable }: CreateFundProps) {
                 error={!!formError.paymentInfo}
                 aria-describedby="paymentInfo-helper-text"
                 multiline
-                rows={7}
+                rows={3}
                 placeholder="Describe the payment method here."
               />
               <FormHelperText id="description-helper-text">{formError.paymentInfo?.message}</FormHelperText>
             </FormControl>
           </Stack>
 
-          <Controller
-            name="qrImage"
-            control={control}
-            defaultValue=""
-            render={({ field: { onChange, value } }) => (
-              <FormControl
-                fullWidth
-                error={!!formError.dueDate}
-              >
-                <SingleImagePicker
-                  label="QR Code (optional)"
-                  imageUrl={value}
-                  handleUpload={onChange}
-                  handleRemove={() => {
-                    onChange('');
-                  }}
-                  imageAspect={1}
-                  imageSxStyle={{ width: '200px', height: '200px' }}
-                />
-                <FormHelperText>{formError.qrImage?.message}</FormHelperText>
-              </FormControl>
-            )}
-          />
+          <Stack
+            direction="row"
+            justifyContent="space-between"
+            spacing={2}
+          >
+            <Stack
+              gap={1}
+              width="100%"
+            >
+              <Controller
+                name="isFullMember"
+                control={control}
+                render={({ field: { value, onChange } }) => (
+                  <FormControlLabel
+                    control={<Checkbox />}
+                    label="Apply for all members"
+                    checked={value}
+                    onChange={onChange}
+                  />
+                )}
+              />
+
+              <Controller
+                name="memberListId"
+                control={control}
+                render={({ field: { value, onChange } }) => (
+                  <>
+                    {watch('isFullMember') ? null : (
+                      <MemberList
+                        memberData={renderMemberList}
+                        selectedMembers={value}
+                        onSelectedMembersChange={onChange}
+                      />
+                    )}
+                  </>
+                )}
+              />
+            </Stack>
+            <Controller
+              name="qrImage"
+              control={control}
+              defaultValue=""
+              render={({ field: { onChange, value } }) => (
+                <FormControl
+                  fullWidth
+                  error={!!formError.dueDate}
+                >
+                  <SingleImagePicker
+                    label="Payment QR Code (optional)"
+                    imageUrl={value}
+                    handleUpload={onChange}
+                    handleRemove={() => {
+                      onChange('');
+                    }}
+                    imageAspect={1}
+                    imageSxStyle={{ width: '200px', height: '200px' }}
+                  />
+                  <FormHelperText>{formError.qrImage?.message}</FormHelperText>
+                </FormControl>
+              )}
+            />
+          </Stack>
 
           <Box
             sx={{
