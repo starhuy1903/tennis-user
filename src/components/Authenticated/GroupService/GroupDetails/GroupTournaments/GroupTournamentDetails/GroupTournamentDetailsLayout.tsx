@@ -19,6 +19,7 @@ import { useLazyGetGroupTournamentDetailsQuery } from 'store/api/group/group-tou
 import { useLazyGetGroupDetailsQuery } from 'store/api/group/groupApiSlice';
 import { selectGroup } from 'store/slice/groupSlice';
 import {
+  resetGroupTournamentDetails,
   selectGroupTournament,
   setGroupTournamentDetails,
   shouldRefreshGroupTournamentData,
@@ -61,7 +62,7 @@ export default function GroupTournamentDetailsLayout() {
     const pathParts = pathname.split('/');
     const activeTabFromPath = pathParts[5];
     const activeTab = GroupTournamentTabs.find((tab) => tab.value === activeTabFromPath);
-    return activeTab ? activeTab.value : GroupTournamentTabs[2].value;
+    return activeTab ? activeTab.value : GroupTournamentTabs[0].value;
   }, [pathname]);
 
   const [currentTab, setCurrentTab] = useState(getActiveTab);
@@ -125,6 +126,7 @@ export default function GroupTournamentDetailsLayout() {
   useEffect(() => {
     return () => {
       dispatch(shouldRefreshGroupTournamentData(true));
+      dispatch(resetGroupTournamentDetails());
     };
   }, [dispatch]);
 
