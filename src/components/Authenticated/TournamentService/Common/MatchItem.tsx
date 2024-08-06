@@ -17,12 +17,13 @@ type MathItemProps = {
   match: Match;
   onViewDetails: (match: Match) => void;
   onEdit?: (match: Match) => void;
-  isGeneratedFixture?: boolean;
+  canGoToMatchDetails?: boolean;
   isCreator?: boolean;
   wrapperSx?: SxProps;
   type: 'schedule' | 'matches';
   shouldShowMatchStatus?: boolean;
   isScheduleMatch?: boolean;
+  shouldHighlightWinnerTeam?: boolean;
 };
 
 export const MatchItem = ({
@@ -30,17 +31,18 @@ export const MatchItem = ({
   onEdit,
   onViewDetails,
   isCreator,
-  isGeneratedFixture,
+  canGoToMatchDetails = false,
   wrapperSx,
   type,
   shouldShowMatchStatus = true,
   isScheduleMatch = false,
+  shouldHighlightWinnerTeam,
 }: MathItemProps) => {
   const shouldShowScore = [MatchState.WALK_OVER, MatchState.DONE, MatchState.SCORE_DONE].includes(match.status);
 
   const isSinglePlayerMatch = match.teams.team1?.user1 && !match.teams.team1?.user2;
   const hasBothTeamData = !!match.teams.team1 && !!match.teams.team2;
-  const canGoToDetailMatch = !!isGeneratedFixture && hasBothTeamData;
+  const canGoToDetailMatch = canGoToMatchDetails && hasBothTeamData;
 
   const isScheduleTab = type === 'schedule';
   const isMatchesTab = type === 'matches';
@@ -71,6 +73,11 @@ export const MatchItem = ({
   const isTeam1Winner = match.teamWinnerId === match.teamId1;
   const isTeam2Winner = match.teamWinnerId === match.teamId2;
 
+  const [scheduleTime, scheduleDate] = displayDateTime({
+    dateTime: match.matchStartDate || '',
+    targetFormat: FormatDateTime.TIME_AND_DATE,
+  }).split(' ');
+
   return (
     <Box
       sx={{
@@ -84,7 +91,7 @@ export const MatchItem = ({
         'maxWidth': 500,
 
         '&:hover': {
-          bgcolor: isMatchesTab && canGoToDetailMatch ? grey[200] : '#F7F7F7',
+          bgcolor: isMatchesTab && canGoToDetailMatch ? grey[200] : 'unset',
           cursor: isMatchesTab && canGoToDetailMatch ? 'pointer' : 'default',
         },
         ...wrapperSx,
@@ -99,18 +106,27 @@ export const MatchItem = ({
         {/* Match status */}
         {shouldShowMatchStatus && (
           <Stack
-            width={140}
+            width={isScheduleMatch ? 90 : 140}
             alignItems="center"
             py={1}
           >
             {isScheduleMatch ? (
-              <Typography
-                fontSize={12}
-                variant="body2"
-                fontWeight={600}
-              >
-                {displayDateTime({ dateTime: match.matchStartDate || '', targetFormat: FormatDateTime.TIME_AND_DATE })}
-              </Typography>
+              <Stack alignItems="center">
+                <Typography
+                  fontSize={12}
+                  variant="body2"
+                  fontWeight={600}
+                >
+                  {scheduleTime}
+                </Typography>
+                <Typography
+                  fontSize={12}
+                  variant="body2"
+                  fontWeight={600}
+                >
+                  {scheduleDate}
+                </Typography>
+              </Stack>
             ) : (
               <MatchStatusBadge
                 status={match.status}
@@ -134,23 +150,27 @@ export const MatchItem = ({
             width={180}
           >
             {match.teams.team1 ? (
-              isSinglePlayerMatch ? (
-                <SingleParticipantInfo
-                  name={match.teams.team1.user1.name}
-                  image={match.teams.team1.user1.image}
-                  shouldShowElo
-                  elo={match.teams.team1.user1.elo}
-                />
-              ) : (
-                <DoubleParticipantInfo
-                  name1={match.teams.team1.user1.name}
-                  image1={match.teams.team1.user1.image}
-                  name2={match.teams.team1.user2?.name}
-                  image2={match.teams.team1.user2?.image}
-                  shouldShowTotalElo
-                  totalElo={match.teams.team1.totalElo}
-                />
-              )
+              <Box>
+                {isSinglePlayerMatch ? (
+                  <SingleParticipantInfo
+                    name={match.teams.team1.user1.name}
+                    image={match.teams.team1.user1.image}
+                    shouldShowElo
+                    elo={match.teams.team1.user1.elo}
+                    disabled={shouldHighlightWinnerTeam && isTeam2Winner}
+                  />
+                ) : (
+                  <DoubleParticipantInfo
+                    name1={match.teams.team1.user1.name}
+                    image1={match.teams.team1.user1.image}
+                    name2={match.teams.team1.user2?.name}
+                    image2={match.teams.team1.user2?.image}
+                    shouldShowTotalElo
+                    totalElo={match.teams.team1.totalElo}
+                    disabled={shouldHighlightWinnerTeam && isTeam2Winner}
+                  />
+                )}
+              </Box>
             ) : (
               <UndefinedSinglePlayer />
             )}
@@ -163,23 +183,27 @@ export const MatchItem = ({
               </Typography>
             </Divider>
             {match.teams.team2 ? (
-              isSinglePlayerMatch ? (
-                <SingleParticipantInfo
-                  name={match.teams.team2.user1.name}
-                  image={match.teams.team2.user1.image}
-                  shouldShowElo
-                  elo={match.teams.team2.user1.elo}
-                />
-              ) : (
-                <DoubleParticipantInfo
-                  name1={match.teams.team2.user1.name}
-                  image1={match.teams.team2.user1.image}
-                  name2={match.teams.team2.user2?.name}
-                  image2={match.teams.team2.user2?.image}
-                  shouldShowTotalElo
-                  totalElo={match.teams.team2.totalElo}
-                />
-              )
+              <Box>
+                {isSinglePlayerMatch ? (
+                  <SingleParticipantInfo
+                    name={match.teams.team2.user1.name}
+                    image={match.teams.team2.user1.image}
+                    shouldShowElo
+                    elo={match.teams.team2.user1.elo}
+                    disabled={shouldHighlightWinnerTeam && isTeam1Winner}
+                  />
+                ) : (
+                  <DoubleParticipantInfo
+                    name1={match.teams.team2.user1.name}
+                    image1={match.teams.team2.user1.image}
+                    name2={match.teams.team2.user2?.name}
+                    image2={match.teams.team2.user2?.image}
+                    shouldShowTotalElo
+                    totalElo={match.teams.team2.totalElo}
+                    disabled={shouldHighlightWinnerTeam && isTeam1Winner}
+                  />
+                )}
+              </Box>
             ) : (
               <UndefinedSinglePlayer />
             )}

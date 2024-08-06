@@ -8,9 +8,10 @@ import RoundRobinFixture from './RoundRobin';
 type GroupPlayoffFixtureProps = {
   fixture: GeneratedNewGroupPlayoffFixture;
   setFixtureData?: React.Dispatch<React.SetStateAction<FixtureResponse | null>>;
+  isSchedule?: boolean;
 };
 
-export default function GroupPlayoffFixture({ fixture, setFixtureData }: GroupPlayoffFixtureProps) {
+export default function GroupPlayoffFixture({ fixture, setFixtureData, isSchedule }: GroupPlayoffFixtureProps) {
   return (
     <Box mt={4}>
       <>
@@ -38,6 +39,7 @@ export default function GroupPlayoffFixture({ fixture, setFixtureData }: GroupPl
               key={index}
               rounds={roundRobinGroup.rounds}
               setFixtureData={setFixtureData}
+              isSchedule={isSchedule}
             />
           </Paper>
         ))}
@@ -47,6 +49,7 @@ export default function GroupPlayoffFixture({ fixture, setFixtureData }: GroupPl
         <KnockoutFixtures
           rounds={fixture.knockoutGroup.rounds}
           setFixtureData={setFixtureData}
+          isSchedule={isSchedule}
         />
       )}
     </Box>

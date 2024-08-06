@@ -133,7 +133,6 @@ export default function Matches() {
     }).then(async () => {
       try {
         const res = await endTournamentRequest(tournamentData.id).unwrap();
-        console.log({ res });
         dispatch(setTournamentDetails(res));
       } catch (error) {
         // handled error
@@ -176,7 +175,7 @@ export default function Matches() {
           <MatchItem
             match={match}
             onViewDetails={handleViewMatchDetails}
-            isGeneratedFixture
+            canGoToMatchDetails
             type="matches"
             wrapperSx={{ maxWidth: 600 }}
           />
@@ -383,7 +382,7 @@ export default function Matches() {
                       onViewDetails={() => handleViewMatchDetails(match)}
                       type="matches"
                       shouldShowMatchStatus={false}
-                      isGeneratedFixture
+                      canGoToMatchDetails
                     />
                   );
                 })

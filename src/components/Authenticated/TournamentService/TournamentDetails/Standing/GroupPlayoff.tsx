@@ -12,11 +12,12 @@ import {
 import { useAppSelector } from 'store';
 
 import KnockoutFixtures from 'components/Common/Fixtures/KnockoutFixture';
-import { ParticipantType } from 'constants/tournament';
+import { ParticipantType, TournamentPhase } from 'constants/tournament';
 import { selectTournamentData } from 'store/slice/tournamentSlice';
 import { GroupPlayoffStanding } from 'types/tournament/standing';
 
 import { DoubleParticipantInfo, SingleParticipantInfo } from '../../Common/ParticipantInfo';
+import WinnerTeam from './WinnerTeam';
 
 type Props = {
   standingData: GroupPlayoffStanding;
@@ -55,11 +56,22 @@ const titleObjects = [
 
 export default function GroupPlayoffStandingUI({ standingData }: Props) {
   const tournamentData = useAppSelector(selectTournamentData);
+  const numberOfRounds = standingData.standings.knockoutStage.rounds.length;
+  const finalMatch = standingData.standings.knockoutStage.rounds[numberOfRounds - 1].matches[0];
+  const teamWinner = finalMatch.teamWinnerId === finalMatch.teamId1 ? finalMatch.teams.team1 : finalMatch.teams.team2;
 
   const isSingleType = tournamentData.participantType === ParticipantType.SINGLE;
 
   return (
     <Box mt={4}>
+      {tournamentData.phase === TournamentPhase.COMPLETED && (
+        <WinnerTeam
+          name1={teamWinner.user1.name}
+          image1={teamWinner.user1.image}
+          name2={teamWinner.user2?.name}
+          image2={teamWinner.user2?.image}
+        />
+      )}
       {/* Group stage */}
       {standingData.standings.groupStage.map((groupData) => {
         return (

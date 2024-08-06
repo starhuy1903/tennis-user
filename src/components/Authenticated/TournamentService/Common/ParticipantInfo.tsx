@@ -11,6 +11,7 @@ type SingleParticipantInfoProps = {
   shouldShowElo?: boolean;
   elo?: number | null;
   nameTypographyProps?: TypographyProps;
+  disabled?: boolean;
 };
 
 export function SingleParticipantInfo({
@@ -22,13 +23,14 @@ export function SingleParticipantInfo({
   shouldShowElo,
   elo,
   nameTypographyProps,
+  disabled = false,
 }: SingleParticipantInfoProps) {
   return (
     <Box
       display="flex"
       alignItems="center"
       gap={2}
-      sx={containerSx}
+      sx={{ opacity: disabled ? 0.5 : 1, ...containerSx }}
     >
       <Avatar
         sx={{ width: '40px', height: '40px', ...imageSx }}
@@ -122,6 +124,7 @@ type DoubleParticipantInfoProps = {
   elo2?: number | null;
   shouldShowTotalElo?: boolean;
   totalElo?: number | null;
+  disabled?: boolean;
 };
 
 export function DoubleParticipantInfo({
@@ -135,12 +138,14 @@ export function DoubleParticipantInfo({
   elo2,
   shouldShowTotalElo,
   totalElo,
+  disabled = false,
 }: DoubleParticipantInfoProps) {
   return (
     <Stack
       direction="row"
       alignItems="center"
       gap={1}
+      sx={{ opacity: disabled ? 0.5 : 1 }}
     >
       <Stack
         justifyContent="center"

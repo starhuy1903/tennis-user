@@ -55,7 +55,12 @@ export default function ParticipantFixture() {
 
   return (
     <WrapperContainer>
-      {isGeneratedNewKnockoutFixture(fixture) && <KnockoutFixtures rounds={fixture.knockoutGroup.rounds} />}
+      {isGeneratedNewKnockoutFixture(fixture) && (
+        <KnockoutFixtures
+          rounds={fixture.knockoutGroup.rounds}
+          isSchedule
+        />
+      )}
 
       {isGeneratedNewRoundRobinFixture(fixture) && (
         <RoundRobinFixture
@@ -64,7 +69,12 @@ export default function ParticipantFixture() {
         />
       )}
 
-      {isGeneratedNewGroupPlayoffFixture(fixture) && <GroupPlayoffFixture fixture={fixture} />}
+      {isGeneratedNewGroupPlayoffFixture(fixture) && (
+        <GroupPlayoffFixture
+          fixture={fixture}
+          isSchedule
+        />
+      )}
     </WrapperContainer>
   );
 }

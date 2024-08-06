@@ -135,7 +135,7 @@ export default function RoundRobinFixture({ rounds, setFixtureData, isSchedule }
                 match={match}
                 onEdit={handleEditMatch}
                 onViewDetails={handleViewMatchDetails}
-                isGeneratedFixture={checkGeneratedFixture(tournamentData.phase)}
+                canGoToMatchDetails={checkGeneratedFixture(tournamentData.phase) && !isSchedule}
                 type="schedule"
                 wrapperSx={{ maxWidth: 600 }}
                 isScheduleMatch={isSchedule}

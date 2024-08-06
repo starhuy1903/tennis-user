@@ -157,6 +157,7 @@ export default function KnockoutGroupFixture({ rounds, setFixtureData }: Knockou
             // TODO: check role
             onEdit={handleEditMatch}
             onViewDetails={handleClickSeedItem}
+            type="schedule"
           />
         )}
       />

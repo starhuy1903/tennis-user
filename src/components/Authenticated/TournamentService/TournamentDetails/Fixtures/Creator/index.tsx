@@ -187,6 +187,7 @@ export default function CreatorFixture() {
               <KnockoutFixtures
                 rounds={fixture.knockoutGroup.rounds}
                 setFixtureData={setFixture}
+                isSchedule
               />
             )}
             {isGeneratedNewRoundRobinFixture(fixture) && (
@@ -200,6 +201,7 @@ export default function CreatorFixture() {
               <GroupPlayoffFixture
                 fixture={fixture}
                 setFixtureData={setFixture}
+                isSchedule
               />
             )}
           </Box>

@@ -30,6 +30,7 @@ type KnockoutFixturesProps = {
   rounds: Round[];
   setFixtureData?: React.Dispatch<React.SetStateAction<FixtureResponse | null>>;
   isStandingTabs?: boolean;
+  isSchedule?: boolean;
 };
 
 const getKnockoutRoundName = (numRounds: number) => {
@@ -48,7 +49,12 @@ const getKnockoutRoundName = (numRounds: number) => {
   return roundNames.slice(-numRounds);
 };
 
-export default function KnockoutFixtures({ rounds, setFixtureData, isStandingTabs }: KnockoutFixturesProps) {
+export default function KnockoutFixtures({
+  rounds,
+  setFixtureData,
+  isStandingTabs,
+  isSchedule,
+}: KnockoutFixturesProps) {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const tournamentData = useAppSelector(selectTournamentData);
@@ -166,7 +172,7 @@ export default function KnockoutFixtures({ rounds, setFixtureData, isStandingTab
                 borderRadius: 1,
                 mx: 1,
                 mb: 1,
-                width: 300,
+                width: isStandingTabs || !isCreator ? 300 : 500,
               }}
             >
               {title}
@@ -177,9 +183,14 @@ export default function KnockoutFixtures({ rounds, setFixtureData, isStandingTab
           <CustomSeedItem
             {...props}
             onViewDetails={handleClickSeedItem}
+            canGoToMatchDetails={checkGeneratedFixture(tournamentData.phase) && !isStandingTabs}
             onEdit={handleEditMatch}
-            canEditMatch={isCreator && !isStandingTabs}
-            canViewDetails={!isStandingTabs}
+            isCreator={isCreator}
+            type={isStandingTabs ? 'matches' : 'schedule'}
+            shouldShowMatchStatus={!isStandingTabs}
+            isScheduleMatch={isSchedule}
+            wrapperSx={{ maxWidth: isStandingTabs ? 300 : 600 }}
+            shouldHighlightWinnerTeam={isStandingTabs}
           />
         )}
       />
