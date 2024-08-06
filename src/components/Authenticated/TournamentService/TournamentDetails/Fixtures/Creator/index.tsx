@@ -193,6 +193,7 @@ export default function CreatorFixture() {
               <RoundRobinFixture
                 rounds={fixture.roundRobinGroups[0].rounds}
                 setFixtureData={setFixture}
+                isSchedule
               />
             )}
             {isGeneratedNewGroupPlayoffFixture(fixture) && (

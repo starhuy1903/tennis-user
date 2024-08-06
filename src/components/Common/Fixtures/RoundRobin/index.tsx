@@ -28,9 +28,10 @@ import NoData from '../../NoData';
 type RoundRobinFixtureProps = {
   rounds: Round[];
   setFixtureData?: React.Dispatch<React.SetStateAction<FixtureResponse | null>>;
+  isSchedule?: boolean;
 };
 
-export default function RoundRobinFixture({ rounds, setFixtureData }: RoundRobinFixtureProps) {
+export default function RoundRobinFixture({ rounds, setFixtureData, isSchedule }: RoundRobinFixtureProps) {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const tournamentData = useAppSelector(selectTournamentData);
@@ -136,7 +137,8 @@ export default function RoundRobinFixture({ rounds, setFixtureData }: RoundRobin
                 onViewDetails={handleViewMatchDetails}
                 isGeneratedFixture={checkGeneratedFixture(tournamentData.phase)}
                 type="schedule"
-                wrapperSx={{ maxWidth: 800 }}
+                wrapperSx={{ maxWidth: 600 }}
+                isScheduleMatch={isSchedule}
               />
             ))}
           </Stack>

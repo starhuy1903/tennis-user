@@ -72,7 +72,10 @@ export default function Matches() {
   const [hasValidFilterDate, setHasValidFilterDate] = useState(false);
 
   const isAllMatchesScored = useMemo(
-    () => matchData?.matches.every((match) => match.status === MatchState.SCORE_DONE),
+    () =>
+      matchData?.matches.every(
+        (match) => match.status === MatchState.SCORE_DONE || match.status === MatchState.SKIPPED
+      ),
     [matchData]
   );
 

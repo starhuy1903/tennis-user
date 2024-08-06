@@ -5,8 +5,10 @@ import { Avatar, Box, Chip, Divider, IconButton, Stack, SxProps, Tooltip, Typogr
 import { green, grey } from '@mui/material/colors';
 import { useMemo } from 'react';
 
+import { FormatDateTime } from 'constants/datetime';
 import { MatchState } from 'constants/match';
 import { Match } from 'types/tournament-fixtures';
+import { displayDateTime } from 'utils/datetime';
 
 import MatchStatusBadge from './MatchStatusBadge';
 import { DoubleParticipantInfo, SingleParticipantInfo, UndefinedSinglePlayer } from './ParticipantInfo';
@@ -20,6 +22,7 @@ type MathItemProps = {
   wrapperSx?: SxProps;
   type: 'schedule' | 'matches';
   shouldShowMatchStatus?: boolean;
+  isScheduleMatch?: boolean;
 };
 
 export const MatchItem = ({
@@ -31,6 +34,7 @@ export const MatchItem = ({
   wrapperSx,
   type,
   shouldShowMatchStatus = true,
+  isScheduleMatch = false,
 }: MathItemProps) => {
   const shouldShowScore = [MatchState.WALK_OVER, MatchState.DONE, MatchState.SCORE_DONE].includes(match.status);
 
@@ -99,10 +103,20 @@ export const MatchItem = ({
             alignItems="center"
             py={1}
           >
-            <MatchStatusBadge
-              status={match.status}
-              startDateTime={match.matchStartDate || ''}
-            />
+            {isScheduleMatch ? (
+              <Typography
+                fontSize={12}
+                variant="body2"
+                fontWeight={600}
+              >
+                {displayDateTime({ dateTime: match.matchStartDate || '', targetFormat: FormatDateTime.TIME_AND_DATE })}
+              </Typography>
+            ) : (
+              <MatchStatusBadge
+                status={match.status}
+                startDateTime={match.matchStartDate || ''}
+              />
+            )}
           </Stack>
         )}
 
@@ -171,7 +185,7 @@ export const MatchItem = ({
             )}
           </Stack>
 
-          {shouldShowScore && (
+          {shouldShowScore && !isScheduleMatch && (
             <Box
               display="flex"
               alignItems="center"
@@ -310,23 +324,25 @@ export const MatchItem = ({
               </Stack>
               <Stack>
                 <Box>
-                  <Tooltip
-                    title="Edit match information"
-                    placement="right"
-                  >
-                    <IconButton
-                      size="small"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        onEdit?.(match);
-                      }}
+                  {!isEndedMatch && (
+                    <Tooltip
+                      title="Edit match information"
+                      placement="right"
                     >
-                      <EditIcon
-                        fontSize="small"
-                        color="warning"
-                      />
-                    </IconButton>
-                  </Tooltip>
+                      <IconButton
+                        size="small"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          onEdit?.(match);
+                        }}
+                      >
+                        <EditIcon
+                          fontSize="small"
+                          color="warning"
+                        />
+                      </IconButton>
+                    </Tooltip>
+                  )}
                 </Box>
               </Stack>
             </Stack>

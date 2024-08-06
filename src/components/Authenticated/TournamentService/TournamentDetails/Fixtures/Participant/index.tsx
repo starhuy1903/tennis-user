@@ -57,7 +57,12 @@ export default function ParticipantFixture() {
     <WrapperContainer>
       {isGeneratedNewKnockoutFixture(fixture) && <KnockoutFixtures rounds={fixture.knockoutGroup.rounds} />}
 
-      {isGeneratedNewRoundRobinFixture(fixture) && <RoundRobinFixture rounds={fixture.roundRobinGroups[0].rounds} />}
+      {isGeneratedNewRoundRobinFixture(fixture) && (
+        <RoundRobinFixture
+          rounds={fixture.roundRobinGroups[0].rounds}
+          isSchedule
+        />
+      )}
 
       {isGeneratedNewGroupPlayoffFixture(fixture) && <GroupPlayoffFixture fixture={fixture} />}
     </WrapperContainer>

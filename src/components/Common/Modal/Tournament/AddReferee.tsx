@@ -41,6 +41,7 @@ export default function AddReferee({ tournamentId, onSubmit, onModalClose }: Add
         component="form"
         autoComplete="off"
         sx={{ display: 'flex', flexDirection: 'column', gap: 2, mt: 2 }}
+        onSubmit={(e) => e.preventDefault()}
       >
         <FormControl
           fullWidth
