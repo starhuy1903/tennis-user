@@ -247,6 +247,7 @@ export default function Footer() {
               variant="contained"
               startIcon={<DownloadIcon />}
               fullWidth
+              href="https://firebasestorage.googleapis.com/v0/b/tennis-7aa7c.appspot.com/o/app-release.apk?alt=media&token=12ce7e00-2bc9-4afb-bf76-c50586e15011"
             >
               Download
             </Button>
