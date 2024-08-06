@@ -125,6 +125,26 @@ export default function NotificationItem({ notification, onCloseMenu, onReadNoti
       );
     }
 
+    case NotificationType.GROUP_TOURNAMENT_MATCHES_ON_GOING: {
+      const routeToMatch = `groups/${notification.data.groupId}/tournaments/${notification.data.groupTournamentId}/fixtures`;
+
+      const handleNavigate = () => {
+        navigate(routeToMatch);
+        onCloseMenu();
+        onReadNoti();
+      };
+
+      return (
+        <NotificationStyled
+          title={notification.data.title}
+          message={notification.data.message}
+          onClick={handleNavigate}
+          isRead={notification.isRead}
+          timestamp={notification.timestamp}
+        />
+      );
+    }
+
     default:
       throw new Error('Invalid notification type');
   }

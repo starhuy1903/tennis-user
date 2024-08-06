@@ -94,10 +94,10 @@ export default function Statistic({ isLoading, generalFinanceInfo }: StatisticPr
     currency: 'VND',
   }).format(generalFinanceInfo?.currentFund?.currentAmount || 0);
 
-  const targetAmount = new Intl.NumberFormat('vi-VN', {
-    style: 'currency',
-    currency: 'VND',
-  }).format(generalFinanceInfo?.currentFund?.targetAmount || 0);
+  // const targetAmount = new Intl.NumberFormat('vi-VN', {
+  //   style: 'currency',
+  //   currency: 'VND',
+  // }).format(generalFinanceInfo?.currentFund?.targetAmount || 0);
 
   return (
     <Box
@@ -127,13 +127,6 @@ export default function Statistic({ isLoading, generalFinanceInfo }: StatisticPr
                   fontSize={24}
                 >
                   {currentAmount}
-                </Typography>{' '}
-                /{' '}
-                <Typography
-                  component="span"
-                  fontSize={24}
-                >
-                  {targetAmount}
                 </Typography>
               </Box>
             </Stack>

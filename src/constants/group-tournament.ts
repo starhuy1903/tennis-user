@@ -31,9 +31,9 @@ export enum GroupTournamentPhase {
 
 export const GroupTournamentPhaseOptions = {
   [GroupTournamentPhase.NEW]: 'New',
-  [GroupTournamentPhase.PUBLISHED]: 'Published',
-  [GroupTournamentPhase.FINALIZED_APPLICANTS]: 'Finalized Applicants',
-  [GroupTournamentPhase.GENERATED_FIXTURES]: 'Generated Fixtures',
-  [GroupTournamentPhase.SCORED_MATCHES]: 'Scored Matches',
-  [GroupTournamentPhase.COMPLETED]: 'Completed',
+  [GroupTournamentPhase.PUBLISHED]: 'Publish',
+  [GroupTournamentPhase.FINALIZED_APPLICANTS]: 'Finalize Applicants',
+  [GroupTournamentPhase.GENERATED_FIXTURES]: 'Generate Fixtures',
+  [GroupTournamentPhase.SCORED_MATCHES]: 'Score Matches',
+  [GroupTournamentPhase.COMPLETED]: 'Complete',
 };

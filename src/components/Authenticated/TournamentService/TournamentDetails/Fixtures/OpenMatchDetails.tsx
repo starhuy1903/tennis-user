@@ -1,10 +1,11 @@
 import { Box } from '@mui/material';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'store';
 
 import CenterLoading from 'components/Common/CenterLoading';
 import MatchDetails from 'components/Common/Match/MatchDetails';
+import { MatchState } from 'constants/match';
 import { useLazyGetMatchDetailsQuery } from 'store/api/tournament/shared/match';
 import { selectTournamentData, showTournamentBackground } from 'store/slice/tournamentSlice';
 
@@ -15,7 +16,11 @@ export default function OpenMatchDetails() {
 
   const { matchId } = useParams();
 
-  const [getMatchDetailsRequest, { isLoading, data: match }] = useLazyGetMatchDetailsQuery();
+  const [pollingTime, setPollingTime] = useState<number | undefined>(10000);
+
+  const [getMatchDetailsRequest, { isLoading, data: match }] = useLazyGetMatchDetailsQuery({
+    pollingInterval: pollingTime,
+  });
 
   useEffect(() => {
     (async () => {
@@ -33,10 +38,19 @@ export default function OpenMatchDetails() {
     })();
   }, [getMatchDetailsRequest, matchId, navigate, tournamentData, dispatch]);
 
+  useEffect(() => {
+    if (match?.status === MatchState.WALK_OVER) {
+      setPollingTime(undefined);
+    }
+  }, [match?.status]);
+
   if (isLoading || !match) return <CenterLoading />;
 
   return (
-    <Box mt={4}>
+    <Box
+      mt={4}
+      key={match.status}
+    >
       <MatchDetails
         match={match}
         onBackToMatchList={() => navigate(`/tournaments/${tournamentData.id}/matches`)}

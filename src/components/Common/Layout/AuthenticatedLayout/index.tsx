@@ -10,7 +10,7 @@ import Logo from 'components/Common/Logo';
 
 import Footer from '../Footer';
 import AvatarMenu from './AvatarMenu';
-import MessageMenu from './MessageMenu';
+// import MessageMenu from './MessageMenu';
 import NotificationMenu from './NotificationMenu';
 
 const AuthenticatedLayout = () => {
@@ -43,7 +43,7 @@ const AuthenticatedLayout = () => {
               <LinkButton to="/about">About</LinkButton>
               <LinkButton to="/contact">Contact</LinkButton>
               <NotificationMenu />
-              <MessageMenu />
+              {/* <MessageMenu /> */}
             </Box>
             <Box>
               <AvatarMenu />

@@ -94,13 +94,13 @@ export default function CreateGroupTournament() {
           fontWeight: 700,
         }}
       >
-        TOURNAMENT CREATION FORM
+        TOURNAMENT CREATION
       </Typography>
 
       <Box
         component="form"
         autoComplete="off"
-        sx={{ display: 'flex', flexDirection: 'column', gap: 2, mt: 2 }}
+        sx={{ display: 'flex', flexDirection: 'column', gap: 2, my: 2 }}
       >
         <Stack
           direction="row"

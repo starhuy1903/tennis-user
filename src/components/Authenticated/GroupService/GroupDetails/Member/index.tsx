@@ -2,7 +2,7 @@ import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import { Box, Fab, FormControl, TextField, Tooltip } from '@mui/material';
 import { useDebounce } from 'hooks';
 import { useConfirm } from 'material-ui-confirm';
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'store';
 
 import CenterLoading from 'components/Common/CenterLoading';
@@ -34,6 +34,15 @@ export default function Member() {
     () => memberData?.data.filter((item) => item.user.name.toLowerCase().includes(debouncedSearchValue.toLowerCase())),
     [memberData, debouncedSearchValue]
   );
+
+  const handleGetMemberData = useCallback(async () => {
+    try {
+      const res = await getGroupMemberRequest({ page: 1, take: 100, id: groupData.id }).unwrap();
+      setMemberData(res);
+    } catch (error) {
+      // handled error
+    }
+  }, [getGroupMemberRequest, groupData.id]);
 
   const handleInvite = () => {
     dispatch(
@@ -69,15 +78,8 @@ export default function Member() {
   };
 
   useEffect(() => {
-    (async () => {
-      try {
-        const res = await getGroupMemberRequest({ page: 1, take: 10, id: groupData.id }).unwrap();
-        setMemberData(res);
-      } catch (error) {
-        // handled error
-      }
-    })();
-  }, [getGroupMemberRequest, groupData.id]);
+    handleGetMemberData();
+  }, [handleGetMemberData]);
 
   return (
     <Box sx={{ height: '100%', overflow: 'hidden' }}>

@@ -1,4 +1,5 @@
 import { OrderStatus } from 'constants/order';
+import { OrderStatistic } from 'types/admin/order';
 import { GetListResult, GetPagingListOptions } from 'types/base';
 import { Order } from 'types/order';
 
@@ -28,6 +29,21 @@ const orderAdminApiToastSlice = apiWithToastSlice.injectEndpoints({
     getOrderByIdAdmin: build.query<Order, string>({
       query: (orderId) => urlWithCorePrefix(`orders/${orderId}`),
     }),
+    getOrderStatistic: build.query<
+      OrderStatistic,
+      {
+        year: number;
+        time: 'year' | 'quarter' | 'month';
+      }
+    >({
+      query: ({ year, time = 'month' }) => ({
+        url: urlWithCorePrefix(`orders/statistic`),
+        params: {
+          year,
+          time,
+        },
+      }),
+    }),
   }),
 });
 
@@ -36,4 +52,6 @@ export const {
   useLazyGetOrdersAdminQuery,
   useGetOrderByIdAdminQuery,
   useLazyGetOrderByIdAdminQuery,
+  useGetOrderStatisticQuery,
+  useLazyGetOrderStatisticQuery,
 } = orderAdminApiToastSlice;
