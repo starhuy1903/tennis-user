@@ -9,6 +9,7 @@ import {
   TableRow,
   Typography,
 } from '@mui/material';
+import { blue } from '@mui/material/colors';
 import { useAppSelector } from 'store';
 
 import KnockoutFixtures from 'components/Common/Fixtures/KnockoutFixture';
@@ -78,7 +79,8 @@ export default function GroupPlayoffStandingUI({ standingData }: Props) {
           <TableContainer
             component={Paper}
             key={groupData.id}
-            sx={{ mb: 4 }}
+            sx={{ mb: 4, borderRadius: 4, bgcolor: 'white' }}
+            elevation={3}
           >
             <Table
               sx={{ minWidth: 650 }}
@@ -89,6 +91,7 @@ export default function GroupPlayoffStandingUI({ standingData }: Props) {
                   <TableCell
                     colSpan={titleObjects.length}
                     align="center"
+                    sx={{ bgcolor: blue[200] }}
                   >
                     <Typography variant="h5">{groupData.title}</Typography>
                   </TableCell>

@@ -1,4 +1,4 @@
-import { Container, Stack } from '@mui/material';
+import { Chip, Container, Divider, Stack } from '@mui/material';
 import produce from 'immer';
 import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -29,9 +29,15 @@ type RoundRobinFixtureProps = {
   rounds: Round[];
   setFixtureData?: React.Dispatch<React.SetStateAction<FixtureResponse | null>>;
   isSchedule?: boolean;
+  inGroupPlayoff?: boolean;
 };
 
-export default function RoundRobinFixture({ rounds, setFixtureData, isSchedule }: RoundRobinFixtureProps) {
+export default function RoundRobinFixture({
+  rounds,
+  setFixtureData,
+  isSchedule,
+  inGroupPlayoff,
+}: RoundRobinFixtureProps) {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const tournamentData = useAppSelector(selectTournamentData);
@@ -118,29 +124,45 @@ export default function RoundRobinFixture({ rounds, setFixtureData, isSchedule }
     <Container maxWidth="lg">
       <Stack
         my={1}
-        gap={4}
+        gap={inGroupPlayoff ? 1 : 4}
+        alignItems="center"
       >
         {rounds.map((round) => (
-          <Stack
-            key={round.id}
-            gap={1}
-            sx={{
-              width: '100%',
-            }}
-          >
-            {round.matches.map((match) => (
-              <MatchItem
-                key={match.id}
-                isCreator={isCreator}
-                match={match}
-                onEdit={handleEditMatch}
-                onViewDetails={handleViewMatchDetails}
-                canGoToMatchDetails={checkGeneratedFixture(tournamentData.phase) && !isSchedule}
-                type="schedule"
-                wrapperSx={{ maxWidth: 600 }}
-                isScheduleMatch={isSchedule}
-              />
-            ))}
+          <Stack width="100%">
+            {!inGroupPlayoff && (
+              <Divider>
+                <Chip
+                  label={round.title}
+                  size="medium"
+                  color="info"
+                  sx={{ fontSize: 20 }}
+                />
+              </Divider>
+            )}
+
+            <Stack
+              key={round.id}
+              gap={1}
+              sx={{
+                width: '100%',
+              }}
+              alignItems="center"
+              mt={2}
+            >
+              {round.matches.map((match) => (
+                <MatchItem
+                  key={match.id}
+                  isCreator={isCreator}
+                  match={match}
+                  onEdit={handleEditMatch}
+                  onViewDetails={handleViewMatchDetails}
+                  canGoToMatchDetails={checkGeneratedFixture(tournamentData.phase) && !isSchedule}
+                  type="schedule"
+                  wrapperSx={{ maxWidth: 600, width: 600 }}
+                  isScheduleMatch={isSchedule}
+                />
+              ))}
+            </Stack>
           </Stack>
         ))}
       </Stack>

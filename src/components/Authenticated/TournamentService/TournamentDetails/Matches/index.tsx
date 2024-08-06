@@ -154,11 +154,11 @@ export default function Matches() {
 
   useEffect(() => {
     const today = dayjs().format('YYYY-MM-DD');
-    if (!renderedDateRange.includes(today)) {
+    if (matchData && !renderedDateRange.includes(today)) {
       setSelectedDate(renderedDateRange[renderedDateRange.length - 1]);
     }
     setHasValidFilterDate(true);
-  }, [renderedDateRange]);
+  }, [matchData, renderedDateRange]);
 
   const renderMatchList = () => {
     if (filterMatches.length === 0) {
@@ -199,7 +199,7 @@ export default function Matches() {
   if (isLoading || !matchData || !hasValidFilterDate || renderedDateRange.length === 0) {
     return (
       <WrapperContainer>
-        <CenterLoading />
+        <CenterLoading height="300px" />
       </WrapperContainer>
     );
   }
@@ -378,6 +378,7 @@ export default function Matches() {
                 recentMatches.slice(0, 3).map((match) => {
                   return (
                     <MatchItem
+                      key={match.id}
                       match={match}
                       onViewDetails={() => handleViewMatchDetails(match)}
                       type="matches"

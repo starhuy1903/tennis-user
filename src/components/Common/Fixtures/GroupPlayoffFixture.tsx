@@ -1,4 +1,4 @@
-import { Box, Divider, Paper, Typography } from '@mui/material';
+import { Box, Chip, Divider, Stack } from '@mui/material';
 
 import { FixtureResponse, GeneratedNewGroupPlayoffFixture } from 'types/tournament-fixtures';
 
@@ -16,35 +16,38 @@ export default function GroupPlayoffFixture({ fixture, setFixtureData, isSchedul
     <Box mt={4}>
       <>
         {fixture.roundRobinGroups.map((roundRobinGroup, index) => (
-          <Paper
+          <Stack
             key={roundRobinGroup.id}
-            elevation={1}
             sx={{
-              padding: 4,
-              borderRadius: 2,
-              backgroundColor: 'white',
               marginTop: 4,
             }}
           >
-            <Typography
-              variant="h5"
-              align="center"
-              sx={{
-                fontWeight: 500,
-              }}
-            >
-              {roundRobinGroup.title}
-            </Typography>
+            <Divider>
+              <Chip
+                label={roundRobinGroup.title}
+                size="medium"
+                color="info"
+                sx={{ fontSize: 20 }}
+              />
+            </Divider>
             <RoundRobinFixture
               key={index}
               rounds={roundRobinGroup.rounds}
               setFixtureData={setFixtureData}
               isSchedule={isSchedule}
+              inGroupPlayoff
             />
-          </Paper>
+          </Stack>
         ))}
       </>
-      <Divider sx={{ my: 5 }} />
+      <Divider sx={{ my: 5 }}>
+        <Chip
+          label="Knockout"
+          size="medium"
+          color="success"
+          sx={{ fontSize: 20 }}
+        />{' '}
+      </Divider>
       {fixture.knockoutGroup && (
         <KnockoutFixtures
           rounds={fixture.knockoutGroup.rounds}
