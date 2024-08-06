@@ -7,9 +7,15 @@ type MemberListProps = {
   memberData: MemberDto[];
   selectedMembers: string[];
   onSelectedMembersChange: (selectedMembers: string[]) => void;
+  selectedAll: boolean;
 };
 
-export default function MemberList({ selectedMembers, memberData, onSelectedMembersChange }: MemberListProps) {
+export default function MemberList({
+  selectedMembers,
+  memberData,
+  onSelectedMembersChange,
+  selectedAll,
+}: MemberListProps) {
   const handleCheckboxChange = useCallback(
     (userId: string) => {
       if (selectedMembers.includes(userId)) {
@@ -62,8 +68,9 @@ export default function MemberList({ selectedMembers, memberData, onSelectedMemb
               </Box>
 
               <Checkbox
-                checked={selectedMembers.includes(member.userId)}
+                checked={selectedMembers.includes(member.userId) || selectedAll}
                 onChange={() => handleCheckboxChange(member.userId)}
+                disabled={selectedAll}
               />
             </Box>
           </FormLabel>

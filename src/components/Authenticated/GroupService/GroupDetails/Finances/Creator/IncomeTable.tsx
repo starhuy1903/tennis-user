@@ -31,6 +31,7 @@ import { useAppSelector } from 'store';
 import { SingleParticipantInfo } from 'components/Authenticated/TournamentService/Common/ParticipantInfo';
 import { WrapperContainer } from 'components/Authenticated/TournamentService/TournamentDetails/Common/StyledComponent';
 import CenterLoading from 'components/Common/CenterLoading';
+import NoData from 'components/Common/NoData';
 import {
   useConfirmMemberFundRequestMutation,
   useGetFundQuery,
@@ -69,6 +70,8 @@ export const PaymentStatus = {
 type IncomeTableProps = {
   onGoToCreateFundForm: () => void;
 };
+
+const NUMBER_OF_COLUMNS = 3;
 
 export default function IncomeTable({ onGoToCreateFundForm }: IncomeTableProps) {
   const confirm = useConfirm();
@@ -218,7 +221,7 @@ export default function IncomeTable({ onGoToCreateFundForm }: IncomeTableProps) 
           >
             <TableHead>
               <TableRow sx={{ bgcolor: teal[100] }}>
-                <TableCell colSpan={4}>
+                <TableCell colSpan={NUMBER_OF_COLUMNS}>
                   <Typography
                     variant="h2"
                     fontWeight={700}
@@ -232,7 +235,6 @@ export default function IncomeTable({ onGoToCreateFundForm }: IncomeTableProps) 
               <TableRow>
                 <TableCell>Member</TableCell>
                 <TableCell align="right">Status</TableCell>
-                <TableCell align="right">Message</TableCell>
                 <TableCell align="right">Action</TableCell>
               </TableRow>
             </TableHead>
@@ -242,7 +244,7 @@ export default function IncomeTable({ onGoToCreateFundForm }: IncomeTableProps) 
                   .fill(null)
                   .map((_, index) => (
                     <TableRow key={index}>
-                      <TableCell colSpan={4}>
+                      <TableCell colSpan={NUMBER_OF_COLUMNS}>
                         <Skeleton
                           variant="rectangular"
                           height={30}
@@ -260,10 +262,13 @@ export default function IncomeTable({ onGoToCreateFundForm }: IncomeTableProps) 
                       component="th"
                       scope="row"
                     >
-                      <SingleParticipantInfo name={row.name} />
+                      <SingleParticipantInfo
+                        name={row.name}
+                        image={row.image}
+                      />
                     </TableCell>
                     <TableCell align="right">{PaymentStatus[row.status]}</TableCell>
-                    <TableCell align="right">{row.description}</TableCell>
+
                     <TableCell align="right">
                       {row.status === MemberPaymentStatus.PENDING && (
                         <>
@@ -289,7 +294,11 @@ export default function IncomeTable({ onGoToCreateFundForm }: IncomeTableProps) 
                   </TableRow>
                 ))
               ) : (
-                <Box>No data</Box>
+                <TableRow>
+                  <TableCell colSpan={NUMBER_OF_COLUMNS}>
+                    <NoData />
+                  </TableCell>
+                </TableRow>
               )}
             </TableBody>
           </Table>

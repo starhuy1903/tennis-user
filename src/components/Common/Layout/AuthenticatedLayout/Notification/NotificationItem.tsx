@@ -126,16 +126,19 @@ export default function NotificationItem({ notification, onCloseMenu, onReadNoti
     }
 
     case NotificationType.GROUP_TOURNAMENT_MATCHES_ON_GOING: {
-      // const routeToMatch =
-      //   notification.type === NotificationType.GROUP_TOURNAMENT_MATCHES_ON_GOING
-      //     ? `matches/${notification.data.matchId}`
-      //     : 'matches';
+      const routeToMatch = `groups/${notification.data.groupId}/tournaments/${notification.data.groupTournamentId}/fixtures`;
+
+      const handleNavigate = () => {
+        navigate(routeToMatch);
+        onCloseMenu();
+        onReadNoti();
+      };
+
       return (
         <NotificationStyled
           title={notification.data.title}
           message={notification.data.message}
-          // onClick={() => handleNavigateToTournament(notification.data.tournamentId, routeToMatch)}
-          onClick={() => ({})}
+          onClick={handleNavigate}
           isRead={notification.isRead}
           timestamp={notification.timestamp}
         />

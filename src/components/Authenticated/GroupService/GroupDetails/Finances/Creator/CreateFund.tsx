@@ -52,6 +52,7 @@ export default function CreateFund({ memberData, onGoToIncomeTable }: CreateFund
     register,
     formState: { errors: formError },
     getValues,
+    setValue,
     watch,
     handleSubmit,
   } = useForm<FormType>({
@@ -274,7 +275,10 @@ export default function CreateFund({ memberData, onGoToIncomeTable }: CreateFund
                     control={<Checkbox />}
                     label="Apply for all members"
                     checked={value}
-                    onChange={onChange}
+                    onChange={(_, checked) => {
+                      onChange(checked);
+                      setValue('memberListId', []);
+                    }}
                   />
                 )}
               />
@@ -283,15 +287,12 @@ export default function CreateFund({ memberData, onGoToIncomeTable }: CreateFund
                 name="memberListId"
                 control={control}
                 render={({ field: { value, onChange } }) => (
-                  <>
-                    {watch('isFullMember') ? null : (
-                      <MemberList
-                        memberData={renderMemberList}
-                        selectedMembers={value}
-                        onSelectedMembersChange={onChange}
-                      />
-                    )}
-                  </>
+                  <MemberList
+                    memberData={renderMemberList}
+                    selectedMembers={value}
+                    onSelectedMembersChange={onChange}
+                    selectedAll={watch('isFullMember')}
+                  />
                 )}
               />
             </Stack>

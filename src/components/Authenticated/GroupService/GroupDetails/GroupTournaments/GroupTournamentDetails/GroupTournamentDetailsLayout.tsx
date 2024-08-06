@@ -46,7 +46,7 @@ const GroupTournamentTabs = [
   },
 ];
 
-const steps = Object.values(GroupTournamentPhaseOptions);
+const steps = Object.values(GroupTournamentPhaseOptions).slice(1);
 
 export default function GroupTournamentDetailsLayout() {
   const navigate = useNavigate();
