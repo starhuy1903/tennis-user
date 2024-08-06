@@ -4,7 +4,7 @@ import { FormatDateTime } from 'constants/datetime';
 import { PaymentInfoPayload } from 'types/tournament/fund';
 import { displayDateTime } from 'utils/datetime';
 
-import { units } from '../Creator/PaymentForm';
+// import { units } from '../Creator/PaymentForm';
 
 type PaymentInfoProps = {
   paymentInfo: PaymentInfoPayload;
@@ -18,6 +18,11 @@ const displayDate = (date: string) => {
 };
 
 export default function PaymentInfo({ paymentInfo }: PaymentInfoProps) {
+  const paymentAmount = new Intl.NumberFormat('vi-VN', {
+    style: 'currency',
+    currency: 'VND',
+  }).format(paymentInfo.amount || 0);
+
   return (
     <Box>
       <Card sx={{ maxWidth: 500 }}>
@@ -65,9 +70,7 @@ export default function PaymentInfo({ paymentInfo }: PaymentInfoProps) {
                 >
                   Amount
                 </Typography>
-                <Typography display="inline">
-                  {paymentInfo.amount} {units.find((unit) => unit.value === paymentInfo.unit)?.label}
-                </Typography>
+                <Typography display="inline">{paymentAmount}</Typography>
               </Box>
 
               <Box>

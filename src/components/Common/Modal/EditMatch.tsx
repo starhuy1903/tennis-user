@@ -162,7 +162,7 @@ export default function EditMatch({
           spacing={2}
         >
           {/* Name */}
-          <FormControl
+          {/* <FormControl
             fullWidth
             error={!!formError.name}
           >
@@ -182,7 +182,7 @@ export default function EditMatch({
               placeholder="Match name"
             />
             <FormHelperText id="name-helper-text">{formError.name?.message}</FormHelperText>
-          </FormControl>
+          </FormControl> */}
 
           {/* Date time */}
           <Controller

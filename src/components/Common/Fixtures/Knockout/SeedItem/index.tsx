@@ -57,7 +57,7 @@ export default function CustomSeedItem({
           position: 'relative',
         }}
       >
-        {canEditMatch && (
+        {canEditMatch && !isNotClicked && seed.status !== MatchState.SCORE_DONE && (
           <Tooltip
             title="Edit"
             placement="right"

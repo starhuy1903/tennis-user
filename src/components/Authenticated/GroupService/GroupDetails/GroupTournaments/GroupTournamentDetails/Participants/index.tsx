@@ -340,7 +340,7 @@ export default function Participants() {
               alignItems="center"
               gap={1}
             >
-              {groupData.isCreator && tournamentData.phase === GroupTournamentPhase.FINALIZED_APPLICANTS && (
+              {groupData.isCreator && (
                 <Tooltip title="Add referee">
                   <Fab
                     size="medium"

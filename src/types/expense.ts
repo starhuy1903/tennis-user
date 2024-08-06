@@ -49,6 +49,7 @@ export type FundMember = {
   status: MemberPaymentStatus;
   name: string;
   image: string;
+  amount: number;
 };
 
 export type CreateFundPayload = Omit<GroupFund, 'id' | 'createdAt'> & {

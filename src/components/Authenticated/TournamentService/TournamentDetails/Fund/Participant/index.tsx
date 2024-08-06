@@ -21,9 +21,7 @@ export default function ParticipantFund() {
   const tournamentData = useAppSelector(selectTournamentData);
   const user = useAppSelector(selectUser);
 
-  const { data: paymentData, isLoading: isFetchingPaymentData } = useGetPaymentInfoQuery(tournamentData.id, {
-    skip: true,
-  });
+  const { data: paymentData, isLoading: isFetchingPaymentData } = useGetPaymentInfoQuery(tournamentData.id);
 
   const [userPaymentInfo, setUserPaymentInfo] = useState<UserPaymentInfoResponse | null>(null);
   const [getTeamPaymentInfoRequest] = useLazyGetUserPaymentInfoQuery();

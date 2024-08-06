@@ -23,7 +23,7 @@ import {
   TableRow,
   Typography,
 } from '@mui/material';
-import { grey, teal } from '@mui/material/colors';
+import { green, grey, teal } from '@mui/material/colors';
 import { useConfirm } from 'material-ui-confirm';
 import { useCallback, useEffect, useState } from 'react';
 import { useAppSelector } from 'store';
@@ -71,7 +71,7 @@ type IncomeTableProps = {
   onGoToCreateFundForm: () => void;
 };
 
-const NUMBER_OF_COLUMNS = 3;
+const NUMBER_OF_COLUMNS = 4;
 
 export default function IncomeTable({ onGoToCreateFundForm }: IncomeTableProps) {
   const confirm = useConfirm();
@@ -234,6 +234,7 @@ export default function IncomeTable({ onGoToCreateFundForm }: IncomeTableProps) 
               </TableRow>
               <TableRow>
                 <TableCell>Member</TableCell>
+                <TableCell align="right">Amount</TableCell>
                 <TableCell align="right">Status</TableCell>
                 <TableCell align="right">Action</TableCell>
               </TableRow>
@@ -266,6 +267,18 @@ export default function IncomeTable({ onGoToCreateFundForm }: IncomeTableProps) 
                         name={row.name}
                         image={row.image}
                       />
+                    </TableCell>
+                    <TableCell
+                      align="right"
+                      sx={{ color: row.status === MemberPaymentStatus.ACCEPTED ? green[400] : 'unset' }}
+                    >
+                      {(() => {
+                        const amount = new Intl.NumberFormat('vi-VN', {
+                          style: 'currency',
+                          currency: 'VND',
+                        }).format(row.amount || 0);
+                        return row.status === MemberPaymentStatus.ACCEPTED ? `+${amount}` : '---';
+                      })()}
                     </TableCell>
                     <TableCell align="right">{PaymentStatus[row.status]}</TableCell>
 
