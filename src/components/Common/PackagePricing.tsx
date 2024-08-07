@@ -1,7 +1,7 @@
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import { Box, Button, Card, CardContent, Grid, Stack, Typography } from '@mui/material';
-import { blueGrey } from '@mui/material/colors';
+import { blueGrey, lightGreen } from '@mui/material/colors';
 import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'store';
@@ -77,21 +77,21 @@ export default function PackagePricing({
       </Typography>
 
       <Stack gap={4}>
-        <Stack>
-          <Typography
-            fontSize={24}
-            fontWeight={700}
-            color={blueGrey[700]}
-          >
-            Tournament
-          </Typography>
-          <Grid
-            container
-            mt={4}
-            gap={6}
-          >
-            {tournamentPackages &&
-              tournamentPackages.map((item, index) => (
+        {tournamentPackages && tournamentPackages.length > 0 && (
+          <Stack>
+            <Typography
+              fontSize={24}
+              fontWeight={700}
+              color={blueGrey[700]}
+            >
+              Tournament
+            </Typography>
+            <Grid
+              container
+              mt={4}
+              gap={6}
+            >
+              {tournamentPackages.map((item, index) => (
                 <Grid
                   item
                   key={index}
@@ -163,7 +163,7 @@ export default function PackagePricing({
                                 gap: 1,
                               }}
                             >
-                              <CheckCircleOutlineIcon />
+                              <CheckCircleOutlineIcon sx={{ color: lightGreen['A400'] }} />
                               <Typography variant="body2">{feature}</Typography>
                             </Box>
                           ))}
@@ -182,24 +182,25 @@ export default function PackagePricing({
                   </Card>
                 </Grid>
               ))}
-          </Grid>
-        </Stack>
+            </Grid>
+          </Stack>
+        )}
 
-        <Stack>
-          <Typography
-            fontSize={24}
-            fontWeight={700}
-            color={blueGrey[700]}
-          >
-            Group
-          </Typography>
-          <Grid
-            container
-            mt={4}
-            gap={6}
-          >
-            {groupPackages &&
-              groupPackages.map((item, index) => (
+        {groupPackages && groupPackages.length > 0 && (
+          <Stack>
+            <Typography
+              fontSize={24}
+              fontWeight={700}
+              color={blueGrey[700]}
+            >
+              Group
+            </Typography>
+            <Grid
+              container
+              mt={4}
+              gap={6}
+            >
+              {groupPackages.map((item, index) => (
                 <Grid
                   item
                   key={index}
@@ -271,7 +272,7 @@ export default function PackagePricing({
                                 gap: 1,
                               }}
                             >
-                              <CheckCircleOutlineIcon />
+                              <CheckCircleOutlineIcon sx={{ color: lightGreen['A400'] }} />
                               <Typography variant="body2">{feature}</Typography>
                             </Box>
                           ))}
@@ -290,24 +291,25 @@ export default function PackagePricing({
                   </Card>
                 </Grid>
               ))}
-          </Grid>
-        </Stack>
+            </Grid>
+          </Stack>
+        )}
 
-        <Stack>
-          <Typography
-            fontSize={24}
-            fontWeight={700}
-            color={blueGrey[700]}
-          >
-            Affiliate
-          </Typography>
-          <Grid
-            container
-            mt={4}
-            gap={6}
-          >
-            {affiliatePackages &&
-              affiliatePackages.map((item, index) => (
+        {affiliatePackages && affiliatePackages.length > 0 && (
+          <Stack>
+            <Typography
+              fontSize={24}
+              fontWeight={700}
+              color={blueGrey[700]}
+            >
+              Affiliate
+            </Typography>
+            <Grid
+              container
+              mt={4}
+              gap={6}
+            >
+              {affiliatePackages.map((item, index) => (
                 <Grid
                   item
                   key={index}
@@ -379,7 +381,7 @@ export default function PackagePricing({
                                 gap: 1,
                               }}
                             >
-                              <CheckCircleOutlineIcon />
+                              <CheckCircleOutlineIcon sx={{ color: lightGreen['A400'] }} />
                               <Typography variant="body2">{feature}</Typography>
                             </Box>
                           ))}
@@ -398,8 +400,9 @@ export default function PackagePricing({
                   </Card>
                 </Grid>
               ))}
-          </Grid>
-        </Stack>
+            </Grid>
+          </Stack>
+        )}
       </Stack>
     </Box>
   );
