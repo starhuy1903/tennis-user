@@ -25,9 +25,13 @@ export default function PaymentInfo({ paymentInfo }: PaymentInfoProps) {
 
   return (
     <Box>
-      <Card sx={{ maxWidth: 500 }}>
+      <Card
+        sx={{ maxWidth: 500, borderRadius: 4, background: 'linear-gradient(to right, #56ccf2, #2f80ed)' }}
+        elevation={3}
+      >
         <CardHeader
           title="Payment information"
+          titleTypographyProps={{ textAlign: 'center' }}
           subheader
         />
         <CardContent>

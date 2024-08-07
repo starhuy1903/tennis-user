@@ -1,4 +1,4 @@
-import AccountBoxIcon from '@mui/icons-material/AccountBox';
+// import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import CloseIcon from '@mui/icons-material/Close';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { Chip } from '@mui/material';
@@ -12,7 +12,7 @@ import Stack from '@mui/material/Stack';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 import { SyntheticEvent } from 'react';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import { useAppSelector } from 'store';
 
 import { MemberRole } from 'constants/group';
@@ -29,7 +29,7 @@ interface MemberItemsProps {
 
 const MemberItems = ({ role, isCreator, data, expanded, handleChange, handleDelete }: MemberItemsProps) => {
   const userId = useAppSelector((state) => state.user.userInfo?.id);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   return (
     <Accordion
@@ -79,7 +79,7 @@ const MemberItems = ({ role, isCreator, data, expanded, handleChange, handleDele
             </Typography> */}
           </Stack>
           <Box sx={{ display: 'flex', alignItems: 'flex-end', columnGap: '10px' }}>
-            <Tooltip title="Visit profile page">
+            {/* <Tooltip title="Visit profile page">
               <Fab
                 size="small"
                 color="success"
@@ -87,7 +87,7 @@ const MemberItems = ({ role, isCreator, data, expanded, handleChange, handleDele
               >
                 <AccountBoxIcon />
               </Fab>
-            </Tooltip>
+            </Tooltip> */}
             {isCreator && role !== MemberRole.GROUP_ADMIN && userId !== data.id && (
               <Tooltip title="Remove from group">
                 <Fab

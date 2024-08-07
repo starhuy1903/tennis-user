@@ -118,14 +118,26 @@ export default function UserPaymentList() {
   );
 
   return (
-    <Box mt={2}>
-      <TableContainer component={Paper}>
+    <Box mt={4}>
+      <TableContainer
+        component={Paper}
+        sx={{ borderRadius: 4, bgcolor: 'white' }}
+        elevation={1}
+      >
         <Table
           sx={{ minWidth: 650 }}
           aria-label="locations"
         >
           <TableHead>
-            <TableRow>
+            <TableRow sx={{ backgroundImage: 'linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%)' }}>
+              <TableCell
+                align="center"
+                colSpan={titleData.length}
+              >
+                <Typography variant="h4">Confirmation list</Typography>
+              </TableCell>
+            </TableRow>
+            <TableRow sx={{ backgroundImage: 'linear-gradient(to top, #cfd9df 0%, #e2ebf0 100%)' }}>
               {titleData.map((title) => (
                 <TableCell
                   align={title.align}

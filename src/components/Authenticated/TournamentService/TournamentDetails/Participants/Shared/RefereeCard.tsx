@@ -1,5 +1,4 @@
 import { Avatar, Box, Card, CardContent, Typography } from '@mui/material';
-import { deepPurple } from '@mui/material/colors';
 
 type RefereeCardProps = {
   image: string;
@@ -8,7 +7,14 @@ type RefereeCardProps = {
 
 export default function RefereeCard({ image, name }: RefereeCardProps) {
   return (
-    <Card sx={{ width: 300, justifyContent: 'start', background: deepPurple[50] }}>
+    <Card
+      sx={{
+        width: 300,
+        justifyContent: 'start',
+        backgroundImage: 'linear-gradient(to top, #bdc2e8 0%, #bdc2e8 1%, #e6dee9 100%)',
+        borderRadius: 4,
+      }}
+    >
       <CardContent>
         <Box
           display="flex"
@@ -16,7 +22,7 @@ export default function RefereeCard({ image, name }: RefereeCardProps) {
           gap={2}
         >
           <Avatar
-            sx={{ width: 100, height: 100 }}
+            sx={{ width: 80, height: 80 }}
             src={image}
           />
           <Box>

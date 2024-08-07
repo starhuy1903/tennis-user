@@ -40,7 +40,7 @@ const GroupTournamentTabs = [
     icon: <GroupsIcon />,
   },
   {
-    label: 'Fixtures',
+    label: 'Schedule',
     value: 'fixtures',
     icon: <AccountTreeIcon />,
   },

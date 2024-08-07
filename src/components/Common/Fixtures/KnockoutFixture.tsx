@@ -169,7 +169,7 @@ export default function KnockoutFixtures({
                 textAlign: 'center',
                 fontWeight: 'bold',
                 padding: 1.5,
-                borderRadius: 1,
+                borderRadius: 4,
                 mx: 1,
                 mb: 1,
                 width: isStandingTabs || !isCreator ? 300 : 500,

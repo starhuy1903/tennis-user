@@ -119,18 +119,24 @@ export default function ParticipantList() {
 
   return (
     <Box my={4}>
-      <Typography
-        variant="h4"
-        mb={2}
+      <TableContainer
+        component={Paper}
+        sx={{ borderRadius: 4, bgcolor: 'white' }}
+        elevation={1}
       >
-        Participants
-      </Typography>
-      <TableContainer component={Paper}>
         <Table
           sx={{ minWidth: 650 }}
           aria-label="participant table"
         >
           <TableHead>
+            <TableRow sx={{ backgroundImage: 'linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%)' }}>
+              <TableCell
+                align="center"
+                colSpan={titles.length}
+              >
+                <Typography variant="h4">Participants</Typography>
+              </TableCell>
+            </TableRow>
             <TableRow>
               <TableCell align="left">
                 <Typography

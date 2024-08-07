@@ -9,7 +9,6 @@ import {
   TableRow,
   Typography,
 } from '@mui/material';
-import { blue } from '@mui/material/colors';
 import { useAppSelector } from 'store';
 
 import KnockoutFixtures from 'components/Common/Fixtures/KnockoutFixture';
@@ -91,7 +90,7 @@ export default function GroupPlayoffStandingUI({ standingData }: Props) {
                   <TableCell
                     colSpan={titleObjects.length}
                     align="center"
-                    sx={{ bgcolor: blue[200] }}
+                    sx={{ backgroundImage: 'linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%)' }}
                   >
                     <Typography variant="h5">{groupData.title}</Typography>
                   </TableCell>

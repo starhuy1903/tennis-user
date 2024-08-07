@@ -22,7 +22,7 @@ function NotificationStyled({ title, message, onClick, isRead, timestamp }: Noti
       sx={{
         'borderBottom': '1px solid',
         'borderColor': 'divider',
-        'bgcolor': isRead ? grey[300] : 'transparent',
+        'bgcolor': isRead ? grey[200] : 'transparent',
 
         '&:hover': {
           bgcolor: deepPurple[50],
