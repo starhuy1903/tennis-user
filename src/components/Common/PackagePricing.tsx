@@ -76,224 +76,233 @@ export default function PackagePricing({
         {description}
       </Typography>
 
-      <Stack gap={4}>
-        {tournamentPackages && tournamentPackages.length > 0 && (
-          <Stack>
-            <Typography
-              fontSize={24}
-              fontWeight={700}
-              color={blueGrey[700]}
-            >
-              Tournament
-            </Typography>
-            <Grid
-              container
-              mt={4}
-              gap={6}
-            >
-              {tournamentPackages.map((item, index) => (
-                <Grid
-                  item
-                  key={index}
-                  sx={{
-                    'transition': 'transform .2s',
-                    '&:hover': {
-                      transform: 'scale(1.05)',
-                    },
-                  }}
-                >
-                  <Card
+      <Stack
+        gap={4}
+        alignItems="center"
+      >
+        <Box
+          display="flex"
+          alignItems="center"
+          gap={6}
+        >
+          {tournamentPackages && tournamentPackages.length > 0 && (
+            <Stack>
+              <Typography
+                fontSize={24}
+                fontWeight={700}
+                color={blueGrey[700]}
+              >
+                Tournament
+              </Typography>
+              <Grid
+                container
+                mt={4}
+                gap={6}
+              >
+                {tournamentPackages.map((item, index) => (
+                  <Grid
+                    item
+                    key={index}
                     sx={{
-                      width: 350,
-                      background:
-                        'linear-gradient(180deg, rgba(92,76,154,1) 0%, rgba(118,105,255,1) 0%, rgba(209,205,221,1) 100%)',
-
-                      color: 'white',
-                      borderRadius: 4,
-                      border: '1px solid',
+                      'transition': 'transform .2s',
+                      '&:hover': {
+                        transform: 'scale(1.05)',
+                      },
                     }}
-                    elevation={3}
                   >
-                    <CardContent>
-                      <Box
-                        sx={{
-                          display: 'flex',
-                          flexDirection: 'column',
-                          justifyContent: 'space-between',
-                          minHeight: 470,
-                        }}
-                      >
-                        <Box>
-                          <Typography
-                            variant="h6"
-                            textAlign="center"
-                          >
-                            {item.name}
-                          </Typography>
-                          <Typography
-                            variant="h4"
-                            textAlign="center"
-                            fontWeight="bold"
-                            my={1}
-                          >
-                            {displayCurrency(item.price)}
-                          </Typography>
-                          <Typography
-                            variant="body2"
-                            textAlign="center"
-                            my={1}
-                          >
-                            / {item.duration} {item.duration === 1 ? 'month' : 'months'}
-                          </Typography>
-                          <Typography
-                            variant="body2"
-                            textAlign="center"
-                            marginBottom={4}
-                          >
-                            {item.description}
-                          </Typography>
+                    <Card
+                      sx={{
+                        width: 350,
+                        background:
+                          'linear-gradient(180deg, rgba(92,76,154,1) 0%, rgba(118,105,255,1) 0%, rgba(209,205,221,1) 100%)',
 
-                          {item.features.map((feature, featureIndex) => (
-                            <Box
-                              key={featureIndex}
-                              sx={{
-                                display: 'flex',
-                                alignItems: 'center',
-                                marginTop: 1,
-                                gap: 1,
-                              }}
-                            >
-                              <CheckCircleOutlineIcon sx={{ color: lightGreen['A400'] }} />
-                              <Typography variant="body2">{feature}</Typography>
-                            </Box>
-                          ))}
-                        </Box>
-
-                        <Button
-                          variant="contained"
-                          fullWidth
-                          onClick={() => handleBuyPackage(item.id)}
-                          startIcon={<ShoppingCartOutlinedIcon />}
+                        color: 'white',
+                        borderRadius: 4,
+                        border: '1px solid',
+                      }}
+                      elevation={3}
+                    >
+                      <CardContent>
+                        <Box
+                          sx={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            justifyContent: 'space-between',
+                            minHeight: 470,
+                          }}
                         >
-                          Buy now
-                        </Button>
-                      </Box>
-                    </CardContent>
-                  </Card>
-                </Grid>
-              ))}
-            </Grid>
-          </Stack>
-        )}
+                          <Box>
+                            <Typography
+                              variant="h6"
+                              textAlign="center"
+                            >
+                              {item.name}
+                            </Typography>
+                            <Typography
+                              variant="h4"
+                              textAlign="center"
+                              fontWeight="bold"
+                              my={1}
+                            >
+                              {displayCurrency(item.price)}
+                            </Typography>
+                            <Typography
+                              variant="body2"
+                              textAlign="center"
+                              my={1}
+                            >
+                              / {item.duration} {item.duration === 1 ? 'month' : 'months'}
+                            </Typography>
+                            <Typography
+                              variant="body2"
+                              textAlign="center"
+                              marginBottom={4}
+                            >
+                              {item.description}
+                            </Typography>
 
-        {groupPackages && groupPackages.length > 0 && (
-          <Stack>
-            <Typography
-              fontSize={24}
-              fontWeight={700}
-              color={blueGrey[700]}
-            >
-              Group
-            </Typography>
-            <Grid
-              container
-              mt={4}
-              gap={6}
-            >
-              {groupPackages.map((item, index) => (
-                <Grid
-                  item
-                  key={index}
-                  sx={{
-                    'transition': 'transform .2s',
-                    '&:hover': {
-                      transform: 'scale(1.05)',
-                    },
-                  }}
-                >
-                  <Card
+                            {item.features.map((feature, featureIndex) => (
+                              <Box
+                                key={featureIndex}
+                                sx={{
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  marginTop: 1,
+                                  gap: 1,
+                                }}
+                              >
+                                <CheckCircleOutlineIcon sx={{ color: lightGreen['A400'] }} />
+                                <Typography variant="body2">{feature}</Typography>
+                              </Box>
+                            ))}
+                          </Box>
+
+                          <Button
+                            variant="contained"
+                            fullWidth
+                            onClick={() => handleBuyPackage(item.id)}
+                            startIcon={<ShoppingCartOutlinedIcon />}
+                          >
+                            Buy now
+                          </Button>
+                        </Box>
+                      </CardContent>
+                    </Card>
+                  </Grid>
+                ))}
+              </Grid>
+            </Stack>
+          )}
+
+          {groupPackages && groupPackages.length > 0 && (
+            <Stack>
+              <Typography
+                fontSize={24}
+                fontWeight={700}
+                color={blueGrey[700]}
+              >
+                Group
+              </Typography>
+              <Grid
+                container
+                mt={4}
+                gap={6}
+              >
+                {groupPackages.map((item, index) => (
+                  <Grid
+                    item
+                    key={index}
                     sx={{
-                      width: 350,
-                      background:
-                        'linear-gradient(180deg, rgba(92,76,154,1) 0%, rgba(118,105,255,1) 0%, rgba(209,205,221,1) 100%)',
-
-                      color: 'white',
-                      borderRadius: 4,
-                      border: '1px solid',
+                      'transition': 'transform .2s',
+                      '&:hover': {
+                        transform: 'scale(1.05)',
+                      },
                     }}
-                    elevation={3}
                   >
-                    <CardContent>
-                      <Box
-                        sx={{
-                          display: 'flex',
-                          flexDirection: 'column',
-                          justifyContent: 'space-between',
-                          minHeight: 470,
-                        }}
-                      >
-                        <Box>
-                          <Typography
-                            variant="h6"
-                            textAlign="center"
-                          >
-                            {item.name}
-                          </Typography>
-                          <Typography
-                            variant="h4"
-                            textAlign="center"
-                            fontWeight="bold"
-                            my={1}
-                          >
-                            {displayCurrency(item.price)}
-                          </Typography>
-                          <Typography
-                            variant="body2"
-                            textAlign="center"
-                            my={1}
-                          >
-                            / {item.duration} {item.duration === 1 ? 'month' : 'months'}
-                          </Typography>
-                          <Typography
-                            variant="body2"
-                            textAlign="center"
-                            marginBottom={4}
-                          >
-                            {item.description}
-                          </Typography>
+                    <Card
+                      sx={{
+                        width: 350,
+                        background:
+                          'linear-gradient(180deg, rgba(92,76,154,1) 0%, rgba(118,105,255,1) 0%, rgba(209,205,221,1) 100%)',
 
-                          {item.features.map((feature, featureIndex) => (
-                            <Box
-                              key={featureIndex}
-                              sx={{
-                                display: 'flex',
-                                alignItems: 'center',
-                                marginTop: 1,
-                                gap: 1,
-                              }}
-                            >
-                              <CheckCircleOutlineIcon sx={{ color: lightGreen['A400'] }} />
-                              <Typography variant="body2">{feature}</Typography>
-                            </Box>
-                          ))}
-                        </Box>
-
-                        <Button
-                          variant="contained"
-                          fullWidth
-                          onClick={() => handleBuyPackage(item.id)}
-                          startIcon={<ShoppingCartOutlinedIcon />}
+                        color: 'white',
+                        borderRadius: 4,
+                        border: '1px solid',
+                      }}
+                      elevation={3}
+                    >
+                      <CardContent>
+                        <Box
+                          sx={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            justifyContent: 'space-between',
+                            minHeight: 470,
+                          }}
                         >
-                          Buy now
-                        </Button>
-                      </Box>
-                    </CardContent>
-                  </Card>
-                </Grid>
-              ))}
-            </Grid>
-          </Stack>
-        )}
+                          <Box>
+                            <Typography
+                              variant="h6"
+                              textAlign="center"
+                            >
+                              {item.name}
+                            </Typography>
+                            <Typography
+                              variant="h4"
+                              textAlign="center"
+                              fontWeight="bold"
+                              my={1}
+                            >
+                              {displayCurrency(item.price)}
+                            </Typography>
+                            <Typography
+                              variant="body2"
+                              textAlign="center"
+                              my={1}
+                            >
+                              / {item.duration} {item.duration === 1 ? 'month' : 'months'}
+                            </Typography>
+                            <Typography
+                              variant="body2"
+                              textAlign="center"
+                              marginBottom={4}
+                            >
+                              {item.description}
+                            </Typography>
+
+                            {item.features.map((feature, featureIndex) => (
+                              <Box
+                                key={featureIndex}
+                                sx={{
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  marginTop: 1,
+                                  gap: 1,
+                                }}
+                              >
+                                <CheckCircleOutlineIcon sx={{ color: lightGreen['A400'] }} />
+                                <Typography variant="body2">{feature}</Typography>
+                              </Box>
+                            ))}
+                          </Box>
+
+                          <Button
+                            variant="contained"
+                            fullWidth
+                            onClick={() => handleBuyPackage(item.id)}
+                            startIcon={<ShoppingCartOutlinedIcon />}
+                          >
+                            Buy now
+                          </Button>
+                        </Box>
+                      </CardContent>
+                    </Card>
+                  </Grid>
+                ))}
+              </Grid>
+            </Stack>
+          )}
+        </Box>
 
         {affiliatePackages && affiliatePackages.length > 0 && (
           <Stack>
