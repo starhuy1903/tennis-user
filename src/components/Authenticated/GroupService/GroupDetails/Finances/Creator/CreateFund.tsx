@@ -154,7 +154,7 @@ export default function CreateFund({ memberData, onGoToIncomeTable }: CreateFund
               fullWidth
               error={!!formError.amount}
             >
-              <FormLabel htmlFor="amount">Amount</FormLabel>
+              <FormLabel htmlFor="amount">Amount per member</FormLabel>
               <TextField
                 {...register('amount', {
                   required: 'The amount is required.',

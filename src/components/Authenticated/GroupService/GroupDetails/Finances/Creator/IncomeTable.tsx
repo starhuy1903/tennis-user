@@ -76,7 +76,10 @@ const NUMBER_OF_COLUMNS = 4;
 export default function IncomeTable({ onGoToCreateFundForm }: IncomeTableProps) {
   const confirm = useConfirm();
   const groupData = useAppSelector(selectGroup);
-  const { data: fundData, isLoading: fetchingFundData } = useGetFundQuery({ groupId: groupData.id });
+  const { data: fundData, isLoading: fetchingFundData } = useGetFundQuery(
+    { groupId: groupData.id },
+    { refetchOnMountOrArgChange: true }
+  );
   const [getFundRequestOfMemberRequest, { isFetching: fetchingFundRequestOfMember, data: fundRequestOfMemberData }] =
     useLazyGetFundRequestOfMemberQuery();
   const [confirmRequest, { isLoading: isUpdatingMemberPayment }] = useConfirmMemberFundRequestMutation();
