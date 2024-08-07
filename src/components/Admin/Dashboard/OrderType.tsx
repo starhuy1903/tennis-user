@@ -1,17 +1,23 @@
 import { Box, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, Typography } from '@mui/material';
 import { LineChart } from '@mui/x-charts/LineChart';
-import { useCallback, useState } from 'react';
+import { useCallback } from 'react';
 
 import CenterLoading from 'components/Common/CenterLoading';
-import { useGetOrderStatisticQuery } from 'store/api/admin/orderApiSlice';
+import { OrderStatistic } from 'types/admin/order';
 
-export default function OrderType() {
-  const [selectedYear, setSelectedYear] = useState(2024);
-  const { data } = useGetOrderStatisticQuery({ year: selectedYear, time: 'month' });
+type OrderTypeProps = {
+  statisticData?: OrderStatistic;
+  selectedYear: number;
+  setSelectedYear: (year: number) => void;
+};
 
-  const handleChangeYear = useCallback((event: SelectChangeEvent<number>) => {
-    setSelectedYear(Number(event.target.value));
-  }, []);
+export default function OrderType({ statisticData: data, selectedYear, setSelectedYear }: OrderTypeProps) {
+  const handleChangeYear = useCallback(
+    (event: SelectChangeEvent<number>) => {
+      setSelectedYear(Number(event.target.value));
+    },
+    [setSelectedYear]
+  );
 
   if (!data) {
     return <CenterLoading />;

@@ -18,7 +18,7 @@ import {
 } from 'types/user';
 import auth from 'utils/auth';
 
-import { logOut, setIsLoggedIn, setProfile } from '../slice/userSlice';
+import { setIsLoggedIn, setProfile } from '../slice/userSlice';
 import { apiSlice, apiWithToastSlice } from './baseApiSlice';
 import { urlWithAuthPrefix, urlWithCorePrefix } from './helper';
 
@@ -140,10 +140,6 @@ const userApiSlice = apiSlice.injectEndpoints({
         method: 'POST',
         body,
       }),
-      onQueryStarted: async (_, { dispatch, queryFulfilled }) => {
-        await queryFulfilled;
-        dispatch(logOut());
-      },
     }),
   }),
 });

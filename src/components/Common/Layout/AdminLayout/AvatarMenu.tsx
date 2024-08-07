@@ -9,14 +9,13 @@ import MenuItem from '@mui/material/MenuItem';
 import MenuList from '@mui/material/MenuList';
 import Typography from '@mui/material/Typography';
 import { useCallback, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useAppSelector } from 'store';
+import { useAppDispatch, useAppSelector } from 'store';
 
-import { useLogoutMutation } from 'store/api/userApiSlice';
+import { logOut } from 'store/slice/userSlice';
 
 const AvatarMenu = () => {
   const userInfo = useAppSelector((state) => state.user.userInfo);
-  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
 
@@ -27,12 +26,9 @@ const AvatarMenu = () => {
     setAnchorElUser(null);
   };
 
-  const [logoutRequest] = useLogoutMutation();
-
   const handleLogout = useCallback(async () => {
-    await logoutRequest();
-    navigate('/');
-  }, [logoutRequest, navigate]);
+    dispatch(logOut());
+  }, [dispatch]);
 
   return (
     <>

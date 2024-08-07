@@ -1,7 +1,8 @@
-import TrendingDownIcon from '@mui/icons-material/TrendingDown';
-import TrendingUpIcon from '@mui/icons-material/TrendingUp';
-import { Box, Stack, Typography } from '@mui/material';
-import { green, grey, red } from '@mui/material/colors';
+// import TrendingDownIcon from '@mui/icons-material/TrendingDown';
+// import TrendingUpIcon from '@mui/icons-material/TrendingUp';
+import { Box, Stack, SxProps, Typography } from '@mui/material';
+
+// import { green, grey, red } from '@mui/material/colors';
 
 type StatisticCardProps = {
   categoryIcon: React.ReactNode;
@@ -9,23 +10,20 @@ type StatisticCardProps = {
   amount: string;
   trendingPercentage: string;
   isUpTrending: boolean;
+  wrapperSx?: SxProps;
 };
 
-export default function StatisticCard({
-  categoryIcon,
-  category,
-  amount,
-  trendingPercentage,
-  isUpTrending,
-}: StatisticCardProps) {
+export default function StatisticCard({ categoryIcon, category, amount, wrapperSx }: StatisticCardProps) {
   return (
-    <Box sx={{ border: '1px solid', borderColor: 'divider', p: 3, borderRadius: 4, width: 320, height: 140 }}>
+    <Box
+      sx={{ border: '1px solid', borderColor: 'divider', p: 3, borderRadius: 4, width: 320, height: 140, ...wrapperSx }}
+    >
       <Stack gap={1}>
         <Box
           display="flex"
           alignItems="center"
           gap={1}
-          sx={{ color: grey[600] }}
+          sx={{ color: 'white' }}
         >
           {categoryIcon}
           <Typography fontSize={14}>{category}</Typography>
@@ -37,11 +35,22 @@ export default function StatisticCard({
         >
           <Typography
             variant="h4"
-            sx={{ fontWeight: 500 }}
+            sx={{ fontWeight: 500, color: 'white' }}
           >
             {amount}
           </Typography>
-          <Box
+          {/* <Chip
+            avatar={
+              isUpTrending ? (
+                <TrendingUpIcon sx={{ color: isUpTrending ? green[400] : red[400] }} />
+              ) : (
+                <TrendingDownIcon sx={{ color: isUpTrending ? green[400] : red[400] }} />
+              )
+            }
+            label={trendingPercentage}
+            sx={{ color: isUpTrending ? green[400] : red[400] }}
+          /> */}
+          {/* <Box
             display="flex"
             alignItems="center"
             gap={0.5}
@@ -54,7 +63,7 @@ export default function StatisticCard({
             >
               {trendingPercentage}
             </Typography>
-          </Box>
+          </Box> */}
         </Box>
       </Stack>
     </Box>

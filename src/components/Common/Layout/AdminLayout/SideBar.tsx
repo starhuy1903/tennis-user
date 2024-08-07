@@ -1,8 +1,8 @@
 import CategoryIcon from '@mui/icons-material/Category';
 import DashboardIcon from '@mui/icons-material/Dashboard';
-import EqualizerIcon from '@mui/icons-material/Equalizer';
+// import EqualizerIcon from '@mui/icons-material/Equalizer';
 import FeedIcon from '@mui/icons-material/Feed';
-import PaidIcon from '@mui/icons-material/Paid';
+// import PaidIcon from '@mui/icons-material/Paid';
 import PendingActionsIcon from '@mui/icons-material/PendingActions';
 import PermMediaIcon from '@mui/icons-material/PermMedia';
 import PersonIcon from '@mui/icons-material/Person';
@@ -73,21 +73,21 @@ function Sidebar({ open, handleOnClose }: SidebarProps) {
             />
           </NavGroupWrapper>
           <NavGroupWrapper title="Revenue Management">
-            <NavItem
+            {/* <NavItem
               title="Statistics"
               icon={<EqualizerIcon />}
               href="/revenue-statistics"
-            />
+            /> */}
             <NavItem
               title="Orders"
               icon={<ShoppingCartIcon />}
               href="/orders"
             />
-            <NavItem
+            {/* <NavItem
               title="Service Usages"
               icon={<PaidIcon />}
               href="/service-usages"
-            />
+            /> */}
           </NavGroupWrapper>
           <NavGroupWrapper title="Advertisement Management">
             <NavItem

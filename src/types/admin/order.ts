@@ -1,5 +1,7 @@
 export type OrderStatistic = {
-  orderSum: number;
+  totalRevenue: number;
+  totalUsers: number;
+  totalOrderSum: number;
   orderSumByYear: number;
   categories: string[];
   series: {
