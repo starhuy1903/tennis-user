@@ -6,6 +6,7 @@ import { useState } from 'react';
 
 import BracketScreen from 'assets/images/brackets-screen.png';
 import GroupScreen from 'assets/images/group-screen.png';
+import LiveScoreScreen from 'assets/images/livescore.png';
 import NotificationScreen from 'assets/images/notification-screen.png';
 
 function TabData({
@@ -92,14 +93,27 @@ function TournamentFeature() {
         md={6}
         sx={{
           display: 'flex',
+          flexDirection: 'column',
           justifyContent: 'center',
           alignItems: 'center',
+          gap: 2,
         }}
       >
         <Box
           component="img"
           src={BracketScreen}
           alt="Bracket screen"
+          sx={{
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+          }}
+        />
+
+        <Box
+          component="img"
+          src={LiveScoreScreen}
+          alt="Live score screen"
           sx={{
             width: '100%',
             height: '100%',
@@ -139,11 +153,6 @@ function GroupFeature() {
           <TabData
             title="Fund Management"
             description="Managing expenses and fund contributions within the group, with a feature to remind members to contribute to the fund."
-          />
-
-          <TabData
-            title="Organize Events"
-            description="Easily plan group events, manage event details and schedules efficiently. "
           />
 
           <TabData
