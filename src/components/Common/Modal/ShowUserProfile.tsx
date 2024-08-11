@@ -16,6 +16,7 @@ import {
   Stack,
   Tooltip,
   Typography,
+  useTheme,
 } from '@mui/material';
 import { useEffect, useState } from 'react';
 
@@ -29,6 +30,7 @@ import BaseModal from './BaseModal';
 import { ShowUserProfileProps } from './types';
 
 export default function ShowUserProfile({ userId, onModalClose }: ShowUserProfileProps) {
+  const theme = useTheme();
   const [page, setPage] = useState(1);
 
   const { isLoading, data: user } = useGetUserProfileQuery(userId);
@@ -60,10 +62,30 @@ export default function ShowUserProfile({ userId, onModalClose }: ShowUserProfil
           gap: 2,
         }}
       >
-        <Avatar
-          src={user?.image}
-          sx={{ width: 100, height: 100 }}
-        />
+        <Box
+          sx={{
+            position: 'relative',
+          }}
+        >
+          <Avatar
+            src={user?.image}
+            sx={{ width: 100, height: 100, border: '2px solid white' }}
+          />
+
+          <Chip
+            label={`${user?.elo || 'No'} ELO`}
+            size="small"
+            variant={user?.elo ? 'filled' : 'outlined'}
+            color="primary"
+            sx={{
+              position: 'absolute',
+              bottom: 0,
+              left: '50%',
+              transform: 'translateX(-50%)',
+              backgroundColor: user?.elo ? theme.palette.primary.main : 'white',
+            }}
+          />
+        </Box>
 
         <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
           <Stack
