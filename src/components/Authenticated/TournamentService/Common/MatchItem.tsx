@@ -24,6 +24,7 @@ type MathItemProps = {
   shouldShowMatchStatus?: boolean;
   isScheduleMatch?: boolean;
   shouldHighlightWinnerTeam?: boolean;
+  shouldShowElo?: boolean;
 };
 
 export const MatchItem = ({
@@ -37,6 +38,7 @@ export const MatchItem = ({
   shouldShowMatchStatus = true,
   isScheduleMatch = false,
   shouldHighlightWinnerTeam,
+  shouldShowElo = true,
 }: MathItemProps) => {
   const shouldShowScore = [MatchState.WALK_OVER, MatchState.DONE, MatchState.SCORE_DONE].includes(match.status);
 
@@ -155,7 +157,7 @@ export const MatchItem = ({
                   <SingleParticipantInfo
                     name={match.teams.team1.user1.name}
                     image={match.teams.team1.user1.image}
-                    shouldShowElo
+                    shouldShowElo={shouldShowElo}
                     elo={match.teams.team1.user1.elo}
                     disabled={shouldHighlightWinnerTeam && isTeam2Winner}
                   />
@@ -165,7 +167,7 @@ export const MatchItem = ({
                     image1={match.teams.team1.user1.image}
                     name2={match.teams.team1.user2?.name}
                     image2={match.teams.team1.user2?.image}
-                    shouldShowTotalElo
+                    shouldShowTotalElo={shouldShowElo}
                     totalElo={match.teams.team1.totalElo}
                     disabled={shouldHighlightWinnerTeam && isTeam2Winner}
                   />
@@ -188,7 +190,7 @@ export const MatchItem = ({
                   <SingleParticipantInfo
                     name={match.teams.team2.user1.name}
                     image={match.teams.team2.user1.image}
-                    shouldShowElo
+                    shouldShowElo={shouldShowElo}
                     elo={match.teams.team2.user1.elo}
                     disabled={shouldHighlightWinnerTeam && isTeam1Winner}
                   />
@@ -198,7 +200,7 @@ export const MatchItem = ({
                     image1={match.teams.team2.user1.image}
                     name2={match.teams.team2.user2?.name}
                     image2={match.teams.team2.user2?.image}
-                    shouldShowTotalElo
+                    shouldShowTotalElo={shouldShowElo}
                     totalElo={match.teams.team2.totalElo}
                     disabled={shouldHighlightWinnerTeam && isTeam1Winner}
                   />

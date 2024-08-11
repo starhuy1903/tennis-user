@@ -3,6 +3,7 @@ import GroupMatchDetails from './Fixtures/GroupMatchDetails';
 import GroupTournamentDetailsLayout from './GroupTournamentDetailsLayout';
 import Information from './Information';
 import Participants from './Participants';
+import Standing from './Standing';
 
 export const groupTournamentDetailsRoutes = {
   path: ':tournamentId',
@@ -27,6 +28,10 @@ export const groupTournamentDetailsRoutes = {
     {
       path: 'matches/:matchId',
       element: <GroupMatchDetails />,
+    },
+    {
+      path: 'standings',
+      element: <Standing />,
     },
   ],
 };
