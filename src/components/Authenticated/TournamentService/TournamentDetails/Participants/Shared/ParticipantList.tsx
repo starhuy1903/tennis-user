@@ -193,6 +193,7 @@ export default function ParticipantList() {
                         <Box sx={{ display: 'flex', flexDirection: 'column', rowGap: '10px' }}>
                           {participants.participantType === ParticipantType.SINGLE ? (
                             <SingleParticipantInfo
+                              userId={row.user1.id}
                               image={row.user1.image}
                               name={row.user1.name}
                               shouldShowElo
@@ -200,6 +201,8 @@ export default function ParticipantList() {
                             />
                           ) : (
                             <DoubleParticipantInfo
+                              userId1={row.user1.id}
+                              userId2={row.user2?.id ?? ''}
                               name1={row.user1.name}
                               image1={row.user1.image}
                               name2={row.user2?.name}

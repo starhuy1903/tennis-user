@@ -2,6 +2,7 @@ import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Unstable_Grid2';
+import { useEffect } from 'react';
 
 import CenterLoading from 'components/Common/CenterLoading';
 import NoData from 'components/Common/NoData';
@@ -11,7 +12,11 @@ import GroupCard from '../Common/GroupCard';
 
 // TODO: Need paging
 export default function JoinedGroup() {
-  const { data: groupsData, isLoading } = useGetJoinedGroupsQuery({ page: 1, take: 10 });
+  const { data: groupsData, isLoading, refetch } = useGetJoinedGroupsQuery({ page: 1, take: 10 });
+
+  useEffect(() => {
+    refetch();
+  }, [refetch]);
 
   return (
     <Paper sx={{ padding: 4, backgroundColor: 'white' }}>

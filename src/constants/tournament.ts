@@ -46,6 +46,26 @@ export const TournamentStatusOptions = {
   [TournamentStatus.COMPLETED]: 'Completed',
 };
 
+export const TournamentStatusChip: {
+  [key in TournamentStatus]: {
+    label: string;
+    color: 'default' | 'primary' | 'secondary' | 'info' | 'success' | 'warning' | 'error';
+  };
+} = {
+  [TournamentStatus.UPCOMING]: {
+    label: 'Upcoming',
+    color: 'info',
+  },
+  [TournamentStatus.ON_GOING]: {
+    label: 'On Going',
+    color: 'warning',
+  },
+  [TournamentStatus.COMPLETED]: {
+    label: 'Completed',
+    color: 'success',
+  },
+};
+
 export enum TournamentPhase {
   NEW = 'new',
   PUBLISHED = 'published',

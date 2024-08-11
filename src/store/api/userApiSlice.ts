@@ -1,6 +1,7 @@
 import { MatchState } from 'constants/match';
 import { GetListResult, GetPagingListOptions } from 'types/base';
 import { MatchMetaData } from 'types/match';
+import { OpenTournament } from 'types/tournament';
 import {
   AffiliatedSponsorPayload,
   ChangePasswordPayload,
@@ -107,6 +108,31 @@ const userApiToastSlice = apiWithToastSlice.injectEndpoints({
     getUserProfile: build.query<UserProfile, string>({
       query: (id) => urlWithCorePrefix(`users/${id}`),
     }),
+    getUserTournaments: build.query<
+      {
+        tournaments: GetListResult<
+          OpenTournament & {
+            appliedDate: string;
+          }
+        >;
+        statistic: {
+          total: number;
+          win: number;
+          lose: number;
+        };
+      },
+      GetPagingListOptions & {
+        userId: string;
+      }
+    >({
+      query: ({ page, take, userId }) => ({
+        url: urlWithCorePrefix(`users/${userId}/tournament-history`),
+        params: {
+          page,
+          take,
+        },
+      }),
+    }),
     affiliateSponsor: build.mutation<void, AffiliatedSponsorPayload>({
       query: (body) => ({
         url: 'users/affiliate-sponsor',
@@ -157,6 +183,8 @@ export const {
   useLazyGetProfileQuery,
   useGetUserProfileQuery,
   useLazyGetUserProfileQuery,
+  useGetUserTournamentsQuery,
+  useLazyGetUserTournamentsQuery,
   useAffiliateSponsorMutation,
   useGetRefereeMatchesQuery,
   useLazyGetRefereeMatchesQuery,

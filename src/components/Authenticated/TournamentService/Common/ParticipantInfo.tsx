@@ -1,8 +1,13 @@
 import WhatshotIcon from '@mui/icons-material/Whatshot';
 import { Avatar, Box, Skeleton, Stack, SxProps, Tooltip, Typography, TypographyProps } from '@mui/material';
 import { grey } from '@mui/material/colors';
+import { useAppDispatch } from 'store';
+
+import { ModalKey } from 'constants/modal';
+import { showModal } from 'store/slice/modalSlice';
 
 type SingleParticipantInfoProps = {
+  userId?: string;
   containerSx?: SxProps;
   image?: string;
   name?: string;
@@ -15,6 +20,7 @@ type SingleParticipantInfoProps = {
 };
 
 export function SingleParticipantInfo({
+  userId,
   containerSx,
   image,
   name,
@@ -25,6 +31,16 @@ export function SingleParticipantInfo({
   nameTypographyProps,
   disabled = false,
 }: SingleParticipantInfoProps) {
+  const dispatch = useAppDispatch();
+
+  const handleShowUserProfile = (id: string) => {
+    dispatch(
+      showModal(ModalKey.SHOW_USER_PROFILE, {
+        userId: id,
+      })
+    );
+  };
+
   return (
     <Box
       display="flex"
@@ -33,8 +49,13 @@ export function SingleParticipantInfo({
       sx={{ opacity: disabled ? 0.5 : 1, ...containerSx }}
     >
       <Avatar
-        sx={{ width: '40px', height: '40px', ...imageSx }}
+        sx={{ width: '40px', height: '40px', ...imageSx, cursor: userId ? 'pointer' : 'default' }}
         src={image}
+        onClick={() => {
+          if (userId) {
+            handleShowUserProfile(userId);
+          }
+        }}
       />
       {renderInfo ? (
         renderInfo()
@@ -114,6 +135,8 @@ export const UndefinedSinglePlayer = () => {
 };
 
 type DoubleParticipantInfoProps = {
+  userId1?: string;
+  userId2?: string;
   containerSx?: SxProps;
   image1?: string;
   name1?: string;
@@ -128,6 +151,8 @@ type DoubleParticipantInfoProps = {
 };
 
 export function DoubleParticipantInfo({
+  userId1,
+  userId2,
   containerSx,
   image1,
   name1,
@@ -153,6 +178,7 @@ export function DoubleParticipantInfo({
         sx={containerSx}
       >
         <SingleParticipantInfo
+          userId={userId1}
           name={name1}
           image={image1}
           shouldShowElo={shouldShowElo}
@@ -183,6 +209,7 @@ export function DoubleParticipantInfo({
           </Stack>
         )}
         <SingleParticipantInfo
+          userId={userId2}
           name={name2}
           image={image2}
           shouldShowElo={shouldShowElo}
