@@ -1,4 +1,4 @@
-// import AccountBoxIcon from '@mui/icons-material/AccountBox';
+import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import CloseIcon from '@mui/icons-material/Close';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { Chip } from '@mui/material';
@@ -13,9 +13,11 @@ import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 import { SyntheticEvent } from 'react';
 // import { useNavigate } from 'react-router-dom';
-import { useAppSelector } from 'store';
+import { useAppDispatch, useAppSelector } from 'store';
 
 import { MemberRole } from 'constants/group';
+import { ModalKey } from 'constants/modal';
+import { showModal } from 'store/slice/modalSlice';
 import { MemberUser } from 'types/user';
 
 interface MemberItemsProps {
@@ -29,7 +31,15 @@ interface MemberItemsProps {
 
 const MemberItems = ({ role, isCreator, data, expanded, handleChange, handleDelete }: MemberItemsProps) => {
   const userId = useAppSelector((state) => state.user.userInfo?.id);
-  // const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
+  const handleShowUserProfile = () => {
+    dispatch(
+      showModal(ModalKey.SHOW_USER_PROFILE, {
+        userId: data.id,
+      })
+    );
+  };
 
   return (
     <Accordion
@@ -79,15 +89,15 @@ const MemberItems = ({ role, isCreator, data, expanded, handleChange, handleDele
             </Typography> */}
           </Stack>
           <Box sx={{ display: 'flex', alignItems: 'flex-end', columnGap: '10px' }}>
-            {/* <Tooltip title="Visit profile page">
+            <Tooltip title="Show profile">
               <Fab
                 size="small"
                 color="success"
-                onClick={() => navigate(`/people/${data.id}`)}
+                onClick={handleShowUserProfile}
               >
                 <AccountBoxIcon />
               </Fab>
-            </Tooltip> */}
+            </Tooltip>
             {isCreator && role !== MemberRole.GROUP_ADMIN && userId !== data.id && (
               <Tooltip title="Remove from group">
                 <Fab

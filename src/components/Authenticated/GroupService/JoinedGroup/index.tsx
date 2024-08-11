@@ -11,7 +11,10 @@ import GroupCard from '../Common/GroupCard';
 
 // TODO: Need paging
 export default function JoinedGroup() {
-  const { data: groupsData, isLoading } = useGetJoinedGroupsQuery({ page: 1, take: 10 });
+  const { data: groupsData, isLoading } = useGetJoinedGroupsQuery(
+    { page: 1, take: 10 },
+    { refetchOnMountOrArgChange: true }
+  );
 
   return (
     <Paper sx={{ padding: 4, backgroundColor: 'white' }}>

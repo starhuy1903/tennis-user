@@ -94,6 +94,10 @@ export interface AddExpenseProps extends CommonModalProps {
   onSuccess: () => Promise<void>;
 }
 
+export interface ShowUserProfileProps extends CommonModalProps {
+  userId: string;
+}
+
 /** External modal props: useModal */
 // type FilteredModalProps<T extends CommonModalProps> = Omit<T, 'onModalClose'> & {
 //   onModalClose?: () => void;

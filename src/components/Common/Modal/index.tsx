@@ -14,6 +14,7 @@ import RegisterTournament from './RegisterTournament';
 import SelectPaymentMethod from './SelectPaymentMethod';
 import ShowOrderDetail from './ShowOrderDetails';
 import ShowPackageDetails from './ShowPackageDetails';
+import ShowUserProfile from './ShowUserProfile';
 import AddReferee from './Tournament/AddReferee';
 import SelectSeed from './Tournament/SelectSeed';
 import UpdatePost from './UpdatePost';
@@ -33,6 +34,7 @@ const ModalsMap: { [modalKey: string]: any } = {
   [ModalKey.CREATE_POST]: CreatePost,
   [ModalKey.UPDATE_POST]: UpdatePost,
   [ModalKey.ADD_EXPENSE]: AddExpense,
+  [ModalKey.SHOW_USER_PROFILE]: ShowUserProfile,
 };
 
 export function ModalContainer() {
