@@ -26,6 +26,7 @@ import { useGetUserProfileQuery, useGetUserTournamentsQuery } from 'store/api/us
 import { displayDateTime } from 'utils/datetime';
 
 import CenterLoading from '../CenterLoading';
+import NoData from '../NoData';
 import BaseModal from './BaseModal';
 import { ShowUserProfileProps } from './types';
 
@@ -182,49 +183,53 @@ export default function ShowUserProfile({ userId, onModalClose }: ShowUserProfil
           justifyContent="center"
           spacing={1}
         >
-          {tournamentHistory?.tournaments?.data.map((tournament) => (
-            <CardActionArea>
-              <Card>
-                <Box sx={{ position: 'relative' }}>
-                  <CardMedia
-                    component="img"
-                    height="250"
-                    image={tournament?.image}
-                    alt="tournament"
-                  />
+          {tournamentHistory?.tournaments?.data && tournamentHistory?.tournaments?.data.length > 0 ? (
+            tournamentHistory?.tournaments?.data.map((tournament) => (
+              <CardActionArea>
+                <Card>
+                  <Box sx={{ position: 'relative' }}>
+                    <CardMedia
+                      component="img"
+                      height="250"
+                      image={tournament?.image}
+                      alt="tournament"
+                    />
 
-                  <Chip
-                    icon={
-                      tournament?.status === TournamentStatus.UPCOMING ? (
-                        <EmojiEventsIcon />
-                      ) : tournament?.status === TournamentStatus.ON_GOING ? (
-                        <LocalFireDepartmentIcon />
-                      ) : (
-                        <WorkspacePremiumIcon />
-                      )
-                    }
-                    label={TournamentStatusChip[tournament?.status].label}
-                    color={TournamentStatusChip[tournament?.status].color}
-                    sx={{
-                      position: 'absolute',
-                      top: 8,
-                      right: 8,
-                      zIndex: 1,
-                      color: 'white',
-                    }}
-                  />
-                </Box>
+                    <Chip
+                      icon={
+                        tournament?.status === TournamentStatus.UPCOMING ? (
+                          <EmojiEventsIcon />
+                        ) : tournament?.status === TournamentStatus.ON_GOING ? (
+                          <LocalFireDepartmentIcon />
+                        ) : (
+                          <WorkspacePremiumIcon />
+                        )
+                      }
+                      label={TournamentStatusChip[tournament?.status].label}
+                      color={TournamentStatusChip[tournament?.status].color}
+                      sx={{
+                        position: 'absolute',
+                        top: 8,
+                        right: 8,
+                        zIndex: 1,
+                        color: 'white',
+                      }}
+                    />
+                  </Box>
 
-                <CardHeader
-                  title={<Typography variant="h6">{tournament?.name}</Typography>}
-                  subheader={`Applied date: ${displayDateTime({
-                    dateTime: tournament?.appliedDate,
-                    targetFormat: FormatDateTime.DATE_AND_FULL_TIME,
-                  })}`}
-                />
-              </Card>
-            </CardActionArea>
-          ))}
+                  <CardHeader
+                    title={<Typography variant="h6">{tournament?.name}</Typography>}
+                    subheader={`Applied date: ${displayDateTime({
+                      dateTime: tournament?.appliedDate,
+                      targetFormat: FormatDateTime.DATE_AND_FULL_TIME,
+                    })}`}
+                  />
+                </Card>
+              </CardActionArea>
+            ))
+          ) : (
+            <NoData message="This user has not participated in any tournament yet." />
+          )}
         </Stack>
 
         <Pagination
