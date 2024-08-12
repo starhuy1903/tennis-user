@@ -46,6 +46,7 @@ export const MatchItem = ({
 
   const isScheduleTab = type === 'schedule';
   const isMatchesTab = type === 'matches';
+  const isSkippedMatch = match.status === MatchState.SKIPPED;
   const isEndedMatch = match.status === MatchState.DONE || match.status === MatchState.SCORE_DONE;
 
   const setScores = useMemo(
@@ -89,10 +90,12 @@ export const MatchItem = ({
         'borderColor': 'divider',
         'borderRadius': 4,
         'maxWidth': 500,
+        'bgcolor': isSkippedMatch ? grey[300] : 'unset',
+        'opacity': isSkippedMatch ? 0.5 : 1,
 
         '&:hover': {
-          bgcolor: isMatchesTab && canGoToDetailMatch ? grey[200] : 'unset',
-          cursor: isMatchesTab && canGoToDetailMatch ? 'pointer' : 'default',
+          bgcolor: isSkippedMatch ? grey[300] : isMatchesTab && canGoToDetailMatch ? grey[200] : 'unset',
+          cursor: !isSkippedMatch && isMatchesTab && canGoToDetailMatch ? 'pointer' : 'default',
         },
         ...wrapperSx,
       }}
@@ -110,7 +113,17 @@ export const MatchItem = ({
             alignItems="center"
             py={1}
           >
-            {isScheduleMatch ? (
+            {match.status === MatchState.SKIPPED ? (
+              <Stack alignItems="center">
+                <Typography
+                  fontSize={12}
+                  variant="body2"
+                  fontWeight={600}
+                >
+                  No info
+                </Typography>
+              </Stack>
+            ) : isScheduleMatch ? (
               <Stack alignItems="center">
                 <Typography
                   fontSize={12}

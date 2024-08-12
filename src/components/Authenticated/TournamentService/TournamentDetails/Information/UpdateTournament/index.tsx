@@ -70,7 +70,7 @@ export default function UpdateTournament({ onCloseForm }: { onCloseForm: () => v
   const { id, purchasedPackage, tournamentRoles, participants, phase, status, ...originalData } = tournamentData;
 
   const onSubmit: SubmitHandler<UpdateTournamentPayload> = async (data) => {
-    let updatedData: any = { ...data };
+    let updatedData: any = { ...data, maxParticipants: Number(data.maxParticipants) };
     if (tournamentData.phase === TournamentPhase.PUBLISHED) {
       const { format, maxParticipants, participantType, gender, playersBornAfterDate, ...restData } = updatedData;
       updatedData = restData;

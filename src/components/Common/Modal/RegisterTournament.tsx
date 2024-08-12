@@ -61,14 +61,13 @@ export default function RegisterTournament({ tournament, onSuccess, onModalClose
           <img
             src={tournament.image}
             alt="tournament image"
-            style={{ height: 130, borderRadius: 8 }}
+            style={{ height: 130, borderRadius: 8, aspectRatio: '16/9' }}
           />
           <Stack>
             <Tooltip title={tournament.name}>
               <Typography
                 variant="h6"
                 fontWeight="bold"
-                noWrap
                 gutterBottom
               >
                 {tournament.name}

@@ -6,8 +6,8 @@ import { useCreateOrderMutation } from 'store/api/order/orderApiSlice';
 import { showError } from 'utils/toast';
 
 import VNPay from 'assets/images/vnpay.jpg';
-import ZaloPay from 'assets/images/zalopay.png';
 
+// import ZaloPay from 'assets/images/zalopay.png';
 import BaseModal from './BaseModal';
 import { SelectPaymentMethodProps } from './types';
 
@@ -18,12 +18,12 @@ const methods = [
     image: VNPay,
     type: PaymentPartner.VNPAY,
   },
-  {
-    id: 2,
-    name: 'ZaloPay',
-    image: ZaloPay,
-    type: PaymentPartner.ZALOPAY,
-  },
+  // {
+  //   id: 2,
+  //   name: 'ZaloPay',
+  //   image: ZaloPay,
+  //   type: PaymentPartner.ZALOPAY,
+  // },
 ];
 
 export default function SelectPaymentMethod({ userId, packageId, onModalClose }: SelectPaymentMethodProps) {

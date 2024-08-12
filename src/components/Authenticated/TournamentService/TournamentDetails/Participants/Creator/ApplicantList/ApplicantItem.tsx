@@ -1,3 +1,4 @@
+import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -70,6 +71,14 @@ export default function ApplicantItem({
     } catch (error) {
       // handle error
     }
+  };
+
+  const handleShowUserProfile = () => {
+    dispatch(
+      showModal(ModalKey.SHOW_USER_PROFILE, {
+        userId: data.user1.id,
+      })
+    );
   };
 
   const handleSeedingParticipant = useCallback(() => {
@@ -221,16 +230,15 @@ export default function ApplicantItem({
           </Stack>
 
           <Box sx={{ display: 'flex', alignItems: 'flex-end', columnGap: '10px' }}>
-            {/* TODO: need to implement view profile */}
-            {/* <Tooltip title="View Profile">
+            <Tooltip title="Show profile">
               <Fab
                 size="small"
-                color="info"
-                onClick={() => navigate(`/profile/${data.user1.id}`)}
+                color="success"
+                onClick={handleShowUserProfile}
               >
                 <AccountBoxIcon />
               </Fab>
-            </Tooltip> */}
+            </Tooltip>
 
             {data.status === RegistrationStatus.PENDING && (
               <>
