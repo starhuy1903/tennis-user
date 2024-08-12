@@ -3,6 +3,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'store';
 
+import { WrapperContainer } from 'components/Authenticated/TournamentService/TournamentDetails/Common/StyledComponent';
 import CenterLoading from 'components/Common/CenterLoading';
 import KnockoutGroupFixture from 'components/Common/Fixtures/KnockoutGroup';
 import RoundRobinGroupFixture from 'components/Common/Fixtures/RoundRobinGroup';
@@ -140,7 +141,7 @@ export default function CreatorFixture() {
     tournamentData.phase === GroupTournamentPhase.FINALIZED_APPLICANTS && fixture?.status === FixtureStatus.NEW;
 
   return (
-    <Box mt={4}>
+    <WrapperContainer>
       {shouldRenderSetupForm && (
         <SetupFixture
           fixtureConfig={fixtureConfig}
@@ -150,8 +151,8 @@ export default function CreatorFixture() {
       )}
 
       {fixture && isGeneratedNewGroupFixtureType(fixture) && (
-        <Box sx={{ overflowX: 'hidden', border: '1px solid', pY: 2 }}>
-          <Box sx={{ overflow: 'scroll' }}>
+        <Box>
+          <Box marginY={2}>
             {isGeneratedNewKnockoutGroupFixture(fixture) && (
               <KnockoutGroupFixture
                 rounds={fixture.knockoutGroup.rounds}
@@ -198,6 +199,6 @@ export default function CreatorFixture() {
           )}
         </Box>
       )}
-    </Box>
+    </WrapperContainer>
   );
 }

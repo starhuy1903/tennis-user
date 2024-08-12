@@ -16,6 +16,7 @@ import { GroupFixtureResponse, isGeneratedNewKnockoutGroupFixture } from 'types/
 import { EditMatchPayload } from 'types/match';
 import { Match, Round, Team } from 'types/tournament-fixtures';
 import { checkGeneratedFixture } from 'utils/group-tournament';
+import { getKnockoutRoundName } from 'utils/schedule';
 
 import CenterLoading from '../../CenterLoading';
 import NoData from '../../NoData';
@@ -31,6 +32,7 @@ export default function KnockoutGroupFixture({ rounds, setFixtureData }: Knockou
   const dispatch = useAppDispatch();
   const groupData = useAppSelector(selectGroup);
   const tournamentData = useAppSelector(selectGroupTournamentData);
+  const roundNames = useMemo(() => getKnockoutRoundName(rounds.length), [rounds]);
 
   const { data: teamData, isLoading: fetchingTeamData } = useGetTeamGroupTournamentQuery(
     { groupId: groupData.id, tournamentId: tournamentData.id },
@@ -39,22 +41,28 @@ export default function KnockoutGroupFixture({ rounds, setFixtureData }: Knockou
     }
   );
 
-  const { data: referees, isLoading: fetchingRefereeData } = useGetRefereesGroupTournamentQuery({
-    groupId: groupData.id,
-    tournamentId: tournamentData.id,
-  });
+  const { data: referees, isLoading: fetchingRefereeData } = useGetRefereesGroupTournamentQuery(
+    {
+      groupId: groupData.id,
+      tournamentId: tournamentData.id,
+    },
+    {
+      refetchOnMountOrArgChange: true,
+    }
+  );
 
   const bracketRounds = useMemo<IRoundProps[]>(
     () =>
-      rounds.map((round) => ({
-        title: round.title,
+      rounds.map((round, roundIndex) => ({
+        title: roundNames[roundIndex],
         seeds: round.matches.map((match) => ({
           ...match,
           date: match.matchStartDate || '',
           teams: [match.teams.team1 || {}, match.teams.team2 || {}],
+          isFinalMatch: roundIndex === rounds.length - 1,
         })),
       })),
-    [rounds]
+    [roundNames, rounds]
   );
 
   const handleUpdateFixture = useCallback(
@@ -69,9 +77,9 @@ export default function KnockoutGroupFixture({ rounds, setFixtureData }: Knockou
                   m.matchStartDate = match.dateTime;
                   m.duration = match.duration;
                   m.venue = match.venue;
-                  m.refereeId = match.refereeId;
-                  m.teams.team1 = teamData?.data.find((team) => team.id === match.team1Id) as Team;
-                  m.teams.team2 = teamData?.data.find((team) => team.id === match.team2Id) as Team;
+                  m.refereeId = match.refereeId || null;
+                  m.teams.team1 = (teamData?.data.find((team) => team.id === match.team1Id) as Team) || null;
+                  m.teams.team2 = (teamData?.data.find((team) => team.id === match.team2Id) as Team) || null;
                 }
               });
             });
@@ -129,7 +137,10 @@ export default function KnockoutGroupFixture({ rounds, setFixtureData }: Knockou
   }
 
   return (
-    <Box mt={5}>
+    <Box
+      mt={5}
+      sx={{ overflow: 'auto' }}
+    >
       <Bracket
         rounds={bracketRounds}
         roundTitleComponent={(title) => {
@@ -141,10 +152,10 @@ export default function KnockoutGroupFixture({ rounds, setFixtureData }: Knockou
                 textAlign: 'center',
                 fontWeight: 'bold',
                 padding: 1.5,
-                borderRadius: 1,
+                borderRadius: 4,
                 mx: 1,
                 mb: 1,
-                width: 400,
+                width: 500,
               }}
             >
               {title}
@@ -153,11 +164,13 @@ export default function KnockoutGroupFixture({ rounds, setFixtureData }: Knockou
         }}
         renderSeedComponent={(props) => (
           <CustomSeedItem
-            {...props}
-            // TODO: check role
+            isCreator={groupData.isCreator}
             onEdit={handleEditMatch}
             onViewDetails={handleClickSeedItem}
             type="schedule"
+            shouldShowElo={false}
+            isScheduleMatch
+            {...props}
           />
         )}
       />

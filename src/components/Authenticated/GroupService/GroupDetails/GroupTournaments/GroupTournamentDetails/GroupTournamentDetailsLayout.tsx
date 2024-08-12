@@ -18,6 +18,8 @@ import { defaultTournamentImage } from 'constants/tournament';
 import { useLazyGetGroupTournamentDetailsQuery } from 'store/api/group/group-tournaments/shared/general';
 import { useLazyGetGroupDetailsQuery } from 'store/api/group/groupApiSlice';
 import { selectGroup } from 'store/slice/groupSlice';
+import LeaderboardIcon from '@mui/icons-material/Leaderboard';
+
 import {
   resetGroupTournamentDetails,
   selectGroupTournament,
@@ -43,6 +45,11 @@ const GroupTournamentTabs = [
     label: 'Schedule',
     value: 'fixtures',
     icon: <AccountTreeIcon />,
+  },
+  {
+    label: 'Standing',
+    value: 'standings',
+    icon:  <LeaderboardIcon />,
   },
 ];
 

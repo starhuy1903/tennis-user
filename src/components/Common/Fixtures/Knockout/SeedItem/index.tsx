@@ -15,9 +15,16 @@ type CustomSeedItemProps = IRenderSeedProps & {
   shouldShowMatchStatus?: boolean;
   isScheduleMatch?: boolean;
   shouldHighlightWinnerTeam?: boolean;
+  shouldShowElo?: boolean;
 };
 
-export default function CustomSeedItem({ seed, onEdit, onViewDetails, ...otherProps }: CustomSeedItemProps) {
+export default function CustomSeedItem({
+  seed,
+  onEdit,
+  onViewDetails,
+  shouldShowElo = true,
+  ...otherProps
+}: CustomSeedItemProps) {
   const convertedMatchData = useMemo(
     () =>
       ({
@@ -48,6 +55,7 @@ export default function CustomSeedItem({ seed, onEdit, onViewDetails, ...otherPr
           match={convertedMatchData}
           onEdit={() => onEdit(convertedMatchData)}
           onViewDetails={handleClickSeed}
+          shouldShowElo={shouldShowElo}
           {...otherProps}
         />
       </SeedItem>

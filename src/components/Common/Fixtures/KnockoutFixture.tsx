@@ -20,6 +20,7 @@ import {
   isGeneratedNewGroupPlayoffFixture,
   isGeneratedNewKnockoutFixture,
 } from 'types/tournament-fixtures';
+import { getKnockoutRoundName } from 'utils/schedule';
 import { checkGeneratedFixture } from 'utils/tournament';
 
 import CenterLoading from '../CenterLoading';
@@ -31,22 +32,6 @@ type KnockoutFixturesProps = {
   setFixtureData?: React.Dispatch<React.SetStateAction<FixtureResponse | null>>;
   isStandingTabs?: boolean;
   isSchedule?: boolean;
-};
-
-const getKnockoutRoundName = (numRounds: number) => {
-  const roundNames = [];
-
-  // Generate generic round names
-  for (let i = 1; i <= numRounds - 3; i++) {
-    roundNames.push(`Round ${i}`);
-  }
-
-  // Add specific round names for the last three rounds
-  if (numRounds >= 3) roundNames.push('Quarterfinals');
-  if (numRounds >= 2) roundNames.push('Semifinals');
-  if (numRounds >= 1) roundNames.push('Finals');
-
-  return roundNames.slice(-numRounds);
 };
 
 export default function KnockoutFixtures({
