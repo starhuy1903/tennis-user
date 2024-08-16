@@ -1,3 +1,4 @@
+import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
 import { Avatar, Stack } from '@mui/material';
 import { SeedTeam } from 'react-brackets';
 
@@ -5,9 +6,8 @@ import {
   DoubleParticipantInfo,
   SingleParticipantInfo,
 } from 'components/Authenticated/TournamentService/Common/ParticipantInfo';
+import { MatchState } from 'constants/match';
 import { Match } from 'types/tournament-fixtures';
-
-import ScoreList from './ScoreList';
 
 type CustomSeedTeamProps = {
   match: Match | any;
@@ -45,6 +45,7 @@ export default function CustomSeedTeam({ match, teamNumber }: CustomSeedTeamProp
       style={{
         display: 'flex',
         justifyContent: 'space-between',
+        alignItems: 'center',
         padding: 15,
       }}
     >
@@ -64,10 +65,19 @@ export default function CustomSeedTeam({ match, teamNumber }: CustomSeedTeamProp
         )}
       </Stack>
 
-      <ScoreList
+      {/* <ScoreList
         match={match}
         teamNumber={teamNumber}
-      />
+      /> */}
+
+      {match && match.status === MatchState.SCORE_DONE && match.teamWinnerId === match.teams[teamNumber - 1].id && (
+        <ArrowLeftIcon
+          sx={{
+            color: '#89BF3D',
+            fontSize: 40,
+          }}
+        />
+      )}
     </SeedTeam>
   );
 }

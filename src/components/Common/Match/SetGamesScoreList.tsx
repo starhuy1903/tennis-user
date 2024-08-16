@@ -79,6 +79,7 @@ export default function SetGamesScoreList({ match, isLive }: SetGamesScoreList) 
                     .map((game, gameIndex) => {
                       return (
                         <GameScore
+                          match={match}
                           key={game.id}
                           game={game}
                           title={`Game ${gameIndex + 1}`}
